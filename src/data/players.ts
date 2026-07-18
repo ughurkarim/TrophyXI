@@ -1,9 +1,11 @@
 import { playerSeedSchema } from "@/lib/validation";
+import { draftEligiblePlayerIdSet } from "@/data/archive-eligibility";
 import type {
   Confederation,
   DataCitation,
   PlayerAttributes,
   PlayerTournamentCard,
+  PlayerStatusTier,
   Position,
   QualityBand,
   EraLegacy,
@@ -134,14 +136,82 @@ type CardSeed = {
   wikipediaTitle?: string;
 };
 
-const qualityFor = (seed: CardSeed): QualityBand => {
-  if (seed.qualityBand) return seed.qualityBand;
-  if (seed.rarity === "iconic" && seed.overall >= 94) return "iconic";
-  if (seed.rarity === "iconic" || seed.overall >= 92) return "elite";
-  if (seed.rarity === "legendary" || seed.overall >= 89) return "standout";
-  if (seed.overall >= 86) return "reliable";
-  if (seed.overall >= 82) return "role-player";
+const rebalanceRating = (value: number) => {
+  if (value >= 99) return 96;
+  if (value >= 98) return 93;
+  if (value >= 97) return 91;
+  if (value >= 96) return 89;
+  if (value >= 95) return 87;
+  if (value >= 94) return 85;
+  if (value >= 93) return 83;
+  if (value >= 92) return 81;
+  if (value >= 91) return 79;
+  if (value >= 90) return 77;
+  if (value >= 89) return 75;
+  if (value >= 88) return 73;
+  if (value >= 87) return 71;
+  if (value >= 86) return 69;
+  if (value >= 85) return 67;
+  if (value >= 84) return 65;
+  if (value >= 83) return 63;
+  if (value >= 82) return 61;
+  return Math.max(52, value - 19);
+};
+
+const activeRatingOverrides: Record<string, number> = {
+  "lionel-messi-2022": 96,
+  "diego-maradona-1986": 93,
+  "pele-1970": 92,
+  "ronaldo-2002": 91,
+  "lothar-matthaus-1990": 90,
+  "franz-beckenbauer-1974": 89,
+  "kylian-mbappe-2022": 89,
+};
+
+export const playerStatusFor = (overall: number): PlayerStatusTier => {
+  if (overall >= 94) return "legend";
+  if (overall >= 89) return "icon";
+  if (overall >= 85) return "elite";
+  if (overall >= 81) return "standout";
+  if (overall >= 77) return "reliable";
+  if (overall >= 71) return "role-player";
   return "limited";
+};
+
+const qualityBandFor = (overall: number): QualityBand => {
+  if (overall >= 89) return "iconic";
+  if (overall >= 85) return "elite";
+  if (overall >= 81) return "standout";
+  if (overall >= 77) return "reliable";
+  if (overall >= 71) return "role-player";
+  return "limited";
+};
+
+const modeledTagsFor = (
+  seed: CardSeed,
+  attributes: PlayerAttributes,
+): string[] => {
+  const strengths = [
+    ["attack", attributes.attack, "Final-third threat"],
+    ["creativity", attributes.creativity, "Chance creator"],
+    ["control", attributes.control, "Press resistant"],
+    ["defense", attributes.defense, "Ball winner"],
+    ["physical", attributes.physical, "Duel strength"],
+    ["goalkeeping", attributes.goalkeeping, "Goalkeeper craft"],
+    ["clutch", attributes.clutch, "High-leverage model"],
+  ] as const;
+  return [
+    ...new Set([
+      seed.archetype,
+      ...strengths
+        .filter(
+          ([key]) => key !== "goalkeeping" || seed.primaryPosition === "GK",
+        )
+        .sort((first, second) => second[1] - first[1])
+        .slice(0, 2)
+        .map(([, , label]) => label),
+    ]),
+  ].slice(0, 3);
 };
 
 const fifa2018AwardsSource: DataCitation = {
@@ -299,9 +369,16 @@ const evidenceByCardId: Record<string, Evidence> = {
 
 const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const nation = nations[seed.nation];
-  const base = defaultsFor(seed.primaryPosition, seed.overall);
+  const overall = activeRatingOverrides[seed.id] ?? rebalanceRating(seed.overall);
+  const base = defaultsFor(seed.primaryPosition, overall);
   const evidence = evidenceByCardId[seed.id] ?? {};
-  const attributes = { ...base, ...seed.attributes };
+  const rebalancedOverrides = Object.fromEntries(
+    Object.entries(seed.attributes ?? {}).map(([key, value]) => [
+      key,
+      rebalanceRating(value),
+    ]),
+  ) as Partial<PlayerAttributes>;
+  const attributes = { ...base, ...rebalancedOverrides };
   const eraLegacy: EraLegacy =
     /pel[eé]|lionel-messi|diego-maradona|franz-beckenbauer|johan-cruyff/i.test(
       seed.id,
@@ -319,16 +396,16 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     timeless: 16,
   }[eraLegacy];
   const eraTranslation: EraTranslationProfile = {
-    timelessness: Math.min(99, 64 + legacyBoost + Math.round(seed.overall * 0.18)),
+    timelessness: Math.min(99, 64 + legacyBoost + Math.round(overall * 0.18)),
     physicalAdaptability: Math.min(
       99,
-      Math.round(attributes.physical * 0.72 + seed.overall * 0.18 + legacyBoost),
+      Math.round(attributes.physical * 0.72 + overall * 0.18 + legacyBoost),
     ),
     technicalAdaptability: Math.min(
       99,
       Math.round(
         (attributes.control + attributes.creativity) * 0.38 +
-          seed.overall * 0.12 +
+          overall * 0.12 +
           legacyBoost,
       ),
     ),
@@ -337,7 +414,7 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
       Math.round(
         (attributes.control + attributes.defense + attributes.creativity) *
           0.23 +
-          seed.overall * 0.12 +
+          overall * 0.12 +
           legacyBoost,
       ),
     ),
@@ -345,7 +422,7 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
       99,
       Math.round(
         (attributes.physical + attributes.defense + attributes.control) * 0.22 +
-          seed.overall * 0.14 +
+          overall * 0.14 +
           legacyBoost,
       ),
     ),
@@ -354,7 +431,7 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
       Math.round(
         (attributes.physical + attributes.control + attributes.creativity) *
           0.22 +
-          seed.overall * 0.14 +
+          overall * 0.14 +
           legacyBoost,
       ),
     ),
@@ -362,7 +439,7 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
       99,
       Math.round(
         (attributes.physical + attributes.control) * 0.34 +
-          seed.overall * 0.14 +
+          overall * 0.14 +
           legacyBoost,
       ),
     ),
@@ -370,7 +447,7 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
       99,
       Math.round(
         (attributes.physical + attributes.clutch) * 0.32 +
-          seed.overall * 0.16 +
+          overall * 0.16 +
           legacyBoost,
       ),
     ),
@@ -385,11 +462,20 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     tournamentYear: seed.tournamentYear,
     primaryPosition: seed.primaryPosition,
     eligiblePositions: seed.eligiblePositions,
-    overall: seed.overall,
+    overall,
     attributes,
     era: tournamentEraFor(seed.tournamentYear),
     archetype: seed.archetype,
-    qualityBand: qualityFor(seed),
+    qualityBand: qualityBandFor(overall),
+    statusTier: playerStatusFor(overall),
+    modeledTags: [
+      ...modeledTagsFor(seed, attributes),
+      ...(eraLegacy === "timeless" ? ["Timeless"] : []),
+    ].slice(0, 4),
+    isDraftEligible: draftEligiblePlayerIdSet.has(seed.id),
+    draftIneligibilityReason: draftEligiblePlayerIdSet.has(seed.id)
+      ? null
+      : "Inactive research record: licensed playable portrait not yet approved.",
     tournamentStats: {
       appearances: null,
       starts: null,
@@ -852,6 +938,9 @@ export const players: PlayerTournamentCard[] = playerSeedSchema.parse(
 );
 
 export const playersById = new Map(players.map((player) => [player.id, player]));
+export const draftEligiblePlayers = players.filter(
+  (player) => player.isDraftEligible,
+);
 export const playersByIdentity = new Map(
   players.map((player) => [player.playerIdentityId, player]),
 );

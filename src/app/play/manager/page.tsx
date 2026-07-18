@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ManagerCard } from "@/components/cards/manager-card";
+import { ManagerDetails } from "@/components/cards/manager-details";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
 import { getDraftEra } from "@/data/eras";
@@ -15,6 +16,11 @@ export default function ManagerPage() {
   const eraId = useGameStore((state) => state.eraId);
   const optionIds = useGameStore((state) => state.managerOptionIds);
   const selectManager = useGameStore((state) => state.selectManager);
+  const [inspectedManagerId, setInspectedManagerId] = useState<string | null>(
+    null,
+  );
+  const [detailReturnFocus, setDetailReturnFocus] =
+    useState<HTMLElement | null>(null);
 
   useEffect(() => {
     if (hydrated && !eraId) router.replace("/play/era");
@@ -56,6 +62,13 @@ export default function ManagerPage() {
                     selectManager(manager.id);
                     router.push("/play/formation");
                   }}
+                  onInspect={() => {
+                    const active = document.activeElement;
+                    setDetailReturnFocus(
+                      active instanceof HTMLElement ? active : null,
+                    );
+                    setInspectedManagerId(manager.id);
+                  }}
                 />
               ) : null,
             )}
@@ -72,6 +85,15 @@ export default function ManagerPage() {
           </div>
         </section>
       </main>
+      {inspectedManagerId && managersById.get(inspectedManagerId) && (
+        <ManagerDetails
+          manager={managersById.get(inspectedManagerId)!}
+          onClose={() => {
+            setInspectedManagerId(null);
+            window.requestAnimationFrame(() => detailReturnFocus?.focus());
+          }}
+        />
+      )}
     </div>
   );
 }

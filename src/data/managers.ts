@@ -1,4 +1,5 @@
 import { tournamentEraFor } from "@/data/eras";
+import { draftEligibleManagerIdSet } from "@/data/archive-eligibility";
 import type {
   FormationId,
   ManagerStyle,
@@ -81,11 +82,11 @@ const styleFormations: Record<ManagerStyle, FormationId[]> = {
 };
 
 const qualityBase: Record<QualityBand, number> = {
-  iconic: 93,
-  elite: 88,
-  standout: 83,
-  reliable: 78,
-  "role-player": 72,
+  iconic: 87,
+  elite: 83,
+  standout: 79,
+  reliable: 75,
+  "role-player": 70,
   limited: 64,
 };
 
@@ -110,9 +111,80 @@ const gradesFor = (seed: ManagerSeed) => {
     fluid: -1,
   }[seed.style];
   return {
-    offense: Math.min(98, base + offenseStyle),
-    defense: Math.min(98, base + defenseStyle),
+    offense: Math.min(92, base + offenseStyle),
+    defense: Math.min(92, base + defenseStyle),
   };
+};
+
+const activeGradeOverrides: Record<
+  string,
+  {
+    offense: number;
+    defense: number;
+    leadership: number;
+    gameManagement: number;
+  }
+> = {
+  "guus-hiddink-2002": {
+    offense: 84,
+    defense: 76,
+    leadership: 84,
+    gameManagement: 82,
+  },
+  "jurgen-klinsmann-2006": {
+    offense: 82,
+    defense: 70,
+    leadership: 78,
+    gameManagement: 72,
+  },
+  "joachim-low-2014": {
+    offense: 88,
+    defense: 82,
+    leadership: 84,
+    gameManagement: 86,
+  },
+  "louis-van-gaal-2014": {
+    offense: 84,
+    defense: 78,
+    leadership: 83,
+    gameManagement: 85,
+  },
+  "didier-deschamps-2018": {
+    offense: 83,
+    defense: 88,
+    leadership: 88,
+    gameManagement: 89,
+  },
+  "zlatko-dalic-2018": {
+    offense: 80,
+    defense: 82,
+    leadership: 86,
+    gameManagement: 83,
+  },
+  "herve-renard-2022": {
+    offense: 76,
+    defense: 81,
+    leadership: 84,
+    gameManagement: 79,
+  },
+  "tite-2022": {
+    offense: 82,
+    defense: 84,
+    leadership: 80,
+    gameManagement: 78,
+  },
+  "lionel-scaloni-2022": {
+    offense: 87,
+    defense: 84,
+    leadership: 89,
+    gameManagement: 88,
+  },
+  "walid-regragui-2022": {
+    offense: 72,
+    defense: 87,
+    leadership: 87,
+    gameManagement: 84,
+  },
 };
 
 export const managerGradeLabel = (value: number) => {
@@ -130,23 +202,36 @@ export const managerGradeLabel = (value: number) => {
   return "F";
 };
 
-export const managers: ManagerTournamentCard[] = seeds.map((seed) => ({
-  ...seed,
-  acceptableFormations: [
-    ...new Set([...seed.preferredFormations, ...styleFormations[seed.style]]),
-  ],
-  era: tournamentEraFor(seed.tournamentYear),
-  description: `${seed.teamName} ${seed.tournamentYear} · ${seed.tacticalIdentity}.`,
-  simulationModifier: modifierFor(seed.style),
-  grades: gradesFor(seed),
-  leadership: Math.min(98, qualityBase[seed.qualityBand] + 2),
-  gameManagement: Math.min(
-    98,
-    qualityBase[seed.qualityBand] +
-      (["balanced", "defensive", "counter"].includes(seed.style) ? 3 : 0),
-  ),
-  imageId: seed.id,
-  achievements: [],
-}));
+export const managers: ManagerTournamentCard[] = seeds.map((seed) => {
+  const override = activeGradeOverrides[seed.id];
+  return {
+    ...seed,
+    acceptableFormations: [
+      ...new Set([...seed.preferredFormations, ...styleFormations[seed.style]]),
+    ],
+    era: tournamentEraFor(seed.tournamentYear),
+    description: `${seed.teamName} ${seed.tournamentYear} · ${seed.tacticalIdentity}.`,
+    simulationModifier: modifierFor(seed.style),
+    grades: override ?? gradesFor(seed),
+    leadership:
+      override?.leadership ?? Math.min(92, qualityBase[seed.qualityBand] + 2),
+    gameManagement:
+      override?.gameManagement ??
+      Math.min(
+        92,
+        qualityBase[seed.qualityBand] +
+          (["balanced", "defensive", "counter"].includes(seed.style) ? 3 : 0),
+      ),
+    imageId: seed.id,
+    achievements: [],
+    isDraftEligible: draftEligibleManagerIdSet.has(seed.id),
+    draftIneligibilityReason: draftEligibleManagerIdSet.has(seed.id)
+      ? null
+      : "Inactive research record: licensed playable portrait not yet approved.",
+  };
+});
 
 export const managersById = new Map(managers.map((manager) => [manager.id, manager]));
+export const draftEligibleManagers = managers.filter(
+  (manager) => manager.isDraftEligible,
+);

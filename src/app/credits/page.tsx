@@ -6,17 +6,22 @@ import { imageAttributions } from "@/data/player-images";
 
 export default function CreditsPage() {
   const licensed = imageAttributions.filter((image) => !image.fallback);
-  const fallbacks = imageAttributions.filter((image) => image.fallback);
+  const playerPhotos = licensed.filter((image) => image.kind === "player");
+  const managerPhotos = licensed.filter((image) => image.kind === "manager");
   const exactTournament = licensed.filter(
     (image) => image.exactTournamentImage,
   );
-  const nationalTeam = licensed.filter((image) => image.isNationalTeamKit);
-  const nearbyYear = licensed.filter(
-    (image) =>
-      image.isNationalTeamKit &&
-      !image.exactTournamentImage &&
-      image.photographedYear !== null,
+  const identityPhotos = licensed.filter(
+    (image) => image.photoContext === "other-licensed-face",
   );
+  const contextLabel = (photoContext: (typeof licensed)[number]["photoContext"]) =>
+    ({
+      "exact-tournament": "exact-tournament photograph",
+      "same-year-national-team": "same-year national-team photograph",
+      "nearby-year-national-team": "nearby-year national-team photograph",
+      "other-licensed-face": "licensed identity photograph",
+      "original-project-mark": "original project mark",
+    })[photoContext];
 
   return (
     <div className="credits-page">
@@ -32,16 +37,16 @@ export default function CreditsPage() {
           <h1>An archive with a paper trail.</h1>
           <p>
             Every selectable player and manager has a local transparent PNG and a
-            complete manifest record. Photography is never silently hotlinked, and
-            an illustrated fallback is never presented as a real photograph.
+            complete source record. Every active face is a licensed photograph,
+            stored locally and labeled with only the context its source supports.
           </p>
           <div className="credits-metrics">
-            <span><b>{imageAttributions.length}</b> local PNG masters</span>
+            <span><b>{imageAttributions.length}</b> active local PNG masters</span>
             <span><b>{licensed.length}</b> licensed photographs</span>
-            <span><b>{nationalTeam.length}</b> national-team images</span>
+            <span><b>{playerPhotos.length}</b> player photographs</span>
+            <span><b>{managerPhotos.length}</b> manager photographs</span>
             <span><b>{exactTournament.length}</b> exact-tournament images</span>
-            <span><b>{nearbyYear.length}</b> nearby-year images</span>
-            <span><b>{fallbacks.length}</b> intentional illustrations</span>
+            <span><b>{identityPhotos.length}</b> licensed identity images</span>
           </div>
         </section>
 
@@ -50,11 +55,11 @@ export default function CreditsPage() {
             <ImageIcon size={20} aria-hidden />
             <h2>Image method</h2>
             <p>
-              The importer preserves licensed sources, requires a reviewed subject
-              mask, exports a transparent 700×900 master, and rejects incomplete
-              creator/license/source metadata. Exact-tournament, nearby-year
-              national-team, other international, and fallback contexts are
-              recorded separately and never inferred from a PNG filename.
+              The importer preserves licensed source files, makes a mechanical
+              face-centered crop, exports a transparent 700×900 master, and rejects
+              incomplete creator, license, or source metadata. Exact-tournament,
+              same-year, nearby-year, and identity-only contexts are recorded
+              separately and never inferred from a PNG filename.
             </p>
           </div>
           <div>
@@ -85,9 +90,7 @@ export default function CreditsPage() {
                       {image.author} · {image.license} ·{" "}
                       {image.exactTournamentImage
                         ? "exact tournament"
-                        : image.isNationalTeamKit
-                          ? "nearby-year national team"
-                          : "other licensed international"}
+                        : contextLabel(image.photoContext)}
                     </span>
                   </div>
                   {image.sourcePage && (
@@ -100,26 +103,6 @@ export default function CreditsPage() {
             </div>
           </section>
         )}
-
-        <section className="attribution-section">
-          <span className="eyebrow eyebrow--gold">ORIGINAL FALLBACK ART</span>
-          <h2>Transparent illustrated subjects</h2>
-          <p className="section-copy">
-            Each file is generated as a distinct local master from an original
-            Trophy XI template and labeled “Illustrated” on the card.
-          </p>
-          <div className="attribution-list attribution-list--dense">
-            {fallbacks.map((image) => (
-              <article key={image.id}>
-                <div>
-                  <b>{image.subjectName} {image.tournamentYear}</b>
-                  <span>{image.kind} · {image.license}</span>
-                </div>
-                <code>{image.file}</code>
-              </article>
-            ))}
-          </div>
-        </section>
       </main>
     </div>
   );

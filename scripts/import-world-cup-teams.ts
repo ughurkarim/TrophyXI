@@ -162,13 +162,11 @@ const main = async () => {
         managerName: null,
         formation: FORMATIONS[noise % FORMATIONS.length],
         tacticalProfile:
-          tournamentFinish === "champion"
-            ? "Tournament-winning balance and knockout control"
-            : overall >= 87
-              ? "Elite tournament structure with decisive transition threat"
-              : overall >= 81
-                ? "Competitive historical shape with identifiable phase strengths"
-                : "Underdog tournament profile built around collective resilience",
+          overall >= 87
+            ? "Elite tournament structure with decisive transition threat"
+            : overall >= 81
+              ? "Competitive historical shape with identifiable phase strengths"
+              : "Underdog tournament profile built around collective resilience",
         ratings: {
           attack,
           midfield,

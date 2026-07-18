@@ -14,8 +14,12 @@ import {
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
+import { ManagerDetails } from "@/components/cards/manager-details";
 import { PlayerCard } from "@/components/cards/player-card";
-import { PlayerDetails } from "@/components/cards/player-details";
+import {
+  PlayerDetails,
+  type PlayerFitContext,
+} from "@/components/cards/player-details";
 import { OpponentSelection } from "@/components/draft/opponent-selection";
 import { TeamRatings } from "@/components/draft/team-ratings";
 import { TacticalPitch } from "@/components/pitch/tactical-pitch";
@@ -24,12 +28,18 @@ import { calculateEraFit, getDraftEra } from "@/data/eras";
 import { getFormation } from "@/data/formations";
 import { managersById } from "@/data/managers";
 import { playersById } from "@/data/players";
-import { getPositionFit } from "@/engine/draft";
+import {
+  getPlacementPenaltyPercent,
+  getPositionFit,
+} from "@/engine/draft";
 import { calculateTeamRatings } from "@/engine/ratings";
+import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
 import type {
   BenchSlotId,
   DraftPick,
+  Formation,
+  ManagerTournamentCard,
   PlayerTournamentCard,
 } from "@/types/game";
 
@@ -44,6 +54,10 @@ export function DraftBoard() {
   const [showReset, setShowReset] = useState(false);
   const [showRespin, setShowRespin] = useState(false);
   const [inspected, setInspected] = useState<PlayerTournamentCard | null>(null);
+  const [showManagerDetails, setShowManagerDetails] = useState(false);
+  const [previewSlotId, setPreviewSlotId] = useState<string | null>(null);
+  const [detailReturnFocus, setDetailReturnFocus] =
+    useState<HTMLElement | null>(null);
   const formationId = useGameStore((state) => state.formationId)!;
   const eraId = useGameStore((state) => state.eraId)!;
   const managerId = useGameStore((state) => state.managerId)!;
@@ -121,6 +135,69 @@ export function DraftBoard() {
     eraId,
     bench,
   });
+  const rememberFocus = () => {
+    const active = document.activeElement;
+    setDetailReturnFocus(active instanceof HTMLElement ? active : null);
+  };
+  const openPlayer = (player: PlayerTournamentCard) => {
+    rememberFocus();
+    setInspected(player);
+  };
+  const openManager = () => {
+    rememberFocus();
+    setShowManagerDetails(true);
+  };
+  const closeDetail = (kind: "player" | "manager") => {
+    if (kind === "player") setInspected(null);
+    else setShowManagerDetails(false);
+    const returnTarget = detailReturnFocus;
+    window.requestAnimationFrame(() => returnTarget?.focus());
+  };
+  const playerFitContextFor = (
+    player: PlayerTournamentCard,
+  ): PlayerFitContext => {
+    const pick = picks.find((candidate) => candidate.cardId === player.id);
+    const slot = pick
+      ? formation.slots.find((candidate) => candidate.id === pick.slotId)
+      : undefined;
+    const benchIndex = benchPicks.findIndex(
+      (candidate) => candidate.cardId === player.id,
+    );
+    const positionFit = slot ? getPositionFit(player, slot) : null;
+    const withoutPicks = picks.filter(
+      (candidate) => candidate.cardId !== player.id,
+    );
+    const withoutLineup = lineup.filter(
+      (candidate) => candidate.id !== player.id,
+    );
+    const withoutRatings = pick
+      ? calculateTeamRatings(withoutLineup, formation, {
+          picks: withoutPicks,
+          manager,
+          eraId,
+          bench,
+        })
+      : null;
+    return {
+      assignedSlot: slot
+        ? slot.label
+        : benchIndex >= 0
+          ? `Bench ${benchIndex + 1}`
+          : "Not placed",
+      positionFit,
+      placementPenalty:
+        positionFit === null ? null : getPlacementPenaltyPercent(positionFit),
+      eraTranslation: calculateEraFit(player, eraId, {
+        manager,
+        formation,
+      }),
+      managerFit: ratings.managerFit,
+      chemistryContribution: withoutRatings
+        ? ratings.chemistry - withoutRatings.chemistry
+        : null,
+      benchPriority: benchIndex >= 0 ? benchIndex + 1 : null,
+    };
+  };
   const startersComplete = picks.length === 11;
   const squadCount = picks.length + benchPicks.length;
   const canRespin =
@@ -132,11 +209,15 @@ export function DraftBoard() {
   const bestPreview = [...projectedPositionFits]
     .filter((preview) => preview.canPlace)
     .sort((first, second) => second.fit - first.fit)[0];
+  const activePreview =
+    projectedPositionFits.find(
+      (preview) => preview.slotId === previewSlotId && preview.canPlace,
+    ) ?? bestPreview;
   const projectedPicks: DraftPick[] =
-    selectedPlayer && bestPreview
+    selectedPlayer && activePreview
       ? [
           ...picks,
-          { slotId: bestPreview.slotId, cardId: selectedPlayer.id },
+          { slotId: activePreview.slotId, cardId: selectedPlayer.id },
         ]
       : picks;
   const projectedRatings =
@@ -223,6 +304,15 @@ export function DraftBoard() {
         </div>
       </div>
 
+      <SquadStrip
+        formation={formation}
+        manager={manager}
+        picks={picks}
+        benchPicks={benchPicks}
+        onInspectPlayer={openPlayer}
+        onInspectManager={openManager}
+      />
+
       <div className="draft-layout">
         <div className="draft-pitch-panel">
           <div className="panel-heading">
@@ -237,14 +327,27 @@ export function DraftBoard() {
                   ? "SELECT POSITION"
                   : "SELECT PLAYER"}
             </span>
+            <ChemistryPreviewHud
+              slotLabel={
+                selectedPlayer
+                  ? formation.slots.find(
+                      (slot) => slot.id === activePreview?.slotId,
+                    )?.label
+                  : undefined
+              }
+              current={ratings}
+              projected={selectedPlayer ? projectedRatings : undefined}
+            />
           </div>
           <TacticalPitch
             formation={formation}
             lineup={lineup}
             picks={picks}
             fitPreviews={selectedPlayer ? projectedPositionFits : []}
+            activeSlotId={selectedPlayer ? activePreview?.slotId : undefined}
             onSelectSlot={selectedPlayer ? placeSelectedPlayer : undefined}
-            onInspectPlayer={setInspected}
+            onInspectPlayer={openPlayer}
+            onPreviewSlot={selectedPlayer ? setPreviewSlotId : undefined}
           />
           {selectedPlayer && (
             <SelectedPlayerSummary
@@ -252,7 +355,7 @@ export function DraftBoard() {
               currentRatings={ratings}
               projectedRatings={projectedRatings}
               bestSlotLabel={
-                formation.slots.find((slot) => slot.id === bestPreview?.slotId)
+                formation.slots.find((slot) => slot.id === activePreview?.slotId)
                   ?.label
               }
               onCancel={cancelPlayerSelection}
@@ -311,7 +414,7 @@ export function DraftBoard() {
             <BenchReview
               benchPicks={benchPicks}
               onMove={moveBenchPlayer}
-              onInspect={setInspected}
+              onInspect={openPlayer}
               onContinue={finalizeBench}
             />
           ) : draftPhase === "bench" ? (
@@ -337,7 +440,7 @@ export function DraftBoard() {
                   options={options}
                   eraId={eraId}
                   onSelect={selectPlayer}
-                  onInspect={setInspected}
+                  onInspect={openPlayer}
                 />
                 <RespinRow
                   canRespin={canRespin}
@@ -390,7 +493,7 @@ export function DraftBoard() {
                 picks={picks}
                 selectedPlayerId={selectedPlayerId}
                 onSelect={selectPlayer}
-                onInspect={setInspected}
+                onInspect={openPlayer}
               />
               {!selectedPlayer && (
                 <RespinRow
@@ -496,9 +599,214 @@ export function DraftBoard() {
       )}
 
       {inspected && (
-        <PlayerDetails player={inspected} onClose={() => setInspected(null)} />
+        <PlayerDetails
+          player={inspected}
+          fitContext={playerFitContextFor(inspected)}
+          onClose={() => closeDetail("player")}
+        />
+      )}
+      {showManagerDetails && (
+        <ManagerDetails
+          manager={manager}
+          onClose={() => closeDetail("manager")}
+        />
       )}
     </section>
+  );
+}
+
+function SquadStrip({
+  formation,
+  manager,
+  picks,
+  benchPicks,
+  onInspectPlayer,
+  onInspectManager,
+}: {
+  formation: Formation;
+  manager: ManagerTournamentCard;
+  picks: DraftPick[];
+  benchPicks: Array<{ slotId: BenchSlotId; cardId: string }>;
+  onInspectPlayer: (player: PlayerTournamentCard) => void;
+  onInspectManager: () => void;
+}) {
+  return (
+    <section className="squad-strip" aria-labelledby="squad-strip-title">
+      <div className="squad-strip__heading">
+        <span className="eyebrow" id="squad-strip-title">
+          SQUAD ARCHIVE
+        </span>
+        <small>Manager · Starting XI · ordered bench</small>
+      </div>
+      <button
+        type="button"
+        className="squad-chip squad-chip--manager"
+        onClick={onInspectManager}
+        aria-label={`Inspect manager ${manager.managerName}`}
+      >
+        <CircularPortrait
+          imageId={manager.imageId}
+          subjectName={manager.managerName}
+          era={manager.era}
+          size="compact"
+        />
+        <span>MGR</span>
+        <b>{manager.managerName.split(" ").at(-1)}</b>
+        <small>{flagForCountry(manager.countryCode)}</small>
+      </button>
+      <div className="squad-strip__group" aria-label="Starting eleven">
+        {formation.slots.map((slot) => {
+          const pick = picks.find((candidate) => candidate.slotId === slot.id);
+          const player = pick ? playersById.get(pick.cardId) : undefined;
+          return player ? (
+            <button
+              type="button"
+              className="squad-chip squad-chip--filled"
+              key={slot.id}
+              onClick={() => onInspectPlayer(player)}
+              aria-label={`Inspect ${slot.label}, ${player.playerName} ${player.tournamentYear}`}
+            >
+              <CircularPortrait
+                imageId={player.imageId}
+                subjectName={player.playerName}
+                era={player.era}
+                statusTier={player.statusTier}
+                size="compact"
+              />
+              <span>{slot.label}</span>
+              <b>{player.playerName.split(" ").at(-1)}</b>
+              <small>
+                {flagForCountry(player.countryCode)} {player.overall}
+              </small>
+            </button>
+          ) : (
+            <span
+              className="squad-chip"
+              key={slot.id}
+              aria-label={`${slot.label} open`}
+            >
+              <span>{slot.label}</span>
+              <b>Open</b>
+              <small>—</small>
+            </span>
+          );
+        })}
+      </div>
+      <div
+        className="squad-strip__group squad-strip__group--bench"
+        aria-label="Ordered bench"
+      >
+        {benchSlots.map((slotId, index) => {
+          const pick = benchPicks.find(
+            (candidate) => candidate.slotId === slotId,
+          );
+          const player = pick ? playersById.get(pick.cardId) : undefined;
+          return player ? (
+            <button
+              type="button"
+              className="squad-chip squad-chip--bench squad-chip--filled"
+              key={slotId}
+              onClick={() => onInspectPlayer(player)}
+              aria-label={`Inspect Bench ${index + 1}, ${player.playerName} ${player.tournamentYear}`}
+            >
+              <CircularPortrait
+                imageId={player.imageId}
+                subjectName={player.playerName}
+                era={player.era}
+                statusTier={player.statusTier}
+                size="compact"
+              />
+              <span>B{index + 1}</span>
+              <b>{player.playerName.split(" ").at(-1)}</b>
+              <small>
+                {flagForCountry(player.countryCode)} {player.overall}
+              </small>
+            </button>
+          ) : (
+            <span
+              className="squad-chip squad-chip--bench"
+              key={slotId}
+              aria-label={`Bench ${index + 1} open`}
+            >
+              <span>B{index + 1}</span>
+              <b>Open</b>
+              <small>—</small>
+            </span>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function ChemistryPreviewHud({
+  slotLabel,
+  current,
+  projected,
+}: {
+  slotLabel?: string;
+  current: ReturnType<typeof calculateTeamRatings>;
+  projected?: ReturnType<typeof calculateTeamRatings>;
+}) {
+  const chemistryDelta = projected
+    ? projected.chemistry - current.chemistry
+    : 0;
+  const overallDelta = projected ? projected.overall - current.overall : 0;
+  return (
+    <div
+      className="chemistry-preview-hud"
+      role="status"
+      aria-live="polite"
+      aria-label={
+        projected
+          ? `${slotLabel ?? "Best available placement"}. Projected Chemistry ${projected.chemistry}, ${chemistryDelta >= 0 ? "increase" : "decrease"} of ${Math.abs(chemistryDelta)}.`
+          : `Current Chemistry ${current.chemistry}.`
+      }
+    >
+      <span>
+        CHEMISTRY
+        {projected
+          ? ` · ${slotLabel ? `${slotLabel} EXACT PLACEMENT` : "BEST AVAILABLE PLACEMENT"}`
+          : ""}
+      </span>
+      <dl>
+        <div>
+          <dt>Current</dt>
+          <dd>{current.chemistry}</dd>
+        </div>
+        {projected && (
+          <>
+            <div>
+              <dt>Projected</dt>
+              <dd>{projected.chemistry}</dd>
+            </div>
+            <div>
+              <dt>Change</dt>
+              <dd>
+                <i data-positive={chemistryDelta >= 0}>
+                  {chemistryDelta > 0
+                    ? "↑ +"
+                    : chemistryDelta < 0
+                      ? "↓ "
+                      : "±"}
+                  {chemistryDelta}
+                </i>
+              </dd>
+            </div>
+            <div>
+              <dt>OVR</dt>
+              <dd>
+                {projected.overall}{" "}
+                <i data-positive={overallDelta >= 0}>
+                  {overallDelta >= 0 ? "+" : ""}
+                  {overallDelta}
+                </i>
+              </dd>
+            </div>
+          </>
+        )}
+      </dl>
+    </div>
   );
 }
 

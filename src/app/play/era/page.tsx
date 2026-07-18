@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
 import { draftEras } from "@/data/eras";
-import { players } from "@/data/players";
+import { draftEligiblePlayers } from "@/data/players";
 import { useGameStore } from "@/store/game-store";
 
 export default function EraPage() {
@@ -32,9 +32,9 @@ export default function EraPage() {
             <p className="eyebrow eyebrow--gold">THE GRAND ARCHIVE / STEP 01</p>
             <h1 id="era-title">Choose the match environment.</h1>
             <p>
-              Every tournament card from 1970–2022 remains draftable. Your choice
-              defines the conditions in which both your squad and the historical
-              opponent must translate their football.
+              Every approved real-photo card remains available in every era.
+              Your choice defines the conditions in which both your squad and
+              the historical opponent must translate their football.
             </p>
           </div>
           <div className="era-grid era-grid--flow">
@@ -54,7 +54,9 @@ export default function EraPage() {
                   <h2>{era.label}</h2>
                   <p>{era.description}</p>
                   <footer>
-                    <small>{players.length} cards remain available</small>
+                    <small>
+                      {draftEligiblePlayers.length} licensed cards available
+                    </small>
                     <ArrowRight size={17} aria-hidden />
                   </footer>
                 </button>

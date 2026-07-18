@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "images:import": "tsx scripts/import-player-images.ts",
+    "images:contact": "tsx scripts/build-portrait-contact-sheet.ts",
     "opponents:import": "tsx scripts/import-world-cup-teams.ts",
     "opponents:validate": "tsx scripts/validate-world-cup-teams.ts",
     "validate:data": "tsx scripts/validate-data.ts"

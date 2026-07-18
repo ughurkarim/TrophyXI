@@ -11,6 +11,7 @@ All-Stars.
 ```bash
 npm install
 npm run images:import
+npm run images:contact
 npm run opponents:import
 npm run dev
 ```
@@ -31,8 +32,9 @@ npm run build
 ```
 
 `validate:data` reports archive, identity, role, tournament, image, attribution,
-Era Translation, manager-grade, formation-offer, bench, and historical-opponent
-coverage. `opponents:validate` independently checks nation-year counts and sources.
+status-tier, rating-cap, weighted-offer, Era Translation, manager-grade,
+formation-offer, bench, flag, chemistry-preview, and historical-opponent coverage.
+`opponents:validate` independently checks nation-year counts and sources.
 
 ## Product flow
 
@@ -45,14 +47,21 @@ the Position Fit preview; a second click on an eligible pitch slot commits the
 placement. Green, yellow, red, and incompatible states show exact fit and the
 same placement penalty used by team ratings and simulation. A completion-path
 validator prevents a placement or offer from making the formation impossible.
+The top-right Chemistry HUD always shows the committed value; after card
+selection it shows the production-engine projection for the best legal slot, then
+recalculates for the exact slot under pointer or keyboard focus. The committed
+result must equal the final preview.
 
 `/credits` contains image/data policy and item-level image attribution.
 
 The current archive contains:
 
 - 310 tournament cards across 287 stable player identities
+- 51 draft-eligible player cards with licensed local faces; 259 research-only
+  cards remain typed but cannot enter offers
 - every men’s World Cup from 1970 through 2022
 - 28 manager cards with explicit numeric OFF/DEF grades
+- 10 draft-eligible manager cards with licensed local faces
 - 12 formations, with four deterministic manager/era-aware offers per run
 - one separate, deterministic Formation Respin
 - five-card, player-first drafting with two-click placement
@@ -61,8 +70,9 @@ The current archive contains:
 - 416 nation-year opponent records across 15 tournaments, including 48 sourced
   2026 participants with unknown tournament outcomes left null
 - World Cup All-Stars: an original, deterministic, beatable Mythic challenge
-- 338 local transparent PNG masters: 4 licensed exact-tournament photos and
-  334 clearly labeled original illustrated fallbacks
+- 61 active local transparent PNG masters: 51 players and 10 managers, all
+  licensed photographs; 4 are verified exact-tournament images and 57 are
+  conservatively labeled identity photographs
 
 ## Match environment and card year
 
@@ -81,6 +91,8 @@ to the historical opponent.
 - `src/components`: accessible feature-oriented presentation
 - `src/app`: Next.js App Router pages
 - `scripts/import-player-images.ts`: transparent-image import/build pipeline
+- `scripts/sync-licensed-portrait-sources.ts`: source/author/license metadata sync
+- `scripts/build-portrait-contact-sheet.ts`: active circular-crop review sheet
 - `scripts/import-world-cup-teams.ts`: vendored participant ingestion
 - `scripts/validate-data.ts`: executable content and feasibility contract
 - `scripts/validate-world-cup-teams.ts`: opponent-count/source validator
@@ -110,8 +122,9 @@ statistic is inferred. Missing fields remain null until a suitable record-level
 source is ingested.
 
 Images never hotlink at runtime. Licensed images require source, author, license,
-team/year context, modifications, and a reviewed transparent derivative. Nearby
-year imagery can never be labeled as exact-tournament photography.
+photo context, modifications, a preserved source file, and a transparent
+derivative. A photograph is labeled exact tournament only when the record
+supports that claim; an identity-only source never implies a kit, team, or year.
 
 Trophy XI is unofficial and is not affiliated with or endorsed by FIFA, any
 federation, competition, team, manager, or player.

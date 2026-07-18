@@ -149,4 +149,48 @@ describe("TacticalPitch", () => {
       "pitch-node--fit-label-side",
     );
   });
+
+  it("previews exact slots on hover and keyboard focus without moving nodes", async () => {
+    const user = userEvent.setup();
+    const onPreviewSlot = vi.fn();
+    render(
+      <TacticalPitch
+        formation={getFormation("4-3-3")}
+        onSelectSlot={vi.fn()}
+        onPreviewSlot={onPreviewSlot}
+        fitPreviews={[
+          {
+            slotId: "lb",
+            fit: 96,
+            state: "green",
+            label: "Strong Fit",
+            penaltyPercent: 1,
+            canPlace: true,
+            feasibilityBlocked: false,
+          },
+        ]}
+      />,
+    );
+    const node = screen.getByRole("button", {
+      name: /LB\. Strong Fit, 96 percent/i,
+    });
+    const coordinates = {
+      left: node.style.left,
+      top: node.style.top,
+      x: node.dataset.slotX,
+      y: node.dataset.slotY,
+    };
+    await user.hover(node);
+    expect(onPreviewSlot).toHaveBeenLastCalledWith("lb");
+    await user.unhover(node);
+    expect(onPreviewSlot).toHaveBeenLastCalledWith(null);
+    node.focus();
+    expect(onPreviewSlot).toHaveBeenLastCalledWith("lb");
+    expect({
+      left: node.style.left,
+      top: node.style.top,
+      x: node.dataset.slotX,
+      y: node.dataset.slotY,
+    }).toEqual(coordinates);
+  });
 });

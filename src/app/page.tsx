@@ -12,6 +12,7 @@ import { Footer } from "@/components/navigation/footer";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ButtonLink } from "@/components/ui/button";
 import { historicalOpponents } from "@/data/opponents";
+import { flagForCountry } from "@/lib/utils";
 
 const steps = [
   {
@@ -135,10 +136,13 @@ export default function LandingPage() {
                     <span className="status-live">Playable</span>
                   </div>
                   <span className="champion-flag" aria-hidden>
-                    {champion.nationCode}
+                    {flagForCountry(champion.nationCode)}
                   </span>
                   <p>{champion.tournamentYear}</p>
-                  <h3>{champion.nationName}</h3>
+                  <h3>
+                    {flagForCountry(champion.nationCode)}{" "}
+                    {champion.nationName}
+                  </h3>
                   <span>{champion.tacticalProfile}</span>
                 </article>
               ))}

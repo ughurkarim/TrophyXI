@@ -9,14 +9,22 @@ card silhouette, logo, or brand asset.
 
 ## Color, type, and geometry
 
-- Canvas black `#050706`
-- Royal panel black `rgba(13,13,10,.92)`
-- Trophy gold `#CBA64A`
-- Bright gold `#F2D77D`
-- Deep gold `#715018`
+- Canvas black `#050505`
+- Deep black `#080808`
+- Royal panel black `#101010`
+- Raised/selected black `#141414` / `#181818`
+- Trophy gold `#D4B34F`
+- Bright gold `#EDD374`
+- Deep gold `#7D681A`
+- Regal purple `#A275EE`
+- Cyan `#58BDEB`
+- Teal `#37D2BE`
+- Orange `#F18B42`
+- Pink `#EA66A8`
+- Blue `#4E92DE`
 - Pitch green `#1B5E45`
-- Warm white `#F4F0E6`
-- Muted text `#A8B2AA`
+- Warm white `#F2F0E9`
+- Muted text `#A6A6A2`
 
 Sora is display, Inter is body, and JetBrains Mono is metadata. Gold defines
 hierarchy and ceremonial edges rather than filling entire screens. Cards use
@@ -56,17 +64,36 @@ transparent PNG master inside a circular overflow mask, with:
 
 - a dark outer ring and thin gold inner ring
 - a separate era-colored rim/glow layer
+- a status-tier rim that follows the player’s modeled archive tier
 - stable aspect ratio and crop-focus metadata
 - `object-fit: contain`, consistent eye-line, and no stretching
-- accessible alt text that identifies exact-tournament photo, licensed
-  national-team photo, other licensed international photo, or illustrated fallback
+- accessible alt text that identifies exact-tournament, same-year national-team,
+  nearby-year national-team, or licensed identity-only photo context
 
 The circle is not baked into the master. Cards may apply a maximum 1.03 scale to
 the mask, soft rim light, and selected confirmation ring. No pulsing, flashing,
 large zoom, rapid rotation, or face-obscuring effect is permitted.
 
 Managers use the same portrait primitive and show OFF, DEF, leadership, and game
-management. Nearby-year images can never be labeled exact tournament.
+management. Every active portrait is a local licensed photograph. Nearby-year or
+identity-only images can never be labeled exact tournament.
+
+## Status-tier language
+
+Normal player cards use seven modeled status tiers. The tier changes the rim,
+selected underline, detail ambient light, and rating surface without changing the
+card silhouette:
+
+- legend — trophy gold
+- icon — pale violet
+- elite — regal violet
+- standout — teal
+- reliable — blue
+- role-player — orange
+- limited — silver
+
+Tier treatment must remain readable in text and cannot rely on color alone.
+Ratings and tiers are game estimates, not historical honors.
 
 ## Feature surfaces
 
@@ -77,6 +104,10 @@ management. Nearby-year images can never be labeled exact tournament.
 - Player draft: five equal cards on desktop and a contained snap rail on mobile.
   A selected card gains a bright outline and slight inner elevation while the
   other four dim. Selection never moves or commits a tactical node.
+- Squad archive: one compact strip holds the manager, all eleven fixed formation
+  positions, and Bench 1/2/3. Filled chips use circular faces, short names, slot,
+  flag, and rating; every filled chip opens its record. At small widths the strip
+  scrolls internally without widening the page.
 - Position Fit: green is strong/natural, yellow is adaptable, red is awkward/bad,
   and muted is incompatible. Every open node repeats the state with a fit
   percentage, text label, and exact penalty; feasibility-blocked is a distinct
@@ -85,6 +116,18 @@ management. Nearby-year images can never be labeled exact tournament.
   slots are evaluated. Commit uses a short opacity/vertical feedback reveal
   outside the stable node transform. Reduced motion removes translation and
   transition duration while retaining the status announcement and full feedback.
+- Chemistry HUD: fixed at the tactical-panel top right. With no selection it
+  shows committed Chemistry. With a selection it shows current, projected,
+  signed change, and projected OVR. Pointer hover or keyboard focus switches it
+  from best-available to exact-slot production calculation. Fit glows use only
+  outline and shadow, never position or transform.
+- Player records: tier-aware rating hero, tournament versions, nullable record,
+  squad-specific fit, a separate modeled Player Tag Effects section, sourced
+  career accolades, and item-level portrait attribution. At most six accolade
+  rows stagger by 70ms; overflow becomes a static “More Honors” row.
+- Manager records: real circular face, nation/team flags, tournament version,
+  OFF/DEF/leadership/game management, tactical strengths and weaknesses, modeled
+  tags, sourced accolades, archive versions, and portrait attribution.
 - Bench: compact circular portraits, numbered priority, expected-minutes guidance,
   keyboard-accessible up/down controls as the primary reordering mechanism, and
   the same five-card option layout used by starter rounds
@@ -99,7 +142,8 @@ management. Nearby-year images can never be labeled exact tournament.
 ## Responsive and accessible behavior
 
 - 390px: single-column flow, 44px controls, one opponent card per row, a
-  horizontally snapping five-card rail, and a sticky selected-player summary
+  horizontally snapping five-card rail, internally scrolling squad archive, and
+  a sticky selected-player summary
 - 768px: compact grids and readable pitch/card stacking
 - 1440px: tactical pitch and five player choices share one balanced view
 

@@ -1,29 +1,34 @@
 # Trophy XI image sources
 
-## Current build report
+## Current active build report
 
-- 338 local transparent 700×900 PNG masters
-- 4 licensed exact-tournament photographs
-- 4 national-team-kit photographs
-- 0 nearby-year photographs
-- 334 intentional original illustrated fallbacks
-- 310 player assets and 28 manager assets
-- zero runtime hotlinks
+- 61 local transparent 700×900 PNG masters
+- 51 draft-eligible player photographs
+- 10 draft-eligible manager photographs
+- 4 verified exact-tournament national-team photographs
+- 57 conservatively labeled licensed identity photographs
+- 0 active artwork assets
+- 0 runtime hotlinks
+
+The remaining 259 player and 18 manager records are research-only. They retain
+typed history but do not enter offers and do not keep production portrait files.
 
 The executable report is `npm run validate:data`. Public item-level attribution is
 available at `/credits`; the typed manifest is `src/data/player-images.ts`.
 
 ## Required portrait metadata
 
-Every portrait record stores local PNG path, preserved source file when licensed,
+Every active portrait record stores local PNG path, preserved source file,
 source page, author, license and URL, attribution/change text, represented team,
 photographed year, exact-tournament flag, national-team-kit flag, and crop focus.
 
 Source priority is exact tournament national team, same-year national team,
-nearby-year national team, another licensed international image, then an honestly
-labeled original fallback. A nearby-year photograph can never set
+nearby-year national team, then another reusable licensed face photograph. If the
+source supports identity only, the manifest records `other-licensed-face`; it
+does not claim a team, kit, tournament, or photographed year that the source does
+not establish. A nearby-year or identity-only photograph can never set
 `exactTournamentImage: true`. Club kits are not altered, fake historical kits are
-not generated, and editorial/watermarked/unlicensed images are not used.
+not generated, and editorial, watermarked, or unlicensed images are not used.
 
 ## Circular crop review
 
@@ -32,6 +37,7 @@ Review each image at 64, 96, 128, and 160px for forehead/chin clearance, eye-lin
 stretching, white halos, rectangular source remnants, and national-kit context.
 `cropFocus` must remain within 0–100. Validation requires PNG format, an alpha
 channel, actual transparent pixels, local presence, and complete metadata.
+`npm run images:contact` writes the active face contact sheet used for this review.
 
 ## Licensed exact-tournament sources
 
@@ -71,19 +77,19 @@ Each derivative uses reviewed background isolation, edge contraction, transparen
 crop, and resize to the 700×900 master. Full license URLs and modification text
 remain in the typed manifest and credits.
 
-## Fallback and import workflow
+## Licensed import workflow
 
-When no suitable reusable image can be verified and isolated cleanly, Trophy XI
-uses an original transparent illustration. Cards say `ILLUSTRATED`, the manifest
-sets `fallback: true`, and credits call it original project artwork. Fallbacks do
-not imitate a real face or claim a national kit.
+1. Mark the player or manager draft-eligible only after a reusable image is found.
+2. Record the canonical Commons/Wikipedia source, author, license, license URL,
+   date when stated, and conservative photo context.
+3. Run `tsx scripts/sync-licensed-portrait-sources.ts` when source metadata needs
+   refreshing; review `scripts/licensed-portrait-sources.generated.json`.
+4. Run `npm run images:import` to preserve the source and create a mechanical
+   face-centered, transparent 700×900 derivative.
+5. Run `npm run images:contact` and inspect all circular sizes.
+6. Run `npm run validate:data` and confirm `/credits` labels and links.
 
-1. Add full metadata to `src/data/player-images.ts`.
-2. Preserve/download the source through `scripts/player-image-sources.json`.
-3. Supply a reviewed alpha mask or isolated derivative.
-4. Run `npm run images:import`.
-5. Run `npm run validate:data`.
-6. Inspect all circular sizes and confirm `/credits` context labels.
-
-The importer rejects missing licensed sources, masks/derivatives, license fields,
-non-alpha output, and non-700×900 masters.
+The importer rejects missing sources, unsupported licenses, incomplete metadata,
+non-alpha output, and non-700×900 masters. Validation also rejects an active
+manifest/file mismatch, an inactive production PNG, or unsupported tournament
+context.

@@ -5,6 +5,7 @@ import {
 } from "@/data/opponents/generated";
 import { worldCup2026Participants } from "@/data/opponents/participants-2026";
 import type { HistoricalWorldCupTeam } from "@/types/game";
+import { flagForCountry } from "@/lib/utils";
 
 export { historicalOpponentSource, worldCupAllStars };
 
@@ -27,6 +28,8 @@ export const historicalOpponentsById = new Map(
 );
 
 export const getOpponentLabel = (opponent: HistoricalWorldCupTeam) =>
-  opponent.kind === "all-stars"
-    ? opponent.nationName
-    : `${opponent.nationName} ${opponent.tournamentYear}`;
+  `${flagForCountry(opponent.nationCode)} ${
+    opponent.kind === "all-stars"
+      ? opponent.nationName
+      : `${opponent.nationName} ${opponent.tournamentYear}`
+  }`;

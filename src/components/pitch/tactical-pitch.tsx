@@ -18,6 +18,7 @@ export function TacticalPitch({
   fitPreviews = [],
   onSelectSlot,
   onInspectPlayer,
+  onPreviewSlot,
 }: {
   formation: Formation;
   lineup?: PlayerTournamentCard[];
@@ -29,6 +30,7 @@ export function TacticalPitch({
   fitPreviews?: PositionFitPreview[];
   onSelectSlot?: (slotId: string) => void;
   onInspectPlayer?: (player: PlayerTournamentCard) => void;
+  onPreviewSlot?: (slotId: string | null) => void;
 }) {
   return (
     <div className={cn("pitch", compact && "pitch--compact")}>
@@ -133,6 +135,18 @@ export function TacticalPitch({
               ) {
                 onSelectSlot(slot.id);
               }
+            }}
+            onMouseEnter={() => {
+              if (!player && fitPreview?.canPlace) onPreviewSlot?.(slot.id);
+            }}
+            onMouseLeave={() => {
+              if (!player) onPreviewSlot?.(null);
+            }}
+            onFocus={() => {
+              if (!player && fitPreview?.canPlace) onPreviewSlot?.(slot.id);
+            }}
+            onBlur={() => {
+              if (!player) onPreviewSlot?.(null);
             }}
           >
             {content}

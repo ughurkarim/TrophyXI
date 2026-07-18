@@ -25,7 +25,7 @@ describe("CircularPortrait", () => {
     );
   });
 
-  it("labels illustrated fallbacks honestly", () => {
+  it("labels conservative licensed face context without a tournament claim", () => {
     render(
       <CircularPortrait
         imageId="pele-1970"
@@ -34,7 +34,9 @@ describe("CircularPortrait", () => {
       />,
     );
     expect(
-      screen.getByRole("img", { name: /illustrated fallback of pelé/i }),
+      screen.getByRole("img", {
+        name: /other licensed face photograph of pelé/i,
+      }),
     ).toBeInTheDocument();
   });
 });

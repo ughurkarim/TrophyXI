@@ -12,6 +12,7 @@ import type {
   Position,
   PositionFitPreview,
   PositionFitState,
+  PlayerStatusTier,
 } from "@/types/game";
 
 const strongPositionFamilies: Position[][] = [
@@ -52,6 +53,39 @@ const positionBand = (position: Position) => {
   if (defensivePositions.includes(position)) return 0;
   if (midfieldPositions.includes(position)) return 1;
   return 2;
+};
+
+const starterTierWeights: Record<PlayerStatusTier, number> = {
+  legend: 0.015,
+  icon: 0.055,
+  elite: 0.13,
+  standout: 0.255,
+  reliable: 0.285,
+  "role-player": 0.2,
+  limited: 0.06,
+};
+
+const benchTierWeights: Record<PlayerStatusTier, number> = {
+  legend: 0.0025,
+  icon: 0.0175,
+  elite: 0.075,
+  standout: 0.2,
+  reliable: 0.335,
+  "role-player": 0.28,
+  limited: 0.09,
+};
+
+const weightedTier = (
+  random: ReturnType<typeof createSeededRandom>,
+  weights: Record<PlayerStatusTier, number>,
+) => {
+  const roll = random();
+  let cumulative = 0;
+  for (const tier of Object.keys(weights) as PlayerStatusTier[]) {
+    cumulative += weights[tier];
+    if (roll <= cumulative) return tier;
+  }
+  return "reliable";
 };
 
 /**
@@ -272,10 +306,24 @@ export const generateDraftOptions = (
           .join("|")}`,
       ),
   );
+  const draftedCards = picks
+    .map((pick) => cards.find((card) => card.id === pick.cardId))
+    .filter((card): card is PlayerTournamentCard => Boolean(card));
+  const draftedHigh = draftedCards.filter((card) => card.overall >= 90).length;
+  const draftedPremier = draftedCards.filter((card) =>
+    ["legend", "icon"].includes(card.statusTier),
+  ).length;
+  const budgetRoll =
+    (Math.abs(hashString(`starter-tier-budget:${seed}:${formation.id}`)) %
+      10_000) /
+    10_000;
+  const highBudget = budgetRoll < 0.58 ? 0 : budgetRoll < 0.9 ? 1 : 2;
   const identitySafe = cards.filter(
     (card) =>
       !used.has(card.playerIdentityId) &&
-      !excluded.has(card.playerIdentityId),
+      !excluded.has(card.playerIdentityId) &&
+      (card.overall < 90 || draftedHigh < highBudget) &&
+      (!["legend", "icon"].includes(card.statusTier) || draftedPremier < 2),
   );
   const withoutRejected = identitySafe.filter(
     (card) => !rejected.has(card.playerIdentityId),
@@ -363,14 +411,15 @@ export const generateDraftOptions = (
     return (
       secondRank.need - firstRank.need ||
       secondRank.best - firstRank.best ||
-      second.eligiblePositions.length - first.eligiblePositions.length ||
-      second.overall - first.overall
+      Math.abs(80 - first.overall) - Math.abs(80 - second.overall) ||
+      second.eligiblePositions.length - first.eligiblePositions.length
     );
   });
 
   const selected: PlayerTournamentCard[] = [];
   const add = (card: PlayerTournamentCard | undefined) => {
     if (
+      selected.length < 5 &&
       card &&
       !selected.some(
         (candidate) => candidate.playerIdentityId === card.playerIdentityId,
@@ -379,21 +428,54 @@ export const generateDraftOptions = (
       selected.push(card);
     }
   };
-  const neededFamilies = [
-    ...new Set(
-      openSlots.map((slot) => tacticalFamilyForPosition(slot.position)),
-    ),
-  ];
-  for (const family of neededFamilies) {
+  for (let index = 0; index < 5; index += 1) {
+    const targetTier = weightedTier(random, starterTierWeights);
+    const premierCount = selected.filter((card) =>
+      ["legend", "icon"].includes(card.statusTier),
+    ).length;
+    const highCount = selected.filter((card) => card.overall >= 90).length;
+    const available = (card: PlayerTournamentCard) =>
+      !selected.some(
+        (candidate) =>
+          candidate.playerIdentityId === card.playerIdentityId,
+      ) &&
+      (card.overall < 90 || highCount < 2) &&
+      (!["legend", "icon"].includes(card.statusTier) || premierCount < 2);
     add(
       ranked.find(
-        (card) => tacticalFamilyForPosition(card.primaryPosition) === family,
-      ),
+        (card) => card.statusTier === targetTier && available(card),
+      ) ?? ranked.find(available),
     );
   }
-  for (const card of ranked) {
-    if (selected.length >= 5) break;
-    add(card);
+  if (
+    new Set(
+      selected.map((card) => tacticalFamilyForPosition(card.primaryPosition)),
+    ).size < 2
+  ) {
+    const currentFamily = tacticalFamilyForPosition(
+      selected[0].primaryPosition,
+    );
+    const outgoing = selected.at(-1);
+    const highAfterRemoval =
+      selected.filter((card) => card.overall >= 90).length -
+      (outgoing && outgoing.overall >= 90 ? 1 : 0);
+    const premierAfterRemoval =
+      selected.filter((card) =>
+        ["legend", "icon"].includes(card.statusTier),
+      ).length -
+      (outgoing && ["legend", "icon"].includes(outgoing.statusTier) ? 1 : 0);
+    const replacement = ranked.find(
+      (card) =>
+        tacticalFamilyForPosition(card.primaryPosition) !== currentFamily &&
+        (card.overall < 90 || highAfterRemoval < 2) &&
+        (!["legend", "icon"].includes(card.statusTier) ||
+          premierAfterRemoval < 2) &&
+        !selected.some(
+          (candidate) =>
+            candidate.playerIdentityId === card.playerIdentityId,
+        ),
+    );
+    if (replacement) selected[selected.length - 1] = replacement;
   }
   if (selected.length !== 5) {
     throw new Error("Player-first draft generation did not return five cards");
@@ -524,10 +606,25 @@ export const generateBenchOptions = (
   const used = usedIdentityIdsFor(cards, [...starters, ...bench]);
   const excluded = new Set(rules.excludedIdentityIds ?? []);
   const rejected = new Set(rules.rejectedIdentityIds ?? []);
+  const byId = new Map(cards.map((card) => [card.id, card]));
+  const draftedBench = bench
+    .map((pick) => byId.get(pick.cardId))
+    .filter((card): card is PlayerTournamentCard => Boolean(card));
+  const highCount = draftedBench.filter((card) => card.overall >= 90).length;
+  const eliteCount = draftedBench.filter((card) => card.overall >= 86).length;
+  const below82Count = draftedBench.filter((card) => card.overall < 82).length;
+  const below78Count = draftedBench.filter((card) => card.overall < 78).length;
+  const roundsRemaining = 3 - bench.length;
+  const mustChooseBelow82 = 2 - below82Count >= roundsRemaining;
+  const mustChooseBelow78 = 1 - below78Count >= roundsRemaining;
   const identitySafe = cards.filter(
     (card) =>
       !used.has(card.playerIdentityId) &&
-      !excluded.has(card.playerIdentityId),
+      !excluded.has(card.playerIdentityId) &&
+      (card.overall < 90 || highCount < 1) &&
+      (card.overall < 86 || eliteCount < 2) &&
+      (!mustChooseBelow82 || card.overall < 82) &&
+      (!mustChooseBelow78 || card.overall < 78),
   );
   const withoutRejected = identitySafe.filter(
     (card) => !rejected.has(card.playerIdentityId),
@@ -543,12 +640,14 @@ export const generateBenchOptions = (
   );
   const ranked = shuffle(uniqueIdentityCards(eligible, random), random).sort(
     (first, second) =>
-      second.eligiblePositions.length - first.eligiblePositions.length ||
-      second.overall - first.overall,
+      Math.abs(78 - first.overall) - Math.abs(78 - second.overall) ||
+      Math.abs(2 - first.eligiblePositions.length) -
+        Math.abs(2 - second.eligiblePositions.length),
   );
   const selected: PlayerTournamentCard[] = [];
   const add = (card: PlayerTournamentCard | undefined) => {
     if (
+      selected.length < 5 &&
       card &&
       !selected.some(
         (candidate) => candidate.playerIdentityId === card.playerIdentityId,
@@ -557,16 +656,63 @@ export const generateBenchOptions = (
       selected.push(card);
     }
   };
-  for (const family of ["attacking", "midfield", "defensive", "goalkeeper"]) {
+  for (let index = 0; index < 5; index += 1) {
+    const targetTier = weightedTier(random, benchTierWeights);
+    const selectedHigh = selected.filter((card) => card.overall >= 90).length;
+    const selectedElite = selected.filter((card) => card.overall >= 86).length;
+    const available = (card: PlayerTournamentCard) =>
+      !selected.some(
+        (candidate) =>
+          candidate.playerIdentityId === card.playerIdentityId,
+      ) &&
+      (card.overall < 90 || selectedHigh < 1) &&
+      (card.overall < 86 || selectedElite < 2);
     add(
       ranked.find(
-        (card) => tacticalFamilyForPosition(card.primaryPosition) === family,
-      ),
+        (card) => card.statusTier === targetTier && available(card),
+      ) ?? ranked.find(available),
     );
   }
-  for (const card of ranked) {
-    if (selected.length >= 5) break;
-    add(card);
+  const replaceHighestWith = (
+    predicate: (card: PlayerTournamentCard) => boolean,
+  ) => {
+    const replacement = ranked.find(
+      (card) =>
+        predicate(card) &&
+        !selected.some(
+          (candidate) =>
+            candidate.playerIdentityId === card.playerIdentityId,
+        ),
+    );
+    if (!replacement) return;
+    const replaceIndex = selected
+      .map((card, index) => ({ card, index }))
+      .filter(({ card }) => !predicate(card))
+      .sort((first, second) => second.card.overall - first.card.overall)[0]
+      ?.index;
+    if (replaceIndex !== undefined) selected[replaceIndex] = replacement;
+  };
+  while (selected.filter((card) => card.overall < 82).length < 2) {
+    const previous = selected.map((card) => card.id).join("|");
+    replaceHighestWith((card) => card.overall < 82);
+    if (previous === selected.map((card) => card.id).join("|")) break;
+  }
+  if (!selected.some((card) => card.overall < 78)) {
+    replaceHighestWith((card) => card.overall < 78);
+  }
+  if (
+    !selected.some(
+      (card) =>
+        card.eligiblePositions.length <= 2 ||
+        card.eligiblePositions.length >= 4,
+    )
+  ) {
+    replaceHighestWith(
+      (card) =>
+        card.overall < 86 &&
+        (card.eligiblePositions.length <= 2 ||
+          card.eligiblePositions.length >= 4),
+    );
   }
   if (selected.length !== 5) {
     throw new Error("Not enough identity-safe bench options");

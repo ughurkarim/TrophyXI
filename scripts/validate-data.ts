@@ -1,15 +1,24 @@
 import { existsSync } from "node:fs";
+import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { draftEras } from "../src/data/eras";
 import { formations } from "../src/data/formations";
-import { managers, managerGradeLabel } from "../src/data/managers";
+import {
+  draftEligibleManagers,
+  managers,
+  managerGradeLabel,
+} from "../src/data/managers";
 import {
   historicalOpponents,
   worldCupAllStars,
 } from "../src/data/opponents";
 import { imageAttributions } from "../src/data/player-images";
-import { players, playersById } from "../src/data/players";
+import {
+  draftEligiblePlayers,
+  players,
+  playersById,
+} from "../src/data/players";
 import {
   canPlacePlayer,
   generateBenchOptions,
@@ -22,6 +31,8 @@ import {
   getPositionFitState,
   hasDraftCompletionPath,
 } from "../src/engine/draft";
+import { calculateTeamRatings } from "../src/engine/ratings";
+import { flagForCountry } from "../src/lib/utils";
 import type {
   PlayerTournamentCard,
   WorldCupYear,
@@ -89,6 +100,22 @@ const tacticalFamily = (player: PlayerTournamentCard) => {
     return "midfield";
   }
   return "attacking";
+};
+
+const sourceFilesUnder = async (directory: string): Promise<string[]> => {
+  const files: string[] = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    if ([".git", ".next", "node_modules", "public"].includes(entry.name)) {
+      continue;
+    }
+    const target = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...(await sourceFilesUnder(target)));
+    } else if (/\.(?:ts|tsx|md|json)$/.test(entry.name)) {
+      files.push(target);
+    }
+  }
+  return files;
 };
 
 const main = async () => {
@@ -169,7 +196,16 @@ const main = async () => {
   }
 
   for (const player of players) {
-    assert(imageIds.has(player.imageId), `${player.id} is missing image metadata`);
+    assert(
+      !player.isDraftEligible || imageIds.has(player.imageId),
+      `${player.id} is active but missing image metadata`,
+    );
+    assert(
+      player.isDraftEligible
+        ? player.draftIneligibilityReason === null
+        : Boolean(player.draftIneligibilityReason),
+      `${player.id} has inconsistent draft eligibility`,
+    );
     assert(
       Object.values(player.eraTranslation).every(
         (value) => Number.isInteger(value) && value >= 1 && value <= 99,
@@ -178,7 +214,16 @@ const main = async () => {
     );
   }
   for (const manager of managers) {
-    assert(imageIds.has(manager.imageId), `${manager.id} is missing image metadata`);
+    assert(
+      !manager.isDraftEligible || imageIds.has(manager.imageId),
+      `${manager.id} is active but missing image metadata`,
+    );
+    assert(
+      manager.isDraftEligible
+        ? manager.draftIneligibilityReason === null
+        : Boolean(manager.draftIneligibilityReason),
+      `${manager.id} has inconsistent draft eligibility`,
+    );
     assert(
       manager.grades.offense >= 0 &&
         manager.grades.offense <= 100 &&
@@ -240,7 +285,11 @@ const main = async () => {
 
   const offerCombinations = new Set<string>();
   for (const era of draftEras) {
-    const managerOptions = generateManagerOptions(managers, era.id, 2026);
+    const managerOptions = generateManagerOptions(
+      draftEligibleManagers,
+      era.id,
+      2026,
+    );
     assert(
       managerOptions.length === 3,
       `${era.id} cannot produce three manager identities`,
@@ -281,7 +330,7 @@ const main = async () => {
   const starterPicks: Array<{ slotId: string; cardId: string }> = [];
   feasibilityFormation.slots.forEach((_, index) => {
     const options = generateDraftOptions(
-      players,
+      draftEligiblePlayers,
       feasibilityFormation,
       starterPicks,
       1970 + index,
@@ -292,7 +341,7 @@ const main = async () => {
       (candidate) =>
         !starterPicks.some((pick) => pick.slotId === candidate.id) &&
         canPlacePlayer({
-          cards: players,
+          cards: draftEligiblePlayers,
           formation: feasibilityFormation,
           picks: starterPicks,
           player,
@@ -309,14 +358,14 @@ const main = async () => {
   });
   assert(
     hasDraftCompletionPath({
-      cards: players,
+      cards: draftEligiblePlayers,
       formation: feasibilityFormation,
       picks: starterPicks,
     }),
     "Completed starter draft failed feasibility validation",
   );
   const benchOptions = generateBenchOptions(
-    players,
+    draftEligiblePlayers,
     starterPicks,
     [],
     2026,
@@ -330,6 +379,181 @@ const main = async () => {
   assert(
     new Set(benchOptions.map(tacticalFamily)).size >= 2,
     "Bench options need at least two tactical families",
+  );
+
+  const starterOfferSamples = Array.from({ length: 200 }, (_, seed) =>
+    generateDraftOptions(
+      draftEligiblePlayers,
+      feasibilityFormation,
+      [],
+      10_000 + seed,
+      0,
+    ),
+  );
+  const benchOfferSamples = Array.from({ length: 200 }, (_, seed) =>
+    generateBenchOptions(
+      draftEligiblePlayers,
+      starterPicks,
+      [],
+      20_000 + seed,
+      0,
+    ),
+  );
+  for (const [index, offer] of starterOfferSamples.entries()) {
+    assert(
+      offer.filter((player) => player.overall >= 90).length <= 2,
+      `Starter sample ${index} contains more than two 90+ cards`,
+    );
+    assert(
+      offer.filter((player) =>
+        ["legend", "icon"].includes(player.statusTier),
+      ).length <= 2,
+      `Starter sample ${index} contains more than two Legend/Icon cards`,
+    );
+  }
+  assert(
+    starterOfferSamples.filter(
+      (offer) => offer.every((player) => player.overall < 90),
+    ).length >= 100,
+    "Most sampled starter offers must contain zero 90+ cards",
+  );
+  for (const [index, offer] of benchOfferSamples.entries()) {
+    assert(
+      offer.filter((player) => player.overall >= 90).length <= 1,
+      `Bench sample ${index} contains more than one 90+ card`,
+    );
+    assert(
+      offer.filter((player) => player.overall >= 86).length <= 2,
+      `Bench sample ${index} contains more than two 86+ cards`,
+    );
+    assert(
+      offer.filter((player) => player.overall < 82).length >= 2,
+      `Bench sample ${index} lacks two sub-82 cards`,
+    );
+    assert(
+      offer.some((player) => player.overall < 78),
+      `Bench sample ${index} lacks a sub-78 card`,
+    );
+    assert(
+      offer.some(
+        (player) =>
+          player.eligiblePositions.length <= 2 ||
+          player.eligiblePositions.length >= 4,
+      ),
+      `Bench sample ${index} lacks a specialist or versatile option`,
+    );
+  }
+
+  assert(
+    draftEligiblePlayers.filter((player) => player.overall >= 94).length === 1,
+    "Active archive must have exactly one 94–96 highest-tier player",
+  );
+  assert(
+    draftEligiblePlayers.filter((player) => player.overall >= 92).length <= 3,
+    "Active archive may contain at most three 92+ players",
+  );
+  assert(
+    draftEligiblePlayers.filter((player) => player.overall >= 90).length <= 6,
+    "Active archive may contain at most six 90+ players",
+  );
+  assert(
+    draftEligiblePlayers.filter((player) => player.overall < 81).length >= 18,
+    "Active archive requires at least eighteen players below 81",
+  );
+  assert(
+    draftEligiblePlayers.filter((player) => player.overall < 76).length >= 8,
+    "Active archive requires at least eight players below 76",
+  );
+  const activeManagerGradeLabels = draftEligibleManagers.flatMap((manager) => [
+    managerGradeLabel(manager.grades.offense),
+    managerGradeLabel(manager.grades.defense),
+  ]);
+  const sCount = activeManagerGradeLabels.filter((grade) => grade === "S").length;
+  const topManagerGradeCount = activeManagerGradeLabels.filter((grade) =>
+    ["S", "A+"].includes(grade),
+  ).length;
+  assert(
+    sCount / activeManagerGradeLabels.length <= 0.05,
+    "Active manager S grades exceed 5%",
+  );
+  assert(
+    topManagerGradeCount / activeManagerGradeLabels.length < 0.15,
+    "Active manager S/A+ grades must stay below 15%",
+  );
+  assert(
+    activeManagerGradeLabels.filter((grade) => grade.startsWith("B")).length >=
+      activeManagerGradeLabels.length * 0.4,
+    "B grades must be common across active managers",
+  );
+  assert(
+    activeManagerGradeLabels.some((grade) => grade.startsWith("C")),
+    "At least one active manager C grade is required",
+  );
+  assert(
+    draftEligiblePlayers.every((player) => player.overall <= 96),
+    "An active player exceeds the 96 normal-card cap",
+  );
+  const statusRanges = {
+    legend: [93, 96],
+    icon: [89, 93],
+    elite: [85, 89],
+    standout: [81, 85],
+    reliable: [77, 81],
+    "role-player": [71, 78],
+    limited: [1, 73],
+  } as const;
+  for (const player of draftEligiblePlayers) {
+    const [minimum, maximum] = statusRanges[player.statusTier];
+    assert(
+      player.overall >= minimum && player.overall <= maximum,
+      `${player.id} rating ${player.overall} conflicts with ${player.statusTier}`,
+    );
+    assert(
+      player.achievements.every(
+        (achievement) =>
+          Boolean(
+            achievement.source.label &&
+              achievement.source.url &&
+              achievement.source.publisher,
+          ) && !player.modeledTags.includes(achievement.label),
+      ),
+      `${player.id} has an unsourced or tag-mixed accolade`,
+    );
+  }
+
+  const previewPlayer = starterOfferSamples[0][0];
+  const previewSlot = feasibilityFormation.slots.find((slot) =>
+    canPlacePlayer({
+      cards: draftEligiblePlayers,
+      formation: feasibilityFormation,
+      picks: [],
+      player: previewPlayer,
+      slot,
+    }),
+  )!;
+  const previewPicks = [{ slotId: previewSlot.id, cardId: previewPlayer.id }];
+  const previewRatings = calculateTeamRatings(
+    [previewPlayer],
+    feasibilityFormation,
+    {
+      picks: previewPicks,
+      manager: draftEligibleManagers[0],
+      eraId: "all",
+    },
+  );
+  const committedRatings = calculateTeamRatings(
+    [previewPlayer],
+    feasibilityFormation,
+    {
+      picks: previewPicks,
+      manager: draftEligibleManagers[0],
+      eraId: "all",
+    },
+  );
+  assert(
+    previewRatings.chemistry === committedRatings.chemistry &&
+      previewRatings.overall === committedRatings.overall,
+    "Chemistry preview does not match the committed production calculation",
   );
 
   const allStarsProfile = worldCupAllStars.allStars;
@@ -438,10 +662,25 @@ const main = async () => {
         "public",
         image.file.replace(/^\//, ""),
       );
+      const sourceFile = image.sourceFile
+        ? path.join(process.cwd(), "public", image.sourceFile)
+        : "";
       assert(existsSync(localFile), `${image.id} is missing local PNG ${image.file}`);
       assert(
-        Boolean(image.author && image.license && image.changes),
+        Boolean(
+          image.author &&
+            image.license &&
+            image.changes &&
+            image.sourcePage &&
+            image.licenseUrl &&
+            image.sourceFile,
+        ),
         `${image.id} metadata incomplete`,
+      );
+      assert(!image.fallback, `${image.id} active portrait cannot be artwork`);
+      assert(
+        Boolean(sourceFile && existsSync(sourceFile)),
+        `${image.id} is missing its preserved source photograph`,
       );
       assert(
         image.cropFocus.x >= 0 &&
@@ -450,18 +689,13 @@ const main = async () => {
           image.cropFocus.y <= 100,
         `${image.id} has invalid crop focus`,
       );
-      if (!image.fallback) {
-        assert(
-          Boolean(image.sourcePage && image.licenseUrl && image.sourceFile),
-          `${image.id} licensed source metadata incomplete`,
-        );
-        assert(
-          image.exactTournamentImage
-            ? image.photographedYear === image.tournamentYear
-            : true,
-          `${image.id} is falsely labeled as exact tournament`,
-        );
-      }
+      assert(
+        image.exactTournamentImage
+          ? image.photographedYear === image.tournamentYear &&
+              image.photoContext === "exact-tournament"
+          : image.photoContext !== "exact-tournament",
+        `${image.id} is falsely labeled as exact tournament`,
+      );
       if (!existsSync(localFile)) return;
       const metadata = await sharp(localFile).metadata();
       const stats = await sharp(localFile).stats();
@@ -476,6 +710,67 @@ const main = async () => {
       );
     }),
   );
+
+  for (const [kind, activeIds] of [
+    [
+      "players",
+      new Set(draftEligiblePlayers.map((player) => `${player.imageId}.png`)),
+    ],
+    [
+      "managers",
+      new Set(draftEligibleManagers.map((manager) => `${manager.imageId}.png`)),
+    ],
+  ] as const) {
+    const pngDirectory = path.join(process.cwd(), "public", kind, "png");
+    const files = existsSync(pngDirectory) ? await readdir(pngDirectory) : [];
+    assert(
+      files.every((file) => activeIds.has(file)),
+      `${kind} PNG directory contains inactive legacy artwork`,
+    );
+    assert(
+      activeIds.size === files.length,
+      `${kind} PNG directory does not exactly match active records`,
+    );
+  }
+
+  const neutralHistoricalCodes = new Set([
+    "CSK",
+    "DDR",
+    "NIR",
+    "SCG",
+    "SUN",
+    "YUG",
+  ]);
+  assert(
+    historicalOpponents.every((opponent) => {
+      const flag = flagForCountry(opponent.nationCode);
+      return neutralHistoricalCodes.has(opponent.nationCode)
+        ? flag === "◇"
+        : flag !== "◌";
+    }),
+    "Historical opponent flag mapping is incomplete or misleading",
+  );
+  assert(
+    historicalOpponents.some(
+      (opponent) =>
+        opponent.nationName === "West Germany" &&
+        opponent.nationCode === "DEU",
+    ),
+    "West Germany historical naming policy was not preserved",
+  );
+  const forbiddenPhrases = [
+    "tournament-winning" + " balance",
+    "knockout" + " control",
+  ];
+  for (const file of await sourceFilesUnder(process.cwd())) {
+    const contents = (await readFile(file, "utf8")).toLocaleLowerCase();
+    for (const phrase of forbiddenPhrases) {
+      assert(
+        !contents.includes(phrase),
+        `${path.relative(process.cwd(), file)} restores forbidden concept "${phrase}"`,
+      );
+    }
+  }
 
   const counts = Object.fromEntries(
     Object.entries(groups).map(([name, predicate]) => [
@@ -495,12 +790,21 @@ const main = async () => {
   const missingOpponentManagers = historicalOpponents.filter(
     (opponent) => opponent.managerName === null,
   ).length;
+  const sameYear = licensed.filter(
+    (image) => image.photoContext === "same-year-national-team",
+  );
+  const otherFaces = licensed.filter(
+    (image) => image.photoContext === "other-licensed-face",
+  );
   const missingOpponentLineups = historicalOpponents.filter(
     (opponent) => opponent.startingLineup.length === 0,
   ).length;
 
   console.log("Trophy XI data report");
   console.log(`Players: ${players.length} cards / ${playerIdentities.size} identities`);
+  console.log(
+    `Active players: ${draftEligiblePlayers.length}; inactive research records awaiting photographs: ${players.length - draftEligiblePlayers.length}`,
+  );
   console.log(
     `Positions: ${counts.goalkeepers} GK / ${counts.defenders} DEF / ${counts.midfielders} MID / ${counts.attackers} FWD`,
   );
@@ -518,16 +822,28 @@ const main = async () => {
     `Images: ${licensed.length} real photos / ${nationalKit.length} national-team kit / ${exact.length} exact tournament / ${nearby.length} nearby-year / ${imageAttributions.length - licensed.length} fallback`,
   );
   console.log(
+    `Photo contexts: ${exact.length} exact / ${sameYear.length} same-year national team / ${nearby.length} nearby-year national team / ${otherFaces.length} other licensed face`,
+  );
+  console.log(
+    `Active player ratings: ${JSON.stringify(distribution(draftEligiblePlayers.map((player) => String(player.overall))))}`,
+  );
+  console.log(
+    `Active player status: ${JSON.stringify(distribution(draftEligiblePlayers.map((player) => player.statusTier)))}`,
+  );
+  console.log(
+    `Rating thresholds: 90+ ${draftEligiblePlayers.filter((player) => player.overall >= 90).length}; 92+ ${draftEligiblePlayers.filter((player) => player.overall >= 92).length}; 94+ ${draftEligiblePlayers.filter((player) => player.overall >= 94).length}; below 81 ${draftEligiblePlayers.filter((player) => player.overall < 81).length}; below 76 ${draftEligiblePlayers.filter((player) => player.overall < 76).length}`,
+  );
+  console.log(
     `Managers: ${managers.length} cards / ${managerIdentities.size} identities`,
   );
   console.log(
     `Manager OFF grades: ${JSON.stringify(
-      distribution(managers.map((manager) => managerGradeLabel(manager.grades.offense))),
+      distribution(draftEligibleManagers.map((manager) => managerGradeLabel(manager.grades.offense))),
     )}`,
   );
   console.log(
     `Manager DEF grades: ${JSON.stringify(
-      distribution(managers.map((manager) => managerGradeLabel(manager.grades.defense))),
+      distribution(draftEligibleManagers.map((manager) => managerGradeLabel(manager.grades.defense))),
     )}`,
   );
   console.log(
@@ -555,6 +871,21 @@ const main = async () => {
   );
   console.log(
     `Bench option families sampled: ${[...new Set(benchOptions.map(tacticalFamily))].join(", ")}`,
+  );
+  const offerStatusDistribution = (
+    offers: PlayerTournamentCard[][],
+  ) =>
+    distribution(
+      offers.flatMap((offer) => offer.map((player) => player.statusTier)),
+    );
+  console.log(
+    `Starter offer samples (200): ${JSON.stringify(offerStatusDistribution(starterOfferSamples))}; zero 90+ ${starterOfferSamples.filter((offer) => offer.every((player) => player.overall < 90)).length}/200`,
+  );
+  console.log(
+    `Bench offer samples (200): ${JSON.stringify(offerStatusDistribution(benchOfferSamples))}`,
+  );
+  console.log(
+    `Accolade source coverage: ${draftEligiblePlayers.flatMap((player) => player.achievements).filter((achievement) => achievement.source.url).length}/${draftEligiblePlayers.flatMap((player) => player.achievements).length}; flag coverage ${historicalOpponents.filter((opponent) => flagForCountry(opponent.nationCode) !== "◌").length}/${historicalOpponents.length}`,
   );
 
   if (failures.length > 0) {

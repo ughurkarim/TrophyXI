@@ -4,9 +4,9 @@ import { create } from "zustand";
 import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
 import { calculateEraFit } from "@/data/eras";
 import { getFormation } from "@/data/formations";
-import { managers, managersById } from "@/data/managers";
+import { draftEligibleManagers, managersById } from "@/data/managers";
 import { historicalOpponentsById } from "@/data/opponents";
-import { players, playersById } from "@/data/players";
+import { draftEligiblePlayers, players, playersById } from "@/data/players";
 import {
   canPlacePlayer,
   createDraftSeed,
@@ -132,7 +132,7 @@ const managerOptionsFor = (
   seed: number,
   excluded: Iterable<string> = [],
 ) =>
-  generateManagerOptions(managers, eraId, seed, excluded).map(
+  generateManagerOptions(draftEligibleManagers, eraId, seed, excluded).map(
     (manager) => manager.id,
   );
 
@@ -161,7 +161,7 @@ const playerOptionsFor = ({
   respinIndex?: number;
 }) =>
   generateDraftOptions(
-    players,
+    draftEligiblePlayers,
     getFormation(formationId),
     picks,
     draftSeed ^ hashString(contextKey),
@@ -188,7 +188,7 @@ const benchOptionsFor = ({
   respinIndex: number;
 }) =>
   generateBenchOptions(
-    players,
+    draftEligiblePlayers,
     picks,
     benchPicks,
     draftSeed ^ hashString(contextKey),

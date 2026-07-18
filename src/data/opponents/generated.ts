@@ -21,7 +21,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "5-2-3",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 91,
       "midfield": 97,
@@ -1281,7 +1281,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-2-2-2",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 91,
       "midfield": 95,
@@ -2361,7 +2361,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-4-2",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 92,
       "midfield": 96,
@@ -3741,7 +3741,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-4-2",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 94,
       "midfield": 93,
@@ -4251,7 +4251,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "5-2-3",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 94,
       "midfield": 91,
@@ -4881,7 +4881,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-2-2-2",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 94,
       "midfield": 93,
@@ -6111,7 +6111,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-2-2-2",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 91,
       "midfield": 91,
@@ -6831,7 +6831,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-3-1-2",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 95,
       "midfield": 95,
@@ -8121,7 +8121,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-2-2-2",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 95,
       "midfield": 92,
@@ -8211,7 +8211,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-2-3-1",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 95,
       "midfield": 93,
@@ -9291,7 +9291,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "5-2-3",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 95,
       "midfield": 92,
@@ -9621,7 +9621,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "3-4-3",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 97,
       "midfield": 91,
@@ -10491,7 +10491,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "4-3-3",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 93,
       "midfield": 91,
@@ -10611,7 +10611,7 @@ const opponentRows = [
     "tournamentFinish": "champion",
     "managerName": null,
     "formation": "3-5-2",
-    "tacticalProfile": "Tournament-winning balance and knockout control",
+    "tacticalProfile": "Elite tournament structure with decisive transition threat",
     "ratings": {
       "attack": 97,
       "midfield": 96,

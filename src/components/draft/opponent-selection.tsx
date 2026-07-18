@@ -12,6 +12,7 @@ import { calculateOpponentEraFit } from "@/engine/era-translation";
 import { useGameStore } from "@/store/game-store";
 import { WORLD_CUP_YEARS } from "@/types/game";
 import type { DraftEraId, HistoricalWorldCupTeam } from "@/types/game";
+import { flagForCountry } from "@/lib/utils";
 
 const PAGE_SIZE = 24;
 
@@ -147,7 +148,10 @@ export function OpponentSelection({
             <span>WORLD CUP ALL-STARS</span>
             <b>MYTHIC</b>
           </div>
-          <h3>{worldCupAllStars.nationName}</h3>
+          <h3>
+            {flagForCountry(worldCupAllStars.nationCode)}{" "}
+            {worldCupAllStars.nationName}
+          </h3>
           <p>{worldCupAllStars.allStars?.subtitle}</p>
           <div className="opponent-card__ratings">
             <span>
@@ -420,14 +424,16 @@ function OpponentCard({
       aria-label={`Select ${opponent.nationName} ${opponent.tournamentYear}, ${opponent.difficulty} difficulty`}
     >
       <div className="opponent-card__title">
-        <span>{opponent.nationCode}</span>
+        <span>
+          {flagForCountry(opponent.nationCode)} {opponent.nationCode}
+        </span>
         <b>{opponent.tournamentYear}</b>
       </div>
       <h3>
         {champion && (
           <Crown size={14} aria-label="Champion" />
         )}
-        {opponent.nationName}
+        {flagForCountry(opponent.nationCode)} {opponent.nationName}
       </h3>
       <p>
         {opponent.tournamentFinish ?? "Tournament in progress"}

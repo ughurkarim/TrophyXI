@@ -13,6 +13,7 @@ export function PlayerPortrait({ player }: { player: PlayerTournamentCard }) {
         imageId={player.imageId}
         subjectName={player.playerName}
         era={player.era}
+        statusTier={player.statusTier}
         size="featured"
       />
       <span className="portrait-year" aria-hidden>

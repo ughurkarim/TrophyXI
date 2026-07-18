@@ -1,34 +1,58 @@
-import { managers } from "@/data/managers";
-import { players } from "@/data/players";
+import generatedSourcesJson from "../../scripts/licensed-portrait-sources.generated.json";
+import { draftEligibleManagers } from "@/data/managers";
+import { draftEligiblePlayers } from "@/data/players";
 import type { ImageAttribution } from "@/types/game";
 
-const fallbackAttribution = (
-  id: string,
-  kind: ImageAttribution["kind"],
-  subjectName: string,
-  tournamentYear: number,
-): ImageAttribution => ({
-  id,
-  kind,
-  subjectName,
-  tournamentYear,
-  file:
-    kind === "player"
-      ? `/players/png/${id}.png`
-      : `/managers/png/${id}.png`,
-  sourceFile: null,
-  sourcePage: null,
-  author: "Trophy XI",
-  license: "Original project artwork",
-  licenseUrl: null,
-  changes: "Purpose-built transparent illustrated tournament fallback; 700×900 master.",
-  fallback: true,
-  representedTeam: null,
-  photographedYear: null,
-  exactTournamentImage: false,
-  isNationalTeamKit: false,
-  cropFocus: { x: 50, y: 36 },
-});
+type GeneratedSource = {
+  id: string;
+  kind: "player" | "manager";
+  subjectName: string;
+  tournamentYear: number;
+  fileName: string;
+  downloadUrl: string;
+  sourcePage: string;
+  author: string;
+  license: string;
+  licenseUrl: string;
+  photographedYear: number | null;
+  representedTeam: null;
+  photoContext: "other-licensed-face";
+  cropFocus: { x: number; y: number };
+  changes: string;
+};
+
+const generatedSources = generatedSourcesJson as GeneratedSource[];
+const generatedOverrides = new Map<string, ImageAttribution>(
+  generatedSources.map((source) => {
+    const directory = source.kind === "player" ? "players" : "managers";
+    const extension = source.fileName.toLowerCase().endsWith(".png")
+      ? "png"
+      : "jpg";
+    return [
+      source.id,
+      {
+        id: source.id,
+        kind: source.kind,
+        subjectName: source.subjectName,
+        tournamentYear: source.tournamentYear,
+        file: `/${directory}/png/${source.id}.png`,
+        sourceFile: `/${directory}/sources/${source.id}.${extension}`,
+        sourcePage: source.sourcePage,
+        author: source.author,
+        license: source.license,
+        licenseUrl: source.licenseUrl,
+        changes: source.changes,
+        fallback: false,
+        representedTeam: source.representedTeam,
+        photographedYear: source.photographedYear,
+        exactTournamentImage: false,
+        isNationalTeamKit: false,
+        photoContext: source.photoContext,
+        cropFocus: source.cropFocus,
+      },
+    ];
+  }),
+);
 
 const licensedOverrides: Record<string, ImageAttribution> = {
   "ivan-perisic-2018": {
@@ -50,6 +74,7 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     photographedYear: 2018,
     exactTournamentImage: true,
     isNationalTeamKit: true,
+    photoContext: "exact-tournament",
     cropFocus: { x: 50, y: 34 },
   },
   "kylian-mbappe-2018": {
@@ -71,6 +96,7 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     photographedYear: 2018,
     exactTournamentImage: true,
     isNationalTeamKit: true,
+    photoContext: "exact-tournament",
     cropFocus: { x: 50, y: 31 },
   },
   "luka-modric-2018": {
@@ -91,6 +117,7 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     photographedYear: 2018,
     exactTournamentImage: true,
     isNationalTeamKit: true,
+    photoContext: "exact-tournament",
     cropFocus: { x: 50, y: 34 },
   },
   "thibaut-courtois-2018": {
@@ -112,31 +139,32 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     photographedYear: 2018,
     exactTournamentImage: true,
     isNationalTeamKit: true,
+    photoContext: "exact-tournament",
     cropFocus: { x: 50, y: 30 },
   },
 };
 
-// Licensed photographs can replace any fallback by changing only this manifest
-// entry and rerunning scripts/import-player-images.ts. The importer rejects
-// incomplete source, author, license, and derivative metadata.
-export const playerImages: ImageAttribution[] = players.map(
-  (player) =>
-    licensedOverrides[player.imageId] ??
-    fallbackAttribution(
-      player.imageId,
-      "player",
-      player.playerName,
-      player.tournamentYear,
-    ),
+const attributionFor = (id: string) =>
+  licensedOverrides[id] ?? generatedOverrides.get(id);
+
+export const playerImages: ImageAttribution[] = draftEligiblePlayers.map(
+  (player) => {
+    const attribution = attributionFor(player.imageId);
+    if (!attribution) {
+      throw new Error(`Missing licensed active-player portrait ${player.id}`);
+    }
+    return attribution;
+  },
 );
 
-export const managerImages: ImageAttribution[] = managers.map((manager) =>
-  fallbackAttribution(
-    manager.imageId,
-    "manager",
-    manager.managerName,
-    manager.tournamentYear,
-  ),
+export const managerImages: ImageAttribution[] = draftEligibleManagers.map(
+  (manager) => {
+    const attribution = attributionFor(manager.imageId);
+    if (!attribution) {
+      throw new Error(`Missing licensed active-manager portrait ${manager.id}`);
+    }
+    return attribution;
+  },
 );
 
 export const imageAttributions = [...playerImages, ...managerImages];

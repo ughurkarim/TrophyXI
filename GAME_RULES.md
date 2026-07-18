@@ -15,6 +15,33 @@ without changing the five-card offer. A filled slot can be inspected but never
 replaced. Bench rounds also offer five cards, followed by assignment to an open
 priority slot.
 
+The compact Squad Archive preserves manager, formation-slot, and Bench 1/2/3
+order. Filled entries are inspectable and never replace or reorder a pick.
+
+## Active archive and status tiers
+
+The typed research archive contains 310 player cards and 28 manager cards.
+Drafting uses an explicit active boundary of 51 player cards and 10 manager cards;
+inactive records cannot appear during generation, hydration repair, or play. Every
+active record has a local licensed portrait.
+
+Normal player overalls are capped at 96. The active set contains exactly one
+94–96 card, at most three 92+ cards, at most six 90+ cards, at least eighteen
+cards below 81, and at least eight below 76. Status tiers use these overlapping
+content bands:
+
+- legend: 93–96
+- icon: 89–93
+- elite: 85–89
+- standout: 81–85
+- reliable: 77–81
+- role-player: 71–78
+- limited: 73 or lower
+
+The overlap supports contextual archive status while validation prevents a tier
+outside its band. Status and every numeric attribute remain project-created
+estimates.
+
 ## Match environment versus card year
 
 Match environments display newest first: 2020s, 2010s, 2000s, 1990s, 1980s,
@@ -86,9 +113,13 @@ the nearest integer:
 
 The penalty is deterministic, monotonic, and capped at 25%. Team-rating inputs
 for that starter are multiplied by `(100 − penalty) / 100`; the simulator uses
-those same team ratings. Selecting a card shows current and projected chemistry
-and overall separately. Placement feedback reports the card year, slot, fit,
-penalty, Era Translation, manager fit, chemistry change, and overall change.
+those same team ratings. The Chemistry HUD always shows current committed
+Chemistry. Selecting a card adds projected Chemistry, signed change, and projected
+OVR using the same `calculateTeamRatings` production path as commit. The initial
+value uses the best legal slot; pointer hover or keyboard focus recalculates for
+that exact open slot. The value committed by a click must equal the final
+exact-slot preview. Placement feedback reports the card year, slot, fit, penalty,
+Era Translation, manager fit, chemistry change, and overall change.
 
 Before placement, the engine checks whether every remaining slot still has a
 unique available identity. This is a maximum bipartite-matching feasibility
@@ -104,7 +135,33 @@ alternate-version duplicate identities are excluded at the appropriate boundary.
 Managers have a tactical style, preferred and acceptable formations, leadership,
 game management, and separate numeric OFF and DEF grades. Letter grades map from
 S (95–100) through F (below 55). OFF influences chance quality and attacking
-changes; DEF influences opponent chance quality and lead protection.
+changes; DEF influences opponent chance quality and lead protection. Across the
+20 active OFF/DEF grades, S is capped at 5%, S/A+ stays below 15%, at least 40%
+are B-range, and at least one is C-range.
+
+## Deterministic offer weighting
+
+Starter offers target status tiers with weights of 1.5% legend, 5.5% icon, 13%
+elite, 25.5% standout, 28.5% reliable, 20% role-player, and 6% limited. The
+draft-wide seeded high-card budget yields zero 90+ cards in most five-card
+offers, otherwise one, with a hard maximum of two. No offer may contain more than
+two legend/icon cards.
+
+Bench offers are independently weighted at 0.25% legend, 1.75% icon, 7.5%
+elite, 20% standout, 33.5% reliable, 28% role-player, and 9% limited. A bench
+offer has at most one 90+ card, at most two 86+ cards, at least two cards below
+82, at least one below 78, and tactical specialist/versatility coverage. Across
+the chosen three-player bench, at least two cards remain below 82 and at least
+one below 78. All sampling is deterministic and still obeys identity,
+opponent-exclusion, feasibility, and positional-need boundaries.
+
+## Modeled tags and sourced accolades
+
+Player Tag Effects describe capped Trophy XI engine behavior and never masquerade
+as historical honors. Career Accolades are a separate list; every named item
+requires a published card-level source. Manager modeled tags and manager
+accolades follow the same boundary. Unknown facts remain absent rather than
+becoming generic achievements.
 
 ## Formations
 
@@ -196,3 +253,13 @@ Participant identity, finish, and match count through 2022 are sourced facts.
 Ratings, tactical labels, difficulty, and formation are explicitly marked Trophy
 XI models. Missing managers, lineups, and detailed statistics display as not
 sourced rather than zero or invented data.
+
+Flags accompany players, managers, champion tiles, opponent cards, selection,
+match, and result surfaces. Historical names remain source-faithful. Defunct
+country codes use a neutral archival diamond rather than a misleading modern
+flag; West Germany keeps its historical display name while its source code
+retains the documented Germany flag policy.
+
+Two former champion-only textual composite concepts are retired from data,
+interface, documentation, and generated opponents. Champion status does not add
+hidden team metrics beyond the documented ordinary model.

@@ -49,7 +49,7 @@ export function PlayerCard({
         </div>
         <div className="player-era">
           <span>{player.tournamentYear}</span>
-          <small>{player.qualityBand}</small>
+          <small>{player.statusTier.replace("-", " ")}</small>
         </div>
       </div>
       <PlayerPortrait player={player} />
@@ -115,6 +115,7 @@ export function PlayerCard({
         className={cn(
           "player-card",
           `player-card--${eraAccent[player.era]}`,
+          `player-card--tier-${player.statusTier}`,
           className,
         )}
       >
@@ -129,6 +130,7 @@ export function PlayerCard({
       className={cn(
         "player-card player-card--button",
         `player-card--${eraAccent[player.era]}`,
+        `player-card--tier-${player.statusTier}`,
         selected && "player-card--selected",
         className,
       )}

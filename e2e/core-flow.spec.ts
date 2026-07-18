@@ -125,7 +125,28 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     page.getByRole("heading", { name: /choose the mind behind the xi/i }),
   ).toBeVisible();
   await expect(page.locator(".manager-card")).toHaveCount(3);
+  await expect(page.locator(".manager-card img")).toHaveCount(3);
   await expect(page.getByText("PLAYER RESPINS ×2")).toBeVisible();
+  const managerGradeLabels = await page
+    .locator(".manager-card__grades")
+    .evaluateAll((elements) =>
+      elements.map((element) => element.getAttribute("aria-label") ?? ""),
+    );
+  expect(
+    managerGradeLabels.some((label) => /offense [BC]/i.test(label)),
+  ).toBe(true);
+  const managerInspect = page
+    .getByRole("button", { name: /view manager record/i })
+    .first();
+  await managerInspect.click();
+  const managerDialog = page.getByRole("dialog");
+  await expect(managerDialog.getByText("TOURNAMENT MODEL")).toBeVisible();
+  await expect(managerDialog.getByText("TACTICAL FIT")).toBeVisible();
+  await expect(managerDialog.getByText("TROPHY XI MANAGER TAGS")).toBeVisible();
+  await expect(managerDialog.getByText("PORTRAIT SOURCE")).toBeVisible();
+  await expect(managerDialog.locator("img")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(managerInspect).toBeFocused();
   const managerName = (
     await page.locator(".manager-card h2").first().textContent()
   )!;
@@ -163,10 +184,53 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await page.getByRole("button", { name: /enter the draft/i }).click();
   await expect(page).toHaveURL(/\/play\/draft$/);
   await expect(page.getByText("PLAYER RESPINS ×2").first()).toBeVisible();
+  await expect(page.getByText("SQUAD ARCHIVE")).toBeVisible();
+  const chemistryHud = page.locator(".chemistry-preview-hud");
+  await expect(chemistryHud).toHaveAttribute(
+    "aria-label",
+    /current chemistry \d+/i,
+  );
 
   await expect(playerChoices()).toHaveCount(5);
-  await playerChoices().nth(1).click();
+  await expect(page.locator(".draft-card-grid img")).toHaveCount(5);
+  const tieredOfferCards = await page
+    .locator(".draft-card-grid .player-card")
+    .evaluateAll((cards) =>
+      cards.filter((card) =>
+        [...card.classList].some((name) =>
+          name.startsWith("player-card--tier-"),
+        ),
+      ).length,
+  );
+  expect(tieredOfferCards).toBe(5);
+  const outfieldOfferCards = page
+    .locator(".draft-card-grid .player-card")
+    .filter({
+      hasNot: page.locator(".player-rating span").filter({ hasText: /^GK$/ }),
+    });
+  expect(await outfieldOfferCards.count()).toBeGreaterThan(0);
+  await outfieldOfferCards
+    .first()
+    .locator(".player-card__pick-target")
+    .click();
+  const initiallySelectedName = await page
+    .locator(".draft-option--selected h3")
+    .textContent();
+  await playerChoices().first().click();
+  const switchedPlayerName = await page
+    .locator(".draft-option--selected h3")
+    .textContent();
+  expect(switchedPlayerName).not.toBe(initiallySelectedName);
+  await outfieldOfferCards
+    .first()
+    .locator(".player-card__pick-target")
+    .click();
+  await expect(page.locator(".draft-option--selected h3")).toHaveText(
+    initiallySelectedName ?? "",
+  );
   await expect(page.getByLabel("0 of 14 players drafted")).toBeVisible();
+  await expect(chemistryHud).toContainText("Projected");
+  await expect(chemistryHud).toContainText("Change");
   await expect(page.locator(".pitch-node--fit-green").first()).toBeVisible();
   await expect(
     page.locator(".pitch-node--fit-yellow, .pitch-node--fit-red").first(),
@@ -174,13 +238,34 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.locator(".pitch-node__fit i").filter({ hasText: "−" }).first(),
   ).toBeVisible();
+  const exactPreviewSlot = page.locator(
+    '.draft-pitch-panel .pitch-node[aria-disabled="false"]',
+  ).first();
+  await exactPreviewSlot.focus();
+  await expect(chemistryHud).toContainText("EXACT PLACEMENT");
+  const projectedChemistry = await chemistryHud.locator("dd").nth(1).textContent();
   await captureState("02-player-selected.png", {
     focusDraftChoices: true,
   });
-  await page
-    .getByRole("button", { name: /cancel selection/i })
-    .first()
-    .click();
+  await exactPreviewSlot.click();
+  await expect(page.getByLabel("1 of 14 players drafted")).toBeVisible();
+  await expect(chemistryHud.locator("dd")).toHaveCount(1);
+  await expect(chemistryHud.locator("dd").first()).toHaveText(
+    projectedChemistry ?? "",
+  );
+  const firstSquadPlayer = page
+    .locator(".squad-strip .squad-chip--filled")
+    .first();
+  await firstSquadPlayer.click();
+  const playerDialog = page.getByRole("dialog");
+  await expect(playerDialog.getByText("TROPHY XI FIT")).toBeVisible();
+  await expect(playerDialog.getByText("PLAYER TAG EFFECTS")).toBeVisible();
+  await expect(playerDialog.getByText("CAREER ACCOLADES")).toBeVisible();
+  await expect(playerDialog.getByText("PORTRAIT SOURCE")).toBeVisible();
+  await expect(playerDialog.locator(".player-status")).toBeVisible();
+  await expect(playerDialog.locator("img")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(firstSquadPlayer).toBeFocused();
   await expect(playerChoices()).toHaveCount(5);
 
   await page
@@ -194,7 +279,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   ).toBeVisible();
   await expect(playerChoices()).toHaveCount(5);
 
-  for (let index = 0; index < 11; index += 1) {
+  for (let index = 1; index < 11; index += 1) {
     await expect(playerChoices()).toHaveCount(5);
     await selectFirstPlayer();
     await expect(
@@ -340,7 +425,9 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.getByRole("heading", { name: /archive with a paper trail/i }),
   ).toBeVisible();
-  await expect(page.getByText(/338 local png masters/i)).toBeVisible();
+  await expect(page.getByText(/61 active local png masters/i)).toBeVisible();
   await expect(page.getByText(/licensed photographs/i).first()).toBeVisible();
-  await expect(page.getByText(/intentional illustrations/i)).toBeVisible();
+  await expect(page.getByText(/51 player photographs/i)).toBeVisible();
+  await expect(page.getByText(/10 manager photographs/i)).toBeVisible();
+  await expect(page.locator(".attribution-list article")).toHaveCount(61);
 });

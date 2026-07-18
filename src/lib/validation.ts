@@ -56,6 +56,18 @@ export const playerCardSchema = z.object({
     "role-player",
     "limited",
   ]),
+  statusTier: z.enum([
+    "legend",
+    "icon",
+    "elite",
+    "standout",
+    "reliable",
+    "role-player",
+    "limited",
+  ]),
+  modeledTags: z.array(z.string().min(2)).min(1).max(4),
+  isDraftEligible: z.boolean(),
+  draftIneligibilityReason: z.string().min(2).nullable(),
   tournamentStats: z.object({
     appearances: nullableCount,
     starts: nullableCount,

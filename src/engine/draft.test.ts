@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { getFormation } from "@/data/formations";
-import { players } from "@/data/players";
+import { draftEligiblePlayers, players } from "@/data/players";
 import {
   canPlacePlayer,
   generateDraftOptions,
+  generateBenchOptions,
   getPlacementPenaltyPercent,
   getPositionFit,
   getPositionFitState,
@@ -60,8 +61,20 @@ describe("draft engine", () => {
   });
 
   it("returns five deterministic, identity-safe, position-diverse cards", () => {
-    const options = generateDraftOptions(players, formation, [], 1234, 0);
-    const repeat = generateDraftOptions(players, formation, [], 1234, 0);
+    const options = generateDraftOptions(
+      draftEligiblePlayers,
+      formation,
+      [],
+      1234,
+      0,
+    );
+    const repeat = generateDraftOptions(
+      draftEligiblePlayers,
+      formation,
+      [],
+      1234,
+      0,
+    );
     expect(options).toHaveLength(5);
     expect(options.map((option) => option.id)).toEqual(
       repeat.map((option) => option.id),
@@ -76,7 +89,7 @@ describe("draft engine", () => {
       options.some((player) =>
         formation.slots.some((slot) =>
           canPlacePlayer({
-            cards: players,
+            cards: draftEligiblePlayers,
             formation,
             picks: [],
             player,
@@ -85,6 +98,64 @@ describe("draft engine", () => {
         ),
       ),
     ).toBe(true);
+  });
+
+  it("keeps sampled starter and bench offers inside quality limits", () => {
+    const starterOffers = Array.from({ length: 100 }, (_, seed) =>
+      generateDraftOptions(
+        draftEligiblePlayers,
+        formation,
+        [],
+        4_000 + seed,
+        0,
+      ),
+    );
+    const benchOffers = Array.from({ length: 100 }, (_, seed) =>
+      generateBenchOptions(
+        draftEligiblePlayers,
+        [],
+        [],
+        8_000 + seed,
+        0,
+      ),
+    );
+    expect(
+      starterOffers.filter((offer) =>
+        offer.every((player) => player.overall < 90),
+      ).length,
+    ).toBeGreaterThan(50);
+    for (const offer of starterOffers) {
+      expect(offer).toHaveLength(5);
+      expect(new Set(offer.map((player) => player.playerIdentityId)).size).toBe(
+        5,
+      );
+      expect(
+        offer.filter((player) => player.overall >= 90).length,
+      ).toBeLessThanOrEqual(2);
+      expect(
+        offer.filter((player) =>
+          ["legend", "icon"].includes(player.statusTier),
+        ).length,
+      ).toBeLessThanOrEqual(2);
+    }
+    for (const offer of benchOffers) {
+      expect(
+        offer.filter((player) => player.overall >= 90).length,
+      ).toBeLessThanOrEqual(1);
+      expect(
+        offer.filter((player) => player.overall >= 86).length,
+      ).toBeLessThanOrEqual(2);
+      expect(
+        offer.filter((player) => player.overall < 82).length,
+      ).toBeGreaterThanOrEqual(2);
+      expect(offer.some((player) => player.overall < 78)).toBe(true);
+    }
+    const average = (offers: typeof starterOffers) =>
+      offers
+        .flat()
+        .reduce((sum, player) => sum + player.overall, 0) /
+      offers.flat().length;
+    expect(average(benchOffers)).toBeLessThan(average(starterOffers));
   });
 
   it("prevents drafted identities and alternate versions from returning", () => {

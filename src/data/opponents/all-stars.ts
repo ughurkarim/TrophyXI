@@ -63,6 +63,9 @@ export const worldCupAllStarsManager: ManagerTournamentCard & {
   gameManagement: 99,
   imageId: "world-cup-all-stars-coach",
   achievements: [],
+  isDraftEligible: false,
+  draftIneligibilityReason:
+    "Original composite opponent manager; never a playable archive record.",
   compositeLabel: "Trophy XI original composite manager.",
   eraAdaptability: 96,
   substitutionBehavior:

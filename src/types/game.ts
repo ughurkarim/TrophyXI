@@ -50,6 +50,14 @@ export type QualityBand =
   | "reliable"
   | "role-player"
   | "limited";
+export type PlayerStatusTier =
+  | "legend"
+  | "icon"
+  | "elite"
+  | "standout"
+  | "reliable"
+  | "role-player"
+  | "limited";
 export type Confederation =
   | "UEFA"
   | "CONMEBOL"
@@ -125,6 +133,10 @@ export type PlayerTournamentCard = {
   era: TournamentEra;
   archetype: string;
   qualityBand: QualityBand;
+  statusTier: PlayerStatusTier;
+  modeledTags: string[];
+  isDraftEligible: boolean;
+  draftIneligibilityReason: string | null;
   tournamentStats: TournamentStatLine;
   statSources: DataCitation[];
   achievements: TournamentAchievement[];
@@ -238,6 +250,8 @@ export type ManagerTournamentCard = {
   gameManagement: number;
   imageId: string;
   achievements: TournamentAchievement[];
+  isDraftEligible: boolean;
+  draftIneligibilityReason: string | null;
 };
 
 export type DraftPick = {
@@ -422,6 +436,12 @@ export type ImageAttribution = {
   photographedYear: number | null;
   exactTournamentImage: boolean;
   isNationalTeamKit: boolean;
+  photoContext:
+    | "exact-tournament"
+    | "same-year-national-team"
+    | "nearby-year-national-team"
+    | "other-licensed-face"
+    | "original-project-mark";
   cropFocus: { x: number; y: number };
 };
 

@@ -11,7 +11,17 @@ era played identically.
 Tournament statistics are nullable. A populated value requires a record-level
 `DataCitation`; an unknown value remains `null` and renders as “Not sourced.”
 Named achievements require their own citation. Validation rejects a known player
-stat line without a source and never converts missing data to zero.
+stat line without a source and never converts missing data to zero. Trophy XI
+modeled tags are stored separately from sourced accolades and are described as
+engine behavior, not factual honors.
+
+## Active archive boundary
+
+`src/data/archive-eligibility.ts` declares the 51 player cards and 10 manager
+cards eligible for the current draft. The remaining typed records are
+research-only and cannot enter runtime offers. Active records require complete
+local licensed-image attribution. Eligibility is an editorial/source-readiness
+boundary, not a claim that inactive historical figures were less important.
 
 ## Historical World Cup participants
 

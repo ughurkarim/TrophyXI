@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { draftEras } from "@/data/eras";
-import { managers } from "@/data/managers";
+import { draftEligibleManagers, managers } from "@/data/managers";
 import { imageAttributions } from "@/data/player-images";
-import { players } from "@/data/players";
+import { draftEligiblePlayers, players } from "@/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "@/types/game";
 import { generateManagerOptions } from "@/engine/draft";
 
@@ -51,22 +51,78 @@ describe("expanded archive contracts", () => {
     );
   });
 
-  it("keeps image and manager manifests complete", () => {
+  it("keeps research records inactive and every playable record photo-backed", () => {
     expect(managers).toHaveLength(28);
     expect(new Set(managers.map((manager) => manager.managerIdentityId)).size).toBe(
       22,
     );
-    expect(imageAttributions).toHaveLength(338);
+    expect(draftEligiblePlayers).toHaveLength(51);
+    expect(draftEligibleManagers).toHaveLength(10);
+    expect(imageAttributions).toHaveLength(61);
+    expect(imageAttributions.every((image) => !image.fallback)).toBe(true);
     expect(
-      imageAttributions.filter((image) => !image.fallback),
-    ).toHaveLength(4);
+      imageAttributions.every(
+        (image) =>
+          image.sourcePage &&
+          image.sourceFile &&
+          image.author &&
+          image.license &&
+          image.licenseUrl,
+      ),
+    ).toBe(true);
+    expect(
+      players
+        .filter((player) => !player.isDraftEligible)
+        .every((player) => player.draftIneligibilityReason),
+    ).toBe(true);
+  });
+
+  it("enforces the active rating and status distribution", () => {
+    expect(Math.max(...draftEligiblePlayers.map((player) => player.overall))).toBe(
+      96,
+    );
+    expect(
+      draftEligiblePlayers.filter((player) => player.overall >= 94),
+    ).toHaveLength(1);
+    expect(
+      draftEligiblePlayers.filter((player) => player.overall >= 92).length,
+    ).toBeLessThanOrEqual(3);
+    expect(
+      draftEligiblePlayers.filter((player) => player.overall >= 90).length,
+    ).toBeLessThanOrEqual(6);
+    expect(
+      draftEligiblePlayers.filter((player) => player.overall < 81).length,
+    ).toBeGreaterThanOrEqual(18);
+    expect(
+      draftEligiblePlayers.filter((player) => player.overall < 76).length,
+    ).toBeGreaterThanOrEqual(8);
+    expect(
+      new Set(draftEligiblePlayers.map((player) => player.statusTier)),
+    ).toEqual(
+      new Set([
+        "legend",
+        "icon",
+        "elite",
+        "standout",
+        "reliable",
+        "role-player",
+        "limited",
+      ]),
+    );
   });
 
   it("produces three deterministic manager identities in every environment", () => {
     for (const era of draftEras) {
-      const first = generateManagerOptions(managers, era.id, 4404);
+      const first = generateManagerOptions(
+        draftEligibleManagers,
+        era.id,
+        4404,
+      );
       expect(first).toHaveLength(3);
-      expect(generateManagerOptions(managers, era.id, 4404)).toEqual(first);
+      expect(
+        generateManagerOptions(draftEligibleManagers, era.id, 4404),
+      ).toEqual(first);
+      expect(first.every((manager) => manager.isDraftEligible)).toBe(true);
     }
   });
 });
