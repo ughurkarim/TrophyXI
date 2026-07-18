@@ -38,7 +38,7 @@ formation-offer, bench, flag, chemistry-preview, and historical-opponent coverag
 
 ## Product flow
 
-`/` → match era → manager → four formation choices → optional Formation Respin
+`/` → match era → manager → optional Manager Respin → four formation choices → optional Formation Respin
 → formation → 11 player-first starter rounds → 3 bench rounds → bench review
 → opponent selection → match broadcast → result
 
@@ -57,19 +57,23 @@ result must equal the final preview.
 The current archive contains:
 
 - 310 tournament cards across 287 stable player identities
-- 51 draft-eligible player cards with licensed local faces; 259 research-only
-  cards remain typed but cannot enter offers
+- all 310 player cards are draft eligible; missing photographs never change
+  card eligibility
+- 51 player cards with licensed local faces and 259 clean Photo Pending identity
+  markers using initials, flag, year, and status-tier color
 - every men’s World Cup from 1970 through 2022
 - 28 manager cards with explicit numeric OFF/DEF grades
 - 10 draft-eligible manager cards with licensed local faces
 - 12 formations, with four deterministic manager/era-aware offers per run
+- one separate, deterministic, permanent Manager Respin
 - one separate, deterministic Formation Respin
 - five-card, player-first drafting with two-click placement
 - two permanent, deterministic, player-only respins
 - three ordered bench places drafted from five-card options
 - 416 nation-year opponent records across 15 tournaments, including 48 sourced
   2026 participants with unknown tournament outcomes left null
-- World Cup All-Stars: an original, deterministic, beatable Mythic challenge
+- World Cup All-Stars: an original, deterministic, beatable Mythic opponent and
+  a playable curated squad with a composite Mythic manager, XI, and Bench 1/2/3
 - 61 active local transparent PNG masters: 51 players and 10 managers, all
   licensed photographs; 4 are verified exact-tournament images and 57 are
   conservatively labeled identity photographs
@@ -98,8 +102,9 @@ to the historical opponent.
 - `scripts/validate-world-cup-teams.ts`: opponent-count/source validator
 
 The UI and store call pure engine functions. Identical simulation inputs and seed
-produce the same event sequence, substitutions, minutes, and result. Version-5
-Zustand persistence stores both independent respin counters, current five-card
+produce the same event sequence, substitutions, minutes, and result. Version-6
+Zustand persistence stores all three independent respin counters, play mode,
+current five-card
 offer, selected-player preview, projected fits, placements, feasibility, bench,
 opponent filters and selection, and match state. Version-4 saves are migrated or
 repaired at hydration boundaries.

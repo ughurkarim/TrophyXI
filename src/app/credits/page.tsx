@@ -3,11 +3,14 @@ import { ArrowLeft, ExternalLink, ImageIcon } from "lucide-react";
 import { Wordmark } from "@/components/brand/mark";
 import { historicalOpponentSource } from "@/data/opponents";
 import { imageAttributions } from "@/data/player-images";
+import { draftEligiblePlayers } from "@/data/players";
 
 export default function CreditsPage() {
   const licensed = imageAttributions.filter((image) => !image.fallback);
   const playerPhotos = licensed.filter((image) => image.kind === "player");
   const managerPhotos = licensed.filter((image) => image.kind === "manager");
+  const pendingPlayerPhotos =
+    draftEligiblePlayers.length - playerPhotos.length;
   const exactTournament = licensed.filter(
     (image) => image.exactTournamentImage,
   );
@@ -36,15 +39,16 @@ export default function CreditsPage() {
           <span className="eyebrow eyebrow--gold">SOURCES & ATTRIBUTION</span>
           <h1>An archive with a paper trail.</h1>
           <p>
-            Every selectable player and manager has a local transparent PNG and a
-            complete source record. Every active face is a licensed photograph,
-            stored locally and labeled with only the context its source supports.
+            Every displayed photograph is a local transparent PNG with a
+            complete source record. Cards without an approved photograph stay
+            draftable and use a clearly labeled Photo Pending identity marker.
           </p>
           <div className="credits-metrics">
             <span><b>{imageAttributions.length}</b> active local PNG masters</span>
             <span><b>{licensed.length}</b> licensed photographs</span>
             <span><b>{playerPhotos.length}</b> player photographs</span>
             <span><b>{managerPhotos.length}</b> manager photographs</span>
+            <span><b>{pendingPlayerPhotos}</b> photo-pending player cards</span>
             <span><b>{exactTournament.length}</b> exact-tournament images</span>
             <span><b>{identityPhotos.length}</b> licensed identity images</span>
           </div>

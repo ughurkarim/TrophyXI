@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { draftEras } from "@/data/eras";
 import { draftEligibleManagers, managers } from "@/data/managers";
-import { imageAttributions } from "@/data/player-images";
+import {
+  imageAttributions,
+  imagesById,
+  playerImages,
+} from "@/data/player-images";
 import { draftEligiblePlayers, players } from "@/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "@/types/game";
 import { generateManagerOptions } from "@/engine/draft";
@@ -51,14 +55,15 @@ describe("expanded archive contracts", () => {
     );
   });
 
-  it("keeps research records inactive and every playable record photo-backed", () => {
+  it("keeps every valid player draftable with real or pending photo status", () => {
     expect(managers).toHaveLength(28);
     expect(new Set(managers.map((manager) => manager.managerIdentityId)).size).toBe(
       22,
     );
-    expect(draftEligiblePlayers).toHaveLength(51);
+    expect(draftEligiblePlayers).toHaveLength(310);
     expect(draftEligibleManagers).toHaveLength(10);
     expect(imageAttributions).toHaveLength(61);
+    expect(playerImages).toHaveLength(51);
     expect(imageAttributions.every((image) => !image.fallback)).toBe(true);
     expect(
       imageAttributions.every(
@@ -70,32 +75,33 @@ describe("expanded archive contracts", () => {
           image.licenseUrl,
       ),
     ).toBe(true);
+    expect(players.every((player) => player.isDraftEligible)).toBe(true);
     expect(
-      players
-        .filter((player) => !player.isDraftEligible)
-        .every((player) => player.draftIneligibilityReason),
+      players.every((player) => player.draftIneligibilityReason === null),
     ).toBe(true);
+    expect(
+      players.filter((player) => !imagesById.has(player.imageId)),
+    ).toHaveLength(259);
   });
 
-  it("enforces the active rating and status distribution", () => {
+  it("enforces the 99 cap and broad tournament-card rating distribution", () => {
     expect(Math.max(...draftEligiblePlayers.map((player) => player.overall))).toBe(
-      96,
+      99,
     );
     expect(
-      draftEligiblePlayers.filter((player) => player.overall >= 94),
-    ).toHaveLength(1);
+      draftEligiblePlayers
+        .filter((player) => player.overall === 99)
+        .map((player) => player.id),
+    ).toEqual(["pele-1970", "diego-maradona-1986", "lionel-messi-2022"]);
     expect(
-      draftEligiblePlayers.filter((player) => player.overall >= 92).length,
-    ).toBeLessThanOrEqual(3);
+      draftEligiblePlayers.filter((player) => player.overall >= 95).length,
+    ).toBeLessThanOrEqual(20);
     expect(
       draftEligiblePlayers.filter((player) => player.overall >= 90).length,
-    ).toBeLessThanOrEqual(6);
+    ).toBeLessThan(draftEligiblePlayers.length * 0.3);
     expect(
-      draftEligiblePlayers.filter((player) => player.overall < 81).length,
-    ).toBeGreaterThanOrEqual(18);
-    expect(
-      draftEligiblePlayers.filter((player) => player.overall < 76).length,
-    ).toBeGreaterThanOrEqual(8);
+      draftEligiblePlayers.filter((player) => player.overall < 80).length,
+    ).toBeGreaterThanOrEqual(100);
     expect(
       new Set(draftEligiblePlayers.map((player) => player.statusTier)),
     ).toEqual(
@@ -109,6 +115,26 @@ describe("expanded archive contracts", () => {
         "limited",
       ]),
     );
+  });
+
+  it("keeps tournament versions on independent image keys", () => {
+    const messi = players.filter(
+      (player) => player.playerIdentityId === "lionel-messi",
+    );
+    const ronaldo = players.filter(
+      (player) => player.playerIdentityId === "ronaldo",
+    );
+    expect(messi.map((player) => player.imageId)).toEqual([
+      "lionel-messi-2014",
+      "lionel-messi-2022",
+    ]);
+    expect(ronaldo.map((player) => player.imageId)).toEqual([
+      "ronaldo-2002",
+      "ronaldo-1998",
+    ]);
+    expect(imagesById.has("lionel-messi-2014")).toBe(false);
+    expect(imagesById.has("lionel-messi-2022")).toBe(true);
+    expect(messi.every((player) => player.isDraftEligible)).toBe(true);
   });
 
   it("produces three deterministic manager identities in every environment", () => {

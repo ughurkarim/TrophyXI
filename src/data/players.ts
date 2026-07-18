@@ -1,5 +1,4 @@
 import { playerSeedSchema } from "@/lib/validation";
-import { draftEligiblePlayerIdSet } from "@/data/archive-eligibility";
 import type {
   Confederation,
   DataCitation,
@@ -137,53 +136,67 @@ type CardSeed = {
 };
 
 const rebalanceRating = (value: number) => {
-  if (value >= 99) return 96;
-  if (value >= 98) return 93;
-  if (value >= 97) return 91;
-  if (value >= 96) return 89;
-  if (value >= 95) return 87;
-  if (value >= 94) return 85;
-  if (value >= 93) return 83;
-  if (value >= 92) return 81;
-  if (value >= 91) return 79;
-  if (value >= 90) return 77;
-  if (value >= 89) return 75;
-  if (value >= 88) return 73;
-  if (value >= 87) return 71;
-  if (value >= 86) return 69;
-  if (value >= 85) return 67;
-  if (value >= 84) return 65;
-  if (value >= 83) return 63;
-  if (value >= 82) return 61;
-  return Math.max(52, value - 19);
+  if (value >= 99) return 97;
+  if (value >= 98) return 94;
+  if (value >= 97) return 93;
+  if (value >= 96) return 92;
+  if (value >= 95) return 90;
+  if (value >= 94) return 88;
+  if (value >= 93) return 87;
+  if (value >= 92) return 85;
+  if (value >= 91) return 83;
+  if (value >= 90) return 81;
+  if (value >= 89) return 79;
+  if (value >= 88) return 77;
+  if (value >= 87) return 75;
+  if (value >= 86) return 73;
+  if (value >= 85) return 70;
+  if (value >= 84) return 68;
+  if (value >= 83) return 66;
+  return 65;
 };
 
-const activeRatingOverrides: Record<string, number> = {
-  "lionel-messi-2022": 96,
-  "diego-maradona-1986": 93,
-  "pele-1970": 92,
-  "ronaldo-2002": 91,
-  "lothar-matthaus-1990": 90,
-  "franz-beckenbauer-1974": 89,
-  "kylian-mbappe-2022": 89,
+const tournamentRatingOverrides: Record<string, number> = {
+  "pele-1970": 99,
+  "diego-maradona-1986": 99,
+  "lionel-messi-2022": 99,
+  "ronaldo-2002": 98,
+  "franz-beckenbauer-1974": 97,
+  "johan-cruyff-1974": 97,
+  "kylian-mbappe-2022": 97,
+  "lothar-matthaus-1990": 94,
+  "paolo-rossi-1982": 96,
+  "salvatore-schillaci-1990": 96,
+  "romario-1994": 96,
+  "ronaldo-1998": 96,
+  "oliver-kahn-2002": 96,
+  "zinedine-zidane-2006": 96,
+  "diego-forlan-2010": 96,
+  "lionel-messi-2014": 96,
+  "luka-modric-2018": 96,
+  "cafu-2002": 92,
+  "dele-alli-2018": 80,
+  "neymar-2014": 90,
+  "harry-kane-2018": 92,
+  "romelu-lukaku-2018": 88,
 };
 
 export const playerStatusFor = (overall: number): PlayerStatusTier => {
-  if (overall >= 94) return "legend";
-  if (overall >= 89) return "icon";
-  if (overall >= 85) return "elite";
-  if (overall >= 81) return "standout";
-  if (overall >= 77) return "reliable";
-  if (overall >= 71) return "role-player";
+  if (overall >= 98) return "legend";
+  if (overall >= 94) return "icon";
+  if (overall >= 90) return "elite";
+  if (overall >= 85) return "standout";
+  if (overall >= 80) return "reliable";
+  if (overall >= 74) return "role-player";
   return "limited";
 };
 
 const qualityBandFor = (overall: number): QualityBand => {
-  if (overall >= 89) return "iconic";
-  if (overall >= 85) return "elite";
-  if (overall >= 81) return "standout";
-  if (overall >= 77) return "reliable";
-  if (overall >= 71) return "role-player";
+  if (overall >= 94) return "iconic";
+  if (overall >= 90) return "elite";
+  if (overall >= 85) return "standout";
+  if (overall >= 80) return "reliable";
+  if (overall >= 74) return "role-player";
   return "limited";
 };
 
@@ -369,7 +382,8 @@ const evidenceByCardId: Record<string, Evidence> = {
 
 const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const nation = nations[seed.nation];
-  const overall = activeRatingOverrides[seed.id] ?? rebalanceRating(seed.overall);
+  const overall =
+    tournamentRatingOverrides[seed.id] ?? rebalanceRating(seed.overall);
   const base = defaultsFor(seed.primaryPosition, overall);
   const evidence = evidenceByCardId[seed.id] ?? {};
   const rebalancedOverrides = Object.fromEntries(
@@ -472,10 +486,8 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
       ...modeledTagsFor(seed, attributes),
       ...(eraLegacy === "timeless" ? ["Timeless"] : []),
     ].slice(0, 4),
-    isDraftEligible: draftEligiblePlayerIdSet.has(seed.id),
-    draftIneligibilityReason: draftEligiblePlayerIdSet.has(seed.id)
-      ? null
-      : "Inactive research record: licensed playable portrait not yet approved.",
+    isDraftEligible: true,
+    draftIneligibilityReason: null,
     tournamentStats: {
       appearances: null,
       starts: null,

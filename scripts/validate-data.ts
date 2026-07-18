@@ -13,7 +13,11 @@ import {
   historicalOpponents,
   worldCupAllStars,
 } from "../src/data/opponents";
-import { imageAttributions } from "../src/data/player-images";
+import {
+  imageAttributions,
+  imagesById,
+  playerImages,
+} from "../src/data/player-images";
 import {
   draftEligiblePlayers,
   players,
@@ -197,14 +201,8 @@ const main = async () => {
 
   for (const player of players) {
     assert(
-      !player.isDraftEligible || imageIds.has(player.imageId),
-      `${player.id} is active but missing image metadata`,
-    );
-    assert(
-      player.isDraftEligible
-        ? player.draftIneligibilityReason === null
-        : Boolean(player.draftIneligibilityReason),
-      `${player.id} has inconsistent draft eligibility`,
+      player.isDraftEligible && player.draftIneligibilityReason === null,
+      `${player.id} must remain draftable regardless of photo status`,
     );
     assert(
       Object.values(player.eraTranslation).every(
@@ -293,6 +291,36 @@ const main = async () => {
     assert(
       managerOptions.length === 3,
       `${era.id} cannot produce three manager identities`,
+    );
+    const managerIdentityIds = managerOptions.map(
+      (manager) => manager.managerIdentityId,
+    );
+    const managerRespin = generateManagerOptions(
+      draftEligibleManagers,
+      era.id,
+      2026,
+      managerIdentityIds,
+      1,
+    );
+    assert(
+      managerRespin.length === 3 &&
+        managerRespin.every(
+          (manager) =>
+            !managerIdentityIds.includes(manager.managerIdentityId),
+        ),
+      `${era.id} manager respin repeated an original identity`,
+    );
+    assert(
+      generateManagerOptions(
+        draftEligibleManagers,
+        era.id,
+        2026,
+        managerIdentityIds,
+        1,
+      )
+        .map((manager) => manager.id)
+        .join("|") === managerRespin.map((manager) => manager.id).join("|"),
+      `${era.id} manager respin is not deterministic`,
     );
     for (const manager of managers) {
       for (const seed of [1970, 2026, 4404]) {
@@ -444,25 +472,64 @@ const main = async () => {
     );
   }
 
+  const expected99 = new Set([
+    "pele-1970",
+    "diego-maradona-1986",
+    "lionel-messi-2022",
+  ]);
   assert(
-    draftEligiblePlayers.filter((player) => player.overall >= 94).length === 1,
-    "Active archive must have exactly one 94–96 highest-tier player",
+    draftEligiblePlayers.filter((player) => player.overall === 99).length ===
+      expected99.size &&
+      draftEligiblePlayers
+        .filter((player) => player.overall === 99)
+        .every((player) => expected99.has(player.id)),
+    "Only Pelé 1970, Maradona 1986, and Messi 2022 may be rated 99",
   );
   assert(
-    draftEligiblePlayers.filter((player) => player.overall >= 92).length <= 3,
-    "Active archive may contain at most three 92+ players",
+    draftEligiblePlayers.filter((player) => player.overall >= 95).length <= 20,
+    "The 95–99 cohort must remain very small",
   );
   assert(
-    draftEligiblePlayers.filter((player) => player.overall >= 90).length <= 6,
-    "Active archive may contain at most six 90+ players",
+    draftEligiblePlayers.filter((player) => player.overall >= 90).length <
+      draftEligiblePlayers.length * 0.3,
+    "Most draftable cards must remain below 90",
   );
   assert(
-    draftEligiblePlayers.filter((player) => player.overall < 81).length >= 18,
-    "Active archive requires at least eighteen players below 81",
+    draftEligiblePlayers.filter((player) => player.overall < 80).length >= 100,
+    "The archive requires a broad average, role-player, and weaker-card cohort",
   );
+  const goldenBallCardIds = [
+    "paolo-rossi-1982",
+    "diego-maradona-1986",
+    "salvatore-schillaci-1990",
+    "romario-1994",
+    "ronaldo-1998",
+    "oliver-kahn-2002",
+    "zinedine-zidane-2006",
+    "diego-forlan-2010",
+    "lionel-messi-2014",
+    "luka-modric-2018",
+    "lionel-messi-2022",
+  ];
   assert(
-    draftEligiblePlayers.filter((player) => player.overall < 76).length >= 8,
-    "Active archive requires at least eight players below 76",
+    goldenBallCardIds.every(
+      (id) => (playersById.get(id)?.overall ?? 0) >= 96,
+    ),
+    "Golden Ball tournament cards should normally be rated at least 96",
+  );
+  const manuallyReviewedRatings: Record<string, number> = {
+    "cafu-2002": 92,
+    "ronaldo-2002": 98,
+    "dele-alli-2018": 80,
+    "neymar-2014": 90,
+    "harry-kane-2018": 92,
+    "romelu-lukaku-2018": 88,
+  };
+  assert(
+    Object.entries(manuallyReviewedRatings).every(
+      ([id, rating]) => playersById.get(id)?.overall === rating,
+    ),
+    "A manually reviewed named tournament-card rating drifted",
   );
   const activeManagerGradeLabels = draftEligibleManagers.flatMap((manager) => [
     managerGradeLabel(manager.grades.offense),
@@ -490,17 +557,19 @@ const main = async () => {
     "At least one active manager C grade is required",
   );
   assert(
-    draftEligiblePlayers.every((player) => player.overall <= 96),
-    "An active player exceeds the 96 normal-card cap",
+    draftEligiblePlayers.every(
+      (player) => player.overall >= 65 && player.overall <= 99,
+    ),
+    "A draftable player falls outside the 65–99 scale",
   );
   const statusRanges = {
-    legend: [93, 96],
-    icon: [89, 93],
-    elite: [85, 89],
-    standout: [81, 85],
-    reliable: [77, 81],
-    "role-player": [71, 78],
-    limited: [1, 73],
+    legend: [98, 99],
+    icon: [94, 97],
+    elite: [90, 93],
+    standout: [85, 89],
+    reliable: [80, 84],
+    "role-player": [74, 79],
+    limited: [65, 73],
   } as const;
   for (const player of draftEligiblePlayers) {
     const [minimum, maximum] = statusRanges[player.statusTier];
@@ -601,6 +670,25 @@ const main = async () => {
       "World Cup All-Stars bench contains an invalid card",
     );
   }
+
+  const versionsByIdentity = new Map<string, PlayerTournamentCard[]>();
+  for (const player of players) {
+    const versions = versionsByIdentity.get(player.playerIdentityId) ?? [];
+    versions.push(player);
+    versionsByIdentity.set(player.playerIdentityId, versions);
+  }
+  for (const [identityId, versions] of versionsByIdentity) {
+    assert(
+      new Set(versions.map((player) => player.imageId)).size === versions.length,
+      `${identityId} tournament versions do not own distinct image keys`,
+    );
+  }
+  assert(
+    imagesById.has("lionel-messi-2022") &&
+      !imagesById.has("lionel-messi-2014") &&
+      playersById.get("lionel-messi-2014")?.isDraftEligible === true,
+    "Messi tournament versions do not preserve independent real/pending photo states",
+  );
 
   const opponentIds = new Set<string>();
   for (const opponent of historicalOpponents) {
@@ -714,7 +802,7 @@ const main = async () => {
   for (const [kind, activeIds] of [
     [
       "players",
-      new Set(draftEligiblePlayers.map((player) => `${player.imageId}.png`)),
+      new Set(playerImages.map((image) => `${image.id}.png`)),
     ],
     [
       "managers",
@@ -803,7 +891,7 @@ const main = async () => {
   console.log("Trophy XI data report");
   console.log(`Players: ${players.length} cards / ${playerIdentities.size} identities`);
   console.log(
-    `Active players: ${draftEligiblePlayers.length}; inactive research records awaiting photographs: ${players.length - draftEligiblePlayers.length}`,
+    `Draftable players: ${draftEligiblePlayers.length}; real player photos: ${playerImages.length}; photo-pending placeholders: ${draftEligiblePlayers.length - playerImages.length}`,
   );
   console.log(
     `Positions: ${counts.goalkeepers} GK / ${counts.defenders} DEF / ${counts.midfielders} MID / ${counts.attackers} FWD`,
@@ -825,13 +913,19 @@ const main = async () => {
     `Photo contexts: ${exact.length} exact / ${sameYear.length} same-year national team / ${nearby.length} nearby-year national team / ${otherFaces.length} other licensed face`,
   );
   console.log(
-    `Active player ratings: ${JSON.stringify(distribution(draftEligiblePlayers.map((player) => String(player.overall))))}`,
+    `Draftable player ratings: ${JSON.stringify(distribution(draftEligiblePlayers.map((player) => String(player.overall))))}`,
   );
   console.log(
-    `Active player status: ${JSON.stringify(distribution(draftEligiblePlayers.map((player) => player.statusTier)))}`,
+    `Draftable player status: ${JSON.stringify(distribution(draftEligiblePlayers.map((player) => player.statusTier)))}`,
   );
   console.log(
     `Rating thresholds: 90+ ${draftEligiblePlayers.filter((player) => player.overall >= 90).length}; 92+ ${draftEligiblePlayers.filter((player) => player.overall >= 92).length}; 94+ ${draftEligiblePlayers.filter((player) => player.overall >= 94).length}; below 81 ${draftEligiblePlayers.filter((player) => player.overall < 81).length}; below 76 ${draftEligiblePlayers.filter((player) => player.overall < 76).length}`,
+  );
+  console.log(
+    `99-rated cards: ${draftEligiblePlayers.filter((player) => player.overall === 99).map((player) => player.id).join(", ")}`,
+  );
+  console.log(
+    `Golden Ball rating cohort: ${goldenBallCardIds.map((id) => `${id} ${playersById.get(id)?.overall}`).join(", ")}`,
   );
   console.log(
     `Managers: ${managers.length} cards / ${managerIdentities.size} identities`,

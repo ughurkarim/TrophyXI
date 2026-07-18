@@ -1,7 +1,8 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
 import { draftEras } from "@/data/eras";
@@ -9,9 +10,26 @@ import { draftEligiblePlayers } from "@/data/players";
 import { useGameStore } from "@/store/game-store";
 
 export default function EraPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="game-page loading-state">
+          <div className="loading-emblem" />
+          <p className="eyebrow">OPENING THE GRAND ARCHIVE</p>
+        </main>
+      }
+    >
+      <EraPageContent />
+    </Suspense>
+  );
+}
+
+function EraPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const hydrated = useGameStore((state) => state.hasHydrated);
   const selectEra = useGameStore((state) => state.selectEra);
+  const allStarsMode = searchParams.get("mode") === "all-stars";
 
   if (!hydrated) {
     return (
@@ -30,11 +48,15 @@ export default function EraPage() {
         <section className="era-page" aria-labelledby="era-title">
           <div className="game-intro">
             <p className="eyebrow eyebrow--gold">THE GRAND ARCHIVE / STEP 01</p>
-            <h1 id="era-title">Choose the match environment.</h1>
+            <h1 id="era-title">
+              {allStarsMode
+                ? "Choose the All-Stars match environment."
+                : "Choose the match environment."}
+            </h1>
             <p>
-              Every approved real-photo card remains available in every era.
-              Your choice defines the conditions in which both your squad and
-              the historical opponent must translate their football.
+              {allStarsMode
+                ? "The curated Mythic XI and ordered three-player bench are ready. Your choice applies bidirectional Era Translation before opponent selection."
+                : "Every valid tournament card remains available in every era. Missing photographs use a clean Photo Pending identity marker without changing draft eligibility."}
             </p>
           </div>
           <div className="era-grid era-grid--flow">
@@ -44,8 +66,14 @@ export default function EraPage() {
                   key={era.id}
                   className={`era-card ${era.themeClass}`}
                   onClick={() => {
-                    selectEra(era.id);
-                    router.push("/play/manager");
+                    const mode =
+                      searchParams.get("mode") === "all-stars"
+                        ? "all-stars"
+                        : "draft";
+                    selectEra(era.id, mode);
+                    router.push(
+                      mode === "all-stars" ? "/play/draft" : "/play/manager",
+                    );
                   }}
                   aria-label={`Choose ${era.label}, ${era.years}`}
                 >
@@ -55,7 +83,9 @@ export default function EraPage() {
                   <p>{era.description}</p>
                   <footer>
                     <small>
-                      {draftEligiblePlayers.length} licensed cards available
+                      {allStarsMode
+                        ? "Curated Mythic squad ready"
+                        : `${draftEligiblePlayers.length} draftable cards available`}
                     </small>
                     <ArrowRight size={17} aria-hidden />
                   </footer>

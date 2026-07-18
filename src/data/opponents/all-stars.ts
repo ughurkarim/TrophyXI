@@ -65,7 +65,7 @@ export const worldCupAllStarsManager: ManagerTournamentCard & {
   achievements: [],
   isDraftEligible: false,
   draftIneligibilityReason:
-    "Original composite opponent manager; never a playable archive record.",
+    "Original composite challenge manager; never offered in manager drafts.",
   compositeLabel: "Trophy XI original composite manager.",
   eraAdaptability: 96,
   substitutionBehavior:

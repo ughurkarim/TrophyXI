@@ -63,6 +63,7 @@ export function OpponentSelection({
 }) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const filters = useGameStore((state) => state.opponentFilters);
+  const playMode = useGameStore((state) => state.playMode);
   const selectedOpponentId = useGameStore((state) => state.selectedOpponentId);
   const setFilters = useGameStore((state) => state.setOpponentFilters);
   const selectOpponent = useGameStore((state) => state.selectOpponent);
@@ -137,9 +138,18 @@ export function OpponentSelection({
               ? "opponent-card--selected"
               : ""
           }`}
-          onClick={() => selectOpponent(worldCupAllStars.id)}
+          onClick={() => {
+            if (playMode !== "all-stars") {
+              selectOpponent(worldCupAllStars.id);
+            }
+          }}
+          disabled={playMode === "all-stars"}
           aria-pressed={selectedOpponentId === worldCupAllStars.id}
-          aria-label="Select World Cup All-Stars, Mythic difficulty"
+          aria-label={
+            playMode === "all-stars"
+              ? "World Cup All-Stars are your current squad"
+              : "Select World Cup All-Stars, Mythic difficulty"
+          }
         >
           <div className="all-stars-seal" aria-hidden>
             XI
@@ -152,7 +162,11 @@ export function OpponentSelection({
             {flagForCountry(worldCupAllStars.nationCode)}{" "}
             {worldCupAllStars.nationName}
           </h3>
-          <p>{worldCupAllStars.allStars?.subtitle}</p>
+          <p>
+            {playMode === "all-stars"
+              ? "Your current curated Mythic squad · choose a historical opponent below."
+              : worldCupAllStars.allStars?.subtitle}
+          </p>
           <div className="opponent-card__ratings">
             <span>
               ATK <b>{worldCupAllStars.ratings.attack}</b>
@@ -369,8 +383,10 @@ export function OpponentSelection({
 
       {filtered.length === 0 && (
         <p className="opponent-empty">
-          No historical opponents match these filters. The featured All-Stars
-          challenge remains available.
+          No historical opponents match these filters.
+          {playMode === "draft"
+            ? " The featured All-Stars challenge remains available."
+            : " Clear a filter to choose an opponent for the All-Stars."}
         </p>
       )}
       {visibleCount < filtered.length && (
@@ -425,7 +441,8 @@ function OpponentCard({
     >
       <div className="opponent-card__title">
         <span>
-          {flagForCountry(opponent.nationCode)} {opponent.nationCode}
+          {opponent.nationCode}{" "}
+          <i aria-hidden>{flagForCountry(opponent.nationCode)}</i>
         </span>
         <b>{opponent.tournamentYear}</b>
       </div>
@@ -433,7 +450,7 @@ function OpponentCard({
         {champion && (
           <Crown size={14} aria-label="Champion" />
         )}
-        {flagForCountry(opponent.nationCode)} {opponent.nationName}
+        {opponent.nationName}
       </h3>
       <p>
         {opponent.tournamentFinish ?? "Tournament in progress"}

@@ -135,10 +135,25 @@ export function PlayerDetails({
         </div>
         <section>
           <span className="eyebrow">TOURNAMENT VERSIONS</span>
+          <div className="version-photo-list">
+            {versions.map((version) => (
+              <span key={version.id}>
+                <b>{version.tournamentYear}</b>
+                <small>
+                  {imagesById.has(version.imageId)
+                    ? "Real photo"
+                    : "Photo pending"}
+                </small>
+              </span>
+            ))}
+          </div>
+        </section>
+        <section>
+          <span className="eyebrow">PHOTO STATUS</span>
           <p className="data-disclosure">
-            {versions
-              .map((version) => version.tournamentYear)
-              .join(" · ")}
+            {image
+              ? `${image.photoContext.replaceAll("-", " ")} · this tournament card owns image key ${player.imageId}.`
+              : `Photo Pending · ${player.playerName} ${player.tournamentYear} remains fully draftable with a non-photographic identity marker.`}
           </p>
         </section>
         <section>

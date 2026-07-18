@@ -1,5 +1,6 @@
 import { tournamentEraFor } from "@/data/eras";
 import { draftEligibleManagerIdSet } from "@/data/archive-eligibility";
+import { worldCupAllStarsManager } from "@/data/opponents/all-stars";
 import type {
   FormationId,
   ManagerStyle,
@@ -231,7 +232,12 @@ export const managers: ManagerTournamentCard[] = seeds.map((seed) => {
   };
 });
 
-export const managersById = new Map(managers.map((manager) => [manager.id, manager]));
+export const managersById = new Map(
+  [...managers, worldCupAllStarsManager].map((manager) => [
+    manager.id,
+    manager,
+  ]),
+);
 export const draftEligibleManagers = managers.filter(
   (manager) => manager.isDraftEligible,
 );

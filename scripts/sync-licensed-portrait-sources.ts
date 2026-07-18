@@ -2,7 +2,7 @@ import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   draftEligibleManagerCardIds,
-  draftEligiblePlayerCardIds,
+  licensedPlayerPortraitCardIds,
 } from "../src/data/archive-eligibility";
 import { managersById } from "../src/data/managers";
 import { playersById } from "../src/data/players";
@@ -262,7 +262,7 @@ const commonsSourcesFor = async (
 };
 
 const subjects: Subject[] = [
-  ...draftEligiblePlayerCardIds
+  ...licensedPlayerPortraitCardIds
     .filter((id) => !existingReviewed.has(id))
     .map((id) => {
       const player = playersById.get(id);

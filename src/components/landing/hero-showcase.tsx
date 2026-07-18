@@ -6,9 +6,9 @@ import { PlayerCard } from "@/components/cards/player-card";
 import { playersById } from "@/data/players";
 
 const featured = [
-  playersById.get("zinedine-zidane-1998")!,
-  playersById.get("ronaldo-2002")!,
+  playersById.get("pele-1970")!,
   playersById.get("lionel-messi-2022")!,
+  playersById.get("cristiano-ronaldo-2006")!,
 ];
 
 const clamp = (value: number, min: number, max: number) =>
@@ -87,10 +87,11 @@ export function HeroShowcase() {
       data-testid="hero-showcase"
       onPointerMove={handlePointer}
       onPointerLeave={resetTransform}
+      onFocus={resetTransform}
       onBlur={resetTransform}
       tabIndex={0}
       style={reduceMotion ? undefined : { x, y, rotateX, rotateY }}
-      aria-label="Featured tournament cards: Zidane 1998, Ronaldo 2002, and Messi 2022"
+      aria-label="Featured tournament cards: Pelé 1970, Messi 2022, and Cristiano Ronaldo 2006"
     >
       <div className="hero-pitch" aria-hidden>
         <span className="hero-pitch__line" />

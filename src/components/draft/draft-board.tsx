@@ -8,6 +8,7 @@ import {
   RefreshCw,
   RotateCcw,
   ShieldQuestion,
+  Sparkles,
   Users,
   X,
 } from "lucide-react";
@@ -64,6 +65,7 @@ export function DraftBoard() {
   const picks = useGameStore((state) => state.picks);
   const benchPicks = useGameStore((state) => state.benchPicks);
   const draftPhase = useGameStore((state) => state.draftPhase);
+  const playMode = useGameStore((state) => state.playMode);
   const selectedPlayerId = useGameStore((state) => state.selectedPlayerId);
   const pendingBenchCardId = useGameStore(
     (state) => state.pendingBenchCardId,
@@ -236,10 +238,37 @@ export function DraftBoard() {
 
   if (draftPhase === "opponent") {
     return (
-      <OpponentSelection
-        eraId={eraId}
-        onContinue={() => router.push("/match")}
-      />
+      <div className="opponent-stage">
+        {playMode === "all-stars" && (
+          <PlayableAllStarsSummary
+            lineup={lineup}
+            bench={bench}
+            picks={picks}
+            formation={formation}
+            manager={manager}
+            eraId={eraId}
+            onInspectPlayer={openPlayer}
+            onInspectManager={openManager}
+          />
+        )}
+        <OpponentSelection
+          eraId={eraId}
+          onContinue={() => router.push("/match")}
+        />
+        {inspected && (
+          <PlayerDetails
+            player={inspected}
+            fitContext={playerFitContextFor(inspected)}
+            onClose={() => closeDetail("player")}
+          />
+        )}
+        {showManagerDetails && (
+          <ManagerDetails
+            manager={manager}
+            onClose={() => closeDetail("manager")}
+          />
+        )}
+      </div>
     );
   }
 
@@ -615,6 +644,117 @@ export function DraftBoard() {
   );
 }
 
+function PlayableAllStarsSummary({
+  lineup,
+  bench,
+  picks,
+  formation,
+  manager,
+  eraId,
+  onInspectPlayer,
+  onInspectManager,
+}: {
+  lineup: PlayerTournamentCard[];
+  bench: PlayerTournamentCard[];
+  picks: DraftPick[];
+  formation: Formation;
+  manager: ManagerTournamentCard;
+  eraId: Parameters<typeof calculateEraFit>[1];
+  onInspectPlayer: (player: PlayerTournamentCard) => void;
+  onInspectManager: () => void;
+}) {
+  return (
+    <section
+      className="playable-all-stars"
+      aria-labelledby="playable-all-stars-title"
+    >
+      <div className="playable-all-stars__heading">
+        <div>
+          <span className="eyebrow eyebrow--gold">
+            <Sparkles size={14} aria-hidden /> PLAYABLE MYTHIC SQUAD
+          </span>
+          <h1 id="playable-all-stars-title">World Cup All-Stars</h1>
+          <p>
+            Curated tournament versions, fourteen unique identities, ordered
+            substitutes, and the normal deterministic match engine.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="all-stars-manager"
+          onClick={onInspectManager}
+          aria-label={`Inspect Mythic manager ${manager.managerName}`}
+        >
+          <CircularPortrait
+            imageId={manager.imageId}
+            subjectName={manager.managerName}
+            era={manager.era}
+            countryCode={manager.countryCode}
+            tournamentYear={manager.tournamentYear}
+            size="compact"
+          />
+          <span>MYTHIC MANAGER</span>
+          <b>{manager.managerName}</b>
+          <small>
+            OFF {manager.grades.offense} · DEF {manager.grades.defense}
+          </small>
+        </button>
+      </div>
+      <div className="playable-all-stars__squad">
+        {[...lineup, ...bench].map((player, index) => {
+          const pick = picks.find((candidate) => candidate.cardId === player.id);
+          const slot = pick
+            ? formation.slots.find(
+                (candidate) => candidate.id === pick.slotId,
+              )
+            : undefined;
+          const positionFit = slot ? getPositionFit(player, slot) : null;
+          const eraFit = calculateEraFit(player, eraId, {
+            manager,
+            formation,
+          });
+          return (
+            <button
+              type="button"
+              key={player.id}
+              className={`all-stars-player all-stars-player--${player.statusTier}`}
+              onClick={() => onInspectPlayer(player)}
+              aria-label={`Inspect ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`}
+            >
+              <CircularPortrait
+                imageId={player.imageId}
+                subjectName={player.playerName}
+                era={player.era}
+                statusTier={player.statusTier}
+                countryCode={player.countryCode}
+                tournamentYear={player.tournamentYear}
+                size="compact"
+              />
+              <span>{index < 11 ? slot?.label : `BENCH ${index - 10}`}</span>
+              <b>{player.playerName}</b>
+              <small>
+                {player.tournamentYear} · {player.overall} OVR
+              </small>
+              <small>
+                {positionFit === null ? "BENCH FIT" : `${positionFit}% POS`} ·{" "}
+                {eraFit}% ERA
+              </small>
+              <i>{player.modeledTags.slice(0, 2).join(" · ")}</i>
+              <em>
+                {player.achievements[0]?.label ?? "Modeled tournament card"}
+              </em>
+            </button>
+          );
+        })}
+      </div>
+      <p className="playable-all-stars__notice">
+        Select any player or the manager for ratings, sourced accolades, tags,
+        position fit, manager fit, and Era Translation details.
+      </p>
+    </section>
+  );
+}
+
 function SquadStrip({
   formation,
   manager,
@@ -648,6 +788,8 @@ function SquadStrip({
           imageId={manager.imageId}
           subjectName={manager.managerName}
           era={manager.era}
+          countryCode={manager.countryCode}
+          tournamentYear={manager.tournamentYear}
           size="compact"
         />
         <span>MGR</span>
@@ -671,6 +813,8 @@ function SquadStrip({
                 subjectName={player.playerName}
                 era={player.era}
                 statusTier={player.statusTier}
+                countryCode={player.countryCode}
+                tournamentYear={player.tournamentYear}
                 size="compact"
               />
               <span>{slot.label}</span>
@@ -714,6 +858,8 @@ function SquadStrip({
                 subjectName={player.playerName}
                 era={player.era}
                 statusTier={player.statusTier}
+                countryCode={player.countryCode}
+                tournamentYear={player.tournamentYear}
                 size="compact"
               />
               <span>B{index + 1}</span>
@@ -894,6 +1040,9 @@ function SelectedPlayerSummary({
         imageId={player.imageId}
         subjectName={player.playerName}
         era={player.era}
+        statusTier={player.statusTier}
+        countryCode={player.countryCode}
+        tournamentYear={player.tournamentYear}
         size="compact"
       />
       <div>
@@ -978,6 +1127,9 @@ function BenchAssignment({
         imageId={player.imageId}
         subjectName={player.playerName}
         era={player.era}
+        statusTier={player.statusTier}
+        countryCode={player.countryCode}
+        tournamentYear={player.tournamentYear}
         size="featured"
       />
       <h2>{player.playerName}</h2>
@@ -1043,6 +1195,9 @@ function BenchReview({
                 imageId={player.imageId}
                 subjectName={player.playerName}
                 era={player.era}
+                statusTier={player.statusTier}
+                countryCode={player.countryCode}
+                tournamentYear={player.tournamentYear}
                 size="compact"
               />
               <button

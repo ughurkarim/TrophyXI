@@ -5,7 +5,7 @@ import { ArrowRight, Gauge, Shield, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { TeamRatings } from "@/components/draft/team-ratings";
 import { Button } from "@/components/ui/button";
-import { getOpponentLabel } from "@/data/opponents";
+import { flagForCountry } from "@/lib/utils";
 import type {
   HistoricalWorldCupTeam,
   TeamRatings as Ratings,
@@ -73,17 +73,18 @@ export function ChampionReveal({
           animate={{ opacity: ready ? 1 : 0.35, x: 0 }}
           transition={{ duration: 0.35 }}
         >
-          <span className="team-reveal__flag" aria-hidden>
-            {opponent.nationCode}
+          <span className="team-reveal__flag">
+            {opponent.nationCode}{" "}
+            <i aria-hidden>{flagForCountry(opponent.nationCode)}</i>
           </span>
           <p>
             {opponent.kind === "all-stars"
               ? "FEATURED CHALLENGE · MYTHIC"
               : `HISTORICAL OPPONENT · ${
                   opponent.tournamentFinish ?? "Tournament in progress"
-                }`}
+                } · ${opponent.tournamentYear}`}
           </p>
-          <h2>{getOpponentLabel(opponent)}</h2>
+          <h2>{opponent.nationName}</h2>
           <TeamRatings
             ratings={{
               ...opponent.ratings,

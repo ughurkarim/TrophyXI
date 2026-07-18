@@ -38,6 +38,10 @@ input is normalized from the fixed showcase bounds, clamped to ±8px x, ±6px y,
 ±3.5° rotateX, and ±4° rotateY, then damped by one spring. Values are absolute,
 never accumulated. Pointer exit and blur return all values to zero.
 
+The featured order is Pelé 1970, Lionel Messi 2022, and Cristiano Ronaldo 2006,
+with Messi centered as the main focus. Decorative cards do not capture pointer
+events; the stable showcase bounds own input for the entire fan.
+
 CSS never animates those same transform properties. Base card fan rotation stays
 within ±3°. Hover elevation does not alter document flow. Touch and pen input do
 not run parallax. Keyboard focus uses border/glow only. Reduced motion removes
@@ -60,7 +64,8 @@ retain the same center and dimensions.
 ## Circular portraits
 
 `CircularPortrait` supports 64, 96, 128, and 160px sizes. It renders a reusable
-transparent PNG master inside a circular overflow mask, with:
+transparent PNG master or non-face Photo Pending identity marker inside a
+circular overflow mask, with:
 
 - a dark outer ring and thin gold inner ring
 - a separate era-colored rim/glow layer
@@ -68,15 +73,17 @@ transparent PNG master inside a circular overflow mask, with:
 - stable aspect ratio and crop-focus metadata
 - `object-fit: contain`, consistent eye-line, and no stretching
 - accessible alt text that identifies exact-tournament, same-year national-team,
-  nearby-year national-team, or licensed identity-only photo context
+  nearby-year national-team, licensed identity-only, or Photo Pending context
 
 The circle is not baked into the master. Cards may apply a maximum 1.03 scale to
 the mask, soft rim light, and selected confirmation ring. No pulsing, flashing,
 large zoom, rapid rotation, or face-obscuring effect is permitted.
 
-Managers use the same portrait primitive and show OFF, DEF, leadership, and game
-management. Every active portrait is a local licensed photograph. Nearby-year or
-identity-only images can never be labeled exact tournament.
+Photo Pending markers use initials, flag, tournament year, and the same tier
+ring. They never depict or imply a face. Managers use the same portrait
+primitive and show OFF, DEF, leadership, and game management. Every displayed
+photograph is local and licensed. Nearby-year or identity-only images can never
+be labeled exact tournament.
 
 ## Status-tier language
 
@@ -97,6 +104,12 @@ Ratings and tiers are game estimates, not historical honors.
 
 ## Feature surfaces
 
+- Database: a dedicated header route presents every draftable tournament card
+  with search, nation/year/position/rating/tier/era/photo filters, four sort
+  orders, bounded scrolling, incremental rendering, and the full player record.
+- Manager selection: three identity-safe cards and one permanent deterministic
+  Manager Respin. It excludes original identities when alternatives exist and
+  never consumes the separate Formation Respin or two Player Respins.
 - Formation offers: four cards, each with diagram, tendencies, manager fit,
   environment suitability, and tactical difficulty. The separate respin uses a
   restrained refresh-icon turn and replaces the grid only after the named
@@ -138,6 +151,10 @@ Ratings and tiers are game estimates, not historical honors.
   selected outline and check remain separate states.
 - Match/result: substitution events use the same hierarchy as goals without
   flashing; all fourteen player-minute records remain readable
+- Playable World Cup All-Stars: the curated Mythic manager, starting XI, and
+  ordered Bench 1/2/3 load after environment selection. The squad dossier opens
+  the same rating, accolade, tag, position-fit, manager-fit, and translation
+  records, then uses ordinary opponent selection and deterministic simulation.
 
 ## Responsive and accessible behavior
 

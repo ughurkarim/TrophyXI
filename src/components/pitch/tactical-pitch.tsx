@@ -1,4 +1,5 @@
 "use client";
+import { CircularPortrait } from "@/components/cards/circular-portrait";
 import type {
   DraftPick,
   Formation,
@@ -89,7 +90,21 @@ export function TacticalPitch({
         const content = (
           <>
             <span className="pitch-node__disc">
-              {player ? player.overall : opponentName ? index + 1 : slot.label}
+              {player ? (
+                <CircularPortrait
+                  imageId={player.imageId}
+                  subjectName={player.playerName}
+                  era={player.era}
+                  statusTier={player.statusTier}
+                  countryCode={player.countryCode}
+                  tournamentYear={player.tournamentYear}
+                  size="compact"
+                />
+              ) : opponentName ? (
+                index + 1
+              ) : (
+                slot.label
+              )}
             </span>
             {(player || opponentName) && (
               <span className="pitch-node__name">

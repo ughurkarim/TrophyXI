@@ -5,7 +5,10 @@ import { createJSONStorage, persist, type StateStorage } from "zustand/middlewar
 import { calculateEraFit } from "@/data/eras";
 import { getFormation } from "@/data/formations";
 import { draftEligibleManagers, managersById } from "@/data/managers";
-import { historicalOpponentsById } from "@/data/opponents";
+import {
+  historicalOpponentsById,
+  worldCupAllStars,
+} from "@/data/opponents";
 import { draftEligiblePlayers, players, playersById } from "@/data/players";
 import {
   canPlacePlayer,
@@ -34,7 +37,9 @@ import type {
   PositionFitPreview,
 } from "@/types/game";
 
-const SAVE_VERSION = 5;
+const SAVE_VERSION = 6;
+
+export type PlayMode = "draft" | "all-stars";
 
 export type OpponentFilters = {
   query: string;
@@ -63,9 +68,13 @@ type DraftPhase = "starters" | "bench" | "review" | "opponent";
 type GameStore = {
   hasHydrated: boolean;
   saveNotice: string | null;
+  playMode: PlayMode;
   eraId: DraftEraId | null;
   managerId: string | null;
+  originalManagerOptionIds: string[];
   managerOptionIds: string[];
+  managerRespinRemaining: number;
+  managerRespinIndex: number;
   originalFormationOptionIds: FormationId[];
   formationOptionIds: FormationId[];
   formationRespinRemaining: number;
@@ -91,7 +100,7 @@ type GameStore = {
   matchResult: MatchResult | null;
   setHasHydrated: (value: boolean) => void;
   dismissNotice: () => void;
-  selectEra: (id: DraftEraId) => void;
+  selectEra: (id: DraftEraId, playMode?: PlayMode) => void;
   selectManager: (id: string) => void;
   respinManagers: () => void;
   respinFormations: () => void;
@@ -131,10 +140,15 @@ const managerOptionsFor = (
   eraId: DraftEraId,
   seed: number,
   excluded: Iterable<string> = [],
+  respinIndex = 0,
 ) =>
-  generateManagerOptions(draftEligibleManagers, eraId, seed, excluded).map(
-    (manager) => manager.id,
-  );
+  generateManagerOptions(
+    draftEligibleManagers,
+    eraId,
+    seed,
+    excluded,
+    respinIndex,
+  ).map((manager) => manager.id);
 
 const formationOptionsFor = (
   managerId: string,
@@ -236,9 +250,13 @@ const lineupFor = (picks: DraftPick[]) =>
     .filter((player): player is PlayerTournamentCard => Boolean(player));
 
 const cleanState = {
+  playMode: "draft" as PlayMode,
   eraId: null,
   managerId: null,
+  originalManagerOptionIds: [] as string[],
   managerOptionIds: [] as string[],
+  managerRespinRemaining: 1,
+  managerRespinIndex: 0,
   originalFormationOptionIds: [] as FormationId[],
   formationOptionIds: [] as FormationId[],
   formationRespinRemaining: 1,
@@ -285,6 +303,19 @@ const migratedEra = (value: unknown): DraftEraId | null => {
 
 const benchSlotOrder: BenchSlotId[] = ["bench-1", "bench-2", "bench-3"];
 
+const playableAllStarsSquad = () => ({
+  managerId: worldCupAllStars.allStars!.manager.id,
+  formationId: worldCupAllStars.formation,
+  picks: worldCupAllStars.allStars!.starterPicks.map((pick) => ({ ...pick })),
+  benchPicks: worldCupAllStars.allStars!.substituteCardIds.map(
+    (cardId, index) => ({
+      slotId: benchSlotOrder[index],
+      cardId,
+    }),
+  ),
+  draftPhase: "opponent" as DraftPhase,
+});
+
 export const useGameStore = create<GameStore>()(
   persist(
     (set, get) => ({
@@ -293,13 +324,27 @@ export const useGameStore = create<GameStore>()(
       ...cleanState,
       setHasHydrated: (value) => set({ hasHydrated: value }),
       dismissNotice: () => set({ saveNotice: null }),
-      selectEra: (eraId) => {
+      selectEra: (eraId, requestedPlayMode = "draft") => {
         const draftSeed = createDraftSeed();
+        if (requestedPlayMode === "all-stars") {
+          set({
+            ...cleanState,
+            ...playableAllStarsSquad(),
+            playMode: "all-stars",
+            eraId,
+            draftSeed,
+            saveNotice: null,
+          });
+          return;
+        }
+        const managerOptionIds = managerOptionsFor(eraId, draftSeed);
         set({
           ...cleanState,
+          playMode: "draft",
           eraId,
           draftSeed,
-          managerOptionIds: managerOptionsFor(eraId, draftSeed),
+          originalManagerOptionIds: managerOptionIds,
+          managerOptionIds,
           saveNotice: null,
         });
       },
@@ -338,7 +383,31 @@ export const useGameStore = create<GameStore>()(
           matchResult: null,
         });
       },
-      respinManagers: () => undefined,
+      respinManagers: () => {
+        const state = get();
+        if (
+          state.playMode !== "draft" ||
+          !state.eraId ||
+          state.managerId ||
+          state.managerRespinRemaining !== 1 ||
+          state.managerOptionIds.length !== 3
+        ) {
+          return;
+        }
+        const excludedIdentityIds = state.originalManagerOptionIds
+          .map((id) => managersById.get(id)?.managerIdentityId)
+          .filter((id): id is string => Boolean(id));
+        set({
+          managerOptionIds: managerOptionsFor(
+            state.eraId,
+            state.draftSeed,
+            excludedIdentityIds,
+            1,
+          ),
+          managerRespinRemaining: 0,
+          managerRespinIndex: 1,
+        });
+      },
       respinFormations: () => {
         const state = get();
         const manager = state.managerId
@@ -680,6 +749,15 @@ export const useGameStore = create<GameStore>()(
       resetDraft: () => {
         const state = get();
         if (!state.formationId) return;
+        if (state.playMode === "all-stars") {
+          set({
+            ...playableAllStarsSquad(),
+            selectedOpponentId: null,
+            simulationNonce: 0,
+            matchResult: null,
+          });
+          return;
+        }
         const draftSeed = createDraftSeed();
         set({
           draftSeed,
@@ -789,11 +867,16 @@ export const useGameStore = create<GameStore>()(
           ? managersById.get(state.managerId)
           : undefined;
         if (state.managerId && !manager) {
+          const managerOptionIds = managerOptionsFor(
+            state.eraId,
+            state.draftSeed,
+          );
           set({
             ...cleanState,
             eraId: state.eraId,
             draftSeed: state.draftSeed,
-            managerOptionIds: managerOptionsFor(state.eraId, state.draftSeed),
+            originalManagerOptionIds: managerOptionIds,
+            managerOptionIds,
             saveNotice:
               "Your previous save used an unavailable manager and was safely returned to manager selection.",
           });
@@ -946,6 +1029,12 @@ export const useGameStore = create<GameStore>()(
             ? previous.managerId
             : null;
         const draftSeed = previous.draftSeed ?? 2026;
+        const playMode: PlayMode =
+          previous.playMode === "all-stars" ? "all-stars" : "draft";
+        const managerOptionIds =
+          eraId && !managerId && playMode === "draft"
+            ? managerOptionsFor(eraId, draftSeed)
+            : previous.managerOptionIds ?? [];
         const originalFormationOptionIds =
           previous.originalFormationOptionIds?.length === 4
             ? previous.originalFormationOptionIds
@@ -955,13 +1044,18 @@ export const useGameStore = create<GameStore>()(
         return {
           ...cleanState,
           ...previous,
+          playMode,
           eraId,
           managerId,
           draftSeed,
-          managerOptionIds:
-            eraId && !managerId
-              ? managerOptionsFor(eraId, draftSeed)
-              : previous.managerOptionIds ?? [],
+          originalManagerOptionIds:
+            previous.originalManagerOptionIds?.length === 3
+              ? previous.originalManagerOptionIds
+              : managerOptionIds,
+          managerOptionIds,
+          managerRespinRemaining:
+            previous.managerRespinRemaining === 0 ? 0 : 1,
+          managerRespinIndex: previous.managerRespinIndex ?? 0,
           originalFormationOptionIds,
           formationOptionIds:
             previous.formationOptionIds?.length === 4
@@ -996,13 +1090,17 @@ export const useGameStore = create<GameStore>()(
               ? previous.matchResult
               : null,
           saveNotice:
-            "Trophy XI upgraded your save to player-first five-card drafting, one formation respin, and the expanded opponent archive.",
+            "Trophy XI upgraded your save with an independent manager respin, the full player database, and playable World Cup All-Stars.",
         };
       },
       partialize: (state) => ({
+        playMode: state.playMode,
         eraId: state.eraId,
         managerId: state.managerId,
+        originalManagerOptionIds: state.originalManagerOptionIds,
         managerOptionIds: state.managerOptionIds,
+        managerRespinRemaining: state.managerRespinRemaining,
+        managerRespinIndex: state.managerRespinIndex,
         originalFormationOptionIds: state.originalFormationOptionIds,
         formationOptionIds: state.formationOptionIds,
         formationRespinRemaining: state.formationRespinRemaining,

@@ -57,6 +57,8 @@ export function ManagerDetails({
             imageId={manager.imageId}
             subjectName={manager.managerName}
             era={manager.era}
+            countryCode={manager.countryCode}
+            tournamentYear={manager.tournamentYear}
             size="hero"
           />
           <div>

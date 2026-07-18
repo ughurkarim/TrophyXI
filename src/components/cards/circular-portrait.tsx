@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { imagesById } from "@/data/player-images";
+import { flagForCountry } from "@/lib/utils";
 import type { PlayerStatusTier } from "@/types/game";
 
 export type PortraitSize = "compact" | "standard" | "featured" | "hero";
@@ -11,42 +12,74 @@ export function CircularPortrait({
   subjectName,
   era,
   statusTier,
+  countryCode,
+  tournamentYear,
   size = "standard",
 }: {
   imageId: string;
   subjectName: string;
   era: string;
   statusTier?: PlayerStatusTier;
+  countryCode?: string;
+  tournamentYear?: number;
   size?: PortraitSize;
 }) {
   const image = imagesById.get(imageId);
-  if (!image) return null;
-  const context = {
-    "exact-tournament": "Exact-tournament photograph",
-    "same-year-national-team": "Same-year national-team photograph",
-    "nearby-year-national-team": "Nearby-year national-team photograph",
-    "other-licensed-face": "Other licensed face photograph",
-    "original-project-mark": "Original Trophy XI project mark",
-  }[image.photoContext];
+  const context = image
+    ? {
+        "exact-tournament": "Exact-tournament photograph",
+        "same-year-national-team": "Same-year national-team photograph",
+        "nearby-year-national-team": "Nearby-year national-team photograph",
+        "other-licensed-face": "Other licensed face photograph",
+        "original-project-mark": "Original Trophy XI project mark",
+      }[image.photoContext]
+    : "Photo pending";
+  const initials = subjectName
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter((part) => !/^(?:de|da|do|dos|van|von)$/i.test(part))
+    .filter((_, index, parts) => index === 0 || index === parts.length - 1)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toLocaleUpperCase();
   return (
     <span
       className={`circular-portrait circular-portrait--${size}${
         statusTier ? ` circular-portrait--${statusTier}` : ""
-      }`}
+      }${image ? "" : " circular-portrait--pending"}`}
       data-era={era}
       data-image-context={context}
+      data-photo-status={image ? "available" : "pending"}
     >
       <span className="circular-portrait__mask">
-        <Image
-          src={image.file}
-          alt={`${context} of ${subjectName}`}
-          fill
-          unoptimized
-          sizes="(max-width: 700px) 96px, 128px"
-          style={{
-            objectPosition: `${image.cropFocus.x}% ${image.cropFocus.y}%`,
-          }}
-        />
+        {image ? (
+          <Image
+            src={image.file}
+            alt={`${context} of ${subjectName}`}
+            fill
+            unoptimized
+            sizes="(max-width: 700px) 96px, 128px"
+            style={{
+              objectPosition: `${image.cropFocus.x}% ${image.cropFocus.y}%`,
+            }}
+          />
+        ) : (
+          <span
+            className="circular-portrait__pending"
+            role="img"
+            aria-label={`Photo pending for ${subjectName}${
+              tournamentYear ? ` ${tournamentYear}` : ""
+            }`}
+          >
+            <b>{initials || "XI"}</b>
+            <small>PHOTO PENDING</small>
+            <i>
+              {countryCode ? flagForCountry(countryCode) : "✦"}{" "}
+              {tournamentYear ?? ""}
+            </i>
+          </span>
+        )}
       </span>
       <span className="circular-portrait__rim" aria-hidden />
     </span>

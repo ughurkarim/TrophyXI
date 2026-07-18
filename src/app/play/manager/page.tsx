@@ -1,11 +1,13 @@
 "use client";
 
+import { RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ManagerCard } from "@/components/cards/manager-card";
 import { ManagerDetails } from "@/components/cards/manager-details";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
+import { Button } from "@/components/ui/button";
 import { getDraftEra } from "@/data/eras";
 import { managersById } from "@/data/managers";
 import { useGameStore } from "@/store/game-store";
@@ -16,6 +18,11 @@ export default function ManagerPage() {
   const eraId = useGameStore((state) => state.eraId);
   const optionIds = useGameStore((state) => state.managerOptionIds);
   const selectManager = useGameStore((state) => state.selectManager);
+  const managerRespinRemaining = useGameStore(
+    (state) => state.managerRespinRemaining,
+  );
+  const respinManagers = useGameStore((state) => state.respinManagers);
+  const [showRespin, setShowRespin] = useState(false);
   const [inspectedManagerId, setInspectedManagerId] = useState<string | null>(
     null,
   );
@@ -77,14 +84,67 @@ export default function ManagerPage() {
             <div>
               <span className="eyebrow">{era.label}</span>
               <p>
-                Player respins are reserved for starter and bench card draws.
-                Manager selection cannot consume them.
+                Manager, formation, and player respins are three independent,
+                persistent resources.
               </p>
             </div>
-            <strong className="respin-counter">PLAYER RESPINS ×2</strong>
+            <div className="manager-respin-actions">
+              <Button
+                variant="secondary"
+                onClick={() => setShowRespin(true)}
+                disabled={managerRespinRemaining === 0}
+                aria-label={
+                  managerRespinRemaining
+                    ? "MANAGER RESPIN ×1"
+                    : "MANAGER RESPIN USED"
+                }
+              >
+                <RefreshCw size={15} aria-hidden />
+                {managerRespinRemaining
+                  ? "MANAGER RESPIN ×1"
+                  : "MANAGER RESPIN USED"}
+              </Button>
+              <strong className="respin-counter">PLAYER RESPINS ×2</strong>
+            </div>
           </div>
         </section>
       </main>
+      {showRespin && (
+        <div className="dialog-backdrop" role="presentation">
+          <div
+            className="dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="manager-respin-title"
+          >
+            <span className="eyebrow eyebrow--gold">MANAGER RESPIN ×1</span>
+            <h2 id="manager-respin-title">
+              Replace all three manager choices?
+            </h2>
+            <p>
+              The original manager identities will not return when valid
+              alternatives exist. Formation and player respins remain untouched.
+            </p>
+            <div className="dialog__actions">
+              <Button
+                variant="secondary"
+                onClick={() => setShowRespin(false)}
+                autoFocus
+              >
+                Keep managers
+              </Button>
+              <Button
+                onClick={() => {
+                  respinManagers();
+                  setShowRespin(false);
+                }}
+              >
+                Use manager respin
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       {inspectedManagerId && managersById.get(inspectedManagerId) && (
         <ManagerDetails
           manager={managersById.get(inspectedManagerId)!}

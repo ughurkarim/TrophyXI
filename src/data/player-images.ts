@@ -1,6 +1,6 @@
 import generatedSourcesJson from "../../scripts/licensed-portrait-sources.generated.json";
 import { draftEligibleManagers } from "@/data/managers";
-import { draftEligiblePlayers } from "@/data/players";
+import { players } from "@/data/players";
 import type { ImageAttribution } from "@/types/game";
 
 type GeneratedSource = {
@@ -147,15 +147,10 @@ const licensedOverrides: Record<string, ImageAttribution> = {
 const attributionFor = (id: string) =>
   licensedOverrides[id] ?? generatedOverrides.get(id);
 
-export const playerImages: ImageAttribution[] = draftEligiblePlayers.map(
-  (player) => {
-    const attribution = attributionFor(player.imageId);
-    if (!attribution) {
-      throw new Error(`Missing licensed active-player portrait ${player.id}`);
-    }
-    return attribution;
-  },
-);
+export const playerImages: ImageAttribution[] = players.flatMap((player) => {
+  const attribution = attributionFor(player.imageId);
+  return attribution ? [attribution] : [];
+});
 
 export const managerImages: ImageAttribution[] = draftEligibleManagers.map(
   (manager) => {
@@ -169,3 +164,5 @@ export const managerImages: ImageAttribution[] = draftEligibleManagers.map(
 
 export const imageAttributions = [...playerImages, ...managerImages];
 export const imagesById = new Map(imageAttributions.map((image) => [image.id, image]));
+
+export const hasRealPortrait = (imageId: string) => imagesById.has(imageId);

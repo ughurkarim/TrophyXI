@@ -1,10 +1,12 @@
 /**
- * The public archive is broader than the playable draft pool. A record becomes
- * draft eligible only after its portrait and attribution have passed the
- * licensed-photo audit. Inactive records remain available to historical models
- * and research tooling; they are never offered as playable cards.
+ * Player eligibility is validated from the typed archive itself. A missing
+ * photograph changes only the portrait presentation; it never removes a valid
+ * tournament card from drafting.
+ *
+ * Manager eligibility remains a separately audited offer pool because manager
+ * records have no photo-pending treatment in the selection flow.
  */
-export const draftEligiblePlayerCardIds = [
+export const licensedPlayerPortraitCardIds = [
   "manuel-neuer-2014",
   "paolo-maldini-1994",
   "fabio-cannavaro-2006",
@@ -58,6 +60,9 @@ export const draftEligiblePlayerCardIds = [
   "bastian-schweinsteiger-2014",
 ] as const;
 
+/** @deprecated Use licensedPlayerPortraitCardIds; this no longer controls drafting. */
+export const draftEligiblePlayerCardIds = licensedPlayerPortraitCardIds;
+
 export const draftEligibleManagerCardIds = [
   "guus-hiddink-2002",
   "jurgen-klinsmann-2006",
@@ -71,9 +76,6 @@ export const draftEligibleManagerCardIds = [
   "walid-regragui-2022",
 ] as const;
 
-export const draftEligiblePlayerIdSet = new Set<string>(
-  draftEligiblePlayerCardIds,
-);
 export const draftEligibleManagerIdSet = new Set<string>(
   draftEligibleManagerCardIds,
 );

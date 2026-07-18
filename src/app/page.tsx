@@ -64,6 +64,12 @@ export default function LandingPage() {
                 <ButtonLink href="/play/era">
                   Build your XI <ArrowRight size={17} aria-hidden />
                 </ButtonLink>
+                <ButtonLink
+                  href="/play/era?mode=all-stars"
+                  variant="secondary"
+                >
+                  PLAY AS WORLD CUP ALL-STARS
+                </ButtonLink>
                 <ButtonLink href="/#how-it-works" variant="secondary">
                   See how it works <ChevronRight size={16} aria-hidden />
                 </ButtonLink>
@@ -135,14 +141,16 @@ export default function LandingPage() {
                     <span className="champion-index">{String(index + 1).padStart(2, "0")}</span>
                     <span className="status-live">Playable</span>
                   </div>
-                  <span className="champion-flag" aria-hidden>
-                    {flagForCountry(champion.nationCode)}
-                  </span>
+                  <div className="champion-country">
+                    <strong>
+                      {champion.nationCode}{" "}
+                      <i aria-hidden>
+                        {flagForCountry(champion.nationCode)}
+                      </i>
+                    </strong>
+                    <h3>{champion.nationName}</h3>
+                  </div>
                   <p>{champion.tournamentYear}</p>
-                  <h3>
-                    {flagForCountry(champion.nationCode)}{" "}
-                    {champion.nationName}
-                  </h3>
                   <span>{champion.tacticalProfile}</span>
                 </article>
               ))}

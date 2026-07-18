@@ -7,6 +7,7 @@ import { Wordmark } from "@/components/brand/mark";
 import { ButtonLink } from "@/components/ui/button";
 
 const links = [
+  { label: "Database", href: "/database" },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Champions", href: "/#champions" },
   { label: "Credits", href: "/credits" },

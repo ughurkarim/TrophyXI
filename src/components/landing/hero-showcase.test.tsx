@@ -66,5 +66,13 @@ describe("HeroShowcase", () => {
       fireEvent.pointerLeave(showcase, { pointerType: "mouse" });
     }
     expect(showcase).toHaveAttribute("tabindex", "0");
+    expect(showcase).toHaveAccessibleName(
+      /pelé 1970, messi 2022, and cristiano ronaldo 2006/i,
+    );
+    expect(screen.getByText("Pelé")).toBeInTheDocument();
+    expect(screen.getByText("Lionel Messi")).toBeInTheDocument();
+    expect(screen.getByText("Cristiano Ronaldo")).toBeInTheDocument();
+    fireEvent.focus(showcase);
+    fireEvent.blur(showcase);
   });
 });
