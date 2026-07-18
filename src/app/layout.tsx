@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Trophy XI — Build the XI. Beat history.",
     description:
-      "Draft eleven tournament legends. Challenge Spain 2010. Rewrite history.",
+      "Draft fourteen tournament performances. Choose a historical World Cup opponent. Rewrite history.",
     type: "website",
   },
 };

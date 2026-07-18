@@ -1,0 +1,88 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
+import { TacticalPitch } from "@/components/pitch/tactical-pitch";
+import { getFormation } from "@/data/formations";
+import { playersById } from "@/data/players";
+
+describe("TacticalPitch", () => {
+  it("keeps a node at the exact same coordinates through selection", async () => {
+    const user = userEvent.setup();
+    const onSelectSlot = vi.fn();
+    const { rerender } = render(
+      <TacticalPitch
+        formation={getFormation("4-3-3")}
+        selectedSlotId={null}
+        onSelectSlot={onSelectSlot}
+      />,
+    );
+    const node = screen.getByRole("button", { name: /^ST: empty/i });
+    const before = {
+      left: node.style.left,
+      top: node.style.top,
+      x: node.dataset.slotX,
+      y: node.dataset.slotY,
+    };
+    await user.click(node);
+    rerender(
+      <TacticalPitch
+        formation={getFormation("4-3-3")}
+        selectedSlotId="st"
+        onSelectSlot={onSelectSlot}
+      />,
+    );
+    const selected = screen.getByRole("button", { name: /^ST: empty/i });
+    expect({
+      left: selected.style.left,
+      top: selected.style.top,
+      x: selected.dataset.slotX,
+      y: selected.dataset.slotY,
+    }).toEqual(before);
+    expect(selected).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("keeps focus, compact/mobile rendering, and filled state on the same center", async () => {
+    const user = userEvent.setup();
+    const formation = getFormation("4-3-3");
+    const { rerender } = render(
+      <TacticalPitch
+        formation={formation}
+        compact
+        onSelectSlot={vi.fn()}
+      />,
+    );
+    const empty = screen.getByRole("button", { name: /^GK: empty/i });
+    const center = {
+      left: empty.style.left,
+      top: empty.style.top,
+      x: empty.dataset.slotX,
+      y: empty.dataset.slotY,
+    };
+    await user.tab();
+    expect(empty).toHaveFocus();
+    expect({
+      left: empty.style.left,
+      top: empty.style.top,
+      x: empty.dataset.slotX,
+      y: empty.dataset.slotY,
+    }).toEqual(center);
+
+    const goalkeeper = playersById.get("manuel-neuer-2014")!;
+    rerender(
+      <TacticalPitch
+        formation={formation}
+        compact
+        lineup={[goalkeeper]}
+        picks={[{ slotId: "gk", cardId: goalkeeper.id }]}
+      />,
+    );
+    const filled = screen.getByLabelText(/GK: Manuel Neuer 2014/i);
+    expect({
+      left: filled.style.left,
+      top: filled.style.top,
+      x: filled.dataset.slotX,
+      y: filled.dataset.slotY,
+    }).toEqual(center);
+    expect(filled).toHaveClass("pitch-node--filled");
+  });
+});

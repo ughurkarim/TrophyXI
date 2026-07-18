@@ -1,6 +1,12 @@
 import type { MatchResult } from "@/types/game";
 
-export function MatchStats({ result }: { result: MatchResult }) {
+export function MatchStats({
+  result,
+  opponentLabel,
+}: {
+  result: MatchResult;
+  opponentLabel: string;
+}) {
   const rows = [
     ["Possession", `${result.stats.possession[0]}%`, `${result.stats.possession[1]}%`],
     ["Shots", result.stats.shots[0], result.stats.shots[1]],
@@ -14,7 +20,7 @@ export function MatchStats({ result }: { result: MatchResult }) {
       <div className="stats-table__head">
         <b>TROPHY XI</b>
         <span>MATCH STATISTICS</span>
-        <b>SPAIN 2010</b>
+        <b>{opponentLabel.toLocaleUpperCase()}</b>
       </div>
       {rows.map(([label, user, opponent]) => {
         const userNumber = Number.parseFloat(String(user));

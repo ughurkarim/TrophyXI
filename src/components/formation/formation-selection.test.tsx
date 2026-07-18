@@ -11,7 +11,8 @@ describe("FormationSelection", () => {
     render(
       <FormationSelection
         manager={managersById.get("luiz-felipe-scolari-2002")!}
-        eraId="turn-of-century"
+        eraId="2000s"
+        offerIds={["3-5-2", "4-4-2", "4-3-3", "5-3-2"]}
         onContinue={onContinue}
       />,
     );
@@ -21,5 +22,17 @@ describe("FormationSelection", () => {
     expect(shape).toHaveAttribute("aria-pressed", "true");
     await user.click(screen.getByRole("button", { name: /enter the draft/i }));
     expect(onContinue).toHaveBeenCalledWith("4-4-2");
+  });
+
+  it("renders exactly the seeded four-card offer", () => {
+    render(
+      <FormationSelection
+        manager={managersById.get("luiz-felipe-scolari-2002")!}
+        eraId="2000s"
+        offerIds={["3-5-2", "4-4-2", "4-3-3", "5-3-2"]}
+        onContinue={vi.fn()}
+      />,
+    );
+    expect(screen.getAllByRole("button", { name: /tactical shape/i })).toHaveLength(4);
   });
 });

@@ -19,12 +19,27 @@ export const POSITIONS = [
 ] as const;
 
 export type Position = (typeof POSITIONS)[number];
-export type TournamentEra = "1990s" | "2000s" | "2010s" | "2020s";
-export type DraftEraId =
+export const WORLD_CUP_YEARS = [
+  1970, 1974, 1978, 1982, 1986, 1990, 1994, 1998, 2002, 2006, 2010, 2014,
+  2018, 2022,
+] as const;
+export type WorldCupYear = (typeof WORLD_CUP_YEARS)[number];
+export type TournamentEra =
+  | "1970s"
+  | "1980s"
+  | "1990s"
+  | "2000s"
+  | "2010s"
+  | "2020s";
+export type MatchEraId =
   | "all"
-  | "turn-of-century"
-  | "modern-masters"
-  | "new-generation";
+  | "1970s"
+  | "1980s"
+  | "1990s"
+  | "2000s"
+  | "2010s"
+  | "2020s";
+export type DraftEraId = MatchEraId;
 export type QualityBand =
   | "iconic"
   | "elite"
@@ -48,6 +63,23 @@ export type PlayerAttributes = {
   physical: number;
   goalkeeping: number;
   clutch: number;
+};
+
+export type EraLegacy =
+  | "era-specialist"
+  | "adaptable"
+  | "cross-era"
+  | "timeless";
+
+export type EraTranslationProfile = {
+  timelessness: number;
+  physicalAdaptability: number;
+  technicalAdaptability: number;
+  tacticalAdaptability: number;
+  pressingAdaptability: number;
+  tempoAdaptability: number;
+  equipmentAdaptability: number;
+  refereeingAdaptability: number;
 };
 
 export type TournamentStatLine = {
@@ -94,6 +126,8 @@ export type PlayerTournamentCard = {
   statSources: DataCitation[];
   achievements: TournamentAchievement[];
   imageId: string;
+  eraLegacy: EraLegacy;
+  eraTranslation: EraTranslationProfile;
 };
 
 export type DraftEra = {
@@ -104,9 +138,32 @@ export type DraftEra = {
   description: string;
   accent: string;
   themeClass: string;
+  midpointYear: number;
+  environment: {
+    physicalContact: number;
+    pitchSpeed: number;
+    protectiveRefereeing: number;
+    pressingDemand: number;
+    transitionSpeed: number;
+    technicalDemand: number;
+    aerialDemand: number;
+    goalkeeperDistribution: number;
+  };
 };
 
-export type FormationId = "4-3-3" | "4-2-3-1" | "4-4-2" | "3-5-2";
+export type FormationId =
+  | "4-3-3"
+  | "4-2-3-1"
+  | "4-4-2"
+  | "3-5-2"
+  | "4-1-4-1"
+  | "4-3-1-2"
+  | "4-2-2-2"
+  | "4-5-1"
+  | "3-4-3"
+  | "3-4-2-1"
+  | "5-3-2"
+  | "5-2-3";
 
 export type FormationSlot = {
   id: string;
@@ -133,6 +190,10 @@ export type Formation = {
   };
   managerStyles: ManagerStyle[];
   eraStrengths: DraftEraId[];
+  preferredArchetypes: string[];
+  width: number;
+  pressingSuitability: number;
+  tacticalDifficulty: "Accessible" | "Intermediate" | "Advanced";
   slots: FormationSlot[];
 };
 
@@ -155,6 +216,7 @@ export type ManagerTournamentCard = {
   teamName: string;
   style: ManagerStyle;
   preferredFormations: FormationId[];
+  acceptableFormations: FormationId[];
   era: TournamentEra;
   qualityBand: QualityBand;
   tacticalIdentity: string;
@@ -165,12 +227,24 @@ export type ManagerTournamentCard = {
     defense: number;
     clutch: number;
   };
+  grades: {
+    offense: number;
+    defense: number;
+  };
+  leadership: number;
+  gameManagement: number;
   imageId: string;
   achievements: TournamentAchievement[];
 };
 
 export type DraftPick = {
   slotId: string;
+  cardId: string;
+};
+
+export type BenchSlotId = "bench-1" | "bench-2" | "bench-3";
+export type BenchPick = {
+  slotId: BenchSlotId;
   cardId: string;
 };
 
@@ -188,6 +262,12 @@ export type TeamRatings = {
   positionFit: number;
   eraFit: number;
   managerFit: number;
+  benchDepth: number;
+  benchVersatility: number;
+  tacticalBalance: number;
+  timelessness: number;
+  managerOffense: number;
+  managerDefense: number;
   overall: number;
 };
 
@@ -206,7 +286,10 @@ export type Champion = {
   year: number;
   playable: boolean;
   formation: string;
-  ratings: Omit<TeamRatings, "positionFit" | "eraFit" | "managerFit"> & {
+  ratings: Pick<
+    TeamRatings,
+    "attack" | "midfield" | "defense" | "chemistry" | "overall"
+  > & {
     positionFit?: number;
     eraFit?: number;
     managerFit?: number;
@@ -223,6 +306,7 @@ export type MatchEventType =
   | "manager"
   | "goal"
   | "yellow"
+  | "substitution"
   | "halftime"
   | "extra-time"
   | "penalties"
@@ -238,6 +322,28 @@ export type MatchEvent = {
   detail: string;
   userScore: number;
   opponentScore: number;
+};
+
+export type PlayerMinutes = {
+  cardId: string;
+  playerName: string;
+  tournamentYear: number;
+  started: boolean;
+  minutes: number;
+  enteredAt: number | null;
+  leftAt: number | null;
+  goals: number;
+  assists: number;
+};
+
+export type SubstitutionRecord = {
+  minute: number;
+  playerInId: string;
+  playerOutId: string;
+  position: Position;
+  benchSlot: BenchSlotId;
+  reason: string;
+  managerInfluence: number;
 };
 
 export type MatchStats = {
@@ -265,6 +371,9 @@ export type MatchResult = {
   playerOfTheMatch: string;
   userRatings: TeamRatings;
   managerImpact: string;
+  opponentEraFit: number;
+  playerMinutes: PlayerMinutes[];
+  substitutions: SubstitutionRecord[];
   generatedAt: string;
 };
 
@@ -281,4 +390,64 @@ export type ImageAttribution = {
   licenseUrl: string | null;
   changes: string;
   fallback: boolean;
+  representedTeam: string | null;
+  photographedYear: number | null;
+  exactTournamentImage: boolean;
+  isNationalTeamKit: boolean;
+  cropFocus: { x: number; y: number };
+};
+
+export type TournamentFinish =
+  | "champion"
+  | "runner-up"
+  | "third place"
+  | "fourth place"
+  | "semi-finals"
+  | "quarter-finals"
+  | "round of 16"
+  | "second group stage"
+  | "group stage";
+
+export type HistoricalTeamTournamentStats = {
+  matches: number | null;
+  wins: number | null;
+  draws: number | null;
+  losses: number | null;
+  goalsFor: number | null;
+  goalsAgainst: number | null;
+  cleanSheets: number | null;
+};
+
+export type HistoricalLineupPlayer = {
+  playerIdentityId: string;
+  name: string;
+  position: Position;
+};
+
+export type HistoricalWorldCupTeam = {
+  id: string;
+  nationCode: string;
+  nationName: string;
+  tournamentYear: WorldCupYear;
+  confederation: Confederation;
+  tournamentFinish: TournamentFinish;
+  managerName: string | null;
+  formation: FormationId;
+  alternateFormations: FormationId[];
+  startingLineup: HistoricalLineupPlayer[];
+  substitutes: HistoricalLineupPlayer[];
+  tacticalProfile: string;
+  ratings: {
+    attack: number;
+    midfield: number;
+    defense: number;
+    goalkeeper: number;
+    depth: number;
+    overall: number;
+  };
+  tournamentStats: HistoricalTeamTournamentStats;
+  sources: DataCitation[];
+  originalRatings: true;
+  formationIsModel: true;
+  difficulty: "Contender" | "Elite" | "Legendary" | "Underdog";
 };

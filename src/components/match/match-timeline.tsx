@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { FastForward, Pause, Play, SkipForward } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import type { Champion, MatchResult } from "@/types/game";
+import type { HistoricalWorldCupTeam, MatchResult } from "@/types/game";
 
 export function MatchTimeline({
   result,
@@ -12,7 +12,7 @@ export function MatchTimeline({
   onSkip,
 }: {
   result: MatchResult;
-  opponent: Champion;
+  opponent: HistoricalWorldCupTeam;
   onSkip: () => void;
 }) {
   const reduceMotion = useReducedMotion();
@@ -71,14 +71,14 @@ export function MatchTimeline({
           <span>YOUR XI</span>
           <b>Trophy XI</b>
         </div>
-        <div className="scoreboard__score" aria-label={`Trophy XI ${current.userScore}, Spain ${current.opponentScore}`}>
+        <div className="scoreboard__score" aria-label={`Trophy XI ${current.userScore}, ${opponent.nationName} ${current.opponentScore}`}>
           <strong>{current.userScore}</strong>
           <span>{current.minuteLabel}</span>
           <strong>{current.opponentScore}</strong>
         </div>
         <div className="scoreboard__team scoreboard__team--right">
           <span>CHAMPION</span>
-          <b>{opponent.countryName} {opponent.year}</b>
+          <b>{opponent.nationName} {opponent.tournamentYear}</b>
         </div>
       </div>
 

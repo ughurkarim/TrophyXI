@@ -1,4 +1,4 @@
-import { calculateEraFit } from "@/data/eras";
+import { calculateEraFit, getDraftEra } from "@/data/eras";
 import { getPositionFit } from "@/engine/draft";
 import type {
   DraftEraId,
@@ -29,13 +29,10 @@ export const calculateManagerFit = (
   if (!manager) return 75;
   const formationMatch = manager.preferredFormations.includes(formation.id);
   const styleMatch = formation.managerStyles.includes(manager.style);
+  const era = getDraftEra(eraId);
   const eraMatch =
     eraId === "all" ||
-    (eraId === "turn-of-century" && manager.tournamentYear <= 2006) ||
-    (eraId === "modern-masters" &&
-      manager.tournamentYear >= 2010 &&
-      manager.tournamentYear <= 2018) ||
-    (eraId === "new-generation" && manager.tournamentYear === 2022);
+    Math.abs(manager.tournamentYear - era.midpointYear) <= 8;
   if (formationMatch && styleMatch && eraMatch) return 100;
   if (formationMatch && styleMatch) return 96;
   if (formationMatch || styleMatch) return eraMatch ? 91 : 86;
@@ -99,7 +96,8 @@ export const calculateChemistry = (
   );
   const averageEraFit = Math.round(
     lineup.reduce(
-      (sum, player) => sum + calculateEraFit(player, eraId),
+      (sum, player) =>
+        sum + calculateEraFit(player, eraId, { manager: context.manager, formation }),
       0,
     ) / lineup.length,
   );

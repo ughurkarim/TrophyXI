@@ -4,6 +4,7 @@ import {
   openingCommentary,
 } from "@/engine/commentary";
 import { calculateTeamRatings } from "@/engine/ratings";
+import { calculateOpponentEraFit } from "@/engine/era-translation";
 import {
   createSeededRandom,
   randomInt,
@@ -11,23 +12,27 @@ import {
   weightedPick,
 } from "@/engine/random";
 import type {
-  Champion,
+  BenchSlotId,
   DraftEraId,
   DraftPick,
   Formation,
+  HistoricalWorldCupTeam,
   ManagerTournamentCard,
   MatchEvent,
   MatchResult,
   PlayerTournamentCard,
+  Position,
+  SubstitutionRecord,
 } from "@/types/game";
 
 export type SimulationInput = {
   lineup: PlayerTournamentCard[];
+  bench: PlayerTournamentCard[];
   picks?: DraftPick[];
   formation: Formation;
   manager?: ManagerTournamentCard;
   eraId?: DraftEraId;
-  opponent: Champion;
+  opponent: HistoricalWorldCupTeam;
   seed: number;
   knockoutMode?: "normal" | "force-extra-time" | "force-penalties";
 };
@@ -82,23 +87,105 @@ const chooseUserAssist = (
     random,
   );
 
-const chooseOpponentPlayer = (
-  opponent: Champion,
-  random: RandomSource,
-  excludeName?: string,
-) =>
-  weightedPick(
-    opponent.lineup.filter(
-      (player) => player.position !== "GK" && player.name !== excludeName,
-    ),
-    (player) =>
-      player.rating *
-      (["ST", "CF", "LW", "RW", "AM"].includes(player.position) ? 1.45 : 0.7),
-    random,
+const chooseOpponentPlayer = (opponent: HistoricalWorldCupTeam) => ({
+  name: `${opponent.nationName} ${opponent.tournamentYear}`,
+});
+
+const substitutionPosition = (
+  substitute: PlayerTournamentCard,
+  lineup: PlayerTournamentCard[],
+  alreadyRemoved: Set<string>,
+) => {
+  const compatible = lineup.filter(
+    (starter) =>
+      !alreadyRemoved.has(starter.id) &&
+      starter.primaryPosition !== "GK" &&
+      (substitute.eligiblePositions.includes(starter.primaryPosition) ||
+        starter.eligiblePositions.includes(substitute.primaryPosition)),
   );
+  return (
+    compatible.sort((first, second) => first.overall - second.overall)[0] ??
+    lineup
+      .filter(
+        (starter) =>
+          !alreadyRemoved.has(starter.id) && starter.primaryPosition !== "GK",
+      )
+      .sort((first, second) => first.overall - second.overall)[0]
+  );
+};
+
+const createSubstitutions = ({
+  lineup,
+  bench,
+  manager,
+  trailing,
+  winning,
+  extraTime,
+  random,
+}: {
+  lineup: PlayerTournamentCard[];
+  bench: PlayerTournamentCard[];
+  manager?: ManagerTournamentCard;
+  trailing: boolean;
+  winning: boolean;
+  extraTime: boolean;
+  random: RandomSource;
+}): SubstitutionRecord[] => {
+  const windows: Array<[number, number]> = [
+    [50, 70],
+    [65, 80],
+    [75, extraTime ? 104 : 90],
+  ];
+  const baselineUse = [0.96, 0.82, extraTime ? 0.82 : 0.58];
+  const removed = new Set<string>();
+  return bench.flatMap((substitute, index) => {
+    const aggressive =
+      trailing &&
+      ["LW", "RW", "CF", "ST", "AM"].includes(substitute.primaryPosition);
+    const protective =
+      winning &&
+      ["LB", "LCB", "CB", "RCB", "RB", "DM"].includes(
+        substitute.primaryPosition,
+      );
+    const managerUse =
+      ((manager?.gameManagement ?? 78) - 78) * 0.004 +
+      (aggressive ? ((manager?.grades.offense ?? 78) - 78) * 0.003 : 0) +
+      (protective ? ((manager?.grades.defense ?? 78) - 78) * 0.003 : 0);
+    if (random() > baselineUse[index] + managerUse) return [];
+    const outgoing = substitutionPosition(substitute, lineup, removed);
+    if (!outgoing) return [];
+    removed.add(outgoing.id);
+    const [from, to] = windows[index];
+    const tacticalShift = aggressive ? -6 : protective ? 3 : 0;
+    const minute = clamp(
+      randomInt(random, from, to) + tacticalShift,
+      46,
+      extraTime ? 110 : 89,
+    );
+    const benchSlot = `bench-${index + 1}` as BenchSlotId;
+    return [
+      {
+        minute,
+        playerInId: substitute.id,
+        playerOutId: outgoing.id,
+        position: outgoing.primaryPosition as Position,
+        benchSlot,
+        reason: aggressive
+          ? "Attacking response while chasing the match"
+          : protective
+            ? "Defensive control to protect the score"
+            : index === 0
+              ? "Priority change to refresh the shape"
+              : "Fatigue and tactical balance",
+        managerInfluence: manager?.gameManagement ?? 75,
+      },
+    ];
+  });
+};
 
 export const simulateMatch = ({
   lineup,
+  bench,
   picks,
   formation,
   manager,
@@ -108,8 +195,20 @@ export const simulateMatch = ({
   knockoutMode = "normal",
 }: SimulationInput): MatchResult => {
   if (lineup.length !== 11) throw new Error("A complete eleven is required");
-  if (!opponent.playable || opponent.lineup.length !== 11) {
-    throw new Error("The selected champion is not playable");
+  if (bench.length !== 3) throw new Error("Three ordered substitutes are required");
+  const userIdentityIds = [...lineup, ...bench].map(
+    (player) => player.playerIdentityId,
+  );
+  if (new Set(userIdentityIds).size !== 14) {
+    throw new Error("The complete squad must contain fourteen unique identities");
+  }
+  const opponentIdentityIds = new Set(
+    [...opponent.startingLineup, ...opponent.substitutes].map(
+      (player) => player.playerIdentityId,
+    ),
+  );
+  if (userIdentityIds.some((identity) => opponentIdentityIds.has(identity))) {
+    throw new Error("Opponent identities cannot appear in the user squad");
   }
 
   const random = createSeededRandom(seed);
@@ -117,8 +216,14 @@ export const simulateMatch = ({
     picks,
     manager,
     eraId,
+    bench,
   });
-  const opponentRatings = opponent.ratings;
+  const opponentEraFit = calculateOpponentEraFit(opponent, eraId);
+  const opponentRatings = {
+    ...opponent.ratings,
+    chemistry: 86,
+    overall: opponent.ratings.overall,
+  };
   const avgClutch =
     lineup.reduce((sum, player) => sum + player.attributes.clutch, 0) /
       lineup.length +
@@ -132,6 +237,8 @@ export const simulateMatch = ({
       midfieldEdge * 0.014 +
       (userRatings.chemistry - 75) * 0.006 +
       (avgClutch - 85) * 0.008 +
+      ((manager?.grades.offense ?? 78) - 78) * 0.006 +
+      (userRatings.eraFit - opponentEraFit) * 0.005 +
       (random() - 0.5) * 0.42,
     0.35,
     3.15,
@@ -141,6 +248,8 @@ export const simulateMatch = ({
       (opponentRatings.attack - userRatings.defense) * 0.035 -
       midfieldEdge * 0.011 +
       (opponentRatings.chemistry - 90) * 0.005 +
+      ((manager?.grades.defense ?? 78) - 78) * -0.005 +
+      (opponentEraFit - userRatings.eraFit) * 0.005 +
       (random() - 0.5) * 0.42,
     0.35,
     3.15,
@@ -188,6 +297,30 @@ export const simulateMatch = ({
     }
   }
 
+  const substitutions = createSubstitutions({
+    lineup,
+    bench,
+    manager,
+    trailing: userGoals < opponentGoals,
+    winning: userGoals > opponentGoals,
+    extraTime: afterExtraTime,
+    random,
+  }).sort((first, second) => first.minute - second.minute);
+  const activeLineupAt = (minute: number) => {
+    const active = new Map(lineup.map((player) => [player.id, player]));
+    for (const substitution of substitutions) {
+      if (substitution.minute > minute) continue;
+      active.delete(substitution.playerOutId);
+      const incoming = bench.find(
+        (player) => player.id === substitution.playerInId,
+      );
+      if (incoming) active.set(incoming.id, incoming);
+    }
+    return [...active.values()];
+  };
+  const goalsByPlayer = new Map<string, number>();
+  const assistsByPlayer = new Map<string, number>();
+
   const rawEvents: Array<Omit<MatchEvent, "id">> = [
     {
       minute: 0,
@@ -229,8 +362,13 @@ export const simulateMatch = ({
   }
 
   goalMinutes(regularUserGoals, random, 9, 88).forEach((minute) => {
-    const scorer = chooseUserScorer(lineup, random);
-    const assist = random() > 0.22 ? chooseUserAssist(lineup, scorer.id, random) : undefined;
+    const active = activeLineupAt(minute);
+    const scorer = chooseUserScorer(active, random);
+    const assist = random() > 0.22 ? chooseUserAssist(active, scorer.id, random) : undefined;
+    goalsByPlayer.set(scorer.id, (goalsByPlayer.get(scorer.id) ?? 0) + 1);
+    if (assist) {
+      assistsByPlayer.set(assist.id, (assistsByPlayer.get(assist.id) ?? 0) + 1);
+    }
     rawEvents.push({
       minute,
       minuteLabel: `${minute}’`,
@@ -248,11 +386,8 @@ export const simulateMatch = ({
   });
 
   goalMinutes(regularOpponentGoals, random, 9, 88).forEach((minute) => {
-    const scorer = chooseOpponentPlayer(opponent, random);
-    const assist =
-      random() > 0.25
-        ? chooseOpponentPlayer(opponent, random, scorer.name)
-        : undefined;
+    const scorer = chooseOpponentPlayer(opponent);
+    const assist = random() > 0.25 ? chooseOpponentPlayer(opponent) : undefined;
     rawEvents.push({
       minute,
       minuteLabel: `${minute}’`,
@@ -264,6 +399,25 @@ export const simulateMatch = ({
       opponentScore: 0,
     });
   });
+
+  for (const substitution of substitutions) {
+    const incoming = bench.find(
+      (player) => player.id === substitution.playerInId,
+    )!;
+    const outgoing = lineup.find(
+      (player) => player.id === substitution.playerOutId,
+    )!;
+    rawEvents.push({
+      minute: substitution.minute,
+      minuteLabel: `${substitution.minute}’`,
+      type: "substitution",
+      team: "user",
+      title: `${incoming.playerName} ${incoming.tournamentYear} replaces ${outgoing.playerName} ${outgoing.tournamentYear}`,
+      detail: `${substitution.reason}. New position: ${substitution.position}. ${substitution.benchSlot.replace("-", " ")} priority; ${manager?.managerName ?? "the manager"} influence ${substitution.managerInfluence}.`,
+      userScore: 0,
+      opponentScore: 0,
+    });
+  }
 
   const userYellows = randomInt(random, 0, 2);
   const opponentYellows = randomInt(random, 0, 2);
@@ -282,14 +436,13 @@ export const simulateMatch = ({
     });
   }
   for (let index = 0; index < opponentYellows; index += 1) {
-    const player = opponent.lineup[randomInt(random, 1, opponent.lineup.length - 1)];
     const minute = randomInt(random, 24, 84);
     rawEvents.push({
       minute,
       minuteLabel: `${minute}’`,
       type: "yellow",
       team: "opponent",
-      title: `Yellow card — ${player.name}`,
+      title: `Yellow card — ${opponent.nationName}`,
       detail: "The referee has seen enough of the tactical foul.",
       userScore: 0,
       opponentScore: 0,
@@ -319,7 +472,9 @@ export const simulateMatch = ({
       opponentScore: 0,
     });
     goalMinutes(extraUserGoals, random, 94, 118).forEach((minute) => {
-      const scorer = chooseUserScorer(lineup, random);
+      const active = activeLineupAt(minute);
+      const scorer = chooseUserScorer(active, random);
+      goalsByPlayer.set(scorer.id, (goalsByPlayer.get(scorer.id) ?? 0) + 1);
       rawEvents.push({
         minute,
         minuteLabel: `${minute}’`,
@@ -332,7 +487,7 @@ export const simulateMatch = ({
       });
     });
     goalMinutes(extraOpponentGoals, random, 94, 118).forEach((minute) => {
-      const scorer = chooseOpponentPlayer(opponent, random);
+      const scorer = chooseOpponentPlayer(opponent);
       rawEvents.push({
         minute,
         minuteLabel: `${minute}’`,
@@ -404,12 +559,16 @@ export const simulateMatch = ({
     Math.max(opponentGoals, Math.round(opponentShots * (0.32 + random() * 0.14))),
   );
 
+  const fullSquad = [...lineup, ...bench];
   const userPotm = weightedPick(
-    lineup,
-    (player) => player.overall + player.attributes.clutch * 0.25,
+    fullSquad,
+    (player) =>
+      player.overall +
+      player.attributes.clutch * 0.25 +
+      (goalsByPlayer.get(player.id) ?? 0) * 20 +
+      (assistsByPlayer.get(player.id) ?? 0) * 8,
     random,
   );
-  const opponentPotm = weightedPick(opponent.lineup, (player) => player.rating, random);
   const userWon =
     userGoals > opponentGoals ||
     (userGoals === opponentGoals && penalties && penalties[0] > penalties[1]);
@@ -431,18 +590,47 @@ export const simulateMatch = ({
       yellowCards: [userYellows, opponentYellows],
       tacticalImpact: [
         userRatings.managerFit,
-        opponent.ratings.managerFit ?? opponent.ratings.chemistry,
+        opponentEraFit,
       ],
     },
     events,
     playerOfTheMatch:
       userWon && userGoals > 0
         ? `${userPotm.playerName} ${userPotm.tournamentYear}`
-        : opponentPotm.name,
+        : `${opponent.nationName} ${opponent.tournamentYear}`,
     userRatings,
     managerImpact: manager
-      ? `${manager.managerName} delivered ${userRatings.managerFit}% tactical fit through ${manager.style} principles.`
+      ? `${manager.managerName} delivered ${userRatings.managerFit}% tactical fit with OFF ${manager.grades.offense}, DEF ${manager.grades.defense}, and ${substitutions.length} substitutions.`
       : "No tournament manager impact was applied.",
+    opponentEraFit,
+    substitutions,
+    playerMinutes: fullSquad.map((player) => {
+      const substitutionIn = substitutions.find(
+        (substitution) => substitution.playerInId === player.id,
+      );
+      const substitutionOut = substitutions.find(
+        (substitution) => substitution.playerOutId === player.id,
+      );
+      const finalMinute = afterExtraTime ? 120 : 90;
+      const enteredAt = substitutionIn?.minute ?? null;
+      const leftAt = substitutionOut?.minute ?? null;
+      const started = lineup.some((starter) => starter.id === player.id);
+      return {
+        cardId: player.id,
+        playerName: player.playerName,
+        tournamentYear: player.tournamentYear,
+        started,
+        minutes: started
+          ? leftAt ?? finalMinute
+          : enteredAt === null
+            ? 0
+            : finalMinute - enteredAt,
+        enteredAt,
+        leftAt,
+        goals: goalsByPlayer.get(player.id) ?? 0,
+        assists: assistsByPlayer.get(player.id) ?? 0,
+      };
+    }),
     generatedAt: new Date(
       Date.UTC(2026, 0, 1) + (seed % 365) * 86_400_000,
     ).toISOString(),

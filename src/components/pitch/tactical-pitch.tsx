@@ -1,6 +1,4 @@
 "use client";
-
-import { motion } from "framer-motion";
 import type {
   DraftPick,
   Formation,
@@ -77,13 +75,13 @@ export function TacticalPitch({
           </>
         );
         return interactive ? (
-          <motion.button
+          <button
             type="button"
-            layout
             key={slot.id}
             className={className}
             style={{ left: `${slot.x}%`, top: `${slot.y}%` }}
-            transition={{ duration: 0.22 }}
+            data-slot-x={slot.x}
+            data-slot-y={slot.y}
             aria-label={ariaLabel}
             aria-pressed={!player && onSelectSlot ? isSelected : undefined}
             onClick={() => {
@@ -92,18 +90,18 @@ export function TacticalPitch({
             }}
           >
             {content}
-          </motion.button>
+          </button>
         ) : (
-          <motion.div
-            layout
+          <div
             key={slot.id}
             className={className}
             style={{ left: `${slot.x}%`, top: `${slot.y}%` }}
-            transition={{ duration: 0.22 }}
+            data-slot-x={slot.x}
+            data-slot-y={slot.y}
             aria-label={ariaLabel}
           >
             {content}
-          </motion.div>
+          </div>
         );
       })}
     </div>

@@ -6,6 +6,8 @@ import type {
   PlayerTournamentCard,
   Position,
   QualityBand,
+  EraLegacy,
+  EraTranslationProfile,
   TournamentAchievement,
   TournamentStatLine,
 } from "@/types/game";
@@ -26,12 +28,14 @@ const nations: Record<string, Nation> = {
   AUS: { code: "AUS", name: "Australia", confederation: "AFC" },
   BEL: { code: "BEL", name: "Belgium", confederation: "UEFA" },
   BRA: { code: "BRA", name: "Brazil", confederation: "CONMEBOL" },
+  BUL: { code: "BUL", name: "Bulgaria", confederation: "UEFA" },
   CHI: { code: "CHI", name: "Chile", confederation: "CONMEBOL" },
   CMR: { code: "CMR", name: "Cameroon", confederation: "CAF" },
   COL: { code: "COL", name: "Colombia", confederation: "CONMEBOL" },
   CRC: { code: "CRC", name: "Costa Rica", confederation: "CONCACAF" },
   CRO: { code: "CRO", name: "Croatia", confederation: "UEFA" },
   CZE: { code: "CZE", name: "Czech Republic", confederation: "UEFA" },
+  CSK: { code: "CSK", name: "Czechoslovakia", confederation: "UEFA" },
   DEN: { code: "DEN", name: "Denmark", confederation: "UEFA" },
   ECU: { code: "ECU", name: "Ecuador", confederation: "CONMEBOL" },
   ENG: { code: "ENG", name: "England", confederation: "UEFA" },
@@ -62,6 +66,7 @@ const nations: Record<string, Nation> = {
   SRB: { code: "SRB", name: "Serbia", confederation: "UEFA" },
   SUI: { code: "SUI", name: "Switzerland", confederation: "UEFA" },
   SWE: { code: "SWE", name: "Sweden", confederation: "UEFA" },
+  SUN: { code: "SUN", name: "Soviet Union", confederation: "UEFA" },
   TUN: { code: "TUN", name: "Tunisia", confederation: "CAF" },
   TUR: { code: "TUR", name: "Türkiye", confederation: "UEFA" },
   UKR: { code: "UKR", name: "Ukraine", confederation: "UEFA" },
@@ -296,6 +301,80 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const nation = nations[seed.nation];
   const base = defaultsFor(seed.primaryPosition, seed.overall);
   const evidence = evidenceByCardId[seed.id] ?? {};
+  const attributes = { ...base, ...seed.attributes };
+  const eraLegacy: EraLegacy =
+    /pel[eé]|lionel-messi|diego-maradona|franz-beckenbauer|johan-cruyff/i.test(
+      seed.id,
+    )
+      ? "timeless"
+      : seed.overall >= 94
+        ? "cross-era"
+        : seed.overall >= 88
+          ? "adaptable"
+          : "era-specialist";
+  const legacyBoost = {
+    "era-specialist": 0,
+    adaptable: 5,
+    "cross-era": 10,
+    timeless: 16,
+  }[eraLegacy];
+  const eraTranslation: EraTranslationProfile = {
+    timelessness: Math.min(99, 64 + legacyBoost + Math.round(seed.overall * 0.18)),
+    physicalAdaptability: Math.min(
+      99,
+      Math.round(attributes.physical * 0.72 + seed.overall * 0.18 + legacyBoost),
+    ),
+    technicalAdaptability: Math.min(
+      99,
+      Math.round(
+        (attributes.control + attributes.creativity) * 0.38 +
+          seed.overall * 0.12 +
+          legacyBoost,
+      ),
+    ),
+    tacticalAdaptability: Math.min(
+      99,
+      Math.round(
+        (attributes.control + attributes.defense + attributes.creativity) *
+          0.23 +
+          seed.overall * 0.12 +
+          legacyBoost,
+      ),
+    ),
+    pressingAdaptability: Math.min(
+      99,
+      Math.round(
+        (attributes.physical + attributes.defense + attributes.control) * 0.22 +
+          seed.overall * 0.14 +
+          legacyBoost,
+      ),
+    ),
+    tempoAdaptability: Math.min(
+      99,
+      Math.round(
+        (attributes.physical + attributes.control + attributes.creativity) *
+          0.22 +
+          seed.overall * 0.14 +
+          legacyBoost,
+      ),
+    ),
+    equipmentAdaptability: Math.min(
+      99,
+      Math.round(
+        (attributes.physical + attributes.control) * 0.34 +
+          seed.overall * 0.14 +
+          legacyBoost,
+      ),
+    ),
+    refereeingAdaptability: Math.min(
+      99,
+      Math.round(
+        (attributes.physical + attributes.clutch) * 0.32 +
+          seed.overall * 0.16 +
+          legacyBoost,
+      ),
+    ),
+  };
   return {
     id: seed.id,
     playerIdentityId: seed.id.replace(/-\d{4}$/, ""),
@@ -307,7 +386,7 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     primaryPosition: seed.primaryPosition,
     eligiblePositions: seed.eligiblePositions,
     overall: seed.overall,
-    attributes: { ...base, ...seed.attributes },
+    attributes,
     era: tournamentEraFor(seed.tournamentYear),
     archetype: seed.archetype,
     qualityBand: qualityFor(seed),
@@ -324,6 +403,8 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     statSources: evidence.sources ?? [],
     achievements: evidence.achievements ?? [],
     imageId: seed.id,
+    eraLegacy,
+    eraTranslation,
   };
 };
 
@@ -630,6 +711,111 @@ const eligibleFor = (position: Position): Position[] => {
   return ["ST", "CF"];
 };
 
+type HistoricalSeed = readonly [
+  playerName: string,
+  nation: keyof typeof nations,
+  tournamentYear: number,
+  primaryPosition: Position,
+  overall: number,
+  archetype: string,
+];
+
+// Older editions deliberately mix icons with strong starters and specialists.
+// Ratings are original tournament-card estimates; factual statistics remain null.
+const historicalSeedRows: HistoricalSeed[] = [
+  ["Pelé", "BRA", 1970, "CF", 99, "Timeless complete forward"],
+  ["Jairzinho", "BRA", 1970, "RW", 97, "Every-round scorer"],
+  ["Gerd Müller", "GER", 1970, "ST", 96, "Penalty-box certainty"],
+  ["Rivelino", "BRA", 1970, "AM", 94, "Left-foot orchestrator"],
+  ["Tostão", "BRA", 1970, "CF", 93, "Fluid attacking connector"],
+  ["Bobby Moore", "ENG", 1970, "CB", 94, "Anticipating captain"],
+  ["Gordon Banks", "ENG", 1970, "GK", 94, "Reflex standard"],
+  ["Teófilo Cubillas", "PER", 1970, "AM", 92, "Explosive tournament ten"],
+  ["Giacinto Facchetti", "ITA", 1970, "LB", 91, "Commanding wide defender"],
+  ["Murtaz Khurtsilava", "SUN", 1970, "CB", 86, "Physical stopper"],
+  ["Johan Cruyff", "NED", 1974, "CF", 98, "Total-football catalyst"],
+  ["Franz Beckenbauer", "GER", 1974, "CB", 98, "Libero architect"],
+  ["Johan Neeskens", "NED", 1974, "CM", 95, "Pressing midfield spear"],
+  ["Gerd Müller", "GER", 1974, "ST", 94, "Finals poacher"],
+  ["Sepp Maier", "GER", 1974, "GK", 93, "Agile organizer"],
+  ["Kazimierz Deyna", "POL", 1974, "AM", 93, "Elegant central creator"],
+  ["Grzegorz Lato", "POL", 1974, "RW", 94, "Golden Boot runner"],
+  ["Paul Breitner", "GER", 1974, "LB", 92, "Inverted power fullback"],
+  ["Wolfgang Overath", "GER", 1974, "CM", 91, "Measured distributor"],
+  ["René Houseman", "ARG", 1974, "RW", 85, "Elusive wide dribbler"],
+  ["Mario Kempes", "ARG", 1978, "ST", 97, "Driving Golden Boot"],
+  ["Daniel Passarella", "ARG", 1978, "CB", 94, "Front-foot captain"],
+  ["Ubaldo Fillol", "ARG", 1978, "GK", 94, "Explosive shot-stopper"],
+  ["Rob Rensenbrink", "NED", 1978, "LW", 95, "Silky inside forward"],
+  ["Zico", "BRA", 1978, "AM", 90, "Early-stage playmaker"],
+  ["Teófilo Cubillas", "PER", 1978, "AM", 94, "Long-range specialist"],
+  ["Claudio Gentile", "ITA", 1978, "RB", 90, "Relentless marker"],
+  ["Paolo Rossi", "ITA", 1978, "ST", 91, "Mobile penalty-box threat"],
+  ["Arie Haan", "NED", 1978, "CM", 92, "Long-range controller"],
+  ["Ruud Krol", "NED", 1978, "LB", 94, "Progressive defensive leader"],
+  ["Paolo Rossi", "ITA", 1982, "ST", 98, "Knockout finisher"],
+  ["Zico", "BRA", 1982, "AM", 96, "Technical master ten"],
+  ["Sócrates", "BRA", 1982, "CM", 95, "Imperious playmaker"],
+  ["Falcão", "BRA", 1982, "CM", 95, "Complete midfield regista"],
+  ["Zbigniew Boniek", "POL", 1982, "AM", 94, "Vertical transition star"],
+  ["Dino Zoff", "ITA", 1982, "GK", 96, "Veteran command"],
+  ["Claudio Gentile", "ITA", 1982, "RB", 94, "Elite man-marker"],
+  ["Gaetano Scirea", "ITA", 1982, "CB", 95, "Calm libero"],
+  ["Pierre Littbarski", "GER", 1982, "RW", 91, "Low-center creator"],
+  ["Jean Tigana", "FRA", 1982, "CM", 90, "Midfield runner"],
+  ["Diego Maradona", "ARG", 1986, "AM", 99, "Tournament-defining creator"],
+  ["Jorge Burruchaga", "ARG", 1986, "CM", 93, "Finals transition runner"],
+  ["Jorge Valdano", "ARG", 1986, "ST", 92, "Intelligent channel forward"],
+  ["Harald Schumacher", "GER", 1986, "GK", 92, "Commanding keeper"],
+  ["Lothar Matthäus", "GER", 1986, "CM", 94, "Two-way midfield force"],
+  ["Michel Platini", "FRA", 1986, "AM", 94, "Veteran creative authority"],
+  ["Gary Lineker", "ENG", 1986, "ST", 96, "Golden Boot poacher"],
+  ["Emilio Butragueño", "ESP", 1986, "ST", 94, "Slippery combination forward"],
+  ["Preben Elkjær", "DEN", 1986, "ST", 92, "Powerful roaming striker"],
+  ["Igor Belanov", "SUN", 1986, "RW", 92, "Direct Ballon d’Or winger"],
+  ["Salvatore Schillaci", "ITA", 1990, "ST", 97, "Golden Boot revelation"],
+  ["Lothar Matthäus", "GER", 1990, "CM", 98, "Complete champion captain"],
+  ["Andreas Brehme", "GER", 1990, "LB", 95, "Two-footed finals fullback"],
+  ["Jürgen Klinsmann", "GER", 1990, "ST", 93, "Aerial transition striker"],
+  ["Sergio Goycochea", "ARG", 1990, "GK", 95, "Shootout specialist"],
+  ["Paul Gascoigne", "ENG", 1990, "AM", 94, "Fearless midfield creator"],
+  ["Roger Milla", "CMR", 1990, "ST", 94, "Veteran impact forward"],
+  ["Franco Baresi", "ITA", 1990, "CB", 96, "Defensive line conductor"],
+  ["Frank Rijkaard", "NED", 1990, "DM", 89, "Physical tactical pivot"],
+  ["Tomáš Skuhravý", "CSK", 1990, "ST", 91, "Aerial tournament striker"],
+  ["Romário", "BRA", 1994, "CF", 98, "Decisive close-range genius"],
+  ["Roberto Baggio", "ITA", 1994, "AM", 97, "Knockout carrying force"],
+  ["Bebeto", "BRA", 1994, "ST", 94, "Movement-first finisher"],
+  ["Gheorghe Hagi", "ROU", 1994, "AM", 96, "Long-range creative leader"],
+  ["Hristo Stoichkov", "BUL", 1994, "LW", 96, "Golden Boot left-foot force"],
+  ["Dunga", "BRA", 1994, "DM", 92, "Disciplined midfield captain"],
+  ["Cláudio Taffarel", "BRA", 1994, "GK", 93, "Calm knockout keeper"],
+  ["Paolo Maldini", "ITA", 1994, "LB", 96, "Complete defensive reference"],
+  ["Tomas Brolin", "SWE", 1994, "AM", 93, "Compact attacking connector"],
+  ["Oleg Salenko", "RUS", 1994, "ST", 91, "Single-match scoring specialist"],
+];
+
+const historicalCards = historicalSeedRows.map(
+  ([
+    playerName,
+    nation,
+    tournamentYear,
+    primaryPosition,
+    overall,
+    archetype,
+  ]): CardSeed => ({
+    id: `${slugify(playerName)}-${tournamentYear}`,
+    playerName,
+    nation,
+    tournamentYear,
+    primaryPosition,
+    eligiblePositions: eligibleFor(primaryPosition),
+    overall,
+    archetype,
+    rarity: overall >= 96 ? "iconic" : overall >= 92 ? "legendary" : "classic",
+  }),
+);
+
 const supplementalCards = supplementalSeeds.map(
   ([playerName, nation, tournamentYear, primaryPosition], index): CardSeed => {
     const ratingCycle = [89, 86, 83, 80, 88, 85];
@@ -659,7 +845,7 @@ const supplementalCards = supplementalSeeds.map(
   },
 );
 
-const seeds = [...curatedSeeds, ...supplementalCards];
+const seeds = [...historicalCards, ...curatedSeeds, ...supplementalCards];
 
 export const players: PlayerTournamentCard[] = playerSeedSchema.parse(
   seeds.map(makeCard),

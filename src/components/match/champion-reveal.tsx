@@ -5,17 +5,22 @@ import { ArrowRight, Gauge, Shield, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { TeamRatings } from "@/components/draft/team-ratings";
 import { Button } from "@/components/ui/button";
-import type { Champion, TeamRatings as Ratings } from "@/types/game";
+import type {
+  HistoricalWorldCupTeam,
+  TeamRatings as Ratings,
+} from "@/types/game";
 
 export function ChampionReveal({
   opponent,
   userRatings,
   userEra,
+  opponentEraFit,
   onSimulate,
 }: {
-  opponent: Champion;
+  opponent: HistoricalWorldCupTeam;
   userRatings: Ratings;
   userEra: string;
+  opponentEraFit: number;
   onSimulate: () => void;
 }) {
   const reduceMotion = useReducedMotion();
@@ -67,14 +72,19 @@ export function ChampionReveal({
           animate={{ opacity: ready ? 1 : 0.35, x: 0 }}
           transition={{ duration: 0.35 }}
         >
-          <span className="team-reveal__flag" role="img" aria-label={opponent.countryName}>
-            {opponent.flag}
+          <span className="team-reveal__flag" aria-hidden>
+            {opponent.nationCode}
           </span>
-          <p>HISTORIC CHAMPION</p>
+          <p>HISTORICAL OPPONENT · {opponent.tournamentFinish}</p>
           <h2>
-            {opponent.countryName} <span>{opponent.year}</span>
+            {opponent.nationName} <span>{opponent.tournamentYear}</span>
           </h2>
-          <TeamRatings ratings={opponent.ratings} />
+          <TeamRatings
+            ratings={{
+              ...opponent.ratings,
+              chemistry: opponentEraFit,
+            }}
+          />
         </motion.article>
       </motion.div>
 
@@ -87,13 +97,16 @@ export function ChampionReveal({
           <Shield size={19} aria-hidden />
           <span>
             <small>DIFFICULTY</small>
-            <b>{opponent.difficulty}</b>
+          <b>{opponent.difficulty}</b>
           </span>
         </div>
         <div>
           <span className="eyebrow">TACTICAL IDENTITY</span>
-          <h3>{opponent.tacticalIdentity}</h3>
-          <p>{opponent.description}</p>
+          <h3>{opponent.tacticalProfile}</h3>
+          <p>
+            Trophy XI tactical model · opponent Era Translation {opponentEraFit}.
+            Manager: {opponent.managerName ?? "not sourced in the current dataset"}.
+          </p>
         </div>
         <div className="dossier-facts">
           <span>

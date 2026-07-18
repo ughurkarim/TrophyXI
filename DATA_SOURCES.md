@@ -1,46 +1,79 @@
 # Trophy XI data sources
 
-## Method
+## Evidence model
 
-Player ratings and seven attributes are original game estimates designed for
-relative simulation balance. They are not sourced facts, career rankings, or
-official FIFA/EA ratings.
+Player ratings, seven player attributes, Era Translation traits, manager OFF/DEF
+grades, formation tendencies, opponent ratings, tactical profiles, difficulty,
+and model formations are original Trophy XI gameplay estimates. They are not
+official ratings, factual career measurements, or claims that every team in an
+era played identically.
 
-Tournament statistics are nullable. A known value requires at least one
-card-level `DataCitation`; an unknown value stays `null` and is rendered as “Not
-sourced.” Named achievements require their own citation. The Zod schema and
-`npm run validate:data` reject a populated stat line without a source.
+Tournament statistics are nullable. A populated value requires a record-level
+`DataCitation`; an unknown value remains `null` and renders as “Not sourced.”
+Named achievements require their own citation. Validation rejects a known player
+stat line without a source and never converts missing data to zero.
 
-Current evidence coverage:
+## Historical World Cup participants
 
-- 5 cards with at least one sourced tournament statistic
-- 9 cards with a sourced named tournament achievement
-- all other stat fields remain explicitly unknown
+The historical-opponent pipeline vendors three tables from:
 
-## Published sources
+- The Fjelstul World Cup Database v1.2.0
+- Joshua C. Fjelstul, Ph.D.
+- https://github.com/jfjelstul/worldcup
+- accessed 2026-07-18
+
+`qualified_teams.csv`, `tournaments.csv`, and `teams.csv` support tournament
+participant identity, nation code/name, confederation, tournament finish, and
+match count. `scripts/import-world-cup-teams.ts` normalizes these records into 368
+unique nation-year ids and validates the official field size for all 14 editions
+from 1970 through 2022.
+
+The current vendored subset does not contain record-level tournament managers,
+lineups, goals for/against, wins/draws/losses, or clean sheets. Those fields stay
+`null` or empty for all 368 opponents and the validation report states that
+coverage gap. Formations, ratings, tactical profiles, and difficulty are marked
+Trophy XI models rather than sourced facts.
+
+## Future team-stat, squad, lineup, and manager sourcing
+
+Additions must attach a source directly to the nation-year record and distinguish:
+
+- tournament participant/finish source
+- team-stat source
+- official or reputable squad source
+- lineup/match-sheet source
+- tournament-manager source
+
+Prefer the tournament organizer, federation archives, official reports, or a
+reputable structured research database. Do not infer a tournament lineup from a
+career squad, a nearby-year friendly, or a formation diagram without provenance.
+
+When two reliable sources conflict, prefer the most direct primary record,
+preserve the conflicting reference in review notes, and leave the field missing
+when the conflict cannot be resolved. Historical country names and codes remain
+as represented by the source; nation-year ids are never collapsed into a modern
+successor identity.
+
+## Published player-card sources
 
 ### FIFA — Russia 2018 awards
 
 https://inside.fifa.com/en/tournaments/mens/worldcup/2018russia/news/157-awards-piece-2986294
 
-Used for the 2018 Golden Ball, Golden Glove, Young Player Award, Bronze Ball, and
-Golden Boot; also supports the published goal/assist or clean-sheet statements
-included on those award cards.
+Supports the 2018 Golden Ball, Golden Glove, Young Player Award, Bronze Ball, and
+Golden Boot, plus published goal/assist or clean-sheet statements on those cards.
 
 ### FIFA — Russia 2018 player statistics
 
 https://inside.fifa.com/en/tournaments/mens/worldcup/2018russia/news/will-world-cup-stars-shine-at-the-best
 
-Used for Luka Modrić’s seven appearances, 694 minutes, two goals, and one assist;
-Thibaut Courtois’s three clean sheets; and the published 2018 goal totals surfaced
-on selected cards.
+Supports Luka Modrić’s appearances/minutes/goals/assist, Thibaut Courtois’s clean
+sheets, and selected published 2018 goal totals.
 
 ### FIFA Publications — Qatar 2022 summary
 
 https://publications.fifa.com/en/annual-report-2022/2022-at-a-glance/fifa-world-cup-qatar-2022-summary/
 
-Used for the 2022 Golden Ball, Golden Boot, Golden Glove, and Young Player Award.
+Supports the 2022 Golden Ball, Golden Boot, Golden Glove, and Young Player Award.
 
-Sources were accessed on 2026-07-18. Future additions must prefer official
-tournament bodies or equally trustworthy published databases, cite the exact page,
-and distinguish stat evidence from Trophy XI balance estimates.
+All listed web sources were accessed on 2026-07-18.

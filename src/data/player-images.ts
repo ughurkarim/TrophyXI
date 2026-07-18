@@ -23,6 +23,11 @@ const fallbackAttribution = (
   licenseUrl: null,
   changes: "Purpose-built transparent illustrated tournament fallback; 700×900 master.",
   fallback: true,
+  representedTeam: null,
+  photographedYear: null,
+  exactTournamentImage: false,
+  isNationalTeamKit: false,
+  cropFocus: { x: 50, y: 36 },
 });
 
 const licensedOverrides: Record<string, ImageAttribution> = {
@@ -41,6 +46,11 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     changes:
       "Background isolated with a reviewed chroma-key derivative, edge-contracted, cropped, and resized to a transparent 700×900 master.",
     fallback: false,
+    representedTeam: "Croatia",
+    photographedYear: 2018,
+    exactTournamentImage: true,
+    isNationalTeamKit: true,
+    cropFocus: { x: 50, y: 34 },
   },
   "kylian-mbappe-2018": {
     id: "kylian-mbappe-2018",
@@ -57,6 +67,11 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     changes:
       "Background isolated with a reviewed chroma-key derivative, edge-contracted, cropped, and resized to a transparent 700×900 master.",
     fallback: false,
+    representedTeam: "France",
+    photographedYear: 2018,
+    exactTournamentImage: true,
+    isNationalTeamKit: true,
+    cropFocus: { x: 50, y: 31 },
   },
   "luka-modric-2018": {
     id: "luka-modric-2018",
@@ -72,6 +87,11 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     changes:
       "Background isolated with a reviewed chroma-key derivative, edge-contracted, cropped, and resized to a transparent 700×900 master.",
     fallback: false,
+    representedTeam: "Croatia",
+    photographedYear: 2018,
+    exactTournamentImage: true,
+    isNationalTeamKit: true,
+    cropFocus: { x: 50, y: 34 },
   },
   "thibaut-courtois-2018": {
     id: "thibaut-courtois-2018",
@@ -88,6 +108,11 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     changes:
       "Background isolated with a reviewed chroma-key derivative, edge-contracted, cropped, and resized to a transparent 700×900 master.",
     fallback: false,
+    representedTeam: "Belgium",
+    photographedYear: 2018,
+    exactTournamentImage: true,
+    isNationalTeamKit: true,
+    cropFocus: { x: 50, y: 30 },
   },
 };
 

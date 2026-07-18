@@ -9,12 +9,22 @@
   simulation boundaries.
 - Preserve the user-selected open-position draft order. Do not reintroduce a fixed
   slot sequence or replacement picks.
-- Keep the one respin deterministic, confirmed, permanent, and identity-rejecting.
+- Never let multiple animation systems control the same transform property.
+- Never move tactical nodes between interaction states; preserve exact formation
+  coordinates and centered scaling.
+- Preserve the two-player-respin limit. Respins remain deterministic, confirmed,
+  permanent, player-only, and identity-rejecting.
+- Preserve Bench 1/2/3 order semantics and deterministic substitutions.
+- Preserve bidirectional Era Translation. Never treat era selection only as a
+  player-card filter.
 - Run `npm run validate:data` after any player, manager, formation, era, champion,
   image, or source change.
 - Licensed images must be local, tournament-specific where possible, transparent
   PNG derivatives with complete source/author/license/change metadata. Never
-  hotlink. Never present fallback art as a photograph.
+  hotlink. Never present fallback art as a photograph or label a nearby-year
+  image as exact tournament.
+- Never fabricate historical opponent statistics, managers, formations, or
+  lineups. Preserve nation-year opponent identity and label Trophy XI models.
 - Never populate an unknown tournament statistic with zero. Named achievements and
   factual stats require a published card-level source.
 - Ratings and attributes are project-created estimates, not official claims.

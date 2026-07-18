@@ -30,19 +30,15 @@ export default function EraPage() {
         <section className="era-page" aria-labelledby="era-title">
           <div className="game-intro">
             <p className="eyebrow eyebrow--gold">THE GRAND ARCHIVE / STEP 01</p>
-            <h1 id="era-title">Choose your football era.</h1>
+            <h1 id="era-title">Choose the match environment.</h1>
             <p>
-              Your era controls the archive, manager draw, fit model, and visual
-              atmosphere. All Eras keeps every card at full adaptability.
+              Every tournament card from 1970–2022 remains draftable. Your choice
+              defines the conditions in which both your squad and the historical
+              opponent must translate their football.
             </p>
           </div>
           <div className="era-grid era-grid--flow">
             {draftEras.map((era) => {
-              const count = players.filter(
-                (player) =>
-                  player.tournamentYear >= era.yearRange[0] &&
-                  player.tournamentYear <= era.yearRange[1],
-              ).length;
               return (
                 <button
                   key={era.id}
@@ -58,7 +54,7 @@ export default function EraPage() {
                   <h2>{era.label}</h2>
                   <p>{era.description}</p>
                   <footer>
-                    <small>{count} tournament cards</small>
+                    <small>{players.length} cards remain available</small>
                     <ArrowRight size={17} aria-hidden />
                   </footer>
                 </button>

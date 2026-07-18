@@ -16,14 +16,20 @@ import type {
 export function FormationSelection({
   manager,
   eraId,
+  offerIds,
   onContinue,
 }: {
   manager: ManagerTournamentCard;
   eraId: DraftEraId;
+  offerIds: FormationId[];
   onContinue: (formationId: FormationId) => void;
 }) {
-  const [selected, setSelected] = useState<FormationId>("4-3-3");
-  const formation = formations.find((item) => item.id === selected)!;
+  const offered = offerIds
+    .map((id) => formations.find((formation) => formation.id === id))
+    .filter((formation): formation is (typeof formations)[number] => Boolean(formation));
+  const [selected, setSelected] = useState<FormationId>(offered[0]?.id ?? "4-3-3");
+  const formation =
+    offered.find((item) => item.id === selected) ?? offered[0] ?? formations[0];
   const era = getDraftEra(eraId);
   const managerFit = calculateManagerFit(manager, formation, eraId);
 
@@ -34,7 +40,8 @@ export function FormationSelection({
         <h1 id="formation-heading">Give the manager a system.</h1>
         <p>
           Every formation is viable. Compatibility shapes chemistry and creates a
-          modest simulation edge without overpowering player quality.
+          modest simulation edge. This four-shape offer is seeded by your
+          environment, manager, and draft.
         </p>
       </div>
       <div className="formation-context">
@@ -42,7 +49,7 @@ export function FormationSelection({
         <span>{era.label} · {era.years}</span>
       </div>
       <div className="formation-grid">
-        {formations.map((item) => (
+        {offered.map((item) => (
           <FormationCard
             key={item.id}
             formation={item}

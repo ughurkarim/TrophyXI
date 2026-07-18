@@ -7,6 +7,8 @@ import type { PlayerTournamentCard } from "@/types/game";
 import { cn, flagForCountry } from "@/lib/utils";
 
 const eraAccent: Record<PlayerTournamentCard["era"], string> = {
+  "1970s": "gold",
+  "1980s": "gold",
   "1990s": "violet",
   "2000s": "gold",
   "2010s": "emerald",
@@ -81,7 +83,7 @@ export function PlayerCard({
             <ShieldCheck size={12} aria-hidden /> Position {positionFit ?? "—"}
           </span>
           <span>
-            <TimerReset size={12} aria-hidden /> Era {eraFit ?? "—"}
+            <TimerReset size={12} aria-hidden /> Translation {eraFit ?? "—"}
           </span>
         </div>
       )}
@@ -107,16 +109,15 @@ export function PlayerCard({
 
   if (decorative) {
     return (
-      <motion.div
+      <div
         className={cn(
           "player-card",
           `player-card--${eraAccent[player.era]}`,
           className,
         )}
-        whileHover={reduceMotion ? undefined : { y: -5, rotate: 0 }}
       >
         {content}
-      </motion.div>
+      </div>
     );
   }
 

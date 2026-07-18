@@ -1,0 +1,40 @@
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import { CircularPortrait } from "@/components/cards/circular-portrait";
+
+describe("CircularPortrait", () => {
+  it("renders licensed context, crop metadata, and a stable size class", () => {
+    render(
+      <CircularPortrait
+        imageId="kylian-mbappe-2018"
+        subjectName="Kylian Mbappé"
+        era="2010s"
+        size="featured"
+      />,
+    );
+    const image = screen.getByRole("img", {
+      name: /exact-tournament photograph of kylian mbappé/i,
+    });
+    expect(image).toBeInTheDocument();
+    expect(image.closest(".circular-portrait")).toHaveClass(
+      "circular-portrait--featured",
+    );
+    expect(image.closest(".circular-portrait")).toHaveAttribute(
+      "data-image-context",
+      "Exact-tournament photograph",
+    );
+  });
+
+  it("labels illustrated fallbacks honestly", () => {
+    render(
+      <CircularPortrait
+        imageId="pele-1970"
+        subjectName="Pelé"
+        era="1970s"
+      />,
+    );
+    expect(
+      screen.getByRole("img", { name: /illustrated fallback of pelé/i }),
+    ).toBeInTheDocument();
+  });
+});

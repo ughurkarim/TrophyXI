@@ -16,18 +16,20 @@ describe("DraftBoard", () => {
     useGameStore
       .getState()
       .selectManager(useGameStore.getState().managerOptionIds[0]);
-    useGameStore.getState().selectFormation("4-3-3");
+    useGameStore
+      .getState()
+      .selectFormation(useGameStore.getState().formationOptionIds[0]);
     useGameStore.getState().selectSlot("gk");
   });
 
   it("selects a card and advances draft progress", async () => {
     const user = userEvent.setup();
     render(<DraftBoard />);
-    expect(screen.getByLabelText("0 of 11 players drafted")).toBeInTheDocument();
+    expect(screen.getByLabelText("0 of 14 players drafted")).toBeInTheDocument();
     const choices = screen.getAllByRole("button", { name: /draft .* rated/i });
     expect(choices).toHaveLength(3);
     await user.click(choices[0]);
-    expect(screen.getByLabelText("1 of 11 players drafted")).toBeInTheDocument();
+    expect(screen.getByLabelText("1 of 14 players drafted")).toBeInTheDocument();
     expect(useGameStore.getState().picks).toHaveLength(1);
   });
 
@@ -37,7 +39,7 @@ describe("DraftBoard", () => {
     await user.click(screen.getAllByRole("button", { name: /draft .* rated/i })[0]);
     await user.click(screen.getByRole("button", { name: "Reset draft" }));
     expect(screen.getByRole("dialog", { name: /return every player card/i })).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Reset XI" }));
+    await user.click(screen.getByRole("button", { name: "Reset squad" }));
     expect(useGameStore.getState().picks).toHaveLength(0);
   });
 });

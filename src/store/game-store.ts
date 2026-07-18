@@ -2,14 +2,18 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
-import { spain2010 } from "@/data/champions";
-import { getDraftEra, isPlayerInDraftEra } from "@/data/eras";
 import { getFormation } from "@/data/formations";
+import {
+  historicalOpponents,
+  historicalOpponentsById,
+} from "@/data/opponents/generated";
 import { managers, managersById } from "@/data/managers";
 import { players, playersById } from "@/data/players";
 import {
   createDraftSeed,
+  generateBenchOptions,
   generateDraftOptions,
+  generateFormationOffer,
   generateManagerOptions,
   isEligibleForSlot,
   validateDraftPicks,
@@ -17,16 +21,37 @@ import {
 import { hashString } from "@/engine/random";
 import { simulateMatch } from "@/engine/simulation";
 import type {
+  BenchPick,
+  BenchSlotId,
   DraftEraId,
   DraftPick,
   FormationId,
   MatchResult,
 } from "@/types/game";
 
-const SAVE_VERSION = 2;
-const opponentIdentityIds = new Set(
-  spain2010.lineup.map((player) => player.playerIdentityId),
-);
+const SAVE_VERSION = 4;
+
+export type OpponentFilters = {
+  query: string;
+  year: number | null;
+  nation: string;
+  finish: string;
+  confederation: string;
+  difficulty: string;
+  championOnly: boolean;
+};
+
+const defaultOpponentFilters: OpponentFilters = {
+  query: "",
+  year: null,
+  nation: "",
+  finish: "",
+  confederation: "",
+  difficulty: "",
+  championOnly: false,
+};
+
+type DraftPhase = "starters" | "bench" | "review" | "opponent";
 
 type GameStore = {
   hasHydrated: boolean;
@@ -34,14 +59,20 @@ type GameStore = {
   eraId: DraftEraId | null;
   managerId: string | null;
   managerOptionIds: string[];
+  formationOptionIds: FormationId[];
   formationId: FormationId | null;
   draftSeed: number;
   picks: DraftPick[];
+  benchPicks: BenchPick[];
+  draftPhase: DraftPhase;
   selectedSlotId: string | null;
+  pendingBenchCardId: string | null;
   optionIds: string[];
   rejectedIdentityIds: string[];
-  respinUsed: boolean;
-  respinStage: "manager" | "player" | null;
+  playerRespinsRemaining: number;
+  playerRespinIndex: number;
+  opponentFilters: OpponentFilters;
+  selectedOpponentId: string | null;
   simulationNonce: number;
   matchResult: MatchResult | null;
   setHasHydrated: (value: boolean) => void;
@@ -54,6 +85,13 @@ type GameStore = {
   cancelSlot: () => void;
   respinPlayers: () => void;
   selectPlayer: (cardId: string) => void;
+  startBenchDraft: () => void;
+  assignBenchPlayer: (slotId: BenchSlotId) => void;
+  cancelBenchAssignment: () => void;
+  moveBenchPlayer: (slotId: BenchSlotId, direction: -1 | 1) => void;
+  finalizeBench: () => void;
+  setOpponentFilters: (filters: Partial<OpponentFilters>) => void;
+  selectOpponent: (id: string) => void;
   resetDraft: () => void;
   simulate: () => MatchResult;
   prepareRematch: () => void;
@@ -76,58 +114,98 @@ const managerOptionsFor = (
   eraId: DraftEraId,
   seed: number,
   excluded: Iterable<string> = [],
-  respinIndex = 0,
 ) =>
-  generateManagerOptions(managers, eraId, seed, excluded, respinIndex).map(
+  generateManagerOptions(managers, eraId, seed, excluded).map(
     (manager) => manager.id,
   );
 
+const formationOptionsFor = (
+  managerId: string,
+  eraId: DraftEraId,
+  seed: number,
+) => {
+  const manager = managersById.get(managerId);
+  return manager ? generateFormationOffer(manager, eraId, seed) : [];
+};
+
 const playerOptionsFor = ({
   formationId,
-  eraId,
   picks,
   selectedSlotId,
   draftSeed,
   rejectedIdentityIds,
+  contextKey,
   respinIndex = 0,
 }: {
   formationId: FormationId;
-  eraId: DraftEraId;
   picks: DraftPick[];
   selectedSlotId: string;
   draftSeed: number;
   rejectedIdentityIds: string[];
+  contextKey: string;
   respinIndex?: number;
 }) => {
   const formation = getFormation(formationId);
   const slot = formation.slots.find((candidate) => candidate.id === selectedSlotId);
   if (!slot || picks.some((pick) => pick.slotId === slot.id)) return [];
   return generateDraftOptions(
-    players.filter((player) => isPlayerInDraftEra(player, eraId)),
+    players,
     slot,
     picks.map((pick) => pick.cardId),
-    draftSeed,
+    draftSeed ^ hashString(contextKey),
     picks.length,
     {
-      excludedIdentityIds: opponentIdentityIds,
       rejectedIdentityIds,
       respinIndex,
     },
   ).map((card) => card.id);
 };
 
+const benchOptionsFor = ({
+  picks,
+  benchPicks,
+  draftSeed,
+  rejectedIdentityIds,
+  contextKey,
+  respinIndex,
+}: {
+  picks: DraftPick[];
+  benchPicks: BenchPick[];
+  draftSeed: number;
+  rejectedIdentityIds: string[];
+  contextKey: string;
+  respinIndex: number;
+}) =>
+  generateBenchOptions(
+    players,
+    picks,
+    benchPicks,
+    draftSeed ^ hashString(contextKey),
+    benchPicks.length,
+    {
+      rejectedIdentityIds,
+      respinIndex,
+    },
+  ).map((card) => card.id);
+
 const cleanState = {
   eraId: null,
   managerId: null,
   managerOptionIds: [] as string[],
+  formationOptionIds: [] as FormationId[],
   formationId: null,
   draftSeed: 2026,
   picks: [] as DraftPick[],
+  benchPicks: [] as BenchPick[],
+  draftPhase: "starters" as DraftPhase,
   selectedSlotId: null,
+  pendingBenchCardId: null,
   optionIds: [] as string[],
   rejectedIdentityIds: [] as string[],
-  respinUsed: false,
-  respinStage: null as "manager" | "player" | null,
+  playerRespinsRemaining: 2,
+  playerRespinIndex: 0,
+  opponentFilters: { ...defaultOpponentFilters },
+  selectedOpponentId: null,
   simulationNonce: 0,
   matchResult: null,
 };
@@ -135,18 +213,23 @@ const cleanState = {
 const migratedEra = (value: unknown): DraftEraId | null => {
   if (
     value === "all" ||
-    value === "turn-of-century" ||
-    value === "modern-masters" ||
-    value === "new-generation"
+    value === "1970s" ||
+    value === "1980s" ||
+    value === "1990s" ||
+    value === "2000s" ||
+    value === "2010s" ||
+    value === "2020s"
   ) {
     return value;
   }
+  if (value === "turn-of-century") return "2000s";
+  if (value === "modern-masters") return "2010s";
+  if (value === "new-generation") return "2020s";
   if (value === "open") return "all";
-  if (value === "1990s" || value === "2000s") return "turn-of-century";
-  if (value === "2010s") return "modern-masters";
-  if (value === "2020s") return "new-generation";
   return null;
 };
+
+const benchSlotOrder: BenchSlotId[] = ["bench-1", "bench-2", "bench-3"];
 
 export const useGameStore = create<GameStore>()(
   persist(
@@ -168,52 +251,66 @@ export const useGameStore = create<GameStore>()(
       },
       selectManager: (managerId) => {
         const state = get();
-        if (!state.managerOptionIds.includes(managerId) || !managersById.has(managerId)) {
+        if (
+          !state.eraId ||
+          !state.managerOptionIds.includes(managerId) ||
+          !managersById.has(managerId)
+        ) {
           return;
         }
         set({
           managerId,
+          formationOptionIds: formationOptionsFor(
+            managerId,
+            state.eraId,
+            state.draftSeed,
+          ),
           formationId: null,
           picks: [],
+          benchPicks: [],
+          draftPhase: "starters",
           selectedSlotId: null,
           optionIds: [],
+          selectedOpponentId: null,
           matchResult: null,
         });
       },
-      respinManagers: () => {
-        const state = get();
-        if (!state.eraId || state.respinUsed || state.managerId) return;
-        const rejected = state.managerOptionIds
-          .map((id) => managersById.get(id)?.managerIdentityId)
-          .filter((id): id is string => Boolean(id));
-        set({
-          managerOptionIds: managerOptionsFor(
-            state.eraId,
-            state.draftSeed,
-            rejected,
-            1,
-          ),
-          rejectedIdentityIds: rejected,
-          respinUsed: true,
-          respinStage: "manager",
-        });
-      },
+      // Manager options no longer consume or expose player respins.
+      respinManagers: () => undefined,
       selectFormation: (formationId) => {
         const state = get();
-        if (!state.eraId || !state.managerId) return;
+        if (
+          !state.eraId ||
+          !state.managerId ||
+          !state.formationOptionIds.includes(formationId)
+        ) {
+          return;
+        }
         set({
           formationId,
           picks: [],
+          benchPicks: [],
+          draftPhase: "starters",
           selectedSlotId: null,
+          pendingBenchCardId: null,
           optionIds: [],
           rejectedIdentityIds: [],
+          playerRespinsRemaining: 2,
+          playerRespinIndex: 0,
+          selectedOpponentId: null,
           simulationNonce: 0,
           matchResult: null,
         });
       },
       selectSlot: (selectedSlotId) => {
         const state = get();
-        if (!state.formationId || !state.eraId) return;
+        if (
+          state.draftPhase !== "starters" ||
+          !state.formationId ||
+          !state.eraId
+        ) {
+          return;
+        }
         const formation = getFormation(state.formationId);
         if (
           !formation.slots.some((slot) => slot.id === selectedSlotId) ||
@@ -225,11 +322,12 @@ export const useGameStore = create<GameStore>()(
           selectedSlotId,
           optionIds: playerOptionsFor({
             formationId: state.formationId,
-            eraId: state.eraId,
             picks: state.picks,
             selectedSlotId,
             draftSeed: state.draftSeed,
             rejectedIdentityIds: state.rejectedIdentityIds,
+            contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining}`,
+            respinIndex: state.playerRespinIndex,
           }),
         });
       },
@@ -237,41 +335,72 @@ export const useGameStore = create<GameStore>()(
       respinPlayers: () => {
         const state = get();
         if (
-          state.respinUsed ||
-          !state.formationId ||
-          !state.eraId ||
-          !state.selectedSlotId ||
-          state.optionIds.length !== 3
+          state.playerRespinsRemaining <= 0 ||
+          state.pendingBenchCardId ||
+          state.optionIds.length !== 3 ||
+          (state.draftPhase === "starters" && !state.selectedSlotId) ||
+          !["starters", "bench"].includes(state.draftPhase)
         ) {
           return;
         }
         const rejected = [
-          ...state.rejectedIdentityIds,
-          ...state.optionIds
-            .map((id) => playersById.get(id)?.playerIdentityId)
-            .filter((id): id is string => Boolean(id)),
+          ...new Set([
+            ...state.rejectedIdentityIds,
+            ...state.optionIds
+              .map((id) => playersById.get(id)?.playerIdentityId)
+              .filter((id): id is string => Boolean(id)),
+          ]),
         ];
+        const nextIndex = state.playerRespinIndex + 1;
+        const optionIds =
+          state.draftPhase === "starters" &&
+          state.formationId &&
+          state.selectedSlotId
+            ? playerOptionsFor({
+                formationId: state.formationId,
+                picks: state.picks,
+                selectedSlotId: state.selectedSlotId,
+                draftSeed: state.draftSeed,
+                rejectedIdentityIds: rejected,
+                contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining - 1}`,
+                respinIndex: nextIndex,
+              })
+            : benchOptionsFor({
+                picks: state.picks,
+                benchPicks: state.benchPicks,
+                draftSeed: state.draftSeed,
+                rejectedIdentityIds: rejected,
+                contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining - 1}`,
+                respinIndex: nextIndex,
+              });
         set({
-          optionIds: playerOptionsFor({
-            formationId: state.formationId,
-            eraId: state.eraId,
-            picks: state.picks,
-            selectedSlotId: state.selectedSlotId,
-            draftSeed: state.draftSeed,
-            rejectedIdentityIds: rejected,
-            respinIndex: 1,
-          }),
+          optionIds,
           rejectedIdentityIds: rejected,
-          respinUsed: true,
-          respinStage: "player",
+          playerRespinsRemaining: state.playerRespinsRemaining - 1,
+          playerRespinIndex: nextIndex,
         });
       },
       selectPlayer: (cardId) => {
         const state = get();
+        if (!state.optionIds.includes(cardId)) return;
+        const selectedPlayer = playersById.get(cardId);
+        if (!selectedPlayer) return;
+        const usedIdentities = new Set(
+          [...state.picks, ...state.benchPicks]
+            .map((pick) => playersById.get(pick.cardId)?.playerIdentityId)
+            .filter((id): id is string => Boolean(id)),
+        );
+        if (usedIdentities.has(selectedPlayer.playerIdentityId)) {
+          return;
+        }
+        if (state.draftPhase === "bench") {
+          set({ pendingBenchCardId: cardId });
+          return;
+        }
         if (
+          state.draftPhase !== "starters" ||
           !state.formationId ||
-          !state.selectedSlotId ||
-          !state.optionIds.includes(cardId)
+          !state.selectedSlotId
         ) {
           return;
         }
@@ -279,17 +408,8 @@ export const useGameStore = create<GameStore>()(
         const slot = formation.slots.find(
           (candidate) => candidate.id === state.selectedSlotId,
         );
-        const selectedPlayer = playersById.get(cardId);
-        const draftedIdentities = new Set(
-          state.picks
-            .map((pick) => playersById.get(pick.cardId)?.playerIdentityId)
-            .filter((id): id is string => Boolean(id)),
-        );
         if (
           !slot ||
-          !selectedPlayer ||
-          opponentIdentityIds.has(selectedPlayer.playerIdentityId) ||
-          draftedIdentities.has(selectedPlayer.playerIdentityId) ||
           state.picks.some(
             (pick) => pick.cardId === cardId || pick.slotId === slot.id,
           ) ||
@@ -304,17 +424,121 @@ export const useGameStore = create<GameStore>()(
           matchResult: null,
         });
       },
+      startBenchDraft: () => {
+        const state = get();
+        if (state.picks.length !== 11 || state.draftPhase !== "starters") return;
+        set({
+          draftPhase: "bench",
+          selectedSlotId: null,
+          optionIds: benchOptionsFor({
+            picks: state.picks,
+            benchPicks: [],
+            draftSeed: state.draftSeed,
+            rejectedIdentityIds: state.rejectedIdentityIds,
+            contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
+            respinIndex: state.playerRespinIndex,
+          }),
+        });
+      },
+      assignBenchPlayer: (slotId) => {
+        const state = get();
+        if (
+          state.draftPhase !== "bench" ||
+          !state.pendingBenchCardId ||
+          state.benchPicks.some((pick) => pick.slotId === slotId) ||
+          !benchSlotOrder.includes(slotId)
+        ) {
+          return;
+        }
+        const benchPicks = [
+          ...state.benchPicks,
+          { slotId, cardId: state.pendingBenchCardId },
+        ];
+        set({
+          benchPicks,
+          pendingBenchCardId: null,
+          optionIds:
+            benchPicks.length === 3
+              ? []
+              : benchOptionsFor({
+                  picks: state.picks,
+                  benchPicks,
+                  draftSeed: state.draftSeed,
+                  rejectedIdentityIds: state.rejectedIdentityIds,
+                  contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
+                  respinIndex: state.playerRespinIndex,
+                }),
+          draftPhase: benchPicks.length === 3 ? "review" : "bench",
+        });
+      },
+      cancelBenchAssignment: () => set({ pendingBenchCardId: null }),
+      moveBenchPlayer: (slotId, direction) => {
+        const state = get();
+        if (state.draftPhase !== "review") return;
+        const from = benchSlotOrder.indexOf(slotId);
+        const to = from + direction;
+        if (from < 0 || to < 0 || to >= benchSlotOrder.length) return;
+        const first = state.benchPicks.find(
+          (pick) => pick.slotId === benchSlotOrder[from],
+        );
+        const second = state.benchPicks.find(
+          (pick) => pick.slotId === benchSlotOrder[to],
+        );
+        if (!first || !second) return;
+        set({
+          benchPicks: state.benchPicks.map((pick) =>
+            pick.cardId === first.cardId
+              ? { ...pick, slotId: benchSlotOrder[to] }
+              : pick.cardId === second.cardId
+                ? { ...pick, slotId: benchSlotOrder[from] }
+                : pick,
+          ),
+        });
+      },
+      finalizeBench: () => {
+        if (get().benchPicks.length === 3) set({ draftPhase: "opponent" });
+      },
+      setOpponentFilters: (filters) =>
+        set((state) => ({
+          opponentFilters: { ...state.opponentFilters, ...filters },
+        })),
+      selectOpponent: (selectedOpponentId) => {
+        if (
+          get().picks.length !== 11 ||
+          get().benchPicks.length !== 3 ||
+          get().draftPhase !== "opponent"
+        ) {
+          return;
+        }
+        const opponent = historicalOpponentsById.get(selectedOpponentId);
+        if (!opponent) return;
+        const draftedIdentities = new Set(
+          [...get().picks, ...get().benchPicks]
+            .map((pick) => playersById.get(pick.cardId)?.playerIdentityId)
+            .filter((id): id is string => Boolean(id)),
+        );
+        const opponentIdentities = [
+          ...opponent.startingLineup,
+          ...opponent.substitutes,
+        ].map((player) => player.playerIdentityId);
+        if (opponentIdentities.some((id) => draftedIdentities.has(id))) return;
+        set({ selectedOpponentId, matchResult: null });
+      },
       resetDraft: () => {
         const state = get();
-        if (!state.formationId || !state.eraId) return;
+        if (!state.formationId) return;
         set({
           draftSeed: createDraftSeed(),
           picks: [],
+          benchPicks: [],
+          draftPhase: "starters",
           selectedSlotId: null,
+          pendingBenchCardId: null,
           optionIds: [],
           rejectedIdentityIds: [],
-          respinUsed: state.respinStage === "manager",
-          respinStage: state.respinStage === "manager" ? "manager" : null,
+          playerRespinsRemaining: 2,
+          playerRespinIndex: 0,
+          selectedOpponentId: null,
           simulationNonce: 0,
           matchResult: null,
         });
@@ -325,16 +549,20 @@ export const useGameStore = create<GameStore>()(
           !state.formationId ||
           !state.eraId ||
           !state.managerId ||
-          state.picks.length !== 11
+          !state.selectedOpponentId ||
+          state.picks.length !== 11 ||
+          state.benchPicks.length !== 3
         ) {
-          throw new Error("Complete the era, manager, formation, and XI first");
+          throw new Error(
+            "Complete the environment, manager, formation, squad, and opponent first",
+          );
         }
         const formation = getFormation(state.formationId);
         const validation = validateDraftPicks({
           picks: state.picks,
           formation,
           cards: players,
-          excludedIdentityIds: opponentIdentityIds,
+          excludedIdentityIds: [],
         });
         if (validation.issues.length || validation.valid.length !== 11) {
           throw new Error("The saved XI failed identity or positional validation");
@@ -343,21 +571,46 @@ export const useGameStore = create<GameStore>()(
           const pick = state.picks.find((candidate) => candidate.slotId === slot.id)!;
           return playersById.get(pick.cardId)!;
         });
+        const bench = benchSlotOrder.map((slotId) => {
+          const pick = state.benchPicks.find(
+            (candidate) => candidate.slotId === slotId,
+          )!;
+          return playersById.get(pick.cardId)!;
+        });
+        const allIdentityIds = [
+          ...lineup.map((player) => player.playerIdentityId),
+          ...bench.map((player) => player.playerIdentityId),
+        ];
+        if (new Set(allIdentityIds).size !== 14) {
+          throw new Error("The saved squad contains a duplicate player identity");
+        }
         const manager = managersById.get(state.managerId);
-        if (!manager) throw new Error("The selected manager is unavailable");
+        const opponent = historicalOpponentsById.get(state.selectedOpponentId);
+        if (!manager || !opponent) throw new Error("Match context is unavailable");
+        const opponentIdentities = new Set(
+          [...opponent.startingLineup, ...opponent.substitutes].map(
+            (player) => player.playerIdentityId,
+          ),
+        );
+        if (allIdentityIds.some((id) => opponentIdentities.has(id))) {
+          throw new Error("The saved squad conflicts with the opponent lineup");
+        }
         const simulationNonce = state.simulationNonce + 1;
         const seed = hashString(
           `${state.draftSeed}:${state.picks
             .map((pick) => `${pick.slotId}:${pick.cardId}`)
-            .join("|")}:spain-2010:${state.managerId}:${simulationNonce}`,
+            .join("|")}:${state.benchPicks
+            .map((pick) => `${pick.slotId}:${pick.cardId}`)
+            .join("|")}:${opponent.id}:${state.managerId}:${simulationNonce}`,
         );
         const matchResult = simulateMatch({
           lineup,
+          bench,
           picks: state.picks,
           formation,
           manager,
           eraId: state.eraId,
-          opponent: spain2010,
+          opponent,
           seed,
         });
         set({ matchResult, simulationNonce });
@@ -368,22 +621,16 @@ export const useGameStore = create<GameStore>()(
       repairHydratedState: () => {
         const state = get();
         if (!state.eraId) return;
-        const era = getDraftEra(state.eraId);
         const manager = state.managerId ? managersById.get(state.managerId) : null;
-        if (
-          state.managerId &&
-          (!manager ||
-            manager.tournamentYear < era.yearRange[0] ||
-            manager.tournamentYear > era.yearRange[1])
-        ) {
+        if (state.managerId && !manager) {
           set({
             managerId: null,
             managerOptionIds: managerOptionsFor(state.eraId, state.draftSeed),
+            formationOptionIds: [],
             formationId: null,
             picks: [],
-            selectedSlotId: null,
-            optionIds: [],
-            matchResult: null,
+            benchPicks: [],
+            draftPhase: "starters",
             saveNotice:
               "Your previous save used an unavailable manager and was safely returned to manager selection.",
           });
@@ -394,30 +641,57 @@ export const useGameStore = create<GameStore>()(
         const repaired = validateDraftPicks({
           picks: Array.isArray(state.picks) ? state.picks : [],
           formation,
-          cards: players.filter((player) =>
-            isPlayerInDraftEra(player, state.eraId!),
-          ),
-          excludedIdentityIds: opponentIdentityIds,
+          cards: players,
+          excludedIdentityIds: [],
         });
-        const optionsValid =
-          state.selectedSlotId &&
-          state.optionIds.length === 3 &&
-          state.optionIds.every((id) => playersById.has(id));
-        if (repaired.issues.length || repaired.valid.length !== state.picks.length) {
+        const starterIdentities = new Set(
+          repaired.valid
+            .map((pick) => playersById.get(pick.cardId)?.playerIdentityId)
+            .filter((id): id is string => Boolean(id)),
+        );
+        const benchIdentities = new Set<string>();
+        const repairedBench = (Array.isArray(state.benchPicks)
+          ? state.benchPicks
+          : []
+        ).filter((pick) => {
+          const card = playersById.get(pick.cardId);
+          if (
+            !card ||
+            !benchSlotOrder.includes(pick.slotId) ||
+            starterIdentities.has(card.playerIdentityId) ||
+            benchIdentities.has(card.playerIdentityId)
+          ) {
+            return false;
+          }
+          benchIdentities.add(card.playerIdentityId);
+          return true;
+        });
+        if (
+          repaired.issues.length ||
+          repaired.valid.length !== state.picks.length ||
+          repairedBench.length !== state.benchPicks.length
+        ) {
           set({
             picks: repaired.valid,
+            benchPicks: repairedBench,
+            draftPhase: repaired.valid.length === 11 ? "bench" : "starters",
             selectedSlotId: null,
+            pendingBenchCardId: null,
             optionIds: [],
+            selectedOpponentId: null,
             matchResult: null,
             saveNotice:
-              "We repaired an older or invalid saved XI. Duplicate, missing, opponent, or out-of-position entries were removed.",
+              "We repaired an older or invalid saved squad. Duplicate, missing, opponent, or out-of-position entries were removed.",
           });
-        } else if (!optionsValid && (state.selectedSlotId || state.optionIds.length)) {
+        } else if (
+          state.selectedOpponentId &&
+          !historicalOpponentsById.has(state.selectedOpponentId)
+        ) {
           set({
-            selectedSlotId: null,
-            optionIds: [],
+            selectedOpponentId: null,
+            matchResult: null,
             saveNotice:
-              "An incomplete archived choice was cleared. Select an open position to continue.",
+              "The archived historical opponent was unavailable and has been cleared.",
           });
         }
       },
@@ -427,42 +701,70 @@ export const useGameStore = create<GameStore>()(
       version: SAVE_VERSION,
       storage: createJSONStorage(() => browserStorage),
       skipHydration: true,
-      migrate: (persisted, version) => {
+      migrate: (persisted) => {
         const previous = (persisted ?? {}) as Partial<GameStore> & {
           eraId?: unknown;
+          respinUsed?: boolean;
+          respinStage?: "manager" | "player" | null;
         };
         const eraId = migratedEra(previous.eraId);
-        if (version < SAVE_VERSION && eraId && !previous.managerId) {
-          return {
-            ...cleanState,
-            eraId,
-            draftSeed: previous.draftSeed ?? 2026,
-            managerOptionIds: managerOptionsFor(
-              eraId,
-              previous.draftSeed ?? 2026,
-            ),
-            saveNotice:
-              "Trophy XI’s draft format expanded. Choose a tournament manager to continue.",
-          };
-        }
+        const managerId =
+          previous.managerId && managersById.has(previous.managerId)
+            ? previous.managerId
+            : null;
+        const draftSeed = previous.draftSeed ?? 2026;
         return {
           ...cleanState,
           ...previous,
           eraId,
+          managerId,
+          draftSeed,
+          managerOptionIds:
+            eraId && !managerId
+              ? managerOptionsFor(eraId, draftSeed)
+              : previous.managerOptionIds ?? [],
+          formationOptionIds:
+            eraId && managerId
+              ? formationOptionsFor(managerId, eraId, draftSeed)
+              : [],
+          playerRespinsRemaining:
+            previous.respinUsed && previous.respinStage === "player" ? 1 : 2,
+          playerRespinIndex:
+            previous.respinUsed && previous.respinStage === "player" ? 1 : 0,
+          benchPicks: previous.benchPicks ?? [],
+          opponentFilters: {
+            ...defaultOpponentFilters,
+            ...(previous.opponentFilters ?? {}),
+          },
+          selectedOpponentId:
+            previous.selectedOpponentId &&
+            historicalOpponents.some(
+              (opponent) => opponent.id === previous.selectedOpponentId,
+            )
+              ? previous.selectedOpponentId
+              : null,
+          saveNotice:
+            "Trophy XI upgraded your save for match environments, a three-player bench, and two player respins.",
         };
       },
       partialize: (state) => ({
         eraId: state.eraId,
         managerId: state.managerId,
         managerOptionIds: state.managerOptionIds,
+        formationOptionIds: state.formationOptionIds,
         formationId: state.formationId,
         draftSeed: state.draftSeed,
         picks: state.picks,
+        benchPicks: state.benchPicks,
+        draftPhase: state.draftPhase,
         selectedSlotId: state.selectedSlotId,
+        pendingBenchCardId: state.pendingBenchCardId,
         optionIds: state.optionIds,
         rejectedIdentityIds: state.rejectedIdentityIds,
-        respinUsed: state.respinUsed,
-        respinStage: state.respinStage,
+        playerRespinsRemaining: state.playerRespinsRemaining,
+        playerRespinIndex: state.playerRespinIndex,
+        opponentFilters: state.opponentFilters,
+        selectedOpponentId: state.selectedOpponentId,
         simulationNonce: state.simulationNonce,
         matchResult: state.matchResult,
         saveNotice: state.saveNotice,

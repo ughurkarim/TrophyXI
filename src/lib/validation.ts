@@ -19,6 +19,13 @@ export const playerCardSchema = z.object({
   countryName: z.string().min(2),
   confederation: z.enum(["UEFA", "CONMEBOL", "CONCACAF", "CAF", "AFC", "OFC"]),
   tournamentYear: z.union([
+    z.literal(1970),
+    z.literal(1974),
+    z.literal(1978),
+    z.literal(1982),
+    z.literal(1986),
+    z.literal(1990),
+    z.literal(1994),
     z.literal(1998),
     z.literal(2002),
     z.literal(2006),
@@ -39,7 +46,7 @@ export const playerCardSchema = z.object({
     goalkeeping: rating,
     clutch: rating,
   }),
-  era: z.enum(["1990s", "2000s", "2010s", "2020s"]),
+  era: z.enum(["1970s", "1980s", "1990s", "2000s", "2010s", "2020s"]),
   archetype: z.string().min(2),
   qualityBand: z.enum([
     "iconic",
@@ -69,6 +76,22 @@ export const playerCardSchema = z.object({
     }),
   ),
   imageId: z.string().regex(/^[a-z0-9-]+$/),
+  eraLegacy: z.enum([
+    "era-specialist",
+    "adaptable",
+    "cross-era",
+    "timeless",
+  ]),
+  eraTranslation: z.object({
+    timelessness: rating,
+    physicalAdaptability: rating,
+    technicalAdaptability: rating,
+    tacticalAdaptability: rating,
+    pressingAdaptability: rating,
+    tempoAdaptability: rating,
+    equipmentAdaptability: rating,
+    refereeingAdaptability: rating,
+  }),
 });
 
 export const playerSeedSchema = z.array(playerCardSchema).superRefine((cards, context) => {

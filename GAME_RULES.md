@@ -2,77 +2,135 @@
 
 ## Session flow
 
-Choose one of four era modes, draft one of exactly three tournament-manager
-versions, choose a formation, and fill eleven formation slots. Before every player
-draw, the user must select any open pitch position. A selected empty position can
-be cancelled; a filled position can be inspected but never replaced.
+Choose one match environment, draft one of exactly three tournament-manager
+versions, choose one of four seeded formations, fill eleven formation slots in
+any user-selected order, draft three substitutes, reorder Bench 1–3, choose a
+historical opponent, and play a deterministic knockout match.
 
-Era modes are:
+The user selects an open tactical slot before seeing exactly three valid starter
+cards. A filled slot can be inspected but never replaced. Bench cards are chosen
+from three identity-safe, tactically varied options and then assigned to an open
+bench slot.
 
-- All Eras (`1998–2022`)
-- Turn of the Century (`1998–2006`)
-- Modern Masters (`2010–2018`)
-- New Generation (`2022`)
+## Match environment versus card year
 
-All Eras gives every eligible card 100 era fit. Era-specific pools are strict, so
-their available cards also receive 100 era fit.
+Match environments are 1970s, 1980s, 1990s, 2000s, 2010s, 2020s, and All
+Eras / Neutral. The environment is not a player-card filter: every supported
+tournament version remains eligible in every environment.
+
+`tournamentYear` is the represented card performance. `eraId` is the match
+environment. Era Translation measures how the former translates into the latter.
+Both Trophy XI and its nation-year opponent are evaluated in the same environment.
+
+## Trophy XI Era Translation Rating
+
+Every player has a project-created translation profile:
+
+- timelessness
+- physical, technical, and tactical adaptability
+- pressing and tempo adaptability
+- equipment and refereeing adaptability
+
+The model combines year distance, direction of travel, those attributes,
+environmental demands, role/archetype, manager style, and formation pressing.
+Modern-to-old translation emphasizes physical contact, equipment, refereeing, and
+technical control. Old-to-modern translation emphasizes pressing, tactical,
+tempo, and technical adaptation.
+
+Era legacy sets a bounded distance multiplier and floor:
+
+- era-specialist: full distance penalty, minimum 58
+- adaptable: 72% distance multiplier, minimum 68
+- cross-era: 44% distance multiplier, minimum 80
+- timeless: 18% distance multiplier, minimum 90
+
+All Eras / Neutral returns 94–100 and minimizes year distance. “Timeless” is an
+original Trophy XI game-design evaluation, not an objective historical claim.
 
 ## Identity integrity
 
-Every card has a version id and a separate stable `playerIdentityId`. Multiple
-tournament versions may exist in the archive, but one identity can appear only
-once in the user XI. All Spain 2010 opponent identities are excluded from player
-options.
+Every card has a version id and a stable `playerIdentityId`. One identity can
+appear only once across all eleven starters and all three substitutes; alternate
+tournament versions count as the same identity. Known opponent lineup identities
+are rejected at opponent selection, hydration, pre-match validation, and
+simulation. Missing opponent lineups are never invented.
 
-Identity, slot, era, and position rules run during initialization, option
-generation, selection, hydration/migration, pre-match validation, and simulation
-input. A corrupt or old save is repaired where possible; removed data is announced
-in an accessible notice.
+## Position and manager fit
 
-## Position fit
+Position Fit uses:
 
-Valid draft options use a 0–100 fit scale:
+- 100 exact primary
+- 94 strong role family
+- 88 declared secondary
+- 80 adjacent accepted
+- 68 emergency accepted
+- 0 invalid
 
-- 100: exact primary position
-- 94: strong role-family fit
-- 88: declared secondary position
-- 80: adjacent accepted role
-- 68: emergency accepted role
-- 0: invalid and never drafted
+Managers have a tactical style, preferred and acceptable formations, leadership,
+game management, and separate numeric OFF and DEF grades. Letter grades map from
+S (95–100) through F (below 55). OFF influences chance quality and attacking
+changes; DEF influences opponent chance quality and lead protection.
 
-## Manager fit
+## Formations
 
-Managers have an era, tactical style, preferred formations, and modest
-attack/midfield/defense/clutch modifiers. Formation preference, style
-compatibility, and selected era produce a 75–100 manager-fit score. Manager
-effects are intentionally smaller than player quality.
+The library contains 12 formations. Each run offers exactly four deterministic
+choices derived from draft seed, manager, and environment. Offers include a
+manager-preferred shape, a balanced option, a contrasting shape, and an
+era-aware/wildcard option when valid. Formation selection has no respin.
 
-## Respin
+## Bench priority and substitutions
 
-One permanent respin exists per session. It may dismiss all three manager options
-or all three cards in any one player round. The user must confirm. Rejected
-identity ids cannot return, and the new draw is deterministic from the original
-seed, stage, slot, pick index, and respin index.
+Bench order has simulation meaning:
 
-## Team ratings and chemistry
+- Bench 1: highest use probability, normally 50’–70’, expected 25–40 minutes
+- Bench 2: medium priority, normally 65’–80’, expected 12–28 minutes
+- Bench 3: lowest priority, normally 75’–90’, expected 3–18 minutes
 
-Attack uses the four strongest attacking contributions. Midfield uses the five
-strongest control/creativity/physical contributions. Defense blends the four
-strongest outfield defenders with goalkeeping. Formation and manager modifiers
-remain modest.
+These are tendencies. Score state, manager game management, OFF/DEF grades,
+position compatibility, player type, fatigue window, extra time, and seeded
+randomness decide actual use. When losing, attacking options and earlier changes
+are favored; when winning, protective options receive more weight. Results show
+all fourteen players, unused substitutes at zero minutes, and the substitution
+timeline with reason, new position, bench priority, and manager influence.
 
-Chemistry uses country, tournament year, historical era, confederation,
-archetype, position fit, era fit, manager fit, and completion. Named achievement
-effects use diminishing returns and a hard 1.5-point team cap. Overall remains
-34% attack, 33% midfield, and 33% defense with bounded chemistry/fit adjustments.
+## Player respins
 
-## Simulation
+Every session starts with exactly two player respins. A respin replaces all three
+cards in the current starter or bench draw, preserves the selected slot/round,
+permanently consumes one use, persists after refresh, and rejects displayed
+identities when at least three alternatives remain. A third use is ignored.
+Manager, formation, era, and opponent selection cannot consume player respins.
 
-The local engine compares attack versus defense, midfield control, chemistry,
-formation, manager fit, sourced achievement effects, and clutch. A seeded
-pseudo-random generator adds bounded variation. The same validated input and seed
-produce the same event sequence and result.
+## Ratings and deterministic simulation
+
+Pre-match ratings include attack, midfield, defense, goalkeeper contribution,
+bench depth, bench versatility, Position Fit, Era Fit, timelessness, chemistry,
+tactical balance, manager OFF/DEF, and overall. Bench 1/2/3 contribute with
+approximately 40%/25%/15% priority weights and remain subordinate to starter
+quality.
+
+Simulation priority is:
+
+1. tournament-specific player quality
+2. positional fit
+3. tactical balance
+4. chemistry
+5. manager OFF/DEF
+6. bidirectional Era Translation
+7. ordered bench and substitutions
+8. tournament experience
+9. capped sourced achievements
+10. bounded seeded randomness
 
 Ties after 90 minutes go to extra time and then a deterministic shootout. The
-single result object contains goals, assists, cards, manager interventions,
-possession, shots, xG, tactical impact, player of the match, and the full timeline.
+result includes goals, assists, cards, manager events, substitutions, minutes,
+possession, shots, xG, tactical impact, and player of the match.
+
+## Historical opponents
+
+Each tournament participant from 1970–2022 is a distinct nation-year opponent.
+Search and filters cover year, nation, finish, confederation, difficulty, and
+champions. Participant identity, finish, and match count are sourced facts.
+Ratings, tactical labels, difficulty, and formation are explicitly marked Trophy
+XI models. Missing managers, lineups, and detailed statistics display as not
+sourced rather than zero or invented data.

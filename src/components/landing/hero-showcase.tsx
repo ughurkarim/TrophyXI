@@ -11,29 +11,85 @@ const featured = [
   playersById.get("lionel-messi-2022")!,
 ];
 
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
+export type HeroTransform = {
+  x: number;
+  y: number;
+  rotateX: number;
+  rotateY: number;
+};
+
+export const stableHeroTransform = (
+  pointerX: number,
+  pointerY: number,
+  bounds: { left: number; top: number; width: number; height: number },
+): HeroTransform => {
+  const normalizedX = clamp(
+    (pointerX - bounds.left) / Math.max(1, bounds.width) - 0.5,
+    -0.5,
+    0.5,
+  );
+  const normalizedY = clamp(
+    (pointerY - bounds.top) / Math.max(1, bounds.height) - 0.5,
+    -0.5,
+    0.5,
+  );
+  return {
+    x: clamp(normalizedX * 16, -8, 8),
+    y: clamp(normalizedY * 12, -6, 6),
+    rotateX: clamp(normalizedY * -7, -3.5, 3.5),
+    rotateY: clamp(normalizedX * 8, -4, 4),
+  };
+};
+
+export const pointerParallaxEnabled = (
+  pointerType: string,
+  reducedMotion: boolean,
+) => pointerType === "mouse" && !reducedMotion;
+
 export function HeroShowcase() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = Boolean(useReducedMotion());
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
-  const x = useSpring(rawX, { stiffness: 90, damping: 20 });
-  const y = useSpring(rawY, { stiffness: 90, damping: 20 });
+  const rawRotateX = useMotionValue(0);
+  const rawRotateY = useMotionValue(0);
+  const spring = { stiffness: 110, damping: 24, mass: 0.65 };
+  const x = useSpring(rawX, spring);
+  const y = useSpring(rawY, spring);
+  const rotateX = useSpring(rawRotateX, spring);
+  const rotateY = useSpring(rawRotateY, spring);
+
+  const resetTransform = () => {
+    rawX.set(0);
+    rawY.set(0);
+    rawRotateX.set(0);
+    rawRotateY.set(0);
+  };
 
   const handlePointer = (event: PointerEvent<HTMLDivElement>) => {
-    if (reduceMotion) return;
+    if (!pointerParallaxEnabled(event.pointerType, reduceMotion)) {
+      resetTransform();
+      return;
+    }
     const bounds = event.currentTarget.getBoundingClientRect();
-    rawX.set(((event.clientX - bounds.left) / bounds.width - 0.5) * 12);
-    rawY.set(((event.clientY - bounds.top) / bounds.height - 0.5) * 9);
+    const next = stableHeroTransform(event.clientX, event.clientY, bounds);
+    rawX.set(next.x);
+    rawY.set(next.y);
+    rawRotateX.set(next.rotateX);
+    rawRotateY.set(next.rotateY);
   };
 
   return (
     <motion.div
       className="hero-showcase"
+      data-testid="hero-showcase"
       onPointerMove={handlePointer}
-      onPointerLeave={() => {
-        rawX.set(0);
-        rawY.set(0);
-      }}
-      style={{ rotateY: x, rotateX: y }}
+      onPointerLeave={resetTransform}
+      onBlur={resetTransform}
+      tabIndex={0}
+      style={reduceMotion ? undefined : { x, y, rotateX, rotateY }}
       aria-label="Featured tournament cards: Zidane 1998, Ronaldo 2002, and Messi 2022"
     >
       <div className="hero-pitch" aria-hidden>
@@ -52,7 +108,7 @@ export function HeroShowcase() {
       ))}
       <div className="showcase-plaque">
         <span>CURATED PERFORMANCES</span>
-        <b>1998 — 2022</b>
+        <b>1970 — 2022</b>
       </div>
     </motion.div>
   );

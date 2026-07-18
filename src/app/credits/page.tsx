@@ -1,11 +1,22 @@
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, ImageIcon } from "lucide-react";
 import { Wordmark } from "@/components/brand/mark";
+import { historicalOpponentSource } from "@/data/opponents/generated";
 import { imageAttributions } from "@/data/player-images";
 
 export default function CreditsPage() {
   const licensed = imageAttributions.filter((image) => !image.fallback);
   const fallbacks = imageAttributions.filter((image) => image.fallback);
+  const exactTournament = licensed.filter(
+    (image) => image.exactTournamentImage,
+  );
+  const nationalTeam = licensed.filter((image) => image.isNationalTeamKit);
+  const nearbyYear = licensed.filter(
+    (image) =>
+      image.isNationalTeamKit &&
+      !image.exactTournamentImage &&
+      image.photographedYear !== null,
+  );
 
   return (
     <div className="credits-page">
@@ -27,6 +38,9 @@ export default function CreditsPage() {
           <div className="credits-metrics">
             <span><b>{imageAttributions.length}</b> local PNG masters</span>
             <span><b>{licensed.length}</b> licensed photographs</span>
+            <span><b>{nationalTeam.length}</b> national-team images</span>
+            <span><b>{exactTournament.length}</b> exact-tournament images</span>
+            <span><b>{nearbyYear.length}</b> nearby-year images</span>
             <span><b>{fallbacks.length}</b> intentional illustrations</span>
           </div>
         </section>
@@ -38,8 +52,9 @@ export default function CreditsPage() {
             <p>
               The importer preserves licensed sources, requires a reviewed subject
               mask, exports a transparent 700×900 master, and rejects incomplete
-              creator/license/source metadata. This build uses original illustrated
-              fallbacks throughout; licensed photo count is therefore honestly zero.
+              creator/license/source metadata. Exact-tournament, nearby-year
+              national-team, other international, and fallback contexts are
+              recorded separately and never inferred from a PNG filename.
             </p>
           </div>
           <div>
@@ -47,7 +62,12 @@ export default function CreditsPage() {
             <p>
               Game ratings and attributes are Trophy XI estimates. Tournament stats
               are nullable and appear only with card-level citations; unknown never
-              means zero. See the repository’s DATA_SOURCES.md for methodology.
+              means zero. Historical participant identity, tournament finish, and
+              match counts come from{" "}
+              <a href={historicalOpponentSource.url} target="_blank" rel="noreferrer">
+                {historicalOpponentSource.label}
+              </a>
+              . Unsourced manager, lineup, and team-stat fields stay missing.
             </p>
           </div>
         </section>
@@ -61,7 +81,14 @@ export default function CreditsPage() {
                 <article key={image.id}>
                   <div>
                     <b>{image.subjectName} {image.tournamentYear}</b>
-                    <span>{image.author} · {image.license}</span>
+                    <span>
+                      {image.author} · {image.license} ·{" "}
+                      {image.exactTournamentImage
+                        ? "exact tournament"
+                        : image.isNationalTeamKit
+                          ? "nearby-year national team"
+                          : "other licensed international"}
+                    </span>
                   </div>
                   {image.sourcePage && (
                     <a href={image.sourcePage} target="_blank" rel="noreferrer">

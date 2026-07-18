@@ -4,9 +4,11 @@ import type { MatchResult, PlayerTournamentCard } from "@/types/game";
 export function ShareCard({
   result,
   stars,
+  opponentLabel,
 }: {
   result: MatchResult;
   stars: PlayerTournamentCard[];
+  opponentLabel: string;
 }) {
   const won =
     result.score.user > result.score.opponent ||
@@ -29,7 +31,7 @@ export function ShareCard({
           <strong>{result.score.user}</strong>
           <i>—</i>
           <strong>{result.score.opponent}</strong>
-          <span>SPAIN 2010</span>
+          <span>{opponentLabel.toLocaleUpperCase()}</span>
         </div>
         {result.score.penalties && (
           <small>

@@ -1,11 +1,17 @@
 import { RatingRing } from "@/components/ui/rating-ring";
-import type { Champion, TeamRatings as Ratings } from "@/types/game";
+import type { TeamRatings as Ratings } from "@/types/game";
+
+type RatingView = Pick<
+  Ratings,
+  "attack" | "midfield" | "defense" | "chemistry" | "overall"
+> &
+  Partial<Omit<Ratings, "attack" | "midfield" | "defense" | "chemistry" | "overall">>;
 
 export function TeamRatings({
   ratings,
   expanded = false,
 }: {
-  ratings: Ratings | Champion["ratings"];
+  ratings: RatingView;
   expanded?: boolean;
 }) {
   return (

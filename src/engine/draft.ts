@@ -1,10 +1,12 @@
-import { getDraftEra } from "@/data/eras";
+import { formations } from "@/data/formations";
 import { createSeededRandom, hashString, shuffle } from "@/engine/random";
 import type {
+  BenchPick,
   DraftEraId,
   DraftPick,
   Formation,
   FormationSlot,
+  FormationId,
   ManagerTournamentCard,
   PlayerTournamentCard,
   Position,
@@ -69,14 +71,17 @@ export const generateDraftOptions = (
   );
   const excludedIdentityIds = new Set(rules.excludedIdentityIds ?? []);
   const rejectedIdentityIds = new Set(rules.rejectedIdentityIds ?? []);
-  const eligible = cards.filter(
+  const identitySafe = cards.filter(
     (card) =>
       !draftedCardIds.has(card.id) &&
       !draftedIdentityIds.has(card.playerIdentityId) &&
       !excludedIdentityIds.has(card.playerIdentityId) &&
-      !rejectedIdentityIds.has(card.playerIdentityId) &&
       isEligibleForSlot(card, slot),
   );
+  const withoutRejected = identitySafe.filter(
+    (card) => !rejectedIdentityIds.has(card.playerIdentityId),
+  );
+  const eligible = withoutRejected.length >= 3 ? withoutRejected : identitySafe;
   if (eligible.length < 3) {
     throw new Error(`Not enough identity-safe eligible cards for ${slot.label}`);
   }
@@ -97,12 +102,8 @@ export const generateManagerOptions = (
   respinIndex = 0,
 ) => {
   const excluded = new Set(excludedIdentityIds);
-  const era = getDraftEra(eraId);
   const eligible = cards.filter(
-    (manager) =>
-      manager.tournamentYear >= era.yearRange[0] &&
-      manager.tournamentYear <= era.yearRange[1] &&
-      !excluded.has(manager.managerIdentityId),
+    (manager) => !excluded.has(manager.managerIdentityId),
   );
   const unique = eligible.filter(
     (manager, index) =>
@@ -118,6 +119,147 @@ export const generateManagerOptions = (
     unique,
     createSeededRandom(seed ^ hashString(`manager:${eraId}:${respinIndex}`)),
   ).slice(0, 3);
+};
+
+export const generateFormationOffer = (
+  manager: ManagerTournamentCard,
+  eraId: DraftEraId,
+  seed: number,
+  count = 4,
+): FormationId[] => {
+  const random = createSeededRandom(
+    seed ^ hashString(`formations:${manager.id}:${eraId}`),
+  );
+  const preferred = shuffle(
+    formations.filter((formation) =>
+      manager.preferredFormations.includes(formation.id),
+    ),
+    random,
+  );
+  const balanced = shuffle(
+    formations.filter(
+      (formation) =>
+        formation.tendencies.attack >= 78 &&
+        formation.tendencies.defense >= 78 &&
+        !preferred.some((item) => item.id === formation.id),
+    ),
+    random,
+  );
+  const contrasting = shuffle(
+    formations.filter(
+      (formation) =>
+        Math.abs(formation.tendencies.attack - formation.tendencies.defense) >=
+          10 &&
+        !preferred.some((item) => item.id === formation.id),
+    ),
+    random,
+  );
+  const eraStrong = shuffle(
+    formations.filter((formation) => formation.eraStrengths.includes(eraId)),
+    random,
+  );
+  const selected: FormationId[] = [];
+  const add = (formation: Formation | undefined) => {
+    if (formation && !selected.includes(formation.id)) selected.push(formation.id);
+  };
+  add(preferred[0]);
+  add(balanced[0]);
+  add(contrasting[0]);
+  add(eraStrong.find((formation) => !selected.includes(formation.id)));
+  for (const formation of shuffle(formations, random)) {
+    if (selected.length >= count) break;
+    add(formation);
+  }
+  return selected.slice(0, count);
+};
+
+const tacticalFamily = (player: PlayerTournamentCard) => {
+  if (player.primaryPosition === "GK") return "goalkeeper";
+  if (
+    ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB", "DM"].includes(
+      player.primaryPosition,
+    )
+  ) {
+    return "defensive";
+  }
+  if (["CM", "AM", "LM", "RM"].includes(player.primaryPosition)) {
+    return "midfield";
+  }
+  return "attacking";
+};
+
+export const generateBenchOptions = (
+  cards: PlayerTournamentCard[],
+  starters: DraftPick[],
+  bench: BenchPick[],
+  seed: number,
+  round: number,
+  rules: DraftGenerationRules = {},
+) => {
+  const usedCardIds = new Set([
+    ...starters.map((pick) => pick.cardId),
+    ...bench.map((pick) => pick.cardId),
+  ]);
+  const usedIdentityIds = new Set(
+    cards
+      .filter((card) => usedCardIds.has(card.id))
+      .map((card) => card.playerIdentityId),
+  );
+  const excluded = new Set(rules.excludedIdentityIds ?? []);
+  const rejected = new Set(rules.rejectedIdentityIds ?? []);
+  const identitySafe = cards.filter(
+    (card) =>
+      !usedCardIds.has(card.id) &&
+      !usedIdentityIds.has(card.playerIdentityId) &&
+      !excluded.has(card.playerIdentityId),
+  );
+  const withoutRejected = identitySafe.filter(
+    (card) => !rejected.has(card.playerIdentityId),
+  );
+  const eligible = withoutRejected.length >= 3 ? withoutRejected : identitySafe;
+  const random = createSeededRandom(
+    seed ^
+      hashString(
+        `bench:${round}:${rules.respinIndex ?? 0}:${[
+          ...usedIdentityIds,
+        ].join(",")}`,
+      ),
+  );
+  const ranked = shuffle(eligible, random).sort((a, b) => {
+    const versatility =
+      b.eligiblePositions.length - a.eligiblePositions.length;
+    return versatility * 2 + (b.overall - a.overall) * 0.1;
+  });
+  const selected: PlayerTournamentCard[] = [];
+  const add = (card: PlayerTournamentCard | undefined) => {
+    if (
+      card &&
+      !selected.some(
+        (candidate) => candidate.playerIdentityId === card.playerIdentityId,
+      )
+    ) {
+      selected.push(card);
+    }
+  };
+  add(ranked.find((card) => tacticalFamily(card) === "attacking"));
+  add(ranked.find((card) => tacticalFamily(card) === "defensive"));
+  add(
+    ranked.find(
+      (card) =>
+        card.eligiblePositions.length >= 3 &&
+        !selected.some(
+          (candidate) => candidate.playerIdentityId === card.playerIdentityId,
+        ),
+    ),
+  );
+  for (const card of ranked) {
+    if (selected.length >= 3) break;
+    add(card);
+  }
+  if (selected.length !== 3) {
+    throw new Error("Not enough identity-safe bench options");
+  }
+  return selected;
 };
 
 export const getOpenSlots = (formation: Formation, picks: DraftPick[]) => {

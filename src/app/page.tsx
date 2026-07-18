@@ -11,13 +11,13 @@ import { HeroShowcase } from "@/components/landing/hero-showcase";
 import { Footer } from "@/components/navigation/footer";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ButtonLink } from "@/components/ui/button";
-import { champions } from "@/data/champions";
+import { historicalOpponents } from "@/data/opponents/generated";
 
 const steps = [
   {
     number: "01",
-    title: "Choose an era",
-    copy: "Open one tournament wing or release the complete archive.",
+    title: "Choose conditions",
+    copy: "Set the match environment without closing any archive wing.",
     icon: Crosshair,
   },
   {
@@ -28,14 +28,14 @@ const steps = [
   },
   {
     number: "03",
-    title: "Draft any position",
-    copy: "Fill the pitch in your order with eleven unique identities.",
+    title: "Draft fourteen",
+    copy: "Fill the pitch in your order, then assign and reorder three substitutes.",
     icon: ShieldCheck,
   },
   {
     number: "04",
     title: "Challenge history",
-    copy: "Follow every chance, manager intervention, goal, and decisive kick.",
+    copy: "Choose any nation-year opponent and follow every substitution and chance.",
     icon: Play,
   },
 ];
@@ -69,13 +69,13 @@ export default function LandingPage() {
               </div>
               <div className="hero__proof" aria-label="Game highlights">
                 <span>
-                  <b>240</b> tournament cards
+                  <b>310</b> tournament cards
                 </span>
                 <span>
-                  <b>28</b> manager cards
+                  <b>368</b> historical opponents
                 </span>
                 <span>
-                  <b>1</b> history to rewrite
+                  <b>2</b> player respins
                 </span>
               </div>
             </div>
@@ -88,7 +88,7 @@ export default function LandingPage() {
             <div className="section-heading">
               <div>
                 <p className="eyebrow">THE DRESSING ROOM</p>
-                <h2>Eleven choices. One match.</h2>
+                <h2>Fourteen players. One match.</h2>
               </div>
               <p>
                 A complete tournament story in minutes, from tactical shape to the
@@ -118,28 +118,28 @@ export default function LandingPage() {
             <div className="section-heading">
               <div>
                 <p className="eyebrow eyebrow--gold">CHAMPION GAUNTLET</p>
-                <h2>Seven rooms in the museum.</h2>
+                <h2>Fourteen tournament champions.</h2>
               </div>
-              <p>Spain 2010 opens the first door. The rest of history is waiting.</p>
+              <p>Every participant is playable; the champions mark each archive wing.</p>
             </div>
             <div className="champion-grid">
-              {champions.map((champion, index) => (
+              {historicalOpponents
+                .filter((opponent) => opponent.tournamentFinish === "champion")
+                .map((champion, index) => (
                 <article
-                  className={`champion-tile ${champion.playable ? "champion-tile--active" : ""}`}
+                  className="champion-tile champion-tile--active"
                   key={champion.id}
                 >
                   <div className="champion-tile__top">
                     <span className="champion-index">{String(index + 1).padStart(2, "0")}</span>
-                    <span className={champion.playable ? "status-live" : "status-locked"}>
-                      {champion.playable ? "Playable" : "Coming soon"}
-                    </span>
+                    <span className="status-live">Playable</span>
                   </div>
-                  <span className="champion-flag" role="img" aria-label={champion.countryName}>
-                    {champion.flag}
+                  <span className="champion-flag" aria-hidden>
+                    {champion.nationCode}
                   </span>
-                  <p>{champion.year}</p>
-                  <h3>{champion.countryName}</h3>
-                  <span>{champion.tacticalIdentity}</span>
+                  <p>{champion.tournamentYear}</p>
+                  <h3>{champion.nationName}</h3>
+                  <span>{champion.tacticalProfile}</span>
                 </article>
               ))}
             </div>

@@ -70,11 +70,81 @@ const modifierFor = (style: ManagerStyle) => {
   }
 };
 
+const styleFormations: Record<ManagerStyle, FormationId[]> = {
+  possession: ["4-3-3", "4-2-3-1", "4-1-4-1", "4-3-1-2", "4-5-1"],
+  pressing: ["4-3-3", "4-2-3-1", "3-4-3", "3-4-2-1", "4-1-4-1"],
+  counter: ["4-2-3-1", "4-4-2", "3-5-2", "5-3-2", "5-2-3"],
+  defensive: ["4-4-2", "4-5-1", "5-3-2", "5-2-3", "3-4-2-1"],
+  balanced: ["4-3-3", "4-2-3-1", "4-4-2", "4-1-4-1", "5-3-2"],
+  direct: ["4-4-2", "3-5-2", "4-2-2-2", "5-3-2", "5-2-3"],
+  fluid: ["4-3-3", "3-5-2", "3-4-3", "3-4-2-1", "4-3-1-2"],
+};
+
+const qualityBase: Record<QualityBand, number> = {
+  iconic: 93,
+  elite: 88,
+  standout: 83,
+  reliable: 78,
+  "role-player": 72,
+  limited: 64,
+};
+
+const gradesFor = (seed: ManagerSeed) => {
+  const base = qualityBase[seed.qualityBand];
+  const offenseStyle = {
+    possession: 3,
+    pressing: 4,
+    counter: 3,
+    defensive: -5,
+    balanced: 0,
+    direct: 2,
+    fluid: 5,
+  }[seed.style];
+  const defenseStyle = {
+    possession: 1,
+    pressing: 2,
+    counter: 2,
+    defensive: 5,
+    balanced: 2,
+    direct: 0,
+    fluid: -1,
+  }[seed.style];
+  return {
+    offense: Math.min(98, base + offenseStyle),
+    defense: Math.min(98, base + defenseStyle),
+  };
+};
+
+export const managerGradeLabel = (value: number) => {
+  if (value >= 95) return "S";
+  if (value >= 92) return "A+";
+  if (value >= 88) return "A";
+  if (value >= 85) return "A-";
+  if (value >= 82) return "B+";
+  if (value >= 78) return "B";
+  if (value >= 75) return "B-";
+  if (value >= 72) return "C+";
+  if (value >= 68) return "C";
+  if (value >= 65) return "C-";
+  if (value >= 55) return "D";
+  return "F";
+};
+
 export const managers: ManagerTournamentCard[] = seeds.map((seed) => ({
   ...seed,
+  acceptableFormations: [
+    ...new Set([...seed.preferredFormations, ...styleFormations[seed.style]]),
+  ],
   era: tournamentEraFor(seed.tournamentYear),
   description: `${seed.teamName} ${seed.tournamentYear} · ${seed.tacticalIdentity}.`,
   simulationModifier: modifierFor(seed.style),
+  grades: gradesFor(seed),
+  leadership: Math.min(98, qualityBase[seed.qualityBand] + 2),
+  gameManagement: Math.min(
+    98,
+    qualityBase[seed.qualityBand] +
+      (["balanced", "defensive", "counter"].includes(seed.style) ? 3 : 0),
+  ),
   imageId: seed.id,
   achievements: [],
 }));

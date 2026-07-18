@@ -14,6 +14,7 @@ export default function FormationPage() {
   const hydrated = useGameStore((state) => state.hasHydrated);
   const eraId = useGameStore((state) => state.eraId);
   const managerId = useGameStore((state) => state.managerId);
+  const formationOptionIds = useGameStore((state) => state.formationOptionIds);
   const selectFormation = useGameStore((state) => state.selectFormation);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export default function FormationPage() {
         <FormationSelection
           manager={manager}
           eraId={eraId}
+          offerIds={formationOptionIds}
           onContinue={(formationId) => {
             selectFormation(formationId);
             router.push("/play/draft");

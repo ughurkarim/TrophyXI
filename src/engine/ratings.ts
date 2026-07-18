@@ -23,6 +23,7 @@ export type RatingContext = {
   picks?: DraftPick[];
   manager?: ManagerTournamentCard;
   eraId?: DraftEraId;
+  bench?: PlayerTournamentCard[];
 };
 
 export const calculateTeamRatings = (
@@ -39,6 +40,12 @@ export const calculateTeamRatings = (
       positionFit: 0,
       eraFit: 0,
       managerFit: 0,
+      benchDepth: 0,
+      benchVersatility: 0,
+      tacticalBalance: 0,
+      timelessness: 0,
+      managerOffense: context.manager?.grades.offense ?? 0,
+      managerDefense: context.manager?.grades.defense ?? 0,
       overall: 0,
     };
   }
@@ -74,6 +81,7 @@ export const calculateTeamRatings = (
     ) +
     formation.modifiers.attack +
     (manager?.simulationModifier.attack ?? 0) +
+    ((manager?.grades.offense ?? 78) - 78) * 0.045 +
     achievementBoost * 0.35;
   const midfield =
     topAverage(
@@ -105,6 +113,7 @@ export const calculateTeamRatings = (
     (keeperDefense || outfieldDefense) * 0.24 +
     formation.modifiers.defense +
     (manager?.simulationModifier.defense ?? 0) +
+    ((manager?.grades.defense ?? 78) - 78) * 0.045 +
     achievementBoost * 0.3;
   const chemistry = calculateChemistry(lineup, formation, context);
   const quality = attack * 0.34 + midfield * 0.33 + defense * 0.33;
@@ -112,6 +121,36 @@ export const calculateTeamRatings = (
   const fitAdjustment =
     ((chemistry.averagePositionFit - 88) / 12) * 1.4 +
     ((chemistry.managerFit - 82) / 18) * 0.8;
+  const bench = context.bench ?? [];
+  const benchWeights = [0.4, 0.25, 0.15];
+  const benchDepth = bench.length
+    ? roundRating(
+        bench.reduce(
+          (sum, player, index) =>
+            sum + player.overall * (benchWeights[index] ?? 0.1),
+          0,
+        ) / benchWeights.slice(0, bench.length).reduce((sum, value) => sum + value, 0),
+      )
+    : 0;
+  const benchVersatility = bench.length
+    ? roundRating(
+        average(
+          bench.map((player) =>
+            Math.min(99, 68 + player.eligiblePositions.length * 6),
+          ),
+        ),
+      )
+    : 0;
+  const phaseRatings = [attack, midfield, defense];
+  const tacticalBalance = roundRating(
+    100 - (Math.max(...phaseRatings) - Math.min(...phaseRatings)) * 1.8,
+  );
+  const timelessness = roundRating(
+    average(lineup.map((player) => player.eraTranslation.timelessness)),
+  );
+  const benchAdjustment = bench.length
+    ? ((benchDepth - 82) / 17) * 0.8 + ((benchVersatility - 82) / 17) * 0.35
+    : 0;
 
   return {
     attack: roundRating(attack),
@@ -121,6 +160,14 @@ export const calculateTeamRatings = (
     positionFit: chemistry.averagePositionFit,
     eraFit: chemistry.averageEraFit,
     managerFit: chemistry.managerFit,
-    overall: roundRating(quality + chemistryAdjustment + fitAdjustment),
+    benchDepth,
+    benchVersatility,
+    tacticalBalance,
+    timelessness,
+    managerOffense: manager?.grades.offense ?? 0,
+    managerDefense: manager?.grades.defense ?? 0,
+    overall: roundRating(
+      quality + chemistryAdjustment + fitAdjustment + benchAdjustment,
+    ),
   };
 };
