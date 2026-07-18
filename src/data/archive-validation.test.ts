@@ -58,7 +58,7 @@ describe("expanded archive contracts", () => {
     expect(imageAttributions).toHaveLength(268);
     expect(
       imageAttributions.filter((image) => !image.fallback),
-    ).toHaveLength(1);
+    ).toHaveLength(4);
   });
 
   it("produces three new manager identities after a respin in every era", () => {

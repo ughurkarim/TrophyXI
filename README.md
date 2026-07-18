@@ -66,8 +66,8 @@ ratings or factual career measurements. Tournament statistics are nullable and
 only populated with a card-level published source; unknown values never become
 zero. Named achievements likewise require a source.
 
-Images are local PNG masters. This build contains one licensed tournament
-photograph and 267 clearly labeled original illustrated fallbacks. See
+Images are local PNG masters. This build contains four licensed tournament
+photographs and 264 clearly labeled original illustrated fallbacks. See
 `IMAGE_SOURCES.md` and `DATA_SOURCES.md`.
 
 Trophy XI is unofficial and is not affiliated with or endorsed by FIFA, any

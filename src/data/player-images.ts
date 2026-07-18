@@ -26,6 +26,38 @@ const fallbackAttribution = (
 });
 
 const licensedOverrides: Record<string, ImageAttribution> = {
+  "ivan-perisic-2018": {
+    id: "ivan-perisic-2018",
+    kind: "player",
+    subjectName: "Ivan Perišić",
+    tournamentYear: 2018,
+    file: "/players/png/ivan-perisic-2018.png",
+    sourceFile: "/players/sources/ivan-perisic-2018.jpg",
+    sourcePage:
+      "https://commons.wikimedia.org/wiki/File:Ivan_Peri%C5%A1i%C4%87.jpg",
+    author: "Антон Зайцев",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    changes:
+      "Background isolated with a reviewed chroma-key derivative, edge-contracted, cropped, and resized to a transparent 700×900 master.",
+    fallback: false,
+  },
+  "kylian-mbappe-2018": {
+    id: "kylian-mbappe-2018",
+    kind: "player",
+    subjectName: "Kylian Mbappé",
+    tournamentYear: 2018,
+    file: "/players/png/kylian-mbappe-2018.png",
+    sourceFile: "/players/sources/kylian-mbappe-2018.jpg",
+    sourcePage:
+      "https://commons.wikimedia.org/wiki/File:Kylian_Mbapp%C3%A9_2018.jpg",
+    author: "Антон Зайцев",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    changes:
+      "Background isolated with a reviewed chroma-key derivative, edge-contracted, cropped, and resized to a transparent 700×900 master.",
+    fallback: false,
+  },
   "luka-modric-2018": {
     id: "luka-modric-2018",
     kind: "player",
@@ -35,6 +67,22 @@ const licensedOverrides: Record<string, ImageAttribution> = {
     sourceFile: "/players/sources/luka-modric-2018.png",
     sourcePage: "https://commons.wikimedia.org/wiki/File:Luka_Modric_2018.png",
     author: "Антон Зайцев",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    changes:
+      "Background isolated with a reviewed chroma-key derivative, edge-contracted, cropped, and resized to a transparent 700×900 master.",
+    fallback: false,
+  },
+  "thibaut-courtois-2018": {
+    id: "thibaut-courtois-2018",
+    kind: "player",
+    subjectName: "Thibaut Courtois",
+    tournamentYear: 2018,
+    file: "/players/png/thibaut-courtois-2018.png",
+    sourceFile: "/players/sources/thibaut-courtois-2018.jpg",
+    sourcePage:
+      "https://commons.wikimedia.org/wiki/File:Courtois_2018_(cropped).jpg",
+    author: "Кирилл Венедиктов",
     license: "CC BY-SA 3.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
     changes:

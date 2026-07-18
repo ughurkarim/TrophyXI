@@ -1,7 +1,22 @@
 [
   {
+    "id": "ivan-perisic-2018",
+    "downloadUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Ivan_Peri%C5%A1i%C4%87.jpg",
+    "isolatedFile": "public/players/isolated/ivan-perisic-2018.png"
+  },
+  {
+    "id": "kylian-mbappe-2018",
+    "downloadUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Kylian_Mbapp%C3%A9_2018.jpg",
+    "isolatedFile": "public/players/isolated/kylian-mbappe-2018.png"
+  },
+  {
     "id": "luka-modric-2018",
     "downloadUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Luka_Modric_2018.png",
     "isolatedFile": "public/players/isolated/luka-modric-2018.png"
+  },
+  {
+    "id": "thibaut-courtois-2018",
+    "downloadUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Courtois_2018_(cropped).jpg",
+    "isolatedFile": "public/players/isolated/thibaut-courtois-2018.png"
   }
 ]

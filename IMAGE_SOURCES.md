@@ -3,8 +3,8 @@
 ## Current build report
 
 - 268 local transparent 700×900 PNG masters
-- 1 licensed tournament photograph
-- 267 intentional original illustrated fallbacks
+- 4 licensed tournament photographs
+- 264 intentional original illustrated fallbacks
 - 240 player assets and 28 manager assets
 - zero runtime hotlinks
 
@@ -12,7 +12,31 @@ The executable report is `npm run validate:data`. Public item-level attribution 
 available at `/credits`, and the typed manifest is
 `src/data/player-images.ts`.
 
-## Licensed source
+## Licensed sources
+
+### Ivan Perišić — Croatia 2018
+
+- Card: `ivan-perisic-2018`
+- Source page: https://commons.wikimedia.org/wiki/File:Ivan_Peri%C5%A1i%C4%87.jpg
+- Author: Антон Зайцев
+- License: Creative Commons Attribution-ShareAlike 3.0 Unported
+- License: https://creativecommons.org/licenses/by-sa/3.0/
+- Preserved original: `public/players/sources/ivan-perisic-2018.jpg`
+- Reviewed isolated derivative: `public/players/isolated/ivan-perisic-2018.png`
+- Changes: background isolation via reviewed chroma-key derivative, edge
+  contraction, transparent crop, and resize to the 700×900 master
+
+### Kylian Mbappé — France 2018
+
+- Card: `kylian-mbappe-2018`
+- Source page: https://commons.wikimedia.org/wiki/File:Kylian_Mbapp%C3%A9_2018.jpg
+- Author: Антон Зайцев
+- License: Creative Commons Attribution-ShareAlike 3.0 Unported
+- License: https://creativecommons.org/licenses/by-sa/3.0/
+- Preserved original: `public/players/sources/kylian-mbappe-2018.jpg`
+- Reviewed isolated derivative: `public/players/isolated/kylian-mbappe-2018.png`
+- Changes: background isolation via reviewed chroma-key derivative, edge
+  contraction, transparent crop, and resize to the 700×900 master
 
 ### Luka Modrić — Croatia 2018
 
@@ -23,6 +47,18 @@ available at `/credits`, and the typed manifest is
 - License: https://creativecommons.org/licenses/by-sa/3.0/
 - Preserved original: `public/players/sources/luka-modric-2018.png`
 - Reviewed isolated derivative: `public/players/isolated/luka-modric-2018.png`
+- Changes: background isolation via reviewed chroma-key derivative, edge
+  contraction, transparent crop, and resize to the 700×900 master
+
+### Thibaut Courtois — Belgium 2018
+
+- Card: `thibaut-courtois-2018`
+- Source page: https://commons.wikimedia.org/wiki/File:Courtois_2018_(cropped).jpg
+- Author: Кирилл Венедиктов
+- License: Creative Commons Attribution-ShareAlike 3.0 Unported
+- License: https://creativecommons.org/licenses/by-sa/3.0/
+- Preserved original: `public/players/sources/thibaut-courtois-2018.jpg`
+- Reviewed isolated derivative: `public/players/isolated/thibaut-courtois-2018.png`
 - Changes: background isolation via reviewed chroma-key derivative, edge
   contraction, transparent crop, and resize to the 700×900 master
 
