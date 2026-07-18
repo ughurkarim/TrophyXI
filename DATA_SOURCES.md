@@ -17,19 +17,21 @@ engine behavior, not factual honors.
 
 ## Active archive boundary
 
-`src/data/archive-eligibility.ts` declares the 51 player cards and 10 manager
-cards eligible for the current draft. The remaining typed records are
-research-only and cannot enter runtime offers. Active records require complete
-local licensed-image attribution. Eligibility is an editorial/source-readiness
-boundary, not a claim that inactive historical figures were less important.
+`src/data/archive-eligibility.ts` declares all 627 player cards and 49 manager
+cards eligible for the current draft. Research-only records remain outside that
+boundary and cannot enter runtime offers. Image availability does not control
+eligibility; an exact-year face without a complete manifest record remains Photo
+Pending.
 
 ## Historical World Cup participants
 
-The historical-opponent pipeline vendors three tables from:
+The historical-opponent and tournament-card pipelines vendor tables from:
 
 - The Fjelstul World Cup Database v1.2.0
 - Joshua C. Fjelstul, Ph.D.
 - https://github.com/jfjelstul/worldcup
+- © 2023 Joshua C. Fjelstul
+- CC BY-SA 4.0 — https://creativecommons.org/licenses/by-sa/4.0/
 - accessed 2026-07-18
 
 `qualified_teams.csv`, `tournaments.csv`, and `teams.csv` support tournament
@@ -37,6 +39,37 @@ participant identity, nation code/name, confederation, tournament finish, and
 match count. `scripts/import-world-cup-teams.ts` normalizes these records into 368
 unique nation-year ids and validates the official field size for all 14 editions
 from 1970 through 2022.
+
+`squads.csv`, `players.csv`, `player_appearances.csv`, `goals.csv`, and
+`award_winners.csv` support the player tournament-card audit.
+`scripts/generate-player-tournament-data.ts` filters the source to actual match
+appearances from 1970–2022, maps those records to stable Trophy XI identities, and
+aggregates appearances, starts, non-own goals, observed tactical positions, team
+performance, and published tournament awards. The generated file records these
+modifications and the source license. `manager_appointments.csv` and
+`managers.csv` support the expanded manager identity/year pool.
+
+## EA/SoFIFA player-face identity index
+
+The candidate generator uses `male_players (legacy).csv` from Stefano Leone's
+“FIFA 23 complete player dataset” only as a name, birth-date, game-version, and
+face-URL index:
+
+- https://www.kaggle.com/datasets/stefanoleone992/fifa-23-complete-player-dataset
+- CC0 1.0
+- accessed 2026-07-18
+
+`scripts/generate-game-face-candidates.ts` retains only exact
+name-and-birth-date matches with `real_face=Yes`. Tournament cards use the
+in-season editions available by that World Cup's June: FIFA 14, FIFA 18, and
+FIFA 22, never the following season's FIFA 15/19/23 face. Because the public
+legacy CSV begins at FIFA 15, its FIFA 15 row is used only to resolve the
+reviewed FIFA 14 asset's player id. Ambiguous, birth-date-only, and generic-face
+rows are excluded. Image use remains governed by the separate project-specific
+EA/SoFIFA permission and required attribution; the CC0 index does not replace
+those image terms. No 2006 or 2010 face is activated; those tournament cards
+remain Photo Pending. The reviewed in-season production archive begins with
+FIFA 14.
 
 The 2026 participant set is maintained separately from:
 

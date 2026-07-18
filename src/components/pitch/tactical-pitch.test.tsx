@@ -146,8 +146,9 @@ describe("TacticalPitch", () => {
     });
     expect(incompatibleGoalkeeperSlot).toHaveAttribute("aria-disabled", "true");
     expect(incompatibleGoalkeeperSlot).toHaveClass(
-      "pitch-node--fit-label-side",
+      "pitch-node--fit-label-above",
     );
+    expect(incompatibleGoalkeeperSlot).toHaveClass("pitch-node--near-bottom");
   });
 
   it("previews exact slots on hover and keyboard focus without moving nodes", async () => {

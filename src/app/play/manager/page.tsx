@@ -55,7 +55,7 @@ export default function ManagerPage() {
             <p className="eyebrow eyebrow--gold">TOURNAMENT MANAGERS / STEP 02</p>
             <h1 id="manager-title">Choose the mind behind the XI.</h1>
             <p>
-              Five tournament versions spanning elite, strong, average, and
+              Three tournament versions spanning elite, strong, average, and
               flawed tactical profiles. OFF, DEF, leadership, and game
               management shape every choice.
             </p>
@@ -120,7 +120,7 @@ export default function ManagerPage() {
           >
             <span className="eyebrow eyebrow--gold">MANAGER RESPIN ×1</span>
             <h2 id="manager-respin-title">
-              Replace all five manager choices?
+              Replace all three manager choices?
             </h2>
             <p>
               The original manager identities will not return when valid

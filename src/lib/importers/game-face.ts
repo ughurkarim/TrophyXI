@@ -19,6 +19,10 @@ export type GameFaceImportCandidate = {
   retrievedOn: string;
   matchQuality: "exact" | "manually-reviewed-exact-year";
   exactYearEvidence: string;
+  permissionScope: "project-specific-ea-sofifa";
+  requiredAttribution: string;
+  preserveMetadataAndWatermarks: true;
+  cachePolicy: "local-first-conditional";
   reusableLicenseConfirmed: boolean;
   approvedForImport: boolean;
 };
@@ -36,23 +40,27 @@ export type GameFaceImportResult = {
   reason?: string;
 };
 
-const protectedGameAssetHosts = [
+const permittedGameAssetHosts = [
   "sofifa.com",
+  "cdn.sofifa.net",
   "ea.com",
   "easports.com",
   "fifa.com",
-  "futbin.com",
-  "futwiz.com",
 ];
 
-export const gameFacePathForCard = (kind: GameFaceKind, id: string) =>
-  `/${kind === "player" ? "players" : "managers"}/game-faces/${id}.png`;
+export const gameFacePathForCard = (
+  kind: GameFaceKind,
+  id: string,
+  tournamentYear: number,
+) =>
+  `/assets/${kind === "player" ? "players" : "managers"}/${tournamentYear}/${id}.png`;
 
-export const isProtectedGameAssetHost = (sourceUrl: string) => {
+export const isPermittedGameAssetHost = (sourceUrl: string) => {
   try {
     const host = new URL(sourceUrl).hostname.toLowerCase();
-    return protectedGameAssetHosts.some(
-      (blocked) => host === blocked || host.endsWith(`.${blocked}`),
+    return permittedGameAssetHosts.some(
+      (permitted) =>
+        host === permitted || host.endsWith(`.${permitted}`),
     );
   } catch {
     return false;
@@ -70,6 +78,14 @@ export const validateGameFaceCandidate = (
     errors.push("tournament year mismatch");
   }
   if (!candidate.gameEdition.trim()) errors.push("missing game edition");
+  const tournamentEdition = String(candidate.tournamentYear).slice(-2);
+  if (
+    candidate.kind === "player" &&
+    [2006, 2010, 2014, 2018, 2022].includes(candidate.tournamentYear) &&
+    candidate.gameEdition !== `FIFA ${tournamentEdition}`
+  ) {
+    errors.push("game edition is not the edition available by tournament June");
+  }
   if (!candidate.sourceWebsite.trim()) errors.push("missing source website");
   if (!candidate.author.trim()) errors.push("missing author or rights holder");
   if (!candidate.license.trim()) errors.push("missing reusable license");
@@ -85,17 +101,36 @@ export const validateGameFaceCandidate = (
   if (!candidate.exactYearEvidence.trim()) {
     errors.push("missing exact-year evidence");
   }
+  if (candidate.permissionScope !== "project-specific-ea-sofifa") {
+    errors.push("project-specific EA/SoFIFA permission is not recorded");
+  }
+  if (!candidate.requiredAttribution.trim()) {
+    errors.push("required EA/SoFIFA attribution is missing");
+  }
+  if (!candidate.preserveMetadataAndWatermarks) {
+    errors.push("metadata and watermark preservation is not confirmed");
+  }
+  if (candidate.cachePolicy !== "local-first-conditional") {
+    errors.push("required SoFIFA cache policy is not configured");
+  }
   if (!candidate.reusableLicenseConfirmed) {
     errors.push("reusable license is not confirmed");
   }
   if (!candidate.approvedForImport) errors.push("candidate is not approved");
-  if (isProtectedGameAssetHost(candidate.sourceUrl)) {
-    errors.push("protected football-game asset sources are not importable");
+  if (!isPermittedGameAssetHost(candidate.sourceUrl)) {
+    errors.push("source host is outside the permitted EA/SoFIFA scope");
   }
   try {
     const url = new URL(candidate.sourceUrl);
     if (!["http:", "https:"].includes(url.protocol)) {
       errors.push("source URL must use HTTP or HTTPS");
+    }
+    if (
+      candidate.kind === "player" &&
+      [2006, 2010, 2014, 2018, 2022].includes(candidate.tournamentYear) &&
+      !url.pathname.endsWith(`/${tournamentEdition}_120.png`)
+    ) {
+      errors.push("source URL is not the tournament-year edition face");
     }
   } catch {
     errors.push("invalid source URL");
@@ -126,7 +161,11 @@ export const validateGameFaceManifest = (
         (message) => `${record.id}: ${message}`,
       ),
     );
-    const expectedPath = gameFacePathForCard(record.kind, record.id);
+    const expectedPath = gameFacePathForCard(
+      record.kind,
+      record.id,
+      record.tournamentYear,
+    );
     if (record.localPath !== expectedPath) {
       errors.push(`${record.id}: expected ${expectedPath}`);
     }

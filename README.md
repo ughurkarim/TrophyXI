@@ -56,15 +56,15 @@ result must equal the final preview.
 
 The current archive contains:
 
-- 310 tournament cards across 287 stable player identities
-- all 310 player cards are draft eligible; missing photographs never change
+- 627 tournament cards across 287 stable player identities
+- all 627 player cards are draft eligible; missing face images never change
   card eligibility
-- 0 exact-year local player faces and 310 clean Photo Pending identity markers;
-  cards automatically stay pending until a card-specific approved PNG is added
+- 161 card-specific exact-year player faces plus 466 clean Photo Pending
+  identity markers; cards stay pending until their own approved PNG is imported
 - every men’s World Cup from 1970 through 2022
-- 28 manager cards with explicit numeric OFF/DEF grades
-- all 28 audited manager cards draft eligible, currently with Photo Pending
-- five deterministic, identity-safe manager choices per offer
+- 49 manager cards across 39 identities with explicit numeric OFF/DEF grades
+- all 49 audited manager cards draft eligible, currently with Photo Pending
+- three deterministic, identity-safe manager choices per offer
 - 12 formations, with four deterministic manager/era-aware offers per run
 - one separate, deterministic, permanent Manager Respin
 - one separate, deterministic Formation Respin
@@ -75,8 +75,8 @@ The current archive contains:
   2026 participants with unknown tournament outcomes left null
 - World Cup All-Stars: an original, deterministic, beatable Mythic opponent;
   the composite team is never user-controlled
-- 0 active exact-year face masters; every player and manager currently uses the
-  non-photographic Photo Pending treatment
+- exact-year face availability is manifest-driven; every missing card continues
+  to use the non-photographic Photo Pending treatment
 
 ## Match environment and card year
 
@@ -95,7 +95,9 @@ to the historical opponent.
 - `src/components`: accessible feature-oriented presentation
 - `src/app`: Next.js App Router pages
 - `src/data/game-face-manifest.generated.json`: importer-owned exact-year image manifest
+- `src/data/player-tournaments.generated.json`: sourced tournament-appearance archive
 - `src/data/player-career.generated.json`: normalized career-data output
+- `scripts/generate-player-tournament-data.ts`: World Cup appearance-card generator
 - `scripts/import-player-images.ts`: license-gated exact-year PNG importer
 - `scripts/import-fbref-player-data.ts`: cached, rate-limited FBref normalizer
 - `scripts/import-world-cup-teams.ts`: vendored participant ingestion
@@ -127,10 +129,10 @@ statistic is inferred. Missing fields remain null until a suitable record-level
 source is ingested.
 
 Images never hotlink at runtime. A player face can resolve only from
-`public/players/game-faces/{player-card-id}.png`; manager faces use the equivalent
-manager directory. Active images require source, author, reusable license, exact
-tournament context, modifications, and a preserved source file. No version may
-reuse another tournament year’s face.
+`assets/players/{year}/{player-card-id}.png`; manager faces use the equivalent
+year/card-id manager directory. Active images require complete permission,
+attribution, exact tournament context, and cache metadata. No version may reuse
+another tournament year’s face.
 
 ### Exact-year face import
 
@@ -140,17 +142,31 @@ Add reviewed candidates to `scripts/game-face-import-sources.json`, then run:
 npm run images:import
 ```
 
-Each candidate must identify its card id, kind, tournament year, game edition,
-source site and URL, rights holder, reusable license, retrieval date, match
-quality, and exact-year evidence. The importer rate-limits requests, validates
-real image bytes, preserves the source, converts to a 512×512 PNG, caches
-completed work, and writes both the runtime manifest and
-`scripts/reports/game-face-import-report.json`. One failure never stops the
-remaining queue. Unconfigured or rejected cards remain Photo Pending.
+The reviewed in-season FIFA 14/18/22 index can be regenerated from the public
+CC0 legacy CSV:
 
-Protected SoFIFA, FIFA, EA, FUTBIN, and FUTWIZ game artwork is deliberately
-rejected by the importer. A source must carry explicit reusable rights; finding
-an image on a game database is not permission to copy it.
+```bash
+npm run images:generate:sources -- /path/to/male_players-legacy.csv
+```
+
+The generator matches name plus birth date, requires `real_face=Yes`, and drops
+ambiguous, birth-date-only, and generic-face records. No 2006 or 2010 face is
+activated; those cards stay Photo Pending. The active in-season face archive
+begins with FIFA 14. A tournament always uses the edition already available by
+that World Cup's June, never the following season's release.
+
+Each candidate must identify its card id, kind, tournament year, game edition,
+source site and URL, rights holder, permission, retrieval date, match quality,
+exact-year evidence, and required attribution. The importer uses the local
+conditional cache first, waits at least two seconds between requests, and caps
+requests at 5,000 per UTC calendar day. The former UTC 00:00–06:00 restriction
+has been lifted for this project. It validates PNG bytes without transforming
+them, preserving embedded metadata and watermarks, then writes both the runtime
+manifest and
+`scripts/reports/game-face-import-report.json`. One failure never stops the
+remaining queue. Unconfigured cards remain Photo Pending. Every imported face
+retains: “EA SPORTS player imagery, sourced via SoFIFA, used under
+project-specific permission.”
 
 ### FBref career-data import
 

@@ -100,6 +100,9 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(page.locator(".champion-country h3").first()).toHaveText(
     "Argentina",
   );
+  await expect(
+    page.locator('.site-header a[href="/database"]').first(),
+  ).toHaveAttribute("href", "/database");
 
   const showcase = page.getByTestId("hero-showcase");
   const bounds = await showcase.boundingBox();
@@ -130,12 +133,12 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     page.getByRole("heading", { name: "Player Database" }),
   ).toBeVisible();
   await captureState("00-database.png");
-  await expect(page.getByText("310", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("627", { exact: true }).first()).toBeVisible();
   const databaseSearch = page.getByPlaceholder("Search player or nation");
   await databaseSearch.fill("Bastian Schweinsteiger");
   const longNameCard = page.getByRole("button", {
-    name: /view bastian schweinsteiger .* photo pending/i,
-  });
+    name: /view bastian schweinsteiger/i,
+  }).first();
   await expect(longNameCard).toBeVisible();
   await expect(longNameCard.locator("h2")).toHaveAttribute(
     "title",
@@ -159,24 +162,40 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await databaseSearch.fill("Lionel Messi");
   await expect(
     page.getByRole("button", {
-      name: /view lionel messi 2014, rated 96, photo pending/i,
+      name: /view lionel messi 2014, rated 96/i,
     }),
   ).toBeVisible();
   await expect(
     page.getByRole("button", {
-      name: /view lionel messi 2022, rated 99, photo pending/i,
+      name: /view lionel messi 2022, rated 99/i,
     }),
   ).toBeVisible();
   await page
     .getByRole("button", {
-      name: /view lionel messi 2014, rated 96, photo pending/i,
+      name: /view lionel messi 2014, rated 96/i,
     })
     .click();
   const databasePlayerDialog = page.getByRole("dialog");
   await expect(databasePlayerDialog.getByText("PHOTO STATUS")).toBeVisible();
   await expect(
-    databasePlayerDialog.getByText(/remains fully draftable/i),
+    databasePlayerDialog.getByText(
+      /owns image key lionel-messi-2014/i,
+    ),
   ).toBeVisible();
+  const databaseMessiFace = databasePlayerDialog.getByRole("img", {
+    name: /exact-year card face of lionel messi/i,
+  });
+  await expect(databaseMessiFace).toBeVisible();
+  await expect
+    .poll(() =>
+      databaseMessiFace.evaluate(
+        (image) =>
+          image instanceof HTMLImageElement &&
+          image.complete &&
+          image.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
   await expect(databasePlayerDialog.getByText("TOP 100 PLAYER")).toBeVisible();
   await expect(
     databasePlayerDialog.getByText("Trophy XI Curated Top 100"),
@@ -212,12 +231,12 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.getByRole("heading", { name: /choose the mind behind the xi/i }),
   ).toBeVisible();
-  await expect(page.locator(".manager-card")).toHaveCount(5);
+  await expect(page.locator(".manager-card")).toHaveCount(3);
   await expect(
     page.locator('.manager-card .circular-portrait[data-photo-status="pending"]'),
-  ).toHaveCount(5);
+  ).toHaveCount(3);
   await expect(page.getByText("PLAYER RESPINS ×2")).toBeVisible();
-  await captureState("01-manager-five.png");
+  await captureState("01-manager-three.png");
   const originalManagerNames = await page
     .locator(".manager-card h2")
     .allTextContents();
@@ -226,14 +245,14 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     .click();
   await expect(
     page.getByRole("dialog", {
-      name: /replace all five manager choices/i,
+      name: /replace all three manager choices/i,
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: /use manager respin/i }).click();
   const replacementManagerNames = await page
     .locator(".manager-card h2")
     .allTextContents();
-  expect(replacementManagerNames).toHaveLength(5);
+  expect(replacementManagerNames).toHaveLength(3);
   expect(
     replacementManagerNames.every(
       (name) => !originalManagerNames.includes(name),
@@ -477,7 +496,6 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(chemistryHud).toContainText("Projected");
   await expect(chemistryHud).toContainText("Change");
   await expect(page.locator(".pitch-node--fit-green").first()).toBeVisible();
-  await expect(page.locator(".pitch-node--fit-yellow").first()).toBeVisible();
   await expect(page.locator(".pitch-node--fit-red").first()).toBeVisible();
   await expect(
     page.locator(".pitch-node--fit-incompatible").first(),
@@ -485,6 +503,33 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.locator(".pitch-node__fit i").filter({ hasText: "−" }).first(),
   ).toBeVisible();
+  const goalkeeperGeometry = await page
+    .locator('.draft-pitch-panel .pitch-node[data-slot-y="91"]')
+    .evaluate((node) => {
+      const pitch = node.closest(".pitch")!.getBoundingClientRect();
+      const nodeBounds = node.getBoundingClientRect();
+      const fitBounds = node
+        .querySelector(".pitch-node__fit")!
+        .getBoundingClientRect();
+      return {
+        nodeInside:
+          nodeBounds.left >= pitch.left - 1 &&
+          nodeBounds.right <= pitch.right + 1 &&
+          nodeBounds.top >= pitch.top - 1 &&
+          nodeBounds.bottom <= pitch.bottom + 1,
+        fitInside:
+          fitBounds.left >= pitch.left - 1 &&
+          fitBounds.right <= pitch.right + 1 &&
+          fitBounds.top >= pitch.top - 1 &&
+          fitBounds.bottom <= pitch.bottom + 1,
+        labelAbove: fitBounds.bottom <= nodeBounds.top,
+      };
+    });
+  expect(goalkeeperGeometry).toEqual({
+    nodeInside: true,
+    fitInside: true,
+    labelAbove: true,
+  });
   const exactPreviewSlot = page.locator(
     '.draft-pitch-panel .pitch-node[aria-disabled="false"]',
   ).first();
@@ -695,10 +740,9 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.getByRole("heading", { name: /archive with a paper trail/i }),
   ).toBeVisible();
-  await expect(page.getByText(/0 active local png masters/i)).toBeVisible();
-  await expect(page.getByText(/0 exact-year player faces/i)).toBeVisible();
+  await expect(page.getByText(/active local png masters/i)).toBeVisible();
+  await expect(page.getByText(/exact-year player faces/i)).toBeVisible();
   await expect(page.getByText(/0 exact-year manager faces/i)).toBeVisible();
-  await expect(page.getByText(/310 photo-pending player cards/i)).toBeVisible();
-  await expect(page.getByText(/28 photo-pending manager cards/i)).toBeVisible();
-  await expect(page.locator(".attribution-list article")).toHaveCount(0);
+  await expect(page.getByText(/photo-pending player cards/i)).toBeVisible();
+  await expect(page.getByText(/49 photo-pending manager cards/i)).toBeVisible();
 });

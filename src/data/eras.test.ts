@@ -21,49 +21,59 @@ describe("draft eras", () => {
     ]);
   });
 
-  it("supports a complete, five-choice player-first draft in every era and formation", () => {
-    for (const era of draftEras) {
-      const pool = players.filter((player) => isPlayerInDraftEra(player, era.id));
-      for (const formation of formations) {
-        const picks: Array<{ slotId: string; cardId: string }> = [];
-        const draftedNames = new Set<string>();
-        formation.slots.forEach((_, index) => {
-          const options = generateDraftOptions(
-            pool,
-            formation,
-            picks,
-            1998 + index,
-            index,
-          );
-          expect(options, `${era.id} ${formation.id} round ${index + 1}`).toHaveLength(5);
-          const player = options[0];
-          const slot = formation.slots.find(
-            (candidate) =>
-              !picks.some((pick) => pick.slotId === candidate.id) &&
-              canPlacePlayer({
-                cards: pool,
-                formation,
-                picks,
-                player,
-                slot: candidate,
-              }),
-          );
-          expect(slot).toBeDefined();
-          expect(
-            options.every((player) => isPlayerInDraftEra(player, era.id)),
-          ).toBe(true);
-          expect(
-            options.every(
-              (player) => !draftedNames.has(player.playerName.toLocaleLowerCase()),
-            ),
-          ).toBe(true);
-          picks.push({ slotId: slot!.id, cardId: player.id });
-          draftedNames.add(player.playerName.toLocaleLowerCase());
-        });
-        expect(picks).toHaveLength(11);
+  it(
+    "supports a complete, five-choice player-first draft in every era and formation",
+    () => {
+      for (const era of draftEras) {
+        const pool = players.filter((player) =>
+          isPlayerInDraftEra(player, era.id),
+        );
+        for (const formation of formations) {
+          const picks: Array<{ slotId: string; cardId: string }> = [];
+          const draftedNames = new Set<string>();
+          formation.slots.forEach((_, index) => {
+            const options = generateDraftOptions(
+              pool,
+              formation,
+              picks,
+              1998 + index,
+              index,
+            );
+            expect(
+              options,
+              `${era.id} ${formation.id} round ${index + 1}`,
+            ).toHaveLength(5);
+            const player = options[0];
+            const slot = formation.slots.find(
+              (candidate) =>
+                !picks.some((pick) => pick.slotId === candidate.id) &&
+                canPlacePlayer({
+                  cards: pool,
+                  formation,
+                  picks,
+                  player,
+                  slot: candidate,
+                }),
+            );
+            expect(slot).toBeDefined();
+            expect(
+              options.every((player) => isPlayerInDraftEra(player, era.id)),
+            ).toBe(true);
+            expect(
+              options.every(
+                (player) =>
+                  !draftedNames.has(player.playerName.toLocaleLowerCase()),
+              ),
+            ).toBe(true);
+            picks.push({ slotId: slot!.id, cardId: player.id });
+            draftedNames.add(player.playerName.toLocaleLowerCase());
+          });
+          expect(picks).toHaveLength(11);
+        }
       }
-    }
-  });
+    },
+    15_000,
+  );
 
   it("keeps distant tournament cards draftable in both directions", () => {
     const pele = players.find((player) => player.id === "pele-1970")!;

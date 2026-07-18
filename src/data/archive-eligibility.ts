@@ -5,10 +5,31 @@
  */
 export const licensedPlayerPortraitCardIds = [] as const;
 
-/** @deprecated Player photographs never control draft eligibility. */
+/** @deprecated Player face availability never controls draft eligibility. */
 export const draftEligiblePlayerCardIds = licensedPlayerPortraitCardIds;
 
 export const draftEligibleManagerCardIds = [
+  "alf-ramsey-1970",
+  "helmut-schon-1970",
+  "mario-zagallo-1970",
+  "kazimierz-gorski-1974",
+  "rinus-michels-1974",
+  "helmut-schon-1974",
+  "enzo-bearzot-1978",
+  "ernst-happel-1978",
+  "cesar-luis-menotti-1978",
+  "enzo-bearzot-1982",
+  "tele-santana-1982",
+  "michel-hidalgo-1982",
+  "carlos-bilardo-1986",
+  "franz-beckenbauer-1986",
+  "guy-thys-1986",
+  "franz-beckenbauer-1990",
+  "bobby-robson-1990",
+  "azeglio-vicini-1990",
+  "carlos-alberto-parreira-1994",
+  "arrigo-sacchi-1994",
+  "tommy-svensson-1994",
   "aime-jacquet-1998",
   "mario-zagallo-1998",
   "guus-hiddink-1998",

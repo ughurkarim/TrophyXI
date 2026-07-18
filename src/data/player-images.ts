@@ -9,8 +9,12 @@ import type { ImageAttribution } from "@/types/game";
 
 type GameFaceKind = ImageAttribution["kind"];
 
-export const gameFacePathFor = (kind: GameFaceKind, cardId: string) =>
-  `/${kind === "player" ? "players" : "managers"}/game-faces/${cardId}.png`;
+export const gameFacePathFor = (
+  kind: GameFaceKind,
+  cardId: string,
+  tournamentYear: number,
+) =>
+  `/assets/${kind === "player" ? "players" : "managers"}/${tournamentYear}/${cardId}.png`;
 
 const buildAttribution = (
   record: GameFaceManifestRecord,
@@ -27,7 +31,7 @@ const buildAttribution = (
   const tournamentYear = player?.tournamentYear ?? manager!.tournamentYear;
   if (
     tournamentYear !== record.tournamentYear ||
-    record.localPath !== gameFacePathFor(kind, id)
+    record.localPath !== gameFacePathFor(kind, id, tournamentYear)
   ) {
     throw new Error(`${id}: exact-year game-face manifest mismatch`);
   }
@@ -45,15 +49,16 @@ const buildAttribution = (
     changes: record.changes,
     fallback: false,
     representedTeam: player?.countryName ?? manager!.teamName,
-    photographedYear: record.tournamentYear,
-    exactTournamentImage: true,
+    photographedYear: null,
+    exactTournamentImage: false,
     isNationalTeamKit: false,
-    photoContext: "exact-tournament",
+    photoContext: "same-year-game-face",
     cropFocus: { x: 50, y: 20 },
     gameEdition: record.gameEdition,
     sourceWebsite: record.sourceWebsite,
     retrievedOn: record.retrievedOn,
     matchQuality: record.matchQuality,
+    requiredAttribution: record.requiredAttribution,
   };
 };
 

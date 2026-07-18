@@ -65,7 +65,8 @@ export function TacticalPitch({
           isSelected && "pitch-node--active",
           interactive && "pitch-node--interactive",
           fitPreview && `pitch-node--fit-${fitPreview.state}`,
-          fitPreview && slot.y >= 80 && "pitch-node--fit-label-side",
+          slot.y >= 80 && "pitch-node--near-bottom",
+          fitPreview && slot.y >= 80 && "pitch-node--fit-label-above",
           fitPreview?.feasibilityBlocked && "pitch-node--feasibility-blocked",
         );
         const ariaLabel = player

@@ -502,6 +502,7 @@ export type ImageAttribution = {
     | "exact-tournament"
     | "same-year-national-team"
     | "nearby-year-national-team"
+    | "same-year-game-face"
     | "other-licensed-face"
     | "original-project-mark";
   cropFocus: { x: number; y: number };
@@ -509,6 +510,7 @@ export type ImageAttribution = {
   sourceWebsite: string;
   retrievedOn: string;
   matchQuality: "exact" | "manually-reviewed-exact-year";
+  requiredAttribution: string;
 };
 
 export type TournamentFinish =

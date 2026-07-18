@@ -12,9 +12,12 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "images:import": "tsx scripts/import-player-images.ts",
+    "images:generate:sources": "tsx scripts/generate-game-face-candidates.ts",
     "images:contact": "tsx scripts/build-portrait-contact-sheet.ts",
     "players:import:fbref": "tsx scripts/import-fbref-player-data.ts",
     "players:refresh:fbref": "tsx scripts/import-fbref-player-data.ts --refresh",
+    "players:generate:tournaments": "tsx scripts/generate-player-tournament-data.ts",
+    "players:validate:tournaments": "tsx scripts/generate-player-tournament-data.ts --check",
     "opponents:import": "tsx scripts/import-world-cup-teams.ts",
     "opponents:validate": "tsx scripts/validate-world-cup-teams.ts",
     "validate:data": "tsx scripts/validate-data.ts"

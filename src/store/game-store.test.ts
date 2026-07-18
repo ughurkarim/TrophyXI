@@ -118,8 +118,8 @@ describe("game store integrity", () => {
     const before = [...useGameStore.getState().managerOptionIds];
     useGameStore.getState().respinManagers();
     const replacement = [...useGameStore.getState().managerOptionIds];
-    expect(before).toHaveLength(5);
-    expect(replacement).toHaveLength(5);
+    expect(before).toHaveLength(3);
+    expect(replacement).toHaveLength(3);
     expect(replacement.every((id) => !before.includes(id))).toBe(true);
     expect(useGameStore.getState().managerRespinRemaining).toBe(0);
     expect(useGameStore.getState().playerRespinsRemaining).toBe(2);

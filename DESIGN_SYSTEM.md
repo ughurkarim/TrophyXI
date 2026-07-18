@@ -4,8 +4,7 @@
 
 Trophy XI is a grand football archive entering a night stadium: ceremonial,
 competitive, regal, and exact. Black lacquer, antique gold, stadium light, foil,
-and era accents create the atmosphere without copying a protected game interface,
-card silhouette, logo, or brand asset.
+and era accents create an original Trophy XI atmosphere and interface.
 
 ## Color, type, and geometry
 
@@ -81,10 +80,11 @@ large zoom, rapid rotation, or face-obscuring effect is permitted.
 Photo Pending markers use initials, flag, tournament year, and the same tier
 ring. They never depict or imply a face. Managers use the same portrait
 primitive and show OFF, DEF, leadership, and game management. Every displayed
-photograph is local, reusable, and exact-year. Nearby-year and identity-only
-images never render. The generated manifest is importer-owned; protected
-football-game database artwork is rejected. Any reusable exact-year asset must
-come through a separately documented lawful source and review.
+face image is local, permissioned, and exact-year. Nearby-year and identity-only
+images never render. The generated manifest is importer-owned. Permissioned
+EA/SoFIFA faces retain their original metadata, watermarks, cache records, and
+required attribution. Each World Cup card uses the edition available by June of
+its tournament year, never the following season's edition.
 
 ## Status-tier language
 
@@ -108,7 +108,7 @@ Ratings and tiers are game estimates, not historical honors.
 - Database: a dedicated header route presents every draftable tournament card
   with search, nation/year/position/rating/tier/era/photo filters, four sort
   orders, bounded scrolling, incremental rendering, and the full player record.
-- Manager selection: five identity-safe cards and one permanent deterministic
+- Manager selection: three identity-safe cards and one permanent deterministic
   Manager Respin. It excludes original identities when alternatives exist and
   never consumes the separate Formation Respin or two Player Respins.
 - Formation offers: four cards, each with diagram, tendencies, manager fit,

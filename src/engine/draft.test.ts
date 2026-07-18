@@ -50,7 +50,7 @@ describe("draft engine", () => {
       (player) => player.id === "fabio-cannavaro-2006",
     )!;
     const fullback = players.find(
-      (player) => player.id === "roberto-carlos-2002",
+      (player) => player.id === "roberto-carlos-1998",
     )!;
     expect(getPositionFit(centerBack, formation.slots[2])).toBe(94);
     expect(getPositionFit(fullback, formation.slots[1])).toBe(100);

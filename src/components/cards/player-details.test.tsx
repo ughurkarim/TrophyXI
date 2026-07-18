@@ -34,13 +34,19 @@ describe("PlayerDetails", () => {
     expect(dialog).toHaveClass("player-drawer--legend");
     expect(
       within(dialog).getByRole("img", {
-        name: /photo pending for lionel messi 2022/i,
+        name: /exact-year card face of lionel messi/i,
       }),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("TOURNAMENT RECORD")).toBeInTheDocument();
     expect(within(dialog).getByText("PLAYER TAG EFFECTS")).toBeInTheDocument();
     expect(within(dialog).getByText("CAREER ACCOLADES")).toBeInTheDocument();
-    expect(within(dialog).queryByText("PORTRAIT SOURCE")).not.toBeInTheDocument();
+    expect(within(dialog).getByText("PORTRAIT SOURCE")).toBeInTheDocument();
+    expect(within(dialog).getByText(/fifa 22 game face/i)).toBeInTheDocument();
+    expect(
+      within(dialog).getByText(
+        /ea sports player imagery, sourced via sofifa/i,
+      ),
+    ).toBeInTheDocument();
     expect(within(dialog).getByText("94%")).toBeInTheDocument();
     expect(within(dialog).getByText("+5")).toBeInTheDocument();
     const accoladesHeading = within(dialog).getByText("CAREER ACCOLADES");

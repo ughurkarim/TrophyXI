@@ -32,7 +32,7 @@ export default function CreditsPage() {
           <h1>An archive with a paper trail.</h1>
           <p>
             Faces resolve only from exact card-year local PNGs with complete
-            source records. No older, newer, or identity-only photograph is
+            source records. No older, newer, or identity-only face is
             substituted. Missing files remain draftable and show Photo Pending.
           </p>
           <div className="credits-metrics">
@@ -49,10 +49,11 @@ export default function CreditsPage() {
             <ImageIcon size={20} aria-hidden />
             <h2>Image method</h2>
             <p>
-              Players use <code>/players/game-faces/card-id.png</code> and
-              managers use <code>/managers/game-faces/card-id.png</code>. Each
+              Players use <code>/assets/players/year/card-id.png</code> and
+              managers use <code>/assets/managers/year/card-id.png</code>. Each
               version owns a distinct filename. A local file is activated only
-              with complete reusable-source and exact-year metadata.
+              with complete permission, attribution, cache, and exact-year
+              metadata.
             </p>
           </div>
           <div>
@@ -86,6 +87,7 @@ export default function CreditsPage() {
                     <small>
                       {image.sourceWebsite} · retrieved {image.retrievedOn}
                     </small>
+                    <small>{image.requiredAttribution}</small>
                   </div>
                   {image.sourcePage && (
                     <a href={image.sourcePage} target="_blank" rel="noreferrer">

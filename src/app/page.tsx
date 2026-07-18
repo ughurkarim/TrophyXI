@@ -70,7 +70,7 @@ export default function LandingPage() {
               </div>
               <div className="hero__proof" aria-label="Game highlights">
                 <span>
-                  <b>310</b> tournament cards
+                  <b>627</b> tournament cards
                 </span>
                 <span>
                   <b>416</b> sourced participants

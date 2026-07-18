@@ -15,7 +15,7 @@ export function Footer() {
           Trophy XI is an unofficial historical soccer simulation project and is not
           affiliated with or endorsed by FIFA, any national federation, competition,
           team, manager, or player. Ratings are original game estimates. Images are
-          locally stored, licensed photographs with manifest-tracked attribution.{" "}
+          locally stored, permissioned faces with manifest-tracked attribution.{" "}
           <Link href="/credits">View sources and attribution</Link>
         </p>
       </div>

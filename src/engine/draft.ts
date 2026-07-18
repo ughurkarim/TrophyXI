@@ -503,10 +503,10 @@ export const generateManagerOptions = (
     seen.add(manager.managerIdentityId);
     return true;
   });
-  if (unique.length < 5) {
+  if (unique.length < 3) {
     throw new Error(`Not enough manager identities for ${eraId}`);
   }
-  return unique.slice(0, 5);
+  return unique.slice(0, 3);
 };
 
 export type FormationOfferRules = {

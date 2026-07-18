@@ -5679,11 +5679,11 @@ button.squad-chip:focus-visible {
   font-weight: 800;
 }
 
-.pitch-node--fit-label-side .pitch-node__fit {
-  top: 50%;
-  bottom: auto;
-  left: calc(100% + 4px);
-  transform: translateY(-50%);
+.pitch-node--fit-label-above .pitch-node__fit {
+  top: auto;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .pitch-node--fit-green {
@@ -6537,7 +6537,7 @@ button.squad-chip:focus-visible {
   }
 }
 
-/* Exact-year faces, five-manager offers, and selected-card dossier */
+/* Exact-year faces, three-manager offers, and selected-card dossier */
 .circular-portrait,
 .circular-portrait__mask {
   width: var(--portrait-size);
@@ -6571,8 +6571,10 @@ button.squad-chip:focus-visible {
 }
 
 .manager-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+  max-width: 1080px;
+  margin-inline: auto;
 }
 
 .manager-grid .manager-card {
@@ -6931,7 +6933,10 @@ button.squad-chip:focus-visible {
   max-width: min(100%, 270px);
 }
 
-.pitch,
+.pitch {
+  overflow: hidden;
+}
+
 .pitch-node {
   overflow: visible;
 }
@@ -6964,6 +6969,27 @@ button.squad-chip:focus-visible {
 .pitch-node--fit-incompatible .pitch-node__disc,
 .pitch-node--feasibility-blocked .pitch-node__disc {
   box-shadow: none;
+}
+
+.pitch-node--near-bottom.pitch-node--fit-green .pitch-node__disc {
+  box-shadow:
+    0 0 0 4px rgba(83, 205, 141, 0.24),
+    0 0 18px rgba(83, 205, 141, 0.58),
+    inset 0 0 12px rgba(236, 255, 246, 0.38);
+}
+
+.pitch-node--near-bottom.pitch-node--fit-yellow .pitch-node__disc {
+  box-shadow:
+    0 0 0 4px rgba(213, 174, 65, 0.22),
+    0 0 18px rgba(242, 204, 98, 0.54),
+    inset 0 0 11px rgba(255, 246, 204, 0.3);
+}
+
+.pitch-node--near-bottom.pitch-node--fit-red .pitch-node__disc {
+  box-shadow:
+    0 0 0 3px rgba(217, 104, 91, 0.16),
+    0 0 16px rgba(241, 148, 135, 0.34),
+    inset 0 0 10px rgba(255, 221, 216, 0.2);
 }
 
 @media (max-width: 1220px) {

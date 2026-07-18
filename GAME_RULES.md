@@ -20,27 +20,26 @@ order. Filled entries are inspectable and never replace or reorder a pick.
 
 ## Active archive and status tiers
 
-The typed research archive contains 310 player cards and 28 manager cards.
-Drafting uses an explicit active boundary of 51 player cards and 10 manager cards;
-inactive records cannot appear during generation, hydration repair, or play. Every
-active record has a local licensed portrait.
+The typed active archive contains 627 player cards across 287 stable identities
+and 49 manager cards across 39 stable identities. Every player card represents an
+actual match appearance in one supported men's World Cup from 1970 through 2022.
+Drafting, hydration repair, and play all use the explicit active boundary; image
+availability never changes card eligibility.
 
-Normal player overalls are capped at 96. The active set contains exactly one
-94–96 card, at most three 92+ cards, at most six 90+ cards, at least eighteen
-cards below 81, and at least eight below 76. Status tiers use these overlapping
-content bands:
+Player overalls use the full 65–99 scale. A 99 is reserved for the smallest
+greatest-tournament cohort, Golden Ball versions are normally at least 96, every
+identity's tournament versions have distinct ratings, and validation preserves a
+broad lower-card cohort. Status tiers use non-overlapping content bands:
 
-- legend: 93–96
-- icon: 89–93
-- elite: 85–89
-- standout: 81–85
-- reliable: 77–81
-- role-player: 71–78
-- limited: 73 or lower
+- legend: 98–99
+- icon: 94–97
+- elite: 90–93
+- standout: 85–89
+- reliable: 80–84
+- role-player: 74–79
+- limited: 65–73
 
-The overlap supports contextual archive status while validation prevents a tier
-outside its band. Status and every numeric attribute remain project-created
-estimates.
+Status and every numeric attribute remain project-created estimates.
 
 ## Match environment versus card year
 

@@ -357,7 +357,7 @@ export const useGameStore = create<GameStore>()(
           !state.eraId ||
           state.managerId ||
           state.managerRespinRemaining !== 1 ||
-          state.managerOptionIds.length !== 5
+          state.managerOptionIds.length !== 3
         ) {
           return;
         }
@@ -996,7 +996,7 @@ export const useGameStore = create<GameStore>()(
             originalManagerOptionIds: managerOptionIds,
             managerOptionIds,
             saveNotice:
-              "Playable World Cup All-Stars was removed. Your era is preserved; choose one of five tournament managers to begin a normal draft.",
+              "Playable World Cup All-Stars was removed. Your era is preserved; choose one of three tournament managers to begin a normal draft.",
           };
         }
         const managerId =
@@ -1061,7 +1061,7 @@ export const useGameStore = create<GameStore>()(
               ? previous.matchResult
               : null,
           saveNotice:
-            "Trophy XI upgraded your save to the expanded five-manager archive and exact-year Photo Pending system.",
+            "Trophy XI upgraded your save to the expanded tournament-manager archive and exact-year face system.",
         };
       },
       partialize: (state) => ({

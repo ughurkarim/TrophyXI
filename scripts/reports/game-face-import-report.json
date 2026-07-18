@@ -1,561 +1,15 @@
 {
-  "generatedAt": "2026-07-18T21:32:53.126Z",
-  "policy": "Only explicitly approved, reusable, exact-year sources are importable. Protected football-game asset hosts are rejected.",
-  "configuredCandidates": 0,
-  "activeExactYearFaces": 0,
+  "generatedAt": "2026-07-18T23:07:03.411Z",
+  "policy": "Project-specific EA/SoFIFA permission only: local cache first; at least two seconds between requests; maximum 5,000 per UTC day; original PNG metadata and watermarks preserved; required attribution retained. The former UTC download window no longer applies.",
+  "configuredCandidates": 161,
+  "activeExactYearFaces": 161,
   "downloaded": 0,
-  "skipped": 0,
+  "skipped": 161,
   "failed": 0,
-  "photoPending": 338,
+  "photoPending": 515,
   "results": [
     {
-      "id": "pele-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jairzinho-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gerd-muller-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "rivelino-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "tostao-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "bobby-moore-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gordon-banks-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "teofilo-cubillas-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "giacinto-facchetti-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "murtaz-khurtsilava-1970",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "johan-cruyff-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "franz-beckenbauer-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "johan-neeskens-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gerd-muller-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "sepp-maier-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kazimierz-deyna-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "grzegorz-lato-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "paul-breitner-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "wolfgang-overath-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "rene-houseman-1974",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "mario-kempes-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "daniel-passarella-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ubaldo-fillol-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "rob-rensenbrink-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "zico-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "teofilo-cubillas-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "claudio-gentile-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "paolo-rossi-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "arie-haan-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ruud-krol-1978",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "paolo-rossi-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "zico-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "socrates-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "falcao-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "zbigniew-boniek-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "dino-zoff-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "claudio-gentile-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gaetano-scirea-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "pierre-littbarski-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jean-tigana-1982",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "diego-maradona-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jorge-burruchaga-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jorge-valdano-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "harald-schumacher-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "lothar-matthaus-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "michel-platini-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gary-lineker-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "emilio-butragueno-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "preben-elkj-r-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "igor-belanov-1986",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "salvatore-schillaci-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "lothar-matthaus-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "andreas-brehme-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jurgen-klinsmann-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "sergio-goycochea-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "paul-gascoigne-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "roger-milla-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "franco-baresi-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "frank-rijkaard-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "tomas-skuhravy-1990",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "romario-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "roberto-baggio-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "bebeto-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gheorghe-hagi-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "hristo-stoichkov-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "dunga-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "claudio-taffarel-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "paolo-maldini-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "tomas-brolin-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "oleg-salenko-1994",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "fabien-barthez-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "oliver-kahn-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gianluigi-buffon-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "iker-casillas-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "manuel-neuer-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "thibaut-courtois-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "emiliano-martinez-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "lilian-thuram-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "marcel-desailly-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "roberto-carlos-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "cafu-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "lucio-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "fabio-cannavaro-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gianluca-zambrotta-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "marco-materazzi-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "sergio-ramos-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "carles-puyol-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "philipp-lahm-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "mats-hummels-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "raphael-varane-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "lucas-hernandez-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "cristian-romero-2022",
+      "id": "achraf-hakimi-2018",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
@@ -563,1067 +17,29 @@
     {
       "id": "achraf-hakimi-2022",
       "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "zinedine-zidane-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "didier-deschamps-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "rivaldo-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ronaldinho-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "andrea-pirlo-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gennaro-gattuso-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "xavi-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "andres-iniesta-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "sergio-busquets-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "toni-kroos-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "bastian-schweinsteiger-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "paul-pogba-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ngolo-kante-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "luka-modric-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kevin-de-bruyne-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "enzo-fernandez-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "mohammed-kudus-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "thierry-henry-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "davor-suker-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ronaldo-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "miroslav-klose-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "francesco-totti-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "fernando-torres-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "david-villa-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "diego-forlan-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "lionel-messi-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "thomas-muller-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "arjen-robben-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "neymar-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "antoine-griezmann-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kylian-mbappe-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kylian-mbappe-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "lionel-messi-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "julian-alvarez-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ismaila-sarr-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "claudio-taffarel-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jose-luis-chilavert-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "peter-schmeichel-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "bixente-lizarazu-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "laurent-blanc-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "frank-de-boer-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "paolo-maldini-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "cafu-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "javier-zanetti-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "christian-panucci-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gary-neville-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "roberto-carlos-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "edgar-davids-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "dunga-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "david-beckham-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "rivaldo-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "dennis-bergkamp-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ronaldo-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "michael-owen-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "marc-overmars-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gabriel-batistuta-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "dida-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "philipp-lahm-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ashley-cole-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "willy-sagnol-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "rio-ferdinand-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "zinedine-zidane-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "michael-ballack-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "claude-makelele-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kaka-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "david-beckham-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "thierry-henry-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "cristiano-ronaldo-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "luis-figo-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "marcelo-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jordi-alba-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "maicon-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "yassine-bounou-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "dominik-livakovic-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "theo-hernandez-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "josko-gvardiol-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "nicolas-otamendi-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "nahuel-molina-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "marcos-acuna-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "denzel-dumfries-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "marquinhos-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "dayot-upamecano-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "luka-modric-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "antoine-griezmann-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "alexis-mac-allister-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "sofyan-amrabat-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jude-bellingham-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "frenkie-de-jong-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "joshua-kimmich-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "olivier-giroud-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "bukayo-saka-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "richarlison-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "cody-gakpo-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "goncalo-ramos-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ritsu-doan-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "son-heung-min-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jorge-campos-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "edwin-van-der-sar-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "david-seaman-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "rustu-recber-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "marcos-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "lee-woon-jae-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jens-lehmann-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ricardo-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "mark-paston-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "tim-howard-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "keylor-navas-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "guillermo-ochoa-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "hugo-lloris-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "danijel-subasic-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "mathew-ryan-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jaap-stam-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "sol-campbell-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "alpay-ozalan-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "hong-myung-bo-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "alessandro-nesta-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ricardo-carvalho-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "eric-abidal-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "juan-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "diego-godin-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ryan-nelsen-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "winston-reid-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
     },
     {
-      "id": "yuji-nakazawa-2010",
+      "id": "ahmed-musa-2014",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "rafael-marquez-2010",
+      "id": "ahmed-musa-2018",
       "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "john-mensah-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "thiago-silva-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "david-luiz-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "pablo-zabaleta-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ezequiel-garay-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "stefan-de-vrij-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "daley-blind-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "matt-besler-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kieran-trippier-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "diego-laxalt-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "yerry-mina-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "mario-fernandes-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "sime-vrsaljko-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "toby-alderweireld-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kalidou-koulibaly-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kim-min-jae-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "piero-hincapie-2022",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "gheorghe-hagi-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "michael-laudrup-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "emmanuel-petit-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "nicky-butt-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ariel-ortega-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "cuauhtemoc-blanco-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "sunday-oliseh-1998",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "juninho-paulista-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kleberson-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "hasan-sas-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "yoo-sang-chul-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "landon-donovan-2002",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "pavel-nedved-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "maniche-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "deco-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "juan-roman-riquelme-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "torsten-frings-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "maxi-rodriguez-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "stephen-appiah-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "shunsuke-nakamura-2006",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "mesut-ozil-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "wesley-sneijder-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "mark-van-bommel-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "keisuke-honda-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "park-ji-sung-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "kevin-prince-boateng-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "simon-elliott-2010",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "james-rodriguez-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "javier-mascherano-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "angel-di-maria-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "yaya-toure-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "bryan-ruiz-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "jermaine-jones-2014",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
-    },
-    {
-      "id": "ivan-rakitic-2018",
-      "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
     },
     {
-      "id": "eden-hazard-2018",
+      "id": "ahn-jung-hwan-2002",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "dele-alli-2018",
+      "id": "ahn-jung-hwan-2006",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
@@ -1635,88 +51,106 @@
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "wahbi-khazri-2018",
+      "id": "alessandro-nesta-1998",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "azzedine-ounahi-2022",
+      "id": "alessandro-nesta-2002",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "tyler-adams-2022",
+      "id": "alessandro-nesta-2006",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "salem-al-dawsari-2022",
+      "id": "alexis-mac-allister-2022",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "christian-vieri-1998",
+      "id": "alexis-sanchez-2010",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "brian-laudrup-1998",
+      "id": "alexis-sanchez-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "alpay-ozalan-2002",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "bebeto-1998",
+      "id": "andrea-pirlo-2006",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "luis-hernandez-1998",
+      "id": "andrea-pirlo-2010",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "victor-ikpeba-1998",
+      "id": "andrea-pirlo-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "andreas-brehme-1986",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "hakan-sukur-2002",
+      "id": "andreas-brehme-1990",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "ilhan-mans-z-2002",
+      "id": "andreas-brehme-1994",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "el-hadji-diouf-2002",
+      "id": "andres-iniesta-2006",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "ahn-jung-hwan-2002",
+      "id": "andres-iniesta-2010",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "jared-borgetti-2002",
+      "id": "andres-iniesta-2014",
       "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "andres-iniesta-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
     },
     {
       "id": "andriy-shevchenko-2006",
@@ -1725,31 +159,97 @@
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "lukas-podolski-2006",
+      "id": "angel-di-maria-2010",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "david-trezeguet-2006",
+      "id": "angel-di-maria-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "angel-di-maria-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "angel-di-maria-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "antoine-griezmann-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "antoine-griezmann-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "antoine-griezmann-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "arie-haan-1974",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "didier-drogba-2006",
+      "id": "arie-haan-1978",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "zlatan-ibrahimovic-2006",
+      "id": "ariel-ortega-1994",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "luis-suarez-2010",
+      "id": "ariel-ortega-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ariel-ortega-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "arjen-robben-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "arjen-robben-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "arjen-robben-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "asamoah-gyan-2006",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
@@ -1761,7 +261,169 @@
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "siphiwe-tshabalala-2010",
+      "id": "asamoah-gyan-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ashley-cole-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ashley-cole-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ashley-cole-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "azzedine-ounahi-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bastian-schweinsteiger-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bastian-schweinsteiger-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bastian-schweinsteiger-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "bebeto-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bebeto-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bebeto-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bixente-lizarazu-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bixente-lizarazu-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bobby-moore-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "breel-embolo-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "breel-embolo-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "brian-laudrup-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bryan-ruiz-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bryan-ruiz-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bryan-ruiz-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bukayo-saka-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "cafu-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cafu-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cafu-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cafu-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "carles-puyol-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "carles-puyol-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "carles-puyol-2010",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
@@ -1773,37 +435,499 @@
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "tim-cahill-2010",
+      "id": "christian-panucci-2002",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "samuel-etoo-2010",
+      "id": "christian-vieri-1998",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "alexis-sanchez-2014",
+      "id": "christian-vieri-2002",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "robin-van-persie-2014",
+      "id": "claude-makelele-2002",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "joel-campbell-2014",
+      "id": "claude-makelele-2006",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "ahmed-musa-2014",
+      "id": "claudio-gentile-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "claudio-gentile-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "claudio-taffarel-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "claudio-taffarel-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "claudio-taffarel-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cody-gakpo-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "cristian-romero-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cristiano-ronaldo-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cristiano-ronaldo-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cristiano-ronaldo-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "cristiano-ronaldo-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "cristiano-ronaldo-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "cuauhtemoc-blanco-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cuauhtemoc-blanco-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cuauhtemoc-blanco-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "daley-blind-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "daley-blind-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "daniel-passarella-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "daniel-passarella-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "danijel-subasic-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-beckham-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-beckham-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-beckham-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-luiz-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "david-seaman-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-seaman-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-trezeguet-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-trezeguet-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-trezeguet-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-villa-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-villa-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "david-villa-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "davor-suker-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "davor-suker-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dayot-upamecano-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "deco-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "deco-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dele-alli-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "denis-cheryshev-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dennis-bergkamp-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dennis-bergkamp-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "denzel-dumfries-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "dida-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "didier-deschamps-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "didier-drogba-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "didier-drogba-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "didier-drogba-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "diego-forlan-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "diego-forlan-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "diego-forlan-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "diego-godin-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "diego-godin-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "diego-godin-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "diego-godin-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "diego-laxalt-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "diego-maradona-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "diego-maradona-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "diego-maradona-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "diego-maradona-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dino-zoff-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dino-zoff-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dino-zoff-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dominik-livakovic-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dunga-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dunga-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "dunga-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "eden-hazard-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "eden-hazard-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "eden-hazard-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "edgar-davids-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "edwin-van-der-sar-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "edwin-van-der-sar-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "el-hadji-diouf-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "emiliano-martinez-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "emilio-butragueno-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "emilio-butragueno-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "emmanuel-petit-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "emmanuel-petit-2002",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
@@ -1815,13 +939,529 @@
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "harry-kane-2018",
+      "id": "enner-valencia-2022",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "romelu-lukaku-2018",
+      "id": "enzo-fernandez-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "eric-abidal-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "eric-abidal-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ezequiel-garay-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fabien-barthez-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fabien-barthez-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fabien-barthez-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fabio-cannavaro-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fabio-cannavaro-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fabio-cannavaro-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fabio-cannavaro-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "falcao-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "falcao-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fernando-torres-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fernando-torres-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "fernando-torres-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "francesco-totti-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "francesco-totti-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "franco-baresi-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "franco-baresi-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "frank-de-boer-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "frank-de-boer-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "frank-rijkaard-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "frank-rijkaard-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "franz-beckenbauer-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "franz-beckenbauer-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "frenkie-de-jong-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "gabriel-batistuta-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gabriel-batistuta-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gabriel-batistuta-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gaetano-scirea-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gaetano-scirea-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gaetano-scirea-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gary-lineker-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gary-lineker-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gary-neville-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gary-neville-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gennaro-gattuso-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gennaro-gattuso-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gennaro-gattuso-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gerd-muller-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gerd-muller-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gheorghe-hagi-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gheorghe-hagi-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gheorghe-hagi-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "giacinto-facchetti-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "giacinto-facchetti-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gianluca-zambrotta-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gianluca-zambrotta-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gianluca-zambrotta-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gianluigi-buffon-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gianluigi-buffon-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gianluigi-buffon-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gianluigi-buffon-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "goncalo-ramos-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "gordon-banks-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "grzegorz-lato-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "grzegorz-lato-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "grzegorz-lato-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "guillermo-ochoa-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "guillermo-ochoa-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "guillermo-ochoa-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "hakan-sukur-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "harald-schumacher-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "harald-schumacher-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "harry-kane-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "harry-kane-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "hasan-sas-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "hong-myung-bo-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "hong-myung-bo-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "hong-myung-bo-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "hong-myung-bo-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "hristo-stoichkov-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "hristo-stoichkov-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "hugo-lloris-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "hugo-lloris-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "hugo-lloris-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "hugo-lloris-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "igor-belanov-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "iker-casillas-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "iker-casillas-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "iker-casillas-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "iker-casillas-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "ilhan-mans-z-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ismaila-sarr-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ismaila-sarr-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "ivan-perisic-2014",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
@@ -1829,23 +1469,923 @@
     {
       "id": "ivan-perisic-2018",
       "kind": "player",
-      "status": "photo-pending",
-      "reason": "No approved exact-year source is configured."
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
     },
     {
-      "id": "denis-cheryshev-2018",
+      "id": "ivan-perisic-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "ivan-rakitic-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "ivan-rakitic-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "jaap-stam-1998",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "takashi-inui-2018",
+      "id": "jairzinho-1970",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "randal-kolo-muani-2022",
+      "id": "jairzinho-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "james-rodriguez-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "james-rodriguez-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "jared-borgetti-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jared-borgetti-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "javier-mascherano-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "javier-mascherano-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "javier-mascherano-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "javier-mascherano-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "javier-zanetti-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "javier-zanetti-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jean-tigana-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jean-tigana-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jens-lehmann-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jermaine-jones-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "joel-campbell-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "joel-campbell-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "joel-campbell-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "johan-cruyff-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "johan-neeskens-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "johan-neeskens-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "john-mensah-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "john-mensah-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jordi-alba-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "jordi-alba-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "jordi-alba-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "jorge-burruchaga-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jorge-burruchaga-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jorge-campos-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jorge-campos-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jorge-valdano-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jorge-valdano-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jose-luis-chilavert-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jose-luis-chilavert-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "joshua-kimmich-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "joshua-kimmich-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "josko-gvardiol-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "juan-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "juan-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "juan-roman-riquelme-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jude-bellingham-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "julian-alvarez-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "juninho-paulista-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jurgen-klinsmann-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jurgen-klinsmann-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "jurgen-klinsmann-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kaka-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kaka-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kaka-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kalidou-koulibaly-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kalidou-koulibaly-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kazimierz-deyna-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kazimierz-deyna-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "keisuke-honda-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "keisuke-honda-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "keisuke-honda-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kevin-de-bruyne-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kevin-de-bruyne-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kevin-de-bruyne-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kevin-prince-boateng-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kevin-prince-boateng-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "keylor-navas-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "keylor-navas-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "keylor-navas-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kieran-trippier-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kieran-trippier-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kim-min-jae-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kleberson-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kleberson-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kylian-mbappe-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "kylian-mbappe-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "landon-donovan-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "landon-donovan-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "landon-donovan-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "laurent-blanc-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lee-woon-jae-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lee-woon-jae-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lee-woon-jae-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lilian-thuram-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lilian-thuram-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lilian-thuram-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lionel-messi-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lionel-messi-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lionel-messi-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "lionel-messi-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "lionel-messi-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "lothar-matthaus-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lothar-matthaus-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lothar-matthaus-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lothar-matthaus-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lothar-matthaus-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lucas-hernandez-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lucas-hernandez-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "lucio-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lucio-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lucio-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "luis-figo-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "luis-figo-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "luis-hernandez-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "luis-hernandez-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "luis-suarez-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "luis-suarez-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "luis-suarez-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "luis-suarez-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "luka-modric-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "luka-modric-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "luka-modric-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "luka-modric-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "lukas-podolski-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lukas-podolski-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lukas-podolski-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "maicon-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "maicon-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "maniche-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "manuel-neuer-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "manuel-neuer-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "manuel-neuer-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "manuel-neuer-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "marc-overmars-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marc-overmars-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marcel-desailly-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marcel-desailly-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marcelo-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "marcelo-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "marco-materazzi-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marco-materazzi-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marcos-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marcos-acuna-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marcos-acuna-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mario-fernandes-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mario-kempes-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mario-kempes-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mario-kempes-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mark-paston-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mark-van-bommel-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mark-van-bommel-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "marquinhos-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "marquinhos-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "mathew-ryan-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mathew-ryan-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mathew-ryan-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "mats-hummels-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "mats-hummels-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "matt-besler-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "maxi-rodriguez-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "maxi-rodriguez-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "maxi-rodriguez-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "mehdi-taremi-2018",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
@@ -1857,14 +2397,1502 @@
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "vincent-aboubakar-2022",
+      "id": "mesut-ozil-2010",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },
     {
-      "id": "breel-embolo-2022",
+      "id": "mesut-ozil-2014",
       "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "mesut-ozil-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "michael-ballack-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michael-ballack-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michael-laudrup-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michael-laudrup-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michael-owen-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michael-owen-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michael-owen-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michel-platini-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michel-platini-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michel-platini-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "miroslav-klose-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "miroslav-klose-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "miroslav-klose-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "miroslav-klose-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "mohammed-kudus-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "murtaz-khurtsilava-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "nahuel-molina-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "neymar-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "neymar-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "neymar-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "ngolo-kante-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "nicky-butt-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "nicolas-otamendi-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "nicolas-otamendi-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "nicolas-otamendi-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "oleg-salenko-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "oliver-kahn-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "oliver-kahn-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "olivier-giroud-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "olivier-giroud-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "olivier-giroud-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "pablo-zabaleta-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "paolo-maldini-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paolo-maldini-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paolo-maldini-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paolo-maldini-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paolo-rossi-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paolo-rossi-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "park-ji-sung-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "park-ji-sung-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "park-ji-sung-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paul-breitner-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paul-breitner-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paul-gascoigne-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "paul-pogba-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "paul-pogba-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "pavel-nedved-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "pele-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "peter-schmeichel-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "philipp-lahm-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "philipp-lahm-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "philipp-lahm-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "piero-hincapie-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "pierre-littbarski-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "pierre-littbarski-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "pierre-littbarski-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "preben-elkj-r-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rafael-marquez-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rafael-marquez-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rafael-marquez-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rafael-marquez-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rafael-marquez-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "randal-kolo-muani-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "raphael-varane-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "raphael-varane-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "raphael-varane-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "rene-houseman-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rene-houseman-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ricardo-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ricardo-carvalho-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ricardo-carvalho-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "richarlison-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "rio-ferdinand-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rio-ferdinand-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ritsu-doan-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "rivaldo-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rivaldo-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rivelino-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rivelino-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rivelino-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rob-rensenbrink-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rob-rensenbrink-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "roberto-baggio-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "roberto-baggio-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "roberto-baggio-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "roberto-carlos-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "roberto-carlos-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "roberto-carlos-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "robin-van-persie-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "robin-van-persie-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "robin-van-persie-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "roger-milla-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "roger-milla-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "roger-milla-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "romario-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "romario-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "romelu-lukaku-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "romelu-lukaku-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "romelu-lukaku-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "ronaldinho-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ronaldinho-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ronaldo-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ronaldo-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ronaldo-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rustu-recber-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ruud-krol-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ruud-krol-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ryan-nelsen-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "salem-al-dawsari-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "salem-al-dawsari-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "salvatore-schillaci-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "samuel-etoo-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "samuel-etoo-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "samuel-etoo-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "samuel-etoo-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "sepp-maier-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sepp-maier-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sepp-maier-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sergio-busquets-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sergio-busquets-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "sergio-busquets-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "sergio-busquets-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "sergio-goycochea-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sergio-ramos-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sergio-ramos-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sergio-ramos-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "sergio-ramos-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "shunsuke-nakamura-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "shunsuke-nakamura-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sime-vrsaljko-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sime-vrsaljko-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "simon-elliott-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "siphiwe-tshabalala-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "socrates-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "socrates-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sofyan-amrabat-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sofyan-amrabat-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sol-campbell-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sol-campbell-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sol-campbell-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "son-heung-min-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "son-heung-min-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "son-heung-min-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "stefan-de-vrij-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "stephen-appiah-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "stephen-appiah-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sunday-oliseh-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "sunday-oliseh-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "takashi-inui-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "teofilo-cubillas-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "teofilo-cubillas-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "teofilo-cubillas-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "theo-hernandez-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thiago-silva-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thiago-silva-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thiago-silva-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thibaut-courtois-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thibaut-courtois-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thibaut-courtois-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thierry-henry-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "thierry-henry-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "thierry-henry-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "thierry-henry-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "thomas-muller-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "thomas-muller-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thomas-muller-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "thomas-muller-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "tim-cahill-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tim-cahill-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tim-cahill-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "tim-cahill-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "tim-howard-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tim-howard-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "toby-alderweireld-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "toby-alderweireld-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "toby-alderweireld-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "tomas-brolin-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tomas-brolin-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tomas-skuhravy-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "toni-kroos-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "toni-kroos-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "toni-kroos-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "torsten-frings-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "torsten-frings-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tostao-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tyler-adams-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "ubaldo-fillol-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ubaldo-fillol-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ubaldo-fillol-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "victor-ikpeba-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "vincent-aboubakar-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "vincent-aboubakar-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "vincent-aboubakar-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "wahbi-khazri-2018",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "wahbi-khazri-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "wesley-sneijder-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "wesley-sneijder-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "wesley-sneijder-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "willy-sagnol-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "winston-reid-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "wolfgang-overath-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "wolfgang-overath-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "xavi-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "xavi-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "xavi-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "xavi-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "yassine-bounou-2022",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "yaya-toure-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "yaya-toure-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "yaya-toure-2014",
+      "kind": "player",
+      "status": "skipped",
+      "reason": "Completed exact-year import is already cached locally."
+    },
+    {
+      "id": "yerry-mina-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "yoo-sang-chul-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "yoo-sang-chul-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "yuji-nakazawa-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "yuji-nakazawa-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zbigniew-boniek-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zbigniew-boniek-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zbigniew-boniek-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zico-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zico-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zico-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zinedine-zidane-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zinedine-zidane-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zinedine-zidane-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zlatan-ibrahimovic-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "zlatan-ibrahimovic-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "alf-ramsey-1970",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "helmut-schon-1970",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "mario-zagallo-1970",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "kazimierz-gorski-1974",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "rinus-michels-1974",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "helmut-schon-1974",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "enzo-bearzot-1978",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "ernst-happel-1978",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "cesar-luis-menotti-1978",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "enzo-bearzot-1982",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tele-santana-1982",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "michel-hidalgo-1982",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "carlos-bilardo-1986",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "franz-beckenbauer-1986",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "guy-thys-1986",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "franz-beckenbauer-1990",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "bobby-robson-1990",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "azeglio-vicini-1990",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "carlos-alberto-parreira-1994",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "arrigo-sacchi-1994",
+      "kind": "manager",
+      "status": "photo-pending",
+      "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "tommy-svensson-1994",
+      "kind": "manager",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
     },

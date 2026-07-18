@@ -67,7 +67,7 @@ describe("HeroShowcase", () => {
     }
     expect(showcase).toHaveAttribute("tabindex", "0");
     expect(showcase).toHaveAccessibleName(
-      /pelé 1970, messi 2022, and cristiano ronaldo 2006/i,
+      /pelé 1970, messi 2022, and cristiano ronaldo 2018/i,
     );
     expect(screen.getByText("Pelé")).toBeInTheDocument();
     expect(screen.getByText("Lionel Messi")).toBeInTheDocument();

@@ -1,7 +1,8 @@
 # Trophy XI agent guide
 
 - Preserve the regal stadium/archive system in `DESIGN_SYSTEM.md`.
-- Never copy protected football-game layouts, card shapes, logos, or assets.
+- Preserve Trophy XI's original interface, card geometry, logos, and visual
+  identity.
 - Keep domain logic in `src/engine`, typed content in `src/data`, and state/migration
   rules in `src/store`.
 - Treat `playerIdentityId` as the duplicate boundary; version ids are not identity.
@@ -26,8 +27,9 @@
   player-card filter.
 - Preserve the explicit active archive boundary. Research-only player and manager
   records cannot enter generation, hydration repair, or play.
-- Preserve the seven status tiers, the 96 normal-card cap, lower-card coverage,
-  weighted starter/bench offers, and all high-card hard limits.
+- Preserve the seven status tiers, the 99 rating ceiling, restricted 99-card
+  cohort, lower-card coverage, weighted starter/bench offers, and all high-card
+  hard limits.
 - Chemistry preview and commit must call the same production team-rating path.
   Hover/focus must recalculate for the exact fixed formation slot.
 - Keep modeled player/manager tags separate from sourced accolades. Named honors
@@ -36,10 +38,19 @@
   Eras last. Preserve Champions Only as the default opponent filter.
 - Run `npm run validate:data` after any player, manager, formation, era, champion,
   image, or source change.
-- Active player and manager images must be local licensed photographs,
-  tournament-specific where possible, with transparent PNG derivatives and
-  complete source/author/license/context/change metadata. Never hotlink, infer
-  photo context, or keep inactive production artwork.
+- Permissioned EA/SoFIFA player faces must be card-specific and stored at
+  `assets/players/{year}/{card-id}.png`. Use the local conditional cache first;
+  make at most one request every two seconds and never exceed 5,000 downloads
+  per UTC calendar day. The former UTC 00:00–06:00 window no longer applies.
+  Preserve the original PNG bytes, embedded metadata, and watermarks. Keep the
+  required attribution:
+  “EA SPORTS player imagery, sourced via SoFIFA, used under project-specific
+  permission.” Resolve each tournament to the edition available by June of that
+  World Cup year; never substitute the following season's edition or another
+  tournament version's face. Never hotlink.
+- Active manager portraits must remain local, permissioned, exact-year assets
+  with complete source, author, license, context, and change metadata. Never
+  hotlink them or infer an unstated image context.
 - Never fabricate historical opponent statistics, managers, formations, or
   lineups. Preserve nation-year opponent identity and label Trophy XI models.
 - Never mark a 2026 champion without verified local result data. Never force a

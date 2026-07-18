@@ -287,14 +287,18 @@ export function PlayerDetails({
           <section>
             <span className="eyebrow">PORTRAIT SOURCE</span>
             <p className="data-disclosure">
-              {image.photoContext.replaceAll("-", " ")}
-              {image.photographedYear
-                ? ` · photographed ${image.photographedYear}`
-                : " · photograph date not stated"}
+              {image.photoContext === "same-year-game-face"
+                ? `${image.gameEdition} game face · represents ${image.tournamentYear}`
+                : `${image.photoContext.replaceAll("-", " ")}${
+                    image.photographedYear
+                      ? ` · photographed ${image.photographedYear}`
+                      : " · photograph date not stated"
+                  }`}
             </p>
             <a href={image.sourcePage} target="_blank" rel="noreferrer">
               {image.author} · {image.license}
             </a>
+            <p className="data-disclosure">{image.requiredAttribution}</p>
           </section>
         )}
         <p className="rating-disclosure">

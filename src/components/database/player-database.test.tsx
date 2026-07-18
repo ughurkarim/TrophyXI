@@ -3,38 +3,23 @@ import { describe, expect, it } from "vitest";
 import { PlayerDatabase } from "@/components/database/player-database";
 
 describe("PlayerDatabase", () => {
-  it("searches all draftable cards and exposes real and pending photo filters", () => {
+  it("searches the expanded archive and exposes every Messi and Ronaldo version", () => {
     render(<PlayerDatabase />);
 
     expect(screen.getByRole("heading", { name: "Player Database" })).toBeVisible();
-    expect(screen.getAllByText("310", { selector: "dd" })).toHaveLength(2);
+    expect(screen.getByText("Cards").parentElement).toHaveTextContent("627");
+    expect(screen.getByText("Identities").parentElement).toHaveTextContent("287");
 
     fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
       target: { value: "Lionel Messi" },
     });
-    expect(
-      screen.getByRole("button", {
-        name: /view lionel messi 2014, rated 96, photo pending/i,
-      }),
-    ).toBeVisible();
-    expect(
-      screen.getByRole("button", {
-        name: /view lionel messi 2022, rated 99, photo pending/i,
-      }),
-    ).toBeVisible();
+    expect(screen.getAllByRole("button", { name: /view lionel messi/i })).toHaveLength(5);
 
-    fireEvent.change(screen.getByLabelText("Photo"), {
-      target: { value: "pending" },
+    fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
+      target: { value: "Cristiano Ronaldo" },
     });
     expect(
-      screen.getByRole("button", {
-        name: /view lionel messi 2014, rated 96, photo pending/i,
-      }),
-    ).toBeVisible();
-    expect(
-      screen.getByRole("button", {
-        name: /view lionel messi 2022, rated 99, photo pending/i,
-      }),
-    ).toBeVisible();
+      screen.getAllByRole("button", { name: /view cristiano ronaldo/i }),
+    ).toHaveLength(5);
   });
 });

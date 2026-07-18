@@ -8,7 +8,7 @@ import { playersById } from "@/data/players";
 const featured = [
   playersById.get("pele-1970")!,
   playersById.get("lionel-messi-2022")!,
-  playersById.get("cristiano-ronaldo-2006")!,
+  playersById.get("cristiano-ronaldo-2018")!,
 ];
 
 const clamp = (value: number, min: number, max: number) =>
@@ -91,7 +91,7 @@ export function HeroShowcase() {
       onBlur={resetTransform}
       tabIndex={0}
       style={reduceMotion ? undefined : { x, y, rotateX, rotateY }}
-      aria-label="Featured tournament cards: Pelé 1970, Messi 2022, and Cristiano Ronaldo 2006"
+      aria-label="Featured tournament cards: Pelé 1970, Messi 2022, and Cristiano Ronaldo 2018"
     >
       <div className="hero-pitch" aria-hidden>
         <span className="hero-pitch__line" />
