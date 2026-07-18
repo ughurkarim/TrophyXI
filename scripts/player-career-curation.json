@@ -1,0 +1,141 @@
+{
+  "top100": {
+    "identityIds": [
+      "pele",
+      "diego-maradona",
+      "lionel-messi",
+      "cristiano-ronaldo",
+      "ronaldo",
+      "johan-cruyff",
+      "franz-beckenbauer",
+      "zinedine-zidane",
+      "romario",
+      "gianluigi-buffon",
+      "iker-casillas",
+      "manuel-neuer",
+      "oliver-kahn",
+      "paolo-maldini",
+      "franco-baresi",
+      "bobby-moore",
+      "cafu",
+      "roberto-carlos",
+      "fabio-cannavaro",
+      "lilian-thuram",
+      "carles-puyol",
+      "sergio-ramos",
+      "philipp-lahm",
+      "lothar-matthaus",
+      "xavi",
+      "andres-iniesta",
+      "luka-modric",
+      "andrea-pirlo",
+      "rivaldo",
+      "ronaldinho",
+      "kaka",
+      "zico",
+      "michel-platini",
+      "gerd-muller",
+      "thierry-henry",
+      "dennis-bergkamp",
+      "roberto-baggio",
+      "paolo-rossi",
+      "miroslav-klose",
+      "david-villa",
+      "neymar",
+      "kylian-mbappe",
+      "kevin-de-bruyne",
+      "gabriel-batistuta",
+      "davor-suker",
+      "diego-forlan"
+    ],
+    "source": {
+      "listName": "Trophy XI Curated Top 100",
+      "year": 2026,
+      "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
+    }
+  },
+  "supplementaryAccolades": {
+    "lionel-messi": [
+      {
+        "id": "world-cup-champion",
+        "label": "World Cup Champion",
+        "count": 1,
+        "category": "international",
+        "sourceName": "FIFA",
+        "sourceUrl": "https://publications.fifa.com/en/annual-report-2022/2022-at-a-glance/fifa-world-cup-qatar-2022-summary/",
+        "verified": true,
+        "description": "Captained Argentina to the 2022 World Cup title."
+      },
+      {
+        "id": "world-cup-golden-ball",
+        "label": "World Cup Golden Ball",
+        "count": 2,
+        "category": "individual",
+        "sourceName": "FIFA",
+        "sourceUrl": "https://www.fifa.com/en/watch/14Q9we1dyweTi2XNhL9tGY",
+        "verified": true,
+        "description": "The first player to receive the tournament’s Golden Ball twice."
+      },
+      {
+        "id": "copa-america-champion",
+        "label": "Copa América Champion",
+        "count": 2,
+        "category": "international",
+        "sourceName": "CONMEBOL",
+        "sourceUrl": "https://cdn.conmebol.com/wp-content/uploads/2024/12/LIBRO-GET-CONMEBOL-INGLES-04-12-24.pdf",
+        "verified": true,
+        "description": "Won the 2021 and 2024 CONMEBOL Copa América titles."
+      },
+      {
+        "id": "champions-league-winner",
+        "label": "Champions League Winner",
+        "count": 4,
+        "category": "continental",
+        "sourceName": "FC Barcelona",
+        "sourceUrl": "https://www.fcbarcelona.com/en/news/3642383/leo-messi-becomes-the-most-decorated-player-in-history",
+        "verified": true,
+        "description": "Won four European Cups with FC Barcelona."
+      },
+      {
+        "id": "ballon-dor",
+        "label": "Ballon d’Or",
+        "count": 8,
+        "category": "individual",
+        "sourceName": "CONMEBOL",
+        "sourceUrl": "https://www.conmebol.com/noticias/sudamericanos-ganadores-en-los-premios-the-best-de-la-fifa/",
+        "verified": true,
+        "description": "Received an eighth Ballon d’Or in 2023."
+      },
+      {
+        "id": "european-golden-shoe",
+        "label": "European Golden Shoe",
+        "count": 6,
+        "category": "individual",
+        "sourceName": "UEFA",
+        "sourceUrl": "https://www.uefa.com/uefachampionsleague/news/0242-0e97e0ac1cb3-eef786ff788c-1000--lionel-messi-s-record-collection/",
+        "verified": true,
+        "description": "Holds the record with six European Golden Shoes."
+      },
+      {
+        "id": "domestic-league-champion",
+        "label": "Domestic League Champion",
+        "count": 10,
+        "category": "domestic-league",
+        "sourceName": "FC Barcelona",
+        "sourceUrl": "https://www.fcbarcelona.com/en/news/3642383/leo-messi-becomes-the-most-decorated-player-in-history",
+        "verified": true,
+        "description": "Won ten Spanish league titles with FC Barcelona."
+      },
+      {
+        "id": "domestic-cup-winner",
+        "label": "Domestic Cup Winner",
+        "count": 7,
+        "category": "domestic-cup",
+        "sourceName": "FC Barcelona",
+        "sourceUrl": "https://www.fcbarcelona.com/en/news/3642383/leo-messi-becomes-the-most-decorated-player-in-history",
+        "verified": true,
+        "description": "Won seven Copa del Rey titles with FC Barcelona."
+      }
+    ]
+  }
+}

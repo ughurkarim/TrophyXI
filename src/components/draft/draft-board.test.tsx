@@ -51,6 +51,14 @@ describe("DraftBoard", () => {
     expect(screen.getByText("Rating")).toBeInTheDocument();
     expect(screen.getByText("Projected Chemistry")).toBeInTheDocument();
     expect(screen.getByText("CAREER ACCOLADES")).toBeInTheDocument();
+    const selectedPreview = screen.getByLabelText("Selected player preview");
+    expect(selectedPreview).toHaveTextContent("PLAYER TAG EFFECTS");
+    expect(selectedPreview).toHaveTextContent(
+      useGameStore.getState().selectedPlayerId
+        ? playersById.get(useGameStore.getState().selectedPlayerId!)!
+            .modeledTags[0]
+        : "",
+    );
     const preview = useGameStore
       .getState()
       .projectedPositionFits.find((candidate) => candidate.canPlace)!;

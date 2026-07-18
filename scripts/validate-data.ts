@@ -2,8 +2,11 @@ import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
+import fbrefImportReportJson from "./reports/fbref-import-report.json";
+import gameFaceImportReportJson from "./reports/game-face-import-report.json";
 import { draftEras } from "../src/data/eras";
 import { formations } from "../src/data/formations";
+import { gameFaceRecords } from "../src/data/game-face-manifest";
 import {
   draftEligibleManagers,
   managers,
@@ -38,6 +41,10 @@ import {
 } from "../src/engine/draft";
 import { calculateTeamRatings } from "../src/engine/ratings";
 import { flagForCountry } from "../src/lib/utils";
+import {
+  validateGameFaceManifest,
+  type GameFaceCardRef,
+} from "../src/lib/importers/game-face";
 import type {
   PlayerTournamentCard,
   WorldCupYear,
@@ -133,12 +140,53 @@ const main = async () => {
   );
   const formationIds = new Set(formations.map((formation) => formation.id));
   const imageIds = new Set(imageAttributions.map((image) => image.id));
+  const imagePaths = new Set(imageAttributions.map((image) => image.file));
+  const gameFaceCards: GameFaceCardRef[] = [
+    ...players.map((player) => ({
+      id: player.id,
+      kind: "player" as const,
+      tournamentYear: player.tournamentYear,
+    })),
+    ...managers.map((manager) => ({
+      id: manager.id,
+      kind: "manager" as const,
+      tournamentYear: manager.tournamentYear,
+    })),
+  ];
+  const fbrefImportReport = fbrefImportReportJson as {
+    totalPlayerIdentities: number;
+    matchedPlayers: number;
+    manualReviewPlayers: number;
+    importedAccolades: number;
+    validation: {
+      duplicateMappingIds: number;
+      duplicateOutputIdentityIds: number;
+    };
+  };
+  const gameFaceImportReport = gameFaceImportReportJson as {
+    downloaded: number;
+    skipped: number;
+    failed: number;
+    photoPending: number;
+    activeExactYearFaces: number;
+    results: Array<{ id: string; status: string }>;
+  };
 
   assert(playerIds.size === players.length, "Player card ids must be unique");
   assert(
     imageIds.size === imageAttributions.length,
     "Image attribution ids must be unique",
   );
+  assert(
+    imagePaths.size === imageAttributions.length,
+    "Production image paths must be unique across tournament cards",
+  );
+  for (const message of validateGameFaceManifest(
+    gameFaceRecords,
+    gameFaceCards,
+  )) {
+    assert(false, message);
+  }
   assert(formations.length >= 12, `Expected at least 12 formations, found ${formations.length}`);
   assert(managers.length > 0, "Manager archive is empty");
   assert(
@@ -211,6 +259,35 @@ const main = async () => {
       ),
       `${player.id} has an invalid Era Translation profile`,
     );
+    const accoladeIds = new Set<string>();
+    for (const accolade of player.careerAccolades) {
+      assert(
+        !accoladeIds.has(accolade.id),
+        `${player.id} has duplicate accolade id ${accolade.id}`,
+      );
+      accoladeIds.add(accolade.id);
+      assert(Boolean(accolade.label.trim()), `${player.id} has an empty accolade label`);
+      assert(
+        accolade.count === undefined ||
+          (Number.isInteger(accolade.count) && accolade.count > 0),
+        `${player.id}/${accolade.id} has an invalid accolade count`,
+      );
+      assert(
+        accolade.verified &&
+          Boolean(accolade.sourceName) &&
+          (accolade.category === "curated" || Boolean(accolade.sourceUrl)),
+        `${player.id}/${accolade.id} has incomplete source metadata`,
+      );
+    }
+    assert(
+      player.top100Player
+        ? Boolean(
+            player.top100Source?.listName &&
+              (player.top100Source.sourceUrl || player.top100Source.note),
+          )
+        : player.top100Source === undefined,
+      `${player.id} has invalid Top 100 metadata`,
+    );
   }
   for (const manager of managers) {
     assert(
@@ -233,6 +310,10 @@ const main = async () => {
     assert(
       manager.acceptableFormations.every((id) => formationIds.has(id)),
       `${manager.id} has an invalid acceptable formation`,
+    );
+    assert(
+      Boolean(manager.style && manager.tacticalIdentity.trim()),
+      `${manager.id} is missing a tactical type or identity`,
     );
   }
   assert(
@@ -717,6 +798,25 @@ const main = async () => {
     players.some((player) => player.top100Player && player.overall < 90),
     "Top 100 Player appears to be derived only from high card ratings",
   );
+  assert(
+    fbrefImportReport.totalPlayerIdentities === playerIdentities.size &&
+      fbrefImportReport.matchedPlayers +
+        fbrefImportReport.manualReviewPlayers ===
+        playerIdentities.size &&
+      fbrefImportReport.validation.duplicateMappingIds === 0 &&
+      fbrefImportReport.validation.duplicateOutputIdentityIds === 0,
+    "FBref import report is stale or failed normalization validation",
+  );
+  assert(
+    gameFaceImportReport.results.length === gameFaceCards.length &&
+      gameFaceImportReport.downloaded +
+        gameFaceImportReport.skipped +
+        gameFaceImportReport.photoPending ===
+        gameFaceCards.length &&
+      gameFaceImportReport.failed <= gameFaceImportReport.photoPending &&
+      gameFaceImportReport.activeExactYearFaces === imageAttributions.length,
+    "Exact-year image import report is stale or incomplete",
+  );
 
   const opponentIds = new Set<string>();
   for (const opponent of historicalOpponents) {
@@ -798,6 +898,19 @@ const main = async () => {
         image.file ===
           `/${image.kind === "player" ? "players" : "managers"}/game-faces/${image.id}.png`,
         `${image.id} does not use its exact card-specific game-face path`,
+      );
+      assert(
+        !/^https?:\/\//i.test(image.file) && image.file.endsWith(".png"),
+        `${image.id} has a remote or non-PNG production path`,
+      );
+      assert(
+        Boolean(
+          image.gameEdition &&
+            image.sourceWebsite &&
+            image.retrievedOn &&
+            image.matchQuality,
+        ),
+        `${image.id} is missing exact-year acquisition metadata`,
       );
       assert(
         Boolean(sourceFile && existsSync(sourceFile)),
@@ -1005,6 +1118,12 @@ const main = async () => {
   );
   console.log(
     `Accolade source coverage: ${draftEligiblePlayers.flatMap((player) => player.achievements).filter((achievement) => achievement.source.url).length}/${draftEligiblePlayers.flatMap((player) => player.achievements).length}; flag coverage ${historicalOpponents.filter((opponent) => flagForCountry(opponent.nationCode) !== "◌").length}/${historicalOpponents.length}`,
+  );
+  console.log(
+    `Career accolades: ${draftEligiblePlayers.flatMap((player) => player.careerAccolades).length} card records / FBref matched ${fbrefImportReport.matchedPlayers} identities / review ${fbrefImportReport.manualReviewPlayers}`,
+  );
+  console.log(
+    `Image importer: ${gameFaceImportReport.downloaded} downloaded / ${gameFaceImportReport.skipped} skipped / ${gameFaceImportReport.failed} failed / ${gameFaceImportReport.photoPending} unresolved`,
   );
 
   if (failures.length > 0) {

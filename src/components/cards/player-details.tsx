@@ -30,7 +30,10 @@ export type PlayerFitContext = {
   benchPriority: number | null;
 };
 
-const modeledTagCopy: Record<string, { description: string; effect: string }> = {
+export const modeledTagCopy: Record<
+  string,
+  { description: string; effect: string }
+> = {
   "Final-third threat": {
     description: "Attack and clutch attributes carry more of this card’s value.",
     effect: "Uses existing attack weighting · no uncapped bonus",
@@ -163,6 +166,47 @@ export function PlayerDetails({
             </p>
           )}
         </section>
+        {player.careerStats && (
+          <section>
+            <span className="eyebrow">CAREER STATISTICS</span>
+            <dl className="record-grid">
+              <div>
+                <dt>Club appearances</dt>
+                <dd>{player.careerStats.clubAppearances ?? "Not sourced"}</dd>
+              </div>
+              <div>
+                <dt>Club goals</dt>
+                <dd>{player.careerStats.clubGoals ?? "Not sourced"}</dd>
+              </div>
+              <div>
+                <dt>Club assists</dt>
+                <dd>{player.careerStats.clubAssists ?? "Not sourced"}</dd>
+              </div>
+              <div>
+                <dt>National-team appearances</dt>
+                <dd>
+                  {player.careerStats.nationalTeamAppearances ?? "Not sourced"}
+                </dd>
+              </div>
+              <div>
+                <dt>National-team goals</dt>
+                <dd>
+                  {player.careerStats.nationalTeamGoals ?? "Not sourced"}
+                </dd>
+              </div>
+            </dl>
+            <p className="data-disclosure">
+              {player.careerStats.coverageNote}
+            </p>
+            <a
+              href={player.careerStats.sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              FBref · retrieved {player.careerStats.retrievedOn}
+            </a>
+          </section>
+        )}
         <section>
           <span className="eyebrow">TROPHY XI FIT</span>
           {fitContext ? (

@@ -285,7 +285,7 @@ export function PlayerDatabase() {
                   <span>
                     {player.primaryPosition} · {player.overall} OVR
                   </span>
-                  <h2>{player.playerName}</h2>
+                  <h2 title={player.playerName}>{player.playerName}</h2>
                   <p>
                     {player.countryCode} {flagForCountry(player.countryCode)} ·{" "}
                     {player.countryName}

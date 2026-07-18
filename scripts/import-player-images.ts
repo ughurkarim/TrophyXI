@@ -1,263 +1,267 @@
 import { existsSync } from "node:fs";
-import {
-  mkdir,
-  readFile,
-  readdir,
-  unlink,
-  writeFile,
-} from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
-import generatedSourcesJson from "./licensed-portrait-sources.generated.json";
-import { imageAttributions } from "../src/data/player-images";
-import type { ImageAttribution } from "../src/types/game";
-
-type LicensedSource = {
-  id: string;
-  downloadUrl: string;
-  kind?: "player" | "manager";
-  maskFile?: string;
-  isolatedFile?: string;
-};
+import { managers } from "../src/data/managers";
+import { players } from "../src/data/players";
+import {
+  gameFacePathForCard,
+  summarizeGameFaceImport,
+  validateGameFaceCandidate,
+  validateGameFaceManifest,
+  type GameFaceCardRef,
+  type GameFaceImportCandidate,
+  type GameFaceImportResult,
+  type GameFaceManifestRecord,
+} from "../src/lib/importers/game-face";
 
 const ROOT = process.cwd();
-const REVIEWED_SOURCE_CONFIG = path.join(
+const SOURCE_FILE = path.join(ROOT, "scripts", "game-face-import-sources.json");
+const CACHE_FILE = path.join(
   ROOT,
   "scripts",
-  "player-image-sources.json",
+  "cache",
+  "game-faces",
+  "import-cache.json",
 );
-const MASTER_WIDTH = 700;
-const MASTER_HEIGHT = 900;
-const portraitZoom: Record<string, { scale: number; y: number }> = {
-  "diego-maradona-1986": { scale: 1.35, y: 0.05 },
-  "kylian-mbappe-2018": { scale: 1.75, y: 0.02 },
-  "luka-modric-2018": { scale: 1.7, y: 0.02 },
-  "ivan-perisic-2018": { scale: 4, y: 0.01 },
-  "denzel-dumfries-2022": { scale: 2.15, y: 0.02 },
-  "romelu-lukaku-2018": { scale: 1.45, y: 0.02 },
-  "harry-kane-2018": { scale: 1.25, y: 0.04 },
-  "tite-2022": { scale: 1.25, y: 0.04 },
-  "kylian-mbappe-2022": { scale: 1.25, y: 0.06 },
-  "marcos-acuna-2022": { scale: 1.75, y: 0.02 },
-  "ritsu-doan-2022": { scale: 1.45, y: 0.04 },
-  "louis-van-gaal-2014": { scale: 1.25, y: 0.04 },
-};
+const REPORT_FILE = path.join(
+  ROOT,
+  "scripts",
+  "reports",
+  "game-face-import-report.json",
+);
+const MANIFEST_FILE = path.join(
+  ROOT,
+  "src",
+  "data",
+  "game-face-manifest.generated.json",
+);
+const RATE_LIMIT_MS = 1_500;
+const MAX_SOURCE_BYTES = 10 * 1024 * 1024;
 
-const loadLicensedSources = async (): Promise<
-  Map<string, LicensedSource>
-> => {
-  const reviewed = existsSync(REVIEWED_SOURCE_CONFIG)
-    ? (JSON.parse(
-        await readFile(REVIEWED_SOURCE_CONFIG, "utf8"),
-      ) as LicensedSource[])
-    : [];
-  const generated = (
-    generatedSourcesJson as Array<{
-      id: string;
-      kind: "player" | "manager";
-      downloadUrl: string;
-    }>
-  ).map(({ id, kind, downloadUrl }) => ({ id, kind, downloadUrl }));
-  return new Map([...reviewed, ...generated].map((source) => [source.id, source]));
-};
-
-const ovalAlphaMask = async () =>
-  sharp(
-    Buffer.from(`
-      <svg width="${MASTER_WIDTH}" height="${MASTER_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="350" cy="450" rx="338" ry="438" fill="white"/>
-      </svg>
-    `),
-  )
-    .blur(1.4)
-    .png()
-    .toBuffer();
-
-const sourcePathFor = (image: ImageAttribution) => {
-  if (!image.sourceFile) {
-    throw new Error(`${image.id}: licensed portrait requires a local source path`);
+type ImportCache = Record<
+  string,
+  {
+    status: GameFaceImportResult["status"];
+    checkedAt: string;
+    sourceUrl?: string;
+    reason?: string;
   }
-  return path.join(ROOT, "public", image.sourceFile);
+>;
+
+type GeneratedManifest = {
+  version: 1;
+  generatedAt: string;
+  faces: GameFaceManifestRecord[];
 };
 
-const preserveSource = async (
-  image: ImageAttribution,
-  source: LicensedSource,
-) => {
-  const preservedFile = sourcePathFor(image);
-  await mkdir(path.dirname(preservedFile), { recursive: true });
-  if (!existsSync(preservedFile)) {
-    const response = await fetch(source.downloadUrl, {
-      headers: {
-        "User-Agent":
-          "TrophyXI/0.1 (local open-source sports archive; licensed derivative)",
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`${image.id}: download failed (${response.status})`);
-    }
-    await writeFile(
-      preservedFile,
-      Buffer.from(await response.arrayBuffer()),
-    );
-  }
-  return preservedFile;
+const readJson = async <T>(file: string, fallback: T): Promise<T> =>
+  existsSync(file)
+    ? (JSON.parse(await readFile(file, "utf8")) as T)
+    : fallback;
+
+const writeJson = async (file: string, value: unknown) => {
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, `${JSON.stringify(value, null, 2)}\n`);
 };
 
-const cropZoomed = async (
-  input: string | Buffer,
-  id: string,
-  isolated: boolean,
-) => {
-  const zoom = portraitZoom[id] ?? { scale: 1, y: 0.5 };
-  if (zoom.scale === 1) {
-    return sharp(input)
-      .rotate()
-      .resize(MASTER_WIDTH, MASTER_HEIGHT, {
-        fit: isolated ? "contain" : "cover",
-        position: isolated ? "centre" : sharp.strategy.attention,
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
-      })
-      .ensureAlpha()
-      .png()
-      .toBuffer();
+const wait = (milliseconds: number) =>
+  new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+const localFileFor = (runtimePath: string) =>
+  path.join(ROOT, "public", runtimePath.replace(/^\//, ""));
+
+const sourceFileFor = (card: GameFaceCardRef) =>
+  `/${card.kind === "player" ? "players" : "managers"}/game-face-sources/${card.id}.source`;
+
+const importCandidate = async (
+  candidate: GameFaceImportCandidate,
+  card: GameFaceCardRef,
+): Promise<GameFaceManifestRecord> => {
+  const response = await fetch(candidate.sourceUrl, {
+    headers: {
+      "User-Agent":
+        "TrophyXI/1.0 (exact-year reusable-media importer; contact via repository)",
+      Accept: "image/avif,image/webp,image/png,image/jpeg",
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`download failed with HTTP ${response.status}`);
   }
-  const width = Math.round(MASTER_WIDTH * zoom.scale);
-  const height = Math.round(MASTER_HEIGHT * zoom.scale);
-  const enlarged = await sharp(input)
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.toLowerCase().startsWith("image/")) {
+    throw new Error(`source returned non-image content type ${contentType}`);
+  }
+  const buffer = Buffer.from(await response.arrayBuffer());
+  if (buffer.byteLength === 0 || buffer.byteLength > MAX_SOURCE_BYTES) {
+    throw new Error(`invalid source size ${buffer.byteLength} bytes`);
+  }
+  const sourceMetadata = await sharp(buffer).metadata();
+  if (!sourceMetadata.width || !sourceMetadata.height || !sourceMetadata.format) {
+    throw new Error("downloaded bytes are not a supported image");
+  }
+
+  const runtimePath = gameFacePathForCard(card.kind, card.id);
+  const outputFile = localFileFor(runtimePath);
+  const sourceFile = sourceFileFor(card);
+  await mkdir(path.dirname(outputFile), { recursive: true });
+  await mkdir(path.dirname(localFileFor(sourceFile)), { recursive: true });
+  await writeFile(localFileFor(sourceFile), buffer);
+  await sharp(buffer)
     .rotate()
-    .resize(width, height, {
-      fit: isolated ? "contain" : "cover",
-      position: isolated ? "centre" : sharp.strategy.attention,
-      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    .resize(512, 512, {
+      fit: "cover",
+      position: "north",
+      withoutEnlargement: false,
     })
     .ensureAlpha()
-    .png()
-    .toBuffer();
-  return sharp(enlarged)
-    .extract({
-      left: Math.round((width - MASTER_WIDTH) / 2),
-      top: Math.round((height - MASTER_HEIGHT) * zoom.y),
-      width: MASTER_WIDTH,
-      height: MASTER_HEIGHT,
-    })
-    .png()
-    .toBuffer();
-};
-
-const importLicensed = async (
-  image: ImageAttribution,
-  source: LicensedSource,
-  outputFile: string,
-) => {
-  const preservedFile = await preserveSource(image, source);
-  if (source.isolatedFile) {
-    const isolatedFile = path.resolve(ROOT, source.isolatedFile);
-    if (!existsSync(isolatedFile)) {
-      throw new Error(
-        `${image.id}: missing reviewed isolated derivative ${isolatedFile}`,
-      );
-    }
-    const trimmed = await sharp(isolatedFile)
-      .trim({ background: { r: 0, g: 0, b: 0, alpha: 0 } })
-      .png()
-      .toBuffer();
-    await sharp(await cropZoomed(trimmed, image.id, true))
-      .png({ compressionLevel: 9 })
-      .toFile(outputFile);
-    return;
-  }
-
-  if (source.maskFile) {
-    const maskFile = path.resolve(ROOT, source.maskFile);
-    if (!existsSync(maskFile)) {
-      throw new Error(`${image.id}: missing reviewed alpha mask ${maskFile}`);
-    }
-    const subject = await sharp(preservedFile)
-      .rotate()
-      .resize(MASTER_WIDTH, MASTER_HEIGHT, {
-        fit: "contain",
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
-      })
-      .png()
-      .toBuffer();
-    const mask = await sharp(maskFile)
-      .resize(MASTER_WIDTH, MASTER_HEIGHT, { fit: "fill" })
-      .greyscale()
-      .blur(0.35)
-      .png()
-      .toBuffer();
-    await sharp(subject)
-      .composite([{ input: mask, blend: "dest-in" }])
-      .resize(MASTER_WIDTH, MASTER_HEIGHT, {
-        fit: "contain",
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
-      })
-      .png({ compressionLevel: 9 })
-      .toFile(outputFile);
-    return;
-  }
-
-  const faceForwardCrop = await cropZoomed(preservedFile, image.id, false);
-  await sharp(faceForwardCrop)
-    .composite([{ input: await ovalAlphaMask(), blend: "dest-in" }])
     .png({ compressionLevel: 9 })
     .toFile(outputFile);
+
+  const outputMetadata = await sharp(outputFile).metadata();
+  if (
+    outputMetadata.format !== "png" ||
+    outputMetadata.width !== 512 ||
+    outputMetadata.height !== 512
+  ) {
+    throw new Error("PNG conversion did not produce a valid 512×512 image");
+  }
+
+  return {
+    ...candidate,
+    localPath: runtimePath,
+    sourceFile,
+    changes:
+      "Validated as an image, rotated from metadata, center-top cropped, converted to a 512×512 PNG, and alpha-enabled.",
+  };
 };
 
 const main = async () => {
-  const sources = await loadLicensedSources();
-  const ids = new Set<string>();
-  for (const image of imageAttributions) {
-    if (ids.has(image.id)) {
-      throw new Error(`Duplicate image manifest id: ${image.id}`);
-    }
-    ids.add(image.id);
-    if (
-      image.fallback ||
-      !image.sourcePage ||
-      !image.sourceFile ||
-      !image.author ||
-      !image.license ||
-      !image.licenseUrl ||
-      !image.changes ||
-      !sources.has(image.id)
-    ) {
-      throw new Error(
-        `${image.id}: active portraits require complete licensed-photo metadata`,
-      );
-    }
-
-    const outputFile = path.join(ROOT, "public", image.file);
-    await mkdir(path.dirname(outputFile), { recursive: true });
-    await importLicensed(image, sources.get(image.id)!, outputFile);
-
-    const metadata = await sharp(outputFile).metadata();
-    if (
-      metadata.width !== MASTER_WIDTH ||
-      metadata.height !== MASTER_HEIGHT ||
-      !metadata.hasAlpha
-    ) {
-      throw new Error(`${image.id}: expected a transparent 700×900 PNG master`);
-    }
-  }
-
-  for (const directory of ["players", "managers"]) {
-    const outputDirectory = path.join(ROOT, "public", directory, "png");
-    if (!existsSync(outputDirectory)) continue;
-    for (const file of await readdir(outputDirectory)) {
-      if (
-        file.endsWith(".png") &&
-        !ids.has(file.replace(/\.png$/, ""))
-      ) {
-        await unlink(path.join(outputDirectory, file));
-      }
-    }
-  }
-
-  console.log(
-    `Imported ${imageAttributions.length} licensed transparent portrait masters; zero active illustrations.`,
+  const cards: GameFaceCardRef[] = [
+    ...players.map((player) => ({
+      id: player.id,
+      kind: "player" as const,
+      tournamentYear: player.tournamentYear,
+    })),
+    ...managers.map((manager) => ({
+      id: manager.id,
+      kind: "manager" as const,
+      tournamentYear: manager.tournamentYear,
+    })),
+  ];
+  const cardsById = new Map(cards.map((card) => [card.id, card]));
+  const candidates = await readJson<GameFaceImportCandidate[]>(SOURCE_FILE, []);
+  const cache = await readJson<ImportCache>(CACHE_FILE, {});
+  const previousManifest = await readJson<GeneratedManifest>(MANIFEST_FILE, {
+    version: 1,
+    generatedAt: new Date(0).toISOString(),
+    faces: [],
+  });
+  const previousById = new Map(
+    previousManifest.faces.map((record) => [record.id, record]),
   );
+  const nextManifest: GameFaceManifestRecord[] = [];
+  const results: GameFaceImportResult[] = [];
+  let lastRequestAt = 0;
+
+  for (const candidate of candidates) {
+    const card = cardsById.get(candidate.id);
+    const errors = validateGameFaceCandidate(candidate, card);
+    if (errors.length > 0 || !card) {
+      const reason = errors.join("; ");
+      results.push({
+        id: candidate.id,
+        kind: candidate.kind,
+        status: "failed",
+        reason,
+      });
+      cache[candidate.id] = {
+        status: "failed",
+        checkedAt: new Date().toISOString(),
+        sourceUrl: candidate.sourceUrl,
+        reason,
+      };
+      continue;
+    }
+
+    const previous = previousById.get(candidate.id);
+    if (previous && existsSync(localFileFor(previous.localPath))) {
+      nextManifest.push(previous);
+      results.push({
+        id: candidate.id,
+        kind: candidate.kind,
+        status: "skipped",
+        reason: "Completed exact-year import is already cached locally.",
+      });
+      cache[candidate.id] = {
+        status: "skipped",
+        checkedAt: new Date().toISOString(),
+        sourceUrl: candidate.sourceUrl,
+      };
+      continue;
+    }
+
+    try {
+      const remainingDelay =
+        RATE_LIMIT_MS - (Date.now() - lastRequestAt);
+      if (remainingDelay > 0) await wait(remainingDelay);
+      lastRequestAt = Date.now();
+      const record = await importCandidate(candidate, card);
+      nextManifest.push(record);
+      results.push({
+        id: candidate.id,
+        kind: candidate.kind,
+        status: "downloaded",
+      });
+      cache[candidate.id] = {
+        status: "downloaded",
+        checkedAt: new Date().toISOString(),
+        sourceUrl: candidate.sourceUrl,
+      };
+    } catch (error) {
+      const reason =
+        error instanceof Error ? error.message : "unknown import failure";
+      results.push({
+        id: candidate.id,
+        kind: candidate.kind,
+        status: "failed",
+        reason,
+      });
+      cache[candidate.id] = {
+        status: "failed",
+        checkedAt: new Date().toISOString(),
+        sourceUrl: candidate.sourceUrl,
+        reason,
+      };
+    }
+  }
+
+  const manifestErrors = validateGameFaceManifest(nextManifest, cards);
+  if (manifestErrors.length > 0) {
+    throw new Error(`Generated manifest is invalid:\n${manifestErrors.join("\n")}`);
+  }
+  const generatedAt = new Date().toISOString();
+  const summary = summarizeGameFaceImport(cards, results);
+  await writeJson(CACHE_FILE, cache);
+  await writeJson(MANIFEST_FILE, {
+    version: 1,
+    generatedAt,
+    faces: nextManifest,
+  } satisfies GeneratedManifest);
+  await writeJson(REPORT_FILE, {
+    generatedAt,
+    policy:
+      "Only explicitly approved, reusable, exact-year sources are importable. Protected football-game asset hosts are rejected.",
+    configuredCandidates: candidates.length,
+    activeExactYearFaces: nextManifest.length,
+    ...summary,
+  });
+
+  console.log("Exact-year face import summary");
+  console.log(`Downloaded: ${summary.downloaded}`);
+  console.log(`Skipped: ${summary.skipped}`);
+  console.log(`Failed: ${summary.failed}`);
+  console.log(`Photo Pending: ${summary.photoPending}`);
 };
 
 void main();

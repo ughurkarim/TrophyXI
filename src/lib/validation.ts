@@ -87,16 +87,65 @@ export const playerCardSchema = z.object({
       source: citationSchema,
     }),
   ),
+  careerStats: z
+    .object({
+      clubAppearances: nullableCount,
+      clubGoals: nullableCount,
+      clubAssists: nullableCount,
+      nationalTeamAppearances: nullableCount,
+      nationalTeamGoals: nullableCount,
+      sourceName: z.literal("FBref"),
+      sourceUrl: z.string().url().startsWith("https://fbref.com/"),
+      retrievedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      coverageNote: z.string().min(2),
+      competitionStats: z.array(
+        z.object({
+          id: z.string().regex(/^[a-z0-9-]+$/),
+          season: z.string().min(2),
+          competition: z.string().min(2),
+          scope: z.enum([
+            "domestic-league",
+            "domestic-cup",
+            "continental",
+            "international",
+          ]),
+          squad: z.string().min(1).nullable(),
+          appearances: nullableCount,
+          goals: nullableCount,
+          assists: nullableCount,
+        }),
+      ),
+    })
+    .nullable(),
   careerAccolades: z.array(
     z.object({
       id: z.string().regex(/^[a-z0-9-]+$/),
       label: z.string().min(2),
-      count: z.number().int().min(1),
-      description: z.string().min(2),
-      source: citationSchema,
+      count: z.number().int().min(1).optional(),
+      category: z.enum([
+        "international",
+        "continental",
+        "domestic-league",
+        "domestic-cup",
+        "individual",
+        "curated",
+      ]),
+      sourceName: z.string().min(2),
+      sourceUrl: z.string().url().optional(),
+      verified: z.boolean(),
+      description: z.string().min(2).optional(),
     }),
   ),
   top100Player: z.boolean(),
+  top100Source: z
+    .object({
+      listName: z.string().min(2),
+      publisher: z.string().min(2).optional(),
+      sourceUrl: z.string().url().optional(),
+      year: z.number().int().min(1900).max(2100).optional(),
+      note: z.string().min(2).optional(),
+    })
+    .optional(),
   imageId: z.string().regex(/^[a-z0-9-]+$/),
   eraLegacy: z.enum([
     "era-specialist",
@@ -142,6 +191,49 @@ export const playerSeedSchema = z.array(playerCardSchema).superRefine((cards, co
         code: "custom",
         message: "Known tournament statistics require a source",
         path: [index, "statSources"],
+      });
+    }
+    const accoladeIds = new Set<string>();
+    card.careerAccolades.forEach((accolade, accoladeIndex) => {
+      if (accoladeIds.has(accolade.id)) {
+        context.addIssue({
+          code: "custom",
+          message: `Duplicate accolade id: ${accolade.id}`,
+          path: [index, "careerAccolades", accoladeIndex, "id"],
+        });
+      }
+      accoladeIds.add(accolade.id);
+      if (!accolade.verified) {
+        context.addIssue({
+          code: "custom",
+          message: "Stored career accolades must be verified",
+          path: [index, "careerAccolades", accoladeIndex, "verified"],
+        });
+      }
+      if (accolade.category !== "curated" && !accolade.sourceUrl) {
+        context.addIssue({
+          code: "custom",
+          message: "Factual accolades require a source URL",
+          path: [index, "careerAccolades", accoladeIndex, "sourceUrl"],
+        });
+      }
+    });
+    if (
+      card.top100Player &&
+      (!card.top100Source ||
+        (!card.top100Source.sourceUrl && !card.top100Source.note))
+    ) {
+      context.addIssue({
+        code: "custom",
+        message: "Top 100 Player requires a source URL or curation note",
+        path: [index, "top100Source"],
+      });
+    }
+    if (!card.top100Player && card.top100Source) {
+      context.addIssue({
+        code: "custom",
+        message: "Top 100 metadata cannot exist when the flag is false",
+        path: [index, "top100Source"],
       });
     }
   });

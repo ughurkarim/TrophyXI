@@ -26,10 +26,15 @@ export function PlayerAccolades({
           {
             id: "top-100-player",
             label: "TOP 100 PLAYER",
-            count: null,
+            count: undefined,
             description:
+              player.top100Source?.note ??
               "Curated Trophy XI recognition, assigned independently of card rating.",
-            source: null,
+            sourceName:
+              player.top100Source?.publisher ??
+              player.top100Source?.listName ??
+              "Trophy XI curation",
+            sourceUrl: player.top100Source?.sourceUrl,
             premium: true,
           },
         ]
@@ -84,18 +89,20 @@ export function PlayerAccolades({
                   <Trophy size={14} aria-hidden />
                 )}
                 <b>
-                  {accolade.count === null ? "" : `${accolade.count}× `}
+                  {accolade.count === undefined ? "" : `${accolade.count}× `}
                   {accolade.label}
                 </b>
                 <p>{accolade.description}</p>
-                {accolade.source && (
+                {accolade.sourceUrl ? (
                   <a
-                    href={accolade.source.url}
+                    href={accolade.sourceUrl}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {accolade.source.publisher}
+                    {accolade.sourceName}
                   </a>
+                ) : (
+                  <small>{accolade.sourceName}</small>
                 )}
               </motion.li>
             ))}
@@ -106,7 +113,7 @@ export function PlayerAccolades({
                   {remainingCareer
                     .map(
                       (accolade) =>
-                        `${accolade.count === null ? "" : `${accolade.count}× `}${accolade.label}`,
+                        `${accolade.count === undefined ? "" : `${accolade.count}× `}${accolade.label}`,
                     )
                     .join(" · ")}
                 </p>

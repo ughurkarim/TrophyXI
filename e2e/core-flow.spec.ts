@@ -131,9 +131,32 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   ).toBeVisible();
   await captureState("00-database.png");
   await expect(page.getByText("310", { exact: true }).first()).toBeVisible();
-  await page
-    .getByPlaceholder("Search player or nation")
-    .fill("Lionel Messi");
+  const databaseSearch = page.getByPlaceholder("Search player or nation");
+  await databaseSearch.fill("Bastian Schweinsteiger");
+  const longNameCard = page.getByRole("button", {
+    name: /view bastian schweinsteiger .* photo pending/i,
+  });
+  await expect(longNameCard).toBeVisible();
+  await expect(longNameCard.locator("h2")).toHaveAttribute(
+    "title",
+    "Bastian Schweinsteiger",
+  );
+  await databaseSearch.fill("");
+  const tierFilter = page.getByLabel("Tier");
+  for (const tier of [
+    "legend",
+    "icon",
+    "elite",
+    "standout",
+    "reliable",
+    "role-player",
+    "limited",
+  ]) {
+    await tierFilter.selectOption(tier);
+    await expect(page.locator(`.database-card--${tier}`).first()).toBeVisible();
+  }
+  await tierFilter.selectOption("");
+  await databaseSearch.fill("Lionel Messi");
   await expect(
     page.getByRole("button", {
       name: /view lionel messi 2014, rated 96, photo pending/i,
@@ -155,6 +178,9 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     databasePlayerDialog.getByText(/remains fully draftable/i),
   ).toBeVisible();
   await expect(databasePlayerDialog.getByText("TOP 100 PLAYER")).toBeVisible();
+  await expect(
+    databasePlayerDialog.getByText("Trophy XI Curated Top 100"),
+  ).toBeVisible();
   await expect(
     databasePlayerDialog.getByText("2× World Cup Golden Ball"),
   ).toBeVisible();
@@ -344,6 +370,8 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
       hasNot: page.locator(".player-rating span").filter({ hasText: /^GK$/ }),
     });
   expect(await outfieldOfferCards.count()).toBeGreaterThan(0);
+  const selectedCandidateBoundsBefore =
+    await outfieldOfferCards.first().boundingBox();
   const pitchNodeCentersBefore = await page
     .locator(".draft-pitch-panel .pitch-node")
     .evaluateAll((nodes) =>
@@ -382,6 +410,17 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   expect(selectedCardStyle.borderWidth).toBe("2px");
   expect(selectedCardStyle.shadow).not.toBe("none");
   expect(selectedCardStyle.transform).toBe("none");
+  const selectedCandidateBoundsAfter = await page
+    .locator(".draft-option--selected .player-card")
+    .boundingBox();
+  expect(selectedCandidateBoundsBefore).not.toBeNull();
+  expect(selectedCandidateBoundsAfter).not.toBeNull();
+  expect(Math.round(selectedCandidateBoundsAfter!.width)).toBe(
+    Math.round(selectedCandidateBoundsBefore!.width),
+  );
+  expect(Math.round(selectedCandidateBoundsAfter!.height)).toBe(
+    Math.round(selectedCandidateBoundsBefore!.height),
+  );
   const pitchNodeCentersAfter = await page
     .locator(".draft-pitch-panel .pitch-node")
     .evaluateAll((nodes) =>
@@ -438,8 +477,10 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(chemistryHud).toContainText("Projected");
   await expect(chemistryHud).toContainText("Change");
   await expect(page.locator(".pitch-node--fit-green").first()).toBeVisible();
+  await expect(page.locator(".pitch-node--fit-yellow").first()).toBeVisible();
+  await expect(page.locator(".pitch-node--fit-red").first()).toBeVisible();
   await expect(
-    page.locator(".pitch-node--fit-yellow, .pitch-node--fit-red").first(),
+    page.locator(".pitch-node--fit-incompatible").first(),
   ).toBeVisible();
   await expect(
     page.locator(".pitch-node__fit i").filter({ hasText: "−" }).first(),
@@ -456,6 +497,25 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await captureState("02-selected-dossier.png", {
     focusSelector: ".selected-player-summary",
   });
+  const selectedTagEffects = page
+    .locator(".selected-player-summary")
+    .getByText("PLAYER TAG EFFECTS");
+  await selectedTagEffects.scrollIntoViewIfNeeded();
+  await expect(selectedTagEffects).toBeVisible();
+  if (await page.evaluate(() => window.innerWidth <= 720)) {
+    const snapRail = await page.locator(".draft-card-grid").evaluate((rail) => {
+      const style = window.getComputedStyle(rail);
+      return {
+        scrollSnapType: style.scrollSnapType,
+        overflowX: style.overflowX,
+        scrollWidth: rail.scrollWidth,
+        clientWidth: rail.clientWidth,
+      };
+    });
+    expect(snapRail.scrollSnapType).toContain("x");
+    expect(["auto", "scroll"]).toContain(snapRail.overflowX);
+    expect(snapRail.scrollWidth).toBeGreaterThan(snapRail.clientWidth);
+  }
   await exactPreviewSlot.click();
   await expect(page.getByLabel("1 of 14 players drafted")).toBeVisible();
   await expect(chemistryHud.locator("dd")).toHaveCount(1);

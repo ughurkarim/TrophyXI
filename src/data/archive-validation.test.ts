@@ -141,6 +141,10 @@ describe("expanded archive contracts", () => {
   it("stores sourced career accolades and curated Top 100 independently", () => {
     const messi = players.find((player) => player.id === "lionel-messi-2022")!;
     expect(messi.top100Player).toBe(true);
+    expect(messi.top100Source).toMatchObject({
+      listName: "Trophy XI Curated Top 100",
+      year: 2026,
+    });
     expect(messi.careerAccolades).toEqual(
       expect.arrayContaining([
         expect.objectContaining({

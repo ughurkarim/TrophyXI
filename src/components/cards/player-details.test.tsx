@@ -63,7 +63,7 @@ describe("PlayerDetails", () => {
 
   it("animates no more than six verified accolades and groups the rest", () => {
     const base = playersById.get("lionel-messi-2022")!;
-    const source = base.careerAccolades[0].source;
+    const source = base.careerAccolades[0];
     const player = {
       ...base,
       top100Player: false,
@@ -71,8 +71,11 @@ describe("PlayerDetails", () => {
         id: `verified-honor-${index}`,
         label: `Verified Honor ${index + 1}`,
         count: index + 1,
+        category: "individual" as const,
         description: `Verified sourced honor ${index + 1}.`,
-        source,
+        sourceName: source.sourceName,
+        sourceUrl: source.sourceUrl,
+        verified: true,
       })),
     };
     render(<PlayerDetails player={player} onClose={vi.fn()} />);
@@ -109,5 +112,12 @@ describe("PlayerDetails", () => {
     });
     expect(accoladeTransition(false, 5).duration).toBe(0.2);
     expect(accoladeTransition(false, 5).delay).toBeCloseTo(0.35);
+  });
+
+  it("does not display Top 100 recognition when the stored flag is false", () => {
+    const player = playersById.get("dele-alli-2018")!;
+    expect(player.top100Player).toBe(false);
+    render(<PlayerDetails player={player} onClose={vi.fn()} />);
+    expect(screen.queryByText("TOP 100 PLAYER")).not.toBeInTheDocument();
   });
 });

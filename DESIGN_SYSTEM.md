@@ -82,7 +82,9 @@ Photo Pending markers use initials, flag, tournament year, and the same tier
 ring. They never depict or imply a face. Managers use the same portrait
 primitive and show OFF, DEF, leadership, and game management. Every displayed
 photograph is local, reusable, and exact-year. Nearby-year and identity-only
-images never render.
+images never render. The generated manifest is importer-owned; protected
+football-game database artwork is rejected. Any reusable exact-year asset must
+come through a separately documented lawful source and review.
 
 ## Status-tier language
 
@@ -117,7 +119,8 @@ Ratings and tiers are game estimates, not historical honors.
   A selected card gains a complete rarity-colored border, tint, header/rating
   accent, portrait ring, and glow without moving or resizing; the other four
   dim. The selected-player dossier exposes best-position fit, projected Chemistry
-  and OVR, sourced career/tournament accolades, and a compact cancel control.
+  and OVR, sourced career/tournament accolades, gameplay tag effects, and a
+  compact cancel control.
 - Squad archive: one compact strip holds the manager, all eleven fixed formation
   positions, and Bench 1/2/3. Filled chips use circular faces, short names, slot,
   flag, and rating; every filled chip opens its record. At small widths the strip

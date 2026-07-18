@@ -118,13 +118,63 @@ export type TournamentAchievement = {
   source: DataCitation;
 };
 
-export type CareerAccolade = {
+export type PlayerAccoladeCategory =
+  | "international"
+  | "continental"
+  | "domestic-league"
+  | "domestic-cup"
+  | "individual"
+  | "curated";
+
+export type PlayerAccolade = {
   id: string;
   label: string;
-  count: number;
-  description: string;
-  source: DataCitation;
+  count?: number;
+  category: PlayerAccoladeCategory;
+  sourceName: string;
+  sourceUrl?: string;
+  verified: boolean;
+  description?: string;
 };
+
+export type PlayerCareerStats = {
+  clubAppearances: number | null;
+  clubGoals: number | null;
+  clubAssists: number | null;
+  nationalTeamAppearances: number | null;
+  nationalTeamGoals: number | null;
+  sourceName: "FBref";
+  sourceUrl: string;
+  retrievedOn: string;
+  coverageNote: string;
+  competitionStats: PlayerCompetitionStat[];
+};
+
+export type PlayerCompetitionStat = {
+  id: string;
+  season: string;
+  competition: string;
+  scope:
+    | "domestic-league"
+    | "domestic-cup"
+    | "continental"
+    | "international";
+  squad: string | null;
+  appearances: number | null;
+  goals: number | null;
+  assists: number | null;
+};
+
+export type Top100Source = {
+  listName: string;
+  publisher?: string;
+  sourceUrl?: string;
+  year?: number;
+  note?: string;
+};
+
+/** @deprecated Use PlayerAccolade. */
+export type CareerAccolade = PlayerAccolade;
 
 export type PlayerTournamentCard = {
   id: string;
@@ -148,8 +198,10 @@ export type PlayerTournamentCard = {
   tournamentStats: TournamentStatLine;
   statSources: DataCitation[];
   achievements: TournamentAchievement[];
-  careerAccolades: CareerAccolade[];
+  careerStats: PlayerCareerStats | null;
+  careerAccolades: PlayerAccolade[];
   top100Player: boolean;
+  top100Source?: Top100Source;
   imageId: string;
   eraLegacy: EraLegacy;
   eraTranslation: EraTranslationProfile;
@@ -453,6 +505,10 @@ export type ImageAttribution = {
     | "other-licensed-face"
     | "original-project-mark";
   cropFocus: { x: number; y: number };
+  gameEdition: string;
+  sourceWebsite: string;
+  retrievedOn: string;
+  matchQuality: "exact" | "manually-reviewed-exact-year";
 };
 
 export type TournamentFinish =

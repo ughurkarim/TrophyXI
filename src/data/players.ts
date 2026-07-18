@@ -1,7 +1,7 @@
 import { playerSeedSchema } from "@/lib/validation";
+import { playerCareerDataByIdentityId } from "@/data/player-career-data";
 import type {
   Confederation,
-  CareerAccolade,
   DataCitation,
   PlayerAttributes,
   PlayerTournamentCard,
@@ -249,41 +249,6 @@ const fifa2022AwardsSource: DataCitation = {
   accessedOn: "2026-07-18",
 };
 
-const fifaMessiGoldenBallSource: DataCitation = {
-  label: "Lionel Messi collects the Golden Ball",
-  url: "https://www.fifa.com/en/watch/14Q9we1dyweTi2XNhL9tGY",
-  publisher: "FIFA",
-  accessedOn: "2026-07-18",
-};
-
-const barcelonaMessiHonoursSource: DataCitation = {
-  label: "Leo Messi becomes the most decorated player in history",
-  url: "https://www.fcbarcelona.com/en/news/3642383/leo-messi-becomes-the-most-decorated-player-in-history",
-  publisher: "FC Barcelona",
-  accessedOn: "2026-07-18",
-};
-
-const uefaMessiRecordsSource: DataCitation = {
-  label: "Lionel Messi: What records does he hold?",
-  url: "https://www.uefa.com/uefachampionsleague/news/0242-0e97e0ac1cb3-eef786ff788c-1000--lionel-messi-s-record-collection/",
-  publisher: "UEFA",
-  accessedOn: "2026-07-18",
-};
-
-const conmebolMessiHonoursSource: DataCitation = {
-  label: "CONMEBOL Copa América 2024 Tactical Study",
-  url: "https://cdn.conmebol.com/wp-content/uploads/2024/12/LIBRO-GET-CONMEBOL-INGLES-04-12-24.pdf",
-  publisher: "CONMEBOL",
-  accessedOn: "2026-07-18",
-};
-
-const conmebolMessiAwardsSource: DataCitation = {
-  label: "South American winners at The Best FIFA Awards",
-  url: "https://www.conmebol.com/noticias/sudamericanos-ganadores-en-los-premios-the-best-de-la-fifa/",
-  publisher: "CONMEBOL",
-  accessedOn: "2026-07-18",
-};
-
 const achievement = (
   id: string,
   label: string,
@@ -297,143 +262,6 @@ const achievement = (
   ratingEffect,
   source,
 });
-
-const careerAccolade = (
-  id: string,
-  label: string,
-  count: number,
-  description: string,
-  source: DataCitation,
-): CareerAccolade => ({
-  id,
-  label,
-  count,
-  description,
-  source,
-});
-
-const careerAccoladesByIdentityId: Record<string, CareerAccolade[]> = {
-  "lionel-messi": [
-    careerAccolade(
-      "world-cup-champion",
-      "World Cup Champion",
-      1,
-      "Captained Argentina to the 2022 World Cup title.",
-      fifa2022AwardsSource,
-    ),
-    careerAccolade(
-      "world-cup-golden-ball",
-      "World Cup Golden Ball",
-      2,
-      "The first player to receive the tournament’s Golden Ball twice.",
-      fifaMessiGoldenBallSource,
-    ),
-    careerAccolade(
-      "copa-america-champion",
-      "Copa América Champion",
-      2,
-      "Won the 2021 and 2024 CONMEBOL Copa América titles.",
-      conmebolMessiHonoursSource,
-    ),
-    careerAccolade(
-      "champions-league-winner",
-      "Champions League Winner",
-      4,
-      "Won four European Cups with FC Barcelona.",
-      barcelonaMessiHonoursSource,
-    ),
-    careerAccolade(
-      "ballon-dor",
-      "Ballon d’Or",
-      8,
-      "Received an eighth Ballon d’Or in 2023.",
-      conmebolMessiAwardsSource,
-    ),
-    careerAccolade(
-      "european-golden-shoe",
-      "European Golden Shoe",
-      6,
-      "Holds the record with six European Golden Shoes.",
-      uefaMessiRecordsSource,
-    ),
-    careerAccolade(
-      "domestic-league-champion",
-      "Domestic League Champion",
-      10,
-      "Won ten Spanish league titles with FC Barcelona.",
-      barcelonaMessiHonoursSource,
-    ),
-    careerAccolade(
-      "domestic-cup-winner",
-      "Domestic Cup Winner",
-      7,
-      "Won seven Copa del Rey titles with FC Barcelona.",
-      barcelonaMessiHonoursSource,
-    ),
-  ],
-};
-
-/**
- * Curated archive judgment, intentionally explicit and independent of rating.
- * The set describes players represented in Trophy XI who belong in a broad
- * all-time Top 100 conversation; it is not a mathematical ranking.
- */
-export const top100PlayerIdentityIds = new Set([
-  "pele",
-  "diego-maradona",
-  "lionel-messi",
-  "cristiano-ronaldo",
-  "ronaldo",
-  "johan-cruyff",
-  "franz-beckenbauer",
-  "zinedine-zidane",
-  "romario",
-  "gianluigi-buffon",
-  "iker-casillas",
-  "manuel-neuer",
-  "oliver-kahn",
-  "paolo-maldini",
-  "franco-baresi",
-  "bobby-moore",
-  "cafu",
-  "roberto-carlos",
-  "fabio-cannavaro",
-  "lilian-thuram",
-  "carles-puyol",
-  "sergio-ramos",
-  "philipp-lahm",
-  "lothar-matthaus",
-  "xavi",
-  "andres-iniesta",
-  "luka-modric",
-  "andrea-pirlo",
-  "rivaldo",
-  "ronaldinho",
-  "kaka",
-  "didi",
-  "garrincha",
-  "zico",
-  "michel-platini",
-  "ferenc-puskas",
-  "gerd-muller",
-  "eusebio",
-  "george-best",
-  "bobby-charlton",
-  "thierry-henry",
-  "marco-van-basten",
-  "dennis-bergkamp",
-  "roberto-baggio",
-  "paolo-rossi",
-  "miroslav-klose",
-  "david-villa",
-  "neymar",
-  "kylian-mbappe",
-  "kevin-de-bruyne",
-  "luiz-suarez",
-  "gabriel-batistuta",
-  "davor-suker",
-  "diego-forlan",
-]);
 
 type Evidence = {
   stats?: Partial<TournamentStatLine>;
@@ -556,6 +384,7 @@ const evidenceByCardId: Record<string, Evidence> = {
 const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const nation = nations[seed.nation];
   const playerIdentityId = seed.id.replace(/-\d{4}$/, "");
+  const careerData = playerCareerDataByIdentityId.get(playerIdentityId);
   const overall =
     tournamentRatingOverrides[seed.id] ?? rebalanceRating(seed.overall);
   const base = defaultsFor(seed.primaryPosition, overall);
@@ -674,8 +503,12 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     },
     statSources: evidence.sources ?? [],
     achievements: evidence.achievements ?? [],
-    careerAccolades: careerAccoladesByIdentityId[playerIdentityId] ?? [],
-    top100Player: top100PlayerIdentityIds.has(playerIdentityId),
+    careerStats: careerData?.careerStats ?? null,
+    careerAccolades: careerData?.accolades ?? [],
+    top100Player: careerData?.top100Player ?? false,
+    ...(careerData?.top100Source
+      ? { top100Source: careerData.top100Source }
+      : {}),
     imageId: seed.id,
     eraLegacy,
     eraTranslation,

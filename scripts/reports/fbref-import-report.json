@@ -1,0 +1,1457 @@
+{
+  "generatedAt": "2026-07-18T21:34:57.058Z",
+  "mode": "refresh",
+  "networkBlockedReason": "HTTP 403",
+  "totalPlayerIdentities": 287,
+  "reviewedMappings": 3,
+  "matchedPlayers": 0,
+  "manualReviewPlayers": 287,
+  "importedAccolades": 0,
+  "supplementaryAccolades": 8,
+  "curatedTop100Players": 46,
+  "validation": {
+    "duplicateMappingIds": 0,
+    "duplicateOutputIdentityIds": 0
+  },
+  "matched": [],
+  "unresolved": [
+    {
+      "playerIdentityId": "pele",
+      "playerName": "Pelé",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jairzinho",
+      "playerName": "Jairzinho",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gerd-muller",
+      "playerName": "Gerd Müller",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "rivelino",
+      "playerName": "Rivelino",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "tostao",
+      "playerName": "Tostão",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "bobby-moore",
+      "playerName": "Bobby Moore",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gordon-banks",
+      "playerName": "Gordon Banks",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "teofilo-cubillas",
+      "playerName": "Teófilo Cubillas",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "giacinto-facchetti",
+      "playerName": "Giacinto Facchetti",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "murtaz-khurtsilava",
+      "playerName": "Murtaz Khurtsilava",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "johan-cruyff",
+      "playerName": "Johan Cruyff",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "franz-beckenbauer",
+      "playerName": "Franz Beckenbauer",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "johan-neeskens",
+      "playerName": "Johan Neeskens",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "sepp-maier",
+      "playerName": "Sepp Maier",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kazimierz-deyna",
+      "playerName": "Kazimierz Deyna",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "grzegorz-lato",
+      "playerName": "Grzegorz Lato",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "paul-breitner",
+      "playerName": "Paul Breitner",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "wolfgang-overath",
+      "playerName": "Wolfgang Overath",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "rene-houseman",
+      "playerName": "René Houseman",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mario-kempes",
+      "playerName": "Mario Kempes",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "daniel-passarella",
+      "playerName": "Daniel Passarella",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ubaldo-fillol",
+      "playerName": "Ubaldo Fillol",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "rob-rensenbrink",
+      "playerName": "Rob Rensenbrink",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "zico",
+      "playerName": "Zico",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "claudio-gentile",
+      "playerName": "Claudio Gentile",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "paolo-rossi",
+      "playerName": "Paolo Rossi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "arie-haan",
+      "playerName": "Arie Haan",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ruud-krol",
+      "playerName": "Ruud Krol",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "socrates",
+      "playerName": "Sócrates",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "falcao",
+      "playerName": "Falcão",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "zbigniew-boniek",
+      "playerName": "Zbigniew Boniek",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "dino-zoff",
+      "playerName": "Dino Zoff",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gaetano-scirea",
+      "playerName": "Gaetano Scirea",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "pierre-littbarski",
+      "playerName": "Pierre Littbarski",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jean-tigana",
+      "playerName": "Jean Tigana",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "diego-maradona",
+      "playerName": "Diego Maradona",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jorge-burruchaga",
+      "playerName": "Jorge Burruchaga",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jorge-valdano",
+      "playerName": "Jorge Valdano",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "harald-schumacher",
+      "playerName": "Harald Schumacher",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "lothar-matthaus",
+      "playerName": "Lothar Matthäus",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "michel-platini",
+      "playerName": "Michel Platini",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gary-lineker",
+      "playerName": "Gary Lineker",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "emilio-butragueno",
+      "playerName": "Emilio Butragueño",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "preben-elkj-r",
+      "playerName": "Preben Elkjær",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "igor-belanov",
+      "playerName": "Igor Belanov",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "salvatore-schillaci",
+      "playerName": "Salvatore Schillaci",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "andreas-brehme",
+      "playerName": "Andreas Brehme",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jurgen-klinsmann",
+      "playerName": "Jürgen Klinsmann",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "sergio-goycochea",
+      "playerName": "Sergio Goycochea",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "paul-gascoigne",
+      "playerName": "Paul Gascoigne",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "roger-milla",
+      "playerName": "Roger Milla",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "franco-baresi",
+      "playerName": "Franco Baresi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "frank-rijkaard",
+      "playerName": "Frank Rijkaard",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "tomas-skuhravy",
+      "playerName": "Tomáš Skuhravý",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "romario",
+      "playerName": "Romário",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "roberto-baggio",
+      "playerName": "Roberto Baggio",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "bebeto",
+      "playerName": "Bebeto",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gheorghe-hagi",
+      "playerName": "Gheorghe Hagi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "hristo-stoichkov",
+      "playerName": "Hristo Stoichkov",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "dunga",
+      "playerName": "Dunga",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "claudio-taffarel",
+      "playerName": "Cláudio Taffarel",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "paolo-maldini",
+      "playerName": "Paolo Maldini",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "tomas-brolin",
+      "playerName": "Tomas Brolin",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "oleg-salenko",
+      "playerName": "Oleg Salenko",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "fabien-barthez",
+      "playerName": "Fabien Barthez",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "oliver-kahn",
+      "playerName": "Oliver Kahn",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gianluigi-buffon",
+      "playerName": "Gianluigi Buffon",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "iker-casillas",
+      "playerName": "Iker Casillas",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "manuel-neuer",
+      "playerName": "Manuel Neuer",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "thibaut-courtois",
+      "playerName": "Thibaut Courtois",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "emiliano-martinez",
+      "playerName": "Emiliano Martínez",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "lilian-thuram",
+      "playerName": "Lilian Thuram",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "marcel-desailly",
+      "playerName": "Marcel Desailly",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "roberto-carlos",
+      "playerName": "Roberto Carlos",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "cafu",
+      "playerName": "Cafu",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "lucio",
+      "playerName": "Lúcio",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "fabio-cannavaro",
+      "playerName": "Fabio Cannavaro",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gianluca-zambrotta",
+      "playerName": "Gianluca Zambrotta",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "marco-materazzi",
+      "playerName": "Marco Materazzi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "sergio-ramos",
+      "playerName": "Sergio Ramos",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "carles-puyol",
+      "playerName": "Carles Puyol",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "philipp-lahm",
+      "playerName": "Philipp Lahm",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mats-hummels",
+      "playerName": "Mats Hummels",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "raphael-varane",
+      "playerName": "Raphaël Varane",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "lucas-hernandez",
+      "playerName": "Lucas Hernández",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "cristian-romero",
+      "playerName": "Cristian Romero",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "achraf-hakimi",
+      "playerName": "Achraf Hakimi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "zinedine-zidane",
+      "playerName": "Zinedine Zidane",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "didier-deschamps",
+      "playerName": "Didier Deschamps",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "rivaldo",
+      "playerName": "Rivaldo",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ronaldinho",
+      "playerName": "Ronaldinho",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "andrea-pirlo",
+      "playerName": "Andrea Pirlo",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gennaro-gattuso",
+      "playerName": "Gennaro Gattuso",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "xavi",
+      "playerName": "Xavi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "andres-iniesta",
+      "playerName": "Andrés Iniesta",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "sergio-busquets",
+      "playerName": "Sergio Busquets",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "toni-kroos",
+      "playerName": "Toni Kroos",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "bastian-schweinsteiger",
+      "playerName": "Bastian Schweinsteiger",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "paul-pogba",
+      "playerName": "Paul Pogba",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ngolo-kante",
+      "playerName": "N’Golo Kanté",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "luka-modric",
+      "playerName": "Luka Modrić",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kevin-de-bruyne",
+      "playerName": "Kevin De Bruyne",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "enzo-fernandez",
+      "playerName": "Enzo Fernández",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mohammed-kudus",
+      "playerName": "Mohammed Kudus",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "thierry-henry",
+      "playerName": "Thierry Henry",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "davor-suker",
+      "playerName": "Davor Šuker",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ronaldo",
+      "playerName": "Ronaldo",
+      "sourceUrl": "https://fbref.com/en/players/57feb553/Ronaldo",
+      "reason": "HTTP 403"
+    },
+    {
+      "playerIdentityId": "miroslav-klose",
+      "playerName": "Miroslav Klose",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "francesco-totti",
+      "playerName": "Francesco Totti",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "fernando-torres",
+      "playerName": "Fernando Torres",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "david-villa",
+      "playerName": "David Villa",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "diego-forlan",
+      "playerName": "Diego Forlán",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "lionel-messi",
+      "playerName": "Lionel Messi",
+      "sourceUrl": "https://fbref.com/en/players/d70ce98e/Lionel-Messi",
+      "reason": "HTTP 403"
+    },
+    {
+      "playerIdentityId": "thomas-muller",
+      "playerName": "Thomas Müller",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "arjen-robben",
+      "playerName": "Arjen Robben",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "neymar",
+      "playerName": "Neymar",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "antoine-griezmann",
+      "playerName": "Antoine Griezmann",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kylian-mbappe",
+      "playerName": "Kylian Mbappé",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "julian-alvarez",
+      "playerName": "Julián Álvarez",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ismaila-sarr",
+      "playerName": "Ismaïla Sarr",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jose-luis-chilavert",
+      "playerName": "José Luis Chilavert",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "peter-schmeichel",
+      "playerName": "Peter Schmeichel",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "bixente-lizarazu",
+      "playerName": "Bixente Lizarazu",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "laurent-blanc",
+      "playerName": "Laurent Blanc",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "frank-de-boer",
+      "playerName": "Frank de Boer",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "javier-zanetti",
+      "playerName": "Javier Zanetti",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "christian-panucci",
+      "playerName": "Christian Panucci",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gary-neville",
+      "playerName": "Gary Neville",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "edgar-davids",
+      "playerName": "Edgar Davids",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "david-beckham",
+      "playerName": "David Beckham",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "dennis-bergkamp",
+      "playerName": "Dennis Bergkamp",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "michael-owen",
+      "playerName": "Michael Owen",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "marc-overmars",
+      "playerName": "Marc Overmars",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "gabriel-batistuta",
+      "playerName": "Gabriel Batistuta",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "dida",
+      "playerName": "Dida",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ashley-cole",
+      "playerName": "Ashley Cole",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "willy-sagnol",
+      "playerName": "Willy Sagnol",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "rio-ferdinand",
+      "playerName": "Rio Ferdinand",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "michael-ballack",
+      "playerName": "Michael Ballack",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "claude-makelele",
+      "playerName": "Claude Makélélé",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kaka",
+      "playerName": "Kaká",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "cristiano-ronaldo",
+      "playerName": "Cristiano Ronaldo",
+      "sourceUrl": "https://fbref.com/en/players/dea698d9/Cristiano-Ronaldo",
+      "reason": "HTTP 403"
+    },
+    {
+      "playerIdentityId": "luis-figo",
+      "playerName": "Luís Figo",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "marcelo",
+      "playerName": "Marcelo",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jordi-alba",
+      "playerName": "Jordi Alba",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "maicon",
+      "playerName": "Maicon",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "yassine-bounou",
+      "playerName": "Yassine Bounou",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "dominik-livakovic",
+      "playerName": "Dominik Livaković",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "theo-hernandez",
+      "playerName": "Theo Hernández",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "josko-gvardiol",
+      "playerName": "Joško Gvardiol",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "nicolas-otamendi",
+      "playerName": "Nicolás Otamendi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "nahuel-molina",
+      "playerName": "Nahuel Molina",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "marcos-acuna",
+      "playerName": "Marcos Acuña",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "denzel-dumfries",
+      "playerName": "Denzel Dumfries",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "marquinhos",
+      "playerName": "Marquinhos",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "dayot-upamecano",
+      "playerName": "Dayot Upamecano",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "alexis-mac-allister",
+      "playerName": "Alexis Mac Allister",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "sofyan-amrabat",
+      "playerName": "Sofyan Amrabat",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jude-bellingham",
+      "playerName": "Jude Bellingham",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "frenkie-de-jong",
+      "playerName": "Frenkie de Jong",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "joshua-kimmich",
+      "playerName": "Joshua Kimmich",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "olivier-giroud",
+      "playerName": "Olivier Giroud",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "bukayo-saka",
+      "playerName": "Bukayo Saka",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "richarlison",
+      "playerName": "Richarlison",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "cody-gakpo",
+      "playerName": "Cody Gakpo",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "goncalo-ramos",
+      "playerName": "Gonçalo Ramos",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ritsu-doan",
+      "playerName": "Ritsu Dōan",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "son-heung-min",
+      "playerName": "Son Heung-min",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jorge-campos",
+      "playerName": "Jorge Campos",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "edwin-van-der-sar",
+      "playerName": "Edwin van der Sar",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "david-seaman",
+      "playerName": "David Seaman",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "rustu-recber",
+      "playerName": "Rüştü Reçber",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "marcos",
+      "playerName": "Marcos",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "lee-woon-jae",
+      "playerName": "Lee Woon-jae",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jens-lehmann",
+      "playerName": "Jens Lehmann",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ricardo",
+      "playerName": "Ricardo",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mark-paston",
+      "playerName": "Mark Paston",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "tim-howard",
+      "playerName": "Tim Howard",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "keylor-navas",
+      "playerName": "Keylor Navas",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "guillermo-ochoa",
+      "playerName": "Guillermo Ochoa",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "hugo-lloris",
+      "playerName": "Hugo Lloris",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "danijel-subasic",
+      "playerName": "Danijel Subašić",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mathew-ryan",
+      "playerName": "Mathew Ryan",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jaap-stam",
+      "playerName": "Jaap Stam",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "sol-campbell",
+      "playerName": "Sol Campbell",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "alpay-ozalan",
+      "playerName": "Alpay Özalan",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "hong-myung-bo",
+      "playerName": "Hong Myung-bo",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "alessandro-nesta",
+      "playerName": "Alessandro Nesta",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ricardo-carvalho",
+      "playerName": "Ricardo Carvalho",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "eric-abidal",
+      "playerName": "Éric Abidal",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "juan",
+      "playerName": "Juan",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "diego-godin",
+      "playerName": "Diego Godín",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ryan-nelsen",
+      "playerName": "Ryan Nelsen",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "winston-reid",
+      "playerName": "Winston Reid",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "yuji-nakazawa",
+      "playerName": "Yuji Nakazawa",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "rafael-marquez",
+      "playerName": "Rafael Márquez",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "john-mensah",
+      "playerName": "John Mensah",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "thiago-silva",
+      "playerName": "Thiago Silva",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "david-luiz",
+      "playerName": "David Luiz",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "pablo-zabaleta",
+      "playerName": "Pablo Zabaleta",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ezequiel-garay",
+      "playerName": "Ezequiel Garay",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "stefan-de-vrij",
+      "playerName": "Stefan de Vrij",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "daley-blind",
+      "playerName": "Daley Blind",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "matt-besler",
+      "playerName": "Matt Besler",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kieran-trippier",
+      "playerName": "Kieran Trippier",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "diego-laxalt",
+      "playerName": "Diego Laxalt",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "yerry-mina",
+      "playerName": "Yerry Mina",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mario-fernandes",
+      "playerName": "Mário Fernandes",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "sime-vrsaljko",
+      "playerName": "Šime Vrsaljko",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "toby-alderweireld",
+      "playerName": "Toby Alderweireld",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kalidou-koulibaly",
+      "playerName": "Kalidou Koulibaly",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kim-min-jae",
+      "playerName": "Kim Min-jae",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "piero-hincapie",
+      "playerName": "Piero Hincapié",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "michael-laudrup",
+      "playerName": "Michael Laudrup",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "emmanuel-petit",
+      "playerName": "Emmanuel Petit",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "nicky-butt",
+      "playerName": "Nicky Butt",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ariel-ortega",
+      "playerName": "Ariel Ortega",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "cuauhtemoc-blanco",
+      "playerName": "Cuauhtémoc Blanco",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "sunday-oliseh",
+      "playerName": "Sunday Oliseh",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "juninho-paulista",
+      "playerName": "Juninho Paulista",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kleberson",
+      "playerName": "Kléberson",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "hasan-sas",
+      "playerName": "Hasan Şaş",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "yoo-sang-chul",
+      "playerName": "Yoo Sang-chul",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "landon-donovan",
+      "playerName": "Landon Donovan",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "pavel-nedved",
+      "playerName": "Pavel Nedvěd",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "maniche",
+      "playerName": "Maniche",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "deco",
+      "playerName": "Deco",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "juan-roman-riquelme",
+      "playerName": "Juan Román Riquelme",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "torsten-frings",
+      "playerName": "Torsten Frings",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "maxi-rodriguez",
+      "playerName": "Maxi Rodríguez",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "stephen-appiah",
+      "playerName": "Stephen Appiah",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "shunsuke-nakamura",
+      "playerName": "Shunsuke Nakamura",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mesut-ozil",
+      "playerName": "Mesut Özil",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "wesley-sneijder",
+      "playerName": "Wesley Sneijder",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mark-van-bommel",
+      "playerName": "Mark van Bommel",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "keisuke-honda",
+      "playerName": "Keisuke Honda",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "park-ji-sung",
+      "playerName": "Park Ji-sung",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "kevin-prince-boateng",
+      "playerName": "Kevin-Prince Boateng",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "simon-elliott",
+      "playerName": "Simon Elliott",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "james-rodriguez",
+      "playerName": "James Rodríguez",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "javier-mascherano",
+      "playerName": "Javier Mascherano",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "angel-di-maria",
+      "playerName": "Ángel Di María",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "yaya-toure",
+      "playerName": "Yaya Touré",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "bryan-ruiz",
+      "playerName": "Bryan Ruiz",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jermaine-jones",
+      "playerName": "Jermaine Jones",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ivan-rakitic",
+      "playerName": "Ivan Rakitić",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "eden-hazard",
+      "playerName": "Eden Hazard",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "dele-alli",
+      "playerName": "Dele Alli",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "aleksandr-golovin",
+      "playerName": "Aleksandr Golovin",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "wahbi-khazri",
+      "playerName": "Wahbi Khazri",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "azzedine-ounahi",
+      "playerName": "Azzedine Ounahi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "tyler-adams",
+      "playerName": "Tyler Adams",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "salem-al-dawsari",
+      "playerName": "Salem Al-Dawsari",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "christian-vieri",
+      "playerName": "Christian Vieri",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "brian-laudrup",
+      "playerName": "Brian Laudrup",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "luis-hernandez",
+      "playerName": "Luis Hernández",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "victor-ikpeba",
+      "playerName": "Victor Ikpeba",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "hakan-sukur",
+      "playerName": "Hakan Şükür",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ilhan-mans-z",
+      "playerName": "İlhan Mansız",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "el-hadji-diouf",
+      "playerName": "El Hadji Diouf",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ahn-jung-hwan",
+      "playerName": "Ahn Jung-hwan",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "jared-borgetti",
+      "playerName": "Jared Borgetti",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "andriy-shevchenko",
+      "playerName": "Andriy Shevchenko",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "lukas-podolski",
+      "playerName": "Lukas Podolski",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "david-trezeguet",
+      "playerName": "David Trezeguet",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "didier-drogba",
+      "playerName": "Didier Drogba",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "zlatan-ibrahimovic",
+      "playerName": "Zlatan Ibrahimović",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "luis-suarez",
+      "playerName": "Luis Suárez",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "asamoah-gyan",
+      "playerName": "Asamoah Gyan",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "siphiwe-tshabalala",
+      "playerName": "Siphiwe Tshabalala",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "chris-wood",
+      "playerName": "Chris Wood",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "tim-cahill",
+      "playerName": "Tim Cahill",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "samuel-etoo",
+      "playerName": "Samuel Eto’o",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "alexis-sanchez",
+      "playerName": "Alexis Sánchez",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "robin-van-persie",
+      "playerName": "Robin van Persie",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "joel-campbell",
+      "playerName": "Joel Campbell",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ahmed-musa",
+      "playerName": "Ahmed Musa",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "enner-valencia",
+      "playerName": "Enner Valencia",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "harry-kane",
+      "playerName": "Harry Kane",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "romelu-lukaku",
+      "playerName": "Romelu Lukaku",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "ivan-perisic",
+      "playerName": "Ivan Perišić",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "denis-cheryshev",
+      "playerName": "Denis Cheryshev",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "takashi-inui",
+      "playerName": "Takashi Inui",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "randal-kolo-muani",
+      "playerName": "Randal Kolo Muani",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "mehdi-taremi",
+      "playerName": "Mehdi Taremi",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "vincent-aboubakar",
+      "playerName": "Vincent Aboubakar",
+      "reason": "No reviewed FBref identity mapping is stored."
+    },
+    {
+      "playerIdentityId": "breel-embolo",
+      "playerName": "Breel Embolo",
+      "reason": "No reviewed FBref identity mapping is stored."
+    }
+  ]
+}

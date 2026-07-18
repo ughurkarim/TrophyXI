@@ -6643,6 +6643,7 @@ button.squad-chip:focus-visible {
   min-width: 0;
   min-height: 420px;
   padding: 31px 10px 10px;
+  border-width: 2px;
   overflow: hidden;
 }
 
@@ -6651,6 +6652,11 @@ button.squad-chip:focus-visible {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.draft-card-grid .player-card__header {
+  padding-bottom: 7px;
+  border-bottom: 1px solid transparent;
 }
 
 .draft-option--selected,
@@ -6688,13 +6694,11 @@ button.squad-chip:focus-visible {
 }
 
 .draft-option--selected .player-card__header {
-  padding-bottom: 7px;
-  border-bottom: 1px solid
-    color-mix(
-      in srgb,
-      var(--tier-accent, var(--gold-bright)) 42%,
-      transparent
-    );
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--tier-accent, var(--gold-bright)) 42%,
+    transparent
+  );
 }
 
 .draft-option--selected .player-rating strong,
@@ -6816,6 +6820,48 @@ button.squad-chip:focus-visible {
 .selected-player-summary > .player-accolades {
   grid-column: 1 / -1;
   min-width: 0;
+}
+
+.selected-player-tags {
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding-top: 10px;
+  border-top: 1px solid
+    color-mix(in srgb, var(--summary-accent) 26%, transparent);
+}
+
+.selected-player-tags ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  padding: 0;
+  margin: 8px 0 0;
+  list-style: none;
+}
+
+.selected-player-tags li {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.selected-player-tags b {
+  overflow: hidden;
+  color: color-mix(in srgb, var(--summary-accent) 78%, white);
+  font-size: 0.62rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-player-tags span {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.46rem;
+  line-height: 1.45;
 }
 
 .player-accolades {
@@ -6981,6 +7027,10 @@ button.squad-chip:focus-visible {
   }
 
   .player-accolades--compact .achievement-list {
+    grid-template-columns: 1fr;
+  }
+
+  .selected-player-tags ul {
     grid-template-columns: 1fr;
   }
 

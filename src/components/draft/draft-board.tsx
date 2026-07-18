@@ -18,6 +18,7 @@ import { ManagerDetails } from "@/components/cards/manager-details";
 import { PlayerAccolades } from "@/components/cards/player-accolades";
 import { PlayerCard } from "@/components/cards/player-card";
 import {
+  modeledTagCopy,
   PlayerDetails,
   type PlayerFitContext,
 } from "@/components/cards/player-details";
@@ -983,6 +984,28 @@ function SelectedPlayerSummary({
         </div>
       </dl>
       <PlayerAccolades player={player} compact />
+      <section
+        className="selected-player-tags"
+        aria-labelledby={`selected-player-tags-${player.id}`}
+      >
+        <span
+          className="eyebrow"
+          id={`selected-player-tags-${player.id}`}
+        >
+          PLAYER TAG EFFECTS
+        </span>
+        <ul>
+          {player.modeledTags.map((tag) => (
+            <li key={tag}>
+              <b>{tag}</b>
+              <span>
+                {modeledTagCopy[tag]?.effect ??
+                  "No separate bonus · normal engine caps apply"}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </aside>
   );
 }

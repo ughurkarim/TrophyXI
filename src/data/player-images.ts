@@ -1,9 +1,10 @@
 import {
-  managerGameFaceCardIds,
-  playerGameFaceCardIds,
+  managerGameFaceRecords,
+  playerGameFaceRecords,
 } from "@/data/game-face-manifest";
 import { managersById } from "@/data/managers";
 import { playersById } from "@/data/players";
+import type { GameFaceManifestRecord } from "@/lib/importers/game-face";
 import type { ImageAttribution } from "@/types/game";
 
 type GameFaceKind = ImageAttribution["kind"];
@@ -11,59 +12,54 @@ type GameFaceKind = ImageAttribution["kind"];
 export const gameFacePathFor = (kind: GameFaceKind, cardId: string) =>
   `/${kind === "player" ? "players" : "managers"}/game-faces/${cardId}.png`;
 
-/**
- * A game-face file cannot become active on filename alone. Every entry must
- * identify a reusable source and the exact tournament context. The local
- * folders are currently empty, so the complete archive intentionally renders
- * Photo Pending.
- */
-const exactYearSourceMetadata: Record<
-  string,
-  Omit<
-    ImageAttribution,
-    | "id"
-    | "kind"
-    | "subjectName"
-    | "tournamentYear"
-    | "file"
-    | "exactTournamentImage"
-    | "photoContext"
-  >
-> = {};
-
 const buildAttribution = (
-  id: string,
-  kind: GameFaceKind,
+  record: GameFaceManifestRecord,
 ): ImageAttribution => {
-  const metadata = exactYearSourceMetadata[id];
+  const { id, kind } = record;
   const player = kind === "player" ? playersById.get(id) : undefined;
   const manager = kind === "manager" ? managersById.get(id) : undefined;
-  if ((!player && !manager) || !metadata) {
+  if (!player && !manager) {
     throw new Error(
-      `${id}: exact-year game face requires a matching card and complete source metadata`,
+      `${id}: exact-year game face requires a matching tournament card`,
     );
   }
   const subjectName = player?.playerName ?? manager!.managerName;
   const tournamentYear = player?.tournamentYear ?? manager!.tournamentYear;
+  if (
+    tournamentYear !== record.tournamentYear ||
+    record.localPath !== gameFacePathFor(kind, id)
+  ) {
+    throw new Error(`${id}: exact-year game-face manifest mismatch`);
+  }
   return {
-    ...metadata,
     id,
     kind,
     subjectName,
     tournamentYear,
-    file: gameFacePathFor(kind, id),
+    file: record.localPath,
+    sourceFile: record.sourceFile,
+    sourcePage: record.sourceUrl,
+    author: record.author,
+    license: record.license,
+    licenseUrl: record.licenseUrl,
+    changes: record.changes,
+    fallback: false,
+    representedTeam: player?.countryName ?? manager!.teamName,
+    photographedYear: record.tournamentYear,
     exactTournamentImage: true,
+    isNationalTeamKit: false,
     photoContext: "exact-tournament",
+    cropFocus: { x: 50, y: 20 },
+    gameEdition: record.gameEdition,
+    sourceWebsite: record.sourceWebsite,
+    retrievedOn: record.retrievedOn,
+    matchQuality: record.matchQuality,
   };
 };
 
-export const playerImages = playerGameFaceCardIds.map((id) =>
-  buildAttribution(id, "player"),
-);
+export const playerImages = playerGameFaceRecords.map(buildAttribution);
 
-export const managerImages = managerGameFaceCardIds.map((id) =>
-  buildAttribution(id, "manager"),
-);
+export const managerImages = managerGameFaceRecords.map(buildAttribution);
 
 export const imageAttributions = [...playerImages, ...managerImages];
 export const imagesById = new Map(

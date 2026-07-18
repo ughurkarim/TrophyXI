@@ -11,7 +11,7 @@ All-Stars.
 ```bash
 npm install
 npm run images:import
-npm run images:contact
+npm run players:import:fbref
 npm run opponents:import
 npm run dev
 ```
@@ -94,7 +94,10 @@ to the historical opponent.
 - `src/store`: versioned Zustand persistence, migration, and hydration repair
 - `src/components`: accessible feature-oriented presentation
 - `src/app`: Next.js App Router pages
-- `src/data/game-face-manifest.ts`: exact-year card-id image allowlist
+- `src/data/game-face-manifest.generated.json`: importer-owned exact-year image manifest
+- `src/data/player-career.generated.json`: normalized career-data output
+- `scripts/import-player-images.ts`: license-gated exact-year PNG importer
+- `scripts/import-fbref-player-data.ts`: cached, rate-limited FBref normalizer
 - `scripts/import-world-cup-teams.ts`: vendored participant ingestion
 - `scripts/validate-data.ts`: executable content and feasibility contract
 - `scripts/validate-world-cup-teams.ts`: opponent-count/source validator
@@ -128,6 +131,50 @@ Images never hotlink at runtime. A player face can resolve only from
 manager directory. Active images require source, author, reusable license, exact
 tournament context, modifications, and a preserved source file. No version may
 reuse another tournament year’s face.
+
+### Exact-year face import
+
+Add reviewed candidates to `scripts/game-face-import-sources.json`, then run:
+
+```bash
+npm run images:import
+```
+
+Each candidate must identify its card id, kind, tournament year, game edition,
+source site and URL, rights holder, reusable license, retrieval date, match
+quality, and exact-year evidence. The importer rate-limits requests, validates
+real image bytes, preserves the source, converts to a 512×512 PNG, caches
+completed work, and writes both the runtime manifest and
+`scripts/reports/game-face-import-report.json`. One failure never stops the
+remaining queue. Unconfigured or rejected cards remain Photo Pending.
+
+Protected SoFIFA, FIFA, EA, FUTBIN, and FUTWIZ game artwork is deliberately
+rejected by the importer. A source must carry explicit reusable rights; finding
+an image on a game database is not permission to copy it.
+
+### FBref career-data import
+
+`scripts/fbref-player-map.json` contains reviewed identity mappings.
+`scripts/player-career-curation.json` contains supplementary sourced honors and
+the explicit Trophy XI Top 100 curation note. Run cache-only normalization with:
+
+```bash
+npm run players:import:fbref
+```
+
+To refresh mapped pages when FBref’s robots policy and access controls permit:
+
+```bash
+npm run players:refresh:fbref
+```
+
+The refresh command reads robots policy first, identifies itself, waits at least
+ten seconds between profile requests, backs off on 429/503 responses, caches
+pages, verifies the player heading, normalizes renamed competitions, deduplicates
+accolades, and writes `src/data/player-career.generated.json`. Access challenges
+are never bypassed. Unmapped, blocked, or ambiguous identities remain draftable
+and are listed in `scripts/reports/fbref-import-report.json` for manual review.
+Only positive, verified, source-linked accolades reach the runtime.
 
 Trophy XI is unofficial and is not affiliated with or endorsed by FIFA, any
 federation, competition, team, manager, or player.

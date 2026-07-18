@@ -81,8 +81,11 @@ export default function CreditsPage() {
                     <b>{image.subjectName} {image.tournamentYear}</b>
                     <span>
                       {image.author} · {image.license} ·{" "}
-                      exact tournament
+                      {image.gameEdition} · {image.matchQuality.replaceAll("-", " ")}
                     </span>
+                    <small>
+                      {image.sourceWebsite} · retrieved {image.retrievedOn}
+                    </small>
                   </div>
                   {image.sourcePage && (
                     <a href={image.sourcePage} target="_blank" rel="noreferrer">
