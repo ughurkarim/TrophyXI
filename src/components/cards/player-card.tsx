@@ -1,0 +1,142 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
+import { Check, ShieldCheck, TimerReset } from "lucide-react";
+import { PlayerPortrait } from "@/components/cards/player-portrait";
+import type { PlayerTournamentCard } from "@/types/game";
+import { cn, flagForCountry } from "@/lib/utils";
+
+const eraAccent: Record<PlayerTournamentCard["era"], string> = {
+  "1990s": "violet",
+  "2000s": "gold",
+  "2010s": "emerald",
+  "2020s": "blue",
+};
+
+export function PlayerCard({
+  player,
+  onSelect,
+  selected = false,
+  decorative = false,
+  className,
+  showFit = false,
+  positionFit,
+  eraFit,
+  onInspect,
+}: {
+  player: PlayerTournamentCard;
+  onSelect?: () => void;
+  selected?: boolean;
+  decorative?: boolean;
+  className?: string;
+  showFit?: boolean;
+  positionFit?: number;
+  eraFit?: number;
+  onInspect?: () => void;
+}) {
+  const reduceMotion = useReducedMotion();
+  const content = (
+    <>
+      <div className="player-card__shine" aria-hidden />
+      <div className="player-card__header">
+        <div className="player-rating">
+          <strong>{player.overall}</strong>
+          <span>{player.primaryPosition}</span>
+        </div>
+        <div className="player-era">
+          <span>{player.tournamentYear}</span>
+          <small>{player.qualityBand}</small>
+        </div>
+      </div>
+      <PlayerPortrait player={player} />
+      <div className="player-card__identity">
+        <span className="player-country">
+          {flagForCountry(player.countryCode)} {player.countryCode}
+        </span>
+        <h3>{player.playerName}</h3>
+        <p>{player.archetype}</p>
+      </div>
+      <div className="player-card__stats">
+        {[
+          ["ATK", player.attributes.attack],
+          ["CRE", player.attributes.creativity],
+          ["CTL", player.attributes.control],
+          ["DEF", player.attributes.defense],
+          ["PHY", player.attributes.physical],
+          ["CLT", player.attributes.clutch],
+        ].map(([label, value]) => (
+          <span key={label}>
+            <b>{value}</b>
+            <small>{label}</small>
+          </span>
+        ))}
+      </div>
+      <div className="player-card__footer">
+        <span>{player.countryName}</span>
+        <span>{player.eligiblePositions.join(" · ")}</span>
+      </div>
+      {showFit && (
+        <div className="player-card__fit" aria-label="Draft eligibility">
+          <span>
+            <ShieldCheck size={12} aria-hidden /> Position {positionFit ?? "—"}
+          </span>
+          <span>
+            <TimerReset size={12} aria-hidden /> Era {eraFit ?? "—"}
+          </span>
+        </div>
+      )}
+      {onInspect && (
+        <button
+          type="button"
+          className="player-card__inspect"
+          onClick={(event) => {
+            event.stopPropagation();
+            onInspect();
+          }}
+        >
+          View tournament record
+        </button>
+      )}
+      {selected && (
+        <span className="player-card__selected">
+          <Check size={16} aria-hidden /> Drafted
+        </span>
+      )}
+    </>
+  );
+
+  if (decorative) {
+    return (
+      <motion.div
+        className={cn(
+          "player-card",
+          `player-card--${eraAccent[player.era]}`,
+          className,
+        )}
+        whileHover={reduceMotion ? undefined : { y: -5, rotate: 0 }}
+      >
+        {content}
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      layoutId={`card-${player.id}`}
+      className={cn(
+        "player-card player-card--button",
+        `player-card--${eraAccent[player.era]}`,
+        selected && "player-card--selected",
+        className,
+      )}
+      whileHover={reduceMotion ? undefined : { y: -5 }}
+    >
+      <button
+        className="player-card__pick-target"
+        onClick={onSelect}
+        aria-label={`Draft ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`}
+      />
+      {content}
+    </motion.div>
+  );
+}

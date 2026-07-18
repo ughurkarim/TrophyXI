@@ -1,0 +1,56 @@
+export const cn = (...classes: Array<string | false | null | undefined>) =>
+  classes.filter(Boolean).join(" ");
+
+export const formatYear = (year: number) => String(year);
+
+export const flagForCountry = (countryCode: string) => {
+  const flags: Record<string, string> = {
+    ARG: "🇦🇷",
+    ALG: "🇩🇿",
+    AUS: "🇦🇺",
+    BEL: "🇧🇪",
+    BRA: "🇧🇷",
+    CHI: "🇨🇱",
+    CIV: "🇨🇮",
+    CMR: "🇨🇲",
+    COL: "🇨🇴",
+    CRC: "🇨🇷",
+    CRO: "🇭🇷",
+    CZE: "🇨🇿",
+    DEN: "🇩🇰",
+    ENG: "🏴",
+    ECU: "🇪🇨",
+    ESP: "🇪🇸",
+    FRA: "🇫🇷",
+    GER: "🇩🇪",
+    GHA: "🇬🇭",
+    ITA: "🇮🇹",
+    IRN: "🇮🇷",
+    JPN: "🇯🇵",
+    KOR: "🇰🇷",
+    MAR: "🇲🇦",
+    MEX: "🇲🇽",
+    NED: "🇳🇱",
+    NGA: "🇳🇬",
+    NOR: "🇳🇴",
+    NZL: "🇳🇿",
+    PAR: "🇵🇾",
+    POR: "🇵🇹",
+    PER: "🇵🇪",
+    POL: "🇵🇱",
+    ROU: "🇷🇴",
+    RSA: "🇿🇦",
+    RUS: "🇷🇺",
+    KSA: "🇸🇦",
+    SEN: "🇸🇳",
+    SRB: "🇷🇸",
+    SUI: "🇨🇭",
+    SWE: "🇸🇪",
+    TUN: "🇹🇳",
+    TUR: "🇹🇷",
+    UKR: "🇺🇦",
+    USA: "🇺🇸",
+    URU: "🇺🇾",
+  };
+  return flags[countryCode] ?? "◌";
+};
