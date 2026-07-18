@@ -70,10 +70,9 @@ circular overflow mask, with:
 - a dark outer ring and thin gold inner ring
 - a separate era-colored rim/glow layer
 - a status-tier rim that follows the player’s modeled archive tier
-- stable aspect ratio and crop-focus metadata
-- `object-fit: contain`, consistent eye-line, and no stretching
-- accessible alt text that identifies exact-tournament, same-year national-team,
-  nearby-year national-team, licensed identity-only, or Photo Pending context
+- stable 1:1 aspect ratio with equal rendered width and height
+- `object-fit: cover`, `object-position: center top`, and no stretching
+- accessible alt text that identifies exact-year or Photo Pending context
 
 The circle is not baked into the master. Cards may apply a maximum 1.03 scale to
 the mask, soft rim light, and selected confirmation ring. No pulsing, flashing,
@@ -82,8 +81,8 @@ large zoom, rapid rotation, or face-obscuring effect is permitted.
 Photo Pending markers use initials, flag, tournament year, and the same tier
 ring. They never depict or imply a face. Managers use the same portrait
 primitive and show OFF, DEF, leadership, and game management. Every displayed
-photograph is local and licensed. Nearby-year or identity-only images can never
-be labeled exact tournament.
+photograph is local, reusable, and exact-year. Nearby-year and identity-only
+images never render.
 
 ## Status-tier language
 
@@ -107,7 +106,7 @@ Ratings and tiers are game estimates, not historical honors.
 - Database: a dedicated header route presents every draftable tournament card
   with search, nation/year/position/rating/tier/era/photo filters, four sort
   orders, bounded scrolling, incremental rendering, and the full player record.
-- Manager selection: three identity-safe cards and one permanent deterministic
+- Manager selection: five identity-safe cards and one permanent deterministic
   Manager Respin. It excludes original identities when alternatives exist and
   never consumes the separate Formation Respin or two Player Respins.
 - Formation offers: four cards, each with diagram, tendencies, manager fit,
@@ -115,8 +114,10 @@ Ratings and tiers are game estimates, not historical honors.
   restrained refresh-icon turn and replaces the grid only after the named
   confirmation dialog; the reduced-motion version changes content immediately.
 - Player draft: five equal cards on desktop and a contained snap rail on mobile.
-  A selected card gains a bright outline and slight inner elevation while the
-  other four dim. Selection never moves or commits a tactical node.
+  A selected card gains a complete rarity-colored border, tint, header/rating
+  accent, portrait ring, and glow without moving or resizing; the other four
+  dim. The selected-player dossier exposes best-position fit, projected Chemistry
+  and OVR, sourced career/tournament accolades, and a compact cancel control.
 - Squad archive: one compact strip holds the manager, all eleven fixed formation
   positions, and Bench 1/2/3. Filled chips use circular faces, short names, slot,
   flag, and rating; every filled chip opens its record. At small widths the strip

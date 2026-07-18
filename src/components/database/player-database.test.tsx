@@ -7,8 +7,7 @@ describe("PlayerDatabase", () => {
     render(<PlayerDatabase />);
 
     expect(screen.getByRole("heading", { name: "Player Database" })).toBeVisible();
-    expect(screen.getByText("310", { selector: "dd" })).toBeInTheDocument();
-    expect(screen.getByText("259", { selector: "dd" })).toBeInTheDocument();
+    expect(screen.getAllByText("310", { selector: "dd" })).toHaveLength(2);
 
     fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
       target: { value: "Lionel Messi" },
@@ -20,7 +19,7 @@ describe("PlayerDatabase", () => {
     ).toBeVisible();
     expect(
       screen.getByRole("button", {
-        name: /view lionel messi 2022, rated 99, real photo/i,
+        name: /view lionel messi 2022, rated 99, photo pending/i,
       }),
     ).toBeVisible();
 
@@ -33,9 +32,9 @@ describe("PlayerDatabase", () => {
       }),
     ).toBeVisible();
     expect(
-      screen.queryByRole("button", {
-        name: /view lionel messi 2022/i,
+      screen.getByRole("button", {
+        name: /view lionel messi 2022, rated 99, photo pending/i,
       }),
-    ).not.toBeInTheDocument();
+    ).toBeVisible();
   });
 });

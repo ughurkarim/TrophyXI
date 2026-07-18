@@ -48,8 +48,9 @@ describe("DraftBoard", () => {
     await user.click(choices[1]);
     expect(useGameStore.getState().picks).toHaveLength(0);
     expect(useGameStore.getState().selectedPlayerId).toBeTruthy();
-    expect(screen.getByText("Current Chemistry")).toBeInTheDocument();
+    expect(screen.getByText("Rating")).toBeInTheDocument();
     expect(screen.getByText("Projected Chemistry")).toBeInTheDocument();
+    expect(screen.getByText("CAREER ACCOLADES")).toBeInTheDocument();
     const preview = useGameStore
       .getState()
       .projectedPositionFits.find((candidate) => candidate.canPlace)!;
@@ -160,7 +161,7 @@ describe("DraftBoard", () => {
       })[1],
     );
     await user.click(
-      screen.getAllByRole("button", { name: /cancel selection/i }).at(-1)!,
+      screen.getByRole("button", { name: /^cancel$/i }),
     );
     expect(useGameStore.getState().selectedPlayerId).toBeNull();
     expect(useGameStore.getState().optionIds).toEqual(before);

@@ -64,12 +64,6 @@ export default function LandingPage() {
                 <ButtonLink href="/play/era">
                   Build your XI <ArrowRight size={17} aria-hidden />
                 </ButtonLink>
-                <ButtonLink
-                  href="/play/era?mode=all-stars"
-                  variant="secondary"
-                >
-                  PLAY AS WORLD CUP ALL-STARS
-                </ButtonLink>
                 <ButtonLink href="/#how-it-works" variant="secondary">
                   See how it works <ChevronRight size={16} aria-hidden />
                 </ButtonLink>

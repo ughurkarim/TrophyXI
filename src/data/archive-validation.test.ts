@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 import { draftEras } from "@/data/eras";
 import { draftEligibleManagers, managers } from "@/data/managers";
 import {
+  gameFacePathFor,
   imageAttributions,
   imagesById,
+  managerImages,
   playerImages,
 } from "@/data/player-images";
 import { draftEligiblePlayers, players } from "@/data/players";
@@ -61,27 +63,17 @@ describe("expanded archive contracts", () => {
       22,
     );
     expect(draftEligiblePlayers).toHaveLength(310);
-    expect(draftEligibleManagers).toHaveLength(10);
-    expect(imageAttributions).toHaveLength(61);
-    expect(playerImages).toHaveLength(51);
-    expect(imageAttributions.every((image) => !image.fallback)).toBe(true);
-    expect(
-      imageAttributions.every(
-        (image) =>
-          image.sourcePage &&
-          image.sourceFile &&
-          image.author &&
-          image.license &&
-          image.licenseUrl,
-      ),
-    ).toBe(true);
+    expect(draftEligibleManagers).toHaveLength(28);
+    expect(imageAttributions).toHaveLength(0);
+    expect(playerImages).toHaveLength(0);
+    expect(managerImages).toHaveLength(0);
     expect(players.every((player) => player.isDraftEligible)).toBe(true);
     expect(
       players.every((player) => player.draftIneligibilityReason === null),
     ).toBe(true);
     expect(
       players.filter((player) => !imagesById.has(player.imageId)),
-    ).toHaveLength(259);
+    ).toHaveLength(310);
   });
 
   it("enforces the 99 cap and broad tournament-card rating distribution", () => {
@@ -133,18 +125,47 @@ describe("expanded archive contracts", () => {
       "ronaldo-1998",
     ]);
     expect(imagesById.has("lionel-messi-2014")).toBe(false);
-    expect(imagesById.has("lionel-messi-2022")).toBe(true);
+    expect(imagesById.has("lionel-messi-2022")).toBe(false);
+    expect(gameFacePathFor("player", "lionel-messi-2014")).toBe(
+      "/players/game-faces/lionel-messi-2014.png",
+    );
+    expect(gameFacePathFor("player", "lionel-messi-2022")).toBe(
+      "/players/game-faces/lionel-messi-2022.png",
+    );
+    expect(gameFacePathFor("manager", "lionel-scaloni-2022")).toBe(
+      "/managers/game-faces/lionel-scaloni-2022.png",
+    );
     expect(messi.every((player) => player.isDraftEligible)).toBe(true);
   });
 
-  it("produces three deterministic manager identities in every environment", () => {
+  it("stores sourced career accolades and curated Top 100 independently", () => {
+    const messi = players.find((player) => player.id === "lionel-messi-2022")!;
+    expect(messi.top100Player).toBe(true);
+    expect(messi.careerAccolades).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "World Cup Golden Ball",
+          count: 2,
+        }),
+        expect.objectContaining({
+          label: "Champions League Winner",
+          count: 4,
+        }),
+      ]),
+    );
+    expect(
+      players.some((player) => player.top100Player && player.overall < 90),
+    ).toBe(true);
+  });
+
+  it("produces five deterministic manager identities in every environment", () => {
     for (const era of draftEras) {
       const first = generateManagerOptions(
         draftEligibleManagers,
         era.id,
         4404,
       );
-      expect(first).toHaveLength(3);
+      expect(first).toHaveLength(5);
       expect(
         generateManagerOptions(draftEligibleManagers, era.id, 4404),
       ).toEqual(first);

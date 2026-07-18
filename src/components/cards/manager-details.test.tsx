@@ -5,7 +5,7 @@ import { ManagerDetails } from "@/components/cards/manager-details";
 import { managersById } from "@/data/managers";
 
 describe("ManagerDetails", () => {
-  it("shows a licensed face, grades, strengths, tags, and attribution", async () => {
+  it("shows Photo Pending, grades, strengths, and tags", async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
     const manager = managersById.get("lionel-scaloni-2022")!;
@@ -13,7 +13,7 @@ describe("ManagerDetails", () => {
     const dialog = screen.getByRole("dialog", { name: /lionel scaloni/i });
     expect(
       within(dialog).getByRole("img", {
-        name: /other licensed face photograph of lionel scaloni/i,
+        name: /photo pending for lionel scaloni 2022/i,
       }),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("TOURNAMENT MODEL")).toBeInTheDocument();
@@ -23,7 +23,8 @@ describe("ManagerDetails", () => {
       within(dialog).getByText("TROPHY XI MANAGER TAGS"),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("MANAGER ACCOLADES")).toBeInTheDocument();
-    expect(within(dialog).getByText("PORTRAIT SOURCE")).toBeInTheDocument();
+    expect(within(dialog).getByText("PHOTO STATUS")).toBeInTheDocument();
+    expect(within(dialog).queryByText("PORTRAIT SOURCE")).not.toBeInTheDocument();
     await user.click(
       within(dialog).getByRole("button", { name: /close manager record/i }),
     );

@@ -167,6 +167,14 @@ export function ManagerDetails({
             </p>
           )}
         </section>
+        <section>
+          <span className="eyebrow">PHOTO STATUS</span>
+          <p className="data-disclosure">
+            {image
+              ? `Exact-year local face · ${manager.managerName} ${manager.tournamentYear}.`
+              : `Photo Pending · no exact-year local face is stored for ${manager.managerName} ${manager.tournamentYear}.`}
+          </p>
+        </section>
         {image?.sourcePage && (
           <section>
             <span className="eyebrow">PORTRAIT SOURCE</span>

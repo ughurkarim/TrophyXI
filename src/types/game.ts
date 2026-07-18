@@ -118,6 +118,14 @@ export type TournamentAchievement = {
   source: DataCitation;
 };
 
+export type CareerAccolade = {
+  id: string;
+  label: string;
+  count: number;
+  description: string;
+  source: DataCitation;
+};
+
 export type PlayerTournamentCard = {
   id: string;
   playerIdentityId: string;
@@ -140,6 +148,8 @@ export type PlayerTournamentCard = {
   tournamentStats: TournamentStatLine;
   statSources: DataCitation[];
   achievements: TournamentAchievement[];
+  careerAccolades: CareerAccolade[];
+  top100Player: boolean;
   imageId: string;
   eraLegacy: EraLegacy;
   eraTranslation: EraTranslationProfile;

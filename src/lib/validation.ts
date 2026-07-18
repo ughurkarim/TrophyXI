@@ -87,6 +87,16 @@ export const playerCardSchema = z.object({
       source: citationSchema,
     }),
   ),
+  careerAccolades: z.array(
+    z.object({
+      id: z.string().regex(/^[a-z0-9-]+$/),
+      label: z.string().min(2),
+      count: z.number().int().min(1),
+      description: z.string().min(2),
+      source: citationSchema,
+    }),
+  ),
+  top100Player: z.boolean(),
   imageId: z.string().regex(/^[a-z0-9-]+$/),
   eraLegacy: z.enum([
     "era-specialist",

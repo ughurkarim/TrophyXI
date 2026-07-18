@@ -1,30 +1,22 @@
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, ImageIcon } from "lucide-react";
 import { Wordmark } from "@/components/brand/mark";
+import { draftEligibleManagers } from "@/data/managers";
 import { historicalOpponentSource } from "@/data/opponents";
 import { imageAttributions } from "@/data/player-images";
 import { draftEligiblePlayers } from "@/data/players";
 
 export default function CreditsPage() {
-  const licensed = imageAttributions.filter((image) => !image.fallback);
-  const playerPhotos = licensed.filter((image) => image.kind === "player");
-  const managerPhotos = licensed.filter((image) => image.kind === "manager");
+  const playerPhotos = imageAttributions.filter(
+    (image) => image.kind === "player",
+  );
+  const managerPhotos = imageAttributions.filter(
+    (image) => image.kind === "manager",
+  );
   const pendingPlayerPhotos =
     draftEligiblePlayers.length - playerPhotos.length;
-  const exactTournament = licensed.filter(
-    (image) => image.exactTournamentImage,
-  );
-  const identityPhotos = licensed.filter(
-    (image) => image.photoContext === "other-licensed-face",
-  );
-  const contextLabel = (photoContext: (typeof licensed)[number]["photoContext"]) =>
-    ({
-      "exact-tournament": "exact-tournament photograph",
-      "same-year-national-team": "same-year national-team photograph",
-      "nearby-year-national-team": "nearby-year national-team photograph",
-      "other-licensed-face": "licensed identity photograph",
-      "original-project-mark": "original project mark",
-    })[photoContext];
+  const pendingManagerPhotos =
+    draftEligibleManagers.length - managerPhotos.length;
 
   return (
     <div className="credits-page">
@@ -39,18 +31,16 @@ export default function CreditsPage() {
           <span className="eyebrow eyebrow--gold">SOURCES & ATTRIBUTION</span>
           <h1>An archive with a paper trail.</h1>
           <p>
-            Every displayed photograph is a local transparent PNG with a
-            complete source record. Cards without an approved photograph stay
-            draftable and use a clearly labeled Photo Pending identity marker.
+            Faces resolve only from exact card-year local PNGs with complete
+            source records. No older, newer, or identity-only photograph is
+            substituted. Missing files remain draftable and show Photo Pending.
           </p>
           <div className="credits-metrics">
             <span><b>{imageAttributions.length}</b> active local PNG masters</span>
-            <span><b>{licensed.length}</b> licensed photographs</span>
-            <span><b>{playerPhotos.length}</b> player photographs</span>
-            <span><b>{managerPhotos.length}</b> manager photographs</span>
+            <span><b>{playerPhotos.length}</b> exact-year player faces</span>
+            <span><b>{managerPhotos.length}</b> exact-year manager faces</span>
             <span><b>{pendingPlayerPhotos}</b> photo-pending player cards</span>
-            <span><b>{exactTournament.length}</b> exact-tournament images</span>
-            <span><b>{identityPhotos.length}</b> licensed identity images</span>
+            <span><b>{pendingManagerPhotos}</b> photo-pending manager cards</span>
           </div>
         </section>
 
@@ -59,11 +49,10 @@ export default function CreditsPage() {
             <ImageIcon size={20} aria-hidden />
             <h2>Image method</h2>
             <p>
-              The importer preserves licensed source files, makes a mechanical
-              face-centered crop, exports a transparent 700×900 master, and rejects
-              incomplete creator, license, or source metadata. Exact-tournament,
-              same-year, nearby-year, and identity-only contexts are recorded
-              separately and never inferred from a PNG filename.
+              Players use <code>/players/game-faces/card-id.png</code> and
+              managers use <code>/managers/game-faces/card-id.png</code>. Each
+              version owns a distinct filename. A local file is activated only
+              with complete reusable-source and exact-year metadata.
             </p>
           </div>
           <div>
@@ -81,20 +70,18 @@ export default function CreditsPage() {
           </div>
         </section>
 
-        {licensed.length > 0 && (
+        {imageAttributions.length > 0 && (
           <section className="attribution-section">
-            <span className="eyebrow eyebrow--gold">LICENSED PHOTOGRAPHS</span>
+            <span className="eyebrow eyebrow--gold">EXACT-YEAR LOCAL FACES</span>
             <h2>Source records</h2>
             <div className="attribution-list">
-              {licensed.map((image) => (
+              {imageAttributions.map((image) => (
                 <article key={image.id}>
                   <div>
                     <b>{image.subjectName} {image.tournamentYear}</b>
                     <span>
                       {image.author} · {image.license} ·{" "}
-                      {image.exactTournamentImage
-                        ? "exact tournament"
-                        : contextLabel(image.photoContext)}
+                      exact tournament
                     </span>
                   </div>
                   {image.sourcePage && (

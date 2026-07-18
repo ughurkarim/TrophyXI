@@ -57,7 +57,7 @@ export function PlayerCard({
         <span className="player-country">
           {flagForCountry(player.countryCode)} {player.countryCode}
         </span>
-        <h3>{player.playerName}</h3>
+        <h3 title={player.playerName}>{player.playerName}</h3>
         <p>{player.archetype}</p>
       </div>
       <div className="player-card__stats">
@@ -126,7 +126,6 @@ export function PlayerCard({
 
   return (
     <motion.div
-      layoutId={`card-${player.id}`}
       className={cn(
         "player-card player-card--button",
         `player-card--${eraAccent[player.era]}`,
@@ -134,7 +133,7 @@ export function PlayerCard({
         selected && "player-card--selected",
         className,
       )}
-      whileHover={reduceMotion ? undefined : { y: -5 }}
+      whileHover={reduceMotion || selected ? undefined : { y: -3 }}
     >
       <button
         className="player-card__pick-target"

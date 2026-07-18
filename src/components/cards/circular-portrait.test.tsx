@@ -1,43 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
+import { gameFacePathFor } from "@/data/player-images";
 
 describe("CircularPortrait", () => {
-  it("renders licensed context, crop metadata, and a stable size class", () => {
-    render(
-      <CircularPortrait
-        imageId="kylian-mbappe-2018"
-        subjectName="Kylian Mbappé"
-        era="2010s"
-        size="featured"
-      />,
+  it("resolves exact card-year paths without sharing tournament versions", () => {
+    expect(gameFacePathFor("player", "cristiano-ronaldo-2006")).toBe(
+      "/players/game-faces/cristiano-ronaldo-2006.png",
     );
-    const image = screen.getByRole("img", {
-      name: /exact-tournament photograph of kylian mbappé/i,
-    });
-    expect(image).toBeInTheDocument();
-    expect(image.closest(".circular-portrait")).toHaveClass(
-      "circular-portrait--featured",
+    expect(gameFacePathFor("player", "cristiano-ronaldo-2018")).toBe(
+      "/players/game-faces/cristiano-ronaldo-2018.png",
     );
-    expect(image.closest(".circular-portrait")).toHaveAttribute(
-      "data-image-context",
-      "Exact-tournament photograph",
-    );
-  });
-
-  it("labels conservative licensed face context without a tournament claim", () => {
-    render(
-      <CircularPortrait
-        imageId="pele-1970"
-        subjectName="Pelé"
-        era="1970s"
-      />,
-    );
-    expect(
-      screen.getByRole("img", {
-        name: /other licensed face photograph of pelé/i,
-      }),
-    ).toBeInTheDocument();
   });
 
   it("renders a draftable non-face Photo Pending identity marker", () => {
@@ -59,6 +32,9 @@ describe("CircularPortrait", () => {
     expect(pending.closest(".circular-portrait")).toHaveAttribute(
       "data-photo-status",
       "pending",
+    );
+    expect(pending.closest(".circular-portrait")).toHaveClass(
+      "circular-portrait--icon",
     );
     expect(screen.queryByRole("img", { name: /photograph/i })).not.toBeInTheDocument();
   });

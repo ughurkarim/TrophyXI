@@ -118,45 +118,14 @@ describe("game store integrity", () => {
     const before = [...useGameStore.getState().managerOptionIds];
     useGameStore.getState().respinManagers();
     const replacement = [...useGameStore.getState().managerOptionIds];
-    expect(replacement).toHaveLength(3);
+    expect(before).toHaveLength(5);
+    expect(replacement).toHaveLength(5);
     expect(replacement.every((id) => !before.includes(id))).toBe(true);
     expect(useGameStore.getState().managerRespinRemaining).toBe(0);
     expect(useGameStore.getState().playerRespinsRemaining).toBe(2);
     expect(useGameStore.getState().formationRespinRemaining).toBe(1);
     useGameStore.getState().respinManagers();
     expect(useGameStore.getState().managerOptionIds).toEqual(replacement);
-  });
-
-  it("loads the unique curated All-Stars squad and simulates normally", () => {
-    useGameStore.getState().clearGame();
-    useGameStore.getState().selectEra("1980s", "all-stars");
-    const state = useGameStore.getState();
-    expect(state.playMode).toBe("all-stars");
-    expect(state.managerId).toBe("world-cup-all-stars-coach");
-    expect(state.formationId).toBe("4-3-3");
-    expect(state.picks).toHaveLength(11);
-    expect(state.benchPicks).toHaveLength(3);
-    expect(state.draftPhase).toBe("opponent");
-    const identities = [...state.picks, ...state.benchPicks].map(
-      (pick) => playersById.get(pick.cardId)!.playerIdentityId,
-    );
-    expect(new Set(identities).size).toBe(14);
-
-    const opponent = historicalOpponents.find(
-      (candidate) => candidate.id === "italy-1982",
-    )!;
-    useGameStore.getState().selectOpponent(opponent.id);
-    const first = useGameStore.getState().simulate();
-    useGameStore.setState({ simulationNonce: 0, matchResult: null });
-    const second = useGameStore.getState().simulate();
-    expect(second.seed).toBe(first.seed);
-    expect(second.score).toEqual(first.score);
-    expect(second.events).toEqual(first.events);
-
-    useGameStore.getState().selectEra("all");
-    expect(useGameStore.getState().playMode).toBe("draft");
-    expect(useGameStore.getState().picks).toEqual([]);
-    expect(useGameStore.getState().managerOptionIds).toHaveLength(3);
   });
 
   it("drafts three identity-safe bench players from five-card spins and reorders priority", () => {

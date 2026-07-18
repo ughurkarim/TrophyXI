@@ -59,11 +59,12 @@ The current archive contains:
 - 310 tournament cards across 287 stable player identities
 - all 310 player cards are draft eligible; missing photographs never change
   card eligibility
-- 51 player cards with licensed local faces and 259 clean Photo Pending identity
-  markers using initials, flag, year, and status-tier color
+- 0 exact-year local player faces and 310 clean Photo Pending identity markers;
+  cards automatically stay pending until a card-specific approved PNG is added
 - every men’s World Cup from 1970 through 2022
 - 28 manager cards with explicit numeric OFF/DEF grades
-- 10 draft-eligible manager cards with licensed local faces
+- all 28 audited manager cards draft eligible, currently with Photo Pending
+- five deterministic, identity-safe manager choices per offer
 - 12 formations, with four deterministic manager/era-aware offers per run
 - one separate, deterministic, permanent Manager Respin
 - one separate, deterministic Formation Respin
@@ -72,11 +73,10 @@ The current archive contains:
 - three ordered bench places drafted from five-card options
 - 416 nation-year opponent records across 15 tournaments, including 48 sourced
   2026 participants with unknown tournament outcomes left null
-- World Cup All-Stars: an original, deterministic, beatable Mythic opponent and
-  a playable curated squad with a composite Mythic manager, XI, and Bench 1/2/3
-- 61 active local transparent PNG masters: 51 players and 10 managers, all
-  licensed photographs; 4 are verified exact-tournament images and 57 are
-  conservatively labeled identity photographs
+- World Cup All-Stars: an original, deterministic, beatable Mythic opponent;
+  the composite team is never user-controlled
+- 0 active exact-year face masters; every player and manager currently uses the
+  non-photographic Photo Pending treatment
 
 ## Match environment and card year
 
@@ -94,17 +94,14 @@ to the historical opponent.
 - `src/store`: versioned Zustand persistence, migration, and hydration repair
 - `src/components`: accessible feature-oriented presentation
 - `src/app`: Next.js App Router pages
-- `scripts/import-player-images.ts`: transparent-image import/build pipeline
-- `scripts/sync-licensed-portrait-sources.ts`: source/author/license metadata sync
-- `scripts/build-portrait-contact-sheet.ts`: active circular-crop review sheet
+- `src/data/game-face-manifest.ts`: exact-year card-id image allowlist
 - `scripts/import-world-cup-teams.ts`: vendored participant ingestion
 - `scripts/validate-data.ts`: executable content and feasibility contract
 - `scripts/validate-world-cup-teams.ts`: opponent-count/source validator
 
 The UI and store call pure engine functions. Identical simulation inputs and seed
-produce the same event sequence, substitutions, minutes, and result. Version-6
-Zustand persistence stores all three independent respin counters, play mode,
-current five-card
+produce the same event sequence, substitutions, minutes, and result. Version-7
+Zustand persistence stores all three independent respin counters, current five-card
 offer, selected-player preview, projected fits, placements, feasibility, bench,
 opponent filters and selection, and match state. Version-4 saves are migrated or
 repaired at hydration boundaries.
@@ -126,10 +123,11 @@ published qualified-team list; no champion, finish, lineup, manager, or tourname
 statistic is inferred. Missing fields remain null until a suitable record-level
 source is ingested.
 
-Images never hotlink at runtime. Licensed images require source, author, license,
-photo context, modifications, a preserved source file, and a transparent
-derivative. A photograph is labeled exact tournament only when the record
-supports that claim; an identity-only source never implies a kit, team, or year.
+Images never hotlink at runtime. A player face can resolve only from
+`public/players/game-faces/{player-card-id}.png`; manager faces use the equivalent
+manager directory. Active images require source, author, reusable license, exact
+tournament context, modifications, and a preserved source file. No version may
+reuse another tournament year’s face.
 
 Trophy XI is unofficial and is not affiliated with or endorsed by FIFA, any
 federation, competition, team, manager, or player.

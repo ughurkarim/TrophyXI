@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { Award, X } from "lucide-react";
+import { X } from "lucide-react";
+import { PlayerAccolades } from "@/components/cards/player-accolades";
 import { PlayerPortrait } from "@/components/cards/player-portrait";
 import { players } from "@/data/players";
 import { imagesById } from "@/data/player-images";
@@ -65,13 +65,7 @@ const modeledTagCopy: Record<string, { description: string; effect: string }> = 
   },
 };
 
-export const accoladeTransition = (
-  reduceMotion: boolean | null,
-  index: number,
-) => ({
-  duration: reduceMotion ? 0 : 0.2,
-  delay: reduceMotion ? 0 : index * 0.07,
-});
+export { accoladeTransition } from "@/components/cards/player-accolades";
 
 export function PlayerDetails({
   player,
@@ -82,7 +76,6 @@ export function PlayerDetails({
   onClose: () => void;
   fitContext?: PlayerFitContext;
 }) {
-  const reduceMotion = useReducedMotion();
   const versions = players
     .filter(
       (candidate) =>
@@ -92,9 +85,6 @@ export function PlayerDetails({
       (first, second) => second.tournamentYear - first.tournamentYear,
     );
   const image = imagesById.get(player.imageId);
-  const accolades = [...player.achievements].sort(
-    (first, second) => second.ratingEffect - first.ratingEffect,
-  );
   return (
     <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
       <aside
@@ -141,7 +131,7 @@ export function PlayerDetails({
                 <b>{version.tournamentYear}</b>
                 <small>
                   {imagesById.has(version.imageId)
-                    ? "Real photo"
+                    ? "Exact-year face"
                     : "Photo pending"}
                 </small>
               </span>
@@ -152,7 +142,7 @@ export function PlayerDetails({
           <span className="eyebrow">PHOTO STATUS</span>
           <p className="data-disclosure">
             {image
-              ? `${image.photoContext.replaceAll("-", " ")} · this tournament card owns image key ${player.imageId}.`
+              ? `Exact-year local face · this tournament card owns image key ${player.imageId}.`
               : `Photo Pending · ${player.playerName} ${player.tournamentYear} remains fully draftable with a non-photographic identity marker.`}
           </p>
         </section>
@@ -248,44 +238,7 @@ export function PlayerDetails({
             sourced tournament accolades.
           </p>
         </section>
-        <section>
-          <span className="eyebrow">CAREER ACCOLADES</span>
-          {accolades.length ? (
-            <ul className="achievement-list">
-              {accolades.slice(0, 6).map((achievement, index) => (
-                <motion.li
-                  key={achievement.id}
-                  initial={reduceMotion ? false : { opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={accoladeTransition(reduceMotion, index)}
-                  className={index === 0 ? "achievement-list__primary" : ""}
-                >
-                  <Award size={14} aria-hidden />
-                  <b>{achievement.label}</b>
-                  <p>{achievement.description}</p>
-                  <a href={achievement.source.url} target="_blank" rel="noreferrer">
-                    {achievement.source.publisher}
-                  </a>
-                </motion.li>
-              ))}
-              {accolades.length > 6 && (
-                <li className="achievement-list__more">
-                  <b>More Honors</b>
-                  <p>
-                    {accolades
-                      .slice(6)
-                      .map((achievement) => achievement.label)
-                      .join(" · ")}
-                  </p>
-                </li>
-              )}
-            </ul>
-          ) : (
-            <p className="data-disclosure">
-              No named achievement is shown without a card-level citation.
-            </p>
-          )}
-        </section>
+        <PlayerAccolades player={player} />
         {image?.sourcePage && (
           <section>
             <span className="eyebrow">PORTRAIT SOURCE</span>

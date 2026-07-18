@@ -16,6 +16,7 @@ import {
 import {
   imageAttributions,
   imagesById,
+  managerImages,
   playerImages,
 } from "../src/data/player-images";
 import {
@@ -213,10 +214,6 @@ const main = async () => {
   }
   for (const manager of managers) {
     assert(
-      !manager.isDraftEligible || imageIds.has(manager.imageId),
-      `${manager.id} is active but missing image metadata`,
-    );
-    assert(
       manager.isDraftEligible
         ? manager.draftIneligibilityReason === null
         : Boolean(manager.draftIneligibilityReason),
@@ -238,6 +235,18 @@ const main = async () => {
       `${manager.id} has an invalid acceptable formation`,
     );
   }
+  assert(
+    draftEligibleManagers.length === managers.length &&
+      draftEligibleManagers.length >= 25,
+    "The audited manager pool must keep every stored manager active",
+  );
+  assert(
+    draftEligibleManagers.filter((manager) =>
+      ["iconic", "elite"].includes(manager.qualityBand),
+    ).length <
+      draftEligibleManagers.length / 2,
+    "Iconic and elite managers cannot make up most of the active pool",
+  );
 
   for (const formation of formations) {
     assert(formation.slots.length === 11, `${formation.id} must have 11 slots`);
@@ -289,8 +298,8 @@ const main = async () => {
       2026,
     );
     assert(
-      managerOptions.length === 3,
-      `${era.id} cannot produce three manager identities`,
+      managerOptions.length === 5,
+      `${era.id} cannot produce five manager identities`,
     );
     const managerIdentityIds = managerOptions.map(
       (manager) => manager.managerIdentityId,
@@ -303,7 +312,7 @@ const main = async () => {
       1,
     );
     assert(
-      managerRespin.length === 3 &&
+      managerRespin.length === 5 &&
         managerRespin.every(
           (manager) =>
             !managerIdentityIds.includes(manager.managerIdentityId),
@@ -684,10 +693,29 @@ const main = async () => {
     );
   }
   assert(
-    imagesById.has("lionel-messi-2022") &&
+    !imagesById.has("lionel-messi-2022") &&
       !imagesById.has("lionel-messi-2014") &&
       playersById.get("lionel-messi-2014")?.isDraftEligible === true,
-    "Messi tournament versions do not preserve independent real/pending photo states",
+    "Missing exact-year Messi faces must remain Photo Pending and draftable",
+  );
+  const messi = playersById.get("lionel-messi-2022");
+  assert(
+    messi?.top100Player === true &&
+      messi.careerAccolades.some(
+        (accolade) =>
+          accolade.label === "World Cup Golden Ball" &&
+          accolade.count === 2,
+      ) &&
+      messi.careerAccolades.some(
+        (accolade) =>
+          accolade.label === "Champions League Winner" &&
+          accolade.count === 4,
+      ),
+    "Messi is missing verified career accolades or curated Top 100 status",
+  );
+  assert(
+    players.some((player) => player.top100Player && player.overall < 90),
+    "Top 100 Player appears to be derived only from high card ratings",
   );
 
   const opponentIds = new Set<string>();
@@ -767,6 +795,11 @@ const main = async () => {
       );
       assert(!image.fallback, `${image.id} active portrait cannot be artwork`);
       assert(
+        image.file ===
+          `/${image.kind === "player" ? "players" : "managers"}/game-faces/${image.id}.png`,
+        `${image.id} does not use its exact card-specific game-face path`,
+      );
+      assert(
         Boolean(sourceFile && existsSync(sourceFile)),
         `${image.id} is missing its preserved source photograph`,
       );
@@ -806,18 +839,25 @@ const main = async () => {
     ],
     [
       "managers",
-      new Set(draftEligibleManagers.map((manager) => `${manager.imageId}.png`)),
+      new Set(managerImages.map((image) => `${image.id}.png`)),
     ],
   ] as const) {
-    const pngDirectory = path.join(process.cwd(), "public", kind, "png");
+    const pngDirectory = path.join(
+      process.cwd(),
+      "public",
+      kind,
+      "game-faces",
+    );
     const files = existsSync(pngDirectory) ? await readdir(pngDirectory) : [];
     assert(
-      files.every((file) => activeIds.has(file)),
-      `${kind} PNG directory contains inactive legacy artwork`,
+      files
+        .filter((file) => file.endsWith(".png"))
+        .every((file) => activeIds.has(file)),
+      `${kind} game-face directory contains an unmanifested PNG`,
     );
     assert(
-      activeIds.size === files.length,
-      `${kind} PNG directory does not exactly match active records`,
+      activeIds.size === files.filter((file) => file.endsWith(".png")).length,
+      `${kind} game-face directory does not exactly match the active manifest`,
     );
   }
 
@@ -866,24 +906,9 @@ const main = async () => {
       players.filter(predicate).length,
     ]),
   );
-  const licensed = imageAttributions.filter((image) => !image.fallback);
-  const exact = licensed.filter((image) => image.exactTournamentImage);
-  const nationalKit = licensed.filter((image) => image.isNationalTeamKit);
-  const nearby = licensed.filter(
-    (image) =>
-      image.isNationalTeamKit &&
-      !image.exactTournamentImage &&
-      image.photographedYear !== null,
-  );
   const missingOpponentManagers = historicalOpponents.filter(
     (opponent) => opponent.managerName === null,
   ).length;
-  const sameYear = licensed.filter(
-    (image) => image.photoContext === "same-year-national-team",
-  );
-  const otherFaces = licensed.filter(
-    (image) => image.photoContext === "other-licensed-face",
-  );
   const missingOpponentLineups = historicalOpponents.filter(
     (opponent) => opponent.startingLineup.length === 0,
   ).length;
@@ -907,10 +932,10 @@ const main = async () => {
     )}`,
   );
   console.log(
-    `Images: ${licensed.length} real photos / ${nationalKit.length} national-team kit / ${exact.length} exact tournament / ${nearby.length} nearby-year / ${imageAttributions.length - licensed.length} fallback`,
+    `Exact-year faces: ${playerImages.length} players / ${managerImages.length} managers`,
   );
   console.log(
-    `Photo contexts: ${exact.length} exact / ${sameYear.length} same-year national team / ${nearby.length} nearby-year national team / ${otherFaces.length} other licensed face`,
+    `Photo Pending: ${draftEligiblePlayers.length - playerImages.length} players / ${draftEligibleManagers.length - managerImages.length} managers`,
   );
   console.log(
     `Draftable player ratings: ${JSON.stringify(distribution(draftEligiblePlayers.map((player) => String(player.overall))))}`,

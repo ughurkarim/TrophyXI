@@ -25,15 +25,7 @@ export function CircularPortrait({
   size?: PortraitSize;
 }) {
   const image = imagesById.get(imageId);
-  const context = image
-    ? {
-        "exact-tournament": "Exact-tournament photograph",
-        "same-year-national-team": "Same-year national-team photograph",
-        "nearby-year-national-team": "Nearby-year national-team photograph",
-        "other-licensed-face": "Other licensed face photograph",
-        "original-project-mark": "Original Trophy XI project mark",
-      }[image.photoContext]
-    : "Photo pending";
+  const context = image ? "Exact-year card face" : "Photo pending";
   const initials = subjectName
     .split(/\s+/)
     .filter(Boolean)
@@ -60,9 +52,7 @@ export function CircularPortrait({
             fill
             unoptimized
             sizes="(max-width: 700px) 96px, 128px"
-            style={{
-              objectPosition: `${image.cropFocus.x}% ${image.cropFocus.y}%`,
-            }}
+            style={{ objectPosition: "center top" }}
           />
         ) : (
           <span

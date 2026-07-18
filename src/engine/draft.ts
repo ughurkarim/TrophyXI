@@ -127,8 +127,8 @@ export const getPositionFitLabel = (fit: number) => {
   if (fit < 45) return "Incompatible";
   if (fit === 100) return "Perfect Fit";
   if (fit >= 90) return "Strong Fit";
-  if (fit >= 84) return "Natural Alternative";
-  if (fit >= 70) return "Adaptable";
+  if (fit >= 84) return "Adaptable";
+  if (fit >= 70) return "Mediocre Fit";
   if (fit >= 55) return "Awkward Fit";
   return "Bad Fit";
 };
@@ -494,20 +494,19 @@ export const generateManagerOptions = (
   const eligible = cards.filter(
     (manager) => !excluded.has(manager.managerIdentityId),
   );
-  const unique = eligible.filter(
-    (manager, index) =>
-      eligible.findIndex(
-        (candidate) =>
-          candidate.managerIdentityId === manager.managerIdentityId,
-      ) === index,
+  const random = createSeededRandom(
+    seed ^ hashString(`manager:${eraId}:${respinIndex}`),
   );
-  if (unique.length < 3) {
+  const seen = new Set<string>();
+  const unique = shuffle(eligible, random).filter((manager) => {
+    if (seen.has(manager.managerIdentityId)) return false;
+    seen.add(manager.managerIdentityId);
+    return true;
+  });
+  if (unique.length < 5) {
     throw new Error(`Not enough manager identities for ${eraId}`);
   }
-  return shuffle(
-    unique,
-    createSeededRandom(seed ^ hashString(`manager:${eraId}:${respinIndex}`)),
-  ).slice(0, 3);
+  return unique.slice(0, 5);
 };
 
 export type FormationOfferRules = {

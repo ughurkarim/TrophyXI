@@ -129,7 +129,7 @@ export function PlayerDatabase() {
               </dd>
             </div>
             <div>
-              <dt>Real photos</dt>
+              <dt>Exact-year faces</dt>
               <dd>
                 {
                   draftEligiblePlayers.filter((player) =>
@@ -236,7 +236,7 @@ export function PlayerDatabase() {
             onChange={setPhotoStatus}
           >
             <option value="">All photo states</option>
-            <option value="available">Real photo</option>
+            <option value="available">Exact-year face</option>
             <option value="pending">Photo pending</option>
           </DatabaseSelect>
           <DatabaseSelect
@@ -270,7 +270,7 @@ export function PlayerDatabase() {
                 className={`database-card database-card--${player.statusTier}`}
                 key={player.id}
                 onClick={() => setInspected(player)}
-                aria-label={`View ${player.playerName} ${player.tournamentYear}, rated ${player.overall}, ${hasPhoto ? "real photo" : "photo pending"}`}
+                aria-label={`View ${player.playerName} ${player.tournamentYear}, rated ${player.overall}, ${hasPhoto ? "exact-year face" : "photo pending"}`}
               >
                 <CircularPortrait
                   imageId={player.imageId}

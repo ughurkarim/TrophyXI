@@ -34,18 +34,24 @@ describe("PlayerDetails", () => {
     expect(dialog).toHaveClass("player-drawer--legend");
     expect(
       within(dialog).getByRole("img", {
-        name: /other licensed face photograph of lionel messi/i,
+        name: /photo pending for lionel messi 2022/i,
       }),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("TOURNAMENT RECORD")).toBeInTheDocument();
     expect(within(dialog).getByText("PLAYER TAG EFFECTS")).toBeInTheDocument();
     expect(within(dialog).getByText("CAREER ACCOLADES")).toBeInTheDocument();
-    expect(within(dialog).getByText("PORTRAIT SOURCE")).toBeInTheDocument();
+    expect(within(dialog).queryByText("PORTRAIT SOURCE")).not.toBeInTheDocument();
     expect(within(dialog).getByText("94%")).toBeInTheDocument();
     expect(within(dialog).getByText("+5")).toBeInTheDocument();
     const accoladesHeading = within(dialog).getByText("CAREER ACCOLADES");
     const accoladesSection = accoladesHeading.closest("section")!;
-    expect(within(accoladesSection).getByText("Golden Ball")).toBeInTheDocument();
+    expect(
+      within(accoladesSection).getByText("2× World Cup Golden Ball"),
+    ).toBeInTheDocument();
+    expect(
+      within(accoladesSection).getByText("TOP 100 PLAYER"),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByText("TOURNAMENT ACCOLADES")).toBeInTheDocument();
     expect(
       within(accoladesSection).queryByText(player.modeledTags[0]),
     ).not.toBeInTheDocument();
@@ -57,52 +63,46 @@ describe("PlayerDetails", () => {
 
   it("animates no more than six verified accolades and groups the rest", () => {
     const base = playersById.get("lionel-messi-2022")!;
-    const source = base.achievements[0].source;
+    const source = base.careerAccolades[0].source;
     const player = {
       ...base,
-      achievements: Array.from({ length: 8 }, (_, index) => ({
+      top100Player: false,
+      careerAccolades: Array.from({ length: 8 }, (_, index) => ({
         id: `verified-honor-${index}`,
         label: `Verified Honor ${index + 1}`,
+        count: index + 1,
         description: `Verified sourced honor ${index + 1}.`,
-        ratingEffect: 0.1,
         source,
       })),
     };
     render(<PlayerDetails player={player} onClose={vi.fn()} />);
+    const dialog = screen.getByRole("dialog");
     const section = screen.getByText("CAREER ACCOLADES").closest("section")!;
     expect(within(section).getByText("More Honors")).toBeInTheDocument();
-    expect(within(section).getByText(/Verified Honor 7 · Verified Honor 8/)).toBeInTheDocument();
+    expect(
+      within(section).getByText(/7× Verified Honor 7 · 8× Verified Honor 8/),
+    ).toBeInTheDocument();
     expect(
       section.querySelectorAll(".achievement-list > li:not(.achievement-list__more)"),
     ).toHaveLength(6);
+    expect(
+      dialog.querySelectorAll(
+        ".achievement-list > li:not(.achievement-list__more)",
+      ),
+    ).toHaveLength(6);
+    expect(
+      within(
+        within(dialog).getByText("TOURNAMENT ACCOLADES").closest("section")!,
+      ).getByText("More Honors"),
+    ).toBeInTheDocument();
   });
 
-  it("prioritizes the strongest sourced accolade and removes reduced-motion stagger", () => {
+  it("uses the premium Top 100 treatment and removes reduced-motion stagger", () => {
     const base = playersById.get("lionel-messi-2022")!;
-    const source = base.achievements[0].source;
-    const player = {
-      ...base,
-      achievements: [
-        {
-          id: "supporting-honor",
-          label: "Supporting Honor",
-          description: "Lower-priority sourced honor.",
-          ratingEffect: 0.1,
-          source,
-        },
-        {
-          id: "primary-honor",
-          label: "Primary Honor",
-          description: "Highest-priority sourced honor.",
-          ratingEffect: 0.8,
-          source,
-        },
-      ],
-    };
-    render(<PlayerDetails player={player} onClose={vi.fn()} />);
+    render(<PlayerDetails player={base} onClose={vi.fn()} />);
     expect(
-      document.querySelector(".achievement-list__primary"),
-    ).toHaveTextContent("Primary Honor");
+      document.querySelector(".achievement-list__top100"),
+    ).toHaveTextContent("TOP 100 PLAYER");
     expect(accoladeTransition(true, 5)).toEqual({
       duration: 0,
       delay: 0,

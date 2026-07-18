@@ -63,7 +63,6 @@ export function OpponentSelection({
 }) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const filters = useGameStore((state) => state.opponentFilters);
-  const playMode = useGameStore((state) => state.playMode);
   const selectedOpponentId = useGameStore((state) => state.selectedOpponentId);
   const setFilters = useGameStore((state) => state.setOpponentFilters);
   const selectOpponent = useGameStore((state) => state.selectOpponent);
@@ -138,18 +137,9 @@ export function OpponentSelection({
               ? "opponent-card--selected"
               : ""
           }`}
-          onClick={() => {
-            if (playMode !== "all-stars") {
-              selectOpponent(worldCupAllStars.id);
-            }
-          }}
-          disabled={playMode === "all-stars"}
+          onClick={() => selectOpponent(worldCupAllStars.id)}
           aria-pressed={selectedOpponentId === worldCupAllStars.id}
-          aria-label={
-            playMode === "all-stars"
-              ? "World Cup All-Stars are your current squad"
-              : "Select World Cup All-Stars, Mythic difficulty"
-          }
+          aria-label="Select World Cup All-Stars, Mythic difficulty"
         >
           <div className="all-stars-seal" aria-hidden>
             XI
@@ -162,11 +152,7 @@ export function OpponentSelection({
             {flagForCountry(worldCupAllStars.nationCode)}{" "}
             {worldCupAllStars.nationName}
           </h3>
-          <p>
-            {playMode === "all-stars"
-              ? "Your current curated Mythic squad · choose a historical opponent below."
-              : worldCupAllStars.allStars?.subtitle}
-          </p>
+          <p>{worldCupAllStars.allStars?.subtitle}</p>
           <div className="opponent-card__ratings">
             <span>
               ATK <b>{worldCupAllStars.ratings.attack}</b>
@@ -383,10 +369,8 @@ export function OpponentSelection({
 
       {filtered.length === 0 && (
         <p className="opponent-empty">
-          No historical opponents match these filters.
-          {playMode === "draft"
-            ? " The featured All-Stars challenge remains available."
-            : " Clear a filter to choose an opponent for the All-Stars."}
+          No historical opponents match these filters. The featured All-Stars
+          challenge remains available.
         </p>
       )}
       {visibleCount < filtered.length && (
