@@ -13,6 +13,8 @@ describe("FormationSelection", () => {
         manager={managersById.get("luiz-felipe-scolari-2002")!}
         eraId="2000s"
         offerIds={["3-5-2", "4-4-2", "4-3-3", "5-3-2"]}
+        formationRespinRemaining={1}
+        onRespin={vi.fn()}
         onContinue={onContinue}
       />,
     );
@@ -30,9 +32,38 @@ describe("FormationSelection", () => {
         manager={managersById.get("luiz-felipe-scolari-2002")!}
         eraId="2000s"
         offerIds={["3-5-2", "4-4-2", "4-3-3", "5-3-2"]}
+        formationRespinRemaining={1}
+        onRespin={vi.fn()}
         onContinue={vi.fn()}
       />,
     );
     expect(screen.getAllByRole("button", { name: /tactical shape/i })).toHaveLength(4);
+  });
+
+  it("confirms the separate formation respin", async () => {
+    const user = userEvent.setup();
+    const onRespin = vi.fn();
+    render(
+      <FormationSelection
+        manager={managersById.get("luiz-felipe-scolari-2002")!}
+        eraId="2000s"
+        offerIds={["3-5-2", "4-4-2", "4-3-3", "5-3-2"]}
+        formationRespinRemaining={1}
+        onRespin={onRespin}
+        onContinue={vi.fn()}
+      />,
+    );
+    await user.click(
+      screen.getByRole("button", { name: "FORMATION RESPIN ×1" }),
+    );
+    expect(
+      screen.getByRole("dialog", {
+        name: /replace all four formation choices/i,
+      }),
+    ).toBeInTheDocument();
+    await user.click(
+      screen.getByRole("button", { name: /use formation respin/i }),
+    );
+    expect(onRespin).toHaveBeenCalledOnce();
   });
 });

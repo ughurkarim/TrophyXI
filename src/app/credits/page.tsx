@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, ImageIcon } from "lucide-react";
 import { Wordmark } from "@/components/brand/mark";
-import { historicalOpponentSource } from "@/data/opponents/generated";
+import { historicalOpponentSource } from "@/data/opponents";
 import { imageAttributions } from "@/data/player-images";
 
 export default function CreditsPage() {

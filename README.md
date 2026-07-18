@@ -3,7 +3,8 @@
 Trophy XI is an original browser-based historical football drafting game with a
 deterministic knockout-match engine. Choose the historical conditions of the
 match, combine tournament-specific players from 1970–2022, order a three-player
-bench, and face any nation-year participant from the same World Cup span.
+bench, and face a 1970–2026 nation-year participant or the featured World Cup
+All-Stars.
 
 ## Run locally
 
@@ -35,9 +36,15 @@ coverage. `opponents:validate` independently checks nation-year counts and sourc
 
 ## Product flow
 
-`/` → `/play/era` → `/play/manager` → `/play/formation` →
-`/play/draft` (11 starters, 3 substitutes, bench review, opponent selection) →
-`/match` → `/result`
+`/` → match era → manager → four formation choices → optional Formation Respin
+→ formation → 11 player-first starter rounds → 3 bench rounds → bench review
+→ opponent selection → match broadcast → result
+
+Every player round presents five unique identities. Selecting a card only opens
+the Position Fit preview; a second click on an eligible pitch slot commits the
+placement. Green, yellow, red, and incompatible states show exact fit and the
+same placement penalty used by team ratings and simulation. A completion-path
+validator prevents a placement or offer from making the formation impossible.
 
 `/credits` contains image/data policy and item-level image attribution.
 
@@ -47,8 +54,13 @@ The current archive contains:
 - every men’s World Cup from 1970 through 2022
 - 28 manager cards with explicit numeric OFF/DEF grades
 - 12 formations, with four deterministic manager/era-aware offers per run
+- one separate, deterministic Formation Respin
+- five-card, player-first drafting with two-click placement
 - two permanent, deterministic, player-only respins
-- 368 sourced nation-year opponent records across 14 tournaments
+- three ordered bench places drafted from five-card options
+- 416 nation-year opponent records across 15 tournaments, including 48 sourced
+  2026 participants with unknown tournament outcomes left null
+- World Cup All-Stars: an original, deterministic, beatable Mythic challenge
 - 338 local transparent PNG masters: 4 licensed exact-tournament photos and
   334 clearly labeled original illustrated fallbacks
 
@@ -74,7 +86,16 @@ to the historical opponent.
 - `scripts/validate-world-cup-teams.ts`: opponent-count/source validator
 
 The UI and store call pure engine functions. Identical simulation inputs and seed
-produce the same event sequence, substitutions, minutes, and result.
+produce the same event sequence, substitutions, minutes, and result. Version-5
+Zustand persistence stores both independent respin counters, current five-card
+offer, selected-player preview, projected fits, placements, feasibility, bench,
+opponent filters and selection, and match state. Version-4 saves are migrated or
+repaired at hydration boundaries.
+
+Opponent selection opens with the accessible `Champions Only` switch enabled.
+Winners are newest first; switching it off reveals all historical participants
+without hiding the featured World Cup All-Stars. The match never starts until the
+user selects and confirms an opponent.
 
 ## Evidence policy
 
@@ -82,9 +103,11 @@ Ratings, tactical profiles, formations attached to historical opponents, manager
 grades, and Era Translation traits are original Trophy XI game estimates—not
 official or factual ratings. Tournament statistics are nullable and only populated
 with an attached published source; unknown values never become zero. Historical
-opponent participant identity, finish, and match count use the vendored Fjelstul
-World Cup Database. Manager and lineup fields remain missing until a suitable
-record-level source is ingested.
+opponent participant identity, finish, and match count through 2022 use the
+vendored Fjelstul World Cup Database. The 2026 participant set uses FIFA’s
+published qualified-team list; no champion, finish, lineup, manager, or tournament
+statistic is inferred. Missing fields remain null until a suitable record-level
+source is ingested.
 
 Images never hotlink at runtime. Licensed images require source, author, license,
 team/year context, modifications, and a reviewed transparent derivative. Nearby

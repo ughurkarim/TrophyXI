@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { MatchTimeline } from "@/components/match/match-timeline";
 import { getFormation } from "@/data/formations";
-import { historicalOpponentsById } from "@/data/opponents/generated";
+import { historicalOpponentsById } from "@/data/opponents";
 import { playersById } from "@/data/players";
 import { simulateMatch } from "@/engine/simulation";
 import { testLineup } from "@/engine/ratings.test";

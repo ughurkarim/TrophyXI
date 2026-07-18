@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { formations, getFormation } from "@/data/formations";
 import { managersById } from "@/data/managers";
-import { generateFormationOffer } from "@/engine/draft";
+import {
+  generateFormationOffer,
+  generateFormationRespin,
+} from "@/engine/draft";
 
 describe("formations", () => {
   it("generates eleven unique, valid tactical slots for every shape", () => {
@@ -32,5 +35,22 @@ describe("formations", () => {
     expect(new Set(first).size).toBe(4);
     expect(first.some((id) => manager.preferredFormations.includes(id))).toBe(true);
     expect(generateFormationOffer(manager, "2020s", 2026)).not.toEqual(first);
+  });
+
+  it("creates one deterministic four-shape respin excluding the original offer", () => {
+    const manager = managersById.get("luiz-felipe-scolari-2002")!;
+    const original = generateFormationOffer(manager, "2000s", 4404);
+    const replacement = generateFormationRespin(
+      manager,
+      "2000s",
+      4404,
+      original,
+    );
+    expect(replacement).toHaveLength(4);
+    expect(new Set(replacement).size).toBe(4);
+    expect(replacement.every((id) => !original.includes(id))).toBe(true);
+    expect(
+      generateFormationRespin(manager, "2000s", 4404, original),
+    ).toEqual(replacement);
   });
 });

@@ -68,7 +68,7 @@ export default function ManagerPage() {
                 Manager selection cannot consume them.
               </p>
             </div>
-            <strong className="respin-counter">RESPINS ×2</strong>
+            <strong className="respin-counter">PLAYER RESPINS ×2</strong>
           </div>
         </section>
       </main>

@@ -25,6 +25,7 @@ export function PlayerCard({
   positionFit,
   eraFit,
   onInspect,
+  actionLabel,
 }: {
   player: PlayerTournamentCard;
   onSelect?: () => void;
@@ -35,6 +36,7 @@ export function PlayerCard({
   positionFit?: number;
   eraFit?: number;
   onInspect?: () => void;
+  actionLabel?: string;
 }) {
   const reduceMotion = useReducedMotion();
   const content = (
@@ -101,7 +103,7 @@ export function PlayerCard({
       )}
       {selected && (
         <span className="player-card__selected">
-          <Check size={16} aria-hidden /> Drafted
+          <Check size={16} aria-hidden /> Selected
         </span>
       )}
     </>
@@ -135,7 +137,10 @@ export function PlayerCard({
       <button
         className="player-card__pick-target"
         onClick={onSelect}
-        aria-label={`Draft ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`}
+        aria-label={
+          actionLabel ??
+          `Draft ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`
+        }
       />
       {content}
     </motion.div>

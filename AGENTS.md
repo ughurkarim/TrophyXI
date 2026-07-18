@@ -9,14 +9,23 @@
   simulation boundaries.
 - Preserve the user-selected open-position draft order. Do not reintroduce a fixed
   slot sequence or replacement picks.
+- Never return to position-first drafting. Every player spin must contain five
+  unique identities, and a player-card click alone must never place the player.
+- Always show Position Fit before placement. Displayed penalties must use the
+  engine formula, and no accepted placement may eliminate every draft-completion
+  path.
 - Never let multiple animation systems control the same transform property.
 - Never move tactical nodes between interaction states; preserve exact formation
   coordinates and centered scaling.
 - Preserve the two-player-respin limit. Respins remain deterministic, confirmed,
   permanent, player-only, and identity-rejecting.
+- Preserve exactly one separate deterministic Formation Respin. Formation and
+  player respin counters must never affect one another.
 - Preserve Bench 1/2/3 order semantics and deterministic substitutions.
 - Preserve bidirectional Era Translation. Never treat era selection only as a
   player-card filter.
+- Keep tournament and era presentation reverse chronological, with Neutral / All
+  Eras last. Preserve Champions Only as the default opponent filter.
 - Run `npm run validate:data` after any player, manager, formation, era, champion,
   image, or source change.
 - Licensed images must be local, tournament-specific where possible, transparent
@@ -25,6 +34,8 @@
   image as exact tournament.
 - Never fabricate historical opponent statistics, managers, formations, or
   lineups. Preserve nation-year opponent identity and label Trophy XI models.
+- Never mark a 2026 champion without verified local result data. Never force a
+  World Cup All-Stars result; preserve the ordinary deterministic simulation.
 - Never populate an unknown tournament statistic with zero. Named achievements and
   factual stats require a published card-level source.
 - Ratings and attributes are project-created estimates, not official claims.

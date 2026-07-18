@@ -85,4 +85,68 @@ describe("TacticalPitch", () => {
     }).toEqual(center);
     expect(filled).toHaveClass("pitch-node--filled");
   });
+
+  it("renders labeled green, yellow, red, and incompatible fit previews", () => {
+    const formation = getFormation("4-3-3");
+    render(
+      <TacticalPitch
+        formation={formation}
+        onSelectSlot={vi.fn()}
+        fitPreviews={[
+          {
+            slotId: "lb",
+            fit: 96,
+            state: "green",
+            label: "Strong Fit",
+            penaltyPercent: 1,
+            canPlace: true,
+            feasibilityBlocked: false,
+          },
+          {
+            slotId: "lcb",
+            fit: 82,
+            state: "yellow",
+            label: "Adaptable",
+            penaltyPercent: 7,
+            canPlace: true,
+            feasibilityBlocked: false,
+          },
+          {
+            slotId: "rcb",
+            fit: 58,
+            state: "red",
+            label: "Awkward Fit",
+            penaltyPercent: 18,
+            canPlace: true,
+            feasibilityBlocked: false,
+          },
+          {
+            slotId: "gk",
+            fit: 0,
+            state: "incompatible",
+            label: "Incompatible",
+            penaltyPercent: 25,
+            canPlace: false,
+            feasibilityBlocked: false,
+          },
+        ]}
+      />,
+    );
+    expect(
+      screen.getByRole("button", { name: /LB\. Strong Fit, 96 percent/i }),
+    ).toHaveClass("pitch-node--fit-green");
+    expect(
+      screen.getByRole("button", { name: /LCB\. Adaptable, 82 percent/i }),
+    ).toHaveClass("pitch-node--fit-yellow");
+    expect(
+      screen.getByRole("button", { name: /RCB\. Awkward Fit, 58 percent/i }),
+    ).toHaveClass("pitch-node--fit-red");
+    const incompatibleGoalkeeperSlot = screen.getByRole("button", {
+      name: /GK\. Incompatible, 0 percent/i,
+    });
+    expect(incompatibleGoalkeeperSlot).toHaveAttribute("aria-disabled", "true");
+    expect(incompatibleGoalkeeperSlot).toHaveClass(
+      "pitch-node--fit-label-side",
+    );
+  });
 });

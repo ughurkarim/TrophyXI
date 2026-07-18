@@ -2,8 +2,12 @@ import { describe, expect, it } from "vitest";
 import { getFormation } from "@/data/formations";
 import { players } from "@/data/players";
 import {
+  canPlacePlayer,
   generateDraftOptions,
+  getPlacementPenaltyPercent,
   getPositionFit,
+  getPositionFitState,
+  hasDraftCompletionPath,
   hasDuplicatePlayers,
   hasDuplicatePicks,
   isEligibleForSlot,
@@ -12,62 +16,89 @@ import {
 describe("draft engine", () => {
   const formation = getFormation("4-3-3");
 
-  it("enforces position eligibility", () => {
-    const goalkeeper = players.find((player) => player.id === "manuel-neuer-2014")!;
+  it("keeps goalkeeper and outfield placement boundaries strict", () => {
+    const goalkeeper = players.find(
+      (player) => player.id === "manuel-neuer-2014",
+    )!;
     const striker = players.find((player) => player.id === "ronaldo-2002")!;
     expect(isEligibleForSlot(goalkeeper, formation.slots[0])).toBe(true);
     expect(isEligibleForSlot(striker, formation.slots[0])).toBe(false);
+    expect(isEligibleForSlot(goalkeeper, formation.slots[9])).toBe(false);
     expect(isEligibleForSlot(striker, formation.slots[9])).toBe(true);
   });
 
-  it("scores exact, strong, secondary, adjacent, and emergency fits", () => {
-    const exact = players.find((player) => player.id === "fabio-cannavaro-2006")!;
-    const fullback = players.find((player) => player.id === "roberto-carlos-2002")!;
-    expect(getPositionFit(exact, formation.slots[2])).toBe(94);
+  it("classifies fit and uses one monotonic, capped penalty formula", () => {
+    expect(getPositionFitState(96)).toBe("green");
+    expect(getPositionFitState(82)).toBe("yellow");
+    expect(getPositionFitState(58)).toBe("red");
+    expect(getPositionFitState(44)).toBe("incompatible");
+    expect(getPlacementPenaltyPercent(96)).toBe(1);
+    expect(getPlacementPenaltyPercent(82)).toBe(7);
+    expect(getPlacementPenaltyPercent(74)).toBe(10);
+    expect(getPlacementPenaltyPercent(58)).toBe(18);
+    expect(getPlacementPenaltyPercent(45)).toBe(25);
+    for (let fit = 46; fit <= 100; fit += 1) {
+      expect(getPlacementPenaltyPercent(fit)).toBeLessThanOrEqual(
+        getPlacementPenaltyPercent(fit - 1),
+      );
+    }
+  });
+
+  it("scores exact, related, declared, and incompatible fits", () => {
+    const centerBack = players.find(
+      (player) => player.id === "fabio-cannavaro-2006",
+    )!;
+    const fullback = players.find(
+      (player) => player.id === "roberto-carlos-2002",
+    )!;
+    expect(getPositionFit(centerBack, formation.slots[2])).toBe(94);
     expect(getPositionFit(fullback, formation.slots[1])).toBe(100);
-    expect(getPositionFit(fullback, formation.slots[8])).toBeGreaterThanOrEqual(68);
+    expect(getPositionFit(fullback, formation.slots[8])).toBeGreaterThanOrEqual(
+      45,
+    );
     expect(getPositionFit(fullback, formation.slots[0])).toBe(0);
   });
 
-  it("returns exactly three deterministic, valid options", () => {
-    const options = generateDraftOptions(players, formation.slots[1], [], 1234, 1);
-    const repeat = generateDraftOptions(players, formation.slots[1], [], 1234, 1);
-    expect(options).toHaveLength(3);
+  it("returns five deterministic, identity-safe, position-diverse cards", () => {
+    const options = generateDraftOptions(players, formation, [], 1234, 0);
+    const repeat = generateDraftOptions(players, formation, [], 1234, 0);
+    expect(options).toHaveLength(5);
     expect(options.map((option) => option.id)).toEqual(
       repeat.map((option) => option.id),
     );
-    expect(options.every((option) => isEligibleForSlot(option, formation.slots[1]))).toBe(
-      true,
-    );
-  });
-
-  it("prevents already drafted versions from returning", () => {
-    const first = generateDraftOptions(players, formation.slots[5], [], 2026, 5);
-    const next = generateDraftOptions(
-      players,
-      formation.slots[6],
-      [first[0].id],
-      2026,
-      6,
-    );
-    expect(next.map((option) => option.id)).not.toContain(first[0].id);
     expect(
-      hasDuplicatePicks([
-        { slotId: "cm", cardId: first[0].id },
-        { slotId: "rcm", cardId: first[0].id },
-      ]),
+      new Set(options.map((option) => option.playerIdentityId)).size,
+    ).toBe(5);
+    expect(new Set(options.map((option) => option.primaryPosition)).size).toBeGreaterThan(
+      1,
+    );
+    expect(
+      options.some((player) =>
+        formation.slots.some((slot) =>
+          canPlacePlayer({
+            cards: players,
+            formation,
+            picks: [],
+            player,
+            slot,
+          }),
+        ),
+      ),
     ).toBe(true);
   });
 
-  it("prevents two tournament versions of the same player", () => {
-    const options = generateDraftOptions(
-      players,
-      formation.slots[10],
-      ["kylian-mbappe-2018"],
-      2026,
-      10,
+  it("prevents drafted identities and alternate versions from returning", () => {
+    const picks = [{ slotId: "lw", cardId: "kylian-mbappe-2018" }];
+    const options = generateDraftOptions(players, formation, picks, 2026, 1);
+    expect(options.map((option) => option.id)).not.toContain(
+      "kylian-mbappe-2022",
     );
-    expect(options.map((option) => option.id)).not.toContain("kylian-mbappe-2022");
+    expect(
+      hasDuplicatePicks([
+        { slotId: "cm", cardId: options[0].id },
+        { slotId: "rcm", cardId: options[0].id },
+      ]),
+    ).toBe(true);
     expect(
       hasDuplicatePlayers(
         [
@@ -76,6 +107,26 @@ describe("draft engine", () => {
         ],
         players,
       ),
+    ).toBe(true);
+  });
+
+  it("detects impossible remaining drafts with maximum matching", () => {
+    const outfieldOnly = players
+      .filter((player) => player.primaryPosition !== "GK")
+      .slice(0, 40);
+    expect(
+      hasDraftCompletionPath({
+        cards: outfieldOnly,
+        formation,
+        picks: [],
+      }),
+    ).toBe(false);
+    expect(
+      hasDraftCompletionPath({
+        cards: players,
+        formation,
+        picks: [],
+      }),
     ).toBe(true);
   });
 });

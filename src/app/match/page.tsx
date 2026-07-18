@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { getDraftEra } from "@/data/eras";
 import { getFormation } from "@/data/formations";
 import { managersById } from "@/data/managers";
-import { historicalOpponentsById } from "@/data/opponents/generated";
+import { historicalOpponentsById } from "@/data/opponents";
 import { playersById } from "@/data/players";
 import { calculateOpponentEraFit } from "@/engine/era-translation";
 import { calculateTeamRatings } from "@/engine/ratings";
@@ -102,7 +102,7 @@ export default function MatchPage() {
           <h1>Fourteen names and an opponent are required.</h1>
           <p>
             Return to the archive, complete the ordered bench, and choose a
-            historical nation-year opponent.
+            tournament opponent.
           </p>
           <Button onClick={() => router.replace("/play/draft")}>
             Return to squad

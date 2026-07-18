@@ -1,6 +1,6 @@
 import { Check, Crown, ShieldCheck } from "lucide-react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
-import { managerGradeLabel } from "@/data/managers";
+import { managerGradeLabel, managers } from "@/data/managers";
 import type { ManagerTournamentCard } from "@/types/game";
 import { cn, flagForCountry } from "@/lib/utils";
 
@@ -13,6 +13,13 @@ export function ManagerCard({
   selected?: boolean;
   onSelect: () => void;
 }) {
+  const versionYears = managers
+    .filter(
+      (candidate) =>
+        candidate.managerIdentityId === manager.managerIdentityId,
+    )
+    .map((candidate) => candidate.tournamentYear)
+    .sort((first, second) => second - first);
   return (
     <button
       className={cn("manager-card", selected && "manager-card--selected")}
@@ -63,6 +70,9 @@ export function ManagerCard({
           </span>
         </div>
         <blockquote>{manager.tacticalIdentity}</blockquote>
+        <small className="manager-card__versions">
+          Tournament versions {versionYears.join(" · ")}
+        </small>
       </div>
       <div className="manager-card__footer">
         <span><ShieldCheck size={13} aria-hidden /> {manager.preferredFormations.join(" · ")}</span>

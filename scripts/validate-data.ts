@@ -4,23 +4,35 @@ import sharp from "sharp";
 import { draftEras } from "../src/data/eras";
 import { formations } from "../src/data/formations";
 import { managers, managerGradeLabel } from "../src/data/managers";
-import { historicalOpponents } from "../src/data/opponents/generated";
-import { imageAttributions } from "../src/data/player-images";
-import { players } from "../src/data/players";
 import {
+  historicalOpponents,
+  worldCupAllStars,
+} from "../src/data/opponents";
+import { imageAttributions } from "../src/data/player-images";
+import { players, playersById } from "../src/data/players";
+import {
+  canPlacePlayer,
   generateBenchOptions,
   generateDraftOptions,
   generateFormationOffer,
+  generateFormationRespin,
   generateManagerOptions,
-  isEligibleForSlot,
+  getPlacementPenaltyPercent,
+  getPositionFit,
+  getPositionFitState,
+  hasDraftCompletionPath,
 } from "../src/engine/draft";
 import type {
   PlayerTournamentCard,
   WorldCupYear,
 } from "../src/types/game";
-import { WORLD_CUP_YEARS } from "../src/types/game";
+import {
+  PLAYER_WORLD_CUP_YEARS,
+  WORLD_CUP_YEARS,
+} from "../src/types/game";
 
 const EXPECTED_OPPONENTS = new Map<WorldCupYear, number>([
+  [2026, 48],
   [1970, 16],
   [1974, 16],
   [1978, 16],
@@ -97,12 +109,34 @@ const main = async () => {
   );
   assert(formations.length >= 12, `Expected at least 12 formations, found ${formations.length}`);
   assert(managers.length > 0, "Manager archive is empty");
+  assert(
+    WORLD_CUP_YEARS.every(
+      (year, index) => index === 0 || WORLD_CUP_YEARS[index - 1] > year,
+    ),
+    "Tournament years must be reverse chronological",
+  );
+  assert(
+    draftEras.map((era) => era.id).join("|") ===
+      "2020s|2010s|2000s|1990s|1980s|1970s|all",
+    "Era options must be newest to oldest with Neutral last",
+  );
+  assert(
+    historicalOpponents.every(
+      (opponent, index) =>
+        index === 0 ||
+        (historicalOpponents[index - 1].tournamentYear ?? 0) >=
+          (opponent.tournamentYear ?? 0),
+    ),
+    "Historical opponents must be reverse chronological",
+  );
 
-  for (const year of WORLD_CUP_YEARS) {
+  for (const year of PLAYER_WORLD_CUP_YEARS) {
     const cardCount = players.filter(
       (player) => player.tournamentYear === year,
     ).length;
     assert(cardCount >= 10, `${year} requires at least 10 player cards; found ${cardCount}`);
+  }
+  for (const year of WORLD_CUP_YEARS) {
     const opponentCount = historicalOpponents.filter(
       (opponent) => opponent.tournamentYear === year,
     ).length;
@@ -113,7 +147,9 @@ const main = async () => {
   }
   assert(
     players.every((player) =>
-      WORLD_CUP_YEARS.includes(player.tournamentYear as WorldCupYear),
+      PLAYER_WORLD_CUP_YEARS.includes(
+        player.tournamentYear as (typeof PLAYER_WORLD_CUP_YEARS)[number],
+      ),
     ),
     "Unsupported tournament year found in player archive",
   );
@@ -178,6 +214,30 @@ const main = async () => {
     }
   }
 
+  for (let fit = 45; fit <= 100; fit += 1) {
+    assert(
+      getPlacementPenaltyPercent(fit) >= 0 &&
+        getPlacementPenaltyPercent(fit) <= 25,
+      `${fit}% fit has a placement penalty outside the 0–25 cap`,
+    );
+    if (fit > 45) {
+      assert(
+        getPlacementPenaltyPercent(fit) <=
+          getPlacementPenaltyPercent(fit - 1),
+        `Placement penalty is not monotonic at ${fit}% fit`,
+      );
+    }
+  }
+  assert(getPositionFitState(90) === "green", "90% fit must be green");
+  assert(getPositionFitState(89) === "yellow", "89% fit must be yellow");
+  assert(getPositionFitState(70) === "yellow", "70% fit must be yellow");
+  assert(getPositionFitState(69) === "red", "69% fit must be red");
+  assert(getPositionFitState(45) === "red", "45% fit must be red");
+  assert(
+    getPositionFitState(44) === "incompatible",
+    "Below 45% fit must be incompatible",
+  );
+
   const offerCombinations = new Set<string>();
   for (const era of draftEras) {
     const managerOptions = generateManagerOptions(managers, era.id, 2026);
@@ -195,6 +255,20 @@ const main = async () => {
           offer.some((id) => manager.preferredFormations.includes(id)),
           `${manager.id}/${era.id} lacks a preferred formation`,
         );
+        const respun = generateFormationRespin(manager, era.id, seed, offer);
+        assert(
+          respun.length === 4 && new Set(respun).size === 4,
+          `${manager.id}/${era.id} formation respin must return four unique options`,
+        );
+        assert(
+          respun.every((id) => !offer.includes(id)),
+          `${manager.id}/${era.id} formation respin repeated an original option`,
+        );
+        assert(
+          generateFormationRespin(manager, era.id, seed, offer).join("|") ===
+            respun.join("|"),
+          `${manager.id}/${era.id} formation respin is not deterministic`,
+        );
       }
     }
   }
@@ -204,25 +278,43 @@ const main = async () => {
   );
 
   const feasibilityFormation = formations[0];
-  const draftedIds: string[] = [];
   const starterPicks: Array<{ slotId: string; cardId: string }> = [];
-  feasibilityFormation.slots.forEach((slot, index) => {
+  feasibilityFormation.slots.forEach((_, index) => {
     const options = generateDraftOptions(
       players,
-      slot,
-      draftedIds,
+      feasibilityFormation,
+      starterPicks,
       1970 + index,
       index,
     );
-    assert(
-      options.length === 3 &&
-        new Set(options.map((player) => player.playerIdentityId)).size === 3 &&
-        options.every((player) => isEligibleForSlot(player, slot)),
-      `Starter options failed for ${slot.id}`,
+    const player = options[0];
+    const slot = feasibilityFormation.slots.find(
+      (candidate) =>
+        !starterPicks.some((pick) => pick.slotId === candidate.id) &&
+        canPlacePlayer({
+          cards: players,
+          formation: feasibilityFormation,
+          picks: starterPicks,
+          player,
+          slot: candidate,
+        }),
     );
-    draftedIds.push(options[0].id);
-    starterPicks.push({ slotId: slot.id, cardId: options[0].id });
+    assert(
+      options.length === 5 &&
+        new Set(options.map((candidate) => candidate.playerIdentityId)).size === 5 &&
+        Boolean(slot),
+      `Starter options failed for round ${index + 1}`,
+    );
+    if (slot) starterPicks.push({ slotId: slot.id, cardId: player.id });
   });
+  assert(
+    hasDraftCompletionPath({
+      cards: players,
+      formation: feasibilityFormation,
+      picks: starterPicks,
+    }),
+    "Completed starter draft failed feasibility validation",
+  );
   const benchOptions = generateBenchOptions(
     players,
     starterPicks,
@@ -230,15 +322,61 @@ const main = async () => {
     2026,
     0,
   );
-  assert(benchOptions.length === 3, "Bench generation must return three cards");
+  assert(benchOptions.length === 5, "Bench generation must return five cards");
   assert(
-    new Set(benchOptions.map((player) => player.playerIdentityId)).size === 3,
+    new Set(benchOptions.map((player) => player.playerIdentityId)).size === 5,
     "Bench generation returned duplicate identities",
   );
   assert(
     new Set(benchOptions.map(tacticalFamily)).size >= 2,
     "Bench options need at least two tactical families",
   );
+
+  const allStarsProfile = worldCupAllStars.allStars;
+  assert(Boolean(allStarsProfile), "World Cup All-Stars profile missing");
+  assert(
+    worldCupAllStars.startingLineup.length === 11,
+    "World Cup All-Stars must have 11 starters",
+  );
+  assert(
+    worldCupAllStars.substitutes.length === 3,
+    "World Cup All-Stars must have 3 substitutes",
+  );
+  const allStarsIdentities = [
+    ...worldCupAllStars.startingLineup,
+    ...worldCupAllStars.substitutes,
+  ].map((player) => player.playerIdentityId);
+  assert(
+    new Set(allStarsIdentities).size === 14,
+    "World Cup All-Stars contains duplicate identities",
+  );
+  assert(
+    allStarsProfile?.manager.compositeLabel ===
+      "Trophy XI original composite manager.",
+    "World Cup All-Stars manager composite label missing",
+  );
+  if (allStarsProfile) {
+    const allStarsFormation = formations.find(
+      (formation) => formation.id === worldCupAllStars.formation,
+    )!;
+    for (const pick of allStarsProfile.starterPicks) {
+      const player = playersById.get(pick.cardId);
+      const slot = allStarsFormation.slots.find(
+        (candidate) => candidate.id === pick.slotId,
+      );
+      assert(Boolean(player && slot), `Invalid All-Stars pick ${pick.cardId}`);
+      if (player && slot) {
+        assert(
+          getPositionFit(player, slot) >= 70,
+          `${pick.cardId} has an invalid All-Stars position`,
+        );
+      }
+    }
+    assert(
+      allStarsProfile.substituteCardIds.every((id) => playersById.has(id)),
+      "World Cup All-Stars bench contains an invalid card",
+    );
+  }
 
   const opponentIds = new Set<string>();
   for (const opponent of historicalOpponents) {
@@ -247,8 +385,11 @@ const main = async () => {
     assert(formationIds.has(opponent.formation), `${opponent.id} has invalid formation`);
     assert(opponent.sources.length > 0, `${opponent.id} has no source record`);
     assert(
-      opponent.tournamentStats.matches !== null,
-      `${opponent.id} is missing its sourced match count`,
+      opponent.tournamentYear === 2026
+        ? opponent.tournamentStats.matches === null &&
+            opponent.tournamentFinish === null
+        : opponent.tournamentStats.matches !== null,
+      `${opponent.id} has invalid tournament-progress fields`,
     );
     assert(
       opponent.startingLineup.length === 0 ||
@@ -265,6 +406,30 @@ const main = async () => {
       `${opponent.id} has an invalid substitute identity`,
     );
   }
+  for (const year of WORLD_CUP_YEARS.filter((year) => year !== 2026)) {
+    assert(
+      historicalOpponents.filter(
+        (opponent) =>
+          opponent.tournamentYear === year &&
+          opponent.tournamentFinish === "champion",
+      ).length === 1,
+      `${year} must have exactly one sourced champion`,
+    );
+  }
+  assert(
+    historicalOpponents.every(
+      (opponent) =>
+        opponent.tournamentYear !== 2026 ||
+        (opponent.tournamentFinish === null &&
+          opponent.managerName === null &&
+          opponent.startingLineup.length === 0 &&
+          opponent.substitutes.length === 0 &&
+          Object.values(opponent.tournamentStats).every(
+            (value) => value === null,
+          )),
+    ),
+    "Unknown 2026 fields contain fabricated values",
+  );
 
   await Promise.all(
     imageAttributions.map(async (image) => {
@@ -342,7 +507,7 @@ const main = async () => {
   console.log(
     `Player cards by tournament: ${JSON.stringify(
       Object.fromEntries(
-        WORLD_CUP_YEARS.map((year) => [
+        PLAYER_WORLD_CUP_YEARS.map((year) => [
           year,
           players.filter((player) => player.tournamentYear === year).length,
         ]),

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { getFormation } from "@/data/formations";
 import { managersById } from "@/data/managers";
-import { historicalOpponentsById } from "@/data/opponents/generated";
+import { historicalOpponentsById } from "@/data/opponents";
 import { playersById } from "@/data/players";
 import { simulateMatch } from "@/engine/simulation";
 import { testLineup } from "@/engine/ratings.test";
@@ -103,5 +103,59 @@ describe("match simulation", () => {
     expect(oldEnvironment.userRatings.eraFit).not.toBe(
       modernEnvironment.userRatings.eraFit,
     );
+  });
+
+  it("runs the curated All-Stars through the normal deterministic and beatable engine", () => {
+    const ids = [
+      "iker-casillas-2010",
+      "roberto-carlos-2002",
+      "carles-puyol-2010",
+      "raphael-varane-2018",
+      "sergio-ramos-2010",
+      "andrea-pirlo-2006",
+      "luka-modric-2018",
+      "andres-iniesta-2010",
+      "neymar-2014",
+      "david-villa-2010",
+      "jairzinho-1970",
+    ];
+    const mythicInput = {
+      lineup: ids.map((id) => playersById.get(id)!),
+      bench: ["gianluigi-buffon-2006", "ronaldinho-2002", "zico-1982"].map(
+        (id) => playersById.get(id)!,
+      ),
+      formation: getFormation("4-3-3"),
+      opponent: historicalOpponentsById.get("world-cup-all-stars")!,
+      eraId: "2000s" as const,
+    };
+    const deterministic = simulateMatch({ ...mythicInput, seed: 91 });
+    expect(deterministic).toEqual(
+      simulateMatch({ ...mythicInput, seed: 91 }),
+    );
+    expect(deterministic.opponentSubstitutions.length).toBeGreaterThan(0);
+    const validSeeds = Array.from({ length: 80 }, (_, index) => index + 1);
+    const results = validSeeds.map((seed) =>
+      simulateMatch({ ...mythicInput, seed }),
+    );
+    expect(
+      results.some(
+        (result) =>
+          result.score.user > result.score.opponent ||
+          Boolean(
+            result.score.penalties &&
+              result.score.penalties[0] > result.score.penalties[1],
+          ),
+      ),
+    ).toBe(true);
+    expect(
+      results.some(
+        (result) =>
+          result.score.user < result.score.opponent ||
+          Boolean(
+            result.score.penalties &&
+              result.score.penalties[0] < result.score.penalties[1],
+          ),
+      ),
+    ).toBe(true);
   });
 });

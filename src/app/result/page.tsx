@@ -12,9 +12,16 @@ import { Button } from "@/components/ui/button";
 import { getDraftEra } from "@/data/eras";
 import { getFormation } from "@/data/formations";
 import { managersById } from "@/data/managers";
-import { historicalOpponentsById } from "@/data/opponents/generated";
+import {
+  getOpponentLabel,
+  historicalOpponentsById,
+} from "@/data/opponents";
 import { playersById } from "@/data/players";
 import { useGameStore } from "@/store/game-store";
+import {
+  getPlacementPenaltyPercent,
+  getPositionFit,
+} from "@/engine/draft";
 import type { PlayerTournamentCard } from "@/types/game";
 
 const benchSlots = ["bench-1", "bench-2", "bench-3"] as const;
@@ -102,7 +109,7 @@ export default function ResultPage() {
   }
 
   const era = getDraftEra(eraId ?? "all");
-  const opponentLabel = `${opponent.nationName} ${opponent.tournamentYear}`;
+  const opponentLabel = getOpponentLabel(opponent);
   const hasNamedPlayerOfTheMatch =
     result.playerOfTheMatch !== opponentLabel;
   const penaltyWin =
@@ -254,21 +261,25 @@ export default function ResultPage() {
               <TacticalPitch formation={formation} lineup={lineup} picks={picks} />
             </article>
             <article className="lineup-panel opponent-result-dossier">
-              <span className="eyebrow">HISTORICAL OPPONENT</span>
+              <span className="eyebrow">
+                {opponent.kind === "all-stars"
+                  ? "FEATURED MYTHIC CHALLENGE"
+                  : "HISTORICAL OPPONENT"}
+              </span>
               <h3>{opponentLabel}</h3>
               <p>{opponent.tacticalProfile}</p>
               <dl>
-                <div><dt>Finish</dt><dd>{opponent.tournamentFinish}</dd></div>
+                <div><dt>Finish</dt><dd>{opponent.tournamentFinish ?? (opponent.kind === "all-stars" ? "Original combined squad" : "Tournament in progress")}</dd></div>
                 <div><dt>Formation model</dt><dd>{opponent.formation}</dd></div>
-                <div><dt>Manager</dt><dd>{opponent.managerName ?? "Not sourced"}</dd></div>
+                <div><dt>Manager</dt><dd>{opponent.managerName ?? "Not sourced"}{opponent.allStars ? " · Trophy XI composite" : ""}</dd></div>
                 <div><dt>Era Translation</dt><dd>{result.opponentEraFit}</dd></div>
                 <div><dt>Overall</dt><dd>{opponent.ratings.overall}</dd></div>
                 <div><dt>Matches</dt><dd>{opponent.tournamentStats.matches ?? "Not sourced"}</dd></div>
               </dl>
               <small>
-                No unsourced historical lineup is invented. Current factual fields
-                come from the opponent source record; ratings and tactical labels
-                are Trophy XI interpretations.
+                {opponent.kind === "all-stars"
+                  ? `The curated eleven and three-player bench use normal fatigue, Era Translation, and ${result.opponentSubstitutions.length} deterministic substitutions. No result is forced.`
+                  : "No unsourced historical lineup is invented. Current factual fields come from the opponent source record; ratings and tactical labels are Trophy XI interpretations."}
               </small>
             </article>
           </div>
@@ -295,6 +306,19 @@ export default function ResultPage() {
                   {player.leftAt ? ` · Off ${player.leftAt}’` : ""}
                   {player.goals ? ` · ${player.goals} G` : ""}
                   {player.assists ? ` · ${player.assists} A` : ""}
+                  {(() => {
+                    if (!player.started) return "";
+                    const pick = picks.find(
+                      (candidate) => candidate.cardId === player.cardId,
+                    );
+                    const card = playersById.get(player.cardId);
+                    const slot = formation.slots.find(
+                      (candidate) => candidate.id === pick?.slotId,
+                    );
+                    if (!card || !slot) return "";
+                    const fit = getPositionFit(card, slot);
+                    return ` · ${slot.label} · ${fit}% fit · −${getPlacementPenaltyPercent(fit)}% placement`;
+                  })()}
                 </small>
               </article>
             ))}

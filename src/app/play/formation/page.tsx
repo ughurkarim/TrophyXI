@@ -15,6 +15,10 @@ export default function FormationPage() {
   const eraId = useGameStore((state) => state.eraId);
   const managerId = useGameStore((state) => state.managerId);
   const formationOptionIds = useGameStore((state) => state.formationOptionIds);
+  const formationRespinRemaining = useGameStore(
+    (state) => state.formationRespinRemaining,
+  );
+  const respinFormations = useGameStore((state) => state.respinFormations);
   const selectFormation = useGameStore((state) => state.selectFormation);
 
   useEffect(() => {
@@ -42,6 +46,8 @@ export default function FormationPage() {
           manager={manager}
           eraId={eraId}
           offerIds={formationOptionIds}
+          formationRespinRemaining={formationRespinRemaining}
+          onRespin={respinFormations}
           onContinue={(formationId) => {
             selectFormation(formationId);
             router.push("/play/draft");

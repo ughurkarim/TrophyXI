@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { FastForward, Pause, Play, SkipForward } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { getOpponentLabel } from "@/data/opponents";
 import type { HistoricalWorldCupTeam, MatchResult } from "@/types/game";
 
 export function MatchTimeline({
@@ -77,8 +78,8 @@ export function MatchTimeline({
           <strong>{current.opponentScore}</strong>
         </div>
         <div className="scoreboard__team scoreboard__team--right">
-          <span>CHAMPION</span>
-          <b>{opponent.nationName} {opponent.tournamentYear}</b>
+          <span>{opponent.kind === "all-stars" ? "MYTHIC" : "OPPONENT"}</span>
+          <b>{getOpponentLabel(opponent)}</b>
         </div>
       </div>
 

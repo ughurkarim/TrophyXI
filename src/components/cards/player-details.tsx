@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import { PlayerPortrait } from "@/components/cards/player-portrait";
+import { players } from "@/data/players";
 import type { PlayerTournamentCard } from "@/types/game";
 import { flagForCountry } from "@/lib/utils";
 
@@ -24,6 +25,14 @@ export function PlayerDetails({
   player: PlayerTournamentCard;
   onClose: () => void;
 }) {
+  const versions = players
+    .filter(
+      (candidate) =>
+        candidate.playerIdentityId === player.playerIdentityId,
+    )
+    .sort(
+      (first, second) => second.tournamentYear - first.tournamentYear,
+    );
   return (
     <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
       <aside
@@ -51,6 +60,14 @@ export function PlayerDetails({
             <p>{player.archetype} · {player.primaryPosition} · {player.qualityBand}</p>
           </div>
         </div>
+        <section>
+          <span className="eyebrow">TOURNAMENT VERSIONS</span>
+          <p className="data-disclosure">
+            {versions
+              .map((version) => version.tournamentYear)
+              .join(" · ")}
+          </p>
+        </section>
         <section>
           <span className="eyebrow">TOURNAMENT RECORD</span>
           <dl className="record-grid">

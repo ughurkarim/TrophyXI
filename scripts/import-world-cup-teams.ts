@@ -199,7 +199,7 @@ const main = async () => {
     })
     .sort(
       (first, second) =>
-        first.tournamentYear - second.tournamentYear ||
+        second.tournamentYear - first.tournamentYear ||
         first.nationName.localeCompare(second.nationName),
     );
 
@@ -237,6 +237,8 @@ export const historicalOpponents: HistoricalWorldCupTeam[] = opponentRows.map(
     tournamentStats: { ...opponent.tournamentStats },
     sources: [historicalOpponentSource],
     formationIsModel: true,
+    tournamentStatus: "complete",
+    dataStatus: "modeled-lineup",
   }),
 );
 

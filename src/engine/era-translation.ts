@@ -1,4 +1,5 @@
 import { getDraftEra } from "@/data/eras";
+import { calculateWorldCupAllStarsEraFit } from "@/engine/all-stars";
 import type {
   DraftEraId,
   HistoricalWorldCupTeam,
@@ -11,10 +12,14 @@ export const calculateOpponentEraFit = (
   opponent: HistoricalWorldCupTeam,
   eraId: DraftEraId,
 ) => {
+  if (opponent.kind === "all-stars") {
+    return calculateWorldCupAllStarsEraFit(eraId);
+  }
   if (eraId === "all") return 98;
   const era = getDraftEra(eraId);
   const decadeDistance =
-    Math.abs(opponent.tournamentYear - era.midpointYear) / 10;
+    Math.abs((opponent.tournamentYear ?? era.midpointYear) - era.midpointYear) /
+    10;
   const phaseBalance =
     100 -
     (Math.max(

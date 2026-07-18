@@ -18,7 +18,7 @@ const neutralEnvironment: DraftEra["environment"] = {
   goalkeeperDistribution: 68,
 };
 
-export const draftEras: DraftEra[] = [
+const eraDefinitions: DraftEra[] = [
   {
     id: "1970s",
     label: "1970s",
@@ -147,9 +147,9 @@ export const draftEras: DraftEra[] = [
   },
   {
     id: "all",
-    label: "All Eras / Neutral",
+    label: "Neutral / All Eras",
     years: "Balanced environment",
-    yearRange: [1970, 2022],
+    yearRange: [1970, 2026],
     midpointYear: 1998,
     description:
       "Minimal year penalty, balanced assumptions, and greater emphasis on adaptability.",
@@ -157,6 +157,13 @@ export const draftEras: DraftEra[] = [
     themeClass: "era-theme--all",
     environment: neutralEnvironment,
   },
+];
+
+export const draftEras: DraftEra[] = [
+  ...eraDefinitions
+    .filter((era) => era.id !== "all")
+    .sort((first, second) => second.midpointYear - first.midpointYear),
+  eraDefinitions.find((era) => era.id === "all")!,
 ];
 
 export const getDraftEra = (id: DraftEraId) =>

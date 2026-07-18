@@ -20,10 +20,13 @@ export const POSITIONS = [
 
 export type Position = (typeof POSITIONS)[number];
 export const WORLD_CUP_YEARS = [
-  1970, 1974, 1978, 1982, 1986, 1990, 1994, 1998, 2002, 2006, 2010, 2014,
-  2018, 2022,
+  2026, 2022, 2018, 2014, 2010, 2006, 2002, 1998, 1994, 1990, 1986, 1982,
+  1978, 1974, 1970,
 ] as const;
 export type WorldCupYear = (typeof WORLD_CUP_YEARS)[number];
+export const PLAYER_WORLD_CUP_YEARS = WORLD_CUP_YEARS.filter(
+  (year) => year !== 2026,
+);
 export type TournamentEra =
   | "1970s"
   | "1980s"
@@ -242,6 +245,30 @@ export type DraftPick = {
   cardId: string;
 };
 
+export type PositionFitState = "green" | "yellow" | "red" | "incompatible";
+
+export type PositionFitPreview = {
+  slotId: string;
+  fit: number;
+  state: PositionFitState;
+  label: string;
+  penaltyPercent: number;
+  canPlace: boolean;
+  feasibilityBlocked: boolean;
+};
+
+export type PlacementFeedback = {
+  cardId: string;
+  slotId: string;
+  slotLabel: string;
+  fit: number;
+  penaltyPercent: number;
+  eraFit: number;
+  managerFit: number;
+  chemistryChange: number;
+  overallChange: number;
+};
+
 export type BenchSlotId = "bench-1" | "bench-2" | "bench-3";
 export type BenchPick = {
   slotId: BenchSlotId;
@@ -374,6 +401,7 @@ export type MatchResult = {
   opponentEraFit: number;
   playerMinutes: PlayerMinutes[];
   substitutions: SubstitutionRecord[];
+  opponentSubstitutions: SubstitutionRecord[];
   generatedAt: string;
 };
 
@@ -408,6 +436,11 @@ export type TournamentFinish =
   | "second group stage"
   | "group stage";
 
+export type HistoricalDataStatus =
+  | "verified-lineup"
+  | "partial"
+  | "modeled-lineup";
+
 export type HistoricalTeamTournamentStats = {
   matches: number | null;
   wins: number | null;
@@ -426,11 +459,14 @@ export type HistoricalLineupPlayer = {
 
 export type HistoricalWorldCupTeam = {
   id: string;
+  kind?: "historical" | "all-stars";
   nationCode: string;
   nationName: string;
-  tournamentYear: WorldCupYear;
-  confederation: Confederation;
-  tournamentFinish: TournamentFinish;
+  tournamentYear: WorldCupYear | null;
+  confederation: Confederation | null;
+  tournamentFinish: TournamentFinish | null;
+  tournamentStatus: "complete" | "in-progress" | "featured";
+  dataStatus: HistoricalDataStatus;
   managerName: string | null;
   formation: FormationId;
   alternateFormations: FormationId[];
@@ -449,5 +485,23 @@ export type HistoricalWorldCupTeam = {
   sources: DataCitation[];
   originalRatings: true;
   formationIsModel: true;
-  difficulty: "Contender" | "Elite" | "Legendary" | "Underdog";
+  difficulty: "Contender" | "Elite" | "Legendary" | "Underdog" | "Mythic";
+  allStars?: {
+    subtitle: string;
+    starterPicks: DraftPick[];
+    substituteCardIds: readonly [string, string, string];
+    manager: ManagerTournamentCard & {
+      compositeLabel: "Trophy XI original composite manager.";
+      eraAdaptability: number;
+      substitutionBehavior: string;
+    };
+    chemistry: number;
+    mythicModifier: {
+      attack: number;
+      midfield: number;
+      defense: number;
+      maximum: number;
+    };
+    rationales: Record<string, string>;
+  };
 };

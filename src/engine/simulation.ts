@@ -6,6 +6,11 @@ import {
 import { calculateTeamRatings } from "@/engine/ratings";
 import { calculateOpponentEraFit } from "@/engine/era-translation";
 import {
+  calculateWorldCupAllStarsRatings,
+  getWorldCupAllStarsBench,
+  getWorldCupAllStarsLineup,
+} from "@/engine/all-stars";
+import {
   createSeededRandom,
   randomInt,
   type RandomSource,
@@ -87,9 +92,34 @@ const chooseUserAssist = (
     random,
   );
 
-const chooseOpponentPlayer = (opponent: HistoricalWorldCupTeam) => ({
-  name: `${opponent.nationName} ${opponent.tournamentYear}`,
-});
+const chooseOpponentPlayer = (
+  opponent: HistoricalWorldCupTeam,
+  lineup: PlayerTournamentCard[],
+  random: RandomSource,
+  excludedId?: string,
+) => {
+  if (lineup.length) {
+    const player = weightedPick(
+      lineup.filter(
+        (candidate) =>
+          candidate.primaryPosition !== "GK" && candidate.id !== excludedId,
+      ),
+      (candidate) =>
+        excludedId
+          ? candidate.attributes.creativity
+          : candidate.attributes.attack + candidate.attributes.clutch * 0.35,
+      random,
+    );
+    return {
+      id: player.id,
+      name: `${player.playerName} ${player.tournamentYear}`,
+    };
+  }
+  return {
+    id: opponent.id,
+    name: `${opponent.nationName} ${opponent.tournamentYear ?? ""}`.trim(),
+  };
+};
 
 const substitutionPosition = (
   substitute: PlayerTournamentCard,
@@ -219,11 +249,30 @@ export const simulateMatch = ({
     bench,
   });
   const opponentEraFit = calculateOpponentEraFit(opponent, eraId);
-  const opponentRatings = {
-    ...opponent.ratings,
-    chemistry: 86,
-    overall: opponent.ratings.overall,
-  };
+  const allStarsRatings =
+    opponent.kind === "all-stars"
+      ? calculateWorldCupAllStarsRatings(eraId)
+      : null;
+  const opponentRatings = allStarsRatings
+    ? {
+        attack: allStarsRatings.attack,
+        midfield: allStarsRatings.midfield,
+        defense: allStarsRatings.defense,
+        goalkeeper: opponent.ratings.goalkeeper,
+        depth: allStarsRatings.benchDepth,
+        chemistry: allStarsRatings.chemistry,
+        overall: allStarsRatings.overall,
+      }
+    : {
+        ...opponent.ratings,
+        chemistry: 86,
+        overall: opponent.ratings.overall,
+      };
+  const opponentLineup =
+    opponent.kind === "all-stars" ? getWorldCupAllStarsLineup() : [];
+  const opponentBench =
+    opponent.kind === "all-stars" ? getWorldCupAllStarsBench() : [];
+  const opponentManager = opponent.allStars?.manager;
   const avgClutch =
     lineup.reduce((sum, player) => sum + player.attributes.clutch, 0) /
       lineup.length +
@@ -306,12 +355,37 @@ export const simulateMatch = ({
     extraTime: afterExtraTime,
     random,
   }).sort((first, second) => first.minute - second.minute);
+  const opponentSubstitutions = opponentLineup.length
+    ? createSubstitutions({
+        lineup: opponentLineup,
+        bench: opponentBench,
+        manager: opponentManager,
+        trailing: opponentGoals < userGoals,
+        winning: opponentGoals > userGoals,
+        extraTime: afterExtraTime,
+        random,
+      }).sort((first, second) => first.minute - second.minute)
+    : [];
   const activeLineupAt = (minute: number) => {
     const active = new Map(lineup.map((player) => [player.id, player]));
     for (const substitution of substitutions) {
       if (substitution.minute > minute) continue;
       active.delete(substitution.playerOutId);
       const incoming = bench.find(
+        (player) => player.id === substitution.playerInId,
+      );
+      if (incoming) active.set(incoming.id, incoming);
+    }
+    return [...active.values()];
+  };
+  const activeOpponentLineupAt = (minute: number) => {
+    const active = new Map(
+      opponentLineup.map((player) => [player.id, player]),
+    );
+    for (const substitution of opponentSubstitutions) {
+      if (substitution.minute > minute) continue;
+      active.delete(substitution.playerOutId);
+      const incoming = opponentBench.find(
         (player) => player.id === substitution.playerInId,
       );
       if (incoming) active.set(incoming.id, incoming);
@@ -386,8 +460,12 @@ export const simulateMatch = ({
   });
 
   goalMinutes(regularOpponentGoals, random, 9, 88).forEach((minute) => {
-    const scorer = chooseOpponentPlayer(opponent);
-    const assist = random() > 0.25 ? chooseOpponentPlayer(opponent) : undefined;
+    const active = activeOpponentLineupAt(minute);
+    const scorer = chooseOpponentPlayer(opponent, active, random);
+    const assist =
+      random() > 0.25
+        ? chooseOpponentPlayer(opponent, active, random, scorer.id)
+        : undefined;
     rawEvents.push({
       minute,
       minuteLabel: `${minute}’`,
@@ -414,6 +492,24 @@ export const simulateMatch = ({
       team: "user",
       title: `${incoming.playerName} ${incoming.tournamentYear} replaces ${outgoing.playerName} ${outgoing.tournamentYear}`,
       detail: `${substitution.reason}. New position: ${substitution.position}. ${substitution.benchSlot.replace("-", " ")} priority; ${manager?.managerName ?? "the manager"} influence ${substitution.managerInfluence}.`,
+      userScore: 0,
+      opponentScore: 0,
+    });
+  }
+  for (const substitution of opponentSubstitutions) {
+    const incoming = opponentBench.find(
+      (player) => player.id === substitution.playerInId,
+    )!;
+    const outgoing = opponentLineup.find(
+      (player) => player.id === substitution.playerOutId,
+    )!;
+    rawEvents.push({
+      minute: substitution.minute,
+      minuteLabel: `${substitution.minute}’`,
+      type: "substitution",
+      team: "opponent",
+      title: `${incoming.playerName} ${incoming.tournamentYear} replaces ${outgoing.playerName} ${outgoing.tournamentYear}`,
+      detail: `${substitution.reason}. New position: ${substitution.position}. ${substitution.benchSlot.replace("-", " ")} priority; ${opponentManager?.managerName ?? opponent.nationName} influence ${substitution.managerInfluence}.`,
       userScore: 0,
       opponentScore: 0,
     });
@@ -487,14 +583,18 @@ export const simulateMatch = ({
       });
     });
     goalMinutes(extraOpponentGoals, random, 94, 118).forEach((minute) => {
-      const scorer = chooseOpponentPlayer(opponent);
+      const scorer = chooseOpponentPlayer(
+        opponent,
+        activeOpponentLineupAt(minute),
+        random,
+      );
       rawEvents.push({
         minute,
         minuteLabel: `${minute}’`,
         type: "goal",
         team: "opponent",
         title: `GOAL — ${scorer.name}`,
-        detail: `${scorer.name} arrives when Spain need him most.`,
+        detail: `${scorer.name} arrives when ${opponent.nationName} need a decisive moment.`,
         userScore: 0,
         opponentScore: 0,
       });
@@ -511,7 +611,7 @@ export const simulateMatch = ({
       detail:
         penalties[0] > penalties[1]
           ? "Trophy XI hold their nerve from the spot."
-          : "Spain survive the shootout under impossible pressure.",
+          : `${opponent.nationName} survive the shootout under impossible pressure.`,
       userScore: userGoals,
       opponentScore: opponentGoals,
     });
@@ -604,6 +704,7 @@ export const simulateMatch = ({
       : "No tournament manager impact was applied.",
     opponentEraFit,
     substitutions,
+    opponentSubstitutions,
     playerMinutes: fullSquad.map((player) => {
       const substitutionIn = substitutions.find(
         (substitution) => substitution.playerInId === player.id,

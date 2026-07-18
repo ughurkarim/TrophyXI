@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { getFormation } from "@/data/formations";
-import { historicalOpponents } from "@/data/opponents/generated";
+import { historicalOpponents } from "@/data/opponents";
 import { playersById } from "@/data/players";
 import { useGameStore } from "@/store/game-store";
 
@@ -12,13 +12,20 @@ const initialize = () => {
   store.selectFormation(useGameStore.getState().formationOptionIds[0]);
 };
 
+const placeFirstViableOption = () => {
+  const option = useGameStore.getState().optionIds[0];
+  expect(option).toBeTruthy();
+  useGameStore.getState().selectPlayer(option);
+  const preview = useGameStore
+    .getState()
+    .projectedPositionFits.find((candidate) => candidate.canPlace);
+  expect(preview).toBeTruthy();
+  useGameStore.getState().placeSelectedPlayer(preview!.slotId);
+};
+
 const completeStarters = () => {
-  const formation = getFormation(useGameStore.getState().formationId!);
-  for (const slot of formation.slots) {
-    useGameStore.getState().selectSlot(slot.id);
-    const option = useGameStore.getState().optionIds[0];
-    expect(option).toBeTruthy();
-    useGameStore.getState().selectPlayer(option);
+  for (let index = 0; index < 11; index += 1) {
+    placeFirstViableOption();
   }
 };
 
@@ -39,20 +46,55 @@ describe("game store integrity", () => {
     initialize();
   });
 
-  it("waits for an explicit open-slot selection", () => {
-    expect(useGameStore.getState().optionIds).toEqual([]);
-    const slot = getFormation(useGameStore.getState().formationId!).slots[9];
-    useGameStore.getState().selectSlot(slot.id);
-    expect(useGameStore.getState().selectedSlotId).toBe(slot.id);
-    expect(useGameStore.getState().optionIds).toHaveLength(3);
-    useGameStore.getState().selectPlayer(useGameStore.getState().optionIds[0]);
-    expect(useGameStore.getState().selectedSlotId).toBeNull();
-    expect(useGameStore.getState().picks[0].slotId).toBe(slot.id);
+  it("generates five cards before any position and requires two clicks", () => {
+    expect(useGameStore.getState().optionIds).toHaveLength(5);
+    expect(useGameStore.getState().picks).toEqual([]);
+    const option = useGameStore.getState().optionIds[0];
+    useGameStore.getState().selectPlayer(option);
+    expect(useGameStore.getState().selectedPlayerId).toBe(option);
+    expect(useGameStore.getState().picks).toEqual([]);
+    expect(useGameStore.getState().projectedPositionFits).toHaveLength(11);
+    const preview = useGameStore
+      .getState()
+      .projectedPositionFits.find((candidate) => candidate.canPlace)!;
+    useGameStore.getState().placeSelectedPlayer(preview.slotId);
+    expect(useGameStore.getState().picks).toHaveLength(1);
+    expect(useGameStore.getState().picks[0].slotId).toBe(preview.slotId);
+    expect(useGameStore.getState().selectedPlayerId).toBeNull();
+    expect(useGameStore.getState().optionIds).toHaveLength(5);
   });
 
-  it("allows exactly two permanent player respins", () => {
-    const slot = getFormation(useGameStore.getState().formationId!).slots[9];
-    useGameStore.getState().selectSlot(slot.id);
+  it("cancels by control or second card click without changing the spin", () => {
+    const options = [...useGameStore.getState().optionIds];
+    useGameStore.getState().selectPlayer(options[0]);
+    useGameStore.getState().selectPlayer(options[0]);
+    expect(useGameStore.getState().selectedPlayerId).toBeNull();
+    expect(useGameStore.getState().optionIds).toEqual(options);
+    useGameStore.getState().selectPlayer(options[1]);
+    useGameStore.getState().cancelPlayerSelection();
+    expect(useGameStore.getState().selectedPlayerId).toBeNull();
+    expect(useGameStore.getState().picks).toEqual([]);
+    expect(useGameStore.getState().optionIds).toEqual(options);
+  });
+
+  it("allows one separate deterministic formation respin", () => {
+    useGameStore.getState().clearGame();
+    useGameStore.getState().selectEra("2000s");
+    useGameStore
+      .getState()
+      .selectManager(useGameStore.getState().managerOptionIds[0]);
+    const original = [...useGameStore.getState().formationOptionIds];
+    useGameStore.getState().respinFormations();
+    const replacement = [...useGameStore.getState().formationOptionIds];
+    expect(replacement).toHaveLength(4);
+    expect(replacement.every((id) => !original.includes(id))).toBe(true);
+    expect(useGameStore.getState().formationRespinRemaining).toBe(0);
+    expect(useGameStore.getState().playerRespinsRemaining).toBe(2);
+    useGameStore.getState().respinFormations();
+    expect(useGameStore.getState().formationOptionIds).toEqual(replacement);
+  });
+
+  it("allows exactly two permanent five-card player respins", () => {
     const first = useGameStore
       .getState()
       .optionIds.map((id) => playersById.get(id)!.playerIdentityId);
@@ -60,6 +102,7 @@ describe("game store integrity", () => {
     const second = useGameStore
       .getState()
       .optionIds.map((id) => playersById.get(id)!.playerIdentityId);
+    expect(second).toHaveLength(5);
     expect(second.every((identity) => !first.includes(identity))).toBe(true);
     expect(useGameStore.getState().playerRespinsRemaining).toBe(1);
     useGameStore.getState().respinPlayers();
@@ -67,7 +110,6 @@ describe("game store integrity", () => {
     expect(useGameStore.getState().playerRespinsRemaining).toBe(0);
     useGameStore.getState().respinPlayers();
     expect(useGameStore.getState().optionIds).toEqual(third);
-    expect(useGameStore.getState().playerRespinsRemaining).toBe(0);
   });
 
   it("does not let manager selection consume a player respin", () => {
@@ -79,26 +121,24 @@ describe("game store integrity", () => {
     expect(useGameStore.getState().playerRespinsRemaining).toBe(2);
   });
 
-  it("drafts exactly three identity-safe bench players and reorders priority", () => {
+  it("drafts three identity-safe bench players from five-card spins and reorders priority", () => {
     completeStarters();
     const starterIdentities = new Set(
       useGameStore
         .getState()
-        .picks.map(
-          (pick) => playersById.get(pick.cardId)!.playerIdentityId,
-        ),
+        .picks.map((pick) => playersById.get(pick.cardId)!.playerIdentityId),
     );
     useGameStore.getState().startBenchDraft();
     for (const [index, slotId] of (
       ["bench-1", "bench-2", "bench-3"] as const
     ).entries()) {
       const options = useGameStore.getState().optionIds;
-      expect(options).toHaveLength(3);
+      expect(options).toHaveLength(5);
       expect(
         new Set(
           options.map((id) => playersById.get(id)!.playerIdentityId),
         ).size,
-      ).toBe(3);
+      ).toBe(5);
       useGameStore.getState().selectPlayer(options[0]);
       useGameStore.getState().assignBenchPlayer(slotId);
       expect(useGameStore.getState().benchPicks).toHaveLength(index + 1);
@@ -121,6 +161,12 @@ describe("game store integrity", () => {
         .getState()
         .benchPicks.find((pick) => pick.slotId === "bench-2")!.cardId,
     ).toBe(originalFirst);
+  });
+
+  it("defaults Champions Only on and can persist an explicit off state", () => {
+    expect(useGameStore.getState().opponentFilters.championOnly).toBe(true);
+    useGameStore.getState().setOpponentFilters({ championOnly: false });
+    expect(useGameStore.getState().opponentFilters.championOnly).toBe(false);
   });
 
   it("persists a valid nation-year opponent selection after the full squad", () => {

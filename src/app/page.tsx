@@ -11,7 +11,7 @@ import { HeroShowcase } from "@/components/landing/hero-showcase";
 import { Footer } from "@/components/navigation/footer";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ButtonLink } from "@/components/ui/button";
-import { historicalOpponents } from "@/data/opponents/generated";
+import { historicalOpponents } from "@/data/opponents";
 
 const steps = [
   {
@@ -72,7 +72,7 @@ export default function LandingPage() {
                   <b>310</b> tournament cards
                 </span>
                 <span>
-                  <b>368</b> historical opponents
+                  <b>416</b> sourced participants
                 </span>
                 <span>
                   <b>2</b> player respins

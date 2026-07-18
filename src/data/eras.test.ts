@@ -6,25 +6,49 @@ import {
 } from "@/data/eras";
 import { formations } from "@/data/formations";
 import { players } from "@/data/players";
-import { generateDraftOptions, isEligibleForSlot } from "@/engine/draft";
+import { canPlacePlayer, generateDraftOptions } from "@/engine/draft";
 
 describe("draft eras", () => {
-  it("supports a complete, three-choice draft in every era and formation", () => {
+  it("orders match environments newest first with Neutral last", () => {
+    expect(draftEras.map((era) => era.id)).toEqual([
+      "2020s",
+      "2010s",
+      "2000s",
+      "1990s",
+      "1980s",
+      "1970s",
+      "all",
+    ]);
+  });
+
+  it("supports a complete, five-choice player-first draft in every era and formation", () => {
     for (const era of draftEras) {
       const pool = players.filter((player) => isPlayerInDraftEra(player, era.id));
       for (const formation of formations) {
-        const draftedIds: string[] = [];
+        const picks: Array<{ slotId: string; cardId: string }> = [];
         const draftedNames = new Set<string>();
-        formation.slots.forEach((slot, index) => {
+        formation.slots.forEach((_, index) => {
           const options = generateDraftOptions(
             pool,
-            slot,
-            draftedIds,
+            formation,
+            picks,
             1998 + index,
             index,
           );
-          expect(options, `${era.id} ${formation.id} ${slot.label}`).toHaveLength(3);
-          expect(options.every((player) => isEligibleForSlot(player, slot))).toBe(true);
+          expect(options, `${era.id} ${formation.id} round ${index + 1}`).toHaveLength(5);
+          const player = options[0];
+          const slot = formation.slots.find(
+            (candidate) =>
+              !picks.some((pick) => pick.slotId === candidate.id) &&
+              canPlacePlayer({
+                cards: pool,
+                formation,
+                picks,
+                player,
+                slot: candidate,
+              }),
+          );
+          expect(slot).toBeDefined();
           expect(
             options.every((player) => isPlayerInDraftEra(player, era.id)),
           ).toBe(true);
@@ -33,10 +57,10 @@ describe("draft eras", () => {
               (player) => !draftedNames.has(player.playerName.toLocaleLowerCase()),
             ),
           ).toBe(true);
-          draftedIds.push(options[0].id);
-          draftedNames.add(options[0].playerName.toLocaleLowerCase());
+          picks.push({ slotId: slot!.id, cardId: player.id });
+          draftedNames.add(player.playerName.toLocaleLowerCase());
         });
-        expect(draftedIds).toHaveLength(11);
+        expect(picks).toHaveLength(11);
       }
     }
   });

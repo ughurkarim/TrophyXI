@@ -1,4 +1,8 @@
 import { calculateChemistry } from "@/engine/chemistry";
+import {
+  getPlacementPenaltyPercent,
+  getPositionFit,
+} from "@/engine/draft";
 import type {
   DraftEraId,
   DraftPick,
@@ -57,6 +61,21 @@ export const calculateTeamRatings = (
     (player) => player.primaryPosition !== "GK",
   );
   const manager = context.manager;
+  const placementMultiplier = new Map(
+    lineup.map((player, index) => {
+      const pick = context.picks?.find(
+        (candidate) => candidate.cardId === player.id,
+      );
+      const slot = pick
+        ? formation.slots.find((candidate) => candidate.id === pick.slotId)
+        : formation.slots[index];
+      const fit = slot ? getPositionFit(player, slot) : 0;
+      const penalty = getPlacementPenaltyPercent(fit);
+      return [player.id, Math.max(0, (100 - penalty) / 100)] as const;
+    }),
+  );
+  const adjusted = (player: PlayerTournamentCard, value: number) =>
+    value * (placementMultiplier.get(player.id) ?? 1);
   const achievementBoost = Math.min(
     1.5,
     lineup.reduce(
@@ -73,9 +92,9 @@ export const calculateTeamRatings = (
     topAverage(
       outfield.map(
         (player) =>
-          player.attributes.attack * 0.6 +
-          player.attributes.creativity * 0.22 +
-          player.attributes.clutch * 0.18,
+          adjusted(player, player.attributes.attack * 0.6) +
+          adjusted(player, player.attributes.creativity * 0.22) +
+          adjusted(player, player.attributes.clutch * 0.18),
       ),
       4,
     ) +
@@ -87,9 +106,9 @@ export const calculateTeamRatings = (
     topAverage(
       outfield.map(
         (player) =>
-          player.attributes.control * 0.44 +
-          player.attributes.creativity * 0.36 +
-          player.attributes.physical * 0.2,
+          adjusted(player, player.attributes.control * 0.44) +
+          adjusted(player, player.attributes.creativity * 0.36) +
+          adjusted(player, player.attributes.physical * 0.2),
       ),
       5,
     ) +
@@ -99,14 +118,16 @@ export const calculateTeamRatings = (
   const outfieldDefense = topAverage(
     outfield.map(
       (player) =>
-        player.attributes.defense * 0.58 +
-        player.attributes.physical * 0.3 +
-        player.attributes.control * 0.12,
+        adjusted(player, player.attributes.defense * 0.58) +
+        adjusted(player, player.attributes.physical * 0.3) +
+        adjusted(player, player.attributes.control * 0.12),
     ),
     4,
   );
   const keeperDefense = average(
-    goalkeeper.map((player) => player.attributes.goalkeeping),
+    goalkeeper.map((player) =>
+      adjusted(player, player.attributes.goalkeeping),
+    ),
   );
   const defense =
     outfieldDefense * 0.76 +

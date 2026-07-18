@@ -21,17 +21,59 @@ describe("OpponentSelection", () => {
     });
   });
 
-  it("filters by year and champion status without rendering every record", async () => {
+  it("defaults Champions Only on and keeps All-Stars featured", () => {
+    render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
+    expect(
+      screen.getByRole("switch", { name: "Champions Only" }),
+    ).toBeChecked();
+    expect(
+      screen.getByRole("button", { name: /select world cup all-stars/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /world cup winners, newest first/i,
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("disables Champions Only and exposes every team for a year", async () => {
     const user = userEvent.setup();
     render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
-    expect(screen.getAllByRole("button", { name: /^select /i })).toHaveLength(24);
+    await user.click(
+      screen.getByRole("switch", { name: "Champions Only" }),
+    );
     await user.selectOptions(
       screen.getByRole("combobox", { name: "Tournament year" }),
       "1970",
     );
-    await user.click(screen.getByRole("checkbox", { name: /champions only/i }));
     const teams = screen.getAllByRole("button", { name: /^select /i });
-    expect(teams).toHaveLength(1);
-    expect(teams[0]).toHaveAccessibleName(/brazil 1970/i);
+    expect(teams).toHaveLength(17);
+    expect(
+      screen.getByRole("button", { name: /select brazil 1970/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /select belgium 1970/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /select world cup all-stars/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows 2026 as in progress with no champion", async () => {
+    const user = userEvent.setup();
+    render(<OpponentSelection eraId="2020s" onContinue={vi.fn()} />);
+    await user.selectOptions(
+      screen.getByRole("combobox", { name: "Tournament year" }),
+      "2026",
+    );
+    expect(
+      screen.queryByRole("button", { name: /select .* 2026/i }),
+    ).not.toBeInTheDocument();
+    await user.click(
+      screen.getByRole("switch", { name: "Champions Only" }),
+    );
+    expect(
+      screen.getAllByText(/tournament in progress/i).length,
+    ).toBeGreaterThan(0);
   });
 });

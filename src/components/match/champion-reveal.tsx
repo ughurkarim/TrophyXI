@@ -5,6 +5,7 @@ import { ArrowRight, Gauge, Shield, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { TeamRatings } from "@/components/draft/team-ratings";
 import { Button } from "@/components/ui/button";
+import { getOpponentLabel } from "@/data/opponents";
 import type {
   HistoricalWorldCupTeam,
   TeamRatings as Ratings,
@@ -36,7 +37,7 @@ export function ChampionReveal({
     <section className="reveal" aria-labelledby="reveal-title">
       <div className="reveal__atmosphere" aria-hidden />
       <div className="reveal__topline">
-        <span className="eyebrow">CHAMPION REVEAL / KNOCKOUT</span>
+        <span className="eyebrow">OPPONENT REVEAL / KNOCKOUT</span>
         {!ready && (
           <button className="text-button" onClick={() => setReady(true)}>
             Skip reveal
@@ -75,10 +76,14 @@ export function ChampionReveal({
           <span className="team-reveal__flag" aria-hidden>
             {opponent.nationCode}
           </span>
-          <p>HISTORICAL OPPONENT · {opponent.tournamentFinish}</p>
-          <h2>
-            {opponent.nationName} <span>{opponent.tournamentYear}</span>
-          </h2>
+          <p>
+            {opponent.kind === "all-stars"
+              ? "FEATURED CHALLENGE · MYTHIC"
+              : `HISTORICAL OPPONENT · ${
+                  opponent.tournamentFinish ?? "Tournament in progress"
+                }`}
+          </p>
+          <h2>{getOpponentLabel(opponent)}</h2>
           <TeamRatings
             ratings={{
               ...opponent.ratings,
@@ -106,6 +111,9 @@ export function ChampionReveal({
           <p>
             Trophy XI tactical model · opponent Era Translation {opponentEraFit}.
             Manager: {opponent.managerName ?? "not sourced in the current dataset"}.
+            {opponent.allStars
+              ? ` ${opponent.allStars.manager.compositeLabel}`
+              : ""}
           </p>
         </div>
         <div className="dossier-facts">

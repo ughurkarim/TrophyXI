@@ -3,20 +3,23 @@
 ## Session flow
 
 Choose one match environment, draft one of exactly three tournament-manager
-versions, choose one of four seeded formations, fill eleven formation slots in
-any user-selected order, draft three substitutes, reorder Bench 1–3, choose a
-historical opponent, and play a deterministic knockout match.
+versions, optionally respin four seeded formations once, choose a formation,
+draft eleven starters and three substitutes from five-card spins, reorder Bench
+1–3, choose an opponent, and play a deterministic knockout match.
 
-The user selects an open tactical slot before seeing exactly three valid starter
-cards. A filled slot can be inspected but never replaced. Bench cards are chosen
-from three identity-safe, tactically varied options and then assigned to an open
-bench slot.
+Starter drafting is player first. The first click selects one of five
+identity-safe tournament cards without changing the XI. Every open tactical slot
+then previews Position Fit and the exact engine penalty. A second click on an
+eligible, feasibility-safe slot commits the player; selection can be canceled
+without changing the five-card offer. A filled slot can be inspected but never
+replaced. Bench rounds also offer five cards, followed by assignment to an open
+priority slot.
 
 ## Match environment versus card year
 
-Match environments are 1970s, 1980s, 1990s, 2000s, 2010s, 2020s, and All
-Eras / Neutral. The environment is not a player-card filter: every supported
-tournament version remains eligible in every environment.
+Match environments display newest first: 2020s, 2010s, 2000s, 1990s, 1980s,
+1970s, and Neutral / All Eras. The environment is not a player-card filter:
+every supported tournament version remains eligible in every environment.
 
 `tournamentYear` is the represented card performance. `eraId` is the match
 environment. Era Translation measures how the former translates into the latter.
@@ -55,7 +58,7 @@ tournament versions count as the same identity. Known opponent lineup identities
 are rejected at opponent selection, hydration, pre-match validation, and
 simulation. Missing opponent lineups are never invented.
 
-## Position and manager fit
+## Player-first placement and Position Fit
 
 Position Fit uses:
 
@@ -63,8 +66,40 @@ Position Fit uses:
 - 94 strong role family
 - 88 declared secondary
 - 80 adjacent accepted
-- 68 emergency accepted
-- 0 invalid
+- 72 accepted through an eligible alternate
+- 64 same outfield band
+- 56 adjacent outfield band
+- 48 distant outfield band
+- 0 goalkeeper/outfield incompatible
+
+Fit state is green at 90–100, yellow at 70–89, red at 45–69, and incompatible
+below 45. Every state has a visible text label; yellow and red also show the exact
+negative percentage. Goalkeepers cannot play outfield and outfield cards cannot
+play in goal.
+
+The single displayed-and-simulated penalty formula is piecewise and rounded to
+the nearest integer:
+
+- green: `round((100 − fit) / 10 × 3)`, producing 0–3%
+- yellow: `4 + round((89 − fit) / 19 × 7)`, producing 4–11%
+- red: `12 + round((69 − fit) / 24 × 13)`, producing 12–25%
+
+The penalty is deterministic, monotonic, and capped at 25%. Team-rating inputs
+for that starter are multiplied by `(100 − penalty) / 100`; the simulator uses
+those same team ratings. Selecting a card shows current and projected chemistry
+and overall separately. Placement feedback reports the card year, slot, fit,
+penalty, Era Translation, manager fit, chemistry change, and overall change.
+
+Before placement, the engine checks whether every remaining slot still has a
+unique available identity. This is a maximum bipartite-matching feasibility
+contract specialized to the current two compatibility components—goalkeeper and
+outfield. Unsafe placements are disabled, and every five-card starter offer must
+contain at least one placement that preserves a completion path. Generation also
+weights late positional needs while preserving tactical-family variety.
+
+Every five-card set has five unique card ids and five unique
+`playerIdentityId`s. Drafted, benched, opponent, rejected-respin, corrupted, and
+alternate-version duplicate identities are excluded at the appropriate boundary.
 
 Managers have a tactical style, preferred and acceptable formations, leadership,
 game management, and separate numeric OFF and DEF grades. Letter grades map from
@@ -76,7 +111,14 @@ changes; DEF influences opponent chance quality and lead protection.
 The library contains 12 formations. Each run offers exactly four deterministic
 choices derived from draft seed, manager, and environment. Offers include a
 manager-preferred shape, a balanced option, a contrasting shape, and an
-era-aware/wildcard option when valid. Formation selection has no respin.
+era-aware/wildcard option when valid.
+
+One separately persisted `FORMATION RESPIN ×1` can replace all four after an
+accessible confirmation. The deterministic replacement depends on seed, era,
+manager, original offer index, respin index, and original four ids; it excludes
+the original shapes whenever enough alternatives exist. After use it reads
+`FORMATION RESPIN USED`, cannot be used again, and never changes either player
+respin.
 
 ## Bench priority and substitutions
 
@@ -95,19 +137,20 @@ timeline with reason, new position, bench priority, and manager influence.
 
 ## Player respins
 
-Every session starts with exactly two player respins. A respin replaces all three
-cards in the current starter or bench draw, preserves the selected slot/round,
-permanently consumes one use, persists after refresh, and rejects displayed
-identities when at least three alternatives remain. A third use is ignored.
+Every session starts with exactly two player respins. A respin replaces all five
+cards in the current starter or bench draw, preserves the phase and round, clears
+the transient player preview, permanently consumes one use, persists after
+refresh, and rejects the five displayed identities when enough alternatives
+remain. Feasibility and identity rules are rechecked. A third use is ignored.
 Manager, formation, era, and opponent selection cannot consume player respins.
 
 ## Ratings and deterministic simulation
 
 Pre-match ratings include attack, midfield, defense, goalkeeper contribution,
-bench depth, bench versatility, Position Fit, Era Fit, timelessness, chemistry,
-tactical balance, manager OFF/DEF, and overall. Bench 1/2/3 contribute with
-approximately 40%/25%/15% priority weights and remain subordinate to starter
-quality.
+bench depth, bench versatility, the committed placement penalties, Position Fit,
+Era Fit, timelessness, chemistry, tactical balance, manager OFF/DEF, and overall.
+Bench 1/2/3 contribute with approximately 40%/25%/15% priority weights and remain
+subordinate to starter quality.
 
 Simulation priority is:
 
@@ -128,9 +171,28 @@ possession, shots, xG, tactical impact, and player of the match.
 
 ## Historical opponents
 
-Each tournament participant from 1970–2022 is a distinct nation-year opponent.
-Search and filters cover year, nation, finish, confederation, difficulty, and
-champions. Participant identity, finish, and match count are sourced facts.
+Opponent tournaments display newest first from 2026 through 1970. `Champions
+Only` is enabled by default, showing sourced winners newest first; disabling the
+accessible switch reveals every participant without a reload. Search and filters
+cover year, nation, finish, confederation, difficulty, and verified, partial, or
+Trophy XI modeled data status. Selection and a separate confirmation remain
+required before entering the match.
+
+The 48 verified 2026 participants appear under `Tournament in progress`.
+Champion, finish, manager, lineup, advancement, awards, and tournament
+statistics remain null until record-level verified data is locally represented.
+Consequently Champions Only has no 2026 historical entry.
+
+World Cup All-Stars appears above either historical view as an original featured
+Mythic challenge: a curated natural-position 4–3–3, three-player coverage bench,
+and clearly labeled composite manager. Each card and the manager receive normal
+bidirectional Era Translation. Its 1.5-point attack, midfield, and defense boosts
+are capped by a two-point Mythic ceiling and a final rating ceiling of 99. It uses
+the ordinary seeded engine, fatigue, Position Fit, substitutions, and match
+events—no result or score is forced.
+
+Each normal tournament participant is a distinct nation-year opponent.
+Participant identity, finish, and match count through 2022 are sourced facts.
 Ratings, tactical labels, difficulty, and formation are explicitly marked Trophy
 XI models. Missing managers, lineups, and detailed statistics display as not
 sourced rather than zero or invented data.

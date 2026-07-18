@@ -71,21 +71,42 @@ management. Nearby-year images can never be labeled exact tournament.
 ## Feature surfaces
 
 - Formation offers: four cards, each with diagram, tendencies, manager fit,
-  environment suitability, and tactical difficulty
+  environment suitability, and tactical difficulty. The separate respin uses a
+  restrained refresh-icon turn and replaces the grid only after the named
+  confirmation dialog; the reduced-motion version changes content immediately.
+- Player draft: five equal cards on desktop and a contained snap rail on mobile.
+  A selected card gains a bright outline and slight inner elevation while the
+  other four dim. Selection never moves or commits a tactical node.
+- Position Fit: green is strong/natural, yellow is adaptable, red is awkward/bad,
+  and muted is incompatible. Every open node repeats the state with a fit
+  percentage, text label, and exact penalty; feasibility-blocked is a distinct
+  labeled disabled state. Color is never the only signal.
+- Player placement: the selected summary and projected metrics stay visible while
+  slots are evaluated. Commit uses a short opacity/vertical feedback reveal
+  outside the stable node transform. Reduced motion removes translation and
+  transition duration while retaining the status announcement and full feedback.
 - Bench: compact circular portraits, numbered priority, expected-minutes guidance,
-  and keyboard-accessible up/down controls as the primary reordering mechanism
+  keyboard-accessible up/down controls as the primary reordering mechanism, and
+  the same five-card option layout used by starter rounds
 - Opponents: dense paginated cards with nation, year, finish, ratings, formation
-  model, Era Translation, and difficulty
+  model, Era Translation, and difficulty. Champions receive a small original
+  crown marker rather than an organizer trophy. World Cup All-Stars receives a
+  distinct Mythic seal, featured spacing, and composite-manager disclosure;
+  selected outline and check remain separate states.
 - Match/result: substitution events use the same hierarchy as goals without
   flashing; all fourteen player-minute records remain readable
 
 ## Responsive and accessible behavior
 
-- 390px: single-column flow, 44px controls, one opponent card per row
+- 390px: single-column flow, 44px controls, one opponent card per row, a
+  horizontally snapping five-card rail, and a sticky selected-player summary
 - 768px: compact grids and readable pitch/card stacking
-- 1440px: tactical pitch and three player choices share one view
+- 1440px: tactical pitch and five player choices share one balanced view
 
 No surface may create horizontal page overflow. Circular portraits cannot clip;
-tactical nodes remain usable; dialogs are named; status changes use live regions.
-Preserve semantic landmarks, focus visibility, keyboard activation, reduced
-motion, hydration notices, readable contrast, and mobile tap targets.
+tactical nodes remain usable; fit and penalty labels cannot overlap; dialogs are
+named; status changes use live regions. Preserve semantic landmarks, focus
+visibility, keyboard activation, reduced motion, hydration notices, readable
+contrast, and mobile tap targets. In reduced-motion mode card entrances, selected
+elevation, placement feedback travel, respin rotation, and ceremonial reveal
+travel are disabled without removing content or focus feedback.

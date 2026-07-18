@@ -28,11 +28,32 @@ match count. `scripts/import-world-cup-teams.ts` normalizes these records into 3
 unique nation-year ids and validates the official field size for all 14 editions
 from 1970 through 2022.
 
-The current vendored subset does not contain record-level tournament managers,
+The 2026 participant set is maintained separately from:
+
+- FIFA — “World Cup 2026: Who has qualified?”
+- https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/world-cup-2026-who-has-qualified
+- accessed 2026-07-18
+
+It supports the 48 participant identities only. The local tournament record is
+marked `Tournament in progress`; champion, finish, manager, starting lineup,
+advancement, awards, match count, results, and detailed statistics remain `null`
+or empty. No 2026 champion can pass validation without verified local result
+data.
+
+The combined browser therefore contains 416 unique nation-year ids across 15
+editions. The current sources do not contain record-level tournament managers,
 lineups, goals for/against, wins/draws/losses, or clean sheets. Those fields stay
-`null` or empty for all 368 opponents and the validation report states that
-coverage gap. Formations, ratings, tactical profiles, and difficulty are marked
-Trophy XI models rather than sourced facts.
+`null` or empty where unavailable and the validation report states that coverage
+gap. Formations, ratings, tactical profiles, and difficulty are marked Trophy XI
+models rather than sourced facts.
+
+## World Cup All-Stars evidence boundary
+
+World Cup All-Stars is not a historical participant or a factual all-time team.
+Its curated 4–3–3, three substitutes, design rationales, 98/98 composite-manager
+grades, chemistry, and capped Mythic modifiers are original Trophy XI game
+design. Every footballer references an existing tournament-specific player card;
+the manager is explicitly labeled “Trophy XI original composite manager.”
 
 ## Future team-stat, squad, lineup, and manager sourcing
 

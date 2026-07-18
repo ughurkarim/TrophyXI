@@ -3,7 +3,7 @@ import { draftEras } from "@/data/eras";
 import { managers } from "@/data/managers";
 import { imageAttributions } from "@/data/player-images";
 import { players } from "@/data/players";
-import { WORLD_CUP_YEARS } from "@/types/game";
+import { PLAYER_WORLD_CUP_YEARS } from "@/types/game";
 import { generateManagerOptions } from "@/engine/draft";
 
 describe("expanded archive contracts", () => {
@@ -32,7 +32,7 @@ describe("expanded archive contracts", () => {
   it("covers every tournament, confederation, and quality band", () => {
     expect(
       new Set(players.map((player) => player.tournamentYear)),
-    ).toEqual(new Set(WORLD_CUP_YEARS));
+    ).toEqual(new Set(PLAYER_WORLD_CUP_YEARS));
     expect(new Set(players.map((player) => player.confederation))).toEqual(
       new Set(["UEFA", "CONMEBOL", "CONCACAF", "CAF", "AFC", "OFC"]),
     );

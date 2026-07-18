@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowDown,
   ArrowRight,
@@ -29,16 +29,18 @@ import { calculateTeamRatings } from "@/engine/ratings";
 import { useGameStore } from "@/store/game-store";
 import type {
   BenchSlotId,
+  DraftPick,
   PlayerTournamentCard,
 } from "@/types/game";
 
 const benchSlots: BenchSlotId[] = ["bench-1", "bench-2", "bench-3"];
 
 const respinLabel = (remaining: number) =>
-  remaining === 0 ? "RESPINS USED" : `RESPINS ×${remaining}`;
+  remaining === 0 ? "PLAYER RESPINS USED" : `PLAYER RESPINS ×${remaining}`;
 
 export function DraftBoard() {
   const router = useRouter();
+  const reduceMotion = useReducedMotion();
   const [showReset, setShowReset] = useState(false);
   const [showRespin, setShowRespin] = useState(false);
   const [inspected, setInspected] = useState<PlayerTournamentCard | null>(null);
@@ -48,22 +50,34 @@ export function DraftBoard() {
   const picks = useGameStore((state) => state.picks);
   const benchPicks = useGameStore((state) => state.benchPicks);
   const draftPhase = useGameStore((state) => state.draftPhase);
-  const selectedSlotId = useGameStore((state) => state.selectedSlotId);
+  const selectedPlayerId = useGameStore((state) => state.selectedPlayerId);
   const pendingBenchCardId = useGameStore(
     (state) => state.pendingBenchCardId,
   );
   const optionIds = useGameStore((state) => state.optionIds);
+  const projectedPositionFits = useGameStore(
+    (state) => state.projectedPositionFits,
+  );
+  const draftFeasible = useGameStore((state) => state.draftFeasible);
+  const lastPlacementFeedback = useGameStore(
+    (state) => state.lastPlacementFeedback,
+  );
   const respinsRemaining = useGameStore(
     (state) => state.playerRespinsRemaining,
   );
-  const selectSlot = useGameStore((state) => state.selectSlot);
-  const cancelSlot = useGameStore((state) => state.cancelSlot);
+  const formationRespinRemaining = useGameStore(
+    (state) => state.formationRespinRemaining,
+  );
   const selectPlayer = useGameStore((state) => state.selectPlayer);
+  const placeSelectedPlayer = useGameStore(
+    (state) => state.placeSelectedPlayer,
+  );
+  const cancelPlayerSelection = useGameStore(
+    (state) => state.cancelPlayerSelection,
+  );
   const respinPlayers = useGameStore((state) => state.respinPlayers);
   const startBenchDraft = useGameStore((state) => state.startBenchDraft);
-  const assignBenchPlayer = useGameStore(
-    (state) => state.assignBenchPlayer,
-  );
+  const assignBenchPlayer = useGameStore((state) => state.assignBenchPlayer);
   const cancelBenchAssignment = useGameStore(
     (state) => state.cancelBenchAssignment,
   );
@@ -95,12 +109,12 @@ export function DraftBoard() {
   const options = optionIds
     .map((id) => playersById.get(id))
     .filter((player): player is PlayerTournamentCard => Boolean(player));
+  const selectedPlayer = selectedPlayerId
+    ? playersById.get(selectedPlayerId)
+    : undefined;
   const pendingBenchPlayer = pendingBenchCardId
     ? playersById.get(pendingBenchCardId)
     : undefined;
-  const currentSlot = formation.slots.find(
-    (slot) => slot.id === selectedSlotId,
-  );
   const ratings = calculateTeamRatings(lineup, formation, {
     picks,
     manager,
@@ -111,9 +125,33 @@ export function DraftBoard() {
   const squadCount = picks.length + benchPicks.length;
   const canRespin =
     respinsRemaining > 0 &&
-    optionIds.length === 3 &&
+    optionIds.length === 5 &&
+    !selectedPlayerId &&
     !pendingBenchCardId &&
     (draftPhase === "starters" || draftPhase === "bench");
+  const bestPreview = [...projectedPositionFits]
+    .filter((preview) => preview.canPlace)
+    .sort((first, second) => second.fit - first.fit)[0];
+  const projectedPicks: DraftPick[] =
+    selectedPlayer && bestPreview
+      ? [
+          ...picks,
+          { slotId: bestPreview.slotId, cardId: selectedPlayer.id },
+        ]
+      : picks;
+  const projectedRatings =
+    projectedPicks.length > picks.length
+      ? calculateTeamRatings(
+          [...lineup, selectedPlayer!],
+          formation,
+          {
+            picks: projectedPicks,
+            manager,
+            eraId,
+            bench,
+          },
+        )
+      : ratings;
 
   if (draftPhase === "opponent") {
     return (
@@ -135,9 +173,9 @@ export function DraftBoard() {
                 ? "SUBSTITUTE DRAFT"
                 : startersComplete
                   ? "STARTING XI COMPLETE"
-                  : currentSlot
-                    ? "POSITION SELECTED"
-                    : "YOUR NEXT MOVE"}
+                  : selectedPlayer
+                    ? "PLAYER SELECTED"
+                    : "FIVE-CARD SPIN"}
           </span>
           <h1 id="draft-heading">
             {draftPhase === "review"
@@ -146,9 +184,9 @@ export function DraftBoard() {
                 ? `Draft substitute ${benchPicks.length + 1} of 3`
                 : startersComplete
                   ? "Build the three-player bench"
-                  : currentSlot
-                    ? `Choose your ${currentSlot.label}`
-                    : "Select any open position"}
+                  : selectedPlayer
+                    ? `Place ${selectedPlayer.playerName}`
+                    : `Choose starter ${picks.length + 1} of 11`}
           </h1>
         </div>
         <div
@@ -164,9 +202,16 @@ export function DraftBoard() {
           <span>
             {manager.managerName} · {formation.name} · {era.label}
           </span>
-          <strong className="respin-counter">
-            {respinLabel(respinsRemaining)}
-          </strong>
+          <div className="draft-counter-stack">
+            <strong className="respin-counter">
+              {respinLabel(respinsRemaining)}
+            </strong>
+            <small>
+              {formationRespinRemaining
+                ? "FORMATION RESPIN ×1"
+                : "FORMATION RESPIN USED"}
+            </small>
+          </div>
           <button
             type="button"
             className="icon-button"
@@ -186,18 +231,64 @@ export function DraftBoard() {
               <h2>Tactical board</h2>
             </div>
             <span className="live-dot">
-              {startersComplete ? "COMPLETE" : "SELECT A SLOT"}
+              {startersComplete
+                ? "COMPLETE"
+                : selectedPlayer
+                  ? "SELECT POSITION"
+                  : "SELECT PLAYER"}
             </span>
           </div>
           <TacticalPitch
             formation={formation}
             lineup={lineup}
             picks={picks}
-            selectedSlotId={selectedSlotId}
-            onSelectSlot={draftPhase === "starters" ? selectSlot : undefined}
+            fitPreviews={selectedPlayer ? projectedPositionFits : []}
+            onSelectSlot={selectedPlayer ? placeSelectedPlayer : undefined}
             onInspectPlayer={setInspected}
           />
+          {selectedPlayer && (
+            <SelectedPlayerSummary
+              player={selectedPlayer}
+              currentRatings={ratings}
+              projectedRatings={projectedRatings}
+              bestSlotLabel={
+                formation.slots.find((slot) => slot.id === bestPreview?.slotId)
+                  ?.label
+              }
+              onCancel={cancelPlayerSelection}
+            />
+          )}
           <TeamRatings ratings={ratings} expanded />
+          {lastPlacementFeedback && draftPhase === "starters" && (
+            <motion.div
+              className="placement-feedback"
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.2 }}
+              role="status"
+            >
+              <b>
+                {playersById.get(lastPlacementFeedback.cardId)?.playerName}{" "}
+                {playersById.get(lastPlacementFeedback.cardId)?.tournamentYear} →{" "}
+                {lastPlacementFeedback.slotLabel}
+              </b>
+              <span>Position Fit {lastPlacementFeedback.fit}%</span>
+              <span>
+                Placement Penalty −{lastPlacementFeedback.penaltyPercent}%
+              </span>
+              <span>Era Translation {lastPlacementFeedback.eraFit}%</span>
+              <span>
+                Chemistry{" "}
+                {lastPlacementFeedback.chemistryChange >= 0 ? "+" : ""}
+                {lastPlacementFeedback.chemistryChange}
+              </span>
+              <span>
+                Team Overall{" "}
+                {lastPlacementFeedback.overallChange >= 0 ? "+" : ""}
+                {lastPlacementFeedback.overallChange}
+              </span>
+            </motion.div>
+          )}
           {bench.length > 0 && (
             <div className="bench-summary" aria-label="Current substitutes">
               {benchSlots.map((slotId, index) => {
@@ -236,11 +327,11 @@ export function DraftBoard() {
                 <div className="draft-choices__heading">
                   <div>
                     <span className="eyebrow eyebrow--gold">
-                      BENCH DRAW / ROUND {benchPicks.length + 1}
+                      BENCH SPIN / 05 · ROUND {benchPicks.length + 1}
                     </span>
                     <h2>Choose a tactical alternative</h2>
                   </div>
-                  <p>Assignment follows card selection.</p>
+                  <p>Select a player, then choose Bench 1, 2, or 3.</p>
                 </div>
                 <PlayerChoices
                   options={options}
@@ -252,7 +343,7 @@ export function DraftBoard() {
                   canRespin={canRespin}
                   remaining={respinsRemaining}
                   onOpen={() => setShowRespin(true)}
-                  copy="Starter and bench identities excluded · tactical variety guaranteed"
+                  copy="Starter and bench identities excluded · five unique identities"
                 />
               </>
             )
@@ -263,51 +354,59 @@ export function DraftBoard() {
               <h2>Three substitutes remain.</h2>
               <p>
                 Bench order drives substitution priority and expected minutes.
-                You will assign every card, then reorder with accessible controls.
+                Each round presents five identity-safe cards.
               </p>
               <Button onClick={startBenchDraft}>
                 Draft the bench <ArrowRight size={17} aria-hidden />
               </Button>
             </div>
-          ) : currentSlot ? (
+          ) : (
             <>
               <div className="draft-choices__heading">
                 <div>
-                  <span className="eyebrow eyebrow--gold">ARCHIVE DRAW / 03</span>
-                  <h2>Choose your {currentSlot.label}</h2>
+                  <span className="eyebrow eyebrow--gold">
+                    ARCHIVE SPIN / 05 · ROUND {picks.length + 1}
+                  </span>
+                  <h2>
+                    {selectedPlayer
+                      ? "Now choose an open position"
+                      : "Choose one player first"}
+                  </h2>
                 </div>
-                <button type="button" className="text-button" onClick={cancelSlot}>
-                  <X size={14} aria-hidden /> Change position
-                </button>
+                {selectedPlayer && (
+                  <button
+                    type="button"
+                    className="text-button"
+                    onClick={cancelPlayerSelection}
+                  >
+                    <X size={14} aria-hidden /> Cancel Selection
+                  </button>
+                )}
               </div>
               <PlayerChoices
                 options={options}
                 eraId={eraId}
-                currentSlot={currentSlot}
+                formation={formation}
+                picks={picks}
+                selectedPlayerId={selectedPlayerId}
                 onSelect={selectPlayer}
                 onInspect={setInspected}
               />
-              <RespinRow
-                canRespin={canRespin}
-                remaining={respinsRemaining}
-                onOpen={() => setShowRespin(true)}
-                copy="No duplicate identity · every tournament year remains eligible"
-              />
+              {!selectedPlayer && (
+                <RespinRow
+                  canRespin={canRespin}
+                  remaining={respinsRemaining}
+                  onOpen={() => setShowRespin(true)}
+                  copy="Five unique identities · completion path guaranteed"
+                />
+              )}
+              {!draftFeasible && (
+                <p className="draft-feasibility-warning" role="alert">
+                  No legal completion path is available. Cancel this selection
+                  and choose another player.
+                </p>
+              )}
             </>
-          ) : (
-            <div className="slot-prompt">
-              <span className="eyebrow eyebrow--gold">THE BOARD IS YOURS</span>
-              <h2>Draft in any order.</h2>
-              <p>
-                Choose an empty node before seeing three cards. Tournament year
-                never filters availability; Translation measures performance in
-                the selected environment.
-              </p>
-              <div className="slot-prompt__count">
-                <b>{11 - picks.length}</b>
-                <span>open positions</span>
-              </div>
-            </div>
           )}
         </div>
       </div>
@@ -316,12 +415,12 @@ export function DraftBoard() {
         {draftPhase === "review"
           ? "All fourteen players drafted. Review bench priority."
           : draftPhase === "bench"
-            ? `${benchPicks.length} of 3 substitutes drafted.`
+            ? `${benchPicks.length} of 3 substitutes drafted. Five player cards available.`
             : startersComplete
               ? "Starting eleven complete. Begin the bench draft."
-              : currentSlot
-                ? `Three options generated for ${currentSlot.label}.`
-                : `${picks.length} of 11 starters drafted. Select an open position.`}
+              : selectedPlayer
+                ? `${selectedPlayer.playerName} ${selectedPlayer.tournamentYear} selected. ${projectedPositionFits.length} open positions available.`
+                : `${picks.length} of 11 starters drafted. Five player cards available. Select a player first.`}
       </p>
 
       {showReset && (
@@ -335,8 +434,8 @@ export function DraftBoard() {
             <span className="eyebrow eyebrow--gold">RESET DRAFT</span>
             <h2 id="reset-title">Return every player card?</h2>
             <p>
-              Your environment, manager, and formation remain. All {squadCount}{" "}
-              squad picks are cleared.
+              Your environment, manager, formation, and formation-respin state
+              remain. All {squadCount} squad picks are cleared.
             </p>
             <div className="dialog__actions">
               <Button
@@ -368,12 +467,12 @@ export function DraftBoard() {
             aria-labelledby="respin-title"
           >
             <span className="eyebrow eyebrow--gold">
-              PLAYER RESPIN · {respinLabel(respinsRemaining)}
+              {respinLabel(respinsRemaining)}
             </span>
-            <h2 id="respin-title">Reject all three cards?</h2>
+            <h2 id="respin-title">Reject all five player cards?</h2>
             <p>
-              These player identities cannot return when enough valid alternatives
-              exist. The selected starter slot or bench round remains fixed.
+              These identities cannot return when enough valid alternatives
+              exist. The current starter or bench round remains unchanged.
             </p>
             <div className="dialog__actions">
               <Button
@@ -389,7 +488,7 @@ export function DraftBoard() {
                   setShowRespin(false);
                 }}
               >
-                Confirm respin
+                Confirm player respin
               </Button>
             </div>
           </div>
@@ -406,38 +505,120 @@ export function DraftBoard() {
 function PlayerChoices({
   options,
   eraId,
-  currentSlot,
+  formation,
+  picks = [],
+  selectedPlayerId,
   onSelect,
   onInspect,
 }: {
   options: PlayerTournamentCard[];
   eraId: ReturnType<typeof useGameStore.getState>["eraId"] & string;
-  currentSlot?: ReturnType<typeof getFormation>["slots"][number];
+  formation?: ReturnType<typeof getFormation>;
+  picks?: DraftPick[];
+  selectedPlayerId?: string | null;
   onSelect: (cardId: string) => void;
   onInspect: (player: PlayerTournamentCard) => void;
 }) {
+  const reduceMotion = useReducedMotion();
+  const filled = new Set(picks.map((pick) => pick.slotId));
   return (
     <div className="draft-card-grid" aria-live="polite">
-      {options.map((player) => (
-        <motion.div
-          key={`${currentSlot?.id ?? "bench"}-${player.id}`}
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <PlayerCard
-            player={player}
-            onSelect={() => onSelect(player.id)}
-            onInspect={() => onInspect(player)}
-            showFit
-            positionFit={
-              currentSlot ? getPositionFit(player, currentSlot) : undefined
-            }
-            eraFit={calculateEraFit(player, eraId)}
-          />
-        </motion.div>
-      ))}
+      {options.map((player) => {
+        const positionFit = formation
+          ? Math.max(
+              ...formation.slots
+                .filter((slot) => !filled.has(slot.id))
+                .map((slot) => getPositionFit(player, slot)),
+            )
+          : undefined;
+        const selected = selectedPlayerId === player.id;
+        const dimmed = Boolean(selectedPlayerId && !selected);
+        return (
+          <motion.div
+            key={`five-card-${picks.length}-${player.id}`}
+            className={`${selected ? "draft-option--selected" : ""} ${
+              dimmed ? "draft-option--dimmed" : ""
+            }`}
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+            animate={{
+              opacity: dimmed ? 0.42 : 1,
+              y: reduceMotion ? 0 : selected ? -4 : 0,
+            }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+          >
+            <PlayerCard
+              player={player}
+              onSelect={() => onSelect(player.id)}
+              onInspect={() => onInspect(player)}
+              selected={selected}
+              showFit
+              positionFit={positionFit}
+              eraFit={calculateEraFit(player, eraId)}
+              actionLabel={
+                selected
+                  ? `Cancel ${player.playerName} ${player.tournamentYear} selection`
+                  : `Select ${player.playerName} ${player.tournamentYear} for placement, rated ${player.overall}`
+              }
+            />
+          </motion.div>
+        );
+      })}
     </div>
+  );
+}
+
+function SelectedPlayerSummary({
+  player,
+  currentRatings,
+  projectedRatings,
+  bestSlotLabel,
+  onCancel,
+}: {
+  player: PlayerTournamentCard;
+  currentRatings: ReturnType<typeof calculateTeamRatings>;
+  projectedRatings: ReturnType<typeof calculateTeamRatings>;
+  bestSlotLabel?: string;
+  onCancel: () => void;
+}) {
+  return (
+    <aside className="selected-player-summary" aria-label="Selected player preview">
+      <CircularPortrait
+        imageId={player.imageId}
+        subjectName={player.playerName}
+        era={player.era}
+        size="compact"
+      />
+      <div>
+        <span className="eyebrow">SELECTED PLAYER</span>
+        <b>
+          {player.playerName} {player.tournamentYear}
+        </b>
+        <small>
+          Preview at best open fit{bestSlotLabel ? ` · ${bestSlotLabel}` : ""}
+        </small>
+      </div>
+      <dl>
+        <div>
+          <dt>Current Chemistry</dt>
+          <dd>{currentRatings.chemistry}</dd>
+        </div>
+        <div>
+          <dt>Projected Chemistry</dt>
+          <dd>{projectedRatings.chemistry}</dd>
+        </div>
+        <div>
+          <dt>Current Overall</dt>
+          <dd>{currentRatings.overall}</dd>
+        </div>
+        <div>
+          <dt>Projected Overall</dt>
+          <dd>{projectedRatings.overall}</dd>
+        </div>
+      </dl>
+      <button type="button" className="text-button" onClick={onCancel}>
+        <X size={14} aria-hidden /> Cancel Selection
+      </button>
+    </aside>
   );
 }
 
@@ -507,10 +688,10 @@ function BenchAssignment({
             Bench {index + 1}
             <small>
               {index === 0
-                ? "Highest priority"
+                ? "Highest priority · usually most minutes"
                 : index === 1
                   ? "Medium priority"
-                  : "Lowest priority"}
+                  : "Lowest priority · usually fewest minutes"}
             </small>
           </Button>
         ))}
@@ -592,7 +773,7 @@ function BenchReview({
         })}
       </ol>
       <Button onClick={onContinue}>
-        Choose historical opponent <ArrowRight size={16} aria-hidden />
+        Choose opponent <ArrowRight size={16} aria-hidden />
       </Button>
     </div>
   );

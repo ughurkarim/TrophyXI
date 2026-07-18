@@ -1,7 +1,8 @@
-import { historicalOpponents } from "../src/data/opponents/generated";
+import { historicalOpponents } from "../src/data/opponents";
 import { WORLD_CUP_YEARS } from "../src/types/game";
 
 const expected = new Map([
+  [2026, 48],
   [1970, 16],
   [1974, 16],
   [1978, 16],
@@ -35,8 +36,18 @@ if (
 }
 for (const opponent of historicalOpponents) {
   if (!opponent.sources.length) failures.push(`${opponent.id}: source missing`);
-  if (opponent.tournamentStats.matches === null) {
+  if (
+    opponent.tournamentYear !== 2026 &&
+    opponent.tournamentStats.matches === null
+  ) {
     failures.push(`${opponent.id}: sourced match count missing`);
+  }
+  if (
+    opponent.tournamentYear === 2026 &&
+    (opponent.tournamentFinish !== null ||
+      opponent.tournamentStats.matches !== null)
+  ) {
+    failures.push(`${opponent.id}: fabricated 2026 result field`);
   }
 }
 
