@@ -46,8 +46,8 @@
   required attribution:
   “EA SPORTS player imagery, sourced via SoFIFA, used under project-specific
   permission.” Resolve each tournament to the edition available by June of that
-  World Cup year; never substitute the following season's edition or another
-  tournament version's face. Never hotlink.
+  World Cup year (including EA SPORTS FC 26 for 2026); never substitute the
+  following season's edition or another tournament version's face. Never hotlink.
 - Active manager portraits must remain local, permissioned, exact-year assets
   with complete source, author, license, context, and change metadata. Never
   hotlink them or infer an unstated image context.

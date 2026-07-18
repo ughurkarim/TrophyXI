@@ -33,6 +33,7 @@ export const playerCardSchema = z.object({
     z.literal(2014),
     z.literal(2018),
     z.literal(2022),
+    z.literal(2026),
   ]),
   primaryPosition: z.enum(POSITIONS),
   eligiblePositions: z.array(z.enum(POSITIONS)).min(1),

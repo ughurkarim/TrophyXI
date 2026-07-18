@@ -11,6 +11,7 @@ import {
 const cards: GameFaceCardRef[] = [
   { id: "sample-player-2014", kind: "player", tournamentYear: 2014 },
   { id: "sample-player-2022", kind: "player", tournamentYear: 2022 },
+  { id: "sample-player-2026", kind: "player", tournamentYear: 2026 },
 ];
 
 const candidate: GameFaceImportCandidate = {
@@ -80,6 +81,35 @@ describe("exact-year game-face import contracts", () => {
         "source URL is not the tournament-year edition face",
       ]),
     );
+    expect(
+      validateGameFaceCandidate(
+        {
+          ...candidate,
+          id: "sample-player-2026",
+          tournamentYear: 2026,
+          gameEdition: "EA SPORTS FC 26",
+          sourceUrl: "https://cdn.sofifa.net/players/123/456/26_120.png",
+        },
+        cards[2],
+      ),
+    ).toEqual([]);
+    expect(
+      validateGameFaceCandidate(
+        {
+          ...candidate,
+          id: "sample-player-2026",
+          tournamentYear: 2026,
+          gameEdition: "EA SPORTS FC 27",
+          sourceUrl: "https://cdn.sofifa.net/players/123/456/27_120.png",
+        },
+        cards[2],
+      ),
+    ).toEqual(
+      expect.arrayContaining([
+        "game edition is not the edition available by tournament June",
+        "source URL is not the tournament-year edition face",
+      ]),
+    );
   });
 
   it("detects reused, remote, and card-mismatched production paths", () => {
@@ -116,8 +146,8 @@ describe("exact-year game-face import contracts", () => {
       downloaded: 0,
       skipped: 0,
       failed: 0,
-      photoPending: 2,
+      photoPending: 3,
     });
-    expect(summary.results).toHaveLength(2);
+    expect(summary.results).toHaveLength(3);
   });
 });

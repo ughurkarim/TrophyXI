@@ -21,6 +21,22 @@ const FJELSTUL_PLAYERS_FILE = path.join(
 const REQUIRED_ATTRIBUTION =
   "EA SPORTS player imagery, sourced via SoFIFA, used under project-specific permission.";
 
+const reviewed2026Faces = [
+  {
+    id: "lionel-messi-2026",
+    playerId: "158023",
+    pageUrl: "https://sofifa.com/player/158023/lionel-messi/260008/",
+    reviewedName: "Lionel Andrés Messi Cuccitini",
+  },
+  {
+    id: "cristiano-ronaldo-2026",
+    playerId: "20801",
+    pageUrl:
+      "https://sofifa.com/player/20801/c-ronaldo-dos-santos-aveiro/260006/",
+    reviewedName: "Cristiano Ronaldo dos Santos Aveiro",
+  },
+] as const;
+
 type CsvRow = Record<string, string>;
 
 type FjelstulPlayer = {
@@ -215,6 +231,31 @@ const main = async () => {
         approvedForImport: true,
       });
     }
+  }
+
+  for (const face of reviewed2026Faces) {
+    const paddedPlayerId = face.playerId.padStart(6, "0");
+    const sourcePath = `${paddedPlayerId.slice(0, 3)}/${paddedPlayerId.slice(3)}`;
+    candidates.push({
+      id: face.id,
+      kind: "player",
+      tournamentYear: 2026,
+      gameEdition: "EA SPORTS FC 26",
+      sourceWebsite: "SoFIFA",
+      sourceUrl: `https://cdn.sofifa.net/players/${sourcePath}/26_120.png`,
+      author: "EA SPORTS",
+      license: "Project-specific EA/SoFIFA permission",
+      licenseUrl: "https://sofifa.com/",
+      retrievedOn: "2026-07-18",
+      matchQuality: "manually-reviewed-exact-year",
+      exactYearEvidence: `Reviewed ${face.reviewedName} on the SoFIFA FC 26 page ${face.pageUrl}; the page records real_face=Yes for player ${face.playerId}, and FC 26 was the current edition available by June 2026.`,
+      permissionScope: "project-specific-ea-sofifa",
+      requiredAttribution: REQUIRED_ATTRIBUTION,
+      preserveMetadataAndWatermarks: true,
+      cachePolicy: "local-first-conditional",
+      reusableLicenseConfirmed: true,
+      approvedForImport: true,
+    });
   }
 
   const uniqueCandidates = [

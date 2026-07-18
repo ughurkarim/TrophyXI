@@ -24,9 +24,7 @@ export const WORLD_CUP_YEARS = [
   1978, 1974, 1970,
 ] as const;
 export type WorldCupYear = (typeof WORLD_CUP_YEARS)[number];
-export const PLAYER_WORLD_CUP_YEARS = WORLD_CUP_YEARS.filter(
-  (year) => year !== 2026,
-);
+export const PLAYER_WORLD_CUP_YEARS = WORLD_CUP_YEARS;
 export type TournamentEra =
   | "1970s"
   | "1980s"

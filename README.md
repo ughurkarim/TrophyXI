@@ -2,7 +2,7 @@
 
 Trophy XI is an original browser-based historical football drafting game with a
 deterministic knockout-match engine. Choose the historical conditions of the
-match, combine tournament-specific players from 1970–2022, order a three-player
+match, combine tournament-specific players from 1970–2026, order a three-player
 bench, and face a 1970–2026 nation-year participant or the featured World Cup
 All-Stars.
 
@@ -56,12 +56,12 @@ result must equal the final preview.
 
 The current archive contains:
 
-- 627 tournament cards across 287 stable player identities
-- all 627 player cards are draft eligible; missing face images never change
+- 629 tournament cards across 287 stable player identities
+- all 629 player cards are draft eligible; missing face images never change
   card eligibility
-- 161 card-specific exact-year player faces plus 466 clean Photo Pending
+- 163 card-specific exact-year player faces plus 466 clean Photo Pending
   identity markers; cards stay pending until their own approved PNG is imported
-- every men’s World Cup from 1970 through 2022
+- every men’s World Cup from 1970 through the verified live 2026 cards
 - 49 manager cards across 39 identities with explicit numeric OFF/DEF grades
 - all 49 audited manager cards draft eligible, currently with Photo Pending
 - three deterministic, identity-safe manager choices per offer
@@ -124,9 +124,10 @@ official or factual ratings. Tournament statistics are nullable and only populat
 with an attached published source; unknown values never become zero. Historical
 opponent participant identity, finish, and match count through 2022 use the
 vendored Fjelstul World Cup Database. The 2026 participant set uses FIFA’s
-published qualified-team list; no champion, finish, lineup, manager, or tournament
-statistic is inferred. Missing fields remain null until a suitable record-level
-source is ingested.
+published qualified-team list. Ronaldo’s and Messi’s live 2026 cards use FIFA
+appearance, scoring, assist, and record reporting current to 18 July; unfinished
+appearance/start/minute totals remain null. No champion, finish, lineup, manager,
+or unsupported tournament statistic is inferred.
 
 Images never hotlink at runtime. A player face can resolve only from
 `assets/players/{year}/{player-card-id}.png`; manager faces use the equivalent
@@ -142,8 +143,8 @@ Add reviewed candidates to `scripts/game-face-import-sources.json`, then run:
 npm run images:import
 ```
 
-The reviewed in-season FIFA 14/18/22 index can be regenerated from the public
-CC0 legacy CSV:
+The reviewed in-season FIFA 14/18/22 index plus the manually reviewed EA SPORTS
+FC 26 Ronaldo/Messi entries can be regenerated from the public CC0 legacy CSV:
 
 ```bash
 npm run images:generate:sources -- /path/to/male_players-legacy.csv
@@ -152,8 +153,11 @@ npm run images:generate:sources -- /path/to/male_players-legacy.csv
 The generator matches name plus birth date, requires `real_face=Yes`, and drops
 ambiguous, birth-date-only, and generic-face records. No 2006 or 2010 face is
 activated; those cards stay Photo Pending. The active in-season face archive
-begins with FIFA 14. A tournament always uses the edition already available by
-that World Cup's June, never the following season's release.
+begins with FIFA 14 and uses EA SPORTS FC 26 for June 2026. A tournament always
+uses the edition already available by that World Cup's June, never the following
+season's release. The obsolete `public/players/png`, `sources`, and `isolated`
+portrait pipeline was removed because it contained nearby-year and modern photos
+that could be mistaken for historical card faces.
 
 Each candidate must identify its card id, kind, tournament year, game edition,
 source site and URL, rights holder, permission, retrieval date, match quality,

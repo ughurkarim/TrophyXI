@@ -29,7 +29,9 @@ const main = async () => {
   for (const [index, image] of imageAttributions.entries()) {
     const left = (index % COLUMNS) * CELL_WIDTH;
     const top = Math.floor(index / COLUMNS) * CELL_HEIGHT;
-    const portrait = await sharp(path.join(ROOT, "public", image.file))
+    const portrait = await sharp(
+      path.join(ROOT, image.file.replace(/^\//, "")),
+    )
       .resize(imageWidth, imageHeight, {
         fit: "contain",
         background: { r: 8, g: 10, b: 8, alpha: 1 },

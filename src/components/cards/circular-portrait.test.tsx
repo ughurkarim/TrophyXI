@@ -11,6 +11,9 @@ describe("CircularPortrait", () => {
     expect(gameFacePathFor("player", "cristiano-ronaldo-2018", 2018)).toBe(
       "/assets/players/2018/cristiano-ronaldo-2018.png",
     );
+    expect(gameFacePathFor("player", "cristiano-ronaldo-2026", 2026)).toBe(
+      "/assets/players/2026/cristiano-ronaldo-2026.png",
+    );
   });
 
   it("renders a draftable non-face Photo Pending identity marker", () => {

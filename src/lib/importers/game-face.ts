@@ -79,10 +79,16 @@ export const validateGameFaceCandidate = (
   }
   if (!candidate.gameEdition.trim()) errors.push("missing game edition");
   const tournamentEdition = String(candidate.tournamentYear).slice(-2);
+  const expectedGameEdition =
+    candidate.tournamentYear === 2026
+      ? "EA SPORTS FC 26"
+      : `FIFA ${tournamentEdition}`;
   if (
     candidate.kind === "player" &&
-    [2006, 2010, 2014, 2018, 2022].includes(candidate.tournamentYear) &&
-    candidate.gameEdition !== `FIFA ${tournamentEdition}`
+    [2006, 2010, 2014, 2018, 2022, 2026].includes(
+      candidate.tournamentYear,
+    ) &&
+    candidate.gameEdition !== expectedGameEdition
   ) {
     errors.push("game edition is not the edition available by tournament June");
   }
@@ -127,7 +133,9 @@ export const validateGameFaceCandidate = (
     }
     if (
       candidate.kind === "player" &&
-      [2006, 2010, 2014, 2018, 2022].includes(candidate.tournamentYear) &&
+      [2006, 2010, 2014, 2018, 2022, 2026].includes(
+        candidate.tournamentYear,
+      ) &&
       !url.pathname.endsWith(`/${tournamentEdition}_120.png`)
     ) {
       errors.push("source URL is not the tournament-year edition face");

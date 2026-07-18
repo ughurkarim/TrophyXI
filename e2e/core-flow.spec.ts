@@ -90,7 +90,6 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await page.goto("/");
   await captureState("01-landing.png");
   await expect(page.locator(".hero-card h3")).toHaveText([
-    "Pelé",
     "Lionel Messi",
     "Cristiano Ronaldo",
   ]);
@@ -105,35 +104,51 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   ).toHaveAttribute("href", "/database");
 
   const showcase = page.getByTestId("hero-showcase");
-  const bounds = await showcase.boundingBox();
-  expect(bounds).not.toBeNull();
-  if (bounds) {
-    for (let index = 0; index < 8; index += 1) {
-      await page.mouse.move(
-        index % 2 ? bounds.x + bounds.width : bounds.x,
-        index % 2 ? bounds.y + bounds.height : bounds.y,
-      );
-      await page.waitForTimeout(35);
-      const transform = await showcase.evaluate(
-        (element) => window.getComputedStyle(element).transform,
-      );
-      const values = transform
-        .replace(/^matrix3d\(|^matrix\(|\)$/g, "")
-        .split(",")
-        .map(Number);
-      const x = values.length === 16 ? values[12] : values[4] ?? 0;
-      const y = values.length === 16 ? values[13] : values[5] ?? 0;
-      expect(Math.abs(x)).toBeLessThanOrEqual(8.2);
-      expect(Math.abs(y)).toBeLessThanOrEqual(6.2);
-    }
+  await expect(showcase).toHaveAttribute("data-active-year", "2026");
+  const scene = page.getByTestId("hero-scroll-scene");
+  const scrollMetrics = await scene.evaluate((element) => {
+    const sceneElement = element as HTMLElement;
+    return {
+      top: sceneElement.offsetTop,
+      range: sceneElement.offsetHeight - window.innerHeight,
+    };
+  });
+  for (const [index, year] of [
+    2026, 2022, 2018, 2014, 2010, 2006,
+  ].entries()) {
+    await page.evaluate(
+      ({ top, range, index }) => {
+        const progress = index === 0 ? 0 : (index + 0.05) / 6;
+        window.scrollTo({
+          top: top + range * progress,
+          left: 0,
+          behavior: "instant",
+        });
+      },
+      { ...scrollMetrics, index },
+    );
+    await expect(showcase).toHaveAttribute(
+      "data-active-year",
+      String(year),
+    );
+    await expect(
+      showcase.locator(`[data-card-id="lionel-messi-${year}"]`),
+    ).toBeVisible();
+    await expect(
+      showcase.locator(`[data-card-id="cristiano-ronaldo-${year}"]`),
+    ).toBeVisible();
   }
+  await page.locator("#how-it-works").scrollIntoViewIfNeeded();
+  await expect(
+    page.getByRole("heading", { name: "Fourteen players. One match." }),
+  ).toBeVisible();
 
   await page.goto("/database");
   await expect(
     page.getByRole("heading", { name: "Player Database" }),
   ).toBeVisible();
   await captureState("00-database.png");
-  await expect(page.getByText("627", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("629", { exact: true }).first()).toBeVisible();
   const databaseSearch = page.getByPlaceholder("Search player or nation");
   await databaseSearch.fill("Bastian Schweinsteiger");
   const longNameCard = page.getByRole("button", {
@@ -168,6 +183,11 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.getByRole("button", {
       name: /view lionel messi 2022, rated 99/i,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: /view lionel messi 2026, rated 98/i,
     }),
   ).toBeVisible();
   await page
@@ -253,6 +273,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     .locator(".manager-card h2")
     .allTextContents();
   expect(replacementManagerNames).toHaveLength(3);
+  expect(new Set(replacementManagerNames).size).toBe(3);
   expect(
     replacementManagerNames.every(
       (name) => !originalManagerNames.includes(name),
@@ -267,8 +288,13 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     .evaluateAll((elements) =>
       elements.map((element) => element.getAttribute("aria-label") ?? ""),
     );
+  expect(managerGradeLabels).toHaveLength(3);
   expect(
-    managerGradeLabels.some((label) => /offense [BC]/i.test(label)),
+    managerGradeLabels.every(
+      (label) =>
+        /offense [A-C][+-]?/i.test(label) &&
+        /defense [A-C][+-]?/i.test(label),
+    ),
   ).toBe(true);
   const managerInspect = page
     .getByRole("button", { name: /view manager record/i })

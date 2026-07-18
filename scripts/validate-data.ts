@@ -243,7 +243,7 @@ const main = async () => {
     }
   }
   for (const identityId of ["cristiano-ronaldo", "lionel-messi"]) {
-    const expectedFaceYears = [2014, 2018, 2022];
+    const expectedFaceYears = [2014, 2018, 2022, 2026];
     assert(
       gameFaceCandidates
         .filter((candidate) =>
@@ -281,7 +281,11 @@ const main = async () => {
     const cardCount = players.filter(
       (player) => player.tournamentYear === year,
     ).length;
-    assert(cardCount >= 10, `${year} requires at least 10 player cards; found ${cardCount}`);
+    const minimumCards = year === 2026 ? 2 : 10;
+    assert(
+      cardCount >= minimumCards,
+      `${year} requires at least ${minimumCards} player cards; found ${cardCount}`,
+    );
   }
   for (const year of WORLD_CUP_YEARS) {
     const opponentCount = historicalOpponents.filter(
@@ -859,21 +863,34 @@ const main = async () => {
         ),
     ),
   );
+  expectedTournamentCardIds.add("lionel-messi-2026");
+  expectedTournamentCardIds.add("cristiano-ronaldo-2026");
   assert(
     playerTournaments.unresolvedIdentityIds.length === 0 &&
       expectedTournamentCardIds.size === players.length &&
       players.every((player) => expectedTournamentCardIds.has(player.id)),
-    "Player archive does not exactly match sourced 1970–2022 appearances",
+    "Player archive does not exactly match sourced 1970–2022 appearances plus the verified live 2026 cards",
   );
   assert(
     players.every(
-      (player) =>
-        player.tournamentStats.appearances !== null &&
-        player.tournamentStats.starts !== null &&
-        player.tournamentStats.goals !== null &&
-        player.statSources.some((source) =>
-          source.url.includes("jfjelstul/worldcup"),
-        ),
+      (player) => {
+        if (player.tournamentYear === 2026) {
+          return (
+            player.tournamentStats.goals !== null &&
+            player.statSources.some((source) =>
+              source.url.includes("fifa.com/"),
+            )
+          );
+        }
+        return (
+          player.tournamentStats.appearances !== null &&
+          player.tournamentStats.starts !== null &&
+          player.tournamentStats.goals !== null &&
+          player.statSources.some((source) =>
+            source.url.includes("jfjelstul/worldcup"),
+          )
+        );
+      },
     ),
     "A tournament card lacks sourced appearance/start/goal statistics",
   );
@@ -904,15 +921,15 @@ const main = async () => {
     }
   }
   for (const [identityId, expectedYears] of [
-    ["cristiano-ronaldo", [2006, 2010, 2014, 2018, 2022]],
-    ["lionel-messi", [2006, 2010, 2014, 2018, 2022]],
+    ["cristiano-ronaldo", [2006, 2010, 2014, 2018, 2022, 2026]],
+    ["lionel-messi", [2006, 2010, 2014, 2018, 2022, 2026]],
   ] as const) {
     assert(
       versionsByIdentity
         .get(identityId)
         ?.map((player) => player.tournamentYear)
         .join("|") === expectedYears.join("|"),
-      `${identityId} does not have all five tournament versions`,
+      `${identityId} does not have all six tournament versions`,
     );
     const expectedFaceYears = expectedYears.filter((year) => year >= 2014);
     assert(

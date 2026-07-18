@@ -311,9 +311,10 @@ h3 {
 
 .hero {
   position: relative;
-  min-height: 840px;
-  overflow: hidden;
-  padding: 160px 0 90px;
+  min-height: 100svh;
+  overflow: clip;
+  padding: 0;
+  isolation: isolate;
 }
 
 .hero::before {
@@ -328,14 +329,30 @@ h3 {
 
 .hero__glow {
   position: absolute;
-  top: 110px;
+  z-index: -1;
+  top: 8%;
   right: -10%;
   width: 65%;
-  height: 680px;
+  height: 78%;
   filter: blur(4px);
   background:
     radial-gradient(circle at 35% 45%, rgba(80, 216, 144, 0.16), transparent 28%),
     radial-gradient(circle at 65% 30%, rgba(96, 79, 175, 0.14), transparent 35%);
+}
+
+.hero-scroll-scene {
+  position: relative;
+  height: 600svh;
+}
+
+.hero-scroll-sticky {
+  position: sticky;
+  top: 0;
+  display: flex;
+  min-height: 100svh;
+  overflow: clip;
+  align-items: center;
+  padding: 108px 0 42px;
 }
 
 .hero__grid {
@@ -413,77 +430,139 @@ h3 {
 
 .hero-showcase {
   position: relative;
-  min-height: 580px;
+  min-width: 0;
+  min-height: 590px;
   outline: none;
-  transform-style: preserve-3d;
-  perspective: 1000px;
 }
 
-.hero-showcase:focus-visible::before {
-  border-color: rgba(242, 215, 125, 0.72);
+.hero-showcase:focus-visible {
+  border-radius: 34px;
   box-shadow:
     0 0 0 3px rgba(203, 166, 74, 0.18),
-    var(--shadow),
-    inset 0 1px rgba(255, 255, 255, 0.04);
+    0 0 0 1px rgba(242, 215, 125, 0.72);
 }
 
 .hero-showcase::before {
   position: absolute;
-  inset: 8% 5% 3% 8%;
+  inset: 5% 1% 4%;
   border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 32px;
+  border-radius: 34px;
   content: "";
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(15, 31, 23, 0.09));
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(15, 31, 23, 0.09)),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 12.4%,
+      rgba(255, 255, 255, 0.012) 12.5% 12.6%
+    );
   box-shadow: var(--shadow), inset 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.hero-pitch {
+.hero-rivalry-field {
   position: absolute;
-  inset: 20% 11% 8% 18%;
+  inset: 14% 5% 12%;
   overflow: hidden;
   border: 1px solid rgba(135, 210, 168, 0.15);
-  border-radius: 22px;
-  transform: rotate(-4deg);
+  border-radius: 28px;
   background:
     linear-gradient(90deg, transparent 49.7%, rgba(255, 255, 255, 0.09) 50%, transparent 50.3%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 12.5%, transparent 12.5% 25%),
     #0d3022;
 }
 
-.hero-pitch__circle {
+.hero-rivalry-field__circle {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 115px;
-  height: 115px;
+  width: 128px;
+  height: 128px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
 
-.hero-pitch__corner {
+.hero-rivalry-field__line {
   position: absolute;
-  right: -50px;
-  bottom: 15%;
-  width: 160px;
-  height: 160px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.075);
 }
 
-.showcase-label {
+.hero-rivalry-field__word {
   position: absolute;
-  z-index: 6;
-  top: 11%;
-  left: 14%;
-  color: #819087;
+  top: 43%;
+  left: 50%;
+  color: rgba(255, 255, 255, 0.025);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(5rem, 8vw, 8rem);
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+.hero-rivalry-field__year {
+  position: absolute;
+  right: 5%;
+  bottom: 3%;
+  color: rgba(242, 215, 125, 0.08);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(4.8rem, 8vw, 7rem);
+  font-weight: 780;
+  letter-spacing: -0.08em;
+}
+
+.hero-year-status {
+  position: absolute;
+  z-index: 8;
+  top: 8%;
+  left: 6%;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  gap: 2px 12px;
   font-family: var(--font-mono), monospace;
-  font-size: 0.57rem;
+}
+
+.hero-year-status span,
+.hero-year-status small {
+  color: #819087;
+  font-size: 0.54rem;
   letter-spacing: 0.15em;
 }
 
-.hero-card {
-  position: absolute !important;
+.hero-year-status strong {
+  color: var(--gold-bright);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.35rem;
+}
+
+.hero-year-status small {
+  grid-column: 1 / -1;
+}
+
+.hero-rival-cards {
+  position: absolute;
   z-index: 5;
+  inset: 17% 5% 14%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+}
+
+.hero-rival-card {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  place-items: center;
+}
+
+.hero-card {
+  position: relative !important;
   width: 218px !important;
   min-height: 352px !important;
   transform-origin: center bottom;
@@ -498,32 +577,62 @@ h3 {
   gap: 7px 4px;
 }
 
-.hero-card--1 {
-  top: 23%;
+.hero-card--messi {
+  transform: rotate(-2deg);
+}
+
+.hero-card--ronaldo {
+  transform: rotate(2deg);
+}
+
+.hero-year-rail {
+  position: absolute;
+  z-index: 8;
+  bottom: 6.5%;
   left: 6%;
-  z-index: 2;
-  transform: rotate(-3deg) scale(0.86);
+  display: flex;
+  align-items: center;
+  gap: 11px;
 }
 
-.hero-card--2 {
-  top: 19%;
-  left: 35%;
-  z-index: 3;
-  transform: rotate(-1deg);
+.hero-year-rail__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #657168;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.04em;
+  transition: color 180ms ease;
 }
 
-.hero-card--3 {
-  top: 24%;
-  right: -1%;
-  z-index: 2;
-  transform: rotate(3deg) scale(0.87);
+.hero-year-rail__item i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #526057;
+  transition:
+    width 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.hero-year-rail__item--active {
+  color: var(--gold-bright);
+}
+
+.hero-year-rail__item--active i {
+  width: 18px;
+  border-radius: 999px;
+  background: var(--gold);
+  box-shadow: 0 0 12px rgba(214, 180, 92, 0.48);
 }
 
 .showcase-plaque {
   position: absolute;
   z-index: 7;
-  right: 2%;
-  bottom: 4%;
+  right: 4%;
+  bottom: 2%;
   display: flex;
   min-width: 210px;
   align-items: center;
@@ -550,6 +659,26 @@ h3 {
 
 .showcase-plaque b {
   color: var(--gold-bright);
+}
+
+.hero-scroll-cue {
+  position: absolute;
+  right: 30px;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #68736c;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.14em;
+}
+
+.hero-scroll-cue span {
+  width: 34px;
+  height: 1px;
+  overflow: hidden;
+  background: linear-gradient(90deg, transparent, var(--gold-bright));
 }
 
 .section {
@@ -2797,34 +2926,39 @@ h3 {
 
 @media (max-width: 900px) {
   .hero {
-    padding-top: 140px;
+    min-height: 100svh;
   }
 
   .hero::before {
     display: none;
   }
 
+  .hero-scroll-sticky {
+    padding-top: 96px;
+  }
+
   .hero__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(250px, 0.8fr) minmax(400px, 1.2fr);
+    gap: 18px;
   }
 
   .hero__copy {
-    text-align: center;
+    text-align: left;
   }
 
   .hero__lede {
-    margin-inline: auto;
+    font-size: 0.92rem;
   }
 
   .hero__actions,
   .hero__proof {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .hero-showcase {
-    width: min(100%, 650px);
-    min-height: 540px;
-    margin: 10px auto 0;
+    width: 100%;
+    min-height: 520px;
+    margin: 0;
   }
 
   .steps-grid {
@@ -2921,54 +3055,66 @@ h3 {
   }
 
   .hero {
-    min-height: auto;
-    padding: 126px 0 62px;
+    min-height: 100svh;
+    padding: 0;
+  }
+
+  .hero-scroll-scene {
+    height: 520svh;
+  }
+
+  .hero-scroll-sticky {
+    align-items: flex-start;
+    padding: 92px 0 18px;
+  }
+
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .hero__copy {
+    padding-top: 0;
+    text-align: center;
   }
 
   .hero h1 {
-    font-size: clamp(3rem, 14vw, 4.2rem);
+    margin: 12px 0 14px;
+    font-size: clamp(2.5rem, 12vw, 3.5rem);
   }
 
   .hero__lede {
-    font-size: 0.92rem;
+    display: none;
+  }
+
+  .hero__actions {
+    justify-content: center;
   }
 
   .hero__proof {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .hero__proof span {
-    display: flex;
-    padding: 0 10px;
-    flex-direction: column;
-  }
-
-  .hero__proof span:first-child {
-    padding-left: 10px;
+    display: none;
   }
 
   .hero-showcase {
-    min-height: 430px;
+    min-height: 360px;
   }
 
   .hero-showcase::before {
-    inset: 5% 0 0;
+    inset: 4% 0 2%;
   }
 
-  .hero-pitch {
-    inset: 17% 5% 5% 10%;
+  .hero-rivalry-field {
+    inset: 15% 3% 12%;
   }
 
   .hero-card {
-    width: 167px !important;
-    min-height: 300px !important;
+    width: 148px !important;
+    min-height: 270px !important;
     padding: 9px;
   }
 
   .hero-card .player-card__portrait {
-    height: 105px;
+    height: 96px;
   }
 
   .hero-card .player-card__stats {
@@ -2979,31 +3125,52 @@ h3 {
     display: none;
   }
 
-  .hero-card--1 {
-    top: 25%;
-    left: 0;
-    transform: rotate(-7deg) scale(0.78);
+  .hero-card--messi {
+    transform: rotate(-1.5deg);
   }
 
-  .hero-card--2 {
-    top: 18%;
-    left: 27%;
-    transform: rotate(-1deg) scale(0.9);
+  .hero-card--ronaldo {
+    transform: rotate(1.5deg);
   }
 
-  .hero-card--3 {
-    top: 25%;
-    right: 0;
-    transform: rotate(7deg) scale(0.78);
+  .hero-rival-cards {
+    inset: 17% 1% 13%;
+    gap: 0;
   }
 
-  .showcase-label {
-    left: 8%;
+  .hero-year-status {
+    top: 5%;
+    left: 5%;
+  }
+
+  .hero-year-rail {
+    bottom: 4%;
+    left: 5%;
+    gap: 7px;
+  }
+
+  .hero-year-rail__item {
+    font-size: 0;
+  }
+
+  .hero-year-rail__item i {
+    width: 5px;
+    height: 5px;
+  }
+
+  .hero-year-rail__item--active i {
+    width: 22px;
   }
 
   .showcase-plaque {
     right: 2%;
-    bottom: 1%;
+    bottom: 0;
+    min-width: 170px;
+    padding: 10px 12px;
+  }
+
+  .hero-scroll-cue {
+    display: none;
   }
 
   .section {
@@ -3351,15 +3518,11 @@ h3 {
 
 @media (max-width: 420px) {
   .hero-card {
-    width: 146px !important;
-  }
-
-  .hero-card--2 {
-    left: 29%;
+    width: 136px !important;
   }
 
   .showcase-plaque {
-    min-width: 180px;
+    min-width: 145px;
   }
 
   .showcase-plaque span {
@@ -3379,6 +3542,19 @@ h3 {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .hero-scroll-scene {
+    height: auto;
+  }
+
+  .hero-scroll-sticky {
+    position: relative;
+    min-height: 100svh;
+  }
+
+  .hero-scroll-cue {
+    display: none;
   }
 
   *,

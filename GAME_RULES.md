@@ -20,9 +20,11 @@ order. Filled entries are inspectable and never replace or reorder a pick.
 
 ## Active archive and status tiers
 
-The typed active archive contains 627 player cards across 287 stable identities
+The typed active archive contains 629 player cards across 287 stable identities
 and 49 manager cards across 39 stable identities. Every player card represents an
-actual match appearance in one supported men's World Cup from 1970 through 2022.
+actual match appearance in one supported men's World Cup from 1970 through 2026.
+The two live 2026 versions are current sourced snapshots: incomplete totals stay
+null and neither card claims an unfinished tournament award or champion status.
 Drafting, hydration repair, and play all use the explicit active boundary; image
 availability never changes card eligibility.
 

@@ -260,6 +260,27 @@ const fifa2022AwardsSource: DataCitation = {
   accessedOn: "2026-07-18",
 };
 
+const fifa2026StatsSource: DataCitation = {
+  label: "FIFA World Cup 2026 top tournament statistics — 14 July snapshot",
+  url: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/fifa-world-cup-key-statistics",
+  publisher: "FIFA",
+  accessedOn: "2026-07-18",
+};
+
+const fifa2026MessiRecordSource: DataCitation = {
+  label: "Messi enters the World Cup record books",
+  url: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/fifa.com/en/articles/argentina-austria-match-report-highlights",
+  publisher: "FIFA",
+  accessedOn: "2026-07-18",
+};
+
+const fifa2026RonaldoRecordSource: DataCitation = {
+  label: "Ronaldo scores in a sixth World Cup",
+  url: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cristiano-ronaldo-portugal-goal-record",
+  publisher: "FIFA",
+  accessedOn: "2026-07-18",
+};
+
 const achievement = (
   id: string,
   label: string,
@@ -454,6 +475,37 @@ const curatedEvidenceByCardId: Record<string, Evidence> = {
         "Received FIFA’s Young Player Award at Qatar 2022.",
         0.3,
         fifa2022AwardsSource,
+      ),
+    ],
+  },
+  "lionel-messi-2026": {
+    stats: {
+      goals: 8,
+      assists: 4,
+    },
+    sources: [fifa2026StatsSource, fifa2026MessiRecordSource],
+    achievements: [
+      achievement(
+        "world-cup-scoring-record-2026",
+        "World Cup scoring record",
+        "Became the FIFA World Cup’s all-time leading scorer during the 2026 tournament.",
+        0.35,
+        fifa2026MessiRecordSource,
+      ),
+    ],
+  },
+  "cristiano-ronaldo-2026": {
+    stats: {
+      goals: 3,
+    },
+    sources: [fifa2026StatsSource, fifa2026RonaldoRecordSource],
+    achievements: [
+      achievement(
+        "scored-in-six-world-cups-2026",
+        "Scored in six World Cups",
+        "Became the first man to score in six FIFA World Cup editions.",
+        0.3,
+        fifa2026RonaldoRecordSource,
       ),
     ],
   },
@@ -1107,7 +1159,9 @@ for (const seed of archiveSeeds) {
   seedsByIdentityId.set(identityId, identitySeeds);
 }
 
-const seeds: CardSeed[] = Object.entries(tournamentArchive.identities).flatMap(
+const sourcedTournamentSeeds: CardSeed[] = Object.entries(
+  tournamentArchive.identities,
+).flatMap(
   ([identityId, tournaments]) => {
     const identitySeeds = seedsByIdentityId.get(identityId);
     if (!identitySeeds?.length) {
@@ -1157,6 +1211,39 @@ const seeds: CardSeed[] = Object.entries(tournamentArchive.identities).flatMap(
       });
   },
 );
+
+// The 2026 tournament is still in progress. These two cards are activated from
+// current FIFA appearance/stat evidence without inferring unfinished totals,
+// awards, or a champion. Update the nullable fields when FIFA publishes the
+// completed tournament record.
+const live2026Seeds: CardSeed[] = [
+  {
+    id: "lionel-messi-2026",
+    playerName: "Lionel Messi",
+    nation: "ARG",
+    tournamentYear: 2026,
+    primaryPosition: "RW",
+    eligiblePositions: ["RW", "CF", "AM", "ST"],
+    overall: 98,
+    finalOverall: 98,
+    archetype: "Record-breaking final-third conductor",
+    rarity: "iconic",
+  },
+  {
+    id: "cristiano-ronaldo-2026",
+    playerName: "Cristiano Ronaldo",
+    nation: "POR",
+    tournamentYear: 2026,
+    primaryPosition: "ST",
+    eligiblePositions: ["ST", "CF"],
+    overall: 85,
+    finalOverall: 85,
+    archetype: "Veteran penalty-box reference",
+    rarity: "classic",
+  },
+];
+
+const seeds = [...sourcedTournamentSeeds, ...live2026Seeds];
 
 export const players: PlayerTournamentCard[] = playerSeedSchema.parse(
   seeds.map(makeCard),

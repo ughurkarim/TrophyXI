@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-18T23:07:03.411Z",
+  "generatedAt": "2026-07-18T23:24:30.535Z",
   "policy": "Project-specific EA/SoFIFA permission only: local cache first; at least two seconds between requests; maximum 5,000 per UTC day; original PNG metadata and watermarks preserved; required attribution retained. The former UTC download window no longer applies.",
-  "configuredCandidates": 161,
-  "activeExactYearFaces": 161,
-  "downloaded": 0,
+  "configuredCandidates": 163,
+  "activeExactYearFaces": 163,
+  "downloaded": 2,
   "skipped": 161,
   "failed": 0,
   "photoPending": 515,
@@ -3769,6 +3769,16 @@
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved exact-year source is configured."
+    },
+    {
+      "id": "lionel-messi-2026",
+      "kind": "player",
+      "status": "downloaded"
+    },
+    {
+      "id": "cristiano-ronaldo-2026",
+      "kind": "player",
+      "status": "downloaded"
     },
     {
       "id": "alf-ramsey-1970",

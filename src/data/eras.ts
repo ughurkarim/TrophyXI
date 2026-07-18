@@ -127,9 +127,9 @@ const eraDefinitions: DraftEra[] = [
   {
     id: "2020s",
     label: "2020s",
-    years: "2022",
+    years: "2022—2026",
     yearRange: [2020, 2029],
-    midpointYear: 2022,
+    midpointYear: 2024,
     description:
       "Aggressive pressing, rapid transitions, hybrid roles, high lines, and distributor goalkeepers.",
     accent: "Crown of Tomorrow",

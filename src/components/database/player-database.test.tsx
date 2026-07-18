@@ -7,19 +7,21 @@ describe("PlayerDatabase", () => {
     render(<PlayerDatabase />);
 
     expect(screen.getByRole("heading", { name: "Player Database" })).toBeVisible();
-    expect(screen.getByText("Cards").parentElement).toHaveTextContent("627");
+    expect(screen.getByText("Cards").parentElement).toHaveTextContent("629");
     expect(screen.getByText("Identities").parentElement).toHaveTextContent("287");
 
     fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
       target: { value: "Lionel Messi" },
     });
-    expect(screen.getAllByRole("button", { name: /view lionel messi/i })).toHaveLength(5);
+    expect(
+      screen.getAllByRole("button", { name: /view lionel messi/i }),
+    ).toHaveLength(6);
 
     fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
       target: { value: "Cristiano Ronaldo" },
     });
     expect(
       screen.getAllByRole("button", { name: /view cristiano ronaldo/i }),
-    ).toHaveLength(5);
+    ).toHaveLength(6);
   });
 });

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-18T23:07:03.411Z",
+  "generatedAt": "2026-07-18T23:24:30.535Z",
   "faces": [
     {
       "id": "alexis-sanchez-2014",
@@ -3703,6 +3703,52 @@
       "approvedForImport": true,
       "localPath": "/assets/players/2022/yassine-bounou-2022.png",
       "sourceFile": "/assets/players/2022/yassine-bounou-2022.png",
+      "changes": "No image transformation. Original PNG bytes, embedded metadata, and any watermark are preserved exactly as downloaded."
+    },
+    {
+      "id": "cristiano-ronaldo-2026",
+      "kind": "player",
+      "tournamentYear": 2026,
+      "gameEdition": "EA SPORTS FC 26",
+      "sourceWebsite": "SoFIFA",
+      "sourceUrl": "https://cdn.sofifa.net/players/020/801/26_120.png",
+      "author": "EA SPORTS",
+      "license": "Project-specific EA/SoFIFA permission",
+      "licenseUrl": "https://sofifa.com/",
+      "retrievedOn": "2026-07-18",
+      "matchQuality": "manually-reviewed-exact-year",
+      "exactYearEvidence": "Reviewed Cristiano Ronaldo dos Santos Aveiro on the SoFIFA FC 26 page https://sofifa.com/player/20801/c-ronaldo-dos-santos-aveiro/260006/; the page records real_face=Yes for player 20801, and FC 26 was the current edition available by June 2026.",
+      "permissionScope": "project-specific-ea-sofifa",
+      "requiredAttribution": "EA SPORTS player imagery, sourced via SoFIFA, used under project-specific permission.",
+      "preserveMetadataAndWatermarks": true,
+      "cachePolicy": "local-first-conditional",
+      "reusableLicenseConfirmed": true,
+      "approvedForImport": true,
+      "localPath": "/assets/players/2026/cristiano-ronaldo-2026.png",
+      "sourceFile": "/assets/players/2026/cristiano-ronaldo-2026.png",
+      "changes": "No image transformation. Original PNG bytes, embedded metadata, and any watermark are preserved exactly as downloaded."
+    },
+    {
+      "id": "lionel-messi-2026",
+      "kind": "player",
+      "tournamentYear": 2026,
+      "gameEdition": "EA SPORTS FC 26",
+      "sourceWebsite": "SoFIFA",
+      "sourceUrl": "https://cdn.sofifa.net/players/158/023/26_120.png",
+      "author": "EA SPORTS",
+      "license": "Project-specific EA/SoFIFA permission",
+      "licenseUrl": "https://sofifa.com/",
+      "retrievedOn": "2026-07-18",
+      "matchQuality": "manually-reviewed-exact-year",
+      "exactYearEvidence": "Reviewed Lionel Andrés Messi Cuccitini on the SoFIFA FC 26 page https://sofifa.com/player/158023/lionel-messi/260008/; the page records real_face=Yes for player 158023, and FC 26 was the current edition available by June 2026.",
+      "permissionScope": "project-specific-ea-sofifa",
+      "requiredAttribution": "EA SPORTS player imagery, sourced via SoFIFA, used under project-specific permission.",
+      "preserveMetadataAndWatermarks": true,
+      "cachePolicy": "local-first-conditional",
+      "reusableLicenseConfirmed": true,
+      "approvedForImport": true,
+      "localPath": "/assets/players/2026/lionel-messi-2026.png",
+      "sourceFile": "/assets/players/2026/lionel-messi-2026.png",
       "changes": "No image transformation. Original PNG bytes, embedded metadata, and any watermark are preserved exactly as downloaded."
     }
   ]

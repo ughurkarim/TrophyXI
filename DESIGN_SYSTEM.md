@@ -32,19 +32,17 @@ image-context labels.
 
 ## Stable landing-card interaction
 
-The landing showcase owns one motion layer for x, y, rotateX, and rotateY. Pointer
-input is normalized from the fixed showcase bounds, clamped to ±8px x, ±6px y,
-±3.5° rotateX, and ±4° rotateY, then damped by one spring. Values are absolute,
-never accumulated. Pointer exit and blur return all values to zero.
+The landing showcase is a pinned Ronaldo/Messi archive. Vertical progress scrubs
+both card ids through 2026, 2022, 2018, 2014, 2010, and 2006, then the sticky
+stage releases into ordinary document scrolling. Messi stays left and Ronaldo
+stays right. Pelé is not part of this showcase.
 
-The featured order is Pelé 1970, Lionel Messi 2022, and Cristiano Ronaldo 2006,
-with Messi centered as the main focus. Decorative cards do not capture pointer
-events; the stable showcase bounds own input for the entire fan.
-
-CSS never animates those same transform properties. Base card fan rotation stays
-within ±3°. Hover elevation does not alter document flow. Touch and pen input do
-not run parallax. Keyboard focus uses border/glow only. Reduced motion removes
-tilt, parallax, scale, and transition travel.
+One Framer Motion wrapper per card owns only transition opacity, vertical travel,
+and blur. The nested static card owns its restrained ±2° base rotation, so two
+animation systems never control the same transform property. Decorative cards
+do not capture pointer events. Keyboard focus uses border/glow only. Reduced
+motion collapses the long scroll scene, shows the 2026 pair, removes transition
+travel, and preserves immediate access to the rest of the page.
 
 ## Stable formation nodes
 

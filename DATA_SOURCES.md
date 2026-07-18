@@ -17,7 +17,7 @@ engine behavior, not factual honors.
 
 ## Active archive boundary
 
-`src/data/archive-eligibility.ts` declares all 627 player cards and 49 manager
+`src/data/archive-eligibility.ts` declares all 629 player cards and 49 manager
 cards eligible for the current draft. Research-only records remain outside that
 boundary and cannot enter runtime offers. Image availability does not control
 eligibility; an exact-year face without a complete manifest record remains Photo
@@ -69,7 +69,10 @@ rows are excluded. Image use remains governed by the separate project-specific
 EA/SoFIFA permission and required attribution; the CC0 index does not replace
 those image terms. No 2006 or 2010 face is activated; those tournament cards
 remain Photo Pending. The reviewed in-season production archive begins with
-FIFA 14.
+FIFA 14. The two verified 2026 cards use the manually reviewed EA SPORTS FC 26
+SoFIFA records for player ids 158023 and 20801, both marked `real_face=Yes`.
+The former public nearby-year/modern-photo portrait pipeline has been removed;
+only importer-manifested card/year assets can be served as player faces.
 
 The 2026 participant set is maintained separately from:
 
@@ -77,11 +80,13 @@ The 2026 participant set is maintained separately from:
 - https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/world-cup-2026-who-has-qualified
 - accessed 2026-07-18
 
-It supports the 48 participant identities only. The local tournament record is
-marked `Tournament in progress`; champion, finish, manager, starting lineup,
-advancement, awards, match count, results, and detailed statistics remain `null`
-or empty. No 2026 champion can pass validation without verified local result
-data.
+It supports the 48 opponent participant identities. Two separate live player
+records are sourced directly from FIFA: Lionel Messi 2026 and Cristiano Ronaldo
+2026. FIFA’s 14 July statistics snapshot supports Messi’s eight goals and four
+assists and Ronaldo’s three goals; FIFA match reporting supports their named
+six-tournament scoring records. Unfinished appearance/start/minute totals remain
+`null`. The local tournament record remains `Tournament in progress`; no 2026
+champion can pass validation without verified local result data.
 
 The combined browser therefore contains 416 unique nation-year ids across 15
 editions. The current sources do not contain record-level tournament managers,
@@ -139,5 +144,15 @@ sheets, and selected published 2018 goal totals.
 https://publications.fifa.com/en/annual-report-2022/2022-at-a-glance/fifa-world-cup-qatar-2022-summary/
 
 Supports the 2022 Golden Ball, Golden Boot, Golden Glove, and Young Player Award.
+
+### FIFA — World Cup 2026 live statistics and records
+
+https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/fifa-world-cup-key-statistics
+
+https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cristiano-ronaldo-portugal-goal-record
+
+Supports the live 2026 Messi/Ronaldo scoring profile and Ronaldo’s
+six-World-Cup scoring record. The Messi tournament card also cites FIFA’s
+Argentina–Austria match report for the all-time scoring-record milestone.
 
 All listed web sources were accessed on 2026-07-18.

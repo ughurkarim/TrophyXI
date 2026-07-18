@@ -17,7 +17,7 @@ describe("expanded archive contracts", () => {
     const defenders = ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB"];
     const midfielders = ["DM", "CM", "AM", "LM", "RM"];
     const attackers = ["LW", "RW", "CF", "ST"];
-    expect(players).toHaveLength(627);
+    expect(players).toHaveLength(629);
     expect(new Set(players.map((player) => player.playerIdentityId)).size).toBe(
       287,
     );
@@ -32,7 +32,7 @@ describe("expanded archive contracts", () => {
     ).toHaveLength(185);
     expect(
       players.filter((player) => attackers.includes(player.primaryPosition)),
-    ).toHaveLength(214);
+    ).toHaveLength(216);
   });
 
   it("covers every tournament, confederation, and quality band", () => {
@@ -62,7 +62,7 @@ describe("expanded archive contracts", () => {
     expect(new Set(managers.map((manager) => manager.managerIdentityId)).size).toBe(
       39,
     );
-    expect(draftEligiblePlayers).toHaveLength(627);
+    expect(draftEligiblePlayers).toHaveLength(629);
     expect(draftEligibleManagers).toHaveLength(49);
     expect(imageAttributions).toHaveLength(
       playerImages.length + managerImages.length,
@@ -73,7 +73,7 @@ describe("expanded archive contracts", () => {
     ).toBe(true);
     expect(
       players.filter((player) => !imagesById.has(player.imageId)),
-    ).toHaveLength(627 - playerImages.length);
+    ).toHaveLength(629 - playerImages.length);
   });
 
   it("enforces the 99 cap and broad tournament-card rating distribution", () => {
@@ -131,6 +131,7 @@ describe("expanded archive contracts", () => {
       "lionel-messi-2014",
       "lionel-messi-2018",
       "lionel-messi-2022",
+      "lionel-messi-2026",
     ]);
     expect(ronaldo.map((player) => player.imageId)).toEqual([
       "ronaldo-1998",
@@ -143,6 +144,7 @@ describe("expanded archive contracts", () => {
       "cristiano-ronaldo-2014",
       "cristiano-ronaldo-2018",
       "cristiano-ronaldo-2022",
+      "cristiano-ronaldo-2026",
     ]);
     expect(gameFacePathFor("player", "lionel-messi-2014", 2014)).toBe(
       "/assets/players/2014/lionel-messi-2014.png",
@@ -150,12 +152,15 @@ describe("expanded archive contracts", () => {
     expect(gameFacePathFor("player", "lionel-messi-2022", 2022)).toBe(
       "/assets/players/2022/lionel-messi-2022.png",
     );
+    expect(gameFacePathFor("player", "lionel-messi-2026", 2026)).toBe(
+      "/assets/players/2026/lionel-messi-2026.png",
+    );
     expect(gameFacePathFor("manager", "lionel-scaloni-2022", 2022)).toBe(
       "/assets/managers/2022/lionel-scaloni-2022.png",
     );
     expect(messi.every((player) => player.isDraftEligible)).toBe(true);
-    expect(new Set(messi.map((player) => player.overall)).size).toBe(5);
-    expect(new Set(cristiano.map((player) => player.overall)).size).toBe(5);
+    expect(new Set(messi.map((player) => player.overall)).size).toBe(6);
+    expect(new Set(cristiano.map((player) => player.overall)).size).toBe(6);
   });
 
   it("stores sourced career accolades and curated Top 100 independently", () => {

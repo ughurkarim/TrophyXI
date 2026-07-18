@@ -47,8 +47,7 @@ export default function LandingPage() {
       <SiteHeader />
       <main>
         <section className="hero">
-          <div className="hero__glow" aria-hidden />
-          <div className="container hero__grid">
+          <HeroShowcase>
             <div className="hero__copy">
               <p className="eyebrow eyebrow--gold">THE WORLD CUP XI SIMULATOR</p>
               <h1>
@@ -70,7 +69,7 @@ export default function LandingPage() {
               </div>
               <div className="hero__proof" aria-label="Game highlights">
                 <span>
-                  <b>627</b> tournament cards
+                  <b>629</b> tournament cards
                 </span>
                 <span>
                   <b>416</b> sourced participants
@@ -80,8 +79,7 @@ export default function LandingPage() {
                 </span>
               </div>
             </div>
-            <HeroShowcase />
-          </div>
+          </HeroShowcase>
         </section>
 
         <section className="section how-it-works" id="how-it-works">
