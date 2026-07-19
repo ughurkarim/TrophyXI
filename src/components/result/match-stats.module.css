@@ -1,0 +1,139 @@
+.table {
+  padding-top: 15px;
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 92px;
+  align-items: center;
+  text-align: center;
+}
+
+.head {
+  min-height: 36px;
+  color: #737d75;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.46rem;
+  letter-spacing: 0.08em;
+}
+
+.head b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.head b:first-child {
+  color: #71b88d;
+}
+
+.head b:last-child {
+  color: var(--gold);
+}
+
+.row {
+  min-height: 55px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.047);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.row > b {
+  color: #a5ada7;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  font-weight: 590;
+  transition: color 160ms ease;
+}
+
+.row > .leadingValue {
+  color: var(--gold-bright);
+  font-weight: 720;
+}
+
+.comparison {
+  min-width: 0;
+}
+
+.comparison > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #929b94;
+  font-size: 0.63rem;
+  font-weight: 530;
+}
+
+.bars {
+  display: grid;
+  width: min(100%, 350px);
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: center;
+  gap: 5px;
+  margin: auto;
+}
+
+.bars i {
+  display: flex;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.bars i span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.userTrack {
+  justify-content: flex-end;
+}
+
+.userTrack span {
+  background: linear-gradient(90deg, #3c805b, #7ac298);
+  box-shadow: 0 0 9px rgba(92, 187, 131, 0.25);
+}
+
+.opponentTrack {
+  justify-content: flex-start;
+}
+
+.opponentTrack span {
+  background: linear-gradient(90deg, var(--gold-bright), #8b6a1f);
+  box-shadow: 0 0 9px rgba(220, 183, 82, 0.24);
+}
+
+.bars em {
+  width: 1px;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 520px) {
+  .head,
+  .row {
+    grid-template-columns: 57px minmax(0, 1fr) 57px;
+  }
+
+  .head {
+    font-size: 0.4rem;
+  }
+
+  .head span {
+    letter-spacing: 0.05em;
+  }
+
+  .row > b {
+    font-size: 0.64rem;
+  }
+
+  .comparison > span {
+    font-size: 0.58rem;
+  }
+}

@@ -1123,17 +1123,99 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await page.getByRole("button", { name: /skip to result/i }).click();
 
   await expect(page).toHaveURL(/\/result$/);
-  await expect(page.getByText("MATCH STATISTICS")).toBeVisible();
-  await expect(page.getByText(/manager impact:/i)).toBeVisible();
-  await expect(page.locator(".squad-minutes__table article")).toHaveCount(14);
+  const resultPage = page.getByTestId("result-page");
+  const resultHero = page.getByTestId("result-hero");
+  const matchReport = page.getByTestId("match-report");
   await expect(
-    page.locator(".squad-minutes__table article").filter({ hasText: /% fit/ }),
-  ).toHaveCount(11);
-  await expect(
-    page.getByText(/era translation applies in both directions/i),
+    page.getByRole("heading", { name: "History renders its verdict." }),
   ).toBeVisible();
+  await expect(resultHero.getByText("FINAL RECORD")).toBeVisible();
+  await expect(page.getByText(/player of the match/i)).toHaveCount(0);
+  await expect(page.getByText(/the archive answers back/i)).toHaveCount(0);
+  await expect(page.getByText(/\bnull\b/i)).toHaveCount(0);
+  await expect(matchReport.getByText(/\bseed\b/i)).toHaveCount(0);
+  await expect(matchReport.getByText("MATCH STATISTICS")).toBeVisible();
+  await expect(page.getByText("MANAGER INSIGHT")).toBeVisible();
+  const resultActionHeights = await page
+    .getByTestId("result-actions")
+    .getByRole("button")
+    .evaluateAll((buttons) =>
+      buttons.map((button) =>
+        Math.round(button.getBoundingClientRect().height),
+      ),
+    );
+  expect(new Set(resultActionHeights).size).toBe(1);
+
+  const finalRatings = page.getByTestId("final-ratings");
+  for (const rating of ["ATK", "MID", "DEF", "CHEM", "OVR"]) {
+    await expect(finalRatings.getByText(rating, { exact: true })).toBeVisible();
+  }
+
+  await expect(
+    page.getByRole("heading", { name: "Two XIs. One final record." }),
+  ).toBeVisible();
+  const resultUserSheet = page.getByTestId("trophy-xi-team-sheet");
+  const resultOpponentSheet = page.getByTestId("opponent-team-sheet");
+  await expect(resultUserSheet.getByText(managerName, { exact: true })).toBeVisible();
+  await expect(
+    resultOpponentSheet.getByText("Mário Zagallo", { exact: true }),
+  ).toBeVisible();
+  await expect(resultUserSheet.locator(".pitch")).toBeVisible();
+  await expect(resultOpponentSheet.locator(".pitch")).toBeVisible();
+
+  const contributionRows = page
+    .getByTestId("squad-contributions")
+    .getByRole("article");
+  await expect(contributionRows).toHaveCount(14);
+  await expect(
+    contributionRows.filter({ hasText: /% fit/ }),
+  ).toHaveCount(11);
+  await expect(page.getByText(/−0% placement/)).toHaveCount(0);
+  await expect(
+    page.getByText(/era translation is reflected on both sides/i),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/bench \d priority|influence \d+/i),
+  ).toHaveCount(0);
+  await expect(
+    page.getByText(
+      /original combined squad|trophy xi composite|matches not sourced|normal fatigue|deterministic substitutions/i,
+    ),
+  ).toHaveCount(0);
   await expect(page.getByText(/world cup all-stars/i).first()).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "How the match turned" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Take the result with you" }),
+  ).toBeVisible();
+  await expect(page.getByTestId("share-card-preview")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Copy result summary" }),
+  ).toBeVisible();
+
+  const resultClipping = await resultPage.evaluate((resultLayout) => ({
+    horizontal: resultLayout.scrollWidth > resultLayout.clientWidth + 1,
+    clippedSections: [
+      ...resultLayout.querySelectorAll<HTMLElement>(
+        "[data-testid='result-hero'], [data-testid='match-report'], [data-testid='final-ratings'], [data-testid='team-sheets'], [data-testid='squad-contributions'], [data-testid='result-timeline'], [data-testid='share-result']",
+      ),
+    ]
+      .filter((section) => section.scrollWidth > section.clientWidth + 1)
+      .map((section) => section.dataset.testid),
+  }));
+  expect(resultClipping.horizontal).toBe(false);
+  expect(resultClipping.clippedSections).toEqual([]);
   await captureState("06-result.png");
+  await captureState("06-result-team-sheets.png", {
+    focusSelector: '[data-testid="team-sheets"]',
+  });
+  await captureState("06-result-contributions.png", {
+    focusSelector: '[data-testid="squad-contributions"]',
+  });
+  await captureState("06-result-share.png", {
+    focusSelector: '[data-testid="share-result"]',
+  });
   await page.getByRole("button", { name: "Redraft" }).click();
   await expect(page).toHaveURL(/\/play\/manager$/);
   await expect(
