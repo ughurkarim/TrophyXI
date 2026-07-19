@@ -3,35 +3,19 @@
 import { Check, Crown, Search, Shield, Sparkles, Swords } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  getOpponentLabel,
-  historicalOpponents,
-  worldCupAllStars,
-} from "@/data/opponents";
+import { managerGradeLabel } from "@/data/managers";
+import { historicalOpponents, worldCupAllStars } from "@/data/opponents";
 import { calculateOpponentEraFit } from "@/engine/era-translation";
+import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { useGameStore } from "@/store/game-store";
 import { WORLD_CUP_YEARS } from "@/types/game";
 import type { DraftEraId, HistoricalWorldCupTeam } from "@/types/game";
 import { flagForCountry } from "@/lib/utils";
+import styles from "./opponent-selection.module.css";
 
 const PAGE_SIZE = 24;
 
 const unique = (values: string[]) => [...new Set(values)].sort();
-
-const hasDataStatus = (
-  opponent: HistoricalWorldCupTeam,
-  status: string,
-) => {
-  if (!status) return true;
-  if (status === "verified") return opponent.startingLineup.length === 11;
-  if (status === "partial") {
-    return (
-      opponent.sources.length > 0 &&
-      (opponent.startingLineup.length === 0 || !opponent.managerName)
-    );
-  }
-  return opponent.formationIsModel && opponent.startingLineup.length === 0;
-};
 
 const matchesFilters = (
   opponent: HistoricalWorldCupTeam,
@@ -49,7 +33,6 @@ const matchesFilters = (
     (!filters.confederation ||
       opponent.confederation === filters.confederation) &&
     (!filters.difficulty || opponent.difficulty === filters.difficulty) &&
-    hasDataStatus(opponent, filters.dataStatus) &&
     (!filters.championOnly || opponent.tournamentFinish === "champion")
   );
 };
@@ -86,6 +69,14 @@ export function OpponentSelection({
       : historicalOpponents.find(
           (opponent) => opponent.id === selectedOpponentId,
         );
+  const allStarsManager = worldCupAllStars.allStars!.manager;
+  const managerEraFit = calculateManagerEraFit(allStarsManager, eraId).score;
+  const selectedFooterLabel =
+    selected?.kind === "all-stars"
+      ? "World Cup All-Stars · Mythic"
+      : selected
+        ? `${selected.nationName} ${selected.tournamentYear}`
+        : "Choose one opponent";
   const visible = filtered.slice(0, visibleCount);
   const groups = years
     .map((year) => ({
@@ -111,8 +102,8 @@ export function OpponentSelection({
           <h2 id="opponent-heading">Choose your opponent.</h2>
           <p>
             The archive includes sourced participants from 1970–2026. Unknown
-            current-tournament results remain unknown; tactical ratings and
-            formations are clearly labeled Trophy XI models.
+            current-tournament results remain unknown. Ratings, formations,
+            and Era Translation shape each matchup.
           </p>
         </div>
         <strong>
@@ -132,9 +123,9 @@ export function OpponentSelection({
         </div>
         <button
           type="button"
-          className={`opponent-card opponent-card--featured ${
+          className={`opponent-card opponent-card--featured ${styles.featuredCard} ${
             selectedOpponentId === worldCupAllStars.id
-              ? "opponent-card--selected"
+              ? styles.featuredSelected
               : ""
           }`}
           onClick={() => selectOpponent(worldCupAllStars.id)}
@@ -144,48 +135,103 @@ export function OpponentSelection({
           <div className="all-stars-seal" aria-hidden>
             XI
           </div>
-          <div className="opponent-card__title">
-            <span>WORLD CUP ALL-STARS</span>
-            <b>MYTHIC</b>
+          <div className={styles.featuredBody}>
+            <div className={`opponent-card__title ${styles.featuredTitle}`}>
+              <span>WORLD CUP ALL-STARS</span>
+              <span className={styles.difficulty}>
+                <small>DIFFICULTY</small>
+                <b>MYTHIC</b>
+              </span>
+            </div>
+            <p className={styles.subtitle}>
+              {worldCupAllStars.allStars?.subtitle}
+            </p>
+            <div
+              className={`opponent-card__ratings ${styles.featuredRatings}`}
+              aria-label="World Cup All-Stars ratings"
+            >
+              <span>
+                ATTACK <b>{worldCupAllStars.ratings.attack}</b>
+              </span>
+              <span>
+                MIDFIELD <b>{worldCupAllStars.ratings.midfield}</b>
+              </span>
+              <span>
+                DEFENSE <b>{worldCupAllStars.ratings.defense}</b>
+              </span>
+              <span>
+                OVERALL <b>{worldCupAllStars.ratings.overall}</b>
+              </span>
+            </div>
+            <div className={styles.managerProfile}>
+              <div className={styles.managerHeading}>
+                <span>MANAGER</span>
+                <strong>
+                  {allStarsManager.managerName} ·{" "}
+                  {flagForCountry(allStarsManager.countryCode)}{" "}
+                  {allStarsManager.countryName} {allStarsManager.tournamentYear}
+                </strong>
+              </div>
+              <dl
+                className={styles.managerMetrics}
+                aria-label={`${allStarsManager.managerName} manager profile`}
+              >
+                {[
+                  {
+                    label: "OFF",
+                    value: allStarsManager.grades.offense,
+                  },
+                  {
+                    label: "DEF",
+                    value: allStarsManager.grades.defense,
+                  },
+                  {
+                    label: "Leadership",
+                    value: allStarsManager.leadership,
+                  },
+                  {
+                    label: "Game Management",
+                    value: allStarsManager.gameManagement,
+                  },
+                  {
+                    label: "Era Fit",
+                    value: managerEraFit,
+                  },
+                ].map((metric) => (
+                  <div key={metric.label}>
+                    <dt>{metric.label}</dt>
+                    <dd>
+                      <b>{managerGradeLabel(metric.value)}</b>
+                      <small>{metric.value}</small>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <div className={styles.managerTactics}>
+                <span>
+                  Preferred formations{" "}
+                  <b>{allStarsManager.preferredFormations.join(" · ")}</b>
+                </span>
+                <span>
+                  Tactical style <b>{allStarsManager.style}</b>
+                </span>
+              </div>
+            </div>
           </div>
-          <h3>
-            {flagForCountry(worldCupAllStars.nationCode)}{" "}
-            {worldCupAllStars.nationName}
-          </h3>
-          <p>{worldCupAllStars.allStars?.subtitle}</p>
-          <div className="opponent-card__ratings">
-            <span>
-              ATK <b>{worldCupAllStars.ratings.attack}</b>
-            </span>
-            <span>
-              MID <b>{worldCupAllStars.ratings.midfield}</b>
-            </span>
-            <span>
-              DEF <b>{worldCupAllStars.ratings.defense}</b>
-            </span>
-            <span>
-              OVR <b>{worldCupAllStars.ratings.overall}</b>
-            </span>
-          </div>
-          <div className="opponent-card__meta">
-            <span>
-              <Shield size={12} aria-hidden /> {worldCupAllStars.formation}
-            </span>
-            <span>
-              ERA {calculateOpponentEraFit(worldCupAllStars, eraId)}
-            </span>
-            <span>{worldCupAllStars.managerName}</span>
-            <span>Trophy XI original composite manager</span>
-          </div>
-          {selectedOpponentId === worldCupAllStars.id && (
-            <span className="opponent-selected-mark">
-              <Check size={14} aria-hidden /> Selected
-            </span>
-          )}
+          <span
+            className={`opponent-selected-mark ${styles.featuredSelectionMark}`}
+            data-visible={selectedOpponentId === worldCupAllStars.id}
+            aria-hidden={selectedOpponentId !== worldCupAllStars.id}
+          >
+            <Check size={14} aria-hidden /> Selected
+          </span>
         </button>
       </section>
 
-      <div className="opponent-filters" aria-label="Historical opponent filters">
+      <div
+        className={`opponent-filters ${styles.filterBar}`}
+        aria-label="Historical opponent filters"
+      >
         <label className="champion-filter">
           <span>CHAMPIONS ONLY</span>
           <input
@@ -297,19 +343,6 @@ export function OpponentSelection({
             )}
           </select>
         </label>
-        <label>
-          <span className="sr-only">Historical data status</span>
-          <select
-            aria-label="Historical data status"
-            value={filters.dataStatus}
-            onChange={(event) => update({ dataStatus: event.target.value })}
-          >
-            <option value="">All data statuses</option>
-            <option value="verified">Verified Historical Lineup</option>
-            <option value="partial">Partial Historical Data</option>
-            <option value="modeled">Trophy XI Modeled Lineup</option>
-          </select>
-        </label>
       </div>
 
       <section
@@ -382,12 +415,16 @@ export function OpponentSelection({
         </Button>
       )}
 
-      <div className="opponent-selection__continue">
-        <div>
+      <div className={`opponent-selection__continue ${styles.footer}`}>
+        <div className={styles.footerCopy}>
           <span className="eyebrow">SELECTED OPPONENT</span>
-          <b>{selected ? getOpponentLabel(selected) : "Choose one opponent"}</b>
+          <b>{selectedFooterLabel}</b>
         </div>
-        <Button onClick={onContinue} disabled={!selected}>
+        <Button
+          className={styles.tunnelButton}
+          onClick={onContinue}
+          disabled={!selected}
+        >
           Enter the tunnel <Swords size={16} aria-hidden />
         </Button>
       </div>
@@ -407,16 +444,10 @@ function OpponentCard({
   onSelect: () => void;
 }) {
   const champion = opponent.tournamentFinish === "champion";
-  const status =
-    opponent.startingLineup.length === 11
-      ? "Verified Historical Lineup"
-      : opponent.sources.length
-        ? "Partial Historical Data · Trophy XI Modeled Lineup"
-        : "Trophy XI Modeled Lineup";
   return (
     <button
       type="button"
-      className={`opponent-card ${
+      className={`opponent-card ${styles.historicalCard} ${
         selected ? "opponent-card--selected" : ""
       } ${champion ? "opponent-card--champion" : ""}`}
       onClick={onSelect}
@@ -431,32 +462,30 @@ function OpponentCard({
         <b>{opponent.tournamentYear}</b>
       </div>
       <h3>
-        {champion && (
-          <Crown size={14} aria-label="Champion" />
-        )}
+        {champion && <Crown size={14} aria-label="Champion" />}
         {opponent.nationName}
       </h3>
       <p>
-        {opponent.tournamentFinish ?? "Tournament in progress"}
+        {champion
+          ? "World Cup Champion"
+          : opponent.tournamentFinish ?? "Tournament in progress"}
       </p>
       <div className="opponent-card__ratings">
         <span>
-          ATK <b>{opponent.ratings.attack}</b>
+          ATTACK <b>{opponent.ratings.attack}</b>
         </span>
         <span>
-          MID <b>{opponent.ratings.midfield}</b>
+          MIDFIELD <b>{opponent.ratings.midfield}</b>
         </span>
         <span>
-          DEF <b>{opponent.ratings.defense}</b>
+          DEFENSE <b>{opponent.ratings.defense}</b>
         </span>
         <span>
-          OVR <b>{opponent.ratings.overall}</b>
+          OVERALL <b>{opponent.ratings.overall}</b>
         </span>
       </div>
-      <div className="opponent-card__dossier">
-        <span>Manager {opponent.managerName ?? "Not sourced"}</span>
-        <span>Formation {opponent.formation} · Trophy XI model</span>
-        <span>{status}</span>
+      <div className={`opponent-card__dossier ${styles.tacticalLabel}`}>
+        <span>{opponent.tacticalProfile}</span>
       </div>
       <div className="opponent-card__meta">
         <span>
@@ -465,11 +494,13 @@ function OpponentCard({
         <span>ERA {calculateOpponentEraFit(opponent, eraId)}</span>
         <span>{opponent.difficulty}</span>
       </div>
-      {selected && (
-        <span className="opponent-selected-mark">
-          <Check size={14} aria-hidden /> Selected
-        </span>
-      )}
+      <span
+        className={`opponent-selected-mark ${styles.cardSelectionMark}`}
+        data-visible={selected}
+        aria-hidden={!selected}
+      >
+        <Check size={14} aria-hidden /> Selected
+      </span>
     </button>
   );
 }

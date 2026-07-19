@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { OpponentSelection } from "@/components/draft/opponent-selection";
+import { worldCupAllStars } from "@/data/opponents";
 import { useGameStore } from "@/store/game-store";
 
 describe("OpponentSelection", () => {
@@ -34,6 +35,80 @@ describe("OpponentSelection", () => {
         name: /world cup winners, newest first/i,
       }),
     ).toBeInTheDocument();
+  });
+
+  it("presents Zagallo's real 1970 profile without archive-status wording", () => {
+    render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
+    const allStars = screen.getByRole("button", {
+      name: /select world cup all-stars/i,
+    });
+
+    expect(worldCupAllStars.allStars?.manager).toMatchObject({
+      id: "mario-zagallo-1970",
+      managerIdentityId: "mario-zagallo",
+      managerName: "Mário Zagallo",
+      countryCode: "BRA",
+      countryName: "Brazil",
+      tournamentYear: 1970,
+      style: "fluid",
+      preferredFormations: ["4-3-3", "4-2-3-1"],
+    });
+    expect(worldCupAllStars.formation).toBe(
+      worldCupAllStars.allStars?.manager.preferredFormations[0],
+    );
+    expect(
+      within(allStars).getByText(/Mário Zagallo · 🇧🇷 Brazil 1970/i),
+    ).toBeInTheDocument();
+    for (const label of [
+      "OFF",
+      "DEF",
+      "Leadership",
+      "Game Management",
+      "Era Fit",
+      "Preferred formations",
+      "Tactical style",
+    ]) {
+      expect(
+        within(allStars).getByText(label, { exact: true }),
+      ).toBeVisible();
+    }
+    for (const hiddenCopy of [
+      /Partial Historical Data/i,
+      /Trophy XI Modeled Lineup/i,
+      /Trophy XI Manager/i,
+      /Trophy XI composite manager/i,
+      /Manager Not sourced/i,
+    ]) {
+      expect(screen.queryByText(hiddenCopy)).not.toBeInTheDocument();
+    }
+    expect(
+      screen.queryByRole("combobox", { name: "Historical data status" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("uses stable player-facing footer labels for All-Stars and champions", async () => {
+    const user = userEvent.setup();
+    render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
+
+    expect(screen.getByText("Choose one opponent")).toBeInTheDocument();
+    const allStars = screen.getByRole("button", {
+      name: /select world cup all-stars/i,
+    });
+    await user.click(allStars);
+    expect(allStars).toHaveAttribute("aria-pressed", "true");
+    expect(within(allStars).getByText("Selected")).toBeVisible();
+    expect(
+      screen.getByText("World Cup All-Stars · Mythic"),
+    ).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", { name: /select brazil 1970/i }),
+    );
+    expect(allStars).toHaveAttribute("aria-pressed", "false");
+    expect(screen.getByText("Brazil 1970")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /enter the tunnel/i }),
+    ).toHaveTextContent("Enter the tunnel");
   });
 
   it("disables Champions Only and exposes every team for a year", async () => {

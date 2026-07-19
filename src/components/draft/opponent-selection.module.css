@@ -1,0 +1,314 @@
+.featuredCard.featuredCard {
+  height: 390px;
+  min-height: 390px;
+  overflow: hidden;
+  padding: 24px 24px 22px 132px;
+  border-color: rgba(242, 215, 125, 0.46);
+  transform: none;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.featuredCard.featuredCard:hover,
+.featuredCard.featuredCard:focus-visible {
+  border-color: #f2d77d;
+  box-shadow:
+    inset 0 0 0 1px rgba(242, 215, 125, 0.1),
+    0 0 24px rgba(203, 166, 74, 0.16);
+  transform: none;
+}
+
+.featuredCard.featuredSelected {
+  border-color: #f2d77d;
+  background:
+    radial-gradient(
+      circle at 9% 50%,
+      rgba(242, 215, 125, 0.2),
+      transparent 22%
+    ),
+    linear-gradient(125deg, rgba(126, 91, 28, 0.3), rgba(8, 10, 8, 0.96) 52%);
+  box-shadow:
+    inset 0 0 0 1px rgba(242, 215, 125, 0.16),
+    0 0 28px rgba(203, 166, 74, 0.22);
+  transform: none;
+}
+
+@media (min-width: 1221px) {
+  .filterBar.filterBar {
+    grid-template-columns:
+      minmax(170px, 0.9fr) minmax(210px, 1.3fr)
+      repeat(5, minmax(120px, 1fr));
+  }
+}
+
+.featuredBody {
+  display: flex;
+  height: 100%;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.featuredTitle {
+  min-height: 33px;
+  padding-right: 118px;
+}
+
+.difficulty {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.difficulty small {
+  color: #92886d;
+  font-size: 0.48rem;
+}
+
+.subtitle {
+  min-height: 20px;
+  margin: 8px 0 0 !important;
+  color: #b8b4a8 !important;
+  font-size: 0.72rem !important;
+  line-height: 1.4;
+  text-transform: none !important;
+}
+
+.featuredRatings.featuredRatings {
+  width: min(100%, 560px);
+  max-width: none;
+  margin: 13px 0 12px;
+}
+
+.managerProfile {
+  display: grid;
+  min-height: 174px;
+  padding: 13px 15px;
+  border: 1px solid rgba(242, 215, 125, 0.15);
+  border-radius: 10px;
+  background: rgba(4, 6, 5, 0.48);
+}
+
+.managerHeading {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.managerHeading span {
+  color: #8f876f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.11em;
+}
+
+.managerHeading strong {
+  overflow: hidden;
+  color: #f2d77d;
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.managerMetrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 10px 0 9px;
+}
+
+.managerMetrics > div {
+  display: grid;
+  min-width: 0;
+  min-height: 55px;
+  place-items: center;
+  padding: 6px 3px;
+  border: 1px solid rgba(242, 215, 125, 0.1);
+  border-radius: 7px;
+  background: rgba(242, 215, 125, 0.035);
+}
+
+.managerMetrics dt {
+  color: #8f876f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.44rem;
+  line-height: 1.15;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.managerMetrics dd {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0;
+}
+
+.managerMetrics dd b {
+  color: #f2d77d;
+  font-size: 0.82rem;
+}
+
+.managerMetrics dd small {
+  color: #918a77;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.46rem;
+}
+
+.managerTactics {
+  display: flex;
+  min-width: 0;
+  justify-content: space-between;
+  gap: 14px;
+  color: #8f876f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.5rem;
+}
+
+.managerTactics span {
+  min-width: 0;
+}
+
+.managerTactics b {
+  color: #d8d1bc;
+  text-transform: capitalize;
+}
+
+.featuredSelectionMark,
+.cardSelectionMark {
+  margin: 0;
+  color: #f2d77d;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  text-transform: uppercase;
+  visibility: hidden;
+}
+
+.featuredSelectionMark[data-visible="true"],
+.cardSelectionMark[data-visible="true"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.featuredSelectionMark {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  min-width: 94px;
+}
+
+.historicalCard {
+  position: relative;
+  padding-bottom: 38px;
+}
+
+.tacticalLabel {
+  min-height: 2.7em;
+}
+
+.cardSelectionMark {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+}
+
+.footer.footer {
+  height: 84px;
+  min-height: 84px;
+  box-sizing: border-box;
+}
+
+.footerCopy {
+  min-width: 0;
+  min-height: 38px;
+}
+
+.footerCopy b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tunnelButton {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .featuredCard.featuredCard {
+    height: 570px;
+    min-height: 570px;
+    padding: 104px 16px 18px;
+  }
+
+  .featuredTitle {
+    min-height: 36px;
+    padding-right: 103px;
+  }
+
+  .featuredRatings.featuredRatings {
+    margin-block: 12px;
+  }
+
+  .managerProfile {
+    min-height: 289px;
+    padding: 12px;
+  }
+
+  .managerHeading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .managerHeading strong {
+    width: 100%;
+    text-overflow: clip;
+  }
+
+  .managerMetrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .managerMetrics > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .managerTactics {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .featuredSelectionMark {
+    top: 31px;
+    right: 16px;
+    min-width: 92px;
+  }
+
+  .footer.footer {
+    height: 126px;
+    min-height: 126px;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 13px 16px;
+  }
+
+  .footerCopy {
+    min-height: 35px;
+  }
+
+  .tunnelButton {
+    width: 100%;
+    min-height: 46px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featuredCard.featuredCard {
+    transition: none;
+  }
+}

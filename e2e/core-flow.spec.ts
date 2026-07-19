@@ -977,17 +977,74 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   ).toBeVisible();
   await championsToggle.click();
   await expect(championsToggle).toBeChecked();
-  await page
-    .getByRole("button", { name: /select brazil 1970/i })
-    .click();
+  const brazil1970 = page.getByRole("button", {
+    name: /select brazil 1970/i,
+  });
   const worldCupXi = page.getByRole("button", {
     name: /select world cup all-stars/i,
   });
+  const opponentFooter = page.locator(".opponent-selection__continue");
+  const tunnelButton = page.getByRole("button", {
+    name: /enter the tunnel/i,
+  });
+  const opponentLayout = async () => ({
+    filterBar: await page.locator(".opponent-filters").boundingBox(),
+    championsHeading: await page
+      .locator(".historical-opponents .opponent-section-heading")
+      .boundingBox(),
+    championGrid: await page
+      .locator(".historical-opponents > .opponent-grid")
+      .boundingBox(),
+    allStarsCard: await worldCupXi.boundingBox(),
+    footer: await opponentFooter.boundingBox(),
+    scrollY: await page.evaluate(() => window.scrollY),
+  });
+
+  await worldCupXi.scrollIntoViewIfNeeded();
+  await expect(
+    page.getByText("Choose one opponent", { exact: true }),
+  ).toBeVisible();
+  const unselectedLayout = await opponentLayout();
   await worldCupXi.click();
   await expect(worldCupXi).toHaveAttribute("aria-pressed", "true");
   await expect(worldCupXi.getByText("Selected")).toBeVisible();
+  await expect(
+    page.getByText("World Cup All-Stars · Mythic", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    worldCupXi.getByText(/Mário Zagallo · 🇧🇷 Brazil 1970/i),
+  ).toBeVisible();
+  for (const hiddenCopy of [
+    /Partial Historical Data/i,
+    /Trophy XI Modeled Lineup/i,
+    /Trophy XI Manager/i,
+    /Manager Not sourced/i,
+  ]) {
+    await expect(page.getByText(hiddenCopy)).toHaveCount(0);
+  }
+  const selectedLayout = await opponentLayout();
+  expect(selectedLayout).toEqual(unselectedLayout);
+  expect(
+    await tunnelButton.evaluate((button) => getComputedStyle(button).whiteSpace),
+  ).toBe("nowrap");
+  const selectedOverflow = await page.evaluate(() => ({
+    viewport: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  expect(selectedOverflow.scrollWidth).toBeLessThanOrEqual(
+    selectedOverflow.viewport + 1,
+  );
+
+  await brazil1970.evaluate((button) => (button as HTMLElement).click());
+  await expect(worldCupXi).toHaveAttribute("aria-pressed", "false");
+  await expect(page.getByText("Brazil 1970", { exact: true })).toBeVisible();
+  expect(await opponentLayout()).toEqual(unselectedLayout);
+
+  await worldCupXi.click();
+  await expect(worldCupXi).toHaveAttribute("aria-pressed", "true");
+  expect(await opponentLayout()).toEqual(unselectedLayout);
   await captureState("05-opponents.png");
-  await page.getByRole("button", { name: /enter the tunnel/i }).click();
+  await tunnelButton.click();
 
   await expect(page).toHaveURL(/\/match$/);
   await expect(

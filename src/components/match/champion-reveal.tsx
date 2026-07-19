@@ -113,7 +113,7 @@ export function ChampionReveal({
             Trophy XI tactical model · opponent Era Translation {opponentEraFit}.
             Manager: {opponent.managerName ?? "not sourced in the current dataset"}.
             {opponent.allStars
-              ? ` ${opponent.allStars.manager.compositeLabel}`
+              ? ` ${flagForCountry(opponent.allStars.manager.countryCode)} ${opponent.allStars.manager.countryName} ${opponent.allStars.manager.tournamentYear}.`
               : ""}
           </p>
         </div>

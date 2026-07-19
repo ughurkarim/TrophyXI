@@ -1,12 +1,11 @@
 import { getFormation } from "@/data/formations";
+import { managersById } from "@/data/managers";
 import { playersById } from "@/data/players";
 import type {
   DraftPick,
   HistoricalWorldCupTeam,
   ManagerTournamentCard,
 } from "@/types/game";
-
-const formation = getFormation("4-3-3");
 
 const starterPicks: DraftPick[] = [
   { slotId: "gk", cardId: "manuel-neuer-2014" },
@@ -28,59 +27,26 @@ const substituteCardIds = [
   "philipp-lahm-2014",
 ] as const;
 
+const zagallo1970 = managersById.get("mario-zagallo-1970");
+if (!zagallo1970) {
+  throw new Error("Missing Mário Zagallo Brazil 1970 manager card");
+}
+
 export const worldCupAllStarsManager: ManagerTournamentCard & {
   compositeLabel: "Trophy XI original composite manager.";
   eraAdaptability: number;
   substitutionBehavior: string;
 } = {
-  id: "world-cup-all-stars-coach",
-  managerIdentityId: "world-cup-all-stars-coach",
-  managerName: "World Cup All-Stars Coach",
-  countryCode: "TXI",
-  countryName: "Trophy XI",
-  tournamentYear: 1998,
-  teamName: "World Cup All-Stars",
-  style: "fluid",
-  preferredFormations: ["4-3-3", "4-2-3-1", "4-3-1-2"],
-  acceptableFormations: ["3-4-2-1", "4-2-2-2"],
-  era: "1990s",
-  qualityBand: "iconic",
-  tacticalIdentity:
-    "Adaptive control, balanced rest defense, and decisive tournament specialists",
-  description:
-    "An original Trophy XI composite profile created for the featured challenge.",
-  simulationModifier: {
-    attack: 2,
-    midfield: 2,
-    defense: 2,
-    clutch: 2,
-  },
-  grades: {
-    offense: 98,
-    defense: 98,
-  },
-  leadership: 99,
-  gameManagement: 99,
-  eraFitProfile: {
-    pressingIntensity: 92,
-    defensiveStructure: 96,
-    tempo: 94,
-    positionalFlexibility: 99,
-    substitutionApproach: 99,
-    physicalDemand: 91,
-    technicalDemand: 99,
-    adaptability: 99,
-  },
-  imageId: "world-cup-all-stars-coach",
-  achievements: [],
-  isDraftEligible: false,
-  draftIneligibilityReason:
-    "Original composite challenge manager; never offered in manager drafts.",
+  ...zagallo1970,
   compositeLabel: "Trophy XI original composite manager.",
-  eraAdaptability: 96,
+  eraAdaptability: zagallo1970.eraFitProfile.adaptability,
   substitutionBehavior:
-    "Uses the ordered bench for score-state coverage, fatigue relief, and extra-time control.",
+    "Uses the ordered bench to preserve the fluid front line and tournament control.",
 };
+
+const formation = getFormation(
+  worldCupAllStarsManager.preferredFormations[0],
+);
 
 const rationales: Record<string, string> = {
   "manuel-neuer-2014":
@@ -140,7 +106,9 @@ export const worldCupAllStars: HistoricalWorldCupTeam = {
   dataStatus: "modeled-lineup",
   managerName: worldCupAllStarsManager.managerName,
   formation: formation.id,
-  alternateFormations: ["4-3-1-2", "4-2-3-1"],
+  alternateFormations: worldCupAllStarsManager.acceptableFormations
+    .filter((formationId) => formationId !== formation.id)
+    .slice(0, 2),
   startingLineup: lineupCards.map(({ player, slot }) => ({
     playerIdentityId: player.playerIdentityId,
     name: `${player.playerName} ${player.tournamentYear}`,
