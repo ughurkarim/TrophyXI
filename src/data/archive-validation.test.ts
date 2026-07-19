@@ -89,7 +89,7 @@ describe("expanded archive contracts", () => {
             image.exactTournamentImage === false,
         ),
     ).toBe(true);
-    expect(userSuppliedPlayerImages).toHaveLength(11);
+    expect(userSuppliedPlayerImages).toHaveLength(29);
     expect(
       userSuppliedPlayerImages.every(
         (image) =>
@@ -98,7 +98,7 @@ describe("expanded archive contracts", () => {
           image.matchQuality === "user-supplied-permissioned",
       ),
     ).toBe(true);
-    expect(identityFallbackPlayerImages).toHaveLength(38);
+    expect(identityFallbackPlayerImages).toHaveLength(59);
     expect(
       identityFallbackPlayerImages.every(
         (image) =>
@@ -110,7 +110,27 @@ describe("expanded archive contracts", () => {
       ),
     ).toBe(true);
     expect(imagesById.get("mario-kempes-1982")).toMatchObject({
-      file: "/assets/players/1974/mario-kempes-1974.webp",
+      file: "/assets/players/1974/mario-kempes-74.png",
+      fallback: true,
+      exactTournamentImage: false,
+    });
+    expect(imagesById.get("gerd-muller-1974")).toMatchObject({
+      file: "/assets/players/1970/gerd-muller-1970.png",
+      fallback: true,
+      exactTournamentImage: false,
+    });
+    expect(imagesById.get("teofilo-cubillas-1978")).toMatchObject({
+      file: "/assets/players/1970/teofilo-cubillas-1970.png",
+      fallback: true,
+      exactTournamentImage: false,
+    });
+    expect(imagesById.get("franz-beckenbauer-1970")).toMatchObject({
+      file: "/assets/players/1970/franz-beckenbauer-1970.png",
+      fallback: false,
+      exactTournamentImage: false,
+    });
+    expect(imagesById.get("franz-beckenbauer-1974")).toMatchObject({
+      file: "/assets/players/1970/franz-beckenbauer-1970.png",
       fallback: true,
       exactTournamentImage: false,
     });

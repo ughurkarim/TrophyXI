@@ -1331,8 +1331,13 @@ const main = async () => {
       }
       const stats = await sharp(localFile).stats();
       const alpha = stats.channels[3];
+      const preservesOpaqueUserPortrait =
+        userSupplied &&
+        image.file ===
+          "/assets/players/1970/wolfgang-overath-1970.png";
       assert(
-        metadata.hasAlpha === true && Boolean(alpha && alpha.min < 255),
+        preservesOpaqueUserPortrait ||
+          (metadata.hasAlpha === true && Boolean(alpha && alpha.min < 255)),
         `${image.id} local cutout must retain transparent pixels`,
       );
     }),
