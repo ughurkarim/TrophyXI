@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Gauge, Shield, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TeamRatings } from "@/components/draft/team-ratings";
 import { Button } from "@/components/ui/button";
 import { flagForCountry } from "@/lib/utils";
@@ -26,6 +26,8 @@ export function ChampionReveal({
 }) {
   const reduceMotion = useReducedMotion();
   const [ready, setReady] = useState(Boolean(reduceMotion));
+  const [launching, setLaunching] = useState(false);
+  const launchTimeout = useRef<number | null>(null);
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -33,8 +35,31 @@ export function ChampionReveal({
     return () => window.clearTimeout(timeout);
   }, [reduceMotion]);
 
+  useEffect(
+    () => () => {
+      if (launchTimeout.current !== null) {
+        window.clearTimeout(launchTimeout.current);
+      }
+    },
+    [],
+  );
+
+  const startBroadcast = () => {
+    if (launching) return;
+    if (reduceMotion) {
+      onSimulate();
+      return;
+    }
+    setLaunching(true);
+    launchTimeout.current = window.setTimeout(onSimulate, 680);
+  };
+
   return (
-    <section className="reveal" aria-labelledby="reveal-title">
+    <section
+      className="reveal"
+      aria-labelledby="reveal-title"
+      data-transitioning={launching}
+    >
       <div className="reveal__atmosphere" aria-hidden />
       <div className="reveal__topline">
         <span className="eyebrow">OPPONENT REVEAL / KNOCKOUT</span>
@@ -47,22 +72,38 @@ export function ChampionReveal({
 
       <motion.div
         className="versus-stage"
+        data-testid="match-transition"
         initial={reduceMotion ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
       >
-        <article className="team-reveal team-reveal--user">
+        <motion.article
+          className="team-reveal team-reveal--user"
+          animate={launching ? { x: -30, opacity: 0.82 } : { x: 0, opacity: 1 }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.64,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
           <span className="team-reveal__monogram">XI</span>
           <p>YOUR XI · {userEra}</p>
           <h1 id="reveal-title">Trophy XI</h1>
           <TeamRatings ratings={userRatings} />
-        </article>
+        </motion.article>
 
         <motion.div
           className="versus-mark"
           initial={reduceMotion ? false : { scale: 0.6, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: reduceMotion ? 0 : 0.3, duration: 0.25 }}
+          animate={
+            launching
+              ? { scaleX: 0.18, opacity: 0 }
+              : { scaleX: 1, scaleY: 1, opacity: 1 }
+          }
+          transition={{
+            delay: launching || reduceMotion ? 0 : 0.3,
+            duration: reduceMotion ? 0 : launching ? 0.48 : 0.25,
+            ease: [0.22, 1, 0.36, 1],
+          }}
         >
           VS
         </motion.div>
@@ -70,8 +111,14 @@ export function ChampionReveal({
         <motion.article
           className="team-reveal team-reveal--champion"
           initial={reduceMotion ? false : { opacity: 0, x: 20 }}
-          animate={{ opacity: ready ? 1 : 0.35, x: 0 }}
-          transition={{ duration: 0.35 }}
+          animate={{
+            opacity: launching ? 0.82 : ready ? 1 : 0.35,
+            x: launching ? 30 : 0,
+          }}
+          transition={{
+            duration: reduceMotion ? 0 : launching ? 0.64 : 0.35,
+            ease: [0.22, 1, 0.36, 1],
+          }}
         >
           <span className="team-reveal__flag">
             {opponent.nationCode}{" "}
@@ -131,8 +178,13 @@ export function ChampionReveal({
         <p>
           <span className="live-dot">READY</span> One seed. One knockout match.
         </p>
-        <Button onClick={onSimulate} disabled={!ready}>
-          Simulate match <ArrowRight size={17} aria-hidden />
+        <Button
+          onClick={startBroadcast}
+          disabled={!ready || launching}
+          aria-label={launching ? "Opening live broadcast" : "Simulate match"}
+        >
+          {launching ? "Opening broadcast" : "Simulate match"}{" "}
+          <ArrowRight size={17} aria-hidden />
         </Button>
       </div>
     </section>

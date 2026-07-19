@@ -1057,7 +1057,63 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   const simulate = page.getByRole("button", { name: /simulate match/i });
   await expect(simulate).toBeEnabled({ timeout: 3_000 });
   await simulate.click();
-  await expect(page.getByText(/match engine live/i)).toBeVisible();
+  await expect(page.locator(".reveal")).toHaveAttribute(
+    "data-transitioning",
+    "true",
+  );
+  await expect(page.getByText(/match engine live/i)).not.toBeVisible();
+  await expect(page.getByText(/match engine live/i)).toBeVisible({
+    timeout: 2_000,
+  });
+  const liveBroadcast = page.getByTestId("match-broadcast");
+  const userTeamSheet = page.getByTestId("user-lineup");
+  const opponentTeamSheet = page.getByTestId("opponent-lineup");
+  await expect(userTeamSheet.getByRole("listitem")).toHaveCount(11);
+  await expect(opponentTeamSheet.getByRole("listitem")).toHaveCount(11);
+  await expect(userTeamSheet.getByText(managerName, { exact: true })).toBeVisible();
+  await expect(
+    opponentTeamSheet.getByText("Mário Zagallo", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    userTeamSheet.getByText(selectedFormationName!.replaceAll("–", "-"), {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    opponentTeamSheet.getByText("4-3-3", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Live match stats" }),
+  ).toBeVisible();
+  await expect(page.getByTestId("live-scoreboard")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Match timeline" }),
+  ).toBeVisible();
+  const liveClipping = await liveBroadcast.evaluate((broadcast) => ({
+    horizontal: broadcast.scrollWidth > broadcast.clientWidth + 1,
+    vertical: broadcast.scrollHeight > broadcast.clientHeight + 1,
+  }));
+  expect(liveClipping.horizontal).toBe(false);
+  expect(liveClipping.vertical).toBe(false);
+  if (page.viewportSize()?.width === 1440) {
+    const desktopFit = await liveBroadcast.evaluate((broadcast) => {
+      const bounds = broadcast.getBoundingClientRect();
+      return {
+        broadcastBottom: bounds.bottom,
+        documentHeight: document.documentElement.scrollHeight,
+        viewportHeight: window.innerHeight,
+      };
+    });
+    expect(desktopFit.broadcastBottom).toBeLessThanOrEqual(
+      desktopFit.viewportHeight + 1,
+    );
+    expect(desktopFit.documentHeight).toBeLessThanOrEqual(
+      desktopFit.viewportHeight + 1,
+    );
+  }
+  await captureState("05-match-live.png", {
+    focusSelector: '[data-testid="match-broadcast"]',
+  });
   await page.getByRole("button", { name: "Fast forward" }).click();
   await expect(
     page.getByRole("heading", {
