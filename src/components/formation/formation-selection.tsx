@@ -1,17 +1,23 @@
 "use client";
 
-import { ArrowRight, Crown, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { FormationCard } from "@/components/formation/formation-card";
 import { Button } from "@/components/ui/button";
 import { getDraftEra } from "@/data/eras";
 import { formations } from "@/data/formations";
 import { calculateManagerFit } from "@/engine/chemistry";
+import {
+  calculateFormationEraFit,
+  calculateFormationRecommendationScore,
+} from "@/engine/formation-fit";
+import { cn } from "@/lib/utils";
 import type {
   DraftEraId,
   FormationId,
   ManagerTournamentCard,
 } from "@/types/game";
+import styles from "./formation-selection.module.css";
 
 export function FormationSelection({
   manager,
@@ -31,35 +37,70 @@ export function FormationSelection({
   const offered = offerIds
     .map((id) => formations.find((formation) => formation.id === id))
     .filter((formation): formation is (typeof formations)[number] => Boolean(formation));
-  const [selected, setSelected] = useState<FormationId>(offered[0]?.id ?? "4-3-3");
+  const [selected, setSelected] = useState<FormationId | null>(null);
   const [showRespin, setShowRespin] = useState(false);
-  const activeSelected = offered.some((item) => item.id === selected)
-    ? selected
-    : offered[0]?.id ?? "4-3-3";
-  const formation =
-    offered.find((item) => item.id === activeSelected) ??
-    offered[0] ??
-    formations[0];
   const era = getDraftEra(eraId);
-  const managerFit = calculateManagerFit(manager, formation, eraId);
+  const offerMetrics = offered.map((formation) => {
+    const managerFit = calculateManagerFit(manager, formation, eraId);
+    const eraFit = calculateFormationEraFit(formation, eraId);
+    return {
+      formation,
+      managerFit,
+      eraFit,
+      recommendationScore: calculateFormationRecommendationScore(
+        managerFit,
+        eraFit,
+      ),
+    };
+  });
+  const recommended = offerMetrics.reduce<(typeof offerMetrics)[number] | null>(
+    (best, current) =>
+      !best ||
+      current.recommendationScore > best.recommendationScore ||
+      (current.recommendationScore === best.recommendationScore &&
+        current.managerFit > best.managerFit)
+        ? current
+        : best,
+    null,
+  );
+  const selectedMetrics =
+    offerMetrics.find((item) => item.formation.id === selected) ?? null;
 
   return (
-    <section className="formation-selection" aria-labelledby="formation-heading">
-      <div className="game-intro">
+    <section
+      className={cn("formation-selection", styles.selection)}
+      aria-labelledby="formation-heading"
+    >
+      <div className={styles.intro}>
         <p className="eyebrow eyebrow--gold">TACTICAL ROOM / STEP 03</p>
-        <h1 id="formation-heading">Give the manager a system.</h1>
+        <h1 id="formation-heading">Choose your system.</h1>
         <p>
-          Every formation is viable. Compatibility shapes chemistry and creates a
-          modest simulation edge. This four-shape offer is seeded by your
-          environment, manager, and draft.
+          Select the formation that best fits your manager, the match era, and
+          the squad you want to build.
         </p>
       </div>
-      <div className="formation-context">
-        <span><Crown size={15} aria-hidden /> {manager.managerName} · {manager.style}</span>
-        <span>{era.label} · {era.years}</span>
+      <div
+        className={cn("formation-context", styles.context)}
+        data-testid="formation-context"
+      >
+        <div className={styles.contextField}>
+          <span>Manager</span>
+          <strong>{manager.managerName}</strong>
+        </div>
+        <div className={styles.contextField}>
+          <span>Style</span>
+          <strong>{manager.style}</strong>
+        </div>
+        <div className={styles.contextField}>
+          <span>Match Era</span>
+          <strong>{era.label}</strong>
+        </div>
         <button
           type="button"
-          className="button button--secondary formation-respin"
+          className={cn(
+            "button button--secondary formation-respin",
+            styles.respin,
+          )}
           disabled={formationRespinRemaining === 0}
           onClick={() => setShowRespin(true)}
         >
@@ -69,28 +110,41 @@ export function FormationSelection({
             : "FORMATION RESPIN USED"}
         </button>
       </div>
-      <div className="formation-grid">
-        {offered.map((item) => (
+      <div className={cn("formation-grid", styles.formationGrid)}>
+        {offerMetrics.map(({ formation, managerFit, eraFit }) => (
           <FormationCard
-            key={item.id}
-            formation={item}
-            selected={activeSelected === item.id}
-            onSelect={() => setSelected(item.id)}
-            managerFit={calculateManagerFit(manager, item, eraId)}
-            eraCompatible={item.eraStrengths.includes(eraId)}
+            key={formation.id}
+            formation={formation}
+            selected={selectedMetrics?.formation.id === formation.id}
+            recommended={recommended?.formation.id === formation.id}
+            onSelect={() => setSelected(formation.id)}
+            managerFit={managerFit}
+            eraFit={eraFit}
           />
         ))}
       </div>
-      <div className="formation-continue">
-        <div>
-          <span className="eyebrow">SELECTED SYSTEM</span>
-          <b>{formation.name} · {managerFit}% manager fit</b>
-          <p>
-            {era.label} · {formation.description}
-          </p>
+      <div
+        className={cn("formation-continue", styles.selectedSystem)}
+        data-testid="selected-system"
+      >
+        <div className={styles.selectedName}>
+          <span>Selected System</span>
+          <strong>
+            {selectedMetrics?.formation.name ?? "Choose a formation"}
+          </strong>
         </div>
-        <Button onClick={() => onContinue(activeSelected)}>
-          Enter the draft <ArrowRight size={17} aria-hidden />
+        <div className={styles.selectedFit}>
+          <span>Manager Fit</span>
+          <strong>{selectedMetrics?.managerFit ?? "—"}</strong>
+        </div>
+        <Button
+          className={styles.enterButton}
+          disabled={!selectedMetrics}
+          onClick={() => {
+            if (selectedMetrics) onContinue(selectedMetrics.formation.id);
+          }}
+        >
+          ENTER DRAFT →
         </Button>
       </div>
       {showRespin && (
@@ -119,6 +173,7 @@ export function FormationSelection({
               </Button>
               <Button
                 onClick={() => {
+                  setSelected(null);
                   onRespin();
                   setShowRespin(false);
                 }}

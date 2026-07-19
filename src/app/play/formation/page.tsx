@@ -8,6 +8,7 @@ import { SaveNotice } from "@/components/providers/save-notice";
 import { getDraftEra } from "@/data/eras";
 import { managersById } from "@/data/managers";
 import { useGameStore } from "@/store/game-store";
+import styles from "./formation-page.module.css";
 
 export default function FormationPage() {
   const router = useRouter();
@@ -41,7 +42,7 @@ export default function FormationPage() {
     <div className={`game-page game-page--stadium ${getDraftEra(eraId).themeClass}`}>
       <GameHeader step="FORMATION / 03" />
       <SaveNotice />
-      <main className="container game-main">
+      <main className={`container game-main ${styles.main}`}>
         <FormationSelection
           manager={manager}
           eraId={eraId}

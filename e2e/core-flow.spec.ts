@@ -369,9 +369,42 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     .click();
 
   await expect(
-    page.getByRole("heading", { name: /give the manager a system/i }),
+    page.getByRole("heading", { name: "Choose your system." }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Select the formation that best fits your manager, the match era, and the squad you want to build.",
+    ),
   ).toBeVisible();
   await expect(page.locator(".formation-card")).toHaveCount(4);
+  await expect(page.locator(".formation-card--selected")).toHaveCount(0);
+  await expect(page.locator(".formation-card").getByText("Recommended")).toHaveCount(
+    1,
+  );
+  await expect(
+    page.getByRole("button", { name: "ENTER DRAFT →" }),
+  ).toBeDisabled();
+  const formationEraFits = await page
+    .locator(".formation-card")
+    .evaluateAll((cards) =>
+      cards.map((card) => card.getAttribute("data-era-fit")),
+    );
+  expect(new Set(formationEraFits).size).toBeGreaterThan(1);
+  const formationContext = page.getByTestId("formation-context");
+  await expect(formationContext.getByText("Manager")).toBeVisible();
+  await expect(formationContext.getByText("Style")).toBeVisible();
+  await expect(formationContext.getByText("Match Era")).toBeVisible();
+  await expect(formationContext).not.toContainText("1970—1978");
+  if ((page.viewportSize()?.width ?? 0) >= 1400) {
+    const formationPageHeight = await page.evaluate(() => ({
+      viewport: window.innerHeight,
+      document: document.documentElement.scrollHeight,
+      body: document.body.scrollHeight,
+    }));
+    expect(
+      Math.max(formationPageHeight.document, formationPageHeight.body),
+    ).toBeLessThanOrEqual(formationPageHeight.viewport + 1);
+  }
   const originalFormations = await page
     .locator(".formation-card h3")
     .allTextContents();
@@ -397,7 +430,38 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.getByRole("button", { name: "FORMATION RESPIN USED" }),
   ).toBeDisabled();
-  await page.getByRole("button", { name: /enter the draft/i }).click();
+  const selectedFormationCard = page.locator(".formation-card").first();
+  const selectedFormationName = await selectedFormationCard
+    .locator("h3")
+    .textContent();
+  await selectedFormationCard.click();
+  await expect(selectedFormationCard).toHaveClass(/formation-card--selected/);
+  await expect(selectedFormationCard).toHaveCSS("transform", "none");
+  const selectedFormationBadge = selectedFormationCard.getByText("Selected", {
+    exact: true,
+  });
+  await expect(selectedFormationBadge).toBeVisible();
+  const [formationCardBox, formationBadgeBox] = await Promise.all([
+    selectedFormationCard.boundingBox(),
+    selectedFormationBadge.boundingBox(),
+  ]);
+  expect(formationCardBox).not.toBeNull();
+  expect(formationBadgeBox).not.toBeNull();
+  expect(formationBadgeBox!.x).toBeGreaterThanOrEqual(formationCardBox!.x);
+  expect(formationBadgeBox!.x + formationBadgeBox!.width).toBeLessThanOrEqual(
+    formationCardBox!.x + formationCardBox!.width,
+  );
+  const selectedSystem = page.getByTestId("selected-system");
+  await expect(selectedSystem).toContainText(selectedFormationName!);
+  await expect(selectedSystem).toContainText("Manager Fit");
+  await expect(selectedSystem).not.toContainText("Era Fit");
+  await captureState("02-formation.png");
+  const enterDraft = page.getByRole("button", { name: "ENTER DRAFT →" });
+  await expect(enterDraft).toBeEnabled();
+  expect(await enterDraft.evaluate((button) => button.scrollWidth)).toBeLessThanOrEqual(
+    await enterDraft.evaluate((button) => button.clientWidth),
+  );
+  await enterDraft.click();
   await expect(page).toHaveURL(/\/play\/draft$/);
   await expect(page.getByText("PLAYER RESPINS ×2").first()).toBeVisible();
   await expect(page.getByText("SQUAD ARCHIVE")).toBeVisible();

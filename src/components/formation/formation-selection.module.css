@@ -1,0 +1,223 @@
+.selection {
+  display: grid;
+  width: 100%;
+  min-height: calc(100svh - 124px);
+  align-content: start;
+  gap: clamp(10px, 1.25vh, 13px);
+}
+
+.intro {
+  width: min(100%, 820px);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.intro h1 {
+  margin: 6px 0 7px;
+  font-size: clamp(2.15rem, 3.5vw, 3.3rem);
+  font-weight: 640;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.intro > p:last-child {
+  max-width: 760px;
+  margin: 0 auto;
+  color: #9aa39d;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.selection .context {
+  display: grid;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 58px;
+  grid-template-columns: repeat(3, minmax(130px, 1fr)) auto;
+  align-items: center;
+  gap: 0;
+  padding: 8px 10px;
+  margin: 0 auto;
+  border-color: rgba(214, 180, 92, 0.2);
+  border-radius: 10px;
+  background: rgba(8, 9, 7, 0.82);
+}
+
+.contextField {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+  padding: 2px 14px;
+  border-right: 1px solid rgba(214, 180, 92, 0.12);
+}
+
+.contextField span {
+  color: #777f78;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.43rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contextField strong {
+  overflow: hidden;
+  color: #d4d4ca;
+  font-size: 0.68rem;
+  font-weight: 620;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.respin {
+  min-height: 38px;
+  margin-left: 12px;
+  padding-inline: 12px;
+  font-size: 0.55rem;
+  white-space: nowrap;
+}
+
+.selection .formationGrid {
+  width: 100%;
+  max-width: 1200px;
+  gap: 12px;
+  margin: 0 auto;
+}
+
+.selection .selectedSystem {
+  display: grid;
+  width: min(100%, 900px);
+  min-height: 68px;
+  grid-template-columns: minmax(190px, 1fr) 110px auto;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 12px 10px 18px;
+  margin: 0 auto;
+  border-color: rgba(214, 180, 92, 0.22);
+  border-radius: 10px;
+}
+
+.selectedName,
+.selectedFit {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.selectedName span,
+.selectedFit span {
+  color: #7e857e;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.44rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.selectedName strong {
+  overflow: hidden;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.12rem;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selectedFit {
+  padding-left: 16px;
+  border-left: 1px solid rgba(214, 180, 92, 0.14);
+}
+
+.selectedFit strong {
+  color: var(--gold-bright);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.12rem;
+  line-height: 1;
+}
+
+.enterButton {
+  min-width: 158px;
+  min-height: 42px;
+  justify-content: center;
+  padding-inline: 14px;
+  font-size: 0.61rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .selection {
+    min-height: auto;
+    gap: 18px;
+  }
+
+  .selection .formationGrid {
+    max-width: 760px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .selection .context {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .contextField {
+    padding-inline: 10px;
+  }
+
+  .respin {
+    min-height: 44px;
+    grid-column: 1 / -1;
+    justify-content: center;
+    margin: 8px 0 0;
+  }
+
+  .selection .selectedSystem {
+    width: min(100%, 620px);
+    grid-template-columns: minmax(0, 1fr) 90px;
+  }
+
+  .enterButton {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 620px) {
+  .intro h1 {
+    font-size: 2.25rem;
+  }
+
+  .intro > p:last-child {
+    font-size: 0.8rem;
+  }
+
+  .selection .context {
+    grid-template-columns: 1fr;
+    padding: 7px 10px 10px;
+  }
+
+  .contextField {
+    padding: 8px 4px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(214, 180, 92, 0.1);
+  }
+
+  .respin {
+    grid-column: auto;
+  }
+
+  .selection .formationGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .selection .selectedSystem {
+    grid-template-columns: minmax(0, 1fr) 76px;
+    gap: 10px;
+    padding-left: 14px;
+  }
+
+  .selectedFit {
+    padding-left: 10px;
+  }
+}
