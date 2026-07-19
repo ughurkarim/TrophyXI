@@ -1,0 +1,703 @@
+.sectionSupport {
+  max-width: 540px !important;
+}
+
+.stepsGrid {
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(5, 8, 6, 0.38);
+}
+
+.stepCard {
+  position: relative;
+  display: flex;
+  min-height: 270px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px 27px;
+  border-right: 1px solid var(--border);
+  outline: none;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.stepCard:last-child {
+  border-right: 0;
+}
+
+.stepCard::after {
+  position: absolute;
+  top: 0;
+  right: 22px;
+  left: 22px;
+  height: 2px;
+  content: "";
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  box-shadow: 0 0 16px rgba(214, 180, 92, 0.42);
+  transition: opacity 180ms ease;
+}
+
+.stepCardActive {
+  background:
+    radial-gradient(circle at 78% 20%, rgba(214, 180, 92, 0.09), transparent 35%),
+    rgba(255, 255, 255, 0.018);
+}
+
+.stepCardActive::after,
+.stepCard:hover::after,
+.stepCard:focus-visible::after {
+  opacity: 1;
+}
+
+.stepCard:hover,
+.stepCard:focus-visible {
+  z-index: 1;
+  border-color: rgba(214, 180, 92, 0.35);
+  background:
+    radial-gradient(circle at 76% 20%, rgba(214, 180, 92, 0.12), transparent 36%),
+    rgba(255, 255, 255, 0.025);
+  box-shadow:
+    inset 0 0 0 1px rgba(242, 215, 125, 0.08),
+    0 14px 35px rgba(0, 0, 0, 0.22);
+}
+
+.stepMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 34px;
+}
+
+.stepMeta span {
+  color: rgba(242, 215, 125, 0.72);
+  font-family: var(--font-display), sans-serif;
+  font-size: 2.65rem;
+  font-weight: 720;
+  letter-spacing: -0.07em;
+  line-height: 1;
+}
+
+.stepMeta i {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  color: var(--gold-bright);
+  border: 1px solid rgba(214, 180, 92, 0.24);
+  border-radius: 12px;
+  background: rgba(214, 180, 92, 0.06);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.stepCard h3 {
+  margin: 0 0 13px;
+  font-size: 1rem;
+  font-weight: 710;
+  letter-spacing: 0.035em;
+}
+
+.stepCard p {
+  max-width: 30ch;
+  margin: 0;
+  color: #95a098;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.championGrid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.championCard {
+  display: flex;
+  min-height: 286px;
+  flex-direction: column;
+  padding: 19px;
+  outline: none;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+  grid-column: span 2;
+}
+
+.championCard:nth-last-child(-n + 2) {
+  grid-column: span 4;
+}
+
+.championCard:hover,
+.championCard:focus-visible {
+  border-color: rgba(242, 215, 125, 0.62);
+  background:
+    radial-gradient(circle at 70% 30%, rgba(214, 180, 92, 0.15), transparent 48%),
+    #141710;
+  box-shadow:
+    0 0 0 3px rgba(203, 166, 74, 0.09),
+    0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+.championCountry {
+  margin: 30px 0 8px;
+}
+
+.championYear {
+  margin: 0 0 12px !important;
+}
+
+.championFact {
+  max-width: 34ch;
+  margin: 0 !important;
+  color: #a5aea8 !important;
+  font-family: var(--font-display), sans-serif !important;
+  font-size: 0.76rem !important;
+  line-height: 1.58 !important;
+}
+
+.championSource {
+  position: relative;
+  z-index: 2;
+  width: fit-content;
+  margin-top: auto;
+  padding-top: 18px;
+  color: #78847c;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.championSource:hover,
+.championSource:focus-visible {
+  color: var(--gold-bright);
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.finalCta {
+  position: relative;
+  overflow: hidden;
+  padding: 50px 0 96px;
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.finalPanel {
+  position: relative;
+  display: grid;
+  min-height: 560px;
+  overflow: hidden;
+  grid-template-columns: minmax(0, 0.9fr) minmax(460px, 1.1fr);
+  align-items: center;
+  gap: clamp(35px, 5vw, 82px);
+  padding: clamp(48px, 6vw, 84px);
+  border: 1px solid rgba(214, 180, 92, 0.2);
+  border-radius: 30px;
+  background:
+    linear-gradient(90deg, rgba(4, 7, 5, 0.98), rgba(6, 13, 9, 0.88)),
+    #050806;
+  isolation: isolate;
+}
+
+.finalPanel::before,
+.finalPanel::after {
+  position: absolute;
+  z-index: -2;
+  content: "";
+  pointer-events: none;
+}
+
+.finalPanel::before {
+  inset: 0;
+  background:
+    linear-gradient(112deg, transparent 0 42%, rgba(61, 133, 91, 0.11) 62%, transparent 85%),
+    repeating-linear-gradient(90deg, transparent 0 9.8%, rgba(255, 255, 255, 0.012) 10% 10.1%);
+}
+
+.finalPanel::after {
+  top: -34%;
+  right: -8%;
+  width: 72%;
+  height: 95%;
+  border-radius: 50%;
+  filter: blur(20px);
+  background: radial-gradient(circle, rgba(139, 202, 165, 0.14), transparent 66%);
+}
+
+.tunnelLight {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.tunnelLight::before,
+.tunnelLight::after {
+  position: absolute;
+  top: -12%;
+  bottom: -12%;
+  width: 42%;
+  content: "";
+  opacity: 0.2;
+  background: linear-gradient(90deg, transparent, rgba(214, 180, 92, 0.18));
+}
+
+.tunnelLight::before {
+  left: -29%;
+  transform: skewX(-17deg);
+}
+
+.tunnelLight::after {
+  right: -29%;
+  transform: scaleX(-1) skewX(-17deg);
+}
+
+.finalCopy {
+  position: relative;
+  z-index: 3;
+}
+
+.finalCopy h2 {
+  max-width: 670px;
+  margin: 18px 0 24px;
+  font-size: clamp(2.8rem, 3.5vw, 3.35rem);
+  font-weight: 710;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.finalCopy h2 span {
+  color: transparent;
+  background: linear-gradient(100deg, var(--gold-bright), var(--gold));
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.finalSupport {
+  max-width: 590px;
+  margin: 0;
+  color: #9ba59f;
+  font-size: 0.96rem;
+  line-height: 1.68;
+}
+
+.finalActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 31px;
+}
+
+.primaryCta,
+.secondaryCta {
+  position: relative;
+  z-index: 4;
+}
+
+.primaryCta:focus-visible,
+.secondaryCta:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 4px;
+}
+
+.opponentWall {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  padding: 34px;
+  border: 1px solid rgba(138, 188, 158, 0.15);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(8, 32, 21, 0.78), rgba(6, 16, 11, 0.94)),
+    #07130d;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.35),
+    inset 0 1px rgba(255, 255, 255, 0.035);
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    filter 220ms ease;
+}
+
+.finalPanel:has(.primaryCta:hover) .opponentWall,
+.finalPanel:has(.primaryCta:focus-visible) .opponentWall {
+  border-color: rgba(214, 180, 92, 0.34);
+  filter: brightness(1.08);
+  box-shadow:
+    0 30px 75px rgba(0, 0, 0, 0.4),
+    0 0 36px rgba(214, 180, 92, 0.08),
+    inset 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.pitchGraphic {
+  position: absolute;
+  z-index: -1;
+  inset: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(154, 217, 181, 0.1);
+  border-radius: 17px;
+  pointer-events: none;
+}
+
+.pitchHalfway {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: rgba(181, 225, 199, 0.09);
+}
+
+.pitchCircle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 136px;
+  height: 136px;
+  border: 1px solid rgba(181, 225, 199, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pitchPath {
+  position: absolute;
+  top: 72%;
+  left: -4%;
+  width: 72%;
+  height: 1px;
+  opacity: 0.55;
+  background: linear-gradient(90deg, transparent, var(--gold-bright));
+  transform: rotate(-12deg);
+  transform-origin: left center;
+  transition:
+    opacity 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.pitchPath::after {
+  position: absolute;
+  top: -3px;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  content: "";
+  background: var(--gold-bright);
+  box-shadow: 0 0 14px rgba(242, 215, 125, 0.7);
+}
+
+.finalPanel:has(.primaryCta:hover) .pitchPath,
+.finalPanel:has(.primaryCta:focus-visible) .pitchPath {
+  opacity: 1;
+  box-shadow: 0 0 16px rgba(242, 215, 125, 0.3);
+}
+
+.opponentWall > p {
+  margin: 0 0 18px;
+}
+
+.markerScroller {
+  max-width: 100%;
+}
+
+.markerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(70px, 1fr));
+  gap: 9px;
+}
+
+.championMarker {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 64px;
+  place-items: center;
+  padding: 10px 8px;
+  color: #c5cec8;
+  border: 1px solid rgba(154, 217, 181, 0.13);
+  border-radius: 9px;
+  outline: none;
+  cursor: help;
+  background: rgba(2, 7, 4, 0.58);
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.championMarker b,
+.championMarker > span {
+  font-family: var(--font-mono), monospace;
+}
+
+.championMarker b {
+  color: var(--gold-bright);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+
+.championMarker > span {
+  color: #738077;
+  font-size: 0.49rem;
+}
+
+.championMarker i {
+  position: absolute;
+  z-index: 8;
+  right: 50%;
+  bottom: calc(100% + 9px);
+  display: none;
+  width: max-content;
+  max-width: 210px;
+  padding: 9px 11px;
+  color: #adb7b0;
+  border: 1px solid rgba(214, 180, 92, 0.27);
+  border-radius: 8px;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.48rem;
+  font-style: normal;
+  line-height: 1.5;
+  text-align: left;
+  background: #090d0a;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.42);
+  transform: translateX(50%);
+}
+
+.championMarker i strong {
+  display: block;
+  color: var(--white);
+  font-size: 0.56rem;
+}
+
+.championMarker:hover,
+.championMarker:focus-visible {
+  color: var(--white);
+  border-color: rgba(242, 215, 125, 0.55);
+  background: rgba(214, 180, 92, 0.1);
+  box-shadow:
+    0 0 0 3px rgba(214, 180, 92, 0.08),
+    0 0 18px rgba(214, 180, 92, 0.1);
+}
+
+.championMarker:hover i,
+.championMarker:focus-visible i {
+  display: block;
+}
+
+@supports (animation-timeline: view()) {
+  .opponentWall {
+    animation: final-cta-illumination linear both;
+    animation-timeline: view();
+    animation-range: entry 8% cover 38%;
+  }
+}
+
+@keyframes final-cta-illumination {
+  from {
+    opacity: 0.68;
+    filter: brightness(0.72);
+  }
+
+  to {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+@media (max-width: 1100px) {
+  .championGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .championCard:nth-last-child(-n + 2) {
+    grid-column: span 3;
+  }
+
+  .finalPanel {
+    grid-template-columns: minmax(0, 0.85fr) minmax(400px, 1.15fr);
+    gap: 30px;
+    padding: 50px 38px;
+  }
+
+  .finalCopy h2 {
+    font-size: clamp(2.65rem, 4.5vw, 3.25rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .stepsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stepCard:nth-child(2) {
+    border-right: 0;
+  }
+
+  .stepCard:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .championGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .championCard:nth-last-child(-n + 2) {
+    grid-column: span 2;
+  }
+
+  .finalPanel {
+    grid-template-columns: 1fr;
+    padding: 58px;
+  }
+
+  .finalCopy {
+    text-align: center;
+  }
+
+  .finalSupport {
+    margin-inline: auto;
+  }
+
+  .finalActions {
+    justify-content: center;
+  }
+
+  .opponentWall {
+    width: 100%;
+    max-width: 620px;
+    margin-inline: auto;
+  }
+
+  .markerGrid {
+    grid-template-columns: repeat(7, minmax(62px, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .stepsGrid,
+  .championGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .championCard,
+  .championCard:nth-last-child(-n + 2) {
+    grid-column: span 1;
+  }
+
+  .stepCard {
+    min-height: 230px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stepCard:last-child {
+    border-bottom: 0;
+  }
+
+  .stepMeta {
+    margin-bottom: 27px;
+  }
+
+  .championCard {
+    min-height: 230px;
+  }
+
+  .championCountry {
+    margin-top: 24px;
+  }
+
+  .finalCta {
+    padding: 28px 0 72px;
+  }
+
+  .finalPanel {
+    width: min(100% - 24px, 1240px);
+    min-height: 0;
+    gap: 44px;
+    padding: 50px 22px 38px;
+    border-radius: 22px;
+  }
+
+  .finalCopy h2 {
+    margin-top: 15px;
+    font-size: clamp(2.35rem, 11vw, 3.3rem);
+    line-height: 0.98;
+  }
+
+  .finalSupport {
+    max-width: 44ch;
+    font-size: 0.88rem;
+  }
+
+  .finalActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .primaryCta,
+  .secondaryCta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .opponentWall {
+    padding: 25px 18px;
+  }
+
+  .markerScroller {
+    overflow-x: auto;
+    margin-right: -18px;
+    margin-left: -18px;
+    padding: 5px 18px 82px;
+    overscroll-behavior-inline: contain;
+    scrollbar-color: rgba(214, 180, 92, 0.34) transparent;
+  }
+
+  .markerGrid {
+    width: max-content;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-template-rows: 1fr;
+  }
+
+  .championMarker {
+    width: 82px;
+  }
+
+  .championMarker i {
+    top: calc(100% + 8px);
+    right: auto;
+    bottom: auto;
+    left: 0;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepCard,
+  .stepCard::after,
+  .championCard,
+  .opponentWall,
+  .pitchPath,
+  .championMarker {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .opponentWall,
+  .pitchPath {
+    opacity: 1;
+    filter: none;
+  }
+}

@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import {
   HERO_TOURNAMENT_YEARS,
   HeroShowcase,
+  heroCardsForYear,
+  heroReducedMotionYearIndexForProgress,
   heroYearIndexForProgress,
 } from "@/components/landing/hero-showcase";
 
@@ -21,6 +23,31 @@ describe("HeroShowcase", () => {
     expect(heroYearIndexForProgress(2)).toBe(5);
   });
 
+  it("switches directly between endpoints when reduced motion is enabled", () => {
+    expect(heroReducedMotionYearIndexForProgress(0)).toBe(0);
+    expect(heroReducedMotionYearIndexForProgress(0.49)).toBe(0);
+    expect(heroReducedMotionYearIndexForProgress(0.5)).toBe(5);
+    expect(heroReducedMotionYearIndexForProgress(1)).toBe(5);
+  });
+
+  it("uses the exact 2006 tournament versions at the end of the transition", () => {
+    const cards = heroCardsForYear(2006);
+    expect(cards.messi).toMatchObject({
+      id: "lionel-messi-2006",
+      tournamentYear: 2006,
+      overall: 80,
+      primaryPosition: "RW",
+      imageId: "lionel-messi-2006",
+    });
+    expect(cards.ronaldo).toMatchObject({
+      id: "cristiano-ronaldo-2006",
+      tournamentYear: 2006,
+      overall: 88,
+      primaryPosition: "LW",
+      imageId: "cristiano-ronaldo-2006",
+    });
+  });
+
   it("starts with only the 2026 Messi and Ronaldo cards", () => {
     render(
       <HeroShowcase>
@@ -37,6 +64,14 @@ describe("HeroShowcase", () => {
     expect(screen.getByText("Lionel Messi")).toBeInTheDocument();
     expect(screen.getByText("Cristiano Ronaldo")).toBeInTheDocument();
     expect(screen.getByRole("status")).toHaveTextContent("2026");
+    expect(screen.queryByText(/world cup archive/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/scroll to rewind/i)).not.toBeInTheDocument();
+    expect(showcase.querySelector(".hero-background-year")).toHaveTextContent(
+      "2026",
+    );
+    expect(
+      showcase.querySelector(".hero-transition-label"),
+    ).toHaveTextContent("SIX TOURNAMENTS · TWENTY YEARS2026 → 2006");
     expect(
       showcase.querySelector('[data-card-id="lionel-messi-2026"]'),
     ).toBeInTheDocument();

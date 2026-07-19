@@ -1,50 +1,51 @@
 import {
   ArrowRight,
+  BrainCircuit,
   ChevronRight,
-  Crosshair,
-  Play,
-  ShieldCheck,
-  Sparkles,
+  SlidersHorizontal,
+  Trophy,
   UsersRound,
 } from "lucide-react";
 import { HeroShowcase } from "@/components/landing/hero-showcase";
 import { Footer } from "@/components/navigation/footer";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ButtonLink } from "@/components/ui/button";
-import { historicalOpponents } from "@/data/opponents";
+import { landingChampions } from "@/data/landing-champions";
+import { players } from "@/data/players";
 import { flagForCountry } from "@/lib/utils";
+import styles from "./landing-page.module.css";
 
 const steps = [
   {
     number: "01",
-    title: "Choose conditions",
-    copy: "Set the match environment without closing any archive wing.",
-    icon: Crosshair,
+    title: "SET THE STAGE",
+    copy: "Choose the footballing era and match conditions. Every player must adapt to the same environment.",
+    icon: SlidersHorizontal,
   },
   {
     number: "02",
-    title: "Appoint a manager",
-    copy: "Choose one tournament mind and a compatible tactical shape.",
-    icon: UsersRound,
+    title: "CHOOSE THE MIND",
+    copy: "Appoint a tournament manager whose tactics, leadership, attack, and defense shape your team.",
+    icon: BrainCircuit,
   },
   {
     number: "03",
-    title: "Draft fourteen",
-    copy: "Fill the pitch in your order, then assign and reorder three substitutes.",
-    icon: ShieldCheck,
+    title: "BUILD YOUR XI",
+    copy: "Draft eleven starters and three substitutes. Balance talent, chemistry, position fit, and bench coverage.",
+    icon: UsersRound,
   },
   {
     number: "04",
-    title: "Challenge history",
-    copy: "Choose any nation-year opponent and follow every substitution and chance.",
-    icon: Play,
+    title: "CHALLENGE HISTORY",
+    copy: "Choose a nation-year opponent and test your squad against one of the greatest World Cup champions.",
+    icon: Trophy,
   },
 ];
 
 export default function LandingPage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader fixed />
       <main>
         <section className="hero">
           <HeroShowcase>
@@ -69,7 +70,7 @@ export default function LandingPage() {
               </div>
               <div className="hero__proof" aria-label="Game highlights">
                 <span>
-                  <b>629</b> tournament cards
+                  <b>{players.length}</b> tournament cards
                 </span>
                 <span>
                   <b>416</b> sourced participants
@@ -89,19 +90,27 @@ export default function LandingPage() {
                 <p className="eyebrow">THE DRESSING ROOM</p>
                 <h2>Fourteen players. One match.</h2>
               </div>
-              <p>
-                A complete tournament story in minutes, from tactical shape to the
-                final whistle.
+              <p className={styles.sectionSupport}>
+                Choose the era, appoint your manager, draft your starting XI and
+                three substitutes, then challenge a World Cup champion.
               </p>
             </div>
-            <div className="steps-grid">
-              {steps.map((step) => {
+            <div className={styles.stepsGrid}>
+              {steps.map((step, index) => {
                 const Icon = step.icon;
                 return (
-                  <article className="step" key={step.number}>
-                    <div className="step__meta">
+                  <article
+                    className={`${styles.stepCard} ${
+                      index === 0 ? styles.stepCardActive : ""
+                    }`}
+                    key={step.number}
+                    tabIndex={0}
+                  >
+                    <div className={styles.stepMeta}>
                       <span>{step.number}</span>
-                      <Icon size={18} aria-hidden />
+                      <i aria-hidden>
+                        <Icon size={25} strokeWidth={1.75} />
+                      </i>
                     </div>
                     <h3>{step.title}</h3>
                     <p>{step.copy}</p>
@@ -121,19 +130,19 @@ export default function LandingPage() {
               </div>
               <p>Every participant is playable; the champions mark each archive wing.</p>
             </div>
-            <div className="champion-grid">
-              {historicalOpponents
-                .filter((opponent) => opponent.tournamentFinish === "champion")
-                .map((champion, index) => (
+            <div className={styles.championGrid}>
+              {landingChampions.map((champion, index) => (
                 <article
-                  className="champion-tile champion-tile--active"
+                  className={`champion-tile champion-tile--active ${styles.championCard}`}
                   key={champion.id}
+                  tabIndex={0}
+                  aria-label={`${champion.nationName} ${champion.tournamentYear}, playable champion`}
                 >
                   <div className="champion-tile__top">
                     <span className="champion-index">{String(index + 1).padStart(2, "0")}</span>
                     <span className="status-live">Playable</span>
                   </div>
-                  <div className="champion-country">
+                  <div className={`champion-country ${styles.championCountry}`}>
                     <strong>
                       {champion.nationCode}{" "}
                       <i aria-hidden>
@@ -142,24 +151,88 @@ export default function LandingPage() {
                     </strong>
                     <h3>{champion.nationName}</h3>
                   </div>
-                  <p>{champion.tournamentYear}</p>
-                  <span>{champion.tacticalProfile}</span>
+                  <p className={styles.championYear}>
+                    {champion.tournamentYear}
+                  </p>
+                  <p className={styles.championFact}>
+                    {champion.championFact}
+                  </p>
+                  <a
+                    className={styles.championSource}
+                    href={champion.championFactSource.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`FIFA source for ${champion.nationName} ${champion.tournamentYear} fact`}
+                  >
+                    FIFA archive
+                  </a>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="final-cta">
-          <div className="container final-cta__panel">
-            <div className="final-cta__symbol" aria-hidden>
-              <Sparkles />
+        <section
+          className={styles.finalCta}
+          aria-labelledby="landing-final-cta-title"
+        >
+          <div className={`container ${styles.finalPanel}`}>
+            <div className={styles.tunnelLight} aria-hidden />
+            <div className={styles.finalCopy}>
+              <p className="eyebrow eyebrow--gold">THE CHALLENGE AWAITS</p>
+              <h2 id="landing-final-cta-title">
+                BUILD THE TEAM
+                <br />
+                THAT COULD <span>BEAT THEM ALL.</span>
+              </h2>
+              <p className={styles.finalSupport}>
+                Draft fourteen tournament versions, shape them into one balanced
+                squad, and take on the champions who defined World Cup history.
+              </p>
+              <div className={styles.finalActions}>
+                <ButtonLink
+                  href="/play/era"
+                  className={styles.primaryCta}
+                >
+                  BUILD MY XI <ArrowRight size={17} aria-hidden />
+                </ButtonLink>
+                <ButtonLink
+                  href="/#champions"
+                  variant="ghost"
+                  className={styles.secondaryCta}
+                >
+                  VIEW THE CHAMPIONS
+                  <ChevronRight size={16} aria-hidden />
+                </ButtonLink>
+              </div>
             </div>
-            <p className="eyebrow eyebrow--gold">THE NEXT FIXTURE</p>
-            <h2>Your dream XI has never faced a team like this.</h2>
-            <ButtonLink href="/play/era">
-              Start the draft <ArrowRight size={17} aria-hidden />
-            </ButtonLink>
+            <div className={styles.opponentWall}>
+              <div className={styles.pitchGraphic} aria-hidden>
+                <span className={styles.pitchHalfway} />
+                <span className={styles.pitchCircle} />
+                <span className={styles.pitchPath} />
+              </div>
+              <p className="eyebrow">THE CHAMPIONS AHEAD</p>
+              <div className={styles.markerScroller}>
+                <div className={styles.markerGrid}>
+                  {landingChampions.map((champion) => (
+                    <button
+                      className={styles.championMarker}
+                      type="button"
+                      key={`marker-${champion.id}`}
+                      aria-label={`${champion.nationName} ${champion.tournamentYear}, ${champion.tacticalLabel}`}
+                    >
+                      <b>{champion.nationCode}</b>
+                      <span>{champion.tournamentYear}</span>
+                      <i aria-hidden>
+                        <strong>{champion.nationName}</strong>
+                        {champion.tournamentYear} · {champion.tacticalLabel}
+                      </i>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>

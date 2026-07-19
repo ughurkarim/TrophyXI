@@ -10,6 +10,7 @@ import {
 import { useRef, useState, type ReactNode } from "react";
 import { PlayerCard } from "@/components/cards/player-card";
 import { playersById } from "@/data/players";
+import styles from "./hero-showcase.module.css";
 
 export const HERO_TOURNAMENT_YEARS = [
   2026, 2022, 2018, 2014, 2010, 2006,
@@ -26,6 +27,9 @@ export const heroYearIndexForProgress = (progress: number) =>
     ),
   );
 
+export const heroReducedMotionYearIndexForProgress = (progress: number) =>
+  progress < 0.5 ? 0 : HERO_TOURNAMENT_YEARS.length - 1;
+
 const cardsByYear = new Map(
   HERO_TOURNAMENT_YEARS.map((year) => [
     year,
@@ -35,6 +39,9 @@ const cardsByYear = new Map(
     },
   ]),
 );
+
+export const heroCardsForYear = (year: (typeof HERO_TOURNAMENT_YEARS)[number]) =>
+  cardsByYear.get(year)!;
 
 function RivalCard({
   side,
@@ -46,31 +53,37 @@ function RivalCard({
   reduceMotion: boolean;
 }) {
   return (
-    <AnimatePresence initial={false} mode="wait">
-      <motion.div
-        key={player.id}
-        className={`hero-rival-card hero-rival-card--${side}`}
-        data-card-id={player.id}
-        initial={
-          reduceMotion
-            ? false
-            : { opacity: 0, y: 28, filter: "blur(7px)" }
-        }
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        exit={
-          reduceMotion
-            ? { opacity: 1 }
-            : { opacity: 0, y: -24, filter: "blur(7px)" }
-        }
-        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <PlayerCard
-          player={player}
-          decorative
-          className={`hero-card hero-card--${side}`}
-        />
-      </motion.div>
-    </AnimatePresence>
+    <div className={styles.rivalSlot}>
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={player.id}
+          className={`hero-rival-card hero-rival-card--${side}`}
+          data-card-id={player.id}
+          initial={
+            reduceMotion
+              ? false
+              : { opacity: 0, y: 28, filter: "blur(7px)" }
+          }
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          exit={
+            reduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, y: -24, filter: "blur(7px)" }
+          }
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+          }
+        >
+          <PlayerCard
+            player={player}
+            decorative
+            className={`hero-card hero-card--${side}`}
+          />
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -84,16 +97,16 @@ export function HeroShowcase({ children }: { children: ReactNode }) {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    if (reduceMotion) return;
-    const nextIndex = heroYearIndexForProgress(progress);
+    const nextIndex = reduceMotion
+      ? heroReducedMotionYearIndexForProgress(progress)
+      : heroYearIndexForProgress(progress);
     setActiveIndex((current) =>
       current === nextIndex ? current : nextIndex,
     );
   });
 
-  const displayIndex = reduceMotion ? 0 : activeIndex;
-  const year = HERO_TOURNAMENT_YEARS[displayIndex];
-  const cards = cardsByYear.get(year)!;
+  const year = HERO_TOURNAMENT_YEARS[activeIndex];
+  const cards = heroCardsForYear(year);
 
   return (
     <div
@@ -112,22 +125,25 @@ export function HeroShowcase({ children }: { children: ReactNode }) {
             tabIndex={0}
             aria-label={`Ronaldo and Messi tournament-card timeline, showing ${year}. Scroll sequence: 2026, 2022, 2018, 2014, 2010, 2006.`}
           >
-            <div className="hero-rivalry-field" aria-hidden>
-              <span className="hero-rivalry-field__word">RIVALRY</span>
-              <span className="hero-rivalry-field__year">{year}</span>
-              <span className="hero-rivalry-field__line" />
-              <span className="hero-rivalry-field__circle" />
-            </div>
-
             <div
-              className="hero-year-status"
+              className="sr-only"
               role="status"
               aria-live="polite"
               aria-atomic="true"
             >
-              <span>WORLD CUP ARCHIVE</span>
-              <strong>{year}</strong>
-              <small>SCROLL TO REWIND</small>
+              Showing {year}
+            </div>
+
+            <span className="hero-background-year" aria-hidden>
+              {year}
+            </span>
+
+            <div
+              className={`hero-transition-label ${styles.transitionLabel}`}
+              aria-hidden
+            >
+              <span>SIX TOURNAMENTS · TWENTY YEARS</span>
+              <strong>2026 → 2006</strong>
             </div>
 
             <div className="hero-rival-cards">
@@ -142,32 +158,7 @@ export function HeroShowcase({ children }: { children: ReactNode }) {
                 reduceMotion={reduceMotion}
               />
             </div>
-
-            <div className="hero-year-rail" aria-hidden>
-              {HERO_TOURNAMENT_YEARS.map((railYear, index) => (
-                <span
-                  key={railYear}
-                  className={
-                    index === displayIndex
-                      ? "hero-year-rail__item hero-year-rail__item--active"
-                      : "hero-year-rail__item"
-                  }
-                >
-                  <i />
-                  {railYear}
-                </span>
-              ))}
-            </div>
-
-            <div className="showcase-plaque" aria-hidden>
-              <span>MESSI / RONALDO</span>
-              <b>SIX TOURNAMENTS</b>
-            </div>
           </div>
-        </div>
-        <div className="hero-scroll-cue" aria-hidden>
-          <span />
-          SCROLL TO REWIND
         </div>
       </div>
     </div>

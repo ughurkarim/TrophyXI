@@ -1,0 +1,82 @@
+.rivalSlot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+}
+
+.rivalSlot > div {
+  position: absolute;
+  inset: 0;
+}
+
+.transitionLabel {
+  position: absolute;
+  z-index: 6;
+  right: 50%;
+  bottom: 1.5%;
+  display: grid;
+  min-width: 214px;
+  gap: 3px;
+  padding: 9px 13px;
+  color: #8e988f;
+  border: 1px solid rgba(214, 180, 92, 0.2);
+  border-radius: 8px;
+  text-align: center;
+  background: rgba(6, 9, 7, 0.82);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.26);
+  transform: translateX(50%);
+  backdrop-filter: blur(9px);
+}
+
+.transitionLabel span,
+.transitionLabel strong {
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  line-height: 1.25;
+}
+
+.transitionLabel span {
+  font-size: 0.44rem;
+}
+
+.transitionLabel strong {
+  color: var(--gold-bright);
+  font-size: 0.64rem;
+  font-weight: 720;
+}
+
+@media (max-width: 700px) {
+  .rivalSlot {
+    min-height: 300px;
+  }
+
+  .transitionLabel {
+    bottom: -2px;
+    min-width: 190px;
+    padding: 7px 10px;
+  }
+
+  .transitionLabel span {
+    font-size: 0.39rem;
+  }
+
+  .rivalSlot :global(.player-card__identity h3) {
+    font-size: 0.78rem;
+    letter-spacing: -0.045em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.hero-scroll-scene) {
+    height: 200svh;
+  }
+
+  :global(.hero-scroll-sticky) {
+    position: sticky;
+  }
+
+  .transitionLabel {
+    transition: none;
+  }
+}
