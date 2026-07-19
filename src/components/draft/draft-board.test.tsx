@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DraftBoard } from "@/components/draft/draft-board";
@@ -48,17 +48,16 @@ describe("DraftBoard", () => {
     await user.click(choices[1]);
     expect(useGameStore.getState().picks).toHaveLength(0);
     expect(useGameStore.getState().selectedPlayerId).toBeTruthy();
-    expect(screen.getByText("Rating")).toBeInTheDocument();
-    expect(screen.getByText("Projected Chemistry")).toBeInTheDocument();
-    expect(screen.getByText("CAREER ACCOLADES")).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/\d+ overall, [A-Z]+/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Best Position")).toBeInTheDocument();
     const selectedPreview = screen.getByLabelText("Selected player preview");
-    expect(selectedPreview).toHaveTextContent("PLAYER TAG EFFECTS");
-    expect(selectedPreview).toHaveTextContent(
-      useGameStore.getState().selectedPlayerId
-        ? playersById.get(useGameStore.getState().selectedPlayerId!)!
-            .modeledTags[0]
-        : "",
-    );
+    expect(
+      within(selectedPreview).getByText("Projected Chemistry"),
+    ).toBeInTheDocument();
+    expect(selectedPreview).toHaveTextContent("VIEW PLAYER TAGS");
+    expect(selectedPreview).not.toHaveTextContent("Placement Penalty −0%");
     const preview = useGameStore
       .getState()
       .projectedPositionFits.find((candidate) => candidate.canPlace)!;
@@ -73,13 +72,18 @@ describe("DraftBoard", () => {
     );
     expect(screen.getByLabelText("1 of 14 players drafted")).toBeInTheDocument();
     expect(useGameStore.getState().picks).toHaveLength(1);
-    expect(screen.getByText(/Placement Penalty/i)).toBeInTheDocument();
+    expect(screen.queryByText("Placement Penalty 0%")).not.toBeInTheDocument();
+    expect(screen.queryByText("−0%")).not.toBeInTheDocument();
   });
 
   it("keeps manager and drafted-player records clickable in the compact squad", async () => {
     const user = userEvent.setup();
     render(<DraftBoard />);
-    expect(screen.getByText("SQUAD ARCHIVE")).toBeInTheDocument();
+    expect(screen.queryByText("SQUAD ARCHIVE")).not.toBeInTheDocument();
+    const squadControl = screen.getByRole("button", {
+      name: "SQUAD 0 / 14",
+    });
+    await user.click(squadControl);
     const managerButton = screen.getByRole("button", {
       name: /inspect manager/i,
     });
@@ -91,7 +95,7 @@ describe("DraftBoard", () => {
     await user.click(
       screen.getByRole("button", { name: /close manager record/i }),
     );
-    await waitFor(() => expect(managerButton).toHaveFocus());
+    await waitFor(() => expect(squadControl).toHaveFocus());
 
     const option = useGameStore.getState().optionIds[0];
     act(() => {
@@ -102,6 +106,9 @@ describe("DraftBoard", () => {
       useGameStore.getState().placeSelectedPlayer(preview.slotId);
     });
     const drafted = playersById.get(option)!;
+    await user.click(
+      screen.getByRole("button", { name: "SQUAD 1 / 14" }),
+    );
     const draftedButton = screen.getByRole("button", {
       name: new RegExp(`inspect .*${drafted.playerName}`, "i"),
     });
@@ -113,7 +120,11 @@ describe("DraftBoard", () => {
     await user.click(
       screen.getByRole("button", { name: /close player record/i }),
     );
-    await waitFor(() => expect(draftedButton).toHaveFocus());
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "SQUAD 1 / 14" }),
+      ).toHaveFocus(),
+    );
   });
 
   it("previews the exact hovered slot and commits the production Chemistry value", async () => {
@@ -152,7 +163,7 @@ describe("DraftBoard", () => {
     });
     expect(committed.chemistry).toBe(projectedChemistry);
     expect(container.querySelector(".chemistry-preview-hud")).toHaveTextContent(
-      `Current${committed.chemistry}`,
+      `Current Chemistry${committed.chemistry}`,
     );
     expect(container.querySelector(".chemistry-preview-hud")).not.toHaveTextContent(
       "Projected",
@@ -207,9 +218,70 @@ describe("DraftBoard", () => {
     useGameStore.getState().placeSelectedPlayer(preview.slotId);
     await user.click(screen.getByRole("button", { name: "Reset draft" }));
     expect(
-      screen.getByRole("dialog", { name: /return every player card/i }),
+      screen.getByRole("dialog", { name: /return to coach selection/i }),
     ).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Reset squad" }));
+    await user.click(screen.getByRole("button", { name: "Choose new coach" }));
     expect(useGameStore.getState().picks).toHaveLength(0);
+    expect(useGameStore.getState().managerId).toBeNull();
+    expect(useGameStore.getState().formationId).toBeNull();
+    expect(useGameStore.getState().managerOptionIds).toHaveLength(3);
+  });
+
+  it("opens the Chemistry explanation and removes technical guarantee copy", async () => {
+    const user = userEvent.setup();
+    render(<DraftBoard />);
+    expect(
+      screen.queryByText(/Five unique identities|completion path guaranteed/i),
+    ).not.toBeInTheDocument();
+    await user.click(
+      screen.getByRole("button", { name: /chemistry information/i }),
+    );
+    const dialog = screen.getByRole("dialog", {
+      name: /how chemistry works/i,
+    });
+    expect(dialog).toHaveTextContent(
+      "Chemistry measures how naturally your fourteen-player squad works together.",
+    );
+    expect(dialog).toHaveTextContent(
+      "A lower-rated player with excellent fit may improve the squad",
+    );
+  });
+
+  it("shows a positive placement penalty for the exact awkward slot", async () => {
+    const user = userEvent.setup();
+    render(<DraftBoard />);
+    const choiceButtons = screen.getAllByRole("button", {
+      name: /select .* for placement, rated/i,
+    });
+    let targetSlotId: string | undefined;
+    for (let index = 0; index < choiceButtons.length; index += 1) {
+      await user.click(choiceButtons[index]);
+      targetSlotId = useGameStore
+        .getState()
+        .projectedPositionFits.find(
+          (candidate) =>
+            candidate.canPlace && candidate.penaltyPercent > 0,
+        )?.slotId;
+      if (targetSlotId) break;
+      await user.click(screen.getByRole("button", { name: /^cancel$/i }));
+    }
+    expect(targetSlotId).toBeDefined();
+    const formation = getFormation(useGameStore.getState().formationId!);
+    const slot = formation.slots.find(
+      (candidate) => candidate.id === targetSlotId,
+    )!;
+    const preview = useGameStore
+      .getState()
+      .projectedPositionFits.find(
+        (candidate) => candidate.slotId === targetSlotId,
+      )!;
+    await user.hover(
+      screen.getByRole("button", {
+        name: new RegExp(`^${slot.label}\\.`, "i"),
+      }),
+    );
+    expect(screen.getByLabelText("Selected player preview")).toHaveTextContent(
+      `Placement Penalty −${preview.penaltyPercent}%`,
+    );
   });
 });

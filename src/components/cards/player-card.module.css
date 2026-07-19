@@ -1,0 +1,65 @@
+.card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.card :global(.player-card__header),
+.card :global(.player-card__identity),
+.card :global(.player-card__stats),
+.card :global(.player-card__footer),
+.card :global(.player-card__fit) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.card :global(.player-rating strong),
+.card :global(.player-era span),
+.card :global(.player-era small) {
+  max-width: 100%;
+  line-height: 1;
+}
+
+.card :global(.player-card__identity h3) {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: clamp(0.72rem, 1vw, 1rem);
+  line-height: 1.12;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card :global(.player-card__stats) {
+  overflow: hidden;
+}
+
+.card :global(.player-card__stats span) {
+  min-width: 0;
+}
+
+.card :global(.player-card__stats b),
+.card :global(.player-card__stats small) {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card :global(.player-card__selected) {
+  top: 6px;
+  right: 6px;
+  left: auto;
+  max-width: calc(100% - 12px);
+  min-height: 22px;
+  padding-inline: 7px;
+  overflow: hidden;
+  transform: none;
+  font-size: 0.43rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card:global(.player-card--selected) {
+  width: 100%;
+  transform: none !important;
+}

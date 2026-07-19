@@ -1,3 +1,5 @@
+import { calculateEraFitDetails } from "@/data/eras";
+import { calculateSquadAccoladeEffect } from "@/engine/accolade-effects";
 import { calculateChemistry } from "@/engine/chemistry";
 import {
   getPlacementPenaltyPercent,
@@ -79,20 +81,31 @@ export const calculateTeamRatings = (
       return [player.id, Math.max(0, (100 - penalty) / 100)] as const;
     }),
   );
-  const adjusted = (player: PlayerTournamentCard, value: number) =>
-    value * (placementMultiplier.get(player.id) ?? 1);
-  const achievementBoost = Math.min(
-    1.5,
-    lineup.reduce(
-      (sum, player) =>
-        sum +
-        player.achievements.reduce(
-          (total, achievement) => total + achievement.ratingEffect,
-          0,
-        ),
-      0,
-    ),
+  const eraMultiplier = new Map(
+    lineup.map((player) => {
+      const details = calculateEraFitDetails(
+        player,
+        context.eraId ?? "all",
+        {
+          manager,
+          formation,
+        },
+      );
+      return [
+        player.id,
+        Math.max(0, (100 - details.impactPercent) / 100),
+      ] as const;
+    }),
   );
+  const adjusted = (player: PlayerTournamentCard, value: number) =>
+    value *
+    (placementMultiplier.get(player.id) ?? 1) *
+    (eraMultiplier.get(player.id) ?? 1);
+  const bench = context.bench ?? [];
+  const accoladeEffect = calculateSquadAccoladeEffect([
+    ...lineup,
+    ...bench,
+  ]);
   const attack =
     topAverage(
       outfield.map(
@@ -108,7 +121,7 @@ export const calculateTeamRatings = (
     ((manager?.grades.offense ?? 78) - 78) *
       0.045 *
       managerEffectiveness +
-    achievementBoost * 0.35;
+    accoladeEffect.attack;
   const midfield =
     topAverage(
       outfield.map(
@@ -121,7 +134,7 @@ export const calculateTeamRatings = (
     ) +
     formation.modifiers.midfield +
     (manager?.simulationModifier.midfield ?? 0) * managerEffectiveness +
-    achievementBoost * 0.35;
+    accoladeEffect.midfield;
   const outfieldDefense = topAverage(
     outfield.map(
       (player) =>
@@ -144,14 +157,17 @@ export const calculateTeamRatings = (
     ((manager?.grades.defense ?? 78) - 78) *
       0.045 *
       managerEffectiveness +
-    achievementBoost * 0.3;
+    accoladeEffect.defense;
   const chemistry = calculateChemistry(lineup, formation, context);
-  const quality = attack * 0.34 + midfield * 0.33 + defense * 0.33;
+  const quality =
+    attack * 0.34 +
+    midfield * 0.33 +
+    defense * 0.33 +
+    accoladeEffect.quality * 0.35;
   const chemistryAdjustment = ((chemistry.score - 75) / 25) * 2;
   const fitAdjustment =
     ((chemistry.averagePositionFit - 88) / 12) * 1.4 +
     ((chemistry.managerFit - 82) / 18) * 0.8;
-  const bench = context.bench ?? [];
   const benchWeights = [0.4, 0.25, 0.15];
   const benchDepth = bench.length
     ? roundRating(

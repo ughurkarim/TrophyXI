@@ -65,6 +65,9 @@ export function TacticalPitch({
           isSelected && "pitch-node--active",
           interactive && "pitch-node--interactive",
           fitPreview && `pitch-node--fit-${fitPreview.state}`,
+          fitPreview && slot.x <= 15 && "pitch-node--near-left",
+          fitPreview && slot.x >= 85 && "pitch-node--near-right",
+          fitPreview && slot.y <= 20 && "pitch-node--near-top",
           slot.y >= 80 && "pitch-node--near-bottom",
           fitPreview && slot.y >= 80 && "pitch-node--fit-label-above",
           fitPreview?.feasibilityBlocked && "pitch-node--feasibility-blocked",
@@ -77,12 +80,12 @@ export function TacticalPitch({
               ? `${slot.label}. ${fitPreview.label}, ${fitPreview.fit} percent. ${
                   fitPreview.state === "incompatible"
                     ? "Placement unavailable"
-                    : fitPreview.penaltyPercent === 0
-                    ? "No performance penalty"
+                  : fitPreview.penaltyPercent === 0
+                    ? "No placement penalty"
                     : `${fitPreview.penaltyPercent} percent performance penalty`
                 }.${
                   fitPreview.feasibilityBlocked
-                    ? " Placement blocked because it would make the formation impossible to complete."
+                    ? " Placement unavailable for this squad."
                     : fitPreview.canPlace
                       ? " Select this position."
                       : " Incompatible."
@@ -116,15 +119,13 @@ export function TacticalPitch({
             )}
             {!player && !opponentName && fitPreview && (
               <span className="pitch-node__fit">
+                <small>POSITION FIT</small>
                 <b>{fitPreview.fit}%</b>
-                <small>{fitPreview.label}</small>
-                <i>
-                  {fitPreview.state === "incompatible"
-                    ? "—"
-                    : fitPreview.penaltyPercent === 0
-                    ? "0%"
-                    : `−${fitPreview.penaltyPercent}%`}
-                </i>
+                <em>{fitPreview.label}</em>
+                {fitPreview.state !== "incompatible" &&
+                  fitPreview.penaltyPercent > 0 && (
+                    <i>−{fitPreview.penaltyPercent}%</i>
+                  )}
               </span>
             )}
           </>

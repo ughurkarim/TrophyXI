@@ -102,6 +102,12 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.locator('.site-header a[href="/database"]').first(),
   ).toHaveAttribute("href", "/database");
+  await expect(page.locator(".site-header")).toHaveCSS("position", "fixed");
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).scrollbarWidth,
+    ),
+  ).toBe("none");
 
   const showcase = page.getByTestId("hero-showcase");
   await expect(showcase).toHaveAttribute("data-active-year", "2026");
@@ -137,6 +143,10 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     await expect(
       showcase.locator(`[data-card-id="cristiano-ronaldo-${year}"]`),
     ).toBeVisible();
+    await expect(showcase.locator(".hero-background-year")).toHaveText(
+      String(year),
+    );
+    await expect(page.locator(".site-header")).toBeVisible();
   }
   await page.locator("#how-it-works").scrollIntoViewIfNeeded();
   await expect(
@@ -148,6 +158,27 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     page.getByRole("heading", { name: "Player Database" }),
   ).toBeVisible();
   await captureState("00-database.png");
+  const databaseScroll = await page.locator(".database-grid").evaluate(
+    (grid) => ({
+      overflowY: window.getComputedStyle(grid).overflowY,
+      documentHeight: document.documentElement.scrollHeight,
+      viewportHeight: window.innerHeight,
+    }),
+  );
+  expect(databaseScroll.overflowY).toBe("visible");
+  expect(databaseScroll.documentHeight).toBeGreaterThan(
+    databaseScroll.viewportHeight,
+  );
+  await page.evaluate(() =>
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "instant",
+    }),
+  );
+  expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  await page.evaluate(() =>
+    window.scrollTo({ top: 0, behavior: "instant" }),
+  );
   await expect(page.getByText("629", { exact: true }).first()).toBeVisible();
   const databaseSearch = page.getByPlaceholder("Search player or nation");
   await databaseSearch.fill("Bastian Schweinsteiger");
@@ -196,14 +227,30 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     })
     .click();
   const databasePlayerDialog = page.getByRole("dialog");
-  await expect(databasePlayerDialog.getByText("PHOTO STATUS")).toBeVisible();
-  await expect(
-    databasePlayerDialog.getByText(
-      /owns image key lionel-messi-2014/i,
-    ),
-  ).toBeVisible();
+  await expect(databasePlayerDialog.getByText("PHOTO STATUS")).toHaveCount(0);
+  await expect(databasePlayerDialog.getByText("PORTRAIT SOURCE")).toHaveCount(0);
+  const databaseDialogContainment = await databasePlayerDialog.evaluate(
+    (dialog) => {
+      const bounds = dialog.getBoundingClientRect();
+      const close = dialog
+        .querySelector<HTMLElement>(".player-drawer__close")!
+        .getBoundingClientRect();
+      return {
+        closeInside:
+          close.left >= bounds.left &&
+          close.right <= bounds.right &&
+          close.top >= bounds.top &&
+          close.bottom <= bounds.bottom,
+        overflowY: window.getComputedStyle(dialog).overflowY,
+        noHorizontalOverflow: dialog.scrollWidth <= dialog.clientWidth + 1,
+      };
+    },
+  );
+  expect(databaseDialogContainment.closeInside).toBe(true);
+  expect(["auto", "scroll"]).toContain(databaseDialogContainment.overflowY);
+  expect(databaseDialogContainment.noHorizontalOverflow).toBe(true);
   const databaseMessiFace = databasePlayerDialog.getByRole("img", {
-    name: /exact-year card face of lionel messi/i,
+    name: /tournament-edition card face of lionel messi/i,
   });
   await expect(databaseMessiFace).toBeVisible();
   await expect
@@ -216,12 +263,18 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
       ),
     )
     .toBe(true);
+  const showDatabaseAccolades = databasePlayerDialog.getByRole("button", {
+    name: /SHOW \d+ MORE/,
+  });
+  if (await showDatabaseAccolades.count()) {
+    await showDatabaseAccolades.click();
+  }
   await expect(databasePlayerDialog.getByText("TOP 100 PLAYER")).toBeVisible();
   await expect(
     databasePlayerDialog.getByText("Trophy XI Curated Top 100"),
-  ).toBeVisible();
+  ).toHaveCount(0);
   await expect(
-    databasePlayerDialog.getByText("2× World Cup Golden Ball"),
+    databasePlayerDialog.getByText("2× WORLD CUP GOLDEN BALL"),
   ).toBeVisible();
   await expect(
     databasePlayerDialog.getByText("PLAYER TAG EFFECTS"),
@@ -464,12 +517,24 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await enterDraft.click();
   await expect(page).toHaveURL(/\/play\/draft$/);
   await expect(page.getByText("PLAYER RESPINS ×2").first()).toBeVisible();
-  await expect(page.getByText("SQUAD ARCHIVE")).toBeVisible();
+  await expect(page.getByText("SQUAD ARCHIVE")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "SQUAD 0 / 14" }),
+  ).toBeVisible();
   const chemistryHud = page.locator(".chemistry-preview-hud");
   await expect(chemistryHud).toHaveAttribute(
     "aria-label",
     /current chemistry \d+/i,
   );
+  await page
+    .getByRole("button", { name: /chemistry information/i })
+    .click();
+  await expect(
+    page.getByRole("dialog", { name: /how chemistry works/i }),
+  ).toContainText(
+    "Chemistry measures how naturally your fourteen-player squad works together.",
+  );
+  await page.getByRole("button", { name: "Close" }).click();
 
   await expect(playerChoices()).toHaveCount(5);
   await expect(
@@ -499,6 +564,47 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
       ),
     ),
   ).toBe(true);
+  const draftGridBounds = await page.locator(".draft-card-grid").boundingBox();
+  expect(draftGridBounds).not.toBeNull();
+  if ((page.viewportSize()?.width ?? 0) > 720) {
+    expect(
+      initialCardBounds.every(
+        (bounds) =>
+          bounds.left >= draftGridBounds!.x - 1 &&
+          bounds.right <=
+            draftGridBounds!.x + draftGridBounds!.width + 1,
+      ),
+    ).toBe(true);
+  } else {
+    const mobileRailContainment = await page
+      .locator(".draft-card-grid")
+      .evaluate((rail) => {
+        const railBounds = rail.getBoundingClientRect();
+        return {
+          allCardsInRail: [...rail.children].every((card) => {
+            const bounds = card.getBoundingClientRect();
+            return (
+              bounds.left -
+                railBounds.left +
+                rail.scrollLeft >=
+                -1 &&
+              bounds.right -
+                railBounds.left +
+                rail.scrollLeft <=
+                rail.scrollWidth + 1
+            );
+          }),
+          cardWidthFits: [...rail.children].every(
+            (card) =>
+              (card as HTMLElement).offsetWidth <= rail.clientWidth,
+          ),
+        };
+      });
+    expect(mobileRailContainment).toEqual({
+      allCardsInRail: true,
+      cardWidthFits: true,
+    });
+  }
   const circleGeometry = await page
     .locator(".draft-card-grid .circular-portrait")
     .evaluateAll((portraits) =>
@@ -558,7 +664,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     .first()
     .locator(".player-card__pick-target")
     .click();
-  await expect(page.getByText("CAREER ACCOLADES").first()).toBeVisible();
+  await expect(page.getByText("VIEW PLAYER TAGS")).toBeVisible();
   const selectedCardStyle = await page
     .locator(".draft-option--selected .player-card")
     .evaluate((card) => {
@@ -646,6 +752,22 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.locator(".pitch-node__fit i").filter({ hasText: "−" }).first(),
   ).toBeVisible();
+  await expect(page.getByText("−0%", { exact: true })).toHaveCount(0);
+  const fitLabelContainment = await page
+    .locator(".draft-pitch-panel .pitch-node__fit")
+    .evaluateAll((labels) =>
+      labels.map((label) => {
+        const pitch = label.closest(".pitch")!.getBoundingClientRect();
+        const bounds = label.getBoundingClientRect();
+        return (
+          bounds.left >= pitch.left - 1 &&
+          bounds.right <= pitch.right + 1 &&
+          bounds.top >= pitch.top - 1 &&
+          bounds.bottom <= pitch.bottom + 1
+        );
+      }),
+    );
+  expect(fitLabelContainment.every(Boolean)).toBe(true);
   const goalkeeperGeometry = await page
     .locator('.draft-pitch-panel .pitch-node[data-slot-y="91"]')
     .evaluate((node) => {
@@ -685,9 +807,18 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await captureState("02-selected-dossier.png", {
     focusSelector: ".selected-player-summary",
   });
+  const dossierHeight = await page
+    .locator(".selected-player-summary")
+    .evaluate((dossier) => ({
+      dossier: dossier.getBoundingClientRect().height,
+      pitch: document
+        .querySelector(".draft-pitch-panel .pitch")!
+        .getBoundingClientRect().height,
+    }));
+  expect(dossierHeight.dossier).toBeLessThanOrEqual(dossierHeight.pitch + 1);
   const selectedTagEffects = page
     .locator(".selected-player-summary")
-    .getByText("PLAYER TAG EFFECTS");
+    .getByText("VIEW PLAYER TAGS");
   await selectedTagEffects.scrollIntoViewIfNeeded();
   await expect(selectedTagEffects).toBeVisible();
   if (await page.evaluate(() => window.innerWidth <= 720)) {
@@ -710,19 +841,25 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(chemistryHud.locator("dd").first()).toHaveText(
     projectedChemistry ?? "",
   );
-  const firstSquadPlayer = page
-    .locator(".squad-strip .squad-chip--filled")
+  const squadControl = page.getByRole("button", { name: "SQUAD 1 / 14" });
+  await squadControl.click();
+  const squadDrawer = page.getByRole("dialog", { name: "Squad" });
+  await expect(squadDrawer.getByText("STARTING XI")).toBeVisible();
+  await expect(squadDrawer.getByText("BENCH 1–3")).toBeVisible();
+  const firstSquadPlayer = squadDrawer
+    .getByRole("button", { name: /inspect (?!manager)/i })
     .first();
   await firstSquadPlayer.click();
   const playerDialog = page.getByRole("dialog");
   await expect(playerDialog.getByText("TROPHY XI FIT")).toBeVisible();
   await expect(playerDialog.getByText("PLAYER TAG EFFECTS")).toBeVisible();
-  await expect(playerDialog.getByText("CAREER ACCOLADES")).toBeVisible();
-  await expect(playerDialog.getByText("PHOTO STATUS")).toBeVisible();
+  await expect(playerDialog.getByText("TOURNAMENT VERSIONS")).toBeVisible();
+  await expect(playerDialog.getByText("PHOTO STATUS")).toHaveCount(0);
+  await expect(playerDialog.getByText("PORTRAIT SOURCE")).toHaveCount(0);
   await expect(playerDialog.locator(".player-status")).toBeVisible();
-  await expect(playerDialog.locator(".circular-portrait")).toBeVisible();
+  await expect(playerDialog.locator(".circular-portrait").first()).toBeVisible();
   await page.keyboard.press("Escape");
-  await expect(firstSquadPlayer).toBeFocused();
+  await expect(squadControl).toBeFocused();
   await expect(playerChoices()).toHaveCount(5);
 
   await page
@@ -843,14 +980,20 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await page
     .getByRole("button", { name: /select brazil 1970/i })
     .click();
+  const worldCupXi = page.getByRole("button", {
+    name: /select world cup all-stars/i,
+  });
+  await worldCupXi.click();
+  await expect(worldCupXi).toHaveAttribute("aria-pressed", "true");
+  await expect(worldCupXi.getByText("Selected")).toBeVisible();
   await captureState("05-opponents.png");
   await page.getByRole("button", { name: /enter the tunnel/i }).click();
 
   await expect(page).toHaveURL(/\/match$/);
   await expect(
-    page.getByRole("heading", { name: "Brazil", exact: true }),
+    page.getByRole("heading", { name: "World Cup All-Stars", exact: true }),
   ).toBeVisible();
-  await expect(page.getByText(/historical opponent · champion/i)).toBeVisible();
+  await expect(page.getByText(/featured challenge · mythic/i)).toBeVisible();
   await expect(page.getByText(/opponent era translation/i)).toBeVisible({
     timeout: 3_000,
   });
@@ -876,7 +1019,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.getByText(/era translation applies in both directions/i),
   ).toBeVisible();
-  await expect(page.getByText(/brazil 1970/i).first()).toBeVisible();
+  await expect(page.getByText(/world cup all-stars/i).first()).toBeVisible();
   await captureState("06-result.png");
   await page.getByRole("button", { name: "Redraft" }).click();
   await expect(page).toHaveURL(/\/play\/manager$/);
@@ -889,7 +1032,8 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     page.getByRole("heading", { name: /archive with a paper trail/i }),
   ).toBeVisible();
   await expect(page.getByText(/active local png masters/i)).toBeVisible();
-  await expect(page.getByText(/exact-year player faces/i)).toBeVisible();
+  await expect(page.getByText(/tournament-edition player faces/i)).toBeVisible();
+  await expect(page.getByText(/3 user-supplied player portraits/i)).toBeVisible();
   await expect(page.getByText(/3 exact-year manager faces/i)).toBeVisible();
   await expect(page.getByText(/photo-pending player cards/i)).toBeVisible();
   await expect(page.getByText(/46 photo-pending manager cards/i)).toBeVisible();

@@ -65,4 +65,25 @@ describe("team ratings", () => {
     expect(misplaced.overall).toBeLessThan(natural.overall);
     expect(misplaced.positionFit).toBeLessThan(natural.positionFit);
   });
+
+  it("allows a slightly lower-rated perfect fit to beat an awkward higher card", () => {
+    const formation = getFormation("4-3-3");
+    const higher = playersById.get("ronaldo-2002")!;
+    const lower = {
+      ...higher,
+      id: "ronaldo-perfect-fit-test",
+      overall: higher.overall - 1,
+    };
+    const natural = calculateTeamRatings([lower], formation, {
+      picks: [{ slotId: "st", cardId: lower.id }],
+      eraId: "2000s",
+    });
+    const awkward = calculateTeamRatings([higher], formation, {
+      picks: [{ slotId: "lb", cardId: higher.id }],
+      eraId: "2000s",
+    });
+    expect(lower.overall).toBeLessThan(higher.overall);
+    expect(natural.positionFit).toBeGreaterThan(awkward.positionFit);
+    expect(natural.overall).toBeGreaterThan(awkward.overall);
+  });
 });

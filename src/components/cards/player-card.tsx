@@ -5,6 +5,7 @@ import { Check, ShieldCheck, TimerReset } from "lucide-react";
 import { PlayerPortrait } from "@/components/cards/player-portrait";
 import type { PlayerTournamentCard } from "@/types/game";
 import { cn, flagForCountry } from "@/lib/utils";
+import styles from "./player-card.module.css";
 
 const eraAccent: Record<PlayerTournamentCard["era"], string> = {
   "1970s": "gold",
@@ -82,10 +83,11 @@ export function PlayerCard({
       {showFit && (
         <div className="player-card__fit" aria-label="Draft eligibility">
           <span>
-            <ShieldCheck size={12} aria-hidden /> Position {positionFit ?? "—"}
+            <ShieldCheck size={12} aria-hidden /> Position Fit{" "}
+            {positionFit ?? "—"}
           </span>
           <span>
-            <TimerReset size={12} aria-hidden /> Translation {eraFit ?? "—"}
+            <TimerReset size={12} aria-hidden /> Era Fit {eraFit ?? "—"}
           </span>
         </div>
       )}
@@ -114,6 +116,7 @@ export function PlayerCard({
       <div
         className={cn(
           "player-card",
+          styles.card,
           `player-card--${eraAccent[player.era]}`,
           `player-card--tier-${player.statusTier}`,
           className,
@@ -128,6 +131,7 @@ export function PlayerCard({
     <motion.div
       className={cn(
         "player-card player-card--button",
+        styles.card,
         `player-card--${eraAccent[player.era]}`,
         `player-card--tier-${player.statusTier}`,
         selected && "player-card--selected",

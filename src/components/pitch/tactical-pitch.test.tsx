@@ -98,7 +98,7 @@ describe("TacticalPitch", () => {
             fit: 96,
             state: "green",
             label: "Strong Fit",
-            penaltyPercent: 1,
+            penaltyPercent: 0,
             canPlace: true,
             feasibilityBlocked: false,
           },
@@ -132,9 +132,12 @@ describe("TacticalPitch", () => {
         ]}
       />,
     );
-    expect(
-      screen.getByRole("button", { name: /LB\. Strong Fit, 96 percent/i }),
-    ).toHaveClass("pitch-node--fit-green");
+    const leftBack = screen.getByRole("button", {
+      name: /LB\. Strong Fit, 96 percent/i,
+    });
+    expect(leftBack).toHaveClass("pitch-node--fit-green");
+    expect(leftBack).toHaveClass("pitch-node--near-left");
+    expect(leftBack).not.toHaveTextContent("−0%");
     expect(
       screen.getByRole("button", { name: /LCB\. Adaptable, 82 percent/i }),
     ).toHaveClass("pitch-node--fit-yellow");
@@ -149,6 +152,8 @@ describe("TacticalPitch", () => {
       "pitch-node--fit-label-above",
     );
     expect(incompatibleGoalkeeperSlot).toHaveClass("pitch-node--near-bottom");
+    expect(incompatibleGoalkeeperSlot.querySelector(".pitch-node__fit"))
+      .toHaveTextContent("POSITION FIT0%Incompatible");
   });
 
   it("previews exact slots on hover and keyboard focus without moving nodes", async () => {

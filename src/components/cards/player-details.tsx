@@ -1,12 +1,15 @@
 "use client";
 
 import { X } from "lucide-react";
+import { useState } from "react";
+import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { PlayerAccolades } from "@/components/cards/player-accolades";
 import { PlayerPortrait } from "@/components/cards/player-portrait";
 import { players } from "@/data/players";
 import { imagesById } from "@/data/player-images";
+import { cn, flagForCountry } from "@/lib/utils";
 import type { PlayerTournamentCard } from "@/types/game";
-import { flagForCountry } from "@/lib/utils";
+import styles from "./player-details.module.css";
 
 const statLabels: Array<
   [keyof PlayerTournamentCard["tournamentStats"], string]
@@ -14,10 +17,23 @@ const statLabels: Array<
   ["appearances", "Appearances"],
   ["starts", "Starts"],
   ["minutes", "Minutes"],
+  ["saves", "Saves"],
+  ["cleanSheets", "Clean sheets"],
   ["goals", "Goals"],
   ["assists", "Assists"],
-  ["cleanSheets", "Clean sheets"],
-  ["saves", "Saves"],
+];
+
+const careerStatLabels: Array<
+  [
+    keyof NonNullable<PlayerTournamentCard["careerStats"]>,
+    string,
+  ]
+> = [
+  ["clubAppearances", "Club appearances"],
+  ["clubGoals", "Club goals"],
+  ["clubAssists", "Club assists"],
+  ["nationalTeamAppearances", "National-team appearances"],
+  ["nationalTeamGoals", "National-team goals"],
 ];
 
 export type PlayerFitContext = {
@@ -25,6 +41,7 @@ export type PlayerFitContext = {
   positionFit: number | null;
   placementPenalty: number | null;
   eraTranslation: number;
+  eraImpact?: number;
   managerFit: number;
   chemistryContribution: number | null;
   benchPriority: number | null;
@@ -35,36 +52,36 @@ export const modeledTagCopy: Record<
   { description: string; effect: string }
 > = {
   "Final-third threat": {
-    description: "Attack and clutch attributes carry more of this card’s value.",
-    effect: "Uses existing attack weighting · no uncapped bonus",
+    description: "Creates greater danger in and around the penalty area.",
+    effect: "Sharpens attacking influence in advanced roles.",
   },
   "Chance creator": {
-    description: "Creation and control shape midfield and attacking influence.",
-    effect: "Uses existing creativity weighting · capped by team rating",
+    description: "Finds passing lanes and creates opportunities for teammates.",
+    effect: "Strengthens creative influence in possession.",
   },
   "Press resistant": {
-    description: "Control supports midfield output and cross-era translation.",
-    effect: "Uses existing control weighting · no flat bonus",
+    description: "Keeps control under pressure and connects difficult phases.",
+    effect: "Supports midfield control and era adaptation.",
   },
   "Ball winner": {
-    description: "Defensive influence is strongest in compatible roles.",
-    effect: "Uses existing defense weighting · placement penalty still applies",
+    description: "Reads danger early and disrupts opposing attacks.",
+    effect: "Adds defensive value in compatible roles.",
   },
   "Duel strength": {
-    description: "Physical value supports defending, transitions, and adaptation.",
-    effect: "Uses existing physical weighting · rating remains capped at 99",
+    description: "Competes strongly in physical and aerial contests.",
+    effect: "Supports defending, transitions, and adaptation.",
   },
   "Goalkeeper craft": {
-    description: "Goalkeeping is included only when this card fills the goal.",
-    effect: "Goalkeeper weighting · outfield placement unavailable",
+    description: "Provides full goalkeeper value when assigned in goal.",
+    effect: "Improves shot-stopping and defensive organization.",
   },
   "High-leverage model": {
-    description: "Clutch contributes inside the normal attack simulation weights.",
-    effect: "18% of modeled attack blend · no separate factual claim",
+    description: "Performs more consistently in high-pressure match states.",
+    effect: "Strengthens big-match attacking influence.",
   },
   Timeless: {
-    description: "Trophy XI models a smaller translation penalty across eras.",
-    effect: "Era Translation only · final fit capped at 99",
+    description: "Translates naturally across different match environments.",
+    effect: "Protects more of the card’s quality across eras.",
   },
 };
 
@@ -84,14 +101,44 @@ export function PlayerDetails({
       (candidate) =>
         candidate.playerIdentityId === player.playerIdentityId,
     )
+    .map((candidate) => (candidate.id === player.id ? player : candidate))
     .sort(
       (first, second) => second.tournamentYear - first.tournamentYear,
     );
-  const image = imagesById.get(player.imageId);
+  const [selectedVersionId, setSelectedVersionId] = useState(player.id);
+  const activePlayer =
+    versions.find((version) => version.id === selectedVersionId) ?? player;
+  const activeFitContext = activePlayer.id === player.id ? fitContext : undefined;
+  const hasTournamentSource = activePlayer.statSources.some(
+    (source) =>
+      /^https?:\/\//.test(source.url) &&
+      Boolean(source.publisher.trim()),
+  );
+  const tournamentStats = hasTournamentSource
+    ? statLabels.filter(
+        ([key]) => activePlayer.tournamentStats[key] !== null,
+      )
+    : [];
+  const hasCareerSource = Boolean(
+    activePlayer.careerStats &&
+      /^https?:\/\//.test(activePlayer.careerStats.sourceUrl),
+  );
+  const careerStats =
+    activePlayer.careerStats && hasCareerSource
+      ? careerStatLabels.filter(
+          ([key]) =>
+            typeof activePlayer.careerStats?.[key] === "number",
+        )
+      : [];
+
   return (
     <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
       <aside
-        className={`player-drawer player-drawer--${player.statusTier}`}
+        className={cn(
+          "player-drawer",
+          `player-drawer--${activePlayer.statusTier}`,
+          styles.drawer,
+        )}
         role="dialog"
         aria-modal="true"
         aria-labelledby="player-detail-title"
@@ -101,210 +148,178 @@ export function PlayerDetails({
         }}
       >
         <button
-          className="icon-button player-drawer__close"
+          className={cn(
+            "icon-button player-drawer__close",
+            styles.close,
+          )}
           onClick={onClose}
           aria-label="Close player record"
           autoFocus
         >
           <X size={18} aria-hidden />
         </button>
-        <div className="player-drawer__hero">
-          <PlayerPortrait player={player} />
-          <div>
+        <div className={cn("player-drawer__hero", styles.hero)}>
+          <PlayerPortrait player={activePlayer} />
+          <div className={styles.heroCopy}>
             <span className="eyebrow eyebrow--gold">
-              {flagForCountry(player.countryCode)} {player.countryName} · {player.tournamentYear}
+              {flagForCountry(activePlayer.countryCode)}{" "}
+              {activePlayer.countryName} · {activePlayer.tournamentYear}
             </span>
-            <h2 id="player-detail-title">{player.playerName}</h2>
-            <p>{player.archetype} · {player.primaryPosition}</p>
+            <h2 id="player-detail-title">{activePlayer.playerName}</h2>
+            <p>
+              {activePlayer.archetype} · {activePlayer.primaryPosition}
+            </p>
             <div
-              className={`player-status player-status--${player.statusTier}`}
-              aria-label={`${player.statusTier} tier, ${player.overall} overall`}
+              className={`player-status player-status--${activePlayer.statusTier}`}
+              aria-label={`${activePlayer.statusTier} tier, ${activePlayer.overall} overall`}
             >
-              <strong>{player.overall}</strong>
-              <span>{player.statusTier.replace("-", " ")}</span>
-              <small>modeled status tier</small>
+              <strong>{activePlayer.overall}</strong>
+              <span>{activePlayer.statusTier.replace("-", " ")}</span>
             </div>
           </div>
         </div>
-        <section>
+
+        <section className={styles.versions}>
           <span className="eyebrow">TOURNAMENT VERSIONS</span>
-          <div className="version-photo-list">
-            {versions.map((version) => (
-              <span key={version.id}>
-                <b>{version.tournamentYear}</b>
-                <small>
-                  {imagesById.has(version.imageId)
-                    ? "Exact-year face"
-                    : "Photo pending"}
-                </small>
-              </span>
-            ))}
+          <div className={styles.versionList}>
+            {versions.map((version) => {
+              const hasPhoto = imagesById.has(version.imageId);
+              const current = version.id === activePlayer.id;
+              return (
+                <button
+                  type="button"
+                  key={version.id}
+                  className={cn(styles.version, current && styles.currentVersion)}
+                  aria-pressed={current}
+                  aria-label={`Open ${version.playerName} ${version.tournamentYear} card, rated ${version.overall}`}
+                  onClick={() => setSelectedVersionId(version.id)}
+                >
+                  <span className={styles.versionPortrait} aria-hidden>
+                    <CircularPortrait
+                      imageId={version.imageId}
+                      subjectName={version.playerName}
+                      era={version.era}
+                      statusTier={version.statusTier}
+                      countryCode={version.countryCode}
+                      tournamentYear={version.tournamentYear}
+                      size="compact"
+                    />
+                  </span>
+                  <span>
+                    <b>{version.tournamentYear}</b>
+                    <small>{current ? "Current version" : hasPhoto ? "Photo" : "Photo Pending"}</small>
+                  </span>
+                  <strong>{version.overall}</strong>
+                  <i>{version.primaryPosition}</i>
+                </button>
+              );
+            })}
           </div>
         </section>
-        <section>
-          <span className="eyebrow">PHOTO STATUS</span>
-          <p className="data-disclosure">
-            {image
-              ? `Exact-year local face · this tournament card owns image key ${player.imageId}.`
-              : `Photo Pending · ${player.playerName} ${player.tournamentYear} remains fully draftable with a non-photographic identity marker.`}
-          </p>
-        </section>
-        <section>
-          <span className="eyebrow">TOURNAMENT RECORD</span>
-          <dl className="record-grid">
-            {statLabels.map(([key, label]) => (
-              <div key={key}>
-                <dt>{label}</dt>
-                <dd>{player.tournamentStats[key] ?? "Not sourced"}</dd>
-              </div>
-            ))}
-          </dl>
-          {player.statSources.length === 0 && (
-            <p className="data-disclosure">
-              No verified tournament stat line is stored for this version. Unknown values
-              stay unknown and never become zero.
-            </p>
-          )}
-        </section>
-        {player.careerStats && (
+
+        {tournamentStats.length > 0 && (
           <section>
-            <span className="eyebrow">CAREER STATISTICS</span>
-            <dl className="record-grid">
-              <div>
-                <dt>Club appearances</dt>
-                <dd>{player.careerStats.clubAppearances ?? "Not sourced"}</dd>
-              </div>
-              <div>
-                <dt>Club goals</dt>
-                <dd>{player.careerStats.clubGoals ?? "Not sourced"}</dd>
-              </div>
-              <div>
-                <dt>Club assists</dt>
-                <dd>{player.careerStats.clubAssists ?? "Not sourced"}</dd>
-              </div>
-              <div>
-                <dt>National-team appearances</dt>
-                <dd>
-                  {player.careerStats.nationalTeamAppearances ?? "Not sourced"}
-                </dd>
-              </div>
-              <div>
-                <dt>National-team goals</dt>
-                <dd>
-                  {player.careerStats.nationalTeamGoals ?? "Not sourced"}
-                </dd>
-              </div>
+            <span className="eyebrow">TOURNAMENT RECORD</span>
+            <dl className={cn("record-grid", styles.recordGrid)}>
+              {tournamentStats.map(([key, label]) => (
+                <div key={key}>
+                  <dt>{label}</dt>
+                  <dd>{activePlayer.tournamentStats[key]}</dd>
+                </div>
+              ))}
             </dl>
-            <p className="data-disclosure">
-              {player.careerStats.coverageNote}
-            </p>
-            <a
-              href={player.careerStats.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              FBref · retrieved {player.careerStats.retrievedOn}
-            </a>
           </section>
         )}
-        <section>
-          <span className="eyebrow">TROPHY XI FIT</span>
-          {fitContext ? (
-            <dl className="record-grid">
+
+        {activePlayer.careerStats && careerStats.length > 0 && (
+          <section>
+            <span className="eyebrow">CAREER STATISTICS</span>
+            <dl className={cn("record-grid", styles.recordGrid)}>
+              {careerStats.map(([key, label]) => (
+                <div key={key}>
+                  <dt>{label}</dt>
+                  <dd>{activePlayer.careerStats?.[key] as number}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        {activeFitContext && (
+          <section>
+            <span className="eyebrow">TROPHY XI FIT</span>
+            <dl className={cn("record-grid", styles.recordGrid)}>
               <div>
                 <dt>Assignment</dt>
-                <dd>{fitContext.assignedSlot}</dd>
+                <dd>{activeFitContext.assignedSlot}</dd>
               </div>
               <div>
                 <dt>Position Fit</dt>
                 <dd>
-                  {fitContext.positionFit === null
+                  {activeFitContext.positionFit === null
                     ? "Bench"
-                    : `${fitContext.positionFit}%`}
+                    : `${activeFitContext.positionFit}%`}
                 </dd>
               </div>
+              {Boolean(activeFitContext.placementPenalty) && (
+                <div>
+                  <dt>Placement Penalty</dt>
+                  <dd>−{activeFitContext.placementPenalty}%</dd>
+                </div>
+              )}
               <div>
-                <dt>Placement penalty</dt>
-                <dd>
-                  {fitContext.placementPenalty === null
-                    ? "Not active"
-                    : `−${fitContext.placementPenalty}%`}
-                </dd>
+                <dt>Era Fit</dt>
+                <dd>{activeFitContext.eraTranslation}</dd>
               </div>
-              <div>
-                <dt>Era Translation</dt>
-                <dd>{fitContext.eraTranslation}%</dd>
-              </div>
+              {Boolean(activeFitContext.eraImpact) && (
+                <div>
+                  <dt>Era Impact</dt>
+                  <dd>−{activeFitContext.eraImpact}%</dd>
+                </div>
+              )}
               <div>
                 <dt>Manager Fit</dt>
-                <dd>{fitContext.managerFit}%</dd>
+                <dd>{activeFitContext.managerFit}</dd>
               </div>
-              <div>
-                <dt>Chemistry contribution</dt>
-                <dd>
-                  {fitContext.chemistryContribution === null
-                    ? "Bench depth only"
-                    : `${fitContext.chemistryContribution >= 0 ? "+" : ""}${fitContext.chemistryContribution}`}
-                </dd>
-              </div>
-              {fitContext.benchPriority !== null && (
+              {activeFitContext.chemistryContribution !== null && (
+                <div>
+                  <dt>Chemistry contribution</dt>
+                  <dd>
+                    {activeFitContext.chemistryContribution >= 0 ? "+" : ""}
+                    {activeFitContext.chemistryContribution}
+                  </dd>
+                </div>
+              )}
+              {activeFitContext.benchPriority !== null && (
                 <div>
                   <dt>Bench priority</dt>
-                  <dd>{fitContext.benchPriority}</dd>
+                  <dd>{activeFitContext.benchPriority}</dd>
                 </div>
               )}
             </dl>
-          ) : (
-            <p className="data-disclosure">
-              Select or place this card to calculate squad-specific fit.
-            </p>
-          )}
-        </section>
+          </section>
+        )}
+
         <section>
           <span className="eyebrow">PLAYER TAG EFFECTS</span>
-          <div className="modeled-tag-list">
-            {player.modeledTags.map((tag) => (
+          <div className={cn("modeled-tag-list", styles.tagList)}>
+            {activePlayer.modeledTags.map((tag) => (
               <article key={tag}>
                 <span>{tag}</span>
                 <p>
                   {modeledTagCopy[tag]?.description ??
-                    "A Trophy XI tactical archetype derived from this card’s modeled attributes."}
+                    "Supports this card’s tactical identity and role."}
                 </p>
                 <small>
                   {modeledTagCopy[tag]?.effect ??
-                    "No separate bonus · normal engine caps apply"}
+                    "Adds value when the role and system fit."}
                 </small>
               </article>
             ))}
           </div>
-          <p className="data-disclosure">
-            Tags describe Trophy XI simulation behavior. They are separate from
-            sourced tournament accolades.
-          </p>
         </section>
-        <PlayerAccolades player={player} />
-        {image?.sourcePage && (
-          <section>
-            <span className="eyebrow">PORTRAIT SOURCE</span>
-            <p className="data-disclosure">
-              {image.photoContext === "same-year-game-face"
-                ? `${image.gameEdition} game face · represents ${image.tournamentYear}`
-                : `${image.photoContext.replaceAll("-", " ")}${
-                    image.photographedYear
-                      ? ` · photographed ${image.photographedYear}`
-                      : " · photograph date not stated"
-                  }`}
-            </p>
-            <a href={image.sourcePage} target="_blank" rel="noreferrer">
-              {image.author} · {image.license}
-            </a>
-            <p className="data-disclosure">{image.requiredAttribution}</p>
-          </section>
-        )}
-        <p className="rating-disclosure">
-          Overall and attribute values are original Trophy XI game estimates—not
-          official FIFA ratings or factual career statistics.
-        </p>
+
+        <PlayerAccolades player={activePlayer} />
       </aside>
     </div>
   );

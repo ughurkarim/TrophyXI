@@ -1,8 +1,14 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Award, Gem, Trophy } from "lucide-react";
+import { useState } from "react";
+import {
+  getPlayerAccoladeItems,
+  type AccoladeKind,
+} from "@/engine/accolade-effects";
+import { cn } from "@/lib/utils";
 import type { PlayerTournamentCard } from "@/types/game";
+import styles from "./player-accolades.module.css";
 
 export const accoladeTransition = (
   reduceMotion: boolean | null,
@@ -12,162 +18,113 @@ export const accoladeTransition = (
   delay: reduceMotion ? 0 : index * 0.07,
 });
 
+const iconByKind: Record<AccoladeKind, string> = {
+  "world-cup-champion": "🏆",
+  "ballon-dor": "◆",
+  "world-cup-golden-ball": "◉",
+  "world-cup-golden-boot": "★",
+  "world-cup-golden-glove": "✦",
+  "continental-international": "◈",
+  "continental-club": "★",
+  "international-individual": "✦",
+  "domestic-league": "⬡",
+  "domestic-cup": "▲",
+  "league-individual": "✧",
+  "other-individual": "◇",
+  "top-100": "◇",
+};
+
 export function PlayerAccolades({
   player,
   compact = false,
+  onOpenRecord,
 }: {
   player: PlayerTournamentCard;
   compact?: boolean;
+  onOpenRecord?: () => void;
 }) {
   const reduceMotion = useReducedMotion();
-  const careerItems = [
-    ...(player.top100Player
-      ? [
-          {
-            id: "top-100-player",
-            label: "TOP 100 PLAYER",
-            count: undefined,
-            description:
-              player.top100Source?.note ??
-              "Curated Trophy XI recognition, assigned independently of card rating.",
-            sourceName:
-              player.top100Source?.publisher ??
-              player.top100Source?.listName ??
-              "Trophy XI curation",
-            sourceUrl: player.top100Source?.sourceUrl,
-            premium: true,
-          },
-        ]
-      : []),
-    ...player.careerAccolades.map((accolade) => ({
-      ...accolade,
-      premium: false,
-    })),
-  ];
-  const animationLimit = 6;
-  const visibleCareer = careerItems.slice(0, animationLimit);
-  const remainingCareer = careerItems.slice(animationLimit);
-  const tournamentAnimationSlots = Math.max(
-    0,
-    animationLimit - visibleCareer.length,
-  );
-  const visibleTournament = player.achievements.slice(
-    0,
-    tournamentAnimationSlots,
-  );
-  const remainingTournament = player.achievements.slice(
-    tournamentAnimationSlots,
-  );
+  const [showAll, setShowAll] = useState(false);
+  const items = getPlayerAccoladeItems(player);
+  if (items.length === 0) return null;
 
-  return (
-    <div
-      className={`player-accolades${compact ? " player-accolades--compact" : ""}`}
-    >
-      <section aria-labelledby={`career-accolades-${player.id}`}>
-        <span className="eyebrow" id={`career-accolades-${player.id}`}>
-          CAREER ACCOLADES
-        </span>
-        {careerItems.length ? (
-          <ul className="achievement-list">
-            {visibleCareer.map((accolade, index) => (
-              <motion.li
-                key={accolade.id}
-                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={accoladeTransition(reduceMotion, index)}
-                className={
-                  accolade.premium
-                    ? "achievement-list__top100"
-                    : index === 0
-                      ? "achievement-list__primary"
-                      : undefined
-                }
-              >
-                {accolade.premium ? (
-                  <Gem size={14} aria-hidden />
-                ) : (
-                  <Trophy size={14} aria-hidden />
-                )}
-                <b>
-                  {accolade.count === undefined ? "" : `${accolade.count}× `}
-                  {accolade.label}
-                </b>
-                <p>{accolade.description}</p>
-                {accolade.sourceUrl ? (
-                  <a
-                    href={accolade.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {accolade.sourceName}
-                  </a>
-                ) : (
-                  <small>{accolade.sourceName}</small>
-                )}
-              </motion.li>
-            ))}
-            {remainingCareer.length > 0 && (
-              <li className="achievement-list__more">
-                <b>More Honors</b>
-                <p>
-                  {remainingCareer
-                    .map(
-                      (accolade) =>
-                        `${accolade.count === undefined ? "" : `${accolade.count}× `}${accolade.label}`,
-                    )
-                    .join(" · ")}
-                </p>
-              </li>
-            )}
-          </ul>
-        ) : (
-          <p className="data-disclosure">
-            No verified career accolade is stored for this identity.
-          </p>
-        )}
-      </section>
-
-      {player.achievements.length > 0 && (
-        <section aria-labelledby={`tournament-accolades-${player.id}`}>
-          <span className="eyebrow" id={`tournament-accolades-${player.id}`}>
-            TOURNAMENT ACCOLADES
+  if (compact) {
+    const visible = items.slice(0, 3);
+    const content = (
+      <>
+        {visible.map((item) => (
+          <span
+            className={styles.chip}
+            data-accolade-kind={item.kind}
+            key={item.id}
+          >
+            <i aria-hidden>{iconByKind[item.kind]}</i>
+            <b>
+              {item.count === undefined ? "" : `${item.count}× `}
+              {item.label}
+            </b>
           </span>
-          <ul className="achievement-list achievement-list--tournament">
-            {visibleTournament.map((achievement, index) => (
-              <motion.li
-                key={achievement.id}
-                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={accoladeTransition(
-                  reduceMotion,
-                  visibleCareer.length + index,
-                )}
-              >
-                <Award size={14} aria-hidden />
-                <b>{achievement.label}</b>
-                <p>{achievement.description}</p>
-                <a
-                  href={achievement.source.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {achievement.source.publisher}
-                </a>
-              </motion.li>
-            ))}
-            {remainingTournament.length > 0 && (
-              <li className="achievement-list__more">
-                <b>More Honors</b>
-                <p>
-                  {remainingTournament
-                    .map((achievement) => achievement.label)
-                    .join(" · ")}
-                </p>
-              </li>
-            )}
-          </ul>
-        </section>
+        ))}
+        {items.length > visible.length && (
+          <span className={styles.moreChip}>
+            +{items.length - visible.length} MORE
+          </span>
+        )}
+      </>
+    );
+    return onOpenRecord ? (
+      <button
+        type="button"
+        className={styles.compact}
+        onClick={onOpenRecord}
+        aria-label={`View ${player.playerName} accolades in full player record`}
+      >
+        {content}
+      </button>
+    ) : (
+      <div className={styles.compact}>{content}</div>
+    );
+  }
+
+  const visible = showAll ? items : items.slice(0, 6);
+  return (
+    <section
+      className={styles.section}
+      aria-labelledby={`career-accolades-${player.id}`}
+    >
+      <span className="eyebrow" id={`career-accolades-${player.id}`}>
+        CAREER ACCOLADES
+      </span>
+      <ul className={cn("achievement-list", styles.list)}>
+        {visible.map((item, index) => (
+          <motion.li
+            key={item.id}
+            className={styles.row}
+            data-accolade-kind={item.kind}
+            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={accoladeTransition(reduceMotion, index)}
+          >
+            <span className={styles.icon} aria-hidden>
+              {iconByKind[item.kind]}
+            </span>
+            <b>
+              {item.count === undefined ? "" : `${item.count}× `}
+              {item.label}
+            </b>
+            <small>{item.effectLabel}</small>
+          </motion.li>
+        ))}
+      </ul>
+      {items.length > 6 && (
+        <button
+          type="button"
+          className={styles.showMore}
+          onClick={() => setShowAll((current) => !current)}
+        >
+          {showAll ? "SHOW LESS" : `SHOW ${items.length - 6} MORE`}
+        </button>
       )}
-    </div>
+    </section>
   );
 }

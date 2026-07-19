@@ -1,0 +1,194 @@
+.section {
+  min-width: 0;
+  padding-block: 20px;
+}
+
+.list {
+  gap: 6px;
+  margin-top: 11px;
+}
+
+.list .row {
+  --accolade-accent: #d7c990;
+  --accolade-tint: rgba(215, 201, 144, 0.06);
+  display: grid;
+  min-width: 0;
+  min-height: 38px;
+  grid-template-columns: 18px minmax(0, 1fr) minmax(118px, auto);
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accolade-accent) 20%, transparent);
+  border-left: 3px solid var(--accolade-accent);
+  border-radius: 7px;
+  background: var(--accolade-tint);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.list .row:hover {
+  border-color: color-mix(in srgb, var(--accolade-accent) 42%, transparent);
+  box-shadow: 0 0 16px
+    color-mix(in srgb, var(--accolade-accent) 13%, transparent);
+}
+
+.row .icon,
+.row b,
+.row small {
+  grid-column: auto;
+}
+
+.icon {
+  color: var(--accolade-accent);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.row b {
+  min-width: 0;
+  overflow: hidden;
+  color: #ecece6;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.025em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row small {
+  color: color-mix(in srgb, var(--accolade-accent) 70%, #828a84);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.43rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.row[data-accolade-kind="world-cup-champion"] {
+  --accolade-accent: #e3bd52;
+  --accolade-tint: rgba(227, 189, 82, 0.07);
+}
+
+.row[data-accolade-kind="ballon-dor"] {
+  --accolade-accent: #d8c2f4;
+  --accolade-tint: rgba(91, 56, 136, 0.16);
+}
+
+.row[data-accolade-kind^="world-cup-golden"] {
+  --accolade-accent: #f0dfaf;
+  --accolade-tint: rgba(226, 192, 102, 0.07);
+}
+
+.row[data-accolade-kind="continental-international"] {
+  --accolade-accent: #51d2b0;
+  --accolade-tint: rgba(35, 139, 119, 0.11);
+}
+
+.row[data-accolade-kind="continental-club"] {
+  --accolade-accent: #65bdf4;
+  --accolade-tint: rgba(37, 100, 172, 0.13);
+}
+
+.row[data-accolade-kind="domestic-league"] {
+  --accolade-accent: #b8d0e5;
+  --accolade-tint: rgba(74, 112, 148, 0.11);
+}
+
+.row[data-accolade-kind="domestic-cup"] {
+  --accolade-accent: #d99452;
+  --accolade-tint: rgba(151, 83, 34, 0.11);
+}
+
+.row[data-accolade-kind="league-individual"],
+.row[data-accolade-kind="other-individual"],
+.row[data-accolade-kind="international-individual"] {
+  --accolade-accent: #d38edb;
+  --accolade-tint: rgba(121, 57, 132, 0.11);
+}
+
+.row[data-accolade-kind="top-100"] {
+  --accolade-accent: #f2e6b8;
+  --accolade-tint: linear-gradient(
+    100deg,
+    rgba(223, 231, 236, 0.11),
+    rgba(230, 205, 127, 0.08)
+  );
+}
+
+.showMore {
+  min-height: 34px;
+  padding: 0;
+  margin-top: 8px;
+  color: #cbb874;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.08em;
+}
+
+.compact {
+  display: flex;
+  min-width: 0;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 8px 0 0;
+  border: 0;
+  border-top: 1px solid rgba(214, 180, 92, 0.14);
+  cursor: pointer;
+  background: transparent;
+  text-align: left;
+}
+
+.chip,
+.moreChip {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 24px;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px;
+  overflow: hidden;
+  border: 1px solid rgba(214, 180, 92, 0.2);
+  border-radius: 999px;
+  color: #dcd9cb;
+  background: rgba(214, 180, 92, 0.05);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.41rem;
+  white-space: nowrap;
+}
+
+.chip b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip[data-accolade-kind="top-100"] {
+  color: #f2e6b8;
+  border-color: rgba(226, 215, 173, 0.38);
+  background: linear-gradient(
+    100deg,
+    rgba(211, 221, 227, 0.11),
+    rgba(231, 207, 134, 0.08)
+  );
+}
+
+.moreChip {
+  color: #bba65f;
+}
+
+@media (max-width: 620px) {
+  .list .row {
+    grid-template-columns: 18px minmax(0, 1fr);
+  }
+
+  .row small {
+    display: none;
+  }
+}

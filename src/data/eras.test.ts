@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   calculateEraFit,
+  calculateEraFitDetails,
   draftEras,
+  eraFitFloorForRating,
+  eraPenaltyResistanceForRating,
   isPlayerInDraftEra,
 } from "@/data/eras";
 import { formations } from "@/data/formations";
@@ -161,6 +164,57 @@ describe("draft eras", () => {
     expect(calculateEraFit(specialist, "all")).toBeGreaterThanOrEqual(94);
     expect(calculateEraFit(timeless, "2020s")).toBe(
       calculateEraFit(timeless, "2020s"),
+    );
+  });
+
+  it("keeps every active card's Era Fit between 70 and 100", () => {
+    for (const player of players) {
+      for (const era of draftEras) {
+        const fit = calculateEraFit(player, era.id);
+        expect(
+          fit,
+          `${player.id} in ${era.id}`,
+        ).toBeGreaterThanOrEqual(70);
+        expect(
+          fit,
+          `${player.id} in ${era.id}`,
+        ).toBeLessThanOrEqual(100);
+      }
+    }
+  });
+
+  it("uses the specified rating floors and quality resistance bands", () => {
+    expect(
+      [99, 96, 95, 92, 91, 88, 87, 84, 83, 80, 79].map((rating) => [
+        eraFitFloorForRating(rating),
+        eraPenaltyResistanceForRating(rating),
+      ]),
+    ).toEqual([
+      [92, 0.25],
+      [92, 0.25],
+      [88, 0.4],
+      [88, 0.4],
+      [84, 0.55],
+      [84, 0.55],
+      [80, 0.7],
+      [80, 0.7],
+      [76, 0.85],
+      [76, 0.85],
+      [70, 1],
+    ]);
+  });
+
+  it("gives elite cards more distant-era resilience than weaker cards", () => {
+    const base = players.find((player) => player.id === "dele-alli-2018")!;
+    const elite = { ...base, overall: 99 };
+    const weaker = { ...base, overall: 73 };
+    const eliteFit = calculateEraFitDetails(elite, "1970s");
+    const weakerFit = calculateEraFitDetails(weaker, "1970s");
+    expect(eliteFit.rawFit).toBe(weakerFit.rawFit);
+    expect(eliteFit.fit).toBeGreaterThanOrEqual(92);
+    expect(eliteFit.fit).toBeGreaterThan(weakerFit.fit);
+    expect(eliteFit.impactPercent).toBeLessThan(
+      weakerFit.impactPercent,
     );
   });
 });

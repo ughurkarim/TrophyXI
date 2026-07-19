@@ -195,14 +195,40 @@ export type EraTranslationContext = {
   formation?: Formation;
 };
 
-export const calculateEraFit = (
+export const eraFitFloorForRating = (rating: number) => {
+  if (rating >= 96) return 92;
+  if (rating >= 92) return 88;
+  if (rating >= 88) return 84;
+  if (rating >= 84) return 80;
+  if (rating >= 80) return 76;
+  return 70;
+};
+
+export const eraPenaltyResistanceForRating = (rating: number) => {
+  if (rating >= 96) return 0.25;
+  if (rating >= 92) return 0.4;
+  if (rating >= 88) return 0.55;
+  if (rating >= 84) return 0.7;
+  if (rating >= 80) return 0.85;
+  return 1;
+};
+
+export type EraFitDetails = {
+  fit: number;
+  rawFit: number;
+  floor: number;
+  qualityResistance: number;
+  impactPercent: number;
+};
+
+export const calculateEraFitDetails = (
   player: PlayerTournamentCard,
   eraId: DraftEraId,
   context: EraTranslationContext = {},
-) => {
+): EraFitDetails => {
   const profile = player.eraTranslation;
   if (eraId === "all") {
-    return Math.round(
+    const fit = Math.round(
       clamp(
         96 +
           (profile.timelessness - 70) * 0.025 +
@@ -211,6 +237,13 @@ export const calculateEraFit = (
         100,
       ),
     );
+    return {
+      fit,
+      rawFit: fit,
+      floor: eraFitFloorForRating(player.overall),
+      qualityResistance: eraPenaltyResistanceForRating(player.overall),
+      impactPercent: 0,
+    };
   }
 
   const era = getDraftEra(eraId);
@@ -279,11 +312,22 @@ export const calculateEraFit = (
       ((context.formation.pressingSuitability - 70) / 30);
   }
 
-  const minimum = {
-    "era-specialist": 58,
-    adaptable: 68,
-    "cross-era": 80,
-    timeless: 90,
-  }[player.eraLegacy];
-  return Math.round(clamp(fit, minimum, 100));
+  const rawFit = clamp(fit, 0, 100);
+  const floor = eraFitFloorForRating(player.overall);
+  const qualityResistance = eraPenaltyResistanceForRating(player.overall);
+  const resilientFit = 100 - (100 - rawFit) * qualityResistance;
+  const translatedFit = Math.round(clamp(Math.max(floor, resilientFit), 70, 100));
+  return {
+    fit: translatedFit,
+    rawFit: Math.round(rawFit),
+    floor,
+    qualityResistance,
+    impactPercent: Math.round((100 - translatedFit) * qualityResistance),
+  };
 };
+
+export const calculateEraFit = (
+  player: PlayerTournamentCard,
+  eraId: DraftEraId,
+  context: EraTranslationContext = {},
+) => calculateEraFitDetails(player, eraId, context).fit;
