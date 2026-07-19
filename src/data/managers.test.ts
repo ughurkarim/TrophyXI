@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { managerGradeLabel, managers } from "@/data/managers";
-import { historicalOpponents } from "@/data/opponents";
+import { historicalOpponentArchive } from "@/data/opponents";
 
 describe("manager grades", () => {
   it("maps the full numeric grade scale", () => {
@@ -78,7 +78,7 @@ describe("manager grades", () => {
 
   it("resolves every manager card to a sourced tournament finish", () => {
     for (const manager of managers) {
-      const tournamentRecord = historicalOpponents.find(
+      const tournamentRecord = historicalOpponentArchive.find(
         (opponent) =>
           opponent.tournamentYear === manager.tournamentYear &&
           opponent.nationName === manager.teamName,

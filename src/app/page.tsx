@@ -1,12 +1,12 @@
 import {
   ArrowRight,
-  BrainCircuit,
   ChevronRight,
-  SlidersHorizontal,
-  Trophy,
-  UsersRound,
 } from "lucide-react";
 import { HeroShowcase } from "@/components/landing/hero-showcase";
+import {
+  HowItWorksStepCard,
+  type HowItWorksStepIcon,
+} from "@/components/landing/how-it-works-step-card";
 import { Footer } from "@/components/navigation/footer";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ButtonLink } from "@/components/ui/button";
@@ -20,27 +20,32 @@ const steps = [
     number: "01",
     title: "SET THE STAGE",
     copy: "Choose the footballing era and match conditions. Every player must adapt to the same environment.",
-    icon: SlidersHorizontal,
+    icon: "stage",
   },
   {
     number: "02",
     title: "CHOOSE THE MIND",
     copy: "Appoint a tournament manager whose tactics, leadership, attack, and defense shape your team.",
-    icon: BrainCircuit,
+    icon: "manager",
   },
   {
     number: "03",
     title: "BUILD YOUR XI",
     copy: "Draft eleven starters and three substitutes. Balance talent, chemistry, position fit, and bench coverage.",
-    icon: UsersRound,
+    icon: "squad",
   },
   {
     number: "04",
     title: "CHALLENGE HISTORY",
     copy: "Choose a nation-year opponent and test your squad against one of the greatest World Cup champions.",
-    icon: Trophy,
+    icon: "challenge",
   },
-];
+] satisfies Array<{
+  number: string;
+  title: string;
+  copy: string;
+  icon: HowItWorksStepIcon;
+}>;
 
 export default function LandingPage() {
   return (
@@ -61,7 +66,7 @@ export default function LandingPage() {
                 the greatest champions in World Cup history.
               </p>
               <div className="hero__actions">
-                <ButtonLink href="/play/era">
+                <ButtonLink href="/play">
                   Build your XI <ArrowRight size={17} aria-hidden />
                 </ButtonLink>
                 <ButtonLink href="/#how-it-works" variant="secondary">
@@ -73,7 +78,7 @@ export default function LandingPage() {
                   <b>{players.length}</b> tournament cards
                 </span>
                 <span>
-                  <b>416</b> sourced participants
+                  <b>14</b> World Cup champions
                 </span>
                 <span>
                   <b>2</b> player respins
@@ -88,35 +93,15 @@ export default function LandingPage() {
             <div className="section-heading">
               <div>
                 <p className="eyebrow">THE DRESSING ROOM</p>
-                <h2>Fourteen players. One match.</h2>
+                <h2 className={styles.stepsHeading}>
+                  FOURTEEN PLAYERS. ONE MATCH.
+                </h2>
               </div>
-              <p className={styles.sectionSupport}>
-                Choose the era, appoint your manager, draft your starting XI and
-                three substitutes, then challenge a World Cup champion.
-              </p>
             </div>
             <div className={styles.stepsGrid}>
-              {steps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <article
-                    className={`${styles.stepCard} ${
-                      index === 0 ? styles.stepCardActive : ""
-                    }`}
-                    key={step.number}
-                    tabIndex={0}
-                  >
-                    <div className={styles.stepMeta}>
-                      <span>{step.number}</span>
-                      <i aria-hidden>
-                        <Icon size={25} strokeWidth={1.75} />
-                      </i>
-                    </div>
-                    <h3>{step.title}</h3>
-                    <p>{step.copy}</p>
-                  </article>
-                );
-              })}
+              {steps.map((step) => (
+                <HowItWorksStepCard key={step.number} {...step} />
+              ))}
             </div>
           </div>
         </section>
@@ -157,15 +142,6 @@ export default function LandingPage() {
                   <p className={styles.championFact}>
                     {champion.championFact}
                   </p>
-                  <a
-                    className={styles.championSource}
-                    href={champion.championFactSource.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`FIFA source for ${champion.nationName} ${champion.tournamentYear} fact`}
-                  >
-                    FIFA archive
-                  </a>
                 </article>
               ))}
             </div>
@@ -191,7 +167,7 @@ export default function LandingPage() {
               </p>
               <div className={styles.finalActions}>
                 <ButtonLink
-                  href="/play/era"
+                  href="/play"
                   className={styles.primaryCta}
                 >
                   BUILD MY XI <ArrowRight size={17} aria-hidden />

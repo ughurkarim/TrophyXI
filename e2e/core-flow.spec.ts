@@ -250,7 +250,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   expect(["auto", "scroll"]).toContain(databaseDialogContainment.overflowY);
   expect(databaseDialogContainment.noHorizontalOverflow).toBe(true);
   const databaseMessiFace = databasePlayerDialog.getByRole("img", {
-    name: /tournament-edition card face of lionel messi/i,
+    name: /lionel messi 2014 portrait/i,
   });
   await expect(databaseMessiFace).toBeVisible();
   await expect
@@ -287,6 +287,14 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
 
   await page.getByRole("link", { name: /build your xi/i }).first().click();
   await expect(
+    page.getByRole("heading", { name: /choose your challenge/i }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: /classic draft/i }).click();
+  await expect(page).toHaveURL(/\/play$/);
+  await page
+    .getByRole("button", { name: "CONFIRM CLASSIC DRAFT" })
+    .click();
+  await expect(
     page.getByRole("heading", { name: /choose your era/i }),
   ).toBeVisible();
   const eraLabels = await page.locator(".era-card h2").allTextContents();
@@ -312,8 +320,11 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(page.locator(".manager-card")).toHaveCount(3);
   await expect(page.getByText(/tournament versions/i)).toHaveCount(0);
   await expect(
-    page.locator(".manager-card .circular-portrait[data-photo-status]"),
+    page.locator(".manager-card .circular-portrait"),
   ).toHaveCount(3);
+  await expect(
+    page.locator(".manager-card .circular-portrait[data-photo-status]"),
+  ).toHaveCount(0);
   await expect(
     page.getByText("Each respin is saved and used separately."),
   ).toBeVisible();
@@ -381,13 +392,16 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   const managerDialog = page.getByRole("dialog");
   await expect(managerDialog.getByText("MANAGER RECORD")).toBeVisible();
   await expect(managerDialog.getByText("TACTICAL PROFILE")).toBeVisible();
-  await expect(managerDialog.getByText("TOURNAMENT RESULT")).toBeVisible();
+  await expect(managerDialog.getByRole("link")).toHaveCount(0);
   await expect(managerDialog.getByText("TROPHY XI MANAGER TAGS")).toHaveCount(0);
   await expect(managerDialog.getByText("PHOTO STATUS")).toHaveCount(0);
   await expect(managerDialog.getByText(/original Trophy XI estimates/i)).toHaveCount(0);
   await expect(
-    managerDialog.locator(".circular-portrait[data-photo-status]"),
+    managerDialog.locator(".circular-portrait"),
   ).toBeVisible();
+  await expect(
+    managerDialog.locator(".circular-portrait[data-photo-status]"),
+  ).toHaveCount(0);
   await page.keyboard.press("Escape");
   await expect(managerInspect).toBeFocused();
   const managerName = (
@@ -395,6 +409,9 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   )!;
   await page.getByRole("button", { name: /^Choose /i }).first().click();
   await expect(page).toHaveURL(/\/play\/manager$/);
+  await expect(
+    page.getByRole("button", { name: "MANAGER LOCKED" }),
+  ).toBeDisabled();
   await expect(
     page.getByRole("button", {
       name: new RegExp(`continue with ${managerName}`, "i"),
@@ -431,9 +448,9 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   ).toBeVisible();
   await expect(page.locator(".formation-card")).toHaveCount(4);
   await expect(page.locator(".formation-card--selected")).toHaveCount(0);
-  await expect(page.locator(".formation-card").getByText("Recommended")).toHaveCount(
-    1,
-  );
+  await expect(
+    page.locator(".formation-card").getByText("Recommended"),
+  ).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "ENTER DRAFT →" }),
   ).toBeDisabled();
@@ -526,15 +543,65 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     "aria-label",
     /current chemistry \d+/i,
   );
-  await page
-    .getByRole("button", { name: /chemistry information/i })
-    .click();
-  await expect(
-    page.getByRole("dialog", { name: /how chemistry works/i }),
-  ).toContainText(
-    "Chemistry measures how naturally your fourteen-player squad works together.",
+  const chemistryInfoButton = page.getByRole("button", {
+    name: /chemistry information/i,
+  });
+  const chemistryScrollBefore = await page.evaluate(() => window.scrollY);
+  const chemistryWidthBefore = await page.evaluate(
+    () => document.documentElement.clientWidth,
   );
-  await page.getByRole("button", { name: "Close" }).click();
+  await chemistryInfoButton.click();
+  const chemistryDialog = page.getByRole("dialog", { name: "CHEMISTRY" });
+  await expect(chemistryDialog).toContainText(
+    "How naturally your squad works together.",
+  );
+  await expect(
+    chemistryDialog.locator('[aria-label="Chemistry factors"] article'),
+  ).toHaveCount(6);
+  await expect(chemistryDialog).toContainText("0–39DISCONNECTED");
+  await expect(chemistryDialog).toContainText("90–100ELITE");
+  await expect(
+    chemistryDialog.getByRole("button", {
+      name: /close chemistry information/i,
+    }),
+  ).toBeFocused();
+  expect(
+    await page.evaluate(() => ({
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      width: document.documentElement.clientWidth,
+    })),
+  ).toEqual({
+    overflow: "hidden",
+    position: "fixed",
+    width: chemistryWidthBefore,
+  });
+  expect(
+    await chemistryDialog.locator("div").evaluateAll((elements) =>
+      elements.some(
+        (element) =>
+          ["auto", "scroll"].includes(
+            window.getComputedStyle(element).overflowY,
+          ),
+      ),
+    ),
+  ).toBe(true);
+  await page.keyboard.press("Escape");
+  await expect(chemistryDialog).toHaveCount(0);
+  await expect(chemistryInfoButton).toBeFocused();
+  expect(await page.evaluate(() => window.scrollY)).toBe(chemistryScrollBefore);
+  expect(
+    await page.evaluate(() => ({
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+    })),
+  ).toEqual({ overflow: "", position: "" });
+
+  await page.keyboard.press("Space");
+  await expect(page.getByRole("dialog", { name: "CHEMISTRY" })).toBeVisible();
+  await page.locator(".dialog-backdrop").click({ position: { x: 2, y: 2 } });
+  await expect(page.getByRole("dialog", { name: "CHEMISTRY" })).toHaveCount(0);
+  await expect(chemistryInfoButton).toBeFocused();
 
   await expect(playerChoices()).toHaveCount(5);
   await expect(
@@ -936,50 +1003,21 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     page.getByRole("button", { name: /select world cup all-stars/i }),
   ).toBeVisible();
   await expect(page.getByText("MYTHIC").first()).toBeVisible();
-  const championsToggle = page.getByRole("switch", {
-    name: "Champions Only",
-  });
-  await expect(championsToggle).toBeChecked();
+  await expect(page.getByRole("switch")).toHaveCount(0);
+  await expect(
+    page.getByRole("combobox", { name: "Tournament year" }),
+  ).toHaveCount(0);
+  const championCards = page.locator(
+    ".historical-opponents .opponent-card--champion",
+  );
+  await expect(championCards).toHaveCount(14);
   const championYears = await page
     .locator(".historical-opponents .opponent-card__title b")
     .allTextContents();
   expect(championYears.map(Number)).toEqual(
-    championYears.map(Number).sort((first, second) => second - first),
+    [2022, 2018, 2014, 2010, 2006, 2002, 1998, 1994, 1990, 1986, 1982, 1978, 1974, 1970],
   );
-  const yearOptions = await page
-    .getByRole("combobox", { name: "Tournament year" })
-    .locator("option")
-    .allTextContents();
-  expect(yearOptions.slice(1)).toEqual([
-    "2026",
-    "2022",
-    "2018",
-    "2014",
-    "2010",
-    "2006",
-    "2002",
-    "1998",
-    "1994",
-    "1990",
-    "1986",
-    "1982",
-    "1978",
-    "1974",
-    "1970",
-  ]);
-  await championsToggle.click();
-  await expect(championsToggle).not.toBeChecked();
-  await page
-    .getByRole("combobox", { name: "Tournament year" })
-    .selectOption("1970");
-  await expect(
-    page.getByRole("button", { name: /select belgium 1970/i }),
-  ).toBeVisible();
-  await championsToggle.click();
-  await expect(championsToggle).toBeChecked();
-  const brazil1970 = page.getByRole("button", {
-    name: /select brazil 1970/i,
-  });
+  await expect(page.getByText(/tournament in progress/i)).toHaveCount(0);
   const worldCupXi = page.getByRole("button", {
     name: /select world cup all-stars/i,
   });
@@ -988,7 +1026,6 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     name: /enter the tunnel/i,
   });
   const opponentLayout = async () => ({
-    filterBar: await page.locator(".opponent-filters").boundingBox(),
     championsHeading: await page
       .locator(".historical-opponents .opponent-section-heading")
       .boundingBox(),
@@ -1035,14 +1072,6 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     selectedOverflow.viewport + 1,
   );
 
-  await brazil1970.evaluate((button) => (button as HTMLElement).click());
-  await expect(worldCupXi).toHaveAttribute("aria-pressed", "false");
-  await expect(page.getByText("Brazil 1970", { exact: true })).toBeVisible();
-  expect(await opponentLayout()).toEqual(unselectedLayout);
-
-  await worldCupXi.click();
-  await expect(worldCupXi).toHaveAttribute("aria-pressed", "true");
-  expect(await opponentLayout()).toEqual(unselectedLayout);
   await captureState("05-opponents.png");
   await tunnelButton.click();
 
@@ -1051,9 +1080,6 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     page.getByRole("heading", { name: "World Cup All-Stars", exact: true }),
   ).toBeVisible();
   await expect(page.getByText(/featured challenge · mythic/i)).toBeVisible();
-  await expect(page.getByText(/opponent era translation/i)).toBeVisible({
-    timeout: 3_000,
-  });
   const simulate = page.getByRole("button", { name: /simulate match/i });
   await expect(simulate).toBeEnabled({ timeout: 3_000 });
   await simulate.click();
@@ -1221,15 +1247,5 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.getByRole("heading", { name: /choose your manager/i }),
   ).toBeVisible();
-
-  await page.goto("/credits");
-  await expect(
-    page.getByRole("heading", { name: /archive with a paper trail/i }),
-  ).toBeVisible();
-  await expect(page.getByText(/active local png masters/i)).toBeVisible();
-  await expect(page.getByText(/tournament-edition player faces/i)).toBeVisible();
-  await expect(page.getByText(/3 user-supplied player portraits/i)).toBeVisible();
-  await expect(page.getByText(/3 exact-year manager faces/i)).toBeVisible();
-  await expect(page.getByText(/photo-pending player cards/i)).toBeVisible();
-  await expect(page.getByText(/46 photo-pending manager cards/i)).toBeVisible();
+  await expect(page.locator('a[href="/credits"]')).toHaveCount(0);
 });

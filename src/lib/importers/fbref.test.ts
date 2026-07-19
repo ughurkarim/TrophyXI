@@ -17,12 +17,15 @@ const mapping: FbrefPlayerMapping = {
 const fixture = `
   <html>
     <h1>Sample Player</h1>
-    <ul>
+    <ul id="bling">
       <li>2x European Cup</li>
       <li>2x Champions League</li>
       <li>1x World Cup Champion</li>
+      <li>2018 World Cup Champion</li>
+      <li>2020-21 Champions League Champion</li>
       <li>Navigation item</li>
     </ul>
+    <ul><li>9x Navigation Champion</li></ul>
     <table id="stats_standard_dom_lg">
       <tbody><tr>
         <th data-stat="year_id">2001-2002</th>
@@ -83,9 +86,55 @@ describe("FBref import normalization", () => {
           count: 1,
           category: "international",
         }),
+        expect.objectContaining({
+          id: "uefa-champions-league-champion",
+          label: "UEFA Champions League Champion",
+          count: 1,
+          category: "continental",
+        }),
       ]),
     );
-    expect(parsed.accolades).toHaveLength(2);
+    expect(parsed.accolades).toHaveLength(3);
+    expect(
+      parsed.accolades.some((accolade) => accolade.id === "navigation-champion"),
+    ).toBe(false);
+  });
+
+  it("imports every dated and counted honor from the FBref bling list", () => {
+    const giroud = parseFbrefPlayerPage(
+      `
+        <h1>Olivier Giroud</h1>
+        <ul id="bling">
+          <li class="important poptip"><a>2x Domestic League Champion</a></li>
+          <li class="important poptip"><a>2020-21 Champions League Champion</a></li>
+          <li class="important poptip"><a>2018 World Cup Champion</a></li>
+        </ul>
+      `,
+      {
+        playerIdentityId: "olivier-giroud",
+        playerName: "Olivier Giroud",
+        fbrefId: "16ceb862",
+        sourceUrl:
+          "https://fbref.com/en/players/16ceb862/Olivier-Giroud",
+      },
+      "2026-07-18",
+    );
+    expect(giroud.accolades).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "domestic-league-champion",
+          count: 2,
+        }),
+        expect.objectContaining({
+          id: "uefa-champions-league-champion",
+          count: 1,
+        }),
+        expect.objectContaining({
+          id: "world-cup-champion",
+          count: 1,
+        }),
+      ]),
+    );
   });
 
   it("rejects identity mismatches and access challenges", () => {

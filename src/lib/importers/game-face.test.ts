@@ -19,14 +19,16 @@ const candidate: GameFaceImportCandidate = {
   kind: "player",
   tournamentYear: 2014,
   gameEdition: "FIFA 14",
+  gameEditionLaunchYear: 2013,
   sourceWebsite: "Reusable media archive",
   sourceUrl: "https://cdn.sofifa.net/players/123/456/14_120.png",
   author: "EA SPORTS",
   license: "Project-specific EA/SoFIFA permission",
   licenseUrl: "https://sofifa.com/",
   retrievedOn: "2026-07-18",
-  matchQuality: "exact",
-  exactYearEvidence: "Source record explicitly identifies the 2014 edition.",
+  matchQuality: "edition-verified",
+  editionEvidence:
+    "Source record explicitly identifies FIFA 14, launched in 2013.",
   permissionScope: "project-specific-ea-sofifa",
   requiredAttribution:
     "EA SPORTS player imagery, sourced via SoFIFA, used under project-specific permission.",
@@ -36,7 +38,7 @@ const candidate: GameFaceImportCandidate = {
   approvedForImport: true,
 };
 
-describe("exact-year game-face import contracts", () => {
+describe("tournament-edition game-face import contracts", () => {
   it("uses distinct local PNG paths for each tournament card", () => {
     expect(gameFacePathForCard("player", cards[0].id, 2014)).toBe(
       "/assets/players/2014/sample-player-2014.png",
@@ -77,7 +79,38 @@ describe("exact-year game-face import contracts", () => {
       ),
     ).toEqual(
       expect.arrayContaining([
-        "game edition is not the edition available by tournament June",
+        "game edition does not match the tournament-date edition",
+        "source URL is not the tournament-year edition face",
+      ]),
+    );
+    expect(
+      validateGameFaceCandidate(
+        {
+          ...candidate,
+          id: "sample-player-2022",
+          tournamentYear: 2022,
+          gameEdition: "FIFA 23",
+          gameEditionLaunchYear: 2022,
+          sourceUrl: "https://cdn.sofifa.net/players/123/456/23_120.png",
+        },
+        cards[1],
+      ),
+    ).toEqual([]);
+    expect(
+      validateGameFaceCandidate(
+        {
+          ...candidate,
+          id: "sample-player-2022",
+          tournamentYear: 2022,
+          gameEdition: "FIFA 22",
+          gameEditionLaunchYear: 2021,
+          sourceUrl: "https://cdn.sofifa.net/players/123/456/22_120.png",
+        },
+        cards[1],
+      ),
+    ).toEqual(
+      expect.arrayContaining([
+        "game edition does not match the tournament-date edition",
         "source URL is not the tournament-year edition face",
       ]),
     );
@@ -88,6 +121,7 @@ describe("exact-year game-face import contracts", () => {
           id: "sample-player-2026",
           tournamentYear: 2026,
           gameEdition: "EA SPORTS FC 26",
+          gameEditionLaunchYear: 2025,
           sourceUrl: "https://cdn.sofifa.net/players/123/456/26_120.png",
         },
         cards[2],
@@ -100,16 +134,29 @@ describe("exact-year game-face import contracts", () => {
           id: "sample-player-2026",
           tournamentYear: 2026,
           gameEdition: "EA SPORTS FC 27",
+          gameEditionLaunchYear: 2026,
           sourceUrl: "https://cdn.sofifa.net/players/123/456/27_120.png",
         },
         cards[2],
       ),
     ).toEqual(
       expect.arrayContaining([
-        "game edition is not the edition available by tournament June",
+        "game edition does not match the tournament-date edition",
         "source URL is not the tournament-year edition face",
       ]),
     );
+  });
+
+  it("records the edition's real launch year instead of the tournament year", () => {
+    expect(
+      validateGameFaceCandidate(
+        {
+          ...candidate,
+          gameEditionLaunchYear: 2014,
+        },
+        cards[0],
+      ),
+    ).toContain("game edition launch year is incorrect");
   });
 
   it("detects reused, remote, and card-mismatched production paths", () => {

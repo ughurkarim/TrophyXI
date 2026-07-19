@@ -25,7 +25,6 @@ export function CircularPortrait({
   size?: PortraitSize;
 }) {
   const image = imagesById.get(imageId);
-  const context = image ? "Exact-year card face" : "Photo pending";
   const initials = subjectName
     .split(/\s+/)
     .filter(Boolean)
@@ -41,14 +40,12 @@ export function CircularPortrait({
         statusTier ? ` circular-portrait--${statusTier}` : ""
       }${image ? "" : " circular-portrait--pending"}`}
       data-era={era}
-      data-image-context={context}
-      data-photo-status={image ? "available" : "pending"}
     >
       <span className="circular-portrait__mask">
         {image ? (
           <Image
-            src={image.file}
-            alt={`${context} of ${subjectName}`}
+            src={`${image.file}?v=${encodeURIComponent(image.cacheVersion)}`}
+            alt={`${subjectName}${tournamentYear ? ` ${tournamentYear}` : ""} portrait`}
             fill
             unoptimized
             sizes="(max-width: 700px) 96px, 128px"
@@ -58,12 +55,11 @@ export function CircularPortrait({
           <span
             className="circular-portrait__pending"
             role="img"
-            aria-label={`Photo pending for ${subjectName}${
+            aria-label={`${subjectName}${
               tournamentYear ? ` ${tournamentYear}` : ""
-            }`}
+            } portrait`}
           >
             <b>{initials || "XI"}</b>
-            <small>PHOTO PENDING</small>
             <i>
               {countryCode ? flagForCountry(countryCode) : "✦"}{" "}
               {tournamentYear ?? ""}

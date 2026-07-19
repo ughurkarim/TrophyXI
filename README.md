@@ -1,10 +1,9 @@
 # Trophy XI
 
-Trophy XI is an original browser-based historical football drafting game with a
-deterministic knockout-match engine. Choose the historical conditions of the
-match, combine tournament-specific players from 1970–2026, order a three-player
-bench, and face a 1970–2026 nation-year participant or the featured World Cup
-All-Stars.
+Trophy XI is a browser-based historical football squad builder with deterministic
+single-match and tournament simulation. Build a team from tournament-specific
+players spanning 1970–2026, order a three-player bench, and face one of 14 World
+Cup champions or the featured World Cup All-Stars.
 
 ## Run locally
 
@@ -31,16 +30,22 @@ npm run test:e2e
 npm run build
 ```
 
-`validate:data` reports archive, identity, role, tournament, image, attribution,
+`validate:data` reports archive, identity, role, tournament, image,
 status-tier, rating-cap, weighted-offer, Era Translation, manager-grade,
 formation-offer, bench, flag, chemistry-preview, and historical-opponent coverage.
-`opponents:validate` independently checks nation-year counts and sources.
+`opponents:validate` independently checks champion roster completeness and the
+research archive.
 
 ## Product flow
 
-`/` → match era → manager → optional Manager Respin → four formation choices → optional Formation Respin
-→ formation → 11 player-first starter rounds → 3 bench rounds → bench review
-→ opponent selection → match broadcast → result
+`/` → mode choice and confirmation → match era → manager → formation → squad
+construction → opponent or tournament fixture → match broadcast → result
+
+Classic Draft retains the five-card player-first flow, independent manager,
+formation, and player respins, 11 starters, and three ordered substitutes. Free
+Selection opens the full searchable card archive and supports a deterministic
+valid-squad randomizer. World Cup Run uses the Classic Draft squad inside a
+persistent 32-team group and knockout tournament.
 
 Every player round presents five unique identities. Selecting a card only opens
 the Position Fit preview; a second click on an eligible pitch slot commits the
@@ -52,20 +57,18 @@ selection it shows the production-engine projection for the best legal slot, the
 recalculates for the exact slot under pointer or keyboard focus. The committed
 result must equal the final preview.
 
-`/credits` contains image/data policy and item-level image attribution.
-
 The current archive contains:
 
 - 629 tournament cards across 287 stable player identities
-- all 629 player cards are draft eligible; missing face images never change
-  card eligibility
-- 163 card-specific exact-year player faces plus 466 clean Photo Pending
-  identity markers; cards stay pending until their own approved PNG is imported
+- all 629 player cards are draft eligible; artwork availability never changes
+  card eligibility, and neutral identity markers cover cards without portraits
+- identity-level historical and user-supplied portraits fill 38 missing card
+  views from the earliest safe portrait; tournament-edition faces stay
+  card-locked and never cross years
 - every men’s World Cup from 1970 through the verified live 2026 cards
 - 49 manager cards across 39 identities with OFF, DEF, Leadership, Game
   Management, and selected-era Manager Era Fit
-- all 49 audited manager cards draft eligible; three have permissioned exact-year
-  portraits and the other 46 remain selectable with Photo Pending
+- all 49 audited manager cards are draft eligible
 - three deterministic, identity-safe manager choices per offer
 - 12 formations, with four deterministic manager/era-aware offers per run
 - one separate, deterministic, permanent Manager Respin
@@ -73,12 +76,10 @@ The current archive contains:
 - five-card, player-first drafting with two-click placement
 - two permanent, deterministic, player-only respins
 - three ordered bench places drafted from five-card options
-- 416 nation-year opponent records across 15 tournaments, including 48 sourced
-  2026 participants with unknown tournament outcomes left null
-- World Cup All-Stars: an original, deterministic, beatable Mythic opponent;
-  the composite team is never user-controlled
-- exact-year face availability is manifest-driven; every missing card continues
-  to use the non-photographic Photo Pending treatment
+- 14 complete champion opponents from 1970–2022 in normal selection
+- identity-safe active champions and explicit Trophy XI models fill World Cup
+  Run; the separate 416-team research archive never enters generation or play
+- World Cup All-Stars: a deterministic, beatable Mythic opponent
 
 ## Match environment and card year
 
@@ -96,88 +97,53 @@ to the historical opponent.
 - `src/store`: versioned Zustand persistence, migration, and hydration repair
 - `src/components`: accessible feature-oriented presentation
 - `src/app`: Next.js App Router pages
-- `src/data/game-face-manifest.generated.json`: importer-owned exact-year image manifest
-- `src/data/player-tournaments.generated.json`: sourced tournament-appearance archive
+- `src/data/game-face-manifest.generated.json`: importer-owned tournament-edition image manifest
+- `src/data/fbref-portrait-manifest.generated.json`: importer-owned historical identity-portrait manifest
+- `src/data/player-tournaments.generated.json`: verified tournament-appearance archive
+- `src/data/player-world-cup-fbref.generated.json`: nullable FBref World Cup stat enrichment
 - `src/data/player-career.generated.json`: normalized career-data output
 - `scripts/generate-player-tournament-data.ts`: World Cup appearance-card generator
-- `scripts/import-player-images.ts`: license-gated exact-year PNG importer
+- `scripts/import-player-images.ts`: controlled tournament-edition PNG importer
+- `scripts/import-fbref-player-images.ts`: controlled historical portrait importer
 - `scripts/import-fbref-player-data.ts`: cached, rate-limited FBref normalizer
+- `scripts/import-fbref-world-cup-stats.ts`: cached, rate-limited World Cup table normalizer
 - `scripts/import-world-cup-teams.ts`: vendored participant ingestion
 - `scripts/validate-data.ts`: executable content and feasibility contract
-- `scripts/validate-world-cup-teams.ts`: opponent-count/source validator
+- `scripts/validate-world-cup-teams.ts`: opponent-count/evidence validator
 
 The UI and store call pure engine functions. Identical simulation inputs and seed
-produce the same event sequence, substitutions, minutes, and result. Version-7
-Zustand persistence stores all three independent respin counters, current five-card
-offer, selected-player preview, projected fits, placements, feasibility, bench,
-opponent filters and selection, and match state. Version-4 saves are migrated or
-repaired at hydration boundaries.
-
-Opponent selection opens with the accessible `Champions Only` switch enabled.
-Winners are newest first; switching it off reveals all historical participants
-without hiding the featured World Cup All-Stars. The match never starts until the
-user selects and confirms an opponent.
+produce the same event sequence, substitutions, minutes, and result. Version-8
+Zustand persistence stores the selected mode, all three independent respin
+counters, draft visibility memory, placements, bench order, opponent selection,
+match state, and World Cup Run progress. Older saves are migrated or repaired at
+hydration boundaries.
 
 ## Evidence policy
 
-Ratings, tactical profiles, formations attached to historical opponents, manager
-grades, and Era Translation traits are original Trophy XI game estimates—not
-official or factual ratings. Tournament statistics are nullable and only populated
-with an attached published source; unknown values never become zero. Historical
+Tournament statistics are nullable and only populated from verified published
+evidence recorded internally; unavailable values never become zero. Historical
 opponent participant identity, finish, and match count through 2022 use the
 vendored Fjelstul World Cup Database. The 2026 participant set uses FIFA’s
 published qualified-team list. Ronaldo’s and Messi’s live 2026 cards use FIFA
 appearance, scoring, assist, and record reporting current to 18 July; unfinished
 appearance/start/minute totals remain null. No champion, finish, lineup, manager,
-or unsupported tournament statistic is inferred.
-
-Images never hotlink at runtime. A player face can resolve only from
-`assets/players/{year}/{player-card-id}.png`; manager faces use the equivalent
-year/card-id manager directory. Active images require complete permission,
-attribution, exact tournament context, and cache metadata. No version may reuse
-another tournament year’s face.
-
-### Exact-year face import
-
-Add reviewed candidates to `scripts/game-face-import-sources.json`, then run:
-
-```bash
-npm run images:import
-```
-
-The reviewed in-season FIFA 14/18/22 index plus the manually reviewed EA SPORTS
-FC 26 Ronaldo/Messi entries can be regenerated from the public CC0 legacy CSV:
-
-```bash
-npm run images:generate:sources -- /path/to/male_players-legacy.csv
-```
-
-The generator matches name plus birth date, requires `real_face=Yes`, and drops
-ambiguous, birth-date-only, and generic-face records. No 2006 or 2010 face is
-activated; those cards stay Photo Pending. The active in-season face archive
-begins with FIFA 14 and uses EA SPORTS FC 26 for June 2026. A tournament always
-uses the edition already available by that World Cup's June, never the following
-season's release. The obsolete `public/players/png`, `sources`, and `isolated`
-portrait pipeline was removed because it contained nearby-year and modern photos
-that could be mistaken for historical card faces.
-
-Each candidate must identify its card id, kind, tournament year, game edition,
-source site and URL, rights holder, permission, retrieval date, match quality,
-exact-year evidence, and required attribution. The importer uses the local
-conditional cache first, waits at least two seconds between requests, and caps
-requests at 5,000 per UTC calendar day. The former UTC 00:00–06:00 restriction
-has been lifted for this project. It validates PNG bytes without transforming
-them, preserving embedded metadata and watermarks, then writes both the runtime
-manifest and
-`scripts/reports/game-face-import-report.json`. One failure never stops the
-remaining queue. Unconfigured cards remain Photo Pending. Every imported face
-retains: “EA SPORTS player imagery, sourced via SoFIFA, used under
-project-specific permission.”
+or unsupported tournament statistic is inferred. Runtime images remain local,
+card-specific, and manifest-controlled; research-only image files stay outside
+the active runtime directories.
 
 ### FBref career-data import
 
-`scripts/fbref-player-map.json` contains reviewed identity mappings.
-`scripts/player-career-curation.json` contains supplementary sourced honors and
+`scripts/fbref-player-map.json` contains reviewed identity mappings for every
+active player identity. Regenerate the candidate map from the local World Cup
+archive, Wikipedia, and Wikidata identifiers with:
+
+```bash
+npm run players:generate:fbref-map
+```
+
+Explicit name and URL corrections live in
+`scripts/fbref-player-overrides.json`.
+`scripts/player-career-curation.json` contains supplementary verified honors and
 the explicit Trophy XI Top 100 curation note. Run cache-only normalization with:
 
 ```bash
@@ -192,11 +158,39 @@ npm run players:refresh:fbref
 
 The refresh command reads robots policy first, identifies itself, waits at least
 ten seconds between profile requests, backs off on 429/503 responses, caches
-pages, verifies the player heading, normalizes renamed competitions, deduplicates
-accolades, and writes `src/data/player-career.generated.json`. Access challenges
-are never bypassed. Unmapped, blocked, or ambiguous identities remain draftable
-and are listed in `scripts/reports/fbref-import-report.json` for manual review.
-Only positive, verified, source-linked accolades reach the runtime.
+pages, verifies the player heading, imports dated and counted honors from the
+FBref honor list, normalizes renamed competitions, deduplicates accolades, and
+writes `src/data/player-career.generated.json`. Invalid cached identity pages are
+discarded on refresh. Access challenges are never bypassed. Unmapped, blocked,
+or ambiguous identities remain draftable and are listed in
+`scripts/reports/fbref-import-report.json` for manual review. Validation requires
+all active identities to match. Only positive, verified accolades
+reach the runtime.
 
-Trophy XI is unofficial and is not affiliated with or endorsed by FIFA, any
-federation, competition, team, manager, or player.
+### FBref World Cup statistics import
+
+The World Cup importer targets the 1970–2026 competition pages and their
+standard/goalkeeping table routes. It imports only Trophy XI's displayed
+fields: appearances, starts, minutes, goals, assists, clean sheets, and saves.
+Empty FBref cells remain `null`; they are never converted to zero.
+
+Run cache-only normalization with:
+
+```bash
+npm run players:import:fbref-world-cup
+```
+
+Refresh only when FBref's robots policy and access controls permit:
+
+```bash
+npm run players:refresh:fbref-world-cup
+```
+
+The refresh path identifies itself, checks robots policy, waits ten seconds
+between requests, backs off on 429/503 responses, and never bypasses an access
+challenge. Cached, reviewed FBref player profiles can backfill the same World
+Cup rows when a competition-table cache is unavailable; those records cite the
+profile actually parsed. Conflicts with already verified appearance/start/goal
+totals are reported and left unchanged. Output is written to
+`src/data/player-world-cup-fbref.generated.json`, with diagnostics in
+`scripts/reports/fbref-world-cup-import-report.json`.

@@ -204,10 +204,18 @@ const main = async () => {
   }
   const identities = new Map(
     [
-      ...new Set(players.map((player) => player.playerIdentityId)),
+      ...new Set(
+        players
+          .filter((player) => SUPPORTED_YEARS.has(player.tournamentYear))
+          .map((player) => player.playerIdentityId),
+      ),
     ].map((identityId) => [
       identityId,
-      players.filter((player) => player.playerIdentityId === identityId),
+      players.filter(
+        (player) =>
+          player.playerIdentityId === identityId &&
+          SUPPORTED_YEARS.has(player.tournamentYear),
+      ),
     ]),
   );
   const output: GeneratedArchive["identities"] = {};

@@ -13,7 +13,7 @@ export const calculateOpponentEraFit = (
   eraId: DraftEraId,
 ) => {
   if (opponent.kind === "all-stars") {
-    return calculateWorldCupAllStarsEraFit(eraId);
+    return calculateWorldCupAllStarsEraFit(eraId, opponent);
   }
   if (eraId === "all") return 98;
   const era = getDraftEra(eraId);

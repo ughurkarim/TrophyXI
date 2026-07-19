@@ -12,6 +12,7 @@ import { managersById } from "@/data/managers";
 import { historicalOpponentsById } from "@/data/opponents";
 import { playersById } from "@/data/players";
 import { calculateOpponentEraFit } from "@/engine/era-translation";
+import { resolveWorldCupAllStars } from "@/engine/all-stars";
 import { calculateTeamRatings } from "@/engine/ratings";
 import { useGameStore } from "@/store/game-store";
 import type { PlayerTournamentCard } from "@/types/game";
@@ -21,6 +22,7 @@ const benchSlots = ["bench-1", "bench-2", "bench-3"] as const;
 export default function MatchPage() {
   const router = useRouter();
   const hydrated = useGameStore((state) => state.hasHydrated);
+  const gameMode = useGameStore((state) => state.gameMode);
   const formationId = useGameStore((state) => state.formationId);
   const eraId = useGameStore((state) => state.eraId);
   const picks = useGameStore((state) => state.picks);
@@ -30,6 +32,9 @@ export default function MatchPage() {
     (state) => state.selectedOpponentId,
   );
   const storedResult = useGameStore((state) => state.matchResult);
+  const worldCupRunOpponents = useGameStore(
+    (state) => state.worldCupRunOpponents,
+  );
   const simulate = useGameStore((state) => state.simulate);
   const [broadcasting, setBroadcasting] = useState(Boolean(storedResult));
 
@@ -63,9 +68,18 @@ export default function MatchPage() {
     [benchPicks],
   );
   const manager = managerId ? managersById.get(managerId) : undefined;
-  const opponent = selectedOpponentId
-    ? historicalOpponentsById.get(selectedOpponentId)
-    : undefined;
+  const opponent = useMemo(() => {
+    if (!selectedOpponentId) return undefined;
+    const selected =
+      worldCupRunOpponents.find(
+        (candidate) => candidate.id === selectedOpponentId,
+      ) ?? historicalOpponentsById.get(selectedOpponentId);
+    return selected?.kind === "all-stars"
+      ? resolveWorldCupAllStars(
+          [...lineup, ...bench].map((player) => player.playerIdentityId),
+        )
+      : selected;
+  }, [bench, lineup, selectedOpponentId, worldCupRunOpponents]);
   const ratings =
     formation && manager && eraId
       ? calculateTeamRatings(lineup, formation, {
@@ -104,7 +118,17 @@ export default function MatchPage() {
             Return to the archive, complete the ordered bench, and choose a
             tournament opponent.
           </p>
-          <Button onClick={() => router.replace("/play/draft")}>
+          <Button
+            onClick={() =>
+              router.replace(
+                gameMode === "free-selection"
+                  ? "/play/free-selection"
+                  : gameMode === "world-cup-run"
+                    ? "/play/world-cup-run"
+                    : "/play/draft",
+              )
+            }
+          >
             Return to squad
           </Button>
         </main>

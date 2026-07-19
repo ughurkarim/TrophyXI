@@ -32,10 +32,13 @@ image-context labels.
 
 ## Stable landing-card interaction
 
-The landing showcase is a pinned Ronaldo/Messi archive. Vertical progress scrubs
+The landing showcase is a pinned Ronaldo/Messi rivalry. Vertical progress scrubs
 both card ids through 2026, 2022, 2018, 2014, 2010, and 2006, then the sticky
 stage releases into ordinary document scrolling. Messi stays left and Ronaldo
-stays right. Pelé is not part of this showcase.
+stays right, with a faint year behind both cards. Pelé, timeline rails, labels,
+and scroll cues are not part of this showcase. The landing header remains fixed
+and the native scrollbar is visually suppressed without disabling wheel,
+keyboard, touch, or programmatic scrolling.
 
 One Framer Motion wrapper per card owns only transition opacity, vertical travel,
 and blur. The nested static card owns its restrained ±2° base rotation, so two
@@ -61,7 +64,7 @@ retain the same center and dimensions.
 ## Circular portraits
 
 `CircularPortrait` supports 64, 96, 128, and 160px sizes. It renders a reusable
-transparent PNG master or non-face Photo Pending identity marker inside a
+transparent PNG master or neutral non-face identity marker inside a
 circular overflow mask, with:
 
 - a dark outer ring and thin gold inner ring
@@ -69,20 +72,18 @@ circular overflow mask, with:
 - a status-tier rim that follows the player’s modeled archive tier
 - stable 1:1 aspect ratio with equal rendered width and height
 - `object-fit: cover`, `object-position: center top`, and no stretching
-- accessible alt text that identifies exact-year or Photo Pending context
+- accessible alt text that identifies the player and tournament year
 
 The circle is not baked into the master. Cards may apply a maximum 1.03 scale to
 the mask, soft rim light, and selected confirmation ring. No pulsing, flashing,
 large zoom, rapid rotation, or face-obscuring effect is permitted.
 
-Photo Pending markers use initials, flag, tournament year, and the same tier
+Neutral identity markers use initials, flag, tournament year, and the same tier
 ring. They never depict or imply a face. Managers use the same portrait
 primitive and show OFF, DEF, leadership, and game management. Every displayed
-face image is local, permissioned, and exact-year. Nearby-year and identity-only
-images never render. The generated manifest is importer-owned. Permissioned
-EA/SoFIFA faces retain their original metadata, watermarks, cache records, and
-required attribution. Each World Cup card uses the edition available by June of
-its tournament year, never the following season's edition.
+face image is local. Identity-level historical and user-supplied portraits may
+fill another card for the same player from the earliest safe portrait.
+Tournament-edition faces remain card-specific and never cross years.
 
 ## Status-tier language
 
@@ -104,7 +105,7 @@ Ratings and tiers are game estimates, not historical honors.
 ## Feature surfaces
 
 - Database: a dedicated header route presents every draftable tournament card
-  with search, nation/year/position/rating/tier/era/photo filters, four sort
+  with search, nation/year/position/rating/tier/era filters, four sort
   orders, bounded scrolling, incremental rendering, and the full player record.
 - Manager selection: three identity-safe cards and one permanent deterministic
   Manager Respin. Cards use tactical accents and show OFF, DEF, Leadership, Game
@@ -119,7 +120,7 @@ Ratings and tiers are game estimates, not historical honors.
   A selected card gains a complete rarity-colored border, tint, header/rating
   accent, portrait ring, and glow without moving or resizing; the other four
   dim. The selected-player dossier exposes best-position fit, projected Chemistry
-  and OVR, sourced career/tournament accolades, gameplay tag effects, and a
+  and OVR, verified career/tournament accolades, gameplay tag effects, and a
   compact cancel control.
 - Squad archive: one compact strip holds the manager, all eleven fixed formation
   positions, and Bench 1/2/3. Filled chips use circular faces, short names, slot,
@@ -139,26 +140,21 @@ Ratings and tiers are game estimates, not historical honors.
   from best-available to exact-slot production calculation. Fit glows use only
   outline and shadow, never position or transform.
 - Player records: tier-aware rating hero, tournament versions, nullable record,
-  squad-specific fit, a separate modeled Player Tag Effects section, sourced
-  career accolades, and item-level portrait attribution. At most six accolade
+  squad-specific fit, a separate modeled Player Tag Effects section, and verified
+  career accolades. At most six accolade
   rows stagger by 70ms; overflow becomes a static “More Honors” row.
 - Manager records: real circular face, nation/team flags, tournament version,
   OFF/DEF/leadership/game management, tactical strengths and weaknesses, modeled
-  tags, sourced accolades, archive versions, and portrait attribution.
+  tags, verified accolades, and archive versions.
 - Bench: compact circular portraits, numbered priority, expected-minutes guidance,
   keyboard-accessible up/down controls as the primary reordering mechanism, and
   the same five-card option layout used by starter rounds
-- Opponents: dense paginated cards with nation, year, finish, ratings, formation
-  model, Era Translation, and difficulty. Champions receive a small original
-  crown marker rather than an organizer trophy. World Cup All-Stars receives a
-  distinct Mythic seal, featured spacing, and composite-manager disclosure;
-  selected outline and check remain separate states.
+- Opponents: the featured World Cup All-Stars followed by exactly 14 champions
+  from 2022 back to 1970. Champion dossiers show manager, historical formation,
+  ratings, tactics, fact, starting XI, and available substitutes. Selected
+  outline and check remain separate states.
 - Match/result: substitution events use the same hierarchy as goals without
   flashing; all fourteen player-minute records remain readable
-- Playable World Cup All-Stars: the curated Mythic manager, starting XI, and
-  ordered Bench 1/2/3 load after environment selection. The squad dossier opens
-  the same rating, accolade, tag, position-fit, manager-fit, and translation
-  records, then uses ordinary opponent selection and deterministic simulation.
 
 ## Responsive and accessible behavior
 

@@ -6,7 +6,6 @@ import { useMemo, useState } from "react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { PlayerDetails } from "@/components/cards/player-details";
 import { Button } from "@/components/ui/button";
-import { imagesById } from "@/data/player-images";
 import { draftEligiblePlayers } from "@/data/players";
 import { flagForCountry } from "@/lib/utils";
 import type { PlayerTournamentCard } from "@/types/game";
@@ -34,7 +33,6 @@ export function PlayerDatabase() {
   const [rating, setRating] = useState("");
   const [tier, setTier] = useState("");
   const [era, setEra] = useState("");
-  const [photoStatus, setPhotoStatus] = useState("");
   const [sort, setSort] = useState<SortId>("rating");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [inspected, setInspected] =
@@ -43,7 +41,6 @@ export function PlayerDatabase() {
   const filtered = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase();
     const matching = draftEligiblePlayers.filter((player) => {
-      const hasPhoto = imagesById.has(player.imageId);
       return (
         (!normalizedQuery ||
           `${player.playerName} ${player.countryName} ${player.countryCode}`
@@ -54,9 +51,7 @@ export function PlayerDatabase() {
         (!position || player.primaryPosition === position) &&
         ratingMatches(player.overall, rating) &&
         (!tier || player.statusTier === tier) &&
-        (!era || player.era === era) &&
-        (!photoStatus ||
-          (photoStatus === "available" ? hasPhoto : !hasPhoto))
+        (!era || player.era === era)
       );
     });
     return [...matching].sort((first, second) => {
@@ -83,7 +78,7 @@ export function PlayerDatabase() {
         first.playerName.localeCompare(second.playerName)
       );
     });
-  }, [era, nation, photoStatus, position, query, rating, sort, tier, year]);
+  }, [era, nation, position, query, rating, sort, tier, year]);
 
   const visible = filtered.slice(0, visibleCount);
   const nations = unique(
@@ -106,9 +101,8 @@ export function PlayerDatabase() {
             <p className="eyebrow eyebrow--gold">THE COMPLETE CARD ARCHIVE</p>
             <h1 id="database-title">Player Database</h1>
             <p>
-              Every draftable tournament card, including photo-pending records.
-              Tournament versions remain separate cards while identity-safe
-              drafting still uses playerIdentityId.
+              Search and compare every playable tournament version in the
+              active Trophy XI archive.
             </p>
           </div>
           <dl className="database-metrics">
@@ -125,26 +119,6 @@ export function PlayerDatabase() {
                       (player) => player.playerIdentityId,
                     ),
                   ).size
-                }
-              </dd>
-            </div>
-            <div>
-              <dt>Exact-year faces</dt>
-              <dd>
-                {
-                  draftEligiblePlayers.filter((player) =>
-                    imagesById.has(player.imageId),
-                  ).length
-                }
-              </dd>
-            </div>
-            <div>
-              <dt>Pending</dt>
-              <dd>
-                {
-                  draftEligiblePlayers.filter(
-                    (player) => !imagesById.has(player.imageId),
-                  ).length
                 }
               </dd>
             </div>
@@ -231,15 +205,6 @@ export function PlayerDatabase() {
             )}
           </DatabaseSelect>
           <DatabaseSelect
-            label="Photo"
-            value={photoStatus}
-            onChange={setPhotoStatus}
-          >
-            <option value="">All photo states</option>
-            <option value="available">Exact-year face</option>
-            <option value="pending">Photo pending</option>
-          </DatabaseSelect>
-          <DatabaseSelect
             label="Sort"
             value={sort}
             onChange={(value) => setSort(value as SortId)}
@@ -263,14 +228,13 @@ export function PlayerDatabase() {
 
         <div className="database-grid">
           {visible.map((player) => {
-            const hasPhoto = imagesById.has(player.imageId);
             return (
               <button
                 type="button"
                 className={`database-card database-card--${player.statusTier}`}
                 key={player.id}
                 onClick={() => setInspected(player)}
-                aria-label={`View ${player.playerName} ${player.tournamentYear}, rated ${player.overall}, ${hasPhoto ? "exact-year face" : "photo pending"}`}
+                aria-label={`View ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`}
               >
                 <CircularPortrait
                   imageId={player.imageId}
@@ -294,7 +258,6 @@ export function PlayerDatabase() {
                     {player.tournamentYear} ·{" "}
                     {player.statusTier.replace("-", " ")}
                   </small>
-                  <i>{hasPhoto ? "REAL PHOTO" : "PHOTO PENDING"}</i>
                 </div>
               </button>
             );

@@ -33,6 +33,10 @@ describe("ManagerDetails", () => {
     expect(
       within(dialog).queryByText(/original Trophy XI estimates/i),
     ).not.toBeInTheDocument();
+    expect(within(dialog).queryAllByRole("link")).toHaveLength(0);
+    expect(
+      within(dialog).queryByText(/permission|implementation|portrait source/i),
+    ).not.toBeInTheDocument();
     await user.click(
       within(dialog).getByRole("button", { name: /close manager record/i }),
     );

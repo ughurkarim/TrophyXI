@@ -7,6 +7,7 @@ import type {
 export type FbrefPlayerMapping = {
   playerIdentityId: string;
   playerName: string;
+  fbrefProfileName?: string;
   fbrefId: string;
   sourceUrl: string;
 };
@@ -68,13 +69,19 @@ const careerRowFrom = (table: string) => {
   );
   return (
     rows.find((row) => /\bCareer\b/i.test(textContent(row))) ??
-    rows.at(-1) ??
+    rows[0] ??
     ""
   );
 };
 
 export const normalizeCompetitionName = (label: string) => {
   const normalized = label.trim().replace(/\s+/g, " ");
+  if (/^(?:UEFA )?Champions League Champion$/i.test(normalized)) {
+    return "UEFA Champions League Champion";
+  }
+  if (/^(?:European Cup|European Champion Clubs' Cup) Champion$/i.test(normalized)) {
+    return "UEFA Champions League Champion";
+  }
   const aliases: Record<string, string> = {
     "European Cup": "UEFA Champions League",
     "Champions League": "UEFA Champions League",
@@ -89,7 +96,11 @@ export const normalizeCompetitionName = (label: string) => {
 export const accoladeCategoryFor = (
   label: string,
 ): PlayerAccoladeCategory => {
-  if (/ballon|golden|player of the|footballer|team of the year/i.test(label)) {
+  if (
+    /ballon|golden|bronze ball|silver ball|all-star|world xi|team of the (?:year|tournament)|player of the|footballer/i.test(
+      label,
+    )
+  ) {
     return "individual";
   }
   if (/world cup|copa am[eé]rica|euro|nations league/i.test(label)) {
@@ -181,26 +192,41 @@ export const parseFbrefAccolades = (
   html: string,
   sourceUrl: string,
 ): PlayerAccolade[] => {
-  const candidates = [...html.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)]
-    .map((match) => textContent(match[1]))
-    .map((label) => label.match(/^(\d+)x\s+(.+)$/i))
-    .filter(
-      (match): match is RegExpMatchArray =>
-        Boolean(match && Number(match[1]) > 0),
-    )
-    .map((match) => {
-      const label = normalizeCompetitionName(match[2].trim());
-      return {
-        id: accoladeIdFor(label),
-        label,
-        count: Number(match[1]),
-        category: accoladeCategoryFor(label),
-        sourceName: "FBref",
-        sourceUrl,
-        verified: true,
-      } satisfies PlayerAccolade;
-    });
-  return dedupeAccolades(candidates);
+  const bling =
+    html.match(/<ul[^>]*id=["']bling["'][^>]*>([\s\S]*?)<\/ul>/i)?.[1] ??
+    "";
+  const imported = new Map<string, PlayerAccolade>();
+  for (const match of bling.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)) {
+    const rawLabel = textContent(match[1]);
+    if (!rawLabel) continue;
+    const countMatch = rawLabel.match(/^(\d+)x\s+(.+)$/i);
+    const count = countMatch ? Number(countMatch[1]) : 1;
+    const datedLabel = (countMatch?.[2] ?? rawLabel).match(
+      /^(?:\d{4}(?:-\d{2,4})?)\s+(.+)$/,
+    );
+    if (!countMatch && !datedLabel) continue;
+    const label = normalizeCompetitionName(
+      (datedLabel?.[1] ?? countMatch?.[2] ?? rawLabel).trim(),
+    );
+    if (!label || !Number.isInteger(count) || count < 1) continue;
+    const accolade = {
+      id: accoladeIdFor(label),
+      label,
+      count,
+      category: accoladeCategoryFor(label),
+      sourceName: "FBref",
+      sourceUrl,
+      verified: true,
+      description:
+        rawLabel === label ? undefined : `FBref profile honor: ${rawLabel}.`,
+    } satisfies PlayerAccolade;
+    const key = `${accolade.category}:${accolade.id}`;
+    const previous = imported.get(key);
+    if (!previous || (previous.count ?? 1) < count) {
+      imported.set(key, accolade);
+    }
+  }
+  return [...imported.values()];
 };
 
 export const isFbrefChallengePage = (html: string) =>
@@ -219,7 +245,11 @@ export const parseFbrefPlayerPage = (
   const heading = textContent(
     html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "",
   );
-  if (!heading || normalizedName(heading) !== normalizedName(mapping.playerName)) {
+  const acceptedNames = [
+    mapping.playerName,
+    ...(mapping.fbrefProfileName ? [mapping.fbrefProfileName] : []),
+  ].map(normalizedName);
+  if (!heading || !acceptedNames.includes(normalizedName(heading))) {
     throw new Error(
       `${mapping.playerIdentityId}: FBref identity mismatch (${heading || "missing h1"})`,
     );

@@ -1,7 +1,15 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { getFormation } from "@/data/formations";
-import { historicalOpponents } from "@/data/opponents";
-import { playersById } from "@/data/players";
+import {
+  historicalOpponentArchive,
+  historicalOpponents,
+} from "@/data/opponents";
+import { draftEligiblePlayers, playersById } from "@/data/players";
+import { generateFreeSelectionSquad } from "@/engine/free-selection";
+import {
+  isActiveWorldCupRunOpponent,
+  WORLD_CUP_RUN_OPPONENT_COUNT,
+} from "@/engine/world-cup-run-opponents";
 import { useGameStore } from "@/store/game-store";
 
 const initialize = () => {
@@ -40,6 +48,22 @@ const completeBench = () => {
   useGameStore.getState().finalizeBench();
 };
 
+const prepareWorldCupSquad = () => {
+  const store = useGameStore.getState();
+  store.clearGame();
+  store.selectGameMode("world-cup-run");
+  store.selectEra("all");
+  store.selectManager(useGameStore.getState().managerOptionIds[0]);
+  store.selectFormation(useGameStore.getState().formationOptionIds[0]);
+  const formation = getFormation(useGameStore.getState().formationId!);
+  const squad = generateFreeSelectionSquad({
+    formation,
+    cards: draftEligiblePlayers,
+    seed: 2_026,
+  });
+  useGameStore.setState({ ...squad, draftPhase: "review" });
+};
+
 describe("game store integrity", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -62,6 +86,48 @@ describe("game store integrity", () => {
     expect(useGameStore.getState().picks[0].slotId).toBe(preview.slotId);
     expect(useGameStore.getState().selectedPlayerId).toBeNull();
     expect(useGameStore.getState().optionIds).toHaveLength(5);
+  });
+
+  it("persists the selected game mode and resets into that mode's fresh state", () => {
+    useGameStore.getState().clearGame();
+    useGameStore.getState().selectGameMode("free-selection");
+
+    expect(useGameStore.getState().gameMode).toBe("free-selection");
+    expect(useGameStore.getState().eraId).toBeNull();
+    const saved = JSON.parse(
+      localStorage.getItem("trophy-xi-game-v1") ?? "{}",
+    ) as { state?: { gameMode?: string } };
+    expect(saved.state?.gameMode).toBe("free-selection");
+
+    useGameStore.getState().selectEra("all");
+    expect(useGameStore.getState().managerRespinRemaining).toBe(0);
+    expect(useGameStore.getState().formationRespinRemaining).toBe(0);
+  });
+
+  it("locks a manager after formation advance and ignores a later manager change", () => {
+    const firstManagerId = useGameStore.getState().managerId!;
+    const otherManagerId = useGameStore
+      .getState()
+      .managerOptionIds.find((id) => id !== firstManagerId)!;
+
+    expect(useGameStore.getState().managerLocked).toBe(true);
+    useGameStore.getState().selectManager(otherManagerId);
+
+    expect(useGameStore.getState().managerId).toBe(firstManagerId);
+    expect(useGameStore.getState().formationId).toBeTruthy();
+  });
+
+  it("treats reselecting a locked manager as a no-op", () => {
+    const before = useGameStore.getState();
+    useGameStore.getState().selectManager(before.managerId!);
+    const after = useGameStore.getState();
+
+    expect(after.managerId).toBe(before.managerId);
+    expect(after.formationId).toBe(before.formationId);
+    expect(after.optionIds).toEqual(before.optionIds);
+    expect(after.picks).toEqual(before.picks);
+    expect(after.benchPicks).toEqual(before.benchPicks);
+    expect(after.matchResult).toBe(before.matchResult);
   });
 
   it("cancels by control or second card click without changing the spin", () => {
@@ -126,6 +192,51 @@ describe("game store integrity", () => {
     expect(useGameStore.getState().formationRespinRemaining).toBe(1);
     useGameStore.getState().respinManagers();
     expect(useGameStore.getState().managerOptionIds).toEqual(replacement);
+    const saved = JSON.parse(
+      localStorage.getItem("trophy-xi-game-v1") ?? "{}",
+    ) as { state?: { managerRespinRemaining?: number } };
+    expect(saved.state?.managerRespinRemaining).toBe(0);
+  });
+
+  it("allows a visible manager change before Continue, then locks the choice", () => {
+    useGameStore.getState().clearGame();
+    useGameStore.getState().selectEra("2010s");
+    const [first, second] = useGameStore.getState().managerOptionIds;
+
+    useGameStore.getState().selectManager(first);
+    expect(useGameStore.getState().managerLocked).toBe(false);
+    useGameStore.getState().selectManager(second);
+    expect(useGameStore.getState().managerId).toBe(second);
+    useGameStore.getState().respinManagers();
+    expect(useGameStore.getState().managerOptionIds).toContain(second);
+
+    useGameStore.getState().lockManager();
+    useGameStore.getState().selectManager(first);
+    expect(useGameStore.getState().managerId).toBe(second);
+  });
+
+  it("keeps every respin counter independent across manager, formation, and player offers", () => {
+    useGameStore.getState().clearGame();
+    useGameStore.getState().selectEra("2000s");
+    useGameStore.getState().respinManagers();
+    expect(useGameStore.getState().managerRespinRemaining).toBe(0);
+    expect(useGameStore.getState().formationRespinRemaining).toBe(1);
+    expect(useGameStore.getState().playerRespinsRemaining).toBe(2);
+
+    useGameStore
+      .getState()
+      .selectManager(useGameStore.getState().managerOptionIds[0]);
+    useGameStore.getState().respinFormations();
+    expect(useGameStore.getState().formationRespinRemaining).toBe(0);
+    expect(useGameStore.getState().playerRespinsRemaining).toBe(2);
+
+    useGameStore
+      .getState()
+      .selectFormation(useGameStore.getState().formationOptionIds[0]);
+    useGameStore.getState().respinPlayers();
+    expect(useGameStore.getState().playerRespinsRemaining).toBe(1);
+    expect(useGameStore.getState().managerRespinRemaining).toBe(0);
+    expect(useGameStore.getState().formationRespinRemaining).toBe(0);
   });
 
   it("drafts three identity-safe bench players from five-card spins and reorders priority", () => {
@@ -170,20 +281,292 @@ describe("game store integrity", () => {
     ).toBe(originalFirst);
   });
 
+  it("randomizes, validates, and finalizes an identity-safe Free Selection 11 plus 3", () => {
+    useGameStore.getState().clearGame();
+    useGameStore.getState().selectGameMode("free-selection");
+    useGameStore.getState().selectEra("all");
+    useGameStore
+      .getState()
+      .selectManager(useGameStore.getState().managerOptionIds[0]);
+    useGameStore
+      .getState()
+      .selectFormation(useGameStore.getState().formationOptionIds[0]);
+    useGameStore.getState().randomizeFreeSquad();
+
+    const randomized = useGameStore.getState();
+    expect(randomized.picks).toHaveLength(11);
+    expect(randomized.benchPicks).toHaveLength(3);
+    expect(
+      new Set(
+        [...randomized.picks, ...randomized.benchPicks].map(
+          (pick) => playersById.get(pick.cardId)!.playerIdentityId,
+        ),
+      ).size,
+    ).toBe(14);
+
+    randomized.finalizeFreeSelection();
+    expect(useGameStore.getState().draftPhase).toBe("opponent");
+  });
+
+  it("allows any identity-safe manual bench and can return from opponent selection", () => {
+    useGameStore.getState().clearGame();
+    useGameStore.getState().selectGameMode("free-selection");
+    useGameStore.getState().selectEra("all");
+    useGameStore
+      .getState()
+      .selectManager(useGameStore.getState().managerOptionIds[0]);
+    useGameStore
+      .getState()
+      .selectFormation(useGameStore.getState().formationOptionIds[0]);
+    useGameStore.getState().randomizeFreeSquad();
+
+    const state = useGameStore.getState();
+    const usedIdentityIds = new Set(
+      [...state.picks, ...state.benchPicks].map(
+        (pick) => playersById.get(pick.cardId)!.playerIdentityId,
+      ),
+    );
+    const replacement = draftEligiblePlayers.find(
+      (player) =>
+        player.primaryPosition !== "GK" &&
+        !usedIdentityIds.has(player.playerIdentityId),
+    )!;
+    useGameStore.setState({
+      benchPicks: state.benchPicks.map((pick) =>
+        playersById.get(pick.cardId)?.primaryPosition === "GK"
+          ? { ...pick, cardId: replacement.id }
+          : pick,
+      ),
+    });
+
+    useGameStore.getState().finalizeFreeSelection();
+    expect(useGameStore.getState().draftPhase).toBe("opponent");
+    useGameStore.getState().editFreeSelection();
+    expect(useGameStore.getState().draftPhase).toBe("review");
+    expect(useGameStore.getState().selectedOpponentId).toBeNull();
+  });
+
   it("defaults Champions Only on and can persist an explicit off state", () => {
     expect(useGameStore.getState().opponentFilters.championOnly).toBe(true);
     useGameStore.getState().setOpponentFilters({ championOnly: false });
     expect(useGameStore.getState().opponentFilters.championOnly).toBe(false);
   });
 
+  it("starts an end-of-run redraft from fresh manager choices in the same era", () => {
+    const eraId = useGameStore.getState().eraId;
+    expect(eraId).toBe("all");
+    expect(useGameStore.getState().managerId).toBeTruthy();
+
+    useGameStore.getState().restartFromManager();
+
+    const restarted = useGameStore.getState();
+    expect(restarted.eraId).toBe(eraId);
+    expect(restarted.managerId).toBeNull();
+    expect(restarted.managerOptionIds).toHaveLength(3);
+    expect(restarted.originalManagerOptionIds).toEqual(
+      restarted.managerOptionIds,
+    );
+    expect(restarted.managerRespinRemaining).toBe(1);
+    expect(restarted.formationId).toBeNull();
+    expect(restarted.formationOptionIds).toEqual([]);
+    expect(restarted.picks).toEqual([]);
+    expect(restarted.benchPicks).toEqual([]);
+    expect(restarted.optionIds).toEqual([]);
+    expect(restarted.matchResult).toBeNull();
+  });
+
+  it("resets the in-progress draft to fresh coach choices in the same era", () => {
+    const eraId = useGameStore.getState().eraId;
+    useGameStore.getState().resetDraft();
+
+    const reset = useGameStore.getState();
+    expect(reset.eraId).toBe(eraId);
+    expect(reset.managerId).toBeNull();
+    expect(reset.managerOptionIds).toHaveLength(3);
+    expect(reset.managerRespinRemaining).toBe(1);
+    expect(reset.formationId).toBeNull();
+    expect(reset.picks).toEqual([]);
+    expect(reset.benchPicks).toEqual([]);
+    expect(reset.optionIds).toEqual([]);
+    expect(reset.playerRespinsRemaining).toBe(2);
+  });
+
   it("persists a valid nation-year opponent selection after the full squad", () => {
     completeStarters();
     completeBench();
+    const draftedIdentities = new Set(
+      [...useGameStore.getState().picks, ...useGameStore.getState().benchPicks].map(
+        (pick) => playersById.get(pick.cardId)!.playerIdentityId,
+      ),
+    );
     const opponent = historicalOpponents.find(
-      (candidate) => candidate.id === "brazil-1970",
+      (candidate) =>
+        ![...candidate.startingLineup, ...candidate.substitutes].some(
+          (player) => draftedIdentities.has(player.playerIdentityId),
+        ),
     )!;
     useGameStore.getState().selectOpponent(opponent.id);
     expect(useGameStore.getState().selectedOpponentId).toBe(opponent.id);
+  });
+
+  it("rejects a completed opponent whose sourced lineup shares a drafted identity", () => {
+    const squad = generateFreeSelectionSquad({
+      formation: getFormation("4-3-3"),
+      cards: draftEligiblePlayers,
+      seed: 77,
+    });
+    useGameStore.setState({
+      picks: [
+        { slotId: squad.picks[0].slotId, cardId: "lionel-messi-2022" },
+        ...squad.picks.slice(1),
+      ],
+      benchPicks: squad.benchPicks,
+      draftPhase: "opponent",
+      selectedOpponentId: null,
+    });
+
+    useGameStore.getState().selectOpponent("argentina-2022");
+    expect(useGameStore.getState().selectedOpponentId).toBeNull();
+  });
+
+  it("starts, persists progress for, and restarts a 32-team World Cup Run", () => {
+    prepareWorldCupSquad();
+    useGameStore.getState().startWorldCupRun();
+
+    const started = useGameStore.getState().worldCupRun!;
+    const field = useGameStore.getState().worldCupRunOpponents;
+    expect(started.teams).toHaveLength(32);
+    expect(field).toHaveLength(WORLD_CUP_RUN_OPPONENT_COUNT);
+    expect(started.groups).toHaveLength(8);
+    expect(
+      started.fixtures.filter(
+        (fixture) =>
+          fixture.stage === "group" &&
+          [fixture.homeTeamId, fixture.awayTeamId].includes("trophy-xi"),
+      ),
+    ).toHaveLength(3);
+    expect(started.history.length).toBeGreaterThan(0);
+    const squadIdentityIds = new Set(
+      [
+        ...useGameStore.getState().picks,
+        ...useGameStore.getState().benchPicks,
+      ].map(
+        (pick) => playersById.get(pick.cardId)!.playerIdentityId,
+      ),
+    );
+    const activeChampionIds = new Set(
+      historicalOpponents.map((opponent) => opponent.id),
+    );
+    const researchOnlyIds = new Set(
+      historicalOpponentArchive
+        .filter((opponent) => !activeChampionIds.has(opponent.id))
+        .map((opponent) => opponent.id),
+    );
+    expect(field.every(isActiveWorldCupRunOpponent)).toBe(true);
+    expect(field.some((opponent) => researchOnlyIds.has(opponent.id))).toBe(
+      false,
+    );
+    expect(
+      field.every(
+        (opponent) =>
+          ![
+            ...opponent.startingLineup,
+            ...opponent.substitutes,
+          ].some((player) =>
+            squadIdentityIds.has(player.playerIdentityId),
+          ),
+      ),
+    ).toBe(true);
+    expect(
+      new Set(
+        started.teams
+          .filter((team) => team.id !== started.userTeamId)
+          .map((team) => team.id),
+      ),
+    ).toEqual(new Set(field.map((opponent) => opponent.id)));
+    const saved = JSON.parse(
+      localStorage.getItem("trophy-xi-game-v1") ?? "{}",
+    ) as {
+      state?: {
+        worldCupRun?: { teams?: unknown[] };
+        worldCupRunOpponents?: unknown[];
+      };
+    };
+    expect(saved.state?.worldCupRun?.teams).toHaveLength(32);
+    expect(saved.state?.worldCupRunOpponents).toHaveLength(
+      WORLD_CUP_RUN_OPPONENT_COUNT,
+    );
+
+    expect(() => useGameStore.getState().simulate()).not.toThrow();
+    expect(useGameStore.getState().matchResult).not.toBeNull();
+
+    const initialSeed = started.seed;
+    useGameStore.getState().restartWorldCupRun();
+    expect(useGameStore.getState().worldCupRun?.seed).not.toBe(initialSeed);
+    expect(useGameStore.getState().worldCupRun?.groups).toHaveLength(8);
+  });
+
+  it("clears a hydrated World Cup Run field containing research-only data", () => {
+    prepareWorldCupSquad();
+    useGameStore.getState().startWorldCupRun();
+    const activeChampionIds = new Set(
+      historicalOpponents.map((opponent) => opponent.id),
+    );
+    const researchOnly = historicalOpponentArchive.find(
+      (opponent) => !activeChampionIds.has(opponent.id),
+    )!;
+    useGameStore.setState((state) => ({
+      worldCupRunOpponents: [
+        researchOnly,
+        ...state.worldCupRunOpponents.slice(1),
+      ],
+    }));
+
+    useGameStore.getState().repairHydratedState();
+
+    expect(useGameStore.getState().worldCupRun).toBeNull();
+    expect(useGameStore.getState().worldCupRunOpponents).toEqual([]);
+    expect(useGameStore.getState().selectedOpponentId).toBeNull();
+    expect(useGameStore.getState().saveNotice).toMatch(
+      /active archive boundary/i,
+    );
+  });
+
+  it("rejects a research stub even when it reuses an active champion id", () => {
+    prepareWorldCupSquad();
+    useGameStore.getState().startWorldCupRun();
+    const field = useGameStore.getState().worldCupRunOpponents;
+    const championIndex = field.findIndex((opponent) =>
+      historicalOpponents.some((champion) => champion.id === opponent.id),
+    );
+    expect(championIndex).toBeGreaterThanOrEqual(0);
+    const researchStub = historicalOpponentArchive.find(
+      (opponent) => opponent.id === field[championIndex].id,
+    )!;
+    expect(researchStub.startingLineup).toHaveLength(0);
+    useGameStore.setState({
+      worldCupRunOpponents: field.map((opponent, index) =>
+        index === championIndex ? researchStub : opponent,
+      ),
+    });
+
+    useGameStore.getState().repairHydratedState();
+
+    expect(useGameStore.getState().worldCupRun).toBeNull();
+    expect(useGameStore.getState().worldCupRunOpponents).toEqual([]);
+  });
+
+  it("selects and simulates World Cup XI around the drafted identities", () => {
+    completeStarters();
+    completeBench();
+    useGameStore.getState().selectOpponent("world-cup-all-stars");
+    expect(useGameStore.getState().selectedOpponentId).toBe(
+      "world-cup-all-stars",
+    );
+    expect(() => useGameStore.getState().simulate()).not.toThrow();
+    expect(useGameStore.getState().matchResult?.opponentId).toBe(
+      "world-cup-all-stars",
+    );
   });
 
   it("repairs duplicate identities in hydrated picks and announces it", () => {

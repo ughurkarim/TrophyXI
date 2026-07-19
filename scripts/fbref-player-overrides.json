@@ -1,0 +1,50 @@
+[
+  {
+    "playerIdentityId": "juan",
+    "playerName": "Juan",
+    "fbrefId": "0e5b2af1",
+    "sourceUrl": "https://fbref.com/en/players/0e5b2af1/Juan"
+  },
+  {
+    "playerIdentityId": "falcao",
+    "playerName": "Falcão",
+    "fbrefProfileName": "Paulo Roberto Falcão",
+    "fbrefId": "cc2e8844",
+    "sourceUrl": "https://fbref.com/en/players/cc2e8844/Paulo-Roberto-Falcao"
+  },
+  {
+    "playerIdentityId": "rivelino",
+    "playerName": "Rivelino",
+    "fbrefProfileName": "Rivellino",
+    "fbrefId": "b1255051",
+    "sourceUrl": "https://fbref.com/en/players/b1255051/Rivellino"
+  },
+  {
+    "playerIdentityId": "kleberson",
+    "playerName": "Kléberson",
+    "fbrefProfileName": "José Kléberson",
+    "fbrefId": "b05f5f22",
+    "sourceUrl": "https://fbref.com/en/players/b05f5f22/Jose-Kleberson"
+  },
+  {
+    "playerIdentityId": "maicon",
+    "playerName": "Maicon",
+    "fbrefProfileName": "Maicon Sisenando",
+    "fbrefId": "fbc5d136",
+    "sourceUrl": "https://fbref.com/en/players/fbc5d136/Maicon-Sisenando"
+  },
+  {
+    "playerIdentityId": "ngolo-kante",
+    "playerName": "N’Golo Kanté",
+    "fbrefProfileName": "N'Golo Kanté",
+    "fbrefId": "b9fbae28",
+    "sourceUrl": "https://fbref.com/en/players/b9fbae28/NGolo-Kante"
+  },
+  {
+    "playerIdentityId": "preben-elkj-r",
+    "playerName": "Preben Elkjær",
+    "fbrefProfileName": "Preben Elkjær",
+    "fbrefId": "75a72f6d",
+    "sourceUrl": "https://fbref.com/en/players/75a72f6d/Preben-Elkjaer"
+  }
+]

@@ -132,7 +132,7 @@ const readSoFifaIndex = async (file: string) => {
     const record = Object.fromEntries(
       headers.map((header, index) => [header, cells[index] ?? ""]),
     ) as SoFifaPlayer;
-    if (!["15", "18", "22"].includes(record.fifa_version)) continue;
+    if (!["15", "18", "23"].includes(record.fifa_version)) continue;
     const playersForBirthDate =
       byBirthDate.get(record.dob) ?? new Map<string, SoFifaPlayer[]>();
     const versions = playersForBirthDate.get(record.player_id) ?? [];
@@ -160,7 +160,7 @@ const main = async () => {
   const editionByTournamentYear = new Map([
     [2014, 14],
     [2018, 18],
-    [2022, 22],
+    [2022, 23],
   ]);
   const candidates: GameFaceImportCandidate[] = [];
 
@@ -211,6 +211,12 @@ const main = async () => {
         kind: "player",
         tournamentYear: tournament.tournamentYear,
         gameEdition: `FIFA ${fifaVersion}`,
+        gameEditionLaunchYear:
+          tournament.tournamentYear === 2014
+            ? 2013
+            : tournament.tournamentYear === 2018
+              ? 2017
+              : 2022,
         sourceWebsite: "SoFIFA",
         sourceUrl: `https://cdn.sofifa.net/players/${sourcePath}/${fifaVersion}_120.png`,
         author: "EA SPORTS",
@@ -218,11 +224,15 @@ const main = async () => {
         licenseUrl: "https://sofifa.com/",
         retrievedOn: "2026-07-18",
         matchQuality:
-          fifaVersion === 14 ? "manually-reviewed-exact-year" : "exact",
-        exactYearEvidence:
           fifaVersion === 14
-            ? `Reviewed FIFA 14 in-season asset for SoFIFA player ${version.player_id}, representing the June 2014 tournament period; identity matched by the FIFA 15 legacy row, published name, and birth date to ${fjelstulPlayer.player_id}.`
-            : `FIFA ${fifaVersion} legacy index entry dated ${version.fifa_update_date} records real_face=Yes for ${version.long_name}; matched by published name and birth date to ${fjelstulPlayer.player_id} and represents the June ${tournament.tournamentYear} tournament period.`,
+            ? "manually-reviewed-edition"
+            : "edition-verified",
+        editionEvidence:
+          fifaVersion === 14
+            ? `Reviewed FIFA 14 asset for SoFIFA player ${version.player_id}; FIFA 14 launched in September 2013 for the 2013–14 season. Identity was matched by the FIFA 15 legacy row, published name, and birth date to ${fjelstulPlayer.player_id}. This proves the prescribed edition for the 2014 card, not that the face was photographed in 2014.`
+            : `FIFA ${fifaVersion} legacy index entry dated ${version.fifa_update_date} records real_face=Yes for ${version.long_name}; matched by published name and birth date to ${fjelstulPlayer.player_id}. FIFA ${fifaVersion} launched in ${
+                tournament.tournamentYear === 2018 ? "2017" : "2022"
+              } and is the prescribed edition for the ${tournament.tournamentYear} card; it is not labeled as a tournament-dated photograph.`,
         permissionScope: "project-specific-ea-sofifa",
         requiredAttribution: REQUIRED_ATTRIBUTION,
         preserveMetadataAndWatermarks: true,
@@ -241,14 +251,15 @@ const main = async () => {
       kind: "player",
       tournamentYear: 2026,
       gameEdition: "EA SPORTS FC 26",
+      gameEditionLaunchYear: 2025,
       sourceWebsite: "SoFIFA",
       sourceUrl: `https://cdn.sofifa.net/players/${sourcePath}/26_120.png`,
       author: "EA SPORTS",
       license: "Project-specific EA/SoFIFA permission",
       licenseUrl: "https://sofifa.com/",
       retrievedOn: "2026-07-18",
-      matchQuality: "manually-reviewed-exact-year",
-      exactYearEvidence: `Reviewed ${face.reviewedName} on the SoFIFA FC 26 page ${face.pageUrl}; the page records real_face=Yes for player ${face.playerId}, and FC 26 was the current edition available by June 2026.`,
+      matchQuality: "manually-reviewed-edition",
+      editionEvidence: `Reviewed ${face.reviewedName} on the SoFIFA FC 26 page ${face.pageUrl}; the page records real_face=Yes for player ${face.playerId}. FC 26 launched in 2025 for the 2025–26 season and was the prescribed edition available by the June 2026 tournament; it is not labeled as a 2026-dated photograph.`,
       permissionScope: "project-specific-ea-sofifa",
       requiredAttribution: REQUIRED_ATTRIBUTION,
       preserveMetadataAndWatermarks: true,

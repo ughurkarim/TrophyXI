@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
 import { calculateEraFit } from "@/data/eras";
-import { getFormation } from "@/data/formations";
+import { formations, getFormation } from "@/data/formations";
 import { draftEligibleManagers, managersById } from "@/data/managers";
 import { historicalOpponentsById } from "@/data/opponents";
 import { draftEligiblePlayers, players, playersById } from "@/data/players";
@@ -19,22 +19,38 @@ import {
   hasDraftCompletionPath,
   validateDraftPicks,
 } from "@/engine/draft";
+import { resolveWorldCupAllStars } from "@/engine/all-stars";
+import { generateFreeSelectionSquad } from "@/engine/free-selection";
 import { hashString } from "@/engine/random";
 import { calculateTeamRatings } from "@/engine/ratings";
 import { simulateMatch } from "@/engine/simulation";
+import {
+  createWorldCupRun,
+  getPendingWorldCupRunUserFixture,
+  recordWorldCupRunUserResult,
+  resolvePendingWorldCupRunCpuFixtures,
+  type WorldCupRunState,
+} from "@/engine/world-cup-run";
+import {
+  createWorldCupRunOpponentField,
+  isActiveWorldCupRunOpponent,
+  WORLD_CUP_RUN_OPPONENT_COUNT,
+} from "@/engine/world-cup-run-opponents";
 import type {
   BenchPick,
   BenchSlotId,
   DraftEraId,
   DraftPick,
   FormationId,
+  GameMode,
+  HistoricalWorldCupTeam,
   MatchResult,
   PlacementFeedback,
   PlayerTournamentCard,
   PositionFitPreview,
 } from "@/types/game";
 
-const SAVE_VERSION = 7;
+const SAVE_VERSION = 8;
 
 export type OpponentFilters = {
   query: string;
@@ -63,8 +79,10 @@ type DraftPhase = "starters" | "bench" | "review" | "opponent";
 type GameStore = {
   hasHydrated: boolean;
   saveNotice: string | null;
+  gameMode: GameMode | null;
   eraId: DraftEraId | null;
   managerId: string | null;
+  managerLocked: boolean;
   originalManagerOptionIds: string[];
   managerOptionIds: string[];
   managerRespinRemaining: number;
@@ -86,16 +104,22 @@ type GameStore = {
   draftFeasible: boolean;
   lastPlacementFeedback: PlacementFeedback | null;
   rejectedIdentityIds: string[];
+  seenIdentityCounts: Record<string, number>;
+  recentIdentityIds: string[];
   playerRespinsRemaining: number;
   playerRespinIndex: number;
   opponentFilters: OpponentFilters;
   selectedOpponentId: string | null;
   simulationNonce: number;
   matchResult: MatchResult | null;
+  worldCupRun: WorldCupRunState | null;
+  worldCupRunOpponents: HistoricalWorldCupTeam[];
   setHasHydrated: (value: boolean) => void;
   dismissNotice: () => void;
+  selectGameMode: (mode: GameMode) => void;
   selectEra: (id: DraftEraId) => void;
   selectManager: (id: string) => void;
+  lockManager: () => void;
   respinManagers: () => void;
   respinFormations: () => void;
   selectFormation: (id: FormationId) => void;
@@ -109,10 +133,19 @@ type GameStore = {
   assignBenchPlayer: (slotId: BenchSlotId) => void;
   cancelBenchAssignment: () => void;
   moveBenchPlayer: (slotId: BenchSlotId, direction: -1 | 1) => void;
+  assignFreeBenchPlayer: (cardId: string, slotId: BenchSlotId) => void;
+  removeFreePlayer: (cardId: string) => void;
+  randomizeFreeSquad: () => void;
+  finalizeFreeSelection: () => void;
+  editFreeSelection: () => void;
   finalizeBench: () => void;
+  startWorldCupRun: () => void;
+  restartWorldCupRun: () => void;
+  continueWorldCupRun: () => void;
   setOpponentFilters: (filters: Partial<OpponentFilters>) => void;
   selectOpponent: (id: string) => void;
   resetDraft: () => void;
+  restartFromManager: () => void;
   simulate: () => MatchResult;
   prepareRematch: () => void;
   clearGame: () => void;
@@ -158,6 +191,8 @@ const playerOptionsFor = ({
   picks,
   draftSeed,
   rejectedIdentityIds,
+  seenIdentityCounts,
+  recentIdentityIds,
   contextKey,
   respinIndex = 0,
 }: {
@@ -165,6 +200,8 @@ const playerOptionsFor = ({
   picks: DraftPick[];
   draftSeed: number;
   rejectedIdentityIds: string[];
+  seenIdentityCounts: Record<string, number>;
+  recentIdentityIds: string[];
   contextKey: string;
   respinIndex?: number;
 }) =>
@@ -176,6 +213,8 @@ const playerOptionsFor = ({
     picks.length,
     {
       rejectedIdentityIds,
+      seenIdentityCounts,
+      recentIdentityIds,
       respinIndex,
     },
   ).map((card) => card.id);
@@ -185,6 +224,8 @@ const benchOptionsFor = ({
   benchPicks,
   draftSeed,
   rejectedIdentityIds,
+  seenIdentityCounts,
+  recentIdentityIds,
   contextKey,
   respinIndex,
 }: {
@@ -192,6 +233,8 @@ const benchOptionsFor = ({
   benchPicks: BenchPick[];
   draftSeed: number;
   rejectedIdentityIds: string[];
+  seenIdentityCounts: Record<string, number>;
+  recentIdentityIds: string[];
   contextKey: string;
   respinIndex: number;
 }) =>
@@ -203,6 +246,8 @@ const benchOptionsFor = ({
     benchPicks.length,
     {
       rejectedIdentityIds,
+      seenIdentityCounts,
+      recentIdentityIds,
       respinIndex,
     },
   ).map((card) => card.id);
@@ -243,9 +288,43 @@ const lineupFor = (picks: DraftPick[]) =>
     .map((pick) => playersById.get(pick.cardId))
     .filter((player): player is PlayerTournamentCard => Boolean(player));
 
+const recordOptionVisibility = (
+  state: Pick<GameStore, "seenIdentityCounts" | "recentIdentityIds">,
+  optionIds: string[],
+) => {
+  const identities = optionIds
+    .map((id) => playersById.get(id)?.playerIdentityId)
+    .filter((id): id is string => Boolean(id));
+  const seenIdentityCounts = { ...state.seenIdentityCounts };
+  for (const identityId of new Set(identities)) {
+    seenIdentityCounts[identityId] =
+      (seenIdentityCounts[identityId] ?? 0) + 1;
+  }
+  const newestFirst = [
+    ...state.recentIdentityIds,
+    ...identities,
+  ].reverse();
+  const recentIdentityIds = [
+    ...new Set(newestFirst),
+  ]
+    .slice(0, 24)
+    .reverse();
+  return { seenIdentityCounts, recentIdentityIds };
+};
+
+const pendingOpponentIdForRun = (run: WorldCupRunState) => {
+  const fixture = getPendingWorldCupRunUserFixture(run);
+  if (!fixture) return null;
+  return fixture.homeTeamId === run.userTeamId
+    ? fixture.awayTeamId
+    : fixture.homeTeamId;
+};
+
 const cleanState = {
+  gameMode: null as GameMode | null,
   eraId: null,
   managerId: null,
+  managerLocked: false,
   originalManagerOptionIds: [] as string[],
   managerOptionIds: [] as string[],
   managerRespinRemaining: 1,
@@ -267,12 +346,16 @@ const cleanState = {
   draftFeasible: true,
   lastPlacementFeedback: null as PlacementFeedback | null,
   rejectedIdentityIds: [] as string[],
+  seenIdentityCounts: {} as Record<string, number>,
+  recentIdentityIds: [] as string[],
   playerRespinsRemaining: 2,
   playerRespinIndex: 0,
   opponentFilters: { ...defaultOpponentFilters },
   selectedOpponentId: null,
   simulationNonce: 0,
   matchResult: null,
+  worldCupRun: null as WorldCupRunState | null,
+  worldCupRunOpponents: [] as HistoricalWorldCupTeam[],
 };
 
 const migratedEra = (value: unknown): DraftEraId | null => {
@@ -304,15 +387,33 @@ export const useGameStore = create<GameStore>()(
       ...cleanState,
       setHasHydrated: (value) => set({ hasHydrated: value }),
       dismissNotice: () => set({ saveNotice: null }),
-      selectEra: (eraId) => {
-        const draftSeed = createDraftSeed();
-        const managerOptionIds = managerOptionsFor(eraId, draftSeed);
+      selectGameMode: (gameMode) => {
+        const state = get();
         set({
           ...cleanState,
+          gameMode,
+          recentIdentityIds: state.recentIdentityIds,
+          saveNotice: null,
+        });
+      },
+      selectEra: (eraId) => {
+        const state = get();
+        const gameMode = state.gameMode ?? "classic-draft";
+        const draftSeed = createDraftSeed();
+        const managerOptionIds =
+          gameMode === "free-selection"
+            ? draftEligibleManagers.map((manager) => manager.id)
+            : managerOptionsFor(eraId, draftSeed);
+        set({
+          ...cleanState,
+          gameMode,
           eraId,
           draftSeed,
           originalManagerOptionIds: managerOptionIds,
           managerOptionIds,
+          managerRespinRemaining: gameMode === "free-selection" ? 0 : 1,
+          formationRespinRemaining: gameMode === "free-selection" ? 0 : 1,
+          recentIdentityIds: state.recentIdentityIds,
           saveNotice: null,
         });
       },
@@ -320,21 +421,26 @@ export const useGameStore = create<GameStore>()(
         const state = get();
         if (
           !state.eraId ||
+          state.managerLocked ||
           !state.managerOptionIds.includes(managerId) ||
           !managersById.has(managerId)
         ) {
           return;
         }
-        const formationOptionIds = formationOptionsFor(
-          managerId,
-          state.eraId,
-          state.draftSeed,
-        );
+        const formationOptionIds =
+          state.gameMode === "free-selection"
+            ? formations.map((formation) => formation.id)
+            : formationOptionsFor(
+                managerId,
+                state.eraId,
+                state.draftSeed,
+              );
         set({
           managerId,
           originalFormationOptionIds: formationOptionIds,
           formationOptionIds,
-          formationRespinRemaining: 1,
+          formationRespinRemaining:
+            state.gameMode === "free-selection" ? 0 : 1,
           formationRespinIndex: 0,
           formationId: null,
           picks: [],
@@ -350,6 +456,9 @@ export const useGameStore = create<GameStore>()(
           selectedOpponentId: null,
           matchResult: null,
         });
+      },
+      lockManager: () => {
+        if (get().managerId) set({ managerLocked: true });
       },
       respinManagers: () => {
         const state = get();
@@ -409,15 +518,29 @@ export const useGameStore = create<GameStore>()(
         ) {
           return;
         }
-        const optionIds = playerOptionsFor({
-          formationId,
-          picks: [],
-          draftSeed: state.draftSeed,
-          rejectedIdentityIds: [],
-          contextKey: `${state.eraId}:${state.managerId}:${formationId}:2`,
-        });
+        const seenIdentityCounts: Record<string, number> = {};
+        const optionIds =
+          state.gameMode === "free-selection"
+            ? []
+            : playerOptionsFor({
+                formationId,
+                picks: [],
+                draftSeed: state.draftSeed,
+                rejectedIdentityIds: [],
+                seenIdentityCounts,
+                recentIdentityIds: state.recentIdentityIds,
+                contextKey: `${state.eraId}:${state.managerId}:${formationId}:2`,
+              });
+        const visibility = recordOptionVisibility(
+          {
+            seenIdentityCounts,
+            recentIdentityIds: state.recentIdentityIds,
+          },
+          optionIds,
+        );
         set({
           formationId,
+          managerLocked: true,
           picks: [],
           benchPicks: [],
           draftPhase: "starters",
@@ -429,7 +552,9 @@ export const useGameStore = create<GameStore>()(
           draftFeasible: true,
           lastPlacementFeedback: null,
           rejectedIdentityIds: [],
-          playerRespinsRemaining: 2,
+          ...visibility,
+          playerRespinsRemaining:
+            state.gameMode === "free-selection" ? 0 : 2,
           playerRespinIndex: 0,
           selectedOpponentId: null,
           simulationNonce: 0,
@@ -438,19 +563,25 @@ export const useGameStore = create<GameStore>()(
       },
       selectPlayer: (cardId) => {
         const state = get();
-        if (!state.optionIds.includes(cardId)) return;
+        const freeSelection = state.gameMode === "free-selection";
+        if (!freeSelection && !state.optionIds.includes(cardId)) return;
         const selectedPlayer = playersById.get(cardId);
-        if (!selectedPlayer) return;
+        if (!selectedPlayer || !selectedPlayer.isDraftEligible) return;
         const usedIdentities = usedIdentityIdsForState(state);
         if (usedIdentities.has(selectedPlayer.playerIdentityId)) return;
-        if (state.draftPhase === "bench") {
+        if (!freeSelection && state.draftPhase === "bench") {
           set({
             pendingBenchCardId:
               state.pendingBenchCardId === cardId ? null : cardId,
           });
           return;
         }
-        if (state.draftPhase !== "starters" || !state.formationId) return;
+        if (
+          (!freeSelection && state.draftPhase !== "starters") ||
+          !state.formationId
+        ) {
+          return;
+        }
         if (state.selectedPlayerId === cardId) {
           set({
             selectedPlayerId: null,
@@ -477,7 +608,8 @@ export const useGameStore = create<GameStore>()(
       placeSelectedPlayer: (slotId) => {
         const state = get();
         if (
-          state.draftPhase !== "starters" ||
+          (state.gameMode !== "free-selection" &&
+            state.draftPhase !== "starters") ||
           !state.formationId ||
           !state.selectedPlayerId ||
           !state.eraId ||
@@ -532,22 +664,27 @@ export const useGameStore = create<GameStore>()(
           overallChange: projectedRatings.overall - currentRatings.overall,
         };
         const complete = picks.length === formation.slots.length;
-        const optionIds = complete
+        const optionIds =
+          complete || state.gameMode === "free-selection"
           ? []
           : playerOptionsFor({
               formationId: state.formationId,
               picks,
               draftSeed: state.draftSeed,
               rejectedIdentityIds: state.rejectedIdentityIds,
+              seenIdentityCounts: state.seenIdentityCounts,
+              recentIdentityIds: state.recentIdentityIds,
               contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining}`,
               respinIndex: state.playerRespinIndex,
             });
+        const visibility = recordOptionVisibility(state, optionIds);
         set({
           picks,
           selectedPlayerId: null,
           selectedSlotId: null,
           projectedPositionFits: [],
           optionIds,
+          ...visibility,
           draftFeasible: hasDraftCompletionPath({
             cards: players,
             formation,
@@ -592,6 +729,8 @@ export const useGameStore = create<GameStore>()(
                 picks: state.picks,
                 draftSeed: state.draftSeed,
                 rejectedIdentityIds: rejected,
+                seenIdentityCounts: state.seenIdentityCounts,
+                recentIdentityIds: state.recentIdentityIds,
                 contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining - 1}`,
                 respinIndex: nextIndex,
               })
@@ -600,11 +739,14 @@ export const useGameStore = create<GameStore>()(
                 benchPicks: state.benchPicks,
                 draftSeed: state.draftSeed,
                 rejectedIdentityIds: rejected,
+                seenIdentityCounts: state.seenIdentityCounts,
+                recentIdentityIds: state.recentIdentityIds,
                 contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining - 1}`,
                 respinIndex: nextIndex,
               });
         set({
           optionIds,
+          ...recordOptionVisibility(state, optionIds),
           rejectedIdentityIds: rejected,
           playerRespinsRemaining: state.playerRespinsRemaining - 1,
           playerRespinIndex: nextIndex,
@@ -616,20 +758,25 @@ export const useGameStore = create<GameStore>()(
       },
       startBenchDraft: () => {
         const state = get();
+        if (state.gameMode === "free-selection") return;
         if (state.picks.length !== 11 || state.draftPhase !== "starters") return;
+        const optionIds = benchOptionsFor({
+          picks: state.picks,
+          benchPicks: [],
+          draftSeed: state.draftSeed,
+          rejectedIdentityIds: state.rejectedIdentityIds,
+          seenIdentityCounts: state.seenIdentityCounts,
+          recentIdentityIds: state.recentIdentityIds,
+          contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
+          respinIndex: state.playerRespinIndex,
+        });
         set({
           draftPhase: "bench",
           selectedPlayerId: null,
           selectedSlotId: null,
           projectedPositionFits: [],
-          optionIds: benchOptionsFor({
-            picks: state.picks,
-            benchPicks: [],
-            draftSeed: state.draftSeed,
-            rejectedIdentityIds: state.rejectedIdentityIds,
-            contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
-            respinIndex: state.playerRespinIndex,
-          }),
+          optionIds,
+          ...recordOptionVisibility(state, optionIds),
         });
       },
       assignBenchPlayer: (slotId) => {
@@ -646,20 +793,24 @@ export const useGameStore = create<GameStore>()(
           ...state.benchPicks,
           { slotId, cardId: state.pendingBenchCardId },
         ];
+        const optionIds =
+          benchPicks.length === 3
+            ? []
+            : benchOptionsFor({
+                picks: state.picks,
+                benchPicks,
+                draftSeed: state.draftSeed,
+                rejectedIdentityIds: state.rejectedIdentityIds,
+                seenIdentityCounts: state.seenIdentityCounts,
+                recentIdentityIds: state.recentIdentityIds,
+                contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
+                respinIndex: state.playerRespinIndex,
+              });
         set({
           benchPicks,
           pendingBenchCardId: null,
-          optionIds:
-            benchPicks.length === 3
-              ? []
-              : benchOptionsFor({
-                  picks: state.picks,
-                  benchPicks,
-                  draftSeed: state.draftSeed,
-                  rejectedIdentityIds: state.rejectedIdentityIds,
-                  contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
-                  respinIndex: state.playerRespinIndex,
-                }),
+          optionIds,
+          ...recordOptionVisibility(state, optionIds),
           draftPhase: benchPicks.length === 3 ? "review" : "bench",
         });
       },
@@ -687,8 +838,256 @@ export const useGameStore = create<GameStore>()(
           ),
         });
       },
+      assignFreeBenchPlayer: (cardId, slotId) => {
+        const state = get();
+        if (
+          state.gameMode !== "free-selection" ||
+          !benchSlotOrder.includes(slotId)
+        ) {
+          return;
+        }
+        const player = playersById.get(cardId);
+        if (!player?.isDraftEligible) return;
+        const used = usedIdentityIdsForState({
+          picks: state.picks,
+          benchPicks: state.benchPicks.filter(
+            (pick) => pick.slotId !== slotId,
+          ),
+        });
+        if (used.has(player.playerIdentityId)) return;
+        const benchPicks = [
+          ...state.benchPicks.filter((pick) => pick.slotId !== slotId),
+          { slotId, cardId },
+        ].sort(
+          (first, second) =>
+            benchSlotOrder.indexOf(first.slotId) -
+            benchSlotOrder.indexOf(second.slotId),
+        );
+        set({
+          benchPicks,
+          selectedPlayerId: null,
+          pendingBenchCardId: null,
+          draftPhase:
+            state.picks.length === 11 && benchPicks.length === 3
+              ? "review"
+              : "starters",
+          selectedOpponentId: null,
+          matchResult: null,
+        });
+      },
+      removeFreePlayer: (cardId) => {
+        const state = get();
+        if (state.gameMode !== "free-selection") return;
+        const picks = state.picks.filter((pick) => pick.cardId !== cardId);
+        const benchPicks = state.benchPicks.filter(
+          (pick) => pick.cardId !== cardId,
+        );
+        if (
+          picks.length === state.picks.length &&
+          benchPicks.length === state.benchPicks.length
+        ) {
+          return;
+        }
+        set({
+          picks,
+          benchPicks,
+          draftPhase:
+            picks.length === 11 && benchPicks.length === 3
+              ? "review"
+              : "starters",
+          selectedPlayerId: null,
+          selectedSlotId: null,
+          projectedPositionFits: [],
+          selectedOpponentId: null,
+          matchResult: null,
+        });
+      },
+      randomizeFreeSquad: () => {
+        const state = get();
+        if (
+          state.gameMode !== "free-selection" ||
+          !state.formationId
+        ) {
+          return;
+        }
+        const simulationNonce = state.simulationNonce + 1;
+        const squad = generateFreeSelectionSquad({
+          formation: getFormation(state.formationId),
+          cards: draftEligiblePlayers,
+          seed:
+            state.draftSeed ^
+            hashString(`free-selection:${simulationNonce}`),
+        });
+        set({
+          ...squad,
+          draftPhase: "review",
+          selectedPlayerId: null,
+          selectedSlotId: null,
+          pendingBenchCardId: null,
+          projectedPositionFits: [],
+          selectedOpponentId: null,
+          matchResult: null,
+          simulationNonce,
+        });
+      },
+      finalizeFreeSelection: () => {
+        const state = get();
+        if (
+          state.gameMode !== "free-selection" ||
+          !state.formationId ||
+          state.picks.length !== 11 ||
+          state.benchPicks.length !== 3
+        ) {
+          return;
+        }
+        const validation = validateDraftPicks({
+          picks: state.picks,
+          formation: getFormation(state.formationId),
+          cards: players,
+        });
+        const squad = [...state.picks, ...state.benchPicks]
+          .map((pick) => playersById.get(pick.cardId))
+          .filter(
+            (player): player is PlayerTournamentCard => Boolean(player),
+          );
+        if (
+          squad.length !== 14 ||
+          squad.some((player) => !player.isDraftEligible) ||
+          validation.valid.length !== 11 ||
+          validation.issues.length > 0 ||
+          new Set(squad.map((player) => player.playerIdentityId)).size !==
+            14
+        ) {
+          return;
+        }
+        set({ draftPhase: "opponent" });
+      },
+      editFreeSelection: () => {
+        const state = get();
+        if (
+          state.gameMode !== "free-selection" ||
+          state.draftPhase !== "opponent"
+        ) {
+          return;
+        }
+        set({
+          draftPhase: "review",
+          selectedOpponentId: null,
+          matchResult: null,
+        });
+      },
       finalizeBench: () => {
         if (get().benchPicks.length === 3) set({ draftPhase: "opponent" });
+      },
+      startWorldCupRun: () => {
+        const state = get();
+        if (
+          state.gameMode !== "world-cup-run" ||
+          state.worldCupRun ||
+          !state.formationId ||
+          !state.managerId ||
+          !state.eraId ||
+          state.picks.length !== 11 ||
+          state.benchPicks.length !== 3
+        ) {
+          return;
+        }
+        const formation = getFormation(state.formationId);
+        const manager = managersById.get(state.managerId);
+        if (!manager) return;
+        const lineup = lineupFor(state.picks);
+        const bench = state.benchPicks
+          .map((pick) => playersById.get(pick.cardId))
+          .filter(
+            (player): player is PlayerTournamentCard => Boolean(player),
+          );
+        const squadIdentityIds = usedIdentityIdsForState(state);
+        const validation = validateDraftPicks({
+          picks: state.picks,
+          formation,
+          cards: players,
+        });
+        if (
+          lineup.length !== 11 ||
+          bench.length !== 3 ||
+          squadIdentityIds.size !== 14 ||
+          validation.valid.length !== 11 ||
+          validation.issues.length > 0 ||
+          [...lineup, ...bench].some(
+            (player) => !player.isDraftEligible,
+          )
+        ) {
+          return;
+        }
+        const selectedOpponents = createWorldCupRunOpponentField({
+          seed: state.draftSeed,
+          eraId: state.eraId,
+          excludedIdentityIds: squadIdentityIds,
+        });
+        const userRatings = calculateTeamRatings(lineup, formation, {
+          picks: state.picks,
+          manager,
+          eraId: state.eraId,
+          bench,
+        });
+        const seed =
+          state.draftSeed ^
+          hashString(
+            `world-cup-run:${state.picks
+              .map((pick) => pick.cardId)
+              .join("|")}`,
+          );
+        let worldCupRun = createWorldCupRun({
+          seed,
+          userTeamId: "trophy-xi",
+          teams: [
+            {
+              id: "trophy-xi",
+              name: "Trophy XI",
+              rating: userRatings.overall,
+            },
+            ...selectedOpponents.map((opponent) => ({
+              id: opponent.id,
+              name: opponent.tournamentYear
+                ? `${opponent.nationName} ${opponent.tournamentYear}`
+                : opponent.nationName,
+              rating: opponent.ratings.overall,
+            })),
+          ],
+        });
+        worldCupRun =
+          resolvePendingWorldCupRunCpuFixtures(worldCupRun);
+        set({
+          worldCupRun,
+          worldCupRunOpponents: selectedOpponents,
+          draftPhase: "opponent",
+          selectedOpponentId: pendingOpponentIdForRun(worldCupRun),
+          matchResult: null,
+        });
+      },
+      restartWorldCupRun: () => {
+        const state = get();
+        if (state.gameMode !== "world-cup-run") return;
+        set({
+          draftSeed: createDraftSeed(),
+          worldCupRun: null,
+          worldCupRunOpponents: [],
+          selectedOpponentId: null,
+          matchResult: null,
+        });
+        get().startWorldCupRun();
+      },
+      continueWorldCupRun: () => {
+        const state = get();
+        if (state.gameMode !== "world-cup-run" || !state.worldCupRun) {
+          return;
+        }
+        set({
+          selectedOpponentId: pendingOpponentIdForRun(
+            state.worldCupRun,
+          ),
+          matchResult: null,
+        });
       },
       setOpponentFilters: (filters) =>
         set((state) => ({
@@ -703,7 +1102,7 @@ export const useGameStore = create<GameStore>()(
         ) {
           return;
         }
-        const opponent = historicalOpponentsById.get(selectedOpponentId);
+        const opponent = opponentForState(selectedOpponentId, state);
         if (!opponent) return;
         const draftedIdentities = usedIdentityIdsForState(state);
         const opponentIdentities = [
@@ -715,32 +1114,64 @@ export const useGameStore = create<GameStore>()(
       },
       resetDraft: () => {
         const state = get();
-        if (!state.formationId) return;
+        if (!state.eraId) {
+          set({
+            ...cleanState,
+            gameMode: state.gameMode,
+            recentIdentityIds: state.recentIdentityIds,
+            saveNotice: null,
+          });
+          return;
+        }
         const draftSeed = createDraftSeed();
+        const managerOptionIds =
+          state.gameMode === "free-selection"
+            ? draftEligibleManagers.map((manager) => manager.id)
+            : managerOptionsFor(state.eraId, draftSeed);
         set({
+          ...cleanState,
+          gameMode: state.gameMode,
+          eraId: state.eraId,
           draftSeed,
-          picks: [],
-          benchPicks: [],
-          draftPhase: "starters",
-          selectedPlayerId: null,
-          selectedSlotId: null,
-          pendingBenchCardId: null,
-          optionIds: playerOptionsFor({
-            formationId: state.formationId,
-            picks: [],
-            draftSeed,
-            rejectedIdentityIds: [],
-            contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:2`,
-          }),
-          projectedPositionFits: [],
-          draftFeasible: true,
-          lastPlacementFeedback: null,
-          rejectedIdentityIds: [],
-          playerRespinsRemaining: 2,
-          playerRespinIndex: 0,
-          selectedOpponentId: null,
-          simulationNonce: 0,
-          matchResult: null,
+          originalManagerOptionIds: managerOptionIds,
+          managerOptionIds,
+          managerRespinRemaining:
+            state.gameMode === "free-selection" ? 0 : 1,
+          formationRespinRemaining:
+            state.gameMode === "free-selection" ? 0 : 1,
+          recentIdentityIds: state.recentIdentityIds,
+          saveNotice: null,
+        });
+      },
+      restartFromManager: () => {
+        const state = get();
+        if (!state.eraId) {
+          set({
+            ...cleanState,
+            gameMode: state.gameMode,
+            recentIdentityIds: state.recentIdentityIds,
+            saveNotice: null,
+          });
+          return;
+        }
+        const draftSeed = createDraftSeed();
+        const managerOptionIds =
+          state.gameMode === "free-selection"
+            ? draftEligibleManagers.map((manager) => manager.id)
+            : managerOptionsFor(state.eraId, draftSeed);
+        set({
+          ...cleanState,
+          gameMode: state.gameMode,
+          eraId: state.eraId,
+          draftSeed,
+          originalManagerOptionIds: managerOptionIds,
+          managerOptionIds,
+          managerRespinRemaining:
+            state.gameMode === "free-selection" ? 0 : 1,
+          formationRespinRemaining:
+            state.gameMode === "free-selection" ? 0 : 1,
+          recentIdentityIds: state.recentIdentityIds,
+          saveNotice: null,
         });
       },
       simulate: () => {
@@ -785,7 +1216,7 @@ export const useGameStore = create<GameStore>()(
           throw new Error("The saved squad contains a duplicate player identity");
         }
         const manager = managersById.get(state.managerId);
-        const opponent = historicalOpponentsById.get(state.selectedOpponentId);
+        const opponent = opponentForState(state.selectedOpponentId, state);
         if (!manager || !opponent) throw new Error("Match context is unavailable");
         const opponentIdentities = new Set(
           [...opponent.startingLineup, ...opponent.substitutes].map(
@@ -812,15 +1243,94 @@ export const useGameStore = create<GameStore>()(
           eraId: state.eraId,
           opponent,
           seed,
+          competitionStage:
+            state.gameMode === "world-cup-run" &&
+            state.worldCupRun?.currentStage === "group"
+              ? "group"
+              : "knockout",
         });
-        set({ matchResult, simulationNonce });
+        let worldCupRun = state.worldCupRun;
+        if (state.gameMode === "world-cup-run" && worldCupRun) {
+          const fixture = getPendingWorldCupRunUserFixture(worldCupRun);
+          const pendingOpponentId = pendingOpponentIdForRun(worldCupRun);
+          if (
+            !fixture ||
+            pendingOpponentId !== state.selectedOpponentId
+          ) {
+            throw new Error(
+              "World Cup Run fixture and selected opponent are out of sync",
+            );
+          }
+          worldCupRun = recordWorldCupRunUserResult(
+            worldCupRun,
+            fixture.id,
+            {
+              userGoals: matchResult.score.user,
+              opponentGoals: matchResult.score.opponent,
+              afterExtraTime: matchResult.score.afterExtraTime,
+              ...(matchResult.score.penalties
+                ? { penalties: matchResult.score.penalties }
+                : {}),
+            },
+          );
+          worldCupRun =
+            resolvePendingWorldCupRunCpuFixtures(worldCupRun);
+        }
+        set({ matchResult, simulationNonce, worldCupRun });
         return matchResult;
       },
       prepareRematch: () => set({ matchResult: null }),
-      clearGame: () => set({ ...cleanState, saveNotice: null }),
+      clearGame: () => {
+        const recentIdentityIds = get().recentIdentityIds;
+        set({ ...cleanState, recentIdentityIds, saveNotice: null });
+      },
       repairHydratedState: () => {
         const state = get();
         if (!state.eraId) return;
+        if (state.gameMode === "world-cup-run" && state.worldCupRun) {
+          const opponents = state.worldCupRunOpponents ?? [];
+          const runOpponentIds = new Set(
+            state.worldCupRun.teams
+              .filter(
+                (team) => team.id !== state.worldCupRun?.userTeamId,
+              )
+              .map((team) => team.id),
+          );
+          const persistedOpponentIds = new Set(
+            opponents.map((opponent) => opponent.id),
+          );
+          const squadIdentityIds = usedIdentityIdsForState(state);
+          const invalidField =
+            opponents.length !== WORLD_CUP_RUN_OPPONENT_COUNT ||
+            persistedOpponentIds.size !==
+              WORLD_CUP_RUN_OPPONENT_COUNT ||
+            runOpponentIds.size !== WORLD_CUP_RUN_OPPONENT_COUNT ||
+            [...runOpponentIds].some(
+              (opponentId) => !persistedOpponentIds.has(opponentId),
+            ) ||
+            opponents.some(
+              (opponent) =>
+                !runOpponentIds.has(opponent.id) ||
+                !isActiveWorldCupRunOpponent(opponent) ||
+                [
+                  ...opponent.startingLineup,
+                  ...opponent.substitutes,
+                ].some((player) =>
+                  squadIdentityIds.has(player.playerIdentityId),
+                ),
+            );
+          if (invalidField) {
+            set({
+              worldCupRun: null,
+              worldCupRunOpponents: [],
+              selectedOpponentId: null,
+              matchResult: null,
+              saveNotice:
+                "Your tournament field was rebuilt to preserve the active archive boundary. Generate a new World Cup Run to continue.",
+            });
+            return;
+          }
+        }
         const manager = state.managerId
           ? managersById.get(state.managerId)
           : undefined;
@@ -895,12 +1405,15 @@ export const useGameStore = create<GameStore>()(
             pendingBenchCardId: null,
             projectedPositionFits: [],
             optionIds:
-              safePicks.length < 11
+              safePicks.length < 11 &&
+              state.gameMode !== "free-selection"
                 ? playerOptionsFor({
                     formationId: state.formationId,
                     picks: safePicks,
                     draftSeed: state.draftSeed,
                     rejectedIdentityIds: state.rejectedIdentityIds,
+                    seenIdentityCounts: state.seenIdentityCounts,
+                    recentIdentityIds: state.recentIdentityIds,
                     contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining}`,
                     respinIndex: state.playerRespinIndex,
                   })
@@ -914,7 +1427,7 @@ export const useGameStore = create<GameStore>()(
           return;
         }
         const opponent = state.selectedOpponentId
-          ? historicalOpponentsById.get(state.selectedOpponentId)
+          ? opponentForState(state.selectedOpponentId, state)
           : undefined;
         const squadIdentities = usedIdentityIdsForState(state);
         const opponentConflict = opponent
@@ -935,7 +1448,9 @@ export const useGameStore = create<GameStore>()(
           return;
         }
         const expectedOptionCount =
-          state.draftPhase === "starters" || state.draftPhase === "bench"
+          state.gameMode !== "free-selection" &&
+          (state.draftPhase === "starters" ||
+            state.draftPhase === "bench")
             ? 5
             : 0;
         if (state.optionIds.length !== expectedOptionCount) {
@@ -945,12 +1460,16 @@ export const useGameStore = create<GameStore>()(
             pendingBenchCardId: null,
             projectedPositionFits: [],
             optionIds:
-              state.draftPhase === "starters" && state.picks.length < 11
+              state.gameMode !== "free-selection" &&
+              state.draftPhase === "starters" &&
+              state.picks.length < 11
                 ? playerOptionsFor({
                     formationId: state.formationId,
                     picks: state.picks,
                     draftSeed: state.draftSeed,
                     rejectedIdentityIds: state.rejectedIdentityIds,
+                    seenIdentityCounts: state.seenIdentityCounts,
+                    recentIdentityIds: state.recentIdentityIds,
                     contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining}`,
                     respinIndex: state.playerRespinIndex,
                   })
@@ -960,6 +1479,8 @@ export const useGameStore = create<GameStore>()(
                       benchPicks: state.benchPicks,
                       draftSeed: state.draftSeed,
                       rejectedIdentityIds: state.rejectedIdentityIds,
+                      seenIdentityCounts: state.seenIdentityCounts,
+                      recentIdentityIds: state.recentIdentityIds,
                       contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
                       respinIndex: state.playerRespinIndex,
                     })
@@ -983,6 +1504,11 @@ export const useGameStore = create<GameStore>()(
           respinStage?: "manager" | "player" | null;
         };
         const eraId = migratedEra(previous.eraId);
+        const gameMode: GameMode =
+          previous.gameMode === "free-selection" ||
+          previous.gameMode === "world-cup-run"
+            ? previous.gameMode
+            : "classic-draft";
         const draftSeed = previous.draftSeed ?? 2026;
         const removedPlayableAllStars =
           previous.playMode === "all-stars" ||
@@ -991,6 +1517,7 @@ export const useGameStore = create<GameStore>()(
           const managerOptionIds = managerOptionsFor(eraId, draftSeed);
           return {
             ...cleanState,
+            gameMode: "classic-draft",
             eraId,
             draftSeed,
             originalManagerOptionIds: managerOptionIds,
@@ -1005,54 +1532,79 @@ export const useGameStore = create<GameStore>()(
             : null;
         const managerOptionIds =
           eraId && !managerId
-            ? managerOptionsFor(eraId, draftSeed)
+            ? gameMode === "free-selection"
+              ? draftEligibleManagers.map((manager) => manager.id)
+              : managerOptionsFor(eraId, draftSeed)
             : previous.managerOptionIds ?? [];
         const originalFormationOptionIds =
-          previous.originalFormationOptionIds?.length === 4
+          previous.originalFormationOptionIds?.length
             ? previous.originalFormationOptionIds
             : eraId && managerId
-              ? formationOptionsFor(managerId, eraId, draftSeed)
+              ? gameMode === "free-selection"
+                ? formations.map((formation) => formation.id)
+                : formationOptionsFor(managerId, eraId, draftSeed)
               : [];
         return {
           ...cleanState,
           ...previous,
+          gameMode,
           eraId,
           managerId,
+          managerLocked:
+            previous.managerLocked ?? Boolean(previous.formationId),
           draftSeed,
           originalManagerOptionIds:
-            previous.originalManagerOptionIds?.length === 5
+            previous.originalManagerOptionIds?.length
               ? previous.originalManagerOptionIds
               : managerOptionIds,
           managerOptionIds,
           managerRespinRemaining:
-            previous.managerRespinRemaining === 0 ? 0 : 1,
+            gameMode === "free-selection" ||
+            previous.managerRespinRemaining === 0
+              ? 0
+              : 1,
           managerRespinIndex: previous.managerRespinIndex ?? 0,
           originalFormationOptionIds,
           formationOptionIds:
-            previous.formationOptionIds?.length === 4
+            previous.formationOptionIds?.length
               ? previous.formationOptionIds
               : originalFormationOptionIds,
           formationRespinRemaining:
-            previous.formationRespinRemaining === 0 ? 0 : 1,
+            gameMode === "free-selection" ||
+            previous.formationRespinRemaining === 0
+              ? 0
+              : 1,
           formationRespinIndex: previous.formationRespinIndex ?? 0,
           selectedPlayerId: null,
           selectedSlotId: null,
           projectedPositionFits: [],
           optionIds: [],
           playerRespinsRemaining:
-            previous.playerRespinsRemaining ??
-            (previous.respinUsed && previous.respinStage === "player" ? 1 : 2),
+            gameMode === "free-selection"
+              ? 0
+              : (previous.playerRespinsRemaining ??
+                (previous.respinUsed &&
+                previous.respinStage === "player"
+                  ? 1
+                  : 2)),
           playerRespinIndex:
             previous.playerRespinIndex ??
             (previous.respinUsed && previous.respinStage === "player" ? 1 : 0),
           benchPicks: previous.benchPicks ?? [],
+          seenIdentityCounts: previous.seenIdentityCounts ?? {},
+          recentIdentityIds: previous.recentIdentityIds ?? [],
+          worldCupRunOpponents: previous.worldCupRunOpponents ?? [],
           opponentFilters: {
             ...defaultOpponentFilters,
             ...(previous.opponentFilters ?? {}),
           },
           selectedOpponentId:
             previous.selectedOpponentId &&
-            historicalOpponentsById.has(previous.selectedOpponentId)
+            (historicalOpponentsById.has(previous.selectedOpponentId) ||
+              previous.worldCupRunOpponents?.some(
+                (opponent) =>
+                  opponent.id === previous.selectedOpponentId,
+              ))
               ? previous.selectedOpponentId
               : null,
           matchResult:
@@ -1061,12 +1613,14 @@ export const useGameStore = create<GameStore>()(
               ? previous.matchResult
               : null,
           saveNotice:
-            "Trophy XI upgraded your save to the expanded tournament-manager archive and exact-year face system.",
+            "Trophy XI upgraded your save to the expanded tournament-manager archive and card-specific face system.",
         };
       },
       partialize: (state) => ({
+        gameMode: state.gameMode,
         eraId: state.eraId,
         managerId: state.managerId,
+        managerLocked: state.managerLocked,
         originalManagerOptionIds: state.originalManagerOptionIds,
         managerOptionIds: state.managerOptionIds,
         managerRespinRemaining: state.managerRespinRemaining,
@@ -1088,12 +1642,16 @@ export const useGameStore = create<GameStore>()(
         draftFeasible: state.draftFeasible,
         lastPlacementFeedback: state.lastPlacementFeedback,
         rejectedIdentityIds: state.rejectedIdentityIds,
+        seenIdentityCounts: state.seenIdentityCounts,
+        recentIdentityIds: state.recentIdentityIds,
         playerRespinsRemaining: state.playerRespinsRemaining,
         playerRespinIndex: state.playerRespinIndex,
         opponentFilters: state.opponentFilters,
         selectedOpponentId: state.selectedOpponentId,
         simulationNonce: state.simulationNonce,
         matchResult: state.matchResult,
+        worldCupRun: state.worldCupRun,
+        worldCupRunOpponents: state.worldCupRunOpponents,
         saveNotice: state.saveNotice,
       }),
       onRehydrateStorage: () => (state) => {
@@ -1112,3 +1670,19 @@ const usedIdentityIdsForState = (
       .map((pick) => playersById.get(pick.cardId)?.playerIdentityId)
       .filter((id): id is string => Boolean(id)),
   );
+
+const opponentForState = (
+  opponentId: string,
+  state: Pick<
+    GameStore,
+    "picks" | "benchPicks" | "worldCupRunOpponents"
+  >,
+) => {
+  const opponent =
+    state.worldCupRunOpponents.find(
+      (candidate) => candidate.id === opponentId,
+    ) ?? historicalOpponentsById.get(opponentId);
+  return opponent?.kind === "all-stars"
+    ? resolveWorldCupAllStars(usedIdentityIdsForState(state))
+    : opponent;
+};

@@ -21,7 +21,12 @@ const CURATION_FILE = path.join(
   "scripts",
   "player-career-curation.json",
 );
-const CACHE_DIRECTORY = path.join(ROOT, "scripts", "cache", "fbref");
+const CACHE_DIRECTORY = path.join(
+  ROOT,
+  "scripts",
+  "cache",
+  "fbref-portraits",
+);
 const REPORT_FILE = path.join(
   ROOT,
   "scripts",
@@ -35,7 +40,8 @@ const OUTPUT_FILE = path.join(
   "player-career.generated.json",
 );
 const ROBOTS_URL = "https://fbref.com/robots.txt";
-const RATE_LIMIT_MS = 10_000;
+const DIRECT_RATE_LIMIT_MS = 10_000;
+const ARCHIVE_RATE_LIMIT_MS = 1_000;
 const MAX_RETRIES = 3;
 
 type CareerCuration = {
@@ -56,6 +62,9 @@ const writeJson = async (file: string, value: unknown) => {
 
 const wait = (milliseconds: number) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+const archivedRawUrlFor = (sourceUrl: string) =>
+  `https://web.archive.org/web/2id_/${sourceUrl}`;
 
 const fetchTextWithBackoff = async (url: string) => {
   let lastFailure = "request failed";
@@ -126,7 +135,8 @@ const main = async () => {
     reason: string;
   }> = [];
   let networkBlockedReason: string | null = null;
-  let lastRequestAt = 0;
+  let lastDirectRequestAt = 0;
+  let lastArchiveRequestAt = 0;
 
   if (refresh) {
     try {
@@ -148,24 +158,76 @@ const main = async () => {
     }
     const cacheFile = path.join(
       CACHE_DIRECTORY,
-      `${mapping.playerIdentityId}.html`,
+      `${mapping.fbrefId}-profile.html`,
     );
     try {
       let html = existsSync(cacheFile)
         ? await readFile(cacheFile, "utf8")
         : null;
-      if (!html && refresh && !networkBlockedReason) {
-        const remainingDelay =
-          RATE_LIMIT_MS - (Date.now() - lastRequestAt);
-        if (remainingDelay > 0) await wait(remainingDelay);
-        lastRequestAt = Date.now();
-        const response = await fetchTextWithBackoff(mapping.sourceUrl);
-        html = await response.text();
-        if (isFbrefChallengePage(html)) {
-          throw new Error("FBref returned an access challenge");
+      let fetchedHtml = false;
+      if (html && refresh) {
+        try {
+          parseFbrefPlayerPage(html, mapping, accessedOn);
+        } catch {
+          html = null;
         }
-        await mkdir(CACHE_DIRECTORY, { recursive: true });
-        await writeFile(cacheFile, html);
+      }
+      if (!html && refresh) {
+        if (!networkBlockedReason) {
+          try {
+            const remainingDelay =
+              DIRECT_RATE_LIMIT_MS -
+              (Date.now() - lastDirectRequestAt);
+            if (remainingDelay > 0) await wait(remainingDelay);
+            lastDirectRequestAt = Date.now();
+            const response = await fetchTextWithBackoff(mapping.sourceUrl);
+            html = await response.text();
+            if (isFbrefChallengePage(html)) {
+              html = null;
+              throw new Error("FBref returned an access challenge");
+            }
+            fetchedHtml = true;
+          } catch (error) {
+            networkBlockedReason =
+              error instanceof Error
+                ? `Direct FBref profile access unavailable: ${error.message}`
+                : "Direct FBref profile access unavailable";
+          }
+        }
+        if (!html) {
+          const archiveCandidates = [
+            mapping.sourceUrl,
+            `https://fbref.com/en/players/${mapping.fbrefId}/`,
+          ];
+          let archiveFailure: unknown;
+          for (const sourceUrl of archiveCandidates) {
+            try {
+              const remainingDelay =
+                ARCHIVE_RATE_LIMIT_MS -
+                (Date.now() - lastArchiveRequestAt);
+              if (remainingDelay > 0) await wait(remainingDelay);
+              lastArchiveRequestAt = Date.now();
+              const response = await fetchTextWithBackoff(
+                archivedRawUrlFor(sourceUrl),
+              );
+              html = await response.text();
+              fetchedHtml = true;
+              break;
+            } catch (error) {
+              archiveFailure = error;
+            }
+          }
+          if (!html) {
+            throw archiveFailure instanceof Error
+              ? archiveFailure
+              : new Error("No archived FBref player profile is available");
+          }
+          if (isFbrefChallengePage(html)) {
+            throw new Error(
+              "Archived FBref snapshot contains an access challenge",
+            );
+          }
+        }
       }
       if (!html) {
         throw new Error(
@@ -173,9 +235,14 @@ const main = async () => {
             "No cached page is available; rerun with --refresh when permitted",
         );
       }
+      const parsed = parseFbrefPlayerPage(html, mapping, accessedOn);
+      if (fetchedHtml) {
+        await mkdir(CACHE_DIRECTORY, { recursive: true });
+        await writeFile(cacheFile, html);
+      }
       parsedByIdentityId.set(
         player.playerIdentityId,
-        parseFbrefPlayerPage(html, mapping, accessedOn),
+        parsed,
       );
     } catch (error) {
       unresolved.push({
@@ -239,6 +306,8 @@ const main = async () => {
     generatedAt,
     mode: refresh ? "refresh" : "cache-only",
     networkBlockedReason,
+    retrievalPolicy:
+      "Local cache first. Direct FBref refresh only when robots policy permits; when direct access is unavailable, the Internet Archive raw snapshot is used solely as the retrieval route for the cited FBref profile.",
     totalPlayerIdentities: uniquePlayers.length,
     reviewedMappings: mappings.length,
     matchedPlayers: parsedByIdentityId.size,

@@ -1,5 +1,6 @@
-.sectionSupport {
-  max-width: 540px !important;
+.stepsHeading {
+  max-width: none !important;
+  white-space: nowrap;
 }
 
 .stepsGrid {
@@ -11,109 +12,16 @@
   background: rgba(5, 8, 6, 0.38);
 }
 
-.stepCard {
-  position: relative;
-  display: flex;
-  min-height: 270px;
-  flex-direction: column;
-  justify-content: center;
-  padding: 30px 27px;
-  border-right: 1px solid var(--border);
-  outline: none;
-  transition:
-    border-color 180ms ease,
-    background 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.stepCard:last-child {
-  border-right: 0;
-}
-
-.stepCard::after {
-  position: absolute;
-  top: 0;
-  right: 22px;
-  left: 22px;
-  height: 2px;
-  content: "";
-  opacity: 0;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  box-shadow: 0 0 16px rgba(214, 180, 92, 0.42);
-  transition: opacity 180ms ease;
-}
-
-.stepCardActive {
-  background:
-    radial-gradient(circle at 78% 20%, rgba(214, 180, 92, 0.09), transparent 35%),
-    rgba(255, 255, 255, 0.018);
-}
-
-.stepCardActive::after,
-.stepCard:hover::after,
-.stepCard:focus-visible::after {
-  opacity: 1;
-}
-
-.stepCard:hover,
-.stepCard:focus-visible {
-  z-index: 1;
-  border-color: rgba(214, 180, 92, 0.35);
-  background:
-    radial-gradient(circle at 76% 20%, rgba(214, 180, 92, 0.12), transparent 36%),
-    rgba(255, 255, 255, 0.025);
-  box-shadow:
-    inset 0 0 0 1px rgba(242, 215, 125, 0.08),
-    0 14px 35px rgba(0, 0, 0, 0.22);
-}
-
-.stepMeta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 34px;
-}
-
-.stepMeta span {
-  color: rgba(242, 215, 125, 0.72);
-  font-family: var(--font-display), sans-serif;
-  font-size: 2.65rem;
-  font-weight: 720;
-  letter-spacing: -0.07em;
-  line-height: 1;
-}
-
-.stepMeta i {
-  display: grid;
-  width: 48px;
-  height: 48px;
-  place-items: center;
-  color: var(--gold-bright);
-  border: 1px solid rgba(214, 180, 92, 0.24);
-  border-radius: 12px;
-  background: rgba(214, 180, 92, 0.06);
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
-}
-
-.stepCard h3 {
-  margin: 0 0 13px;
-  font-size: 1rem;
-  font-weight: 710;
-  letter-spacing: 0.035em;
-}
-
-.stepCard p {
-  max-width: 30ch;
-  margin: 0;
-  color: #95a098;
-  font-size: 0.82rem;
-  line-height: 1.65;
-}
-
 .championGrid {
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 12px;
+}
+
+@media (max-width: 700px) {
+  .stepsHeading {
+    white-space: normal;
+  }
 }
 
 .championCard {
@@ -159,28 +67,6 @@
   font-family: var(--font-display), sans-serif !important;
   font-size: 0.76rem !important;
   line-height: 1.58 !important;
-}
-
-.championSource {
-  position: relative;
-  z-index: 2;
-  width: fit-content;
-  margin-top: auto;
-  padding-top: 18px;
-  color: #78847c;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.48rem;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.championSource:hover,
-.championSource:focus-visible {
-  color: var(--gold-bright);
-  outline: none;
-  text-decoration: underline;
-  text-underline-offset: 4px;
 }
 
 .finalCta {
@@ -540,11 +426,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .stepCard:nth-child(2) {
+  .stepsGrid > article:nth-child(2) {
     border-right: 0;
   }
 
-  .stepCard:nth-child(-n + 2) {
+  .stepsGrid > article:nth-child(-n + 2) {
     border-bottom: 1px solid var(--border);
   }
 
@@ -593,20 +479,6 @@
   .championCard,
   .championCard:nth-last-child(-n + 2) {
     grid-column: span 1;
-  }
-
-  .stepCard {
-    min-height: 230px;
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .stepCard:last-child {
-    border-bottom: 0;
-  }
-
-  .stepMeta {
-    margin-bottom: 27px;
   }
 
   .championCard {
@@ -685,8 +557,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stepCard,
-  .stepCard::after,
   .championCard,
   .opponentWall,
   .pitchPath,

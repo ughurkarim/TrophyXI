@@ -41,6 +41,10 @@ export type MatchEraId =
   | "2010s"
   | "2020s";
 export type DraftEraId = MatchEraId;
+export type GameMode =
+  | "classic-draft"
+  | "free-selection"
+  | "world-cup-run";
 export type QualityBand =
   | "iconic"
   | "elite"
@@ -99,6 +103,8 @@ export type TournamentStatLine = {
   assists: number | null;
   cleanSheets: number | null;
   saves: number | null;
+  goalsConceded: number | null;
+  penaltiesSaved: number | null;
 };
 
 export type DataCitation = {
@@ -195,6 +201,11 @@ export type PlayerTournamentCard = {
   draftIneligibilityReason: string | null;
   tournamentStats: TournamentStatLine;
   statSources: DataCitation[];
+  statSourcesByField: Partial<
+    Record<keyof TournamentStatLine, DataCitation>
+  >;
+  tournamentFinish: TournamentFinish | null;
+  tournamentFinishSource: DataCitation | null;
   achievements: TournamentAchievement[];
   careerStats: PlayerCareerStats | null;
   careerAccolades: PlayerAccolade[];
@@ -497,6 +508,7 @@ export type ImageAttribution = {
   subjectName: string;
   tournamentYear: number;
   file: string;
+  cacheVersion: string;
   sourceFile: string | null;
   sourcePage: string | null;
   author: string;
@@ -512,14 +524,19 @@ export type ImageAttribution = {
     | "exact-tournament"
     | "same-year-national-team"
     | "nearby-year-national-team"
-    | "same-year-game-face"
+    | "tournament-edition-game-face"
     | "other-licensed-face"
     | "original-project-mark";
   cropFocus: { x: number; y: number };
-  gameEdition: string;
+  gameEdition: string | null;
+  gameEditionLaunchYear: number | null;
   sourceWebsite: string;
   retrievedOn: string;
-  matchQuality: "exact" | "manually-reviewed-exact-year";
+  matchQuality:
+    | "edition-verified"
+    | "manually-reviewed-edition"
+    | "identity-only-permissioned"
+    | "user-supplied-permissioned";
   requiredAttribution: string;
 };
 
@@ -551,13 +568,15 @@ export type HistoricalTeamTournamentStats = {
 
 export type HistoricalLineupPlayer = {
   playerIdentityId: string;
+  sourcePlayerId?: string;
   name: string;
   position: Position;
+  rating?: number;
 };
 
 export type HistoricalWorldCupTeam = {
   id: string;
-  kind?: "historical" | "all-stars";
+  kind?: "historical" | "all-stars" | "model";
   nationCode: string;
   nationName: string;
   tournamentYear: WorldCupYear | null;
@@ -566,7 +585,12 @@ export type HistoricalWorldCupTeam = {
   tournamentStatus: "complete" | "in-progress" | "featured";
   dataStatus: HistoricalDataStatus;
   managerName: string | null;
+  managerIdentityId?: string;
+  managerCardId?: string;
   formation: FormationId;
+  /** Source-faithful historical shape; `formation` remains engine-compatible. */
+  formationLabel?: string;
+  engineFormationIsApproximation?: boolean;
   alternateFormations: FormationId[];
   startingLineup: HistoricalLineupPlayer[];
   substitutes: HistoricalLineupPlayer[];
@@ -581,8 +605,13 @@ export type HistoricalWorldCupTeam = {
   };
   tournamentStats: HistoricalTeamTournamentStats;
   sources: DataCitation[];
+  finalLineupSource?: DataCitation;
+  rosterSource?: DataCitation;
+  championFact?: string;
+  championFactSource?: DataCitation;
+  era?: TournamentEra;
   originalRatings: true;
-  formationIsModel: true;
+  formationIsModel: boolean;
   difficulty: "Contender" | "Elite" | "Legendary" | "Underdog" | "Mythic";
   allStars?: {
     subtitle: string;

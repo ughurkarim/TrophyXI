@@ -268,6 +268,16 @@ h3 {
   border-bottom: 1px solid rgba(255, 255, 255, 0.055);
 }
 
+.site-header--fixed {
+  position: fixed;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 7, 6, 0.94),
+    rgba(5, 7, 6, 0.76)
+  );
+  backdrop-filter: blur(18px);
+}
+
 .site-header__inner,
 .game-header__inner {
   display: grid;
@@ -342,7 +352,7 @@ h3 {
 
 .hero-scroll-scene {
   position: relative;
-  height: 600svh;
+  height: 700svh;
 }
 
 .hero-scroll-sticky {
@@ -443,110 +453,29 @@ h3 {
 }
 
 .hero-showcase::before {
-  position: absolute;
-  inset: 5% 1% 4%;
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 34px;
-  content: "";
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(15, 31, 23, 0.09)),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 12.4%,
-      rgba(255, 255, 255, 0.012) 12.5% 12.6%
-    );
-  box-shadow: var(--shadow), inset 0 1px rgba(255, 255, 255, 0.04);
+  display: none;
 }
 
-.hero-rivalry-field {
+.hero-background-year {
   position: absolute;
-  inset: 14% 5% 12%;
-  overflow: hidden;
-  border: 1px solid rgba(135, 210, 168, 0.15);
-  border-radius: 28px;
-  background:
-    linear-gradient(90deg, transparent 49.7%, rgba(255, 255, 255, 0.09) 50%, transparent 50.3%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 12.5%, transparent 12.5% 25%),
-    #0d3022;
-}
-
-.hero-rivalry-field__circle {
-  position: absolute;
+  z-index: 0;
   top: 50%;
   left: 50%;
-  width: 128px;
-  height: 128px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.hero-rivalry-field__line {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.075);
-}
-
-.hero-rivalry-field__word {
-  position: absolute;
-  top: 43%;
-  left: 50%;
-  color: rgba(255, 255, 255, 0.025);
+  color: rgba(242, 215, 125, 0.085);
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(5rem, 8vw, 8rem);
+  font-size: clamp(9rem, 18vw, 16rem);
   font-weight: 800;
-  letter-spacing: -0.07em;
-  transform: translate(-50%, -50%);
+  letter-spacing: -0.1em;
+  line-height: 0.8;
+  transform: translate(-52%, -50%);
+  user-select: none;
   white-space: nowrap;
-}
-
-.hero-rivalry-field__year {
-  position: absolute;
-  right: 5%;
-  bottom: 3%;
-  color: rgba(242, 215, 125, 0.08);
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(4.8rem, 8vw, 7rem);
-  font-weight: 780;
-  letter-spacing: -0.08em;
-}
-
-.hero-year-status {
-  position: absolute;
-  z-index: 8;
-  top: 8%;
-  left: 6%;
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: baseline;
-  gap: 2px 12px;
-  font-family: var(--font-mono), monospace;
-}
-
-.hero-year-status span,
-.hero-year-status small {
-  color: #819087;
-  font-size: 0.54rem;
-  letter-spacing: 0.15em;
-}
-
-.hero-year-status strong {
-  color: var(--gold-bright);
-  font-family: var(--font-display), sans-serif;
-  font-size: 1.35rem;
-}
-
-.hero-year-status small {
-  grid-column: 1 / -1;
 }
 
 .hero-rival-cards {
   position: absolute;
-  z-index: 5;
-  inset: 17% 5% 14%;
+  z-index: 2;
+  inset: 8% 1%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
@@ -585,100 +514,12 @@ h3 {
   transform: rotate(2deg);
 }
 
-.hero-year-rail {
-  position: absolute;
-  z-index: 8;
-  bottom: 6.5%;
-  left: 6%;
-  display: flex;
-  align-items: center;
-  gap: 11px;
+html:has(.hero-scroll-scene) {
+  scrollbar-width: none;
 }
 
-.hero-year-rail__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #657168;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.45rem;
-  letter-spacing: 0.04em;
-  transition: color 180ms ease;
-}
-
-.hero-year-rail__item i {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #526057;
-  transition:
-    width 180ms ease,
-    background 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.hero-year-rail__item--active {
-  color: var(--gold-bright);
-}
-
-.hero-year-rail__item--active i {
-  width: 18px;
-  border-radius: 999px;
-  background: var(--gold);
-  box-shadow: 0 0 12px rgba(214, 180, 92, 0.48);
-}
-
-.showcase-plaque {
-  position: absolute;
-  z-index: 7;
-  right: 4%;
-  bottom: 2%;
-  display: flex;
-  min-width: 210px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 14px 16px;
-  border: 1px solid rgba(214, 180, 92, 0.22);
-  border-radius: 10px;
-  transform: rotate(-1deg);
-  background: rgba(8, 12, 10, 0.91);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.32);
-}
-
-.showcase-plaque span,
-.showcase-plaque b {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.52rem;
-  letter-spacing: 0.1em;
-}
-
-.showcase-plaque span {
-  color: #7e8982;
-}
-
-.showcase-plaque b {
-  color: var(--gold-bright);
-}
-
-.hero-scroll-cue {
-  position: absolute;
-  right: 30px;
-  bottom: 22px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: #68736c;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.48rem;
-  letter-spacing: 0.14em;
-}
-
-.hero-scroll-cue span {
-  width: 34px;
-  height: 1px;
-  overflow: hidden;
-  background: linear-gradient(90deg, transparent, var(--gold-bright));
+html:has(.hero-scroll-scene)::-webkit-scrollbar {
+  display: none;
 }
 
 .section {
@@ -955,7 +796,7 @@ h3 {
   font-size: 0.75rem;
 }
 
-.footer__disclaimer {
+.footer__tagline {
   max-width: 720px;
   margin: 0;
   color: #626c65;
@@ -1007,6 +848,13 @@ h3 {
     inset 0 1px rgba(255, 241, 188, 0.16),
     0 22px 54px rgba(0, 0, 0, 0.43),
     0 0 32px rgba(214, 180, 92, 0.08);
+}
+
+.player-card--disabled,
+.player-card--disabled:hover {
+  border-color: rgba(240, 216, 137, 0.18);
+  box-shadow: inset 0 1px rgba(255, 241, 188, 0.08);
+  opacity: 0.58;
 }
 
 .player-card__pick-target {
@@ -1146,45 +994,10 @@ h3 {
   display: none;
 }
 
-.player-card__portrait--photo .portrait-year {
-  z-index: 2;
-  opacity: 0.34;
-}
-
 .player-card__portrait--photo .portrait-stripe {
   z-index: 2;
   opacity: 0.42;
   mix-blend-mode: screen;
-}
-
-.photo-credit {
-  position: absolute;
-  z-index: 9;
-  right: 7px;
-  bottom: 6px;
-  min-height: 18px;
-  padding: 5px 2px;
-  color: rgba(244, 240, 230, 0.7);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.36rem;
-  letter-spacing: 0.11em;
-  text-decoration: none;
-}
-
-.photo-credit:hover {
-  color: var(--gold-bright);
-}
-
-.portrait-year {
-  position: absolute;
-  right: -7px;
-  bottom: -21px;
-  color: color-mix(in srgb, var(--card-accent) 10%, transparent);
-  font-family: var(--font-display), sans-serif;
-  font-size: 8.4rem;
-  font-weight: 800;
-  letter-spacing: -0.1em;
-  line-height: 1;
 }
 
 .portrait-head {
@@ -1348,12 +1161,6 @@ h3 {
   font-size: 0.66rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.footer__disclaimer a {
-  color: #a39468;
-  text-decoration: underline;
-  text-underline-offset: 2px;
 }
 
 /* Game shell */
@@ -1867,6 +1674,11 @@ h3 {
   text-overflow: ellipsis;
   transform: translateX(-50%);
   white-space: nowrap;
+}
+
+.pitch-node--low-center-back .pitch-node__name {
+  top: auto;
+  bottom: calc(100% + 3px);
 }
 
 .pitch--compact {
@@ -3060,7 +2872,7 @@ h3 {
   }
 
   .hero-scroll-scene {
-    height: 520svh;
+    height: 700svh;
   }
 
   .hero-scroll-sticky {
@@ -3099,14 +2911,6 @@ h3 {
     min-height: 360px;
   }
 
-  .hero-showcase::before {
-    inset: 4% 0 2%;
-  }
-
-  .hero-rivalry-field {
-    inset: 15% 3% 12%;
-  }
-
   .hero-card {
     width: 148px !important;
     min-height: 270px !important;
@@ -3134,43 +2938,12 @@ h3 {
   }
 
   .hero-rival-cards {
-    inset: 17% 1% 13%;
+    inset: 3% 0;
     gap: 0;
   }
 
-  .hero-year-status {
-    top: 5%;
-    left: 5%;
-  }
-
-  .hero-year-rail {
-    bottom: 4%;
-    left: 5%;
-    gap: 7px;
-  }
-
-  .hero-year-rail__item {
-    font-size: 0;
-  }
-
-  .hero-year-rail__item i {
-    width: 5px;
-    height: 5px;
-  }
-
-  .hero-year-rail__item--active i {
-    width: 22px;
-  }
-
-  .showcase-plaque {
-    right: 2%;
-    bottom: 0;
-    min-width: 170px;
-    padding: 10px 12px;
-  }
-
-  .hero-scroll-cue {
-    display: none;
+  .hero-background-year {
+    font-size: clamp(7.2rem, 34vw, 10rem);
   }
 
   .section {
@@ -3521,14 +3294,6 @@ h3 {
     width: 136px !important;
   }
 
-  .showcase-plaque {
-    min-width: 145px;
-  }
-
-  .showcase-plaque span {
-    display: none;
-  }
-
   .team-ratings {
     gap: 5px;
   }
@@ -3551,10 +3316,6 @@ h3 {
   .hero-scroll-sticky {
     position: relative;
     min-height: 100svh;
-  }
-
-  .hero-scroll-cue {
-    display: none;
   }
 
   *,
@@ -5358,143 +5119,9 @@ button.squad-chip:focus-visible {
   line-height: 1.5;
 }
 
-.credits-page {
-  min-height: 100vh;
-  background:
-    linear-gradient(rgba(4, 5, 4, 0.88), #050706 620px),
-    url("/atmosphere/regal-stadium.png") center top / 1800px auto no-repeat;
-}
-
-.credits-header {
-  border-bottom: 1px solid rgba(203, 166, 74, 0.12);
-}
-
-.credits-header .container {
-  display: flex;
-  min-height: 82px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.credits-main {
-  padding: 76px 0 110px;
-}
-
-.credits-hero {
-  max-width: 820px;
-}
-
-.credits-hero h1 {
-  margin: 18px 0;
-  font-size: clamp(3rem, 7vw, 6rem);
-  letter-spacing: -0.065em;
-  line-height: 0.94;
-}
-
-.credits-hero > p,
 .section-copy {
   color: var(--muted);
   line-height: 1.7;
-}
-
-.credits-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 30px;
-}
-
-.credits-metrics span {
-  padding: 13px 16px;
-  border: 1px solid rgba(203, 166, 74, 0.17);
-  border-radius: 999px;
-  background: rgba(203, 166, 74, 0.045);
-  font-size: 0.73rem;
-}
-
-.credits-metrics b {
-  color: var(--gold-bright);
-}
-
-.credits-method {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  margin-top: 70px;
-}
-
-.credits-method > div {
-  padding: 28px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.025);
-}
-
-.credits-method h2 {
-  margin: 12px 0 8px;
-}
-
-.credits-method p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.65;
-}
-
-.attribution-section {
-  margin-top: 80px;
-}
-
-.attribution-section h2 {
-  margin: 12px 0;
-  font-size: 2rem;
-}
-
-.attribution-list {
-  display: grid;
-  gap: 7px;
-  margin-top: 24px;
-}
-
-.attribution-list article {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 13px 15px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.attribution-list article > div {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.attribution-list span,
-.attribution-list code {
-  overflow: hidden;
-  color: #828c84;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.55rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.attribution-list a {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--gold-bright);
-  font-size: 0.66rem;
-}
-
-.attribution-list--dense {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 @media (max-width: 1000px) {
@@ -5551,9 +5178,7 @@ button.squad-chip:focus-visible {
     padding-top: 22px;
   }
 
-  .era-grid--flow,
-  .credits-method,
-  .attribution-list--dense {
+  .era-grid--flow {
     grid-template-columns: 1fr;
   }
 
@@ -5652,14 +5277,6 @@ button.squad-chip:focus-visible {
     height: 190px;
   }
 
-  .credits-main {
-    padding-top: 45px;
-  }
-
-  .attribution-list article {
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6204,7 +5821,7 @@ button.squad-chip:focus-visible {
   }
 }
 
-/* Database, photo-pending archive, and playable All-Stars milestone */
+/* Database, neutral identity markers, and playable All-Stars */
 
 .hero-card {
   pointer-events: none;
@@ -6518,13 +6135,10 @@ button.squad-chip:focus-visible {
 
 .database-grid {
   display: grid;
-  max-height: 1180px;
-  overflow-y: auto;
+  overflow: visible;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 9px;
-  padding: 2px 6px 2px 2px;
-  overscroll-behavior: contain;
-  scrollbar-color: rgba(203, 166, 74, 0.42) transparent;
+  padding: 2px;
 }
 
 .database-card {
@@ -6691,7 +6305,6 @@ button.squad-chip:focus-visible {
   }
 
   .database-grid {
-    max-height: 900px;
     grid-template-columns: 1fr;
   }
 
@@ -6713,7 +6326,7 @@ button.squad-chip:focus-visible {
   }
 }
 
-/* Exact-year faces, three-manager offers, and selected-card dossier */
+/* Card-specific faces, three-manager offers, and selected-card dossier */
 .circular-portrait,
 .circular-portrait__mask {
   width: var(--portrait-size);

@@ -4,6 +4,13 @@ import path from "node:path";
 const ROOT = process.cwd();
 const SOURCE_DIR = path.join(ROOT, "data", "sources", "fjelstul-world-cup");
 const OUTPUT = path.join(ROOT, "src", "data", "opponents", "generated.ts");
+const CHAMPION_OUTPUT = path.join(
+  ROOT,
+  "src",
+  "data",
+  "opponents",
+  "champion-rosters.generated.json",
+);
 const YEARS = [
   1970, 1974, 1978, 1982, 1986, 1990, 1994, 1998, 2002, 2006, 2010, 2014,
   2018, 2022,
@@ -93,6 +100,11 @@ const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
+const personName = (givenName: string, familyName: string) =>
+  [givenName === "not applicable" ? "" : givenName, familyName]
+    .filter(Boolean)
+    .join(" ");
+
 const finishFor = (performance: string, team: string, winner: string) => {
   if (performance === "final") return team === winner ? "champion" : "runner-up";
   if (performance === "third-place match") return "semi-finals";
@@ -110,14 +122,27 @@ const baseForFinish: Record<string, number> = {
 };
 
 const main = async () => {
-  const [qualifiedCsv, tournamentsCsv, teamsCsv] = await Promise.all([
+  const [
+    qualifiedCsv,
+    tournamentsCsv,
+    teamsCsv,
+    appearancesCsv,
+    squadsCsv,
+    appointmentsCsv,
+  ] = await Promise.all([
     readFile(path.join(SOURCE_DIR, "qualified_teams.csv"), "utf8"),
     readFile(path.join(SOURCE_DIR, "tournaments.csv"), "utf8"),
     readFile(path.join(SOURCE_DIR, "teams.csv"), "utf8"),
+    readFile(path.join(SOURCE_DIR, "player_appearances.csv"), "utf8"),
+    readFile(path.join(SOURCE_DIR, "squads.csv"), "utf8"),
+    readFile(path.join(SOURCE_DIR, "manager_appointments.csv"), "utf8"),
   ]);
   const qualified = parseCsv(qualifiedCsv);
   const tournaments = parseCsv(tournamentsCsv);
   const teams = parseCsv(teamsCsv);
+  const appearances = parseCsv(appearancesCsv);
+  const squads = parseCsv(squadsCsv);
+  const appointments = parseCsv(appointmentsCsv);
   const tournamentById = new Map(
     tournaments.map((tournament) => [tournament.tournament_id, tournament]),
   );
@@ -211,6 +236,107 @@ const main = async () => {
     throw new Error("Duplicate historical opponent ids");
   }
 
+  const championRosters = YEARS.map((tournamentYear) => {
+    const tournamentId = `WC-${tournamentYear}`;
+    const tournament = tournamentById.get(tournamentId);
+    if (!tournament) throw new Error(`${tournamentId}: tournament missing`);
+    const winner = qualified.find(
+      (entry) =>
+        entry.tournament_id === tournamentId &&
+        entry.team_name === tournament.winner,
+    );
+    if (!winner) throw new Error(`${tournamentId}: champion missing`);
+
+    const finalAppearances = appearances.filter(
+      (appearance) =>
+        appearance.tournament_id === tournamentId &&
+        appearance.team_id === winner.team_id &&
+        appearance.stage_name === "final",
+    );
+    const starters = finalAppearances.filter(
+      (appearance) => appearance.starter === "1",
+    );
+    if (starters.length !== 11) {
+      throw new Error(
+        `${tournamentId} ${winner.team_name}: expected 11 final starters, found ${starters.length}`,
+      );
+    }
+
+    const squad = squads.filter(
+      (player) =>
+        player.tournament_id === tournamentId &&
+        player.team_id === winner.team_id,
+    );
+    const starterIds = new Set(starters.map((player) => player.player_id));
+    const finalAppearanceByPlayerId = new Map(
+      finalAppearances.map((player) => [player.player_id, player]),
+    );
+    const finalSubstituteOrder = new Map(
+      finalAppearances
+        .filter((player) => player.substitute === "1")
+        .map((player, index) => [player.player_id, index]),
+    );
+    const substitutePool = squad
+      .filter((player) => !starterIds.has(player.player_id))
+      .sort((first, second) => {
+        const firstOrder =
+          finalSubstituteOrder.get(first.player_id) ?? Number.MAX_SAFE_INTEGER;
+        const secondOrder =
+          finalSubstituteOrder.get(second.player_id) ?? Number.MAX_SAFE_INTEGER;
+        return (
+          firstOrder - secondOrder ||
+          Number(first.shirt_number) - Number(second.shirt_number) ||
+          first.player_id.localeCompare(second.player_id)
+        );
+      });
+    const manager = appointments.find(
+      (appointment) =>
+        appointment.tournament_id === tournamentId &&
+        appointment.team_id === winner.team_id,
+    );
+    if (!manager) {
+      throw new Error(`${tournamentId} ${winner.team_name}: manager missing`);
+    }
+
+    const playerRecord = (
+      player: Record<string, string>,
+      starter: boolean,
+    ) => {
+      const appearance = finalAppearanceByPlayerId.get(player.player_id);
+      return {
+        sourcePlayerId: player.player_id,
+        name: personName(player.given_name, player.family_name),
+        sourcePositionCode:
+          appearance?.position_code || player.position_code,
+        shirtNumber: Number(player.shirt_number),
+        starter,
+        appearedAsSubstituteInFinal:
+          appearance?.substitute === "1",
+      };
+    };
+
+    return {
+      id: `${slugify(winner.team_name)}-${tournamentYear}`,
+      tournamentYear,
+      nationCode: winner.team_code,
+      nationName: winner.team_name,
+      finalMatchId: starters[0]?.match_id,
+      finalMatchName: starters[0]?.match_name,
+      manager: {
+        sourceManagerId: manager.manager_id,
+        name: personName(manager.given_name, manager.family_name),
+      },
+      startingLineup: starters.map((player) => playerRecord(player, true)),
+      substitutes: substitutePool.map((player) =>
+        playerRecord(player, false),
+      ),
+    };
+  }).sort(
+    (first, second) =>
+      second.tournamentYear - first.tournamentYear ||
+      first.nationName.localeCompare(second.nationName),
+  );
+
   const output = `// Generated by scripts/import-world-cup-teams.ts from the vendored
 // Fjelstul World Cup Database qualified_teams, tournaments, and teams tables.
 // Team participation, match counts, and finishes are sourced facts. Tactical
@@ -245,7 +371,14 @@ export const historicalOpponentsById = new Map(
 );
 `;
   await writeFile(OUTPUT, output);
+  await writeFile(
+    CHAMPION_OUTPUT,
+    `${JSON.stringify(championRosters, null, 2)}\n`,
+  );
   console.log(`Generated ${rows.length} historical opponents in ${OUTPUT}`);
+  console.log(
+    `Generated ${championRosters.length} champion final rosters in ${CHAMPION_OUTPUT}`,
+  );
 };
 
 void main();

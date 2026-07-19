@@ -9,9 +9,13 @@ import { calculateTeamRatings } from "@/engine/ratings";
 import { useGameStore } from "@/store/game-store";
 
 const motionPreference = vi.hoisted(() => ({ reduce: false }));
+const navigation = vi.hoisted(() => ({
+  push: vi.fn(),
+  replace: vi.fn(),
+}));
 
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
+  useRouter: () => navigation,
 }));
 
 vi.mock("framer-motion", async () => {
@@ -26,6 +30,8 @@ vi.mock("framer-motion", async () => {
 describe("DraftBoard", () => {
   beforeEach(() => {
     motionPreference.reduce = false;
+    navigation.push.mockClear();
+    navigation.replace.mockClear();
     localStorage.clear();
     useGameStore.getState().clearGame();
     useGameStore.getState().selectEra("all");
@@ -227,24 +233,61 @@ describe("DraftBoard", () => {
     expect(useGameStore.getState().managerOptionIds).toHaveLength(3);
   });
 
-  it("opens the Chemistry explanation and removes technical guarantee copy", async () => {
+  it("keeps the Chemistry dialog concise, scroll-locked, repeatable, and focus-safe", async () => {
     const user = userEvent.setup();
     render(<DraftBoard />);
     expect(
       screen.queryByText(/Five unique identities|completion path guaranteed/i),
     ).not.toBeInTheDocument();
-    await user.click(
-      screen.getByRole("button", { name: /chemistry information/i }),
-    );
-    const dialog = screen.getByRole("dialog", {
-      name: /how chemistry works/i,
+    const trigger = screen.getByRole("button", {
+      name: /chemistry information/i,
     });
-    expect(dialog).toHaveTextContent(
-      "Chemistry measures how naturally your fourteen-player squad works together.",
+    await user.click(trigger);
+    const dialog = screen.getByRole("dialog", {
+      name: "CHEMISTRY",
+    });
+    expect(dialog).toHaveTextContent("How naturally your squad works together.");
+    expect(within(dialog).getByLabelText("Chemistry factors").children).toHaveLength(
+      6,
     );
     expect(dialog).toHaveTextContent(
-      "A lower-rated player with excellent fit may improve the squad",
+      "Players perform better in roles that suit them.",
     );
+    expect(dialog).toHaveTextContent(
+      "90–100ELITE",
+    );
+    expect(document.body.style.overflow).toBe("hidden");
+    expect(document.body.style.position).toBe("fixed");
+    await waitFor(() =>
+      expect(
+        within(dialog).getByRole("button", {
+          name: /close chemistry information/i,
+        }),
+      ).toHaveFocus(),
+    );
+
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog", { name: "CHEMISTRY" })).not.toBeInTheDocument();
+    await waitFor(() => expect(trigger).toHaveFocus());
+    expect(document.body.style.overflow).toBe("");
+    expect(document.body.style.position).toBe("");
+
+    await user.keyboard(" ");
+    expect(screen.getByRole("dialog", { name: "CHEMISTRY" })).toBeInTheDocument();
+    const backdrop = document.querySelector(".dialog-backdrop");
+    expect(backdrop).not.toBeNull();
+    await user.click(backdrop!);
+    expect(screen.queryByRole("dialog", { name: "CHEMISTRY" })).not.toBeInTheDocument();
+    await waitFor(() => expect(trigger).toHaveFocus());
+
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("dialog", { name: "CHEMISTRY" })).toBeInTheDocument();
+    await user.click(
+      screen.getByRole("button", {
+        name: /close chemistry information/i,
+      }),
+    );
+    await waitFor(() => expect(trigger).toHaveFocus());
   });
 
   it("shows a positive placement penalty for the exact awkward slot", async () => {
@@ -283,5 +326,25 @@ describe("DraftBoard", () => {
     expect(screen.getByLabelText("Selected player preview")).toHaveTextContent(
       `Placement Penalty −${preview.penaltyPercent}%`,
     );
+  });
+
+  it("routes a completed World Cup Run bench review to the tournament", async () => {
+    const user = userEvent.setup();
+    useGameStore.setState({
+      gameMode: "world-cup-run",
+      draftPhase: "review",
+      benchPicks: [
+        { slotId: "bench-1", cardId: "manuel-neuer-2014" },
+        { slotId: "bench-2", cardId: "lionel-messi-2014" },
+        { slotId: "bench-3", cardId: "cristiano-ronaldo-2014" },
+      ],
+    });
+    render(<DraftBoard />);
+
+    await user.click(
+      screen.getByRole("button", { name: /enter world cup/i }),
+    );
+    expect(useGameStore.getState().draftPhase).toBe("opponent");
+    expect(navigation.push).toHaveBeenCalledWith("/play/world-cup-run");
   });
 });

@@ -1,6 +1,7 @@
 import { playerSeedSchema } from "@/lib/validation";
 import { playerCareerDataByIdentityId } from "@/data/player-career-data";
 import tournamentArchiveJson from "@/data/player-tournaments.generated.json";
+import fbrefWorldCupArchiveJson from "@/data/player-world-cup-fbref.generated.json";
 import type {
   Confederation,
   DataCitation,
@@ -12,6 +13,7 @@ import type {
   EraLegacy,
   EraTranslationProfile,
   TournamentAchievement,
+  TournamentFinish,
   TournamentStatLine,
 } from "@/types/game";
 import { tournamentEraFor } from "@/data/eras";
@@ -191,6 +193,13 @@ const tournamentRatingOverrides: Record<string, number> = {
   "neymar-2014": 90,
   "harry-kane-2018": 92,
   "romelu-lukaku-2018": 88,
+  "james-rodriguez-2014": 94,
+  "cafu-1994": 84,
+  "cafu-1998": 88,
+  "cafu-2006": 74,
+  "neymar-2018": 85,
+  "neymar-2022": 86,
+  "harry-kane-2022": 86,
 };
 
 export const playerStatusFor = (overall: number): PlayerStatusTier => {
@@ -250,6 +259,27 @@ const fifa2018StatsSource: DataCitation = {
   label: "Will World Cup stars shine at The Best?",
   url: "https://inside.fifa.com/en/tournaments/mens/worldcup/2018russia/news/will-world-cup-stars-shine-at-the-best",
   publisher: "FIFA",
+  accessedOn: "2026-07-18",
+};
+
+const fbref2018GoalkeeperSource: DataCitation = {
+  label: "2018 World Cup goalkeeper statistics",
+  url: "https://fbref.com/en/comps/1/2018/keepers/2018-World-Cup-Stats",
+  publisher: "Sports Reference",
+  accessedOn: "2026-07-18",
+};
+
+const fifa2014JamesSource: DataCitation = {
+  label: "Germans reign as Brazil thrills the world",
+  url: "https://inside.fifa.com/tournaments/mens/worldcup/2014brazil/news/germans-reign-as-brazil-thrills-the-world-2404806",
+  publisher: "FIFA",
+  accessedOn: "2026-07-18",
+};
+
+const fbrefJamesNationalTeamSource: DataCitation = {
+  label: "James Rodríguez national-team statistics",
+  url: "https://fbref.com/en/players/715bf047/nat_tm/James-Rodriguez-National-Team-Stats",
+  publisher: "Sports Reference",
   accessedOn: "2026-07-18",
 };
 
@@ -333,6 +363,26 @@ type GeneratedTournamentArchive = {
 const tournamentArchive =
   tournamentArchiveJson as unknown as GeneratedTournamentArchive;
 
+type GeneratedFbrefWorldCupArchive = {
+  accessedOn: string;
+  records: Record<
+    string,
+    {
+      tournamentYear: number;
+      playerIdentityId: string;
+      playerName: string;
+      fbrefId: string | null;
+      stats: TournamentStatLine;
+      sourceUrl: string;
+      overviewUrl: string;
+      sourceKind: "competition-table" | "cached-player-profile";
+    }
+  >;
+};
+
+const fbrefWorldCupArchive =
+  fbrefWorldCupArchiveJson as unknown as GeneratedFbrefWorldCupArchive;
+
 const fjelstulTournamentSource: DataCitation = {
   label: `${tournamentArchive.source.name} v${tournamentArchive.source.version} — player appearances, goals, and awards`,
   url: tournamentArchive.source.url,
@@ -368,7 +418,47 @@ for (const [identityId, tournaments] of Object.entries(
   }
 }
 
+const fbrefEvidenceByCardId = new Map<string, Evidence>();
+for (const [cardId, record] of Object.entries(
+  fbrefWorldCupArchive.records,
+)) {
+  const sourcedStats = Object.fromEntries(
+    Object.entries(record.stats).filter(([, value]) => value !== null),
+  ) as Partial<TournamentStatLine>;
+  if (Object.keys(sourcedStats).length === 0) continue;
+  fbrefEvidenceByCardId.set(cardId, {
+    stats: sourcedStats,
+    sources: [
+      {
+        label: `FBref ${record.tournamentYear} World Cup player statistics`,
+        url: record.sourceUrl,
+        publisher: "Sports Reference",
+        accessedOn: fbrefWorldCupArchive.accessedOn,
+      },
+    ],
+  });
+}
+
 const curatedEvidenceByCardId: Record<string, Evidence> = {
+  "james-rodriguez-2014": {
+    stats: {
+      appearances: 5,
+      starts: 4,
+      minutes: 399,
+      goals: 6,
+      assists: 2,
+    },
+    sources: [fbrefJamesNationalTeamSource, fifa2014JamesSource],
+    achievements: [
+      achievement(
+        "golden-boot-2014",
+        "Golden Boot",
+        "Finished as the tournament’s leading scorer with six goals.",
+        0.35,
+        fifa2014JamesSource,
+      ),
+    ],
+  },
   "luka-modric-2018": {
     stats: { appearances: 7, minutes: 694, goals: 2, assists: 1 },
     sources: [fifa2018StatsSource],
@@ -383,8 +473,16 @@ const curatedEvidenceByCardId: Record<string, Evidence> = {
     ],
   },
   "thibaut-courtois-2018": {
-    stats: { cleanSheets: 3 },
-    sources: [fifa2018StatsSource],
+    stats: {
+      appearances: 7,
+      starts: 7,
+      minutes: 630,
+      saves: 27,
+      cleanSheets: 3,
+      goalsConceded: 6,
+      penaltiesSaved: 0,
+    },
+    sources: [fbref2018GoalkeeperSource, fifa2018StatsSource],
     achievements: [
       achievement(
         "golden-glove-2018",
@@ -511,6 +609,41 @@ const curatedEvidenceByCardId: Record<string, Evidence> = {
   },
 };
 
+const championTournamentKeys = new Set([
+  "BRA-1970",
+  "GER-1974",
+  "ARG-1978",
+  "ITA-1982",
+  "ARG-1986",
+  "GER-1990",
+  "BRA-1994",
+  "FRA-1998",
+  "BRA-2002",
+  "ITA-2006",
+  "ESP-2010",
+  "GER-2014",
+  "FRA-2018",
+  "ARG-2022",
+]);
+
+const tournamentFinishFor = (
+  performance: string,
+  teamCode?: string,
+  tournamentYear?: number,
+): TournamentFinish | null => {
+  if (performance === "final" && teamCode && tournamentYear) {
+    return championTournamentKeys.has(`${teamCode}-${tournamentYear}`)
+      ? "champion"
+      : "runner-up";
+  }
+  if (performance === "third-place match") return "semi-finals";
+  if (performance === "quarter-finals") return "quarter-finals";
+  if (performance === "round of 16") return "round of 16";
+  if (performance === "second group stage") return "second group stage";
+  if (performance === "group stage") return "group stage";
+  return null;
+};
+
 const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const nation = nations[seed.nation];
   const playerIdentityId = seed.id.replace(/-\d{4}$/, "");
@@ -521,16 +654,19 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     rebalanceRating(seed.overall);
   const base = defaultsFor(seed.primaryPosition, overall);
   const generatedEvidence = generatedEvidenceByCardId.get(seed.id) ?? {};
+  const fbrefEvidence = fbrefEvidenceByCardId.get(seed.id) ?? {};
   const curatedEvidence = curatedEvidenceByCardId[seed.id] ?? {};
   const evidence: Evidence = {
     stats: {
       ...generatedEvidence.stats,
+      ...fbrefEvidence.stats,
       ...curatedEvidence.stats,
     },
     sources: [
       ...new Map(
         [
           ...(generatedEvidence.sources ?? []),
+          ...(fbrefEvidence.sources ?? []),
           ...(curatedEvidence.sources ?? []),
         ].map((source) => [source.url, source]),
       ).values(),
@@ -544,6 +680,53 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
       ).values(),
     ],
   };
+  const stats: TournamentStatLine = {
+    appearances: null,
+    starts: null,
+    minutes: null,
+    goals: null,
+    assists: null,
+    cleanSheets: null,
+    saves: null,
+    goalsConceded: null,
+    penaltiesSaved: null,
+    ...evidence.stats,
+  };
+  const hasEvidenceField = (
+    candidate: Evidence,
+    key: keyof TournamentStatLine,
+  ) => Object.prototype.hasOwnProperty.call(candidate.stats ?? {}, key);
+  const statSourcesByField = Object.fromEntries(
+    (Object.keys(stats) as Array<keyof TournamentStatLine>)
+      .filter((key) => stats[key] !== null)
+      .map((key) => {
+        const source =
+          (hasEvidenceField(curatedEvidence, key)
+            ? curatedEvidence.sources?.[0]
+            : undefined) ??
+          (hasEvidenceField(fbrefEvidence, key)
+            ? fbrefEvidence.sources?.[0]
+            : undefined) ??
+          generatedEvidence.sources?.[0];
+        return source ? [key, source] : null;
+      })
+      .filter(
+        (
+          entry,
+        ): entry is [keyof TournamentStatLine, DataCitation] =>
+          entry !== null,
+      ),
+  );
+  const generatedTournament = tournamentArchive.identities[
+    playerIdentityId
+  ]?.find((item) => item.tournamentYear === seed.tournamentYear);
+  const tournamentFinish = generatedTournament
+    ? tournamentFinishFor(
+        generatedTournament.teamPerformance,
+        generatedTournament.teamCode,
+        generatedTournament.tournamentYear,
+      )
+    : null;
   const rebalancedOverrides = Object.fromEntries(
     Object.entries(seed.attributes ?? {}).map(([key, value]) => [
       key,
@@ -646,17 +829,13 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     ].slice(0, 4),
     isDraftEligible: true,
     draftIneligibilityReason: null,
-    tournamentStats: {
-      appearances: null,
-      starts: null,
-      minutes: null,
-      goals: null,
-      assists: null,
-      cleanSheets: null,
-      saves: null,
-      ...evidence.stats,
-    },
+    tournamentStats: stats,
     statSources: evidence.sources ?? [],
+    statSourcesByField,
+    tournamentFinish,
+    tournamentFinishSource: tournamentFinish
+      ? fjelstulTournamentSource
+      : null,
     achievements: evidence.achievements ?? [],
     careerStats: careerData?.careerStats ?? null,
     careerAccolades: careerData?.accolades ?? [],
@@ -1111,44 +1290,47 @@ const archiveSeeds = [...historicalCards, ...curatedSeeds, ...supplementalCards]
 
 const performanceRatingBonus: Record<string, number> = {
   "group stage": 0,
-  "round of 16": 2,
-  "second group stage": 3,
-  "quarter-final": 4,
-  "quarter-finals": 4,
-  "semi-finals": 6,
-  "third-place match": 6,
-  final: 7,
-  "final round": 7,
+  "round of 16": 1,
+  "second group stage": 2,
+  "quarter-final": 2,
+  "quarter-finals": 2,
+  "semi-finals": 3,
+  "third-place match": 3,
+  final: 4,
+  "final round": 4,
 };
 
-const estimatedTournamentRating = (
+const tournamentAwardRatingFloor = (
   tournament: GeneratedTournamentAppearance,
-) => {
-  const awardFloor = tournament.awards.reduce((floor, award) => {
+) =>
+  tournament.awards.reduce((floor, award) => {
     if (award.label === "Golden Ball") return Math.max(floor, 96);
-    if (award.label === "Silver Ball") return Math.max(floor, 94);
+    if (award.label === "Silver Ball") return Math.max(floor, 92);
     if (award.label === "Bronze Ball") return Math.max(floor, 92);
     if (award.label === "Golden Boot") return Math.max(floor, 93);
     return floor;
   }, 65);
+
+const enforcedTournamentAwardRatingFloor = (
+  tournament: GeneratedTournamentAppearance,
+) =>
+  tournament.awards.reduce((floor, award) => {
+    if (award.label === "Golden Ball") return Math.max(floor, 96);
+    if (award.label === "Silver Ball") return Math.max(floor, 92);
+    return floor;
+  }, 65);
+
+const estimatedTournamentRating = (
+  tournament: GeneratedTournamentAppearance,
+) => {
+  const awardFloor = tournamentAwardRatingFloor(tournament);
   const performanceRating =
-    65 +
-    Math.min(14, tournament.appearances * 2) +
-    Math.min(6, tournament.starts) +
-    Math.min(10, tournament.goals * 2) +
+    69 +
+    Math.min(7, tournament.appearances) +
+    Math.min(4, Math.ceil(tournament.starts / 2)) +
+    Math.min(8, tournament.goals * 2) +
     (performanceRatingBonus[tournament.teamPerformance] ?? 0);
   return Math.min(97, Math.max(65, awardFloor, performanceRating));
-};
-
-const distinctRating = (desired: number, used: Set<number>) => {
-  if (!used.has(desired)) return desired;
-  for (let distance = 1; distance <= 34; distance += 1) {
-    const lower = desired - distance;
-    if (lower >= 65 && !used.has(lower)) return lower;
-    const higher = desired + distance;
-    if (higher <= 99 && !used.has(higher)) return higher;
-  }
-  throw new Error("No distinct 65–99 tournament rating remains for identity");
 };
 
 const seedsByIdentityId = new Map<string, CardSeed[]>();
@@ -1168,7 +1350,6 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
       throw new Error(`${identityId}: tournament archive has no card seed`);
     }
     const seedById = new Map(identitySeeds.map((seed) => [seed.id, seed]));
-    const usedRatings = new Set<number>();
     return [...tournaments]
       .sort(
         (first, second) => first.tournamentYear - second.tournamentYear,
@@ -1183,13 +1364,15 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
               Math.abs(first.tournamentYear - tournament.tournamentYear) -
               Math.abs(second.tournamentYear - tournament.tournamentYear),
           )[0];
-        const desiredRating =
+        const awardFloor = enforcedTournamentAwardRatingFloor(tournament);
+        const desiredRating = Math.max(
+          awardFloor,
           tournamentRatingOverrides[id] ??
-          (exactSeed
-            ? rebalanceRating(exactSeed.overall)
-            : estimatedTournamentRating(tournament));
-        const finalOverall = distinctRating(desiredRating, usedRatings);
-        usedRatings.add(finalOverall);
+            (exactSeed
+              ? rebalanceRating(exactSeed.overall)
+              : estimatedTournamentRating(tournament)),
+        );
+        const finalOverall = desiredRating;
         const nation =
           tournament.teamCode in nations
             ? (tournament.teamCode as keyof typeof nations)

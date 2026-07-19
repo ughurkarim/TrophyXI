@@ -22,6 +22,13 @@ describe("draft engine", () => {
       (player) => player.id === "manuel-neuer-2014",
     )!;
     const striker = players.find((player) => player.id === "ronaldo-2002")!;
+    expect(getPositionFit(goalkeeper, formation.slots[0])).toBe(100);
+    expect(
+      getPlacementPenaltyPercent(
+        getPositionFit(goalkeeper, formation.slots[0]),
+      ),
+    ).toBe(0);
+    expect(getPositionFit(striker, formation.slots[0])).toBe(0);
     expect(isEligibleForSlot(goalkeeper, formation.slots[0])).toBe(true);
     expect(isEligibleForSlot(striker, formation.slots[0])).toBe(false);
     expect(isEligibleForSlot(goalkeeper, formation.slots[9])).toBe(false);
@@ -179,6 +186,35 @@ describe("draft engine", () => {
         players,
       ),
     ).toBe(true);
+  });
+
+  it("prefers identities that have not been shown recently when a viable pool remains", () => {
+    const first = generateDraftOptions(
+      draftEligiblePlayers,
+      formation,
+      [],
+      44_444,
+      0,
+    );
+    const remembered = first.map((player) => player.playerIdentityId);
+    const next = generateDraftOptions(
+      draftEligiblePlayers,
+      formation,
+      [],
+      44_444,
+      0,
+      {
+        seenIdentityCounts: Object.fromEntries(
+          remembered.map((identityId) => [identityId, 1]),
+        ),
+        recentIdentityIds: remembered,
+      },
+    );
+
+    expect(next).toHaveLength(5);
+    expect(
+      next.some((player) => remembered.includes(player.playerIdentityId)),
+    ).toBe(false);
   });
 
   it("detects impossible remaining drafts with maximum matching", () => {

@@ -11,14 +11,15 @@ export type GameFaceImportCandidate = {
   kind: GameFaceKind;
   tournamentYear: number;
   gameEdition: string;
+  gameEditionLaunchYear: number;
   sourceWebsite: string;
   sourceUrl: string;
   author: string;
   license: string;
   licenseUrl: string;
   retrievedOn: string;
-  matchQuality: "exact" | "manually-reviewed-exact-year";
-  exactYearEvidence: string;
+  matchQuality: "edition-verified" | "manually-reviewed-edition";
+  editionEvidence: string;
   permissionScope: "project-specific-ea-sofifa";
   requiredAttribution: string;
   preserveMetadataAndWatermarks: true;
@@ -67,6 +68,16 @@ export const isPermittedGameAssetHost = (sourceUrl: string) => {
   }
 };
 
+export const gameEditionLaunchYearFor = (gameEdition: string) =>
+  (
+    {
+      "FIFA 14": 2013,
+      "FIFA 18": 2017,
+      "FIFA 23": 2022,
+      "EA SPORTS FC 26": 2025,
+    } as Record<string, number>
+  )[gameEdition] ?? null;
+
 export const validateGameFaceCandidate = (
   candidate: GameFaceImportCandidate,
   card: GameFaceCardRef | undefined,
@@ -78,7 +89,17 @@ export const validateGameFaceCandidate = (
     errors.push("tournament year mismatch");
   }
   if (!candidate.gameEdition.trim()) errors.push("missing game edition");
-  const tournamentEdition = String(candidate.tournamentYear).slice(-2);
+  const expectedLaunchYear = gameEditionLaunchYearFor(candidate.gameEdition);
+  if (
+    expectedLaunchYear === null ||
+    candidate.gameEditionLaunchYear !== expectedLaunchYear
+  ) {
+    errors.push("game edition launch year is incorrect");
+  }
+  const tournamentEdition =
+    candidate.tournamentYear === 2022
+      ? "23"
+      : String(candidate.tournamentYear).slice(-2);
   const expectedGameEdition =
     candidate.tournamentYear === 2026
       ? "EA SPORTS FC 26"
@@ -90,7 +111,7 @@ export const validateGameFaceCandidate = (
     ) &&
     candidate.gameEdition !== expectedGameEdition
   ) {
-    errors.push("game edition is not the edition available by tournament June");
+    errors.push("game edition does not match the tournament-date edition");
   }
   if (!candidate.sourceWebsite.trim()) errors.push("missing source website");
   if (!candidate.author.trim()) errors.push("missing author or rights holder");
@@ -104,8 +125,8 @@ export const validateGameFaceCandidate = (
       errors.push("invalid license URL");
     }
   }
-  if (!candidate.exactYearEvidence.trim()) {
-    errors.push("missing exact-year evidence");
+  if (!candidate.editionEvidence.trim()) {
+    errors.push("missing tournament-edition evidence");
   }
   if (candidate.permissionScope !== "project-specific-ea-sofifa") {
     errors.push("project-specific EA/SoFIFA permission is not recorded");
@@ -198,7 +219,7 @@ export const summarizeGameFaceImport = (
         id: card.id,
         kind: card.kind,
         status: "photo-pending" as const,
-        reason: "No approved exact-year source is configured.",
+        reason: "No approved tournament-edition source is configured.",
       },
   );
   const count = (status: GameFaceImportResult["status"]) =>

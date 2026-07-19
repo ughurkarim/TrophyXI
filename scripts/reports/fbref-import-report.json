@@ -1,1457 +1,1455 @@
 {
-  "generatedAt": "2026-07-18T21:34:57.058Z",
+  "generatedAt": "2026-07-19T02:16:16.422Z",
   "mode": "refresh",
   "networkBlockedReason": "HTTP 403",
+  "retrievalPolicy": "Local cache first. Direct FBref refresh only when robots policy permits; when direct access is unavailable, the Internet Archive raw snapshot is used solely as the retrieval route for the cited FBref profile.",
   "totalPlayerIdentities": 287,
-  "reviewedMappings": 3,
-  "matchedPlayers": 0,
-  "manualReviewPlayers": 287,
-  "importedAccolades": 0,
+  "reviewedMappings": 287,
+  "matchedPlayers": 287,
+  "manualReviewPlayers": 0,
+  "importedAccolades": 836,
   "supplementaryAccolades": 8,
   "curatedTop100Players": 46,
   "validation": {
     "duplicateMappingIds": 0,
     "duplicateOutputIdentityIds": 0
   },
-  "matched": [],
-  "unresolved": [
-    {
-      "playerIdentityId": "pele",
-      "playerName": "Pelé",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jairzinho",
-      "playerName": "Jairzinho",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gerd-muller",
-      "playerName": "Gerd Müller",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "rivelino",
-      "playerName": "Rivelino",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "tostao",
-      "playerName": "Tostão",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "bobby-moore",
-      "playerName": "Bobby Moore",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gordon-banks",
-      "playerName": "Gordon Banks",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "teofilo-cubillas",
-      "playerName": "Teófilo Cubillas",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "giacinto-facchetti",
-      "playerName": "Giacinto Facchetti",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "murtaz-khurtsilava",
-      "playerName": "Murtaz Khurtsilava",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "johan-cruyff",
-      "playerName": "Johan Cruyff",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "franz-beckenbauer",
-      "playerName": "Franz Beckenbauer",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "johan-neeskens",
-      "playerName": "Johan Neeskens",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "sepp-maier",
-      "playerName": "Sepp Maier",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kazimierz-deyna",
-      "playerName": "Kazimierz Deyna",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "grzegorz-lato",
-      "playerName": "Grzegorz Lato",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "paul-breitner",
-      "playerName": "Paul Breitner",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "wolfgang-overath",
-      "playerName": "Wolfgang Overath",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "rene-houseman",
-      "playerName": "René Houseman",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "mario-kempes",
-      "playerName": "Mario Kempes",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "daniel-passarella",
-      "playerName": "Daniel Passarella",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ubaldo-fillol",
-      "playerName": "Ubaldo Fillol",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "rob-rensenbrink",
-      "playerName": "Rob Rensenbrink",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "zico",
-      "playerName": "Zico",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "claudio-gentile",
-      "playerName": "Claudio Gentile",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "paolo-rossi",
-      "playerName": "Paolo Rossi",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "arie-haan",
-      "playerName": "Arie Haan",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ruud-krol",
-      "playerName": "Ruud Krol",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "socrates",
-      "playerName": "Sócrates",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "falcao",
-      "playerName": "Falcão",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "zbigniew-boniek",
-      "playerName": "Zbigniew Boniek",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "dino-zoff",
-      "playerName": "Dino Zoff",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gaetano-scirea",
-      "playerName": "Gaetano Scirea",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "pierre-littbarski",
-      "playerName": "Pierre Littbarski",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jean-tigana",
-      "playerName": "Jean Tigana",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "diego-maradona",
-      "playerName": "Diego Maradona",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jorge-burruchaga",
-      "playerName": "Jorge Burruchaga",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jorge-valdano",
-      "playerName": "Jorge Valdano",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "harald-schumacher",
-      "playerName": "Harald Schumacher",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "lothar-matthaus",
-      "playerName": "Lothar Matthäus",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "michel-platini",
-      "playerName": "Michel Platini",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gary-lineker",
-      "playerName": "Gary Lineker",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "emilio-butragueno",
-      "playerName": "Emilio Butragueño",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "preben-elkj-r",
-      "playerName": "Preben Elkjær",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "igor-belanov",
-      "playerName": "Igor Belanov",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "salvatore-schillaci",
-      "playerName": "Salvatore Schillaci",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "andreas-brehme",
-      "playerName": "Andreas Brehme",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jurgen-klinsmann",
-      "playerName": "Jürgen Klinsmann",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "sergio-goycochea",
-      "playerName": "Sergio Goycochea",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "paul-gascoigne",
-      "playerName": "Paul Gascoigne",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "roger-milla",
-      "playerName": "Roger Milla",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "franco-baresi",
-      "playerName": "Franco Baresi",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "frank-rijkaard",
-      "playerName": "Frank Rijkaard",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "tomas-skuhravy",
-      "playerName": "Tomáš Skuhravý",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "romario",
-      "playerName": "Romário",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "roberto-baggio",
-      "playerName": "Roberto Baggio",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "bebeto",
-      "playerName": "Bebeto",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gheorghe-hagi",
-      "playerName": "Gheorghe Hagi",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "hristo-stoichkov",
-      "playerName": "Hristo Stoichkov",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "dunga",
-      "playerName": "Dunga",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "claudio-taffarel",
-      "playerName": "Cláudio Taffarel",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "paolo-maldini",
-      "playerName": "Paolo Maldini",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "tomas-brolin",
-      "playerName": "Tomas Brolin",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "oleg-salenko",
-      "playerName": "Oleg Salenko",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "fabien-barthez",
-      "playerName": "Fabien Barthez",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "oliver-kahn",
-      "playerName": "Oliver Kahn",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gianluigi-buffon",
-      "playerName": "Gianluigi Buffon",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "iker-casillas",
-      "playerName": "Iker Casillas",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "manuel-neuer",
-      "playerName": "Manuel Neuer",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "thibaut-courtois",
-      "playerName": "Thibaut Courtois",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "emiliano-martinez",
-      "playerName": "Emiliano Martínez",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "lilian-thuram",
-      "playerName": "Lilian Thuram",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "marcel-desailly",
-      "playerName": "Marcel Desailly",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "roberto-carlos",
-      "playerName": "Roberto Carlos",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "cafu",
-      "playerName": "Cafu",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "lucio",
-      "playerName": "Lúcio",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "fabio-cannavaro",
-      "playerName": "Fabio Cannavaro",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gianluca-zambrotta",
-      "playerName": "Gianluca Zambrotta",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "marco-materazzi",
-      "playerName": "Marco Materazzi",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "sergio-ramos",
-      "playerName": "Sergio Ramos",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "carles-puyol",
-      "playerName": "Carles Puyol",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "philipp-lahm",
-      "playerName": "Philipp Lahm",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "mats-hummels",
-      "playerName": "Mats Hummels",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "raphael-varane",
-      "playerName": "Raphaël Varane",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "lucas-hernandez",
-      "playerName": "Lucas Hernández",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "cristian-romero",
-      "playerName": "Cristian Romero",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
+  "matched": [
     {
       "playerIdentityId": "achraf-hakimi",
-      "playerName": "Achraf Hakimi",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "zinedine-zidane",
-      "playerName": "Zinedine Zidane",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "didier-deschamps",
-      "playerName": "Didier Deschamps",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "rivaldo",
-      "playerName": "Rivaldo",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ronaldinho",
-      "playerName": "Ronaldinho",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "andrea-pirlo",
-      "playerName": "Andrea Pirlo",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gennaro-gattuso",
-      "playerName": "Gennaro Gattuso",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "xavi",
-      "playerName": "Xavi",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "andres-iniesta",
-      "playerName": "Andrés Iniesta",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "sergio-busquets",
-      "playerName": "Sergio Busquets",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "toni-kroos",
-      "playerName": "Toni Kroos",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "bastian-schweinsteiger",
-      "playerName": "Bastian Schweinsteiger",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "paul-pogba",
-      "playerName": "Paul Pogba",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ngolo-kante",
-      "playerName": "N’Golo Kanté",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "luka-modric",
-      "playerName": "Luka Modrić",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kevin-de-bruyne",
-      "playerName": "Kevin De Bruyne",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "enzo-fernandez",
-      "playerName": "Enzo Fernández",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "mohammed-kudus",
-      "playerName": "Mohammed Kudus",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "thierry-henry",
-      "playerName": "Thierry Henry",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "davor-suker",
-      "playerName": "Davor Šuker",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ronaldo",
-      "playerName": "Ronaldo",
-      "sourceUrl": "https://fbref.com/en/players/57feb553/Ronaldo",
-      "reason": "HTTP 403"
-    },
-    {
-      "playerIdentityId": "miroslav-klose",
-      "playerName": "Miroslav Klose",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "francesco-totti",
-      "playerName": "Francesco Totti",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "fernando-torres",
-      "playerName": "Fernando Torres",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "david-villa",
-      "playerName": "David Villa",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "diego-forlan",
-      "playerName": "Diego Forlán",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "lionel-messi",
-      "playerName": "Lionel Messi",
-      "sourceUrl": "https://fbref.com/en/players/d70ce98e/Lionel-Messi",
-      "reason": "HTTP 403"
-    },
-    {
-      "playerIdentityId": "thomas-muller",
-      "playerName": "Thomas Müller",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "arjen-robben",
-      "playerName": "Arjen Robben",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "neymar",
-      "playerName": "Neymar",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "antoine-griezmann",
-      "playerName": "Antoine Griezmann",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kylian-mbappe",
-      "playerName": "Kylian Mbappé",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "julian-alvarez",
-      "playerName": "Julián Álvarez",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ismaila-sarr",
-      "playerName": "Ismaïla Sarr",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jose-luis-chilavert",
-      "playerName": "José Luis Chilavert",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "peter-schmeichel",
-      "playerName": "Peter Schmeichel",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "bixente-lizarazu",
-      "playerName": "Bixente Lizarazu",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "laurent-blanc",
-      "playerName": "Laurent Blanc",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "frank-de-boer",
-      "playerName": "Frank de Boer",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "javier-zanetti",
-      "playerName": "Javier Zanetti",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "christian-panucci",
-      "playerName": "Christian Panucci",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gary-neville",
-      "playerName": "Gary Neville",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "edgar-davids",
-      "playerName": "Edgar Davids",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "david-beckham",
-      "playerName": "David Beckham",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "dennis-bergkamp",
-      "playerName": "Dennis Bergkamp",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "michael-owen",
-      "playerName": "Michael Owen",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "marc-overmars",
-      "playerName": "Marc Overmars",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "gabriel-batistuta",
-      "playerName": "Gabriel Batistuta",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "dida",
-      "playerName": "Dida",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ashley-cole",
-      "playerName": "Ashley Cole",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "willy-sagnol",
-      "playerName": "Willy Sagnol",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "rio-ferdinand",
-      "playerName": "Rio Ferdinand",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "michael-ballack",
-      "playerName": "Michael Ballack",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "claude-makelele",
-      "playerName": "Claude Makélélé",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kaka",
-      "playerName": "Kaká",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "cristiano-ronaldo",
-      "playerName": "Cristiano Ronaldo",
-      "sourceUrl": "https://fbref.com/en/players/dea698d9/Cristiano-Ronaldo",
-      "reason": "HTTP 403"
-    },
-    {
-      "playerIdentityId": "luis-figo",
-      "playerName": "Luís Figo",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "marcelo",
-      "playerName": "Marcelo",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jordi-alba",
-      "playerName": "Jordi Alba",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "maicon",
-      "playerName": "Maicon",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "yassine-bounou",
-      "playerName": "Yassine Bounou",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "dominik-livakovic",
-      "playerName": "Dominik Livaković",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "theo-hernandez",
-      "playerName": "Theo Hernández",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "josko-gvardiol",
-      "playerName": "Joško Gvardiol",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "nicolas-otamendi",
-      "playerName": "Nicolás Otamendi",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "nahuel-molina",
-      "playerName": "Nahuel Molina",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "marcos-acuna",
-      "playerName": "Marcos Acuña",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "denzel-dumfries",
-      "playerName": "Denzel Dumfries",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "marquinhos",
-      "playerName": "Marquinhos",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "dayot-upamecano",
-      "playerName": "Dayot Upamecano",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "alexis-mac-allister",
-      "playerName": "Alexis Mac Allister",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "sofyan-amrabat",
-      "playerName": "Sofyan Amrabat",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jude-bellingham",
-      "playerName": "Jude Bellingham",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "frenkie-de-jong",
-      "playerName": "Frenkie de Jong",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "joshua-kimmich",
-      "playerName": "Joshua Kimmich",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "olivier-giroud",
-      "playerName": "Olivier Giroud",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "bukayo-saka",
-      "playerName": "Bukayo Saka",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "richarlison",
-      "playerName": "Richarlison",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "cody-gakpo",
-      "playerName": "Cody Gakpo",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "goncalo-ramos",
-      "playerName": "Gonçalo Ramos",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ritsu-doan",
-      "playerName": "Ritsu Dōan",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "son-heung-min",
-      "playerName": "Son Heung-min",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jorge-campos",
-      "playerName": "Jorge Campos",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "edwin-van-der-sar",
-      "playerName": "Edwin van der Sar",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "david-seaman",
-      "playerName": "David Seaman",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "rustu-recber",
-      "playerName": "Rüştü Reçber",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "marcos",
-      "playerName": "Marcos",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "lee-woon-jae",
-      "playerName": "Lee Woon-jae",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jens-lehmann",
-      "playerName": "Jens Lehmann",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ricardo",
-      "playerName": "Ricardo",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "mark-paston",
-      "playerName": "Mark Paston",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "tim-howard",
-      "playerName": "Tim Howard",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "keylor-navas",
-      "playerName": "Keylor Navas",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "guillermo-ochoa",
-      "playerName": "Guillermo Ochoa",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "hugo-lloris",
-      "playerName": "Hugo Lloris",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "danijel-subasic",
-      "playerName": "Danijel Subašić",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "mathew-ryan",
-      "playerName": "Mathew Ryan",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jaap-stam",
-      "playerName": "Jaap Stam",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "sol-campbell",
-      "playerName": "Sol Campbell",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "alpay-ozalan",
-      "playerName": "Alpay Özalan",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "hong-myung-bo",
-      "playerName": "Hong Myung-bo",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "alessandro-nesta",
-      "playerName": "Alessandro Nesta",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ricardo-carvalho",
-      "playerName": "Ricardo Carvalho",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "eric-abidal",
-      "playerName": "Éric Abidal",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "juan",
-      "playerName": "Juan",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "diego-godin",
-      "playerName": "Diego Godín",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ryan-nelsen",
-      "playerName": "Ryan Nelsen",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "winston-reid",
-      "playerName": "Winston Reid",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "yuji-nakazawa",
-      "playerName": "Yuji Nakazawa",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "rafael-marquez",
-      "playerName": "Rafael Márquez",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "john-mensah",
-      "playerName": "John Mensah",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "thiago-silva",
-      "playerName": "Thiago Silva",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "david-luiz",
-      "playerName": "David Luiz",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "pablo-zabaleta",
-      "playerName": "Pablo Zabaleta",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ezequiel-garay",
-      "playerName": "Ezequiel Garay",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "stefan-de-vrij",
-      "playerName": "Stefan de Vrij",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "daley-blind",
-      "playerName": "Daley Blind",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "matt-besler",
-      "playerName": "Matt Besler",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kieran-trippier",
-      "playerName": "Kieran Trippier",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "diego-laxalt",
-      "playerName": "Diego Laxalt",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "yerry-mina",
-      "playerName": "Yerry Mina",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "mario-fernandes",
-      "playerName": "Mário Fernandes",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "sime-vrsaljko",
-      "playerName": "Šime Vrsaljko",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "toby-alderweireld",
-      "playerName": "Toby Alderweireld",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kalidou-koulibaly",
-      "playerName": "Kalidou Koulibaly",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kim-min-jae",
-      "playerName": "Kim Min-jae",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "piero-hincapie",
-      "playerName": "Piero Hincapié",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "michael-laudrup",
-      "playerName": "Michael Laudrup",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "emmanuel-petit",
-      "playerName": "Emmanuel Petit",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "nicky-butt",
-      "playerName": "Nicky Butt",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ariel-ortega",
-      "playerName": "Ariel Ortega",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "cuauhtemoc-blanco",
-      "playerName": "Cuauhtémoc Blanco",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "sunday-oliseh",
-      "playerName": "Sunday Oliseh",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "juninho-paulista",
-      "playerName": "Juninho Paulista",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kleberson",
-      "playerName": "Kléberson",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "hasan-sas",
-      "playerName": "Hasan Şaş",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "yoo-sang-chul",
-      "playerName": "Yoo Sang-chul",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "landon-donovan",
-      "playerName": "Landon Donovan",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "pavel-nedved",
-      "playerName": "Pavel Nedvěd",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "maniche",
-      "playerName": "Maniche",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "deco",
-      "playerName": "Deco",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "juan-roman-riquelme",
-      "playerName": "Juan Román Riquelme",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "torsten-frings",
-      "playerName": "Torsten Frings",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "maxi-rodriguez",
-      "playerName": "Maxi Rodríguez",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "stephen-appiah",
-      "playerName": "Stephen Appiah",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "shunsuke-nakamura",
-      "playerName": "Shunsuke Nakamura",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "mesut-ozil",
-      "playerName": "Mesut Özil",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "wesley-sneijder",
-      "playerName": "Wesley Sneijder",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "mark-van-bommel",
-      "playerName": "Mark van Bommel",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "keisuke-honda",
-      "playerName": "Keisuke Honda",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "park-ji-sung",
-      "playerName": "Park Ji-sung",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "kevin-prince-boateng",
-      "playerName": "Kevin-Prince Boateng",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "simon-elliott",
-      "playerName": "Simon Elliott",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "james-rodriguez",
-      "playerName": "James Rodríguez",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "javier-mascherano",
-      "playerName": "Javier Mascherano",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "angel-di-maria",
-      "playerName": "Ángel Di María",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "yaya-toure",
-      "playerName": "Yaya Touré",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "bryan-ruiz",
-      "playerName": "Bryan Ruiz",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jermaine-jones",
-      "playerName": "Jermaine Jones",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ivan-rakitic",
-      "playerName": "Ivan Rakitić",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "eden-hazard",
-      "playerName": "Eden Hazard",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "dele-alli",
-      "playerName": "Dele Alli",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "aleksandr-golovin",
-      "playerName": "Aleksandr Golovin",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "wahbi-khazri",
-      "playerName": "Wahbi Khazri",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "azzedine-ounahi",
-      "playerName": "Azzedine Ounahi",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "tyler-adams",
-      "playerName": "Tyler Adams",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "salem-al-dawsari",
-      "playerName": "Salem Al-Dawsari",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "christian-vieri",
-      "playerName": "Christian Vieri",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "brian-laudrup",
-      "playerName": "Brian Laudrup",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "luis-hernandez",
-      "playerName": "Luis Hernández",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "victor-ikpeba",
-      "playerName": "Victor Ikpeba",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "hakan-sukur",
-      "playerName": "Hakan Şükür",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ilhan-mans-z",
-      "playerName": "İlhan Mansız",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "el-hadji-diouf",
-      "playerName": "El Hadji Diouf",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "ahn-jung-hwan",
-      "playerName": "Ahn Jung-hwan",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "jared-borgetti",
-      "playerName": "Jared Borgetti",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "andriy-shevchenko",
-      "playerName": "Andriy Shevchenko",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "lukas-podolski",
-      "playerName": "Lukas Podolski",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "david-trezeguet",
-      "playerName": "David Trezeguet",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "didier-drogba",
-      "playerName": "Didier Drogba",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "zlatan-ibrahimovic",
-      "playerName": "Zlatan Ibrahimović",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "luis-suarez",
-      "playerName": "Luis Suárez",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "asamoah-gyan",
-      "playerName": "Asamoah Gyan",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "siphiwe-tshabalala",
-      "playerName": "Siphiwe Tshabalala",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "chris-wood",
-      "playerName": "Chris Wood",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "tim-cahill",
-      "playerName": "Tim Cahill",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "samuel-etoo",
-      "playerName": "Samuel Eto’o",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "alexis-sanchez",
-      "playerName": "Alexis Sánchez",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "robin-van-persie",
-      "playerName": "Robin van Persie",
-      "reason": "No reviewed FBref identity mapping is stored."
-    },
-    {
-      "playerIdentityId": "joel-campbell",
-      "playerName": "Joel Campbell",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "sourceUrl": "https://fbref.com/en/players/e42d61c7/Achraf-Hakimi",
+      "accoladeCount": 4
     },
     {
       "playerIdentityId": "ahmed-musa",
-      "playerName": "Ahmed Musa",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "sourceUrl": "https://fbref.com/en/players/b7084daf/Ahmed-Musa",
+      "accoladeCount": 1
     },
     {
-      "playerIdentityId": "enner-valencia",
-      "playerName": "Enner Valencia",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "ahn-jung-hwan",
+      "sourceUrl": "https://fbref.com/en/players/6f10c5f4/Ahn-Jung-hwan",
+      "accoladeCount": 1
     },
     {
-      "playerIdentityId": "harry-kane",
-      "playerName": "Harry Kane",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "aleksandr-golovin",
+      "sourceUrl": "https://fbref.com/en/players/3708e9fa/Aleksandr-Golovin",
+      "accoladeCount": 1
     },
     {
-      "playerIdentityId": "romelu-lukaku",
-      "playerName": "Romelu Lukaku",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "alessandro-nesta",
+      "sourceUrl": "https://fbref.com/en/players/16cabe2a/Alessandro-Nesta",
+      "accoladeCount": 5
     },
     {
-      "playerIdentityId": "ivan-perisic",
-      "playerName": "Ivan Perišić",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "alexis-mac-allister",
+      "sourceUrl": "https://fbref.com/en/players/83d074ff/Alexis-Mac-Allister",
+      "accoladeCount": 2
     },
     {
-      "playerIdentityId": "denis-cheryshev",
-      "playerName": "Denis Cheryshev",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "alexis-sanchez",
+      "sourceUrl": "https://fbref.com/en/players/2c0f8e9e/Alexis-Sanchez",
+      "accoladeCount": 1
     },
     {
-      "playerIdentityId": "takashi-inui",
-      "playerName": "Takashi Inui",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "alpay-ozalan",
+      "sourceUrl": "https://fbref.com/en/players/e1a59314/Alpay-Ozalan",
+      "accoladeCount": 1
     },
     {
-      "playerIdentityId": "randal-kolo-muani",
-      "playerName": "Randal Kolo Muani",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "andrea-pirlo",
+      "sourceUrl": "https://fbref.com/en/players/71c5f16f/Andrea-Pirlo",
+      "accoladeCount": 8
     },
     {
-      "playerIdentityId": "mehdi-taremi",
-      "playerName": "Mehdi Taremi",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "andreas-brehme",
+      "sourceUrl": "https://fbref.com/en/players/42f22a8d/Andreas-Brehme",
+      "accoladeCount": 3
     },
     {
-      "playerIdentityId": "vincent-aboubakar",
-      "playerName": "Vincent Aboubakar",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "playerIdentityId": "andres-iniesta",
+      "sourceUrl": "https://fbref.com/en/players/cfd65a29/Andres-Iniesta",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "andriy-shevchenko",
+      "sourceUrl": "https://fbref.com/en/players/32eb0f30/Andriy-Shevchenko",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "angel-di-maria",
+      "sourceUrl": "https://fbref.com/en/players/19cda00b/Angel-Di-Maria",
+      "accoladeCount": 7
+    },
+    {
+      "playerIdentityId": "antoine-griezmann",
+      "sourceUrl": "https://fbref.com/en/players/df69b544/Antoine-Griezmann",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "arie-haan",
+      "sourceUrl": "https://fbref.com/en/players/c7721b97/Arie-Haan",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "ariel-ortega",
+      "sourceUrl": "https://fbref.com/en/players/48a53f33/Ariel-Ortega",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "arjen-robben",
+      "sourceUrl": "https://fbref.com/en/players/09586899/Arjen-Robben",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "asamoah-gyan",
+      "sourceUrl": "https://fbref.com/en/players/7f7bbbc2/Asamoah-Gyan",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "ashley-cole",
+      "sourceUrl": "https://fbref.com/en/players/be091289/Ashley-Cole",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "azzedine-ounahi",
+      "sourceUrl": "https://fbref.com/en/players/83299cc0/Azzedine-Ounahi",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "bastian-schweinsteiger",
+      "sourceUrl": "https://fbref.com/en/players/ccc22fea/Bastian-Schweinsteiger",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "bebeto",
+      "sourceUrl": "https://fbref.com/en/players/c837c895/Bebeto",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "bixente-lizarazu",
+      "sourceUrl": "https://fbref.com/en/players/2ab8a20e/Bixente-Lizarazu",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "bobby-moore",
+      "sourceUrl": "https://fbref.com/en/players/df7fbe9d/Bobby-Moore",
+      "accoladeCount": 4
     },
     {
       "playerIdentityId": "breel-embolo",
-      "playerName": "Breel Embolo",
-      "reason": "No reviewed FBref identity mapping is stored."
+      "sourceUrl": "https://fbref.com/en/players/0b4f388a/Breel-Embolo",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "brian-laudrup",
+      "sourceUrl": "https://fbref.com/en/players/d6d70954/Brian-Laudrup",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "bryan-ruiz",
+      "sourceUrl": "https://fbref.com/en/players/fa6292e2/Bryan-Ruiz",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "bukayo-saka",
+      "sourceUrl": "https://fbref.com/en/players/bc7dc64d/Bukayo-Saka",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "cafu",
+      "sourceUrl": "https://fbref.com/en/players/f0ee7526/Cafu",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "carles-puyol",
+      "sourceUrl": "https://fbref.com/en/players/7c0bda9b/Carles-Puyol",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "chris-wood",
+      "sourceUrl": "https://fbref.com/en/players/4e9a0555/Chris-Wood",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "christian-panucci",
+      "sourceUrl": "https://fbref.com/en/players/b0d1a3a8/Christian-Panucci",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "christian-vieri",
+      "sourceUrl": "https://fbref.com/en/players/1abff24a/Christian-Vieri",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "claude-makelele",
+      "sourceUrl": "https://fbref.com/en/players/c27d01de/Claude-Makelele",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "claudio-gentile",
+      "sourceUrl": "https://fbref.com/en/players/a8e22e15/Claudio-Gentile",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "claudio-taffarel",
+      "sourceUrl": "https://fbref.com/en/players/5a1f2bcf/Claudio-Taffarel",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "cody-gakpo",
+      "sourceUrl": "https://fbref.com/en/players/1971591f/Cody-Gakpo",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "cristian-romero",
+      "sourceUrl": "https://fbref.com/en/players/a3d94a58/Cristian-Romero",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "cristiano-ronaldo",
+      "sourceUrl": "https://fbref.com/en/players/dea698d9/Cristiano-Ronaldo",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "cuauhtemoc-blanco",
+      "sourceUrl": "https://fbref.com/en/players/5e9dba5d/Cuauhtemoc-Blanco",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "daley-blind",
+      "sourceUrl": "https://fbref.com/en/players/691bef82/Daley-Blind",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "daniel-passarella",
+      "sourceUrl": "https://fbref.com/en/players/4b737869/Daniel-Passarella",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "danijel-subasic",
+      "sourceUrl": "https://fbref.com/en/players/f6db3bd5/Danijel-Subasic",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "david-beckham",
+      "sourceUrl": "https://fbref.com/en/players/53539318/David-Beckham",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "david-luiz",
+      "sourceUrl": "https://fbref.com/en/players/c0e27d1a/David-Luiz",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "david-seaman",
+      "sourceUrl": "https://fbref.com/en/players/2d578837/David-Seaman",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "david-trezeguet",
+      "sourceUrl": "https://fbref.com/en/players/80183cb2/David-Trezeguet",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "david-villa",
+      "sourceUrl": "https://fbref.com/en/players/ade08a67/David-Villa",
+      "accoladeCount": 7
+    },
+    {
+      "playerIdentityId": "davor-suker",
+      "sourceUrl": "https://fbref.com/en/players/f3580cae/Davor-Suker",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "dayot-upamecano",
+      "sourceUrl": "https://fbref.com/en/players/d248cd8f/Dayot-Upamecano",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "deco",
+      "sourceUrl": "https://fbref.com/en/players/a8a2f283/Deco",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "dele-alli",
+      "sourceUrl": "https://fbref.com/en/players/cea4ee8f/Dele-Alli",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "denis-cheryshev",
+      "sourceUrl": "https://fbref.com/en/players/0ac94a23/Denis-Cheryshev",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "dennis-bergkamp",
+      "sourceUrl": "https://fbref.com/en/players/d8703fda/Dennis-Bergkamp",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "denzel-dumfries",
+      "sourceUrl": "https://fbref.com/en/players/481c9ece/Denzel-Dumfries",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "dida",
+      "sourceUrl": "https://fbref.com/en/players/294919b2/Dida",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "didier-deschamps",
+      "sourceUrl": "https://fbref.com/en/players/1d9b994f/Didier-Deschamps",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "didier-drogba",
+      "sourceUrl": "https://fbref.com/en/players/945dea33/Didier-Drogba",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "diego-forlan",
+      "sourceUrl": "https://fbref.com/en/players/d87d0dfc/Diego-Forlan",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "diego-godin",
+      "sourceUrl": "https://fbref.com/en/players/fc4f85b1/Diego-Godin",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "diego-laxalt",
+      "sourceUrl": "https://fbref.com/en/players/f26e3c59/Diego-Laxalt",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "diego-maradona",
+      "sourceUrl": "https://fbref.com/en/players/a2270ea2/Diego-Maradona",
+      "accoladeCount": 7
+    },
+    {
+      "playerIdentityId": "dino-zoff",
+      "sourceUrl": "https://fbref.com/en/players/471deff1/Dino-Zoff",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "dominik-livakovic",
+      "sourceUrl": "https://fbref.com/en/players/58f077c0/Dominik-Livakovic",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "dunga",
+      "sourceUrl": "https://fbref.com/en/players/02447eb1/Dunga",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "eden-hazard",
+      "sourceUrl": "https://fbref.com/en/players/a39bb753/Eden-Hazard",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "edgar-davids",
+      "sourceUrl": "https://fbref.com/en/players/19d5e43e/Edgar-Davids",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "edwin-van-der-sar",
+      "sourceUrl": "https://fbref.com/en/players/98ee8a67/Edwin-van-der-Sar",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "el-hadji-diouf",
+      "sourceUrl": "https://fbref.com/en/players/1a4542c8/El-Hadji-Diouf",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "emiliano-martinez",
+      "sourceUrl": "https://fbref.com/en/players/7956236f/Emiliano-Martinez",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "emilio-butragueno",
+      "sourceUrl": "https://fbref.com/en/players/7fec65ff/Emilio-Butragueno",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "emmanuel-petit",
+      "sourceUrl": "https://fbref.com/en/players/291358c4/Emmanuel-Petit",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "enner-valencia",
+      "sourceUrl": "https://fbref.com/en/players/fb485406/Enner-Valencia",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "enzo-fernandez",
+      "sourceUrl": "https://fbref.com/en/players/5ff4ab71/Enzo-Fernandez",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "eric-abidal",
+      "sourceUrl": "https://fbref.com/en/players/016828bd/Eric-Abidal",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "ezequiel-garay",
+      "sourceUrl": "https://fbref.com/en/players/ac3fb1be/Ezequiel-Garay",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "fabien-barthez",
+      "sourceUrl": "https://fbref.com/en/players/321646f0/Fabien-Barthez",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "fabio-cannavaro",
+      "sourceUrl": "https://fbref.com/en/players/51152527/Fabio-Cannavaro",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "falcao",
+      "sourceUrl": "https://fbref.com/en/players/cc2e8844/Paulo-Roberto-Falcao",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "fernando-torres",
+      "sourceUrl": "https://fbref.com/en/players/bdf7b97d/Fernando-Torres",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "francesco-totti",
+      "sourceUrl": "https://fbref.com/en/players/ed75b6c7/Francesco-Totti",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "franco-baresi",
+      "sourceUrl": "https://fbref.com/en/players/013b290d/Franco-Baresi",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "frank-de-boer",
+      "sourceUrl": "https://fbref.com/en/players/777eaa16/Frank-de-Boer",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "frank-rijkaard",
+      "sourceUrl": "https://fbref.com/en/players/32b0a133/Frank-Rijkaard",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "franz-beckenbauer",
+      "sourceUrl": "https://fbref.com/en/players/22e24cc2/Franz-Beckenbauer",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "frenkie-de-jong",
+      "sourceUrl": "https://fbref.com/en/players/1bacc518/Frenkie-de-Jong",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "gabriel-batistuta",
+      "sourceUrl": "https://fbref.com/en/players/792d83d1/Gabriel-Batistuta",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "gaetano-scirea",
+      "sourceUrl": "https://fbref.com/en/players/e07c4674/Gaetano-Scirea",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "gary-lineker",
+      "sourceUrl": "https://fbref.com/en/players/c2b90a23/Gary-Lineker",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "gary-neville",
+      "sourceUrl": "https://fbref.com/en/players/1b013e33/Gary-Neville",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "gennaro-gattuso",
+      "sourceUrl": "https://fbref.com/en/players/46b066b5/Gennaro-Gattuso",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "gerd-muller",
+      "sourceUrl": "https://fbref.com/en/players/0d32232a/Gerd-Muller",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "gheorghe-hagi",
+      "sourceUrl": "https://fbref.com/en/players/6fd25988/Gheorghe-Hagi",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "giacinto-facchetti",
+      "sourceUrl": "https://fbref.com/en/players/8873bedb/Giacinto-Facchetti",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "gianluca-zambrotta",
+      "sourceUrl": "https://fbref.com/en/players/94508225/Gianluca-Zambrotta",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "gianluigi-buffon",
+      "sourceUrl": "https://fbref.com/en/players/e40d028b/Gianluigi-Buffon",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "goncalo-ramos",
+      "sourceUrl": "https://fbref.com/en/players/f63cda26/Goncalo-Ramos",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "gordon-banks",
+      "sourceUrl": "https://fbref.com/en/players/82d95a5a/Gordon-Banks",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "grzegorz-lato",
+      "sourceUrl": "https://fbref.com/en/players/d6a4cff8/Grzegorz-Lato",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "guillermo-ochoa",
+      "sourceUrl": "https://fbref.com/en/players/1e9bde92/Guillermo-Ochoa",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "hakan-sukur",
+      "sourceUrl": "https://fbref.com/en/players/7a6fce9a/Hakan-Sukur",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "harald-schumacher",
+      "sourceUrl": "https://fbref.com/en/players/ffaf60cb/Harald-Schumacher",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "harry-kane",
+      "sourceUrl": "https://fbref.com/en/players/21a66f6a/Harry-Kane",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "hasan-sas",
+      "sourceUrl": "https://fbref.com/en/players/7a5fc42d/Hasan-Sas",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "hong-myung-bo",
+      "sourceUrl": "https://fbref.com/en/players/bf885df2/Hong-Myung-bo",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "hristo-stoichkov",
+      "sourceUrl": "https://fbref.com/en/players/57773b66/Hristo-Stoichkov",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "hugo-lloris",
+      "sourceUrl": "https://fbref.com/en/players/8f62b6ee/Hugo-Lloris",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "igor-belanov",
+      "sourceUrl": "https://fbref.com/en/players/d3106cbf/Igor-Belanov",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "iker-casillas",
+      "sourceUrl": "https://fbref.com/en/players/1ddbb0da/Iker-Casillas",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "ilhan-mans-z",
+      "sourceUrl": "https://fbref.com/en/players/52c52f81/Ilhan-Mans-z",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "ismaila-sarr",
+      "sourceUrl": "https://fbref.com/en/players/bfdb33aa/Ismaila-Sarr",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "ivan-perisic",
+      "sourceUrl": "https://fbref.com/en/players/6fe90922/Ivan-Perisic",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "ivan-rakitic",
+      "sourceUrl": "https://fbref.com/en/players/89f951b5/Ivan-Rakitic",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "jaap-stam",
+      "sourceUrl": "https://fbref.com/en/players/7c48a3ec/Jaap-Stam",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "jairzinho",
+      "sourceUrl": "https://fbref.com/en/players/3cee13fc/Jairzinho",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "james-rodriguez",
+      "sourceUrl": "https://fbref.com/en/players/715bf047/James-Rodriguez",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "jared-borgetti",
+      "sourceUrl": "https://fbref.com/en/players/f983f0d2/Jared-Borgetti",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "javier-mascherano",
+      "sourceUrl": "https://fbref.com/en/players/5070881b/Javier-Mascherano",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "javier-zanetti",
+      "sourceUrl": "https://fbref.com/en/players/2fb9e5c1/Javier-Zanetti",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "jean-tigana",
+      "sourceUrl": "https://fbref.com/en/players/47198ed8/Jean-Tigana",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "jens-lehmann",
+      "sourceUrl": "https://fbref.com/en/players/d1ca1129/Jens-Lehmann",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "jermaine-jones",
+      "sourceUrl": "https://fbref.com/en/players/0c577541/Jermaine-Jones",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "joel-campbell",
+      "sourceUrl": "https://fbref.com/en/players/895ff3ca/Joel-Campbell",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "johan-cruyff",
+      "sourceUrl": "https://fbref.com/en/players/fd5e6eed/Johan-Cruyff",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "johan-neeskens",
+      "sourceUrl": "https://fbref.com/en/players/f06738c7/Johan-Neeskens",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "john-mensah",
+      "sourceUrl": "https://fbref.com/en/players/142ed694/John-Mensah",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "jordi-alba",
+      "sourceUrl": "https://fbref.com/en/players/4601e194/Jordi-Alba",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "jorge-burruchaga",
+      "sourceUrl": "https://fbref.com/en/players/58170d5e/Jorge-Burruchaga",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "jorge-campos",
+      "sourceUrl": "https://fbref.com/en/players/b760eea5/Jorge-Campos",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "jorge-valdano",
+      "sourceUrl": "https://fbref.com/en/players/01a598d2/Jorge-Valdano",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "jose-luis-chilavert",
+      "sourceUrl": "https://fbref.com/en/players/8b88ac0e/Jose-Luis-Chilavert",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "joshua-kimmich",
+      "sourceUrl": "https://fbref.com/en/players/49296448/Joshua-Kimmich",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "josko-gvardiol",
+      "sourceUrl": "https://fbref.com/en/players/5ad50391/Josko-Gvardiol",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "juan",
+      "sourceUrl": "https://fbref.com/en/players/0e5b2af1/Juan",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "juan-roman-riquelme",
+      "sourceUrl": "https://fbref.com/en/players/04381207/Juan-Roman-Riquelme",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "jude-bellingham",
+      "sourceUrl": "https://fbref.com/en/players/57d88cf9/Jude-Bellingham",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "julian-alvarez",
+      "sourceUrl": "https://fbref.com/en/players/15ab5a2b/Julian-Alvarez",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "juninho-paulista",
+      "sourceUrl": "https://fbref.com/en/players/093373a5/Juninho-Paulista",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "jurgen-klinsmann",
+      "sourceUrl": "https://fbref.com/en/players/7f97bf11/Jurgen-Klinsmann",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "kaka",
+      "sourceUrl": "https://fbref.com/en/players/b2d6ea70/Kaka",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "kalidou-koulibaly",
+      "sourceUrl": "https://fbref.com/en/players/da974c7b/Kalidou-Koulibaly",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "kazimierz-deyna",
+      "sourceUrl": "https://fbref.com/en/players/edccceaa/Kazimierz-Deyna",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "keisuke-honda",
+      "sourceUrl": "https://fbref.com/en/players/5cfc82a1/Keisuke-Honda",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "kevin-de-bruyne",
+      "sourceUrl": "https://fbref.com/en/players/e46012d4/Kevin-De-Bruyne",
+      "accoladeCount": 7
+    },
+    {
+      "playerIdentityId": "kevin-prince-boateng",
+      "sourceUrl": "https://fbref.com/en/players/f4ec4fd0/Kevin-Prince-Boateng",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "keylor-navas",
+      "sourceUrl": "https://fbref.com/en/players/ecada4fc/Keylor-Navas",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "kieran-trippier",
+      "sourceUrl": "https://fbref.com/en/players/21512407/Kieran-Trippier",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "kim-min-jae",
+      "sourceUrl": "https://fbref.com/en/players/e0f8151c/Kim-Min-jae",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "kleberson",
+      "sourceUrl": "https://fbref.com/en/players/b05f5f22/Jose-Kleberson",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "kylian-mbappe",
+      "sourceUrl": "https://fbref.com/en/players/42fd9c7f/Kylian-Mbappe",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "landon-donovan",
+      "sourceUrl": "https://fbref.com/en/players/594d4046/Landon-Donovan",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "laurent-blanc",
+      "sourceUrl": "https://fbref.com/en/players/51a9b34c/Laurent-Blanc",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "lee-woon-jae",
+      "sourceUrl": "https://fbref.com/en/players/1fbf6932/Lee-Woon-jae",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "lilian-thuram",
+      "sourceUrl": "https://fbref.com/en/players/643ca22c/Lilian-Thuram",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "lionel-messi",
+      "sourceUrl": "https://fbref.com/en/players/d70ce98e/Lionel-Messi",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "lothar-matthaus",
+      "sourceUrl": "https://fbref.com/en/players/94260e89/Lothar-Matthaus",
+      "accoladeCount": 7
+    },
+    {
+      "playerIdentityId": "lucas-hernandez",
+      "sourceUrl": "https://fbref.com/en/players/c3ee18ef/Lucas-Hernandez",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "lucio",
+      "sourceUrl": "https://fbref.com/en/players/8abd0414/Lucio",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "luis-figo",
+      "sourceUrl": "https://fbref.com/en/players/f20f347f/Luis-Figo",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "luis-hernandez",
+      "sourceUrl": "https://fbref.com/en/players/b05bb153/Luis-Hernandez",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "luis-suarez",
+      "sourceUrl": "https://fbref.com/en/players/a6154613/Luis-Suarez",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "luka-modric",
+      "sourceUrl": "https://fbref.com/en/players/6025fab1/Luka-Modric",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "lukas-podolski",
+      "sourceUrl": "https://fbref.com/en/players/88f0a9a0/Lukas-Podolski",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "maicon",
+      "sourceUrl": "https://fbref.com/en/players/fbc5d136/Maicon-Sisenando",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "maniche",
+      "sourceUrl": "https://fbref.com/en/players/0355c8b5/Maniche",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "manuel-neuer",
+      "sourceUrl": "https://fbref.com/en/players/8778c910/Manuel-Neuer",
+      "accoladeCount": 7
+    },
+    {
+      "playerIdentityId": "marc-overmars",
+      "sourceUrl": "https://fbref.com/en/players/c9cc6332/Marc-Overmars",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "marcel-desailly",
+      "sourceUrl": "https://fbref.com/en/players/9dfb97aa/Marcel-Desailly",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "marcelo",
+      "sourceUrl": "https://fbref.com/en/players/603116a7/Marcelo",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "marco-materazzi",
+      "sourceUrl": "https://fbref.com/en/players/5f08a3e3/Marco-Materazzi",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "marcos",
+      "sourceUrl": "https://fbref.com/en/players/d89577f6/Marcos",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "marcos-acuna",
+      "sourceUrl": "https://fbref.com/en/players/81442ecb/Marcos-Acuna",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "mario-fernandes",
+      "sourceUrl": "https://fbref.com/en/players/7c1a0c67/Mario-Fernandes",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "mario-kempes",
+      "sourceUrl": "https://fbref.com/en/players/42fe1917/Mario-Kempes",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "mark-paston",
+      "sourceUrl": "https://fbref.com/en/players/aaf56872/Mark-Paston",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "mark-van-bommel",
+      "sourceUrl": "https://fbref.com/en/players/f23bcfa3/Mark-van-Bommel",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "marquinhos",
+      "sourceUrl": "https://fbref.com/en/players/d5f2f82b/Marquinhos",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "mathew-ryan",
+      "sourceUrl": "https://fbref.com/en/players/4535e4bb/Mathew-Ryan",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "mats-hummels",
+      "sourceUrl": "https://fbref.com/en/players/05d548d8/Mats-Hummels",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "matt-besler",
+      "sourceUrl": "https://fbref.com/en/players/8393a973/Matt-Besler",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "maxi-rodriguez",
+      "sourceUrl": "https://fbref.com/en/players/4f06b1e0/Maxi-Rodriguez",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "mehdi-taremi",
+      "sourceUrl": "https://fbref.com/en/players/4c2a5d34/Mehdi-Taremi",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "mesut-ozil",
+      "sourceUrl": "https://fbref.com/en/players/16380240/Mesut-Ozil",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "michael-ballack",
+      "sourceUrl": "https://fbref.com/en/players/9d1b8b6b/Michael-Ballack",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "michael-laudrup",
+      "sourceUrl": "https://fbref.com/en/players/084e434f/Michael-Laudrup",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "michael-owen",
+      "sourceUrl": "https://fbref.com/en/players/88b3f52c/Michael-Owen",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "michel-platini",
+      "sourceUrl": "https://fbref.com/en/players/55512f39/Michel-Platini",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "miroslav-klose",
+      "sourceUrl": "https://fbref.com/en/players/5e36a0dd/Miroslav-Klose",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "mohammed-kudus",
+      "sourceUrl": "https://fbref.com/en/players/b62878a5/Mohammed-Kudus",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "murtaz-khurtsilava",
+      "sourceUrl": "https://fbref.com/en/players/10adb356/Murtaz-Khurtsilava",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "nahuel-molina",
+      "sourceUrl": "https://fbref.com/en/players/23610943/Nahuel-Molina",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "neymar",
+      "sourceUrl": "https://fbref.com/en/players/69384e5d/Neymar",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "ngolo-kante",
+      "sourceUrl": "https://fbref.com/en/players/b9fbae28/NGolo-Kante",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "nicky-butt",
+      "sourceUrl": "https://fbref.com/en/players/616b3f9a/Nicky-Butt",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "nicolas-otamendi",
+      "sourceUrl": "https://fbref.com/en/players/0d267745/Nicolas-Otamendi",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "oleg-salenko",
+      "sourceUrl": "https://fbref.com/en/players/534d6e8b/Oleg-Salenko",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "oliver-kahn",
+      "sourceUrl": "https://fbref.com/en/players/c53142b5/Oliver-Kahn",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "olivier-giroud",
+      "sourceUrl": "https://fbref.com/en/players/16ceb862/Olivier-Giroud",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "pablo-zabaleta",
+      "sourceUrl": "https://fbref.com/en/players/6813ac34/Pablo-Zabaleta",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "paolo-maldini",
+      "sourceUrl": "https://fbref.com/en/players/14323e81/Paolo-Maldini",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "paolo-rossi",
+      "sourceUrl": "https://fbref.com/en/players/221d901a/Paolo-Rossi",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "park-ji-sung",
+      "sourceUrl": "https://fbref.com/en/players/3de4cb30/Park-Ji-sung",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "paul-breitner",
+      "sourceUrl": "https://fbref.com/en/players/cba73b81/Paul-Breitner",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "paul-gascoigne",
+      "sourceUrl": "https://fbref.com/en/players/56c33229/Paul-Gascoigne",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "paul-pogba",
+      "sourceUrl": "https://fbref.com/en/players/867239d3/Paul-Pogba",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "pavel-nedved",
+      "sourceUrl": "https://fbref.com/en/players/ab059f29/Pavel-Nedved",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "pele",
+      "sourceUrl": "https://fbref.com/en/players/52961d3b/Pele",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "peter-schmeichel",
+      "sourceUrl": "https://fbref.com/en/players/f1fe7ffe/Peter-Schmeichel",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "philipp-lahm",
+      "sourceUrl": "https://fbref.com/en/players/de491a33/Philipp-Lahm",
+      "accoladeCount": 7
+    },
+    {
+      "playerIdentityId": "piero-hincapie",
+      "sourceUrl": "https://fbref.com/en/players/0c7a48f8/Piero-Hincapie",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "pierre-littbarski",
+      "sourceUrl": "https://fbref.com/en/players/8c870d08/Pierre-Littbarski",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "preben-elkj-r",
+      "sourceUrl": "https://fbref.com/en/players/75a72f6d/Preben-Elkjaer",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "rafael-marquez",
+      "sourceUrl": "https://fbref.com/en/players/ce067ffe/Rafael-Marquez",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "randal-kolo-muani",
+      "sourceUrl": "https://fbref.com/en/players/c0b3669f/Randal-Kolo-Muani",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "raphael-varane",
+      "sourceUrl": "https://fbref.com/en/players/9f8e9423/Raphael-Varane",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "rene-houseman",
+      "sourceUrl": "https://fbref.com/en/players/8490d56f/Rene-Houseman",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "ricardo",
+      "sourceUrl": "https://fbref.com/en/players/14086c90/Ricardo",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "ricardo-carvalho",
+      "sourceUrl": "https://fbref.com/en/players/57e7081e/Ricardo-Carvalho",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "richarlison",
+      "sourceUrl": "https://fbref.com/en/players/fa031b34/Richarlison",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "rio-ferdinand",
+      "sourceUrl": "https://fbref.com/en/players/52465662/Rio-Ferdinand",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "ritsu-doan",
+      "sourceUrl": "https://fbref.com/en/players/d01bbb6f/Ritsu-Doan",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "rivaldo",
+      "sourceUrl": "https://fbref.com/en/players/5c7f3153/Rivaldo",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "rivelino",
+      "sourceUrl": "https://fbref.com/en/players/b1255051/Rivellino",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "rob-rensenbrink",
+      "sourceUrl": "https://fbref.com/en/players/2805b896/Rob-Rensenbrink",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "roberto-baggio",
+      "sourceUrl": "https://fbref.com/en/players/2bd30258/Roberto-Baggio",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "roberto-carlos",
+      "sourceUrl": "https://fbref.com/en/players/6a3aaf62/Roberto-Carlos",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "robin-van-persie",
+      "sourceUrl": "https://fbref.com/en/players/3fcab3a8/Robin-van-Persie",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "roger-milla",
+      "sourceUrl": "https://fbref.com/en/players/1c557a10/Roger-Milla",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "romario",
+      "sourceUrl": "https://fbref.com/en/players/e8fad689/Romario",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "romelu-lukaku",
+      "sourceUrl": "https://fbref.com/en/players/5eae500a/Romelu-Lukaku",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "ronaldinho",
+      "sourceUrl": "https://fbref.com/en/players/34edcab0/Ronaldinho",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "ronaldo",
+      "sourceUrl": "https://fbref.com/en/players/57feb553/Ronaldo",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "rustu-recber",
+      "sourceUrl": "https://fbref.com/en/players/7a09afda/Rustu-Recber",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "ruud-krol",
+      "sourceUrl": "https://fbref.com/en/players/17d795ff/Ruud-Krol",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "ryan-nelsen",
+      "sourceUrl": "https://fbref.com/en/players/510f2c7c/Ryan-Nelsen",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "salem-al-dawsari",
+      "sourceUrl": "https://fbref.com/en/players/60ee859c/Salem-Al-Dawsari",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "salvatore-schillaci",
+      "sourceUrl": "https://fbref.com/en/players/394a694b/Salvatore-Schillaci",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "samuel-etoo",
+      "sourceUrl": "https://fbref.com/en/players/06420c93/Samuel-Eto-o",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "sepp-maier",
+      "sourceUrl": "https://fbref.com/en/players/c87070fa/Sepp-Maier",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "sergio-busquets",
+      "sourceUrl": "https://fbref.com/en/players/5ab0ea87/Sergio-Busquets",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "sergio-goycochea",
+      "sourceUrl": "https://fbref.com/en/players/c879395e/Sergio-Goycochea",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "sergio-ramos",
+      "sourceUrl": "https://fbref.com/en/players/08511d65/Sergio-Ramos",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "shunsuke-nakamura",
+      "sourceUrl": "https://fbref.com/en/players/72987abc/Shunsuke-Nakamura",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "sime-vrsaljko",
+      "sourceUrl": "https://fbref.com/en/players/46a8347f/Sime-Vrsaljko",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "simon-elliott",
+      "sourceUrl": "https://fbref.com/en/players/c6a45e6e/Simon-Elliott",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "siphiwe-tshabalala",
+      "sourceUrl": "https://fbref.com/en/players/0982d959/Siphiwe-Tshabalala",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "socrates",
+      "sourceUrl": "https://fbref.com/en/players/0532c68a/Socrates",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "sofyan-amrabat",
+      "sourceUrl": "https://fbref.com/en/players/5a2cb25d/Sofyan-Amrabat",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "sol-campbell",
+      "sourceUrl": "https://fbref.com/en/players/3e3b2fbd/Sol-Campbell",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "son-heung-min",
+      "sourceUrl": "https://fbref.com/en/players/92e7e919/Son-Heung-min",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "stefan-de-vrij",
+      "sourceUrl": "https://fbref.com/en/players/d0d8dd44/Stefan-de-Vrij",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "stephen-appiah",
+      "sourceUrl": "https://fbref.com/en/players/c4fb13cc/Stephen-Appiah",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "sunday-oliseh",
+      "sourceUrl": "https://fbref.com/en/players/77502ae4/Sunday-Oliseh",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "takashi-inui",
+      "sourceUrl": "https://fbref.com/en/players/61bd33d0/Takashi-Inui",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "teofilo-cubillas",
+      "sourceUrl": "https://fbref.com/en/players/a675e2b2/Teofilo-Cubillas",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "theo-hernandez",
+      "sourceUrl": "https://fbref.com/en/players/d4c9725f/Theo-Hernandez",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "thiago-silva",
+      "sourceUrl": "https://fbref.com/en/players/86e7deaf/Thiago-Silva",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "thibaut-courtois",
+      "sourceUrl": "https://fbref.com/en/players/1840e36d/Thibaut-Courtois",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "thierry-henry",
+      "sourceUrl": "https://fbref.com/en/players/c0c5ee74/Thierry-Henry",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "thomas-muller",
+      "sourceUrl": "https://fbref.com/en/players/3c6089ab/Thomas-Muller",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "tim-cahill",
+      "sourceUrl": "https://fbref.com/en/players/e5a2dfc2/Tim-Cahill",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "tim-howard",
+      "sourceUrl": "https://fbref.com/en/players/c444465e/Tim-Howard",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "toby-alderweireld",
+      "sourceUrl": "https://fbref.com/en/players/f7d50789/Toby-Alderweireld",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "tomas-brolin",
+      "sourceUrl": "https://fbref.com/en/players/73ff83e0/Tomas-Brolin",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "tomas-skuhravy",
+      "sourceUrl": "https://fbref.com/en/players/aabc1890/Tomas-Skuhravy",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "toni-kroos",
+      "sourceUrl": "https://fbref.com/en/players/6ce1f46f/Toni-Kroos",
+      "accoladeCount": 6
+    },
+    {
+      "playerIdentityId": "torsten-frings",
+      "sourceUrl": "https://fbref.com/en/players/e6c8ded2/Torsten-Frings",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "tostao",
+      "sourceUrl": "https://fbref.com/en/players/eeda344a/Tostao",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "tyler-adams",
+      "sourceUrl": "https://fbref.com/en/players/2b09d998/Tyler-Adams",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "ubaldo-fillol",
+      "sourceUrl": "https://fbref.com/en/players/e9f63c61/Ubaldo-Fillol",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "victor-ikpeba",
+      "sourceUrl": "https://fbref.com/en/players/03a1cdbe/Victor-Ikpeba",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "vincent-aboubakar",
+      "sourceUrl": "https://fbref.com/en/players/8637e09a/Vincent-Aboubakar",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "wahbi-khazri",
+      "sourceUrl": "https://fbref.com/en/players/2677a1de/Wahbi-Khazri",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "wesley-sneijder",
+      "sourceUrl": "https://fbref.com/en/players/ad625c12/Wesley-Sneijder",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "willy-sagnol",
+      "sourceUrl": "https://fbref.com/en/players/bc932987/Willy-Sagnol",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "winston-reid",
+      "sourceUrl": "https://fbref.com/en/players/562eed5c/Winston-Reid",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "wolfgang-overath",
+      "sourceUrl": "https://fbref.com/en/players/456470e3/Wolfgang-Overath",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "xavi",
+      "sourceUrl": "https://fbref.com/en/players/c1b4188c/Xavi",
+      "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "yassine-bounou",
+      "sourceUrl": "https://fbref.com/en/players/f6798fc3/Yassine-Bounou",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "yaya-toure",
+      "sourceUrl": "https://fbref.com/en/players/c204f844/Yaya-Toure",
+      "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "yerry-mina",
+      "sourceUrl": "https://fbref.com/en/players/6d5701f2/Yerry-Mina",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "yoo-sang-chul",
+      "sourceUrl": "https://fbref.com/en/players/c62719bd/Yoo-Sang-chul",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "yuji-nakazawa",
+      "sourceUrl": "https://fbref.com/en/players/8d71a3df/Yuji-Nakazawa",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "zbigniew-boniek",
+      "sourceUrl": "https://fbref.com/en/players/b947688b/Zbigniew-Boniek",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "zico",
+      "sourceUrl": "https://fbref.com/en/players/f78ed405/Zico",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "zinedine-zidane",
+      "sourceUrl": "https://fbref.com/en/players/654f4e63/Zinedine-Zidane",
+      "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "zlatan-ibrahimovic",
+      "sourceUrl": "https://fbref.com/en/players/4cde5509/Zlatan-Ibrahimovic",
+      "accoladeCount": 7
     }
-  ]
+  ],
+  "unresolved": []
 }

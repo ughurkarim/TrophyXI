@@ -9,14 +9,12 @@ import styles from "./formation-card.module.css";
 export function FormationCard({
   formation,
   selected,
-  recommended,
   onSelect,
   managerFit,
   eraFit,
 }: {
   formation: Formation;
   selected: boolean;
-  recommended: boolean;
   onSelect: () => void;
   managerFit: number;
   eraFit: number;
@@ -28,13 +26,10 @@ export function FormationCard({
         styles.card,
         selected && "formation-card--selected",
         selected && styles.selected,
-        recommended && styles.recommended,
       )}
       onClick={onSelect}
       aria-pressed={selected}
-      aria-label={`Choose ${formation.name} formation, Manager Fit ${managerFit}, Era Fit ${eraFit}${
-        recommended ? ", recommended" : ""
-      }`}
+      aria-label={`Choose ${formation.name} formation, Manager Fit ${managerFit}, Era Fit ${eraFit}`}
       data-formation-id={formation.id}
       data-manager-fit={managerFit}
       data-era-fit={eraFit}
@@ -44,9 +39,6 @@ export function FormationCard({
           TACTICAL IDENTITY · {formation.managerStyles[0]}
         </span>
         <span className={styles.badges}>
-          {recommended && (
-            <span className={styles.recommendedBadge}>Recommended</span>
-          )}
           {selected && (
             <span className={cn("selected-badge", styles.selectedBadge)}>
               <Check size={11} aria-hidden /> Selected

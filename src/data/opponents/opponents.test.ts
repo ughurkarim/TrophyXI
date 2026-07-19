@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { formations } from "@/data/formations";
-import { historicalOpponents, worldCupAllStars } from "@/data/opponents";
+import {
+  historicalOpponentArchive,
+  historicalOpponents,
+  matchOpponents,
+  worldCupAllStars,
+} from "@/data/opponents";
+import { resolveWorldCupAllStars } from "@/engine/all-stars";
 import { calculateOpponentEraFit } from "@/engine/era-translation";
 import { WORLD_CUP_YEARS } from "@/types/game";
 
@@ -23,23 +29,25 @@ const expected = new Map([
 ]);
 
 describe("historical opponents", () => {
-  it("represents every sourced participant from 1970 through 2026", () => {
-    expect(historicalOpponents).toHaveLength(416);
-    expect(new Set(historicalOpponents.map((opponent) => opponent.id)).size).toBe(
+  it("keeps the 416-team research archive separate from the 14 champion match pool", () => {
+    expect(historicalOpponentArchive).toHaveLength(416);
+    expect(new Set(historicalOpponentArchive.map((opponent) => opponent.id)).size).toBe(
       416,
     );
     for (const year of WORLD_CUP_YEARS) {
       expect(
-        historicalOpponents.filter(
+        historicalOpponentArchive.filter(
           (opponent) => opponent.tournamentYear === year,
         ),
       ).toHaveLength(expected.get(year)!);
     }
+    expect(historicalOpponents).toHaveLength(14);
+    expect(matchOpponents).toEqual([worldCupAllStars, ...historicalOpponents]);
   });
 
-  it("keeps sourced facts separate from original models", () => {
+  it("keeps sourced facts separate from original models in the research archive", () => {
     const formationIds = new Set(formations.map((formation) => formation.id));
-    for (const opponent of historicalOpponents) {
+    for (const opponent of historicalOpponentArchive) {
       expect(opponent.sources.length).toBeGreaterThan(0);
       if (opponent.tournamentYear === 2026) {
         expect(opponent.tournamentStats.matches).toBeNull();
@@ -53,18 +61,44 @@ describe("historical opponents", () => {
     }
   });
 
-  it("orders tournaments newest first and has no fabricated 2026 champion", () => {
-    const years = historicalOpponents.map(
+  it("orders the research archive newest first and has no fabricated 2026 champion", () => {
+    const years = historicalOpponentArchive.map(
       (opponent) => opponent.tournamentYear!,
     );
     expect(years).toEqual([...years].sort((first, second) => second - first));
     expect(
-      historicalOpponents.some(
+      historicalOpponentArchive.some(
         (opponent) =>
           opponent.tournamentYear === 2026 &&
           opponent.tournamentFinish === "champion",
       ),
     ).toBe(false);
+  });
+
+  it("gives every normal champion a sourced final XI, manager, roster, and fact", () => {
+    const formationIds = new Set(formations.map((formation) => formation.id));
+    expect(historicalOpponents.map((opponent) => opponent.tournamentYear)).toEqual([
+      2022, 2018, 2014, 2010, 2006, 2002, 1998, 1994, 1990, 1986, 1982,
+      1978, 1974, 1970,
+    ]);
+    for (const champion of historicalOpponents) {
+      expect(champion.tournamentFinish).toBe("champion");
+      expect(champion.dataStatus).toBe("verified-lineup");
+      expect(champion.managerName).toBeTruthy();
+      expect(champion.managerCardId).toBeTruthy();
+      expect(champion.formationLabel).toBeTruthy();
+      expect(formationIds.has(champion.formation)).toBe(true);
+      expect(champion.startingLineup).toHaveLength(11);
+      expect(champion.startingLineup.some((player) => player.position === "GK")).toBe(true);
+      expect(champion.substitutes.length).toBeGreaterThanOrEqual(3);
+      expect(champion.championFact).toBeTruthy();
+      expect(champion.championFactSource?.url).toMatch(/^https:/);
+      const squad = [...champion.startingLineup, ...champion.substitutes];
+      expect(new Set(squad.map((player) => player.playerIdentityId)).size).toBe(
+        squad.length,
+      );
+      expect(squad.every((player) => player.sourcePlayerId && player.rating)).toBe(true);
+    }
   });
 
   it("defines a unique, modeled, Mythic World Cup All-Stars squad", () => {
@@ -79,6 +113,25 @@ describe("historical opponents", () => {
     expect(worldCupAllStars.allStars?.manager.compositeLabel).toBe(
       "Trophy XI original composite manager.",
     );
+  });
+
+  it("resolves a complete World Cup XI around identities already drafted", () => {
+    const excluded = new Set([
+      "lionel-messi",
+      "ronaldo",
+      "manuel-neuer",
+      "paolo-maldini",
+    ]);
+    const resolved = resolveWorldCupAllStars(excluded);
+    const identities = [
+      ...resolved.startingLineup,
+      ...resolved.substitutes,
+    ].map((player) => player.playerIdentityId);
+
+    expect(resolved.startingLineup).toHaveLength(11);
+    expect(resolved.substitutes).toHaveLength(3);
+    expect(new Set(identities).size).toBe(14);
+    expect(identities.every((identity) => !excluded.has(identity))).toBe(true);
   });
 
   it("translates historical teams deterministically and bidirectionally", () => {

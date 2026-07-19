@@ -65,6 +65,8 @@ const participants = [
   readonly [string, string, Confederation]
 >;
 
+export const worldCup2026ParticipantNations = participants;
+
 const formations: FormationId[] = [
   "4-3-3",
   "4-2-3-1",

@@ -39,13 +39,13 @@ describe("MatchTimeline", () => {
       formation,
       manager: userManager,
       eraId: "2010s",
-      opponent: historicalOpponentsById.get("brazil-1970")!,
+      opponent: historicalOpponentsById.get("italy-1982")!,
       seed: 42,
     });
     render(
       <MatchTimeline
         result={result}
-        opponent={historicalOpponentsById.get("brazil-1970")!}
+        opponent={historicalOpponentsById.get("italy-1982")!}
         onSkip={onSkip}
       />,
     );

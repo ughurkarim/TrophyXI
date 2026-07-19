@@ -56,17 +56,17 @@ const positionBand = (position: Position) => {
   return 2;
 };
 
-const starterTierWeights: Record<PlayerStatusTier, number> = {
-  legend: 0.015,
-  icon: 0.055,
-  elite: 0.13,
+export const starterTierWeights: Record<PlayerStatusTier, number> = {
+  legend: 0.02,
+  icon: 0.065,
+  elite: 0.145,
   standout: 0.255,
-  reliable: 0.285,
-  "role-player": 0.2,
+  reliable: 0.27,
+  "role-player": 0.185,
   limited: 0.06,
 };
 
-const benchTierWeights: Record<PlayerStatusTier, number> = {
+export const benchTierWeights: Record<PlayerStatusTier, number> = {
   legend: 0.0025,
   icon: 0.0175,
   elite: 0.075,
@@ -171,6 +171,8 @@ export const isEligibleForSlot = (
 export type DraftGenerationRules = {
   excludedIdentityIds?: Iterable<string>;
   rejectedIdentityIds?: Iterable<string>;
+  seenIdentityCounts?: Readonly<Record<string, number>>;
+  recentIdentityIds?: Iterable<string>;
   respinIndex?: number;
 };
 
@@ -296,6 +298,9 @@ export const generateDraftOptions = (
   const used = usedIdentityIdsFor(cards, picks);
   const excluded = new Set(rules.excludedIdentityIds ?? []);
   const rejected = new Set(rules.rejectedIdentityIds ?? []);
+  const recent = new Set(rules.recentIdentityIds ?? []);
+  const seenCount = (identityId: string) =>
+    rules.seenIdentityCounts?.[identityId] ?? 0;
   const openSlots = getOpenSlots(formation, picks);
   if (openSlots.length === 0) return [];
 
@@ -318,7 +323,7 @@ export const generateDraftOptions = (
     (Math.abs(hashString(`starter-tier-budget:${seed}:${formation.id}`)) %
       10_000) /
     10_000;
-  const highBudget = budgetRoll < 0.58 ? 0 : budgetRoll < 0.9 ? 1 : 2;
+  const highBudget = budgetRoll < 0.5 ? 0 : budgetRoll < 0.89 ? 1 : 2;
   const identitySafe = cards.filter(
     (card) =>
       !used.has(card.playerIdentityId) &&
@@ -329,15 +334,33 @@ export const generateDraftOptions = (
   const withoutRejected = identitySafe.filter(
     (card) => !rejected.has(card.playerIdentityId),
   );
-  const preferredPool =
-    withoutRejected.length >= 5 &&
+  const preservesCompletion = (pool: PlayerTournamentCard[]) =>
+    pool.length >= 5 &&
     hasDraftCompletionPath({
-      cards: withoutRejected,
+      cards: pool,
       formation,
       picks,
-    })
-      ? withoutRejected
-      : identitySafe;
+    });
+  const unseenAndNotRecent = withoutRejected.filter(
+    (card) =>
+      seenCount(card.playerIdentityId) === 0 &&
+      !recent.has(card.playerIdentityId),
+  );
+  const unseen = withoutRejected.filter(
+    (card) => seenCount(card.playerIdentityId) === 0,
+  );
+  const notRecent = withoutRejected.filter(
+    (card) => !recent.has(card.playerIdentityId),
+  );
+  const preferredPool = preservesCompletion(unseenAndNotRecent)
+    ? unseenAndNotRecent
+    : preservesCompletion(unseen)
+      ? unseen
+      : preservesCompletion(notRecent)
+        ? notRecent
+        : preservesCompletion(withoutRejected)
+          ? withoutRejected
+          : identitySafe;
   const uniqueCards = uniqueIdentityCards(preferredPool, random);
   const openGoalkeeperSlots = openSlots.filter(
     (slot) => slot.position === "GK",
@@ -410,6 +433,10 @@ export const generateDraftOptions = (
     const firstRank = rank.get(first.id)!;
     const secondRank = rank.get(second.id)!;
     return (
+      seenCount(first.playerIdentityId) -
+        seenCount(second.playerIdentityId) ||
+      Number(recent.has(first.playerIdentityId)) -
+        Number(recent.has(second.playerIdentityId)) ||
       secondRank.need - firstRank.need ||
       secondRank.best - firstRank.best ||
       Math.abs(80 - first.overall) - Math.abs(80 - second.overall) ||
@@ -613,6 +640,9 @@ export const generateBenchOptions = (
   const used = usedIdentityIdsFor(cards, [...starters, ...bench]);
   const excluded = new Set(rules.excludedIdentityIds ?? []);
   const rejected = new Set(rules.rejectedIdentityIds ?? []);
+  const recent = new Set(rules.recentIdentityIds ?? []);
+  const seenCount = (identityId: string) =>
+    rules.seenIdentityCounts?.[identityId] ?? 0;
   const byId = new Map(cards.map((card) => [card.id, card]));
   const draftedBench = bench
     .map((pick) => byId.get(pick.cardId))
@@ -636,7 +666,27 @@ export const generateBenchOptions = (
   const withoutRejected = identitySafe.filter(
     (card) => !rejected.has(card.playerIdentityId),
   );
-  const eligible = withoutRejected.length >= 5 ? withoutRejected : identitySafe;
+  const unseenAndNotRecent = withoutRejected.filter(
+    (card) =>
+      seenCount(card.playerIdentityId) === 0 &&
+      !recent.has(card.playerIdentityId),
+  );
+  const unseen = withoutRejected.filter(
+    (card) => seenCount(card.playerIdentityId) === 0,
+  );
+  const notRecent = withoutRejected.filter(
+    (card) => !recent.has(card.playerIdentityId),
+  );
+  const eligible =
+    unseenAndNotRecent.length >= 5
+      ? unseenAndNotRecent
+      : unseen.length >= 5
+        ? unseen
+        : notRecent.length >= 5
+          ? notRecent
+          : withoutRejected.length >= 5
+            ? withoutRejected
+            : identitySafe;
   const random = createSeededRandom(
     seed ^
       hashString(
@@ -647,6 +697,10 @@ export const generateBenchOptions = (
   );
   const ranked = shuffle(uniqueIdentityCards(eligible, random), random).sort(
     (first, second) =>
+      seenCount(first.playerIdentityId) -
+        seenCount(second.playerIdentityId) ||
+      Number(recent.has(first.playerIdentityId)) -
+        Number(recent.has(second.playerIdentityId)) ||
       Math.abs(78 - first.overall) - Math.abs(78 - second.overall) ||
       Math.abs(2 - first.eligiblePositions.length) -
         Math.abs(2 - second.eligiblePositions.length),

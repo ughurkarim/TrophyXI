@@ -6,12 +6,21 @@ import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { PlayerAccolades } from "@/components/cards/player-accolades";
 import { PlayerPortrait } from "@/components/cards/player-portrait";
 import { players } from "@/data/players";
-import { imagesById } from "@/data/player-images";
 import { cn, flagForCountry } from "@/lib/utils";
 import type { PlayerTournamentCard } from "@/types/game";
 import styles from "./player-details.module.css";
 
-const statLabels: Array<
+const outfieldStatLabels: Array<
+  [keyof PlayerTournamentCard["tournamentStats"], string]
+> = [
+  ["appearances", "Appearances"],
+  ["starts", "Starts"],
+  ["minutes", "Minutes"],
+  ["goals", "Goals"],
+  ["assists", "Assists"],
+];
+
+const goalkeeperStatLabels: Array<
   [keyof PlayerTournamentCard["tournamentStats"], string]
 > = [
   ["appearances", "Appearances"],
@@ -19,8 +28,8 @@ const statLabels: Array<
   ["minutes", "Minutes"],
   ["saves", "Saves"],
   ["cleanSheets", "Clean sheets"],
-  ["goals", "Goals"],
-  ["assists", "Assists"],
+  ["goalsConceded", "Goals conceded"],
+  ["penaltiesSaved", "Penalties saved"],
 ];
 
 const careerStatLabels: Array<
@@ -109,16 +118,22 @@ export function PlayerDetails({
   const activePlayer =
     versions.find((version) => version.id === selectedVersionId) ?? player;
   const activeFitContext = activePlayer.id === player.id ? fitContext : undefined;
-  const hasTournamentSource = activePlayer.statSources.some(
-    (source) =>
-      /^https?:\/\//.test(source.url) &&
-      Boolean(source.publisher.trim()),
+  const tournamentStats = (
+    activePlayer.primaryPosition === "GK"
+      ? goalkeeperStatLabels
+      : outfieldStatLabels
+  ).filter(
+    ([key]) =>
+      typeof activePlayer.tournamentStats[key] === "number" &&
+      Boolean(activePlayer.statSourcesByField[key]),
   );
-  const tournamentStats = hasTournamentSource
-    ? statLabels.filter(
-        ([key]) => activePlayer.tournamentStats[key] !== null,
-      )
-    : [];
+  const hasTournamentRecord =
+    tournamentStats.length > 0 ||
+    activePlayer.achievements.length > 0 ||
+    Boolean(
+      activePlayer.tournamentFinish &&
+        activePlayer.tournamentFinishSource,
+    );
   const hasCareerSource = Boolean(
     activePlayer.careerStats &&
       /^https?:\/\//.test(activePlayer.careerStats.sourceUrl),
@@ -183,7 +198,6 @@ export function PlayerDetails({
           <span className="eyebrow">TOURNAMENT VERSIONS</span>
           <div className={styles.versionList}>
             {versions.map((version) => {
-              const hasPhoto = imagesById.has(version.imageId);
               const current = version.id === activePlayer.id;
               return (
                 <button
@@ -207,7 +221,9 @@ export function PlayerDetails({
                   </span>
                   <span>
                     <b>{version.tournamentYear}</b>
-                    <small>{current ? "Current version" : hasPhoto ? "Photo" : "Photo Pending"}</small>
+                    <small>
+                      {current ? "Current version" : "Tournament version"}
+                    </small>
                   </span>
                   <strong>{version.overall}</strong>
                   <i>{version.primaryPosition}</i>
@@ -217,7 +233,7 @@ export function PlayerDetails({
           </div>
         </section>
 
-        {tournamentStats.length > 0 && (
+        {hasTournamentRecord && (
           <section>
             <span className="eyebrow">TOURNAMENT RECORD</span>
             <dl className={cn("record-grid", styles.recordGrid)}>
@@ -227,6 +243,19 @@ export function PlayerDetails({
                   <dd>{activePlayer.tournamentStats[key]}</dd>
                 </div>
               ))}
+              {activePlayer.achievements.map((item) => (
+                <div key={item.id}>
+                  <dt>Award</dt>
+                  <dd>{item.label}</dd>
+                </div>
+              ))}
+              {activePlayer.tournamentFinish &&
+                activePlayer.tournamentFinishSource && (
+                  <div>
+                    <dt>Finish</dt>
+                    <dd>{activePlayer.tournamentFinish}</dd>
+                  </div>
+                )}
             </dl>
           </section>
         )}

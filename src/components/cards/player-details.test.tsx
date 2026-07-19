@@ -35,7 +35,7 @@ describe("PlayerDetails", () => {
     expect(dialog).toHaveClass("player-drawer--legend");
     expect(
       within(dialog).getByRole("img", {
-        name: /tournament-edition card face of lionel messi/i,
+        name: /lionel messi 2022 portrait/i,
       }),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("TOURNAMENT VERSIONS")).toBeVisible();
@@ -74,8 +74,10 @@ describe("PlayerDetails", () => {
     expect(
       screen.getByText(/Argentina · 2014/),
     ).toBeVisible();
-    expect(screen.getAllByText(/Photo|Photo Pending|Current version/).length)
-      .toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(/Tournament version|Current version/).length,
+    ).toBeGreaterThan(0);
+    expect(screen.queryByText(/Photo|Pending/i)).not.toBeInTheDocument();
   });
 
   it("limits accolades to six rows until SHOW MORE is used", async () => {
@@ -136,6 +138,32 @@ describe("PlayerDetails", () => {
     expect(screen.queryByText("TOP 100 PLAYER")).not.toBeInTheDocument();
     expect(screen.queryByText("Assists")).not.toBeInTheDocument();
     expect(screen.queryByText(/Not sourced|Unknown/i)).not.toBeInTheDocument();
+  });
+
+  it("shows James Rodríguez's sourced 2014 record and award", () => {
+    const player = playersById.get("james-rodriguez-2014")!;
+    render(<PlayerDetails player={player} onClose={vi.fn()} />);
+    const record = screen.getByText("TOURNAMENT RECORD").closest("section")!;
+    expect(within(record).getByText("Appearances")).toBeVisible();
+    expect(within(record).getByText("399")).toBeVisible();
+    expect(within(record).getByText("6")).toBeVisible();
+    expect(within(record).getByText("2")).toBeVisible();
+    expect(within(record).getByText("Golden Boot")).toBeVisible();
+    expect(within(record).queryByText(/FBref|FIFA|source/i)).not.toBeInTheDocument();
+  });
+
+  it("uses sourced goalkeeper fields and preserves a confirmed zero", () => {
+    const player = playersById.get("thibaut-courtois-2018")!;
+    render(<PlayerDetails player={player} onClose={vi.fn()} />);
+    const record = screen.getByText("TOURNAMENT RECORD").closest("section")!;
+    expect(within(record).getByText("Saves")).toBeVisible();
+    expect(within(record).getByText("27")).toBeVisible();
+    expect(within(record).getByText("Clean sheets")).toBeVisible();
+    expect(within(record).getByText("Goals conceded")).toBeVisible();
+    expect(within(record).getByText("Penalties saved")).toBeVisible();
+    expect(within(record).getByText("0")).toBeVisible();
+    expect(within(record).queryByText("Assists")).not.toBeInTheDocument();
+    expect(within(record).queryByText(/Unknown|Not sourced/i)).not.toBeInTheDocument();
   });
 
   it("sorts Giroud's sourced honors by importance without source labels", () => {

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { PlayerDatabase } from "@/components/database/player-database";
 
@@ -16,6 +16,25 @@ describe("PlayerDatabase", () => {
     expect(
       screen.getAllByRole("button", { name: /view lionel messi/i }),
     ).toHaveLength(6);
+    fireEvent.click(
+      screen.getByRole("button", { name: /view lionel messi 2006/i }),
+    );
+    const playerRecord = screen.getByRole("dialog", {
+      name: /lionel messi/i,
+    });
+    for (const portrait of within(playerRecord).getAllByRole("img", {
+      name: /lionel messi 2006 portrait/i,
+    })) {
+      expect(portrait).toHaveAttribute(
+        "src",
+        expect.stringMatching(
+          /^\/assets\/players\/2006\/lionel-messi-2006\.png\?v=/,
+        ),
+      );
+    }
+    fireEvent.click(
+      screen.getByRole("button", { name: /close player record/i }),
+    );
 
     fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
       target: { value: "Cristiano Ronaldo" },

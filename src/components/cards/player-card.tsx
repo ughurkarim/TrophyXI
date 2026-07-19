@@ -27,6 +27,7 @@ export function PlayerCard({
   eraFit,
   onInspect,
   actionLabel,
+  disabled = false,
 }: {
   player: PlayerTournamentCard;
   onSelect?: () => void;
@@ -38,6 +39,7 @@ export function PlayerCard({
   eraFit?: number;
   onInspect?: () => void;
   actionLabel?: string;
+  disabled?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
   const content = (
@@ -135,13 +137,15 @@ export function PlayerCard({
         `player-card--${eraAccent[player.era]}`,
         `player-card--tier-${player.statusTier}`,
         selected && "player-card--selected",
+        disabled && "player-card--disabled",
         className,
       )}
-      whileHover={reduceMotion || selected ? undefined : { y: -3 }}
+      whileHover={reduceMotion || selected || disabled ? undefined : { y: -3 }}
     >
       <button
         className="player-card__pick-target"
         onClick={onSelect}
+        disabled={disabled}
         aria-label={
           actionLabel ??
           `Draft ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`

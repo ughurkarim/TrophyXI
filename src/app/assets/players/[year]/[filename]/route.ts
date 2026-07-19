@@ -3,7 +3,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 
 const safeYear = /^\d{4}$/;
-const safeFilename = /^[a-z0-9-]+\.png$/;
+const safeFilename = /^[\p{L}\p{M}0-9-]+\.(?:png|webp)$/u;
 
 export async function GET(
   _request: Request,
@@ -19,9 +19,12 @@ export async function GET(
     const image = await readFile(
       path.join(process.cwd(), "assets", "players", year, filename),
     );
+    const contentType = filename.endsWith(".webp")
+      ? "image/webp"
+      : "image/png";
     return new NextResponse(new Uint8Array(image), {
       headers: {
-        "Content-Type": "image/png",
+        "Content-Type": contentType,
         "Cache-Control": "public, max-age=31536000, immutable",
         "X-Content-Type-Options": "nosniff",
       },

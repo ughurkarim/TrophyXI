@@ -10,7 +10,7 @@ type GeneratedGameFaceManifest = {
 const generated = generatedJson as unknown as GeneratedGameFaceManifest;
 
 /**
- * Exact-year faces are generated only by the license-gated importer. Runtime
+ * Tournament-edition faces are generated only by the license-gated importer. Runtime
  * code never discovers files by URL or filename and never hotlinks a source.
  */
 export const gameFaceManifestGeneratedAt = generated.generatedAt;

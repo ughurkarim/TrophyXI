@@ -5,6 +5,37 @@ import { players } from "@/data/players";
 import type { PlayerStatusTier } from "@/types/game";
 
 describe("PlayerCard rarity treatment", () => {
+  it("does not place a tournament-year number over the portrait", () => {
+    const player = players.find(
+      (candidate) => candidate.id === "eden-hazard-2018",
+    )!;
+    const { container } = render(
+      <PlayerCard
+        player={player}
+        selected={false}
+        onSelect={vi.fn()}
+        onInspect={vi.fn()}
+      />,
+    );
+    expect(container.querySelector(".portrait-year")).not.toBeInTheDocument();
+  });
+
+  it("uses Messi's card-specific 2006 portrait", () => {
+    const player = players.find(
+      (candidate) => candidate.id === "lionel-messi-2006",
+    )!;
+    const { container } = render(
+      <PlayerCard player={player} onSelect={vi.fn()} />,
+    );
+
+    expect(container.querySelector("img")).toHaveAttribute(
+      "src",
+      expect.stringMatching(
+        /^\/assets\/players\/2006\/lionel-messi-2006\.png\?v=/,
+      ),
+    );
+  });
+
   it("applies the selected full-card tier contract for every rarity", () => {
     const tiers: PlayerStatusTier[] = [
       "legend",

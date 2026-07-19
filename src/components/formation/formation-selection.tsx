@@ -7,10 +7,7 @@ import { Button } from "@/components/ui/button";
 import { getDraftEra } from "@/data/eras";
 import { formations } from "@/data/formations";
 import { calculateManagerFit } from "@/engine/chemistry";
-import {
-  calculateFormationEraFit,
-  calculateFormationRecommendationScore,
-} from "@/engine/formation-fit";
+import { calculateFormationEraFit } from "@/engine/formation-fit";
 import { cn } from "@/lib/utils";
 import type {
   DraftEraId,
@@ -24,6 +21,7 @@ export function FormationSelection({
   eraId,
   offerIds,
   formationRespinRemaining,
+  showRespinControl = true,
   onRespin,
   onContinue,
 }: {
@@ -31,6 +29,7 @@ export function FormationSelection({
   eraId: DraftEraId;
   offerIds: FormationId[];
   formationRespinRemaining: number;
+  showRespinControl?: boolean;
   onRespin: () => void;
   onContinue: (formationId: FormationId) => void;
 }) {
@@ -47,22 +46,8 @@ export function FormationSelection({
       formation,
       managerFit,
       eraFit,
-      recommendationScore: calculateFormationRecommendationScore(
-        managerFit,
-        eraFit,
-      ),
     };
   });
-  const recommended = offerMetrics.reduce<(typeof offerMetrics)[number] | null>(
-    (best, current) =>
-      !best ||
-      current.recommendationScore > best.recommendationScore ||
-      (current.recommendationScore === best.recommendationScore &&
-        current.managerFit > best.managerFit)
-        ? current
-        : best,
-    null,
-  );
   const selectedMetrics =
     offerMetrics.find((item) => item.formation.id === selected) ?? null;
 
@@ -95,20 +80,22 @@ export function FormationSelection({
           <span>Match Era</span>
           <strong>{era.label}</strong>
         </div>
-        <button
-          type="button"
-          className={cn(
-            "button button--secondary formation-respin",
-            styles.respin,
-          )}
-          disabled={formationRespinRemaining === 0}
-          onClick={() => setShowRespin(true)}
-        >
-          <RefreshCw size={15} aria-hidden />
-          {formationRespinRemaining
-            ? "FORMATION RESPIN ×1"
-            : "FORMATION RESPIN USED"}
-        </button>
+        {showRespinControl && (
+          <button
+            type="button"
+            className={cn(
+              "button button--secondary formation-respin",
+              styles.respin,
+            )}
+            disabled={formationRespinRemaining === 0}
+            onClick={() => setShowRespin(true)}
+          >
+            <RefreshCw size={15} aria-hidden />
+            {formationRespinRemaining
+              ? "FORMATION RESPIN ×1"
+              : "FORMATION RESPIN USED"}
+          </button>
+        )}
       </div>
       <div className={cn("formation-grid", styles.formationGrid)}>
         {offerMetrics.map(({ formation, managerFit, eraFit }) => (
@@ -116,7 +103,6 @@ export function FormationSelection({
             key={formation.id}
             formation={formation}
             selected={selectedMetrics?.formation.id === formation.id}
-            recommended={recommended?.formation.id === formation.id}
             onSelect={() => setSelected(formation.id)}
             managerFit={managerFit}
             eraFit={eraFit}
@@ -147,7 +133,7 @@ export function FormationSelection({
           ENTER DRAFT →
         </Button>
       </div>
-      {showRespin && (
+      {showRespinControl && showRespin && (
         <div className="dialog-backdrop" role="presentation">
           <div
             className="dialog"

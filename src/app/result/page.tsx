@@ -6,6 +6,7 @@ import {
   RotateCcw,
   Share2,
   Sparkles,
+  Trophy,
   Users,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -28,6 +29,7 @@ import {
   getPlacementPenaltyPercent,
   getPositionFit,
 } from "@/engine/draft";
+import { assignHistoricalLineupToFormation } from "@/engine/historical-lineup";
 import { cn } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
 import type {
@@ -69,8 +71,17 @@ export default function ResultPage() {
     (state) => state.selectedOpponentId,
   );
   const result = useGameStore((state) => state.matchResult);
-  const resetDraft = useGameStore((state) => state.resetDraft);
+  const gameMode = useGameStore((state) => state.gameMode);
+  const restartFromManager = useGameStore(
+    (state) => state.restartFromManager,
+  );
   const prepareRematch = useGameStore((state) => state.prepareRematch);
+  const continueWorldCupRun = useGameStore(
+    (state) => state.continueWorldCupRun,
+  );
+  const worldCupRunOpponents = useGameStore(
+    (state) => state.worldCupRunOpponents,
+  );
 
   const formation = formationId ? getFormation(formationId) : null;
   const lineup = useMemo(
@@ -104,13 +115,16 @@ export default function ResultPage() {
   const manager = managerId ? managersById.get(managerId) : undefined;
   const opponent = useMemo(() => {
     if (!selectedOpponentId) return undefined;
-    const selected = historicalOpponentsById.get(selectedOpponentId);
+    const selected =
+      worldCupRunOpponents.find(
+        (candidate) => candidate.id === selectedOpponentId,
+      ) ?? historicalOpponentsById.get(selectedOpponentId);
     return selected?.kind === "all-stars"
       ? resolveWorldCupAllStars(
           [...lineup, ...bench].map((player) => player.playerIdentityId),
         )
       : selected;
-  }, [bench, lineup, selectedOpponentId]);
+  }, [bench, lineup, selectedOpponentId, worldCupRunOpponents]);
 
   if (!hydrated) {
     return (
@@ -149,9 +163,12 @@ export default function ResultPage() {
   const opponentFormation = getFormation(opponent.formation);
   const opponentManager =
     opponent.allStars?.manager.managerName ?? opponent.managerName;
-  const opponentNames = opponent.startingLineup.map((player) =>
-    player.name.replace(/\s\d{4}$/, ""),
-  );
+  const opponentNames = (
+    assignHistoricalLineupToFormation(
+      opponent.startingLineup,
+      opponentFormation,
+    ) ?? opponent.startingLineup
+  ).map((player) => player.name.replace(/\s\d{4}$/, ""));
   const penaltyWin =
     result.score.penalties &&
     result.score.penalties[0] > result.score.penalties[1];
@@ -271,25 +288,39 @@ export default function ResultPage() {
           </div>
 
           <div className={styles.heroActions} data-testid="result-actions">
-            <Button
-              className={styles.actionButton}
-              onClick={() => {
-                prepareRematch();
-                router.push("/match");
-              }}
-            >
-              <RotateCcw size={16} aria-hidden /> Play again
-            </Button>
-            <Button
-              className={styles.actionButton}
-              variant="secondary"
-              onClick={() => {
-                resetDraft();
-                router.push("/play/draft");
-              }}
-            >
-              <Users size={16} aria-hidden /> Redraft
-            </Button>
+            {gameMode === "world-cup-run" ? (
+              <Button
+                className={styles.actionButton}
+                onClick={() => {
+                  continueWorldCupRun();
+                  router.push("/play/world-cup-run");
+                }}
+              >
+                <Trophy size={16} aria-hidden /> Continue tournament
+              </Button>
+            ) : (
+              <>
+                <Button
+                  className={styles.actionButton}
+                  onClick={() => {
+                    prepareRematch();
+                    router.push("/match");
+                  }}
+                >
+                  <RotateCcw size={16} aria-hidden /> Play again
+                </Button>
+                <Button
+                  className={styles.actionButton}
+                  variant="secondary"
+                  onClick={() => {
+                    restartFromManager();
+                    router.push("/play/manager");
+                  }}
+                >
+                  <Users size={16} aria-hidden /> Redraft
+                </Button>
+              </>
+            )}
             <Button
               className={cn(styles.actionButton, styles.tertiaryAction)}
               variant="ghost"

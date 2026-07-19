@@ -7,9 +7,11 @@ import { TeamRatings } from "@/components/draft/team-ratings";
 import { Button } from "@/components/ui/button";
 import { flagForCountry } from "@/lib/utils";
 import type {
+  HistoricalLineupPlayer,
   HistoricalWorldCupTeam,
   TeamRatings as Ratings,
 } from "@/types/game";
+import styles from "./champion-reveal.module.css";
 
 export function ChampionReveal({
   opponent,
@@ -127,9 +129,9 @@ export function ChampionReveal({
           <p>
             {opponent.kind === "all-stars"
               ? "FEATURED CHALLENGE · MYTHIC"
-              : `HISTORICAL OPPONENT · ${
-                  opponent.tournamentFinish ?? "Tournament in progress"
-                } · ${opponent.tournamentYear}`}
+              : opponent.kind === "model"
+                ? "TROPHY XI MODEL"
+              : `WORLD CUP CHAMPION · ${opponent.tournamentYear}`}
           </p>
           <h2>{opponent.nationName}</h2>
           <TeamRatings
@@ -141,38 +143,52 @@ export function ChampionReveal({
         </motion.article>
       </motion.div>
 
-      <motion.div
-        className="opponent-dossier"
+      <motion.section
+        className={`opponent-dossier ${styles.dossier}`}
         initial={reduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: ready ? 1 : 0 }}
+        aria-label={`${opponent.nationName} match dossier`}
       >
         <div className="dossier-badge">
           <Shield size={19} aria-hidden />
           <span>
             <small>DIFFICULTY</small>
-          <b>{opponent.difficulty}</b>
+            <b>{opponent.difficulty}</b>
           </span>
         </div>
-        <div>
+        <div className={styles.tacticalIdentity}>
           <span className="eyebrow">TACTICAL IDENTITY</span>
           <h3>{opponent.tacticalProfile}</h3>
           <p>
-            Trophy XI tactical model · opponent Era Translation {opponentEraFit}.
-            Manager: {opponent.managerName ?? "not sourced in the current dataset"}.
-            {opponent.allStars
-              ? ` ${flagForCountry(opponent.allStars.manager.countryCode)} ${opponent.allStars.manager.countryName} ${opponent.allStars.manager.tournamentYear}.`
-              : ""}
+            Era Translation {opponentEraFit} · Manager{" "}
+            {opponent.managerName ?? opponent.allStars?.manager.managerName}
           </p>
         </div>
         <div className="dossier-facts">
           <span>
-            <Gauge size={15} aria-hidden /> {opponent.formation}
+            <Gauge size={15} aria-hidden />{" "}
+            {opponent.formationLabel ?? opponent.formation}
           </span>
           <span>
             <Sparkles size={15} aria-hidden /> {opponent.ratings.overall} OVR
           </span>
         </div>
-      </motion.div>
+        {opponent.championFact && (
+          <blockquote className={styles.championFact}>
+            {opponent.championFact}
+          </blockquote>
+        )}
+        <div className={styles.squad}>
+          <RevealPlayerList
+            heading="Starting XI"
+            players={opponent.startingLineup}
+          />
+          <RevealPlayerList
+            heading="Available substitutes"
+            players={opponent.substitutes}
+          />
+        </div>
+      </motion.section>
 
       <div className="reveal__action">
         <p>
@@ -187,6 +203,29 @@ export function ChampionReveal({
           <ArrowRight size={17} aria-hidden />
         </Button>
       </div>
+    </section>
+  );
+}
+
+function RevealPlayerList({
+  heading,
+  players,
+}: {
+  heading: string;
+  players: HistoricalLineupPlayer[];
+}) {
+  return (
+    <section aria-label={heading}>
+      <span className="eyebrow">{heading}</span>
+      <ol className={styles.playerList} aria-label={heading}>
+        {players.map((player) => (
+          <li key={`${player.playerIdentityId}-${player.position}`}>
+            <span>{player.position}</span>
+            <b>{player.name}</b>
+            {player.rating !== undefined && <small>{player.rating}</small>}
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }

@@ -21,7 +21,19 @@ test("landing sections remain readable, focusable, and overflow-safe", async ({
     stepsSection.getByText(
       "Choose the era, appoint your manager, draft your starting XI and three substitutes, then challenge a World Cup champion.",
     ),
-  ).toBeVisible();
+  ).toHaveCount(0);
+  const stepsHeading = stepsSection.getByRole("heading", {
+    name: "Fourteen players. One match.",
+  });
+  await expect(stepsHeading).toBeVisible();
+  if ((page.viewportSize()?.width ?? 0) === 1440) {
+    const headingLines = await stepsHeading.evaluate((heading) => {
+      const range = document.createRange();
+      range.selectNodeContents(heading);
+      return range.getClientRects().length;
+    });
+    expect(headingLines).toBe(1);
+  }
   const stepCards = stepsSection.getByRole("article");
   await expect(stepCards).toHaveCount(4);
   await expect(
@@ -38,6 +50,49 @@ test("landing sections remain readable, focusable, and overflow-safe", async ({
   ).toBeVisible();
   await stepCards.first().focus();
   await expect(stepCards.first()).toBeFocused();
+  await expect(stepCards.first()).toHaveCSS("overflow", "hidden");
+  await page.keyboard.press("Tab");
+  await expect(stepCards.nth(1)).toBeFocused();
+  await expect
+    .poll(() =>
+      stepCards
+        .nth(1)
+        .evaluate((card) => getComputedStyle(card, "::before").opacity),
+    )
+    .toBe("1");
+
+  const pointerCard = stepCards.nth(1);
+  const pointerBounds = await pointerCard.boundingBox();
+  expect(pointerBounds).not.toBeNull();
+  await page.mouse.move(
+    pointerBounds!.x + pointerBounds!.width * 0.25,
+    pointerBounds!.y + pointerBounds!.height * 0.4,
+  );
+  await expect(pointerCard).toHaveAttribute("data-glow-active", "true");
+  const firstGlowPosition = await pointerCard.evaluate((card) => ({
+    x: (card as HTMLElement).style.getPropertyValue("--step-glow-x"),
+    y: (card as HTMLElement).style.getPropertyValue("--step-glow-y"),
+  }));
+  await page.mouse.move(
+    pointerBounds!.x + pointerBounds!.width * 0.75,
+    pointerBounds!.y + pointerBounds!.height * 0.65,
+  );
+  const secondGlowPosition = await pointerCard.evaluate((card) => ({
+    x: (card as HTMLElement).style.getPropertyValue("--step-glow-x"),
+    y: (card as HTMLElement).style.getPropertyValue("--step-glow-y"),
+  }));
+  expect(secondGlowPosition).not.toEqual(firstGlowPosition);
+  await page.mouse.move(
+    pointerBounds!.x + pointerBounds!.width + 20,
+    pointerBounds!.y,
+  );
+  await expect(pointerCard).toHaveAttribute("data-glow-active", "false");
+  await pointerCard.dispatchEvent("pointermove", {
+    pointerType: "touch",
+    clientX: pointerBounds!.x + 30,
+    clientY: pointerBounds!.y + 30,
+  });
+  await expect(pointerCard).toHaveAttribute("data-glow-active", "false");
 
   const championsSection = page.locator("#champions");
   await championsSection.scrollIntoViewIfNeeded();
@@ -68,7 +123,7 @@ test("landing sections remain readable, focusable, and overflow-safe", async ({
   const secondary = finalCta.getByRole("link", {
     name: "VIEW THE CHAMPIONS",
   });
-  await expect(primary).toHaveAttribute("href", "/play/era");
+  await expect(primary).toHaveAttribute("href", "/play");
   await expect(secondary).toHaveAttribute("href", "/#champions");
   await primary.focus();
   await expect(primary).toBeFocused();
@@ -92,6 +147,25 @@ test("reduced motion swaps directly from 2026 to 2006", async ({ page }) => {
   const hero = page.getByTestId("hero-showcase");
   const scene = page.getByTestId("hero-scroll-scene");
   await expect(hero).toHaveAttribute("data-active-year", "2026");
+  const reducedMotionCard = page.locator("#how-it-works article").first();
+  await reducedMotionCard.scrollIntoViewIfNeeded();
+  const reducedMotionBounds = await reducedMotionCard.boundingBox();
+  expect(reducedMotionBounds).not.toBeNull();
+  await page.mouse.move(
+    reducedMotionBounds!.x + reducedMotionBounds!.width / 2,
+    reducedMotionBounds!.y + reducedMotionBounds!.height / 2,
+  );
+  await expect(reducedMotionCard).toHaveAttribute(
+    "data-glow-active",
+    "false",
+  );
+  await expect
+    .poll(() =>
+      reducedMotionCard.evaluate(
+        (card) => getComputedStyle(card, "::before").opacity,
+      ),
+    )
+    .toBe("1");
 
   const metrics = await scene.evaluate((element) => ({
     top: (element as HTMLElement).offsetTop,

@@ -129,7 +129,7 @@ describe("manager Era Fit", () => {
       lineup,
       bench,
       formation,
-      opponent: historicalOpponentsById.get("brazil-1970")!,
+      opponent: historicalOpponentsById.get("italy-1982")!,
       eraId: "2020s" as const,
       seed: 2404,
     };

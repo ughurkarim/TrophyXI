@@ -2,13 +2,7 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { FormationSelection } from "@/components/formation/formation-selection";
-import { formations } from "@/data/formations";
 import { managersById } from "@/data/managers";
-import { calculateManagerFit } from "@/engine/chemistry";
-import {
-  calculateFormationEraFit,
-  calculateFormationRecommendationScore,
-} from "@/engine/formation-fit";
 
 const manager = managersById.get("luiz-felipe-scolari-2002")!;
 const offerIds = ["3-5-2", "4-4-2", "4-3-3", "5-3-2"] as const;
@@ -89,7 +83,7 @@ describe("FormationSelection", () => {
     expect(document.querySelectorAll('[data-fit-kind="era"]')).toHaveLength(4);
   });
 
-  it("recommends the strongest combined production Manager Fit and Era Fit", () => {
+  it("shows distinct fit context without recommending or preselecting a system", () => {
     render(
       <FormationSelection
         manager={manager}
@@ -101,34 +95,15 @@ describe("FormationSelection", () => {
       />,
     );
 
-    const expected = offerIds
-      .map((id) => formations.find((formation) => formation.id === id)!)
-      .map((formation) => {
-        const managerFit = calculateManagerFit(manager, formation, "2000s");
-        const eraFit = calculateFormationEraFit(formation, "2000s");
-        return {
-          formation,
-          managerFit,
-          eraFit,
-          score: calculateFormationRecommendationScore(managerFit, eraFit),
-        };
-      })
-      .reduce((best, current) =>
-        current.score > best.score ||
-        (current.score === best.score &&
-          current.managerFit > best.managerFit)
-          ? current
-          : best,
-      );
-
-    const recommendedCard = document.querySelector(
-      `[data-formation-id="${expected.formation.id}"]`,
-    );
-    expect(recommendedCard).not.toBeNull();
+    expect(screen.queryByText("Recommended")).not.toBeInTheDocument();
     expect(
-      within(recommendedCard as HTMLElement).getByText("Recommended"),
-    ).toBeVisible();
-    expect(screen.getAllByText("Recommended")).toHaveLength(1);
+      screen
+        .getAllByRole("button", { name: /choose .* formation, manager fit/i })
+        .every(
+          (card) =>
+            !/recommended/i.test(card.getAttribute("aria-label") ?? ""),
+        ),
+    ).toBe(true);
     expect(
       new Set(
         Array.from(
@@ -169,6 +144,24 @@ describe("FormationSelection", () => {
       screen.getByRole("button", { name: /use formation respin/i }),
     );
     expect(onRespin).toHaveBeenCalledOnce();
+  });
+
+  it("hides the irrelevant respin control when the full archive is open", () => {
+    render(
+      <FormationSelection
+        manager={manager}
+        eraId="2000s"
+        offerIds={[...offerIds]}
+        formationRespinRemaining={0}
+        showRespinControl={false}
+        onRespin={vi.fn()}
+        onContinue={vi.fn()}
+      />,
+    );
+
+    expect(
+      screen.queryByRole("button", { name: /formation respin/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("keeps the Selected System summary limited to its required fields", async () => {

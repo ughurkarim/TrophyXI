@@ -2,14 +2,19 @@
 
 ## Session flow
 
-Choose one match environment, draft one of exactly three tournament-manager
-versions, optionally respin four seeded formations once, choose a formation,
-draft eleven starters and three substitutes from five-card spins, reorder Bench
-1–3, choose an opponent, and play a deterministic knockout match.
+Highlight and explicitly confirm Classic Draft, Free Selection, or World Cup
+Run, then choose a match environment, manager, formation, eleven starters, and
+three ordered substitutes.
+Classic Draft ends in one deterministic match against a champion or World Cup
+All-Stars. World Cup Run carries the drafted squad through a persistent 32-team
+group and knockout tournament. Free Selection opens the complete eligible
+archive without five-card offers.
 
-Manager selection is a separate confirmation step: selecting one of the three
-cards highlights it without advancing, and the named Continue button opens the
-formation step.
+Manager selection is a separate confirmation step. In Classic Draft and World
+Cup Run, selecting one of three cards highlights it without advancing. The
+manager may change within that visible set until Continue permanently locks the
+choice and opens formation selection. Free Selection makes every eligible
+manager searchable.
 
 Starter drafting is player first. The first click selects one of five
 identity-safe tournament cards without changing the XI. Every open tactical slot
@@ -27,7 +32,7 @@ order. Filled entries are inspectable and never replace or reorder a pick.
 The typed active archive contains 629 player cards across 287 stable identities
 and 49 manager cards across 39 stable identities. Every player card represents an
 actual match appearance in one supported men's World Cup from 1970 through 2026.
-The two live 2026 versions are current sourced snapshots: incomplete totals stay
+The two live 2026 versions are current verified snapshots: incomplete totals stay
 null and neither card claims an unfinished tournament award or champion status.
 Drafting, hydration repair, and play all use the explicit active boundary; image
 availability never changes card eligibility.
@@ -160,8 +165,8 @@ are B-range, and at least one is C-range.
 
 ## Deterministic offer weighting
 
-Starter offers target status tiers with weights of 1.5% legend, 5.5% icon, 13%
-elite, 25.5% standout, 28.5% reliable, 20% role-player, and 6% limited. The
+Starter offers target status tiers with weights of 2% legend, 6.5% icon, 14.5%
+elite, 25.5% standout, 27% reliable, 18.5% role-player, and 6% limited. The
 draft-wide seeded high-card budget yields zero 90+ cards in most five-card
 offers, otherwise one, with a hard maximum of two. No offer may contain more than
 two legend/icon cards.
@@ -174,11 +179,17 @@ the chosen three-player bench, at least two cards remain below 82 and at least
 one below 78. All sampling is deterministic and still obeys identity,
 opponent-exclusion, feasibility, and positional-need boundaries.
 
-## Modeled tags and sourced accolades
+The store counts identities shown during the current run and keeps a short
+recent-history window across new runs. Unseen identities are preferred when
+valid alternatives exist; recently seen identities are de-prioritized; identities
+rejected by a respin are excluded when the pool permits. Drafted identities and
+every alternate tournament version remain fully excluded.
+
+## Modeled tags and verified accolades
 
 Player Tag Effects describe capped Trophy XI engine behavior and never masquerade
 as historical honors. Career Accolades are a separate list; every named item
-requires a published card-level source. Manager modeled tags and manager
+requires verified card-level evidence. Manager modeled tags and manager
 accolades follow the same boundary. Unknown facts remain absent rather than
 becoming generic achievements.
 
@@ -195,6 +206,15 @@ manager, original offer index, respin index, and original four ids; it excludes
 the original shapes whenever enough alternatives exist. After use it reads
 `FORMATION RESPIN USED`, cannot be used again, and never changes either player
 respin.
+
+## Manager respin
+
+Classic Draft and World Cup Run begin with one separately persisted Manager
+Respin. It is available only before a manager is selected, permanently replaces
+the current three-card set, and never changes either formation or player respin
+counter. Selecting a manager hides the respin behind `MANAGER LOCKED`; advancing
+to formation locks that manager for the run. Refresh and browser history never
+restore a consumed respin.
 
 ## Bench priority and substitutions
 
@@ -220,6 +240,28 @@ refresh, and rejects the five displayed identities when enough alternatives
 remain. Feasibility and identity rules are rechecked. A third use is ignored.
 Manager, formation, era, and opponent selection cannot consume player respins.
 
+## Free Selection
+
+Free Selection exposes searchable player and manager archives, every formation,
+every match environment, the 14 champions, and World Cup All-Stars. Card clicks
+still open Position Fit before a starter placement can commit. Squad completion
+requires 11 valid formation assignments, three ordered substitutes, 14 unique
+identities, and no opponent-lineup conflict. Randomize Squad additionally
+guarantees a valid starting goalkeeper and broad outfield coverage without
+requiring a backup goalkeeper; individual picks can then be replaced.
+
+## World Cup Run
+
+World Cup Run creates eight four-team groups and a seeded knockout bracket.
+Every team plays three group fixtures. Wins award three points, draws one, and
+losses zero; standings rank by points, goal difference, goals scored, then a
+seeded deterministic tiebreaker. Group matches may end level. The top two teams
+advance into a seeded Round of 16, with immediate group rematches avoided where
+possible, followed by quarterfinals, semifinals, and the final. Knockout ties use
+extra time and penalties. Standings, bracket, current stage, qualification,
+history, and the next fixture persist after every match; the run can be resumed
+or restarted.
+
 ## Ratings and deterministic simulation
 
 Pre-match ratings include attack, midfield, defense, goalkeeper contribution,
@@ -238,47 +280,36 @@ Simulation priority is:
 6. bidirectional Era Translation
 7. ordered bench and substitutions
 8. tournament experience
-9. capped sourced achievements
+9. capped verified achievements
 10. bounded seeded randomness
 
-Ties after 90 minutes go to extra time and then a deterministic shootout. The
+Knockout ties after 90 minutes go to extra time and then a deterministic
+shootout. The
 result includes goals, assists, cards, manager events, substitutions, minutes,
 possession, shots, xG, tactical impact, and player of the match.
 
 ## Historical opponents
 
-Opponent tournaments display newest first from 2026 through 1970. `Champions
-Only` is enabled by default, showing sourced winners newest first; disabling the
-accessible switch reveals every participant without a reload. Search and filters
-cover year, nation, finish, confederation, difficulty, and verified, partial, or
-Trophy XI modeled data status. Selection and a separate confirmation remain
-required before entering the match.
+Normal opponent selection contains World Cup All-Stars plus exactly 14 champions,
+newest first from Argentina 2022 through Brazil 1970. Each champion has its real
+tournament manager, verified final XI, available substitute pool, player
+positions, historical formation label, team ratings, tactical profile, era, and
+one champion fact. The roster drives simulation scorers, cards, and substitutions.
+Selection remains identity-safe: a champion cannot be selected when its roster
+shares a player identity with the user's squad.
 
-The 48 verified 2026 participants appear under `Tournament in progress`.
-Champion, finish, manager, lineup, advancement, awards, and tournament
-statistics remain null until record-level verified data is locally represented.
-Consequently Champions Only has no 2026 historical entry.
+World Cup All-Stars remains an original featured Mythic challenge. Its bounded
+rating modifier never forces a score or outcome; it uses the ordinary seeded
+engine, Position Fit, Era Translation, substitutions, and match events.
 
-World Cup All-Stars appears above either historical view as an original featured
-Mythic challenge: a curated natural-position 4–3–3, three-player coverage bench,
-and clearly labeled composite manager. Each card and the manager receive normal
-bidirectional Era Translation. Its 1.5-point attack, midfield, and defense boosts
-are capped by a two-point Mythic ceiling and a final rating ceiling of 99. It uses
-the ordinary seeded engine, fatigue, Position Fit, substitutions, and match
-events—no result or score is forced.
-
-Each normal tournament participant is a distinct nation-year opponent.
-Participant identity, finish, and match count through 2022 are sourced facts.
-Ratings, tactical labels, difficulty, and formation are explicitly marked Trophy
-XI models. Missing managers, lineups, and detailed statistics display as not
-sourced rather than zero or invented data.
+The separate 416-team research archive is not exposed in normal opponent
+selection. It supplies identity-safe historical teams for the randomized World
+Cup Run field.
 
 Flags accompany players, managers, champion tiles, opponent cards, selection,
-match, and result surfaces. Historical names remain source-faithful. Defunct
-country codes use a neutral archival diamond rather than a misleading modern
-flag; West Germany keeps its historical display name while its source code
-retains the documented Germany flag policy.
+match, and result surfaces. Historical names remain faithful to their tournament
+context. Defunct country codes use a neutral archival diamond rather than a
+misleading modern flag; West Germany keeps its historical display name while its
+stored country code retains the documented Germany flag policy.
 
-Two former champion-only textual composite concepts are retired from data,
-interface, documentation, and generated opponents. Champion status does not add
-hidden team metrics beyond the documented ordinary model.
+Champion status does not add a hidden result modifier.

@@ -1,0 +1,1448 @@
+{
+  "generatedAt": "2026-07-19T01:07:02.830Z",
+  "policy": "User-confirmed project-specific FBref permission. FBref remains the source; Internet Archive is only the retrieval route because direct automated access returned a Cloudflare challenge. Local cache first; profile headshot markup first, then the reviewed exact-ID legacy headshot path; validated image bytes only; identity-only context; no hotlinks.",
+  "targetHistoricalCards": 265,
+  "targetHistoricalIdentities": 146,
+  "configuredMappings": 146,
+  "coveredCards": 56,
+  "coveredIdentities": 36,
+  "downloadedIdentities": 0,
+  "skippedIdentities": 36,
+  "failedIdentities": 110,
+  "photoPendingCards": 209,
+  "results": [
+    {
+      "playerIdentityId": "ahn-jung-hwan",
+      "playerName": "Ahn Jung-hwan",
+      "cardIds": [
+        "ahn-jung-hwan-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "alessandro-nesta",
+      "playerName": "Alessandro Nesta",
+      "cardIds": [
+        "alessandro-nesta-1998",
+        "alessandro-nesta-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "alpay-ozalan",
+      "playerName": "Alpay Özalan",
+      "cardIds": [
+        "alpay-ozalan-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "andreas-brehme",
+      "playerName": "Andreas Brehme",
+      "cardIds": [
+        "andreas-brehme-1986",
+        "andreas-brehme-1990",
+        "andreas-brehme-1994"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "arie-haan",
+      "playerName": "Arie Haan",
+      "cardIds": [
+        "arie-haan-1974",
+        "arie-haan-1978"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "ariel-ortega",
+      "playerName": "Ariel Ortega",
+      "cardIds": [
+        "ariel-ortega-1994",
+        "ariel-ortega-1998",
+        "ariel-ortega-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "ashley-cole",
+      "playerName": "Ashley Cole",
+      "cardIds": [
+        "ashley-cole-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "bebeto",
+      "playerName": "Bebeto",
+      "cardIds": [
+        "bebeto-1990",
+        "bebeto-1994",
+        "bebeto-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "bixente-lizarazu",
+      "playerName": "Bixente Lizarazu",
+      "cardIds": [
+        "bixente-lizarazu-1998",
+        "bixente-lizarazu-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "bobby-moore",
+      "playerName": "Bobby Moore",
+      "cardIds": [
+        "bobby-moore-1970"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "brian-laudrup",
+      "playerName": "Brian Laudrup",
+      "cardIds": [
+        "brian-laudrup-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "cafu",
+      "playerName": "Cafu",
+      "cardIds": [
+        "cafu-1994",
+        "cafu-1998",
+        "cafu-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "carles-puyol",
+      "playerName": "Carles Puyol",
+      "cardIds": [
+        "carles-puyol-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "christian-panucci",
+      "playerName": "Christian Panucci",
+      "cardIds": [
+        "christian-panucci-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "christian-vieri",
+      "playerName": "Christian Vieri",
+      "cardIds": [
+        "christian-vieri-1998",
+        "christian-vieri-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "claude-makelele",
+      "playerName": "Claude Makélélé",
+      "cardIds": [
+        "claude-makelele-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "claudio-gentile",
+      "playerName": "Claudio Gentile",
+      "cardIds": [
+        "claudio-gentile-1978",
+        "claudio-gentile-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "claudio-taffarel",
+      "playerName": "Cláudio Taffarel",
+      "cardIds": [
+        "claudio-taffarel-1990",
+        "claudio-taffarel-1994",
+        "claudio-taffarel-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "cuauhtemoc-blanco",
+      "playerName": "Cuauhtémoc Blanco",
+      "cardIds": [
+        "cuauhtemoc-blanco-1998",
+        "cuauhtemoc-blanco-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "daniel-passarella",
+      "playerName": "Daniel Passarella",
+      "cardIds": [
+        "daniel-passarella-1978",
+        "daniel-passarella-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "david-beckham",
+      "playerName": "David Beckham",
+      "cardIds": [
+        "david-beckham-1998",
+        "david-beckham-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "david-seaman",
+      "playerName": "David Seaman",
+      "cardIds": [
+        "david-seaman-1998",
+        "david-seaman-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "david-trezeguet",
+      "playerName": "David Trezeguet",
+      "cardIds": [
+        "david-trezeguet-1998",
+        "david-trezeguet-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "davor-suker",
+      "playerName": "Davor Šuker",
+      "cardIds": [
+        "davor-suker-1998",
+        "davor-suker-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "dennis-bergkamp",
+      "playerName": "Dennis Bergkamp",
+      "cardIds": [
+        "dennis-bergkamp-1994",
+        "dennis-bergkamp-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "didier-deschamps",
+      "playerName": "Didier Deschamps",
+      "cardIds": [
+        "didier-deschamps-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "diego-forlan",
+      "playerName": "Diego Forlán",
+      "cardIds": [
+        "diego-forlan-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "diego-maradona",
+      "playerName": "Diego Maradona",
+      "cardIds": [
+        "diego-maradona-1982",
+        "diego-maradona-1986",
+        "diego-maradona-1990",
+        "diego-maradona-1994"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "dino-zoff",
+      "playerName": "Dino Zoff",
+      "cardIds": [
+        "dino-zoff-1974",
+        "dino-zoff-1978",
+        "dino-zoff-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "dunga",
+      "playerName": "Dunga",
+      "cardIds": [
+        "dunga-1990",
+        "dunga-1994",
+        "dunga-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "edgar-davids",
+      "playerName": "Edgar Davids",
+      "cardIds": [
+        "edgar-davids-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "edwin-van-der-sar",
+      "playerName": "Edwin van der Sar",
+      "cardIds": [
+        "edwin-van-der-sar-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "el-hadji-diouf",
+      "playerName": "El Hadji Diouf",
+      "cardIds": [
+        "el-hadji-diouf-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "emilio-butragueno",
+      "playerName": "Emilio Butragueño",
+      "cardIds": [
+        "emilio-butragueno-1986",
+        "emilio-butragueno-1990"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "emmanuel-petit",
+      "playerName": "Emmanuel Petit",
+      "cardIds": [
+        "emmanuel-petit-1998",
+        "emmanuel-petit-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "fabien-barthez",
+      "playerName": "Fabien Barthez",
+      "cardIds": [
+        "fabien-barthez-1998",
+        "fabien-barthez-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "fabio-cannavaro",
+      "playerName": "Fabio Cannavaro",
+      "cardIds": [
+        "fabio-cannavaro-1998",
+        "fabio-cannavaro-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "falcao",
+      "playerName": "Falcão",
+      "cardIds": [
+        "falcao-1982",
+        "falcao-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "francesco-totti",
+      "playerName": "Francesco Totti",
+      "cardIds": [
+        "francesco-totti-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "franco-baresi",
+      "playerName": "Franco Baresi",
+      "cardIds": [
+        "franco-baresi-1990",
+        "franco-baresi-1994"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "frank-de-boer",
+      "playerName": "Frank de Boer",
+      "cardIds": [
+        "frank-de-boer-1994",
+        "frank-de-boer-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "frank-rijkaard",
+      "playerName": "Frank Rijkaard",
+      "cardIds": [
+        "frank-rijkaard-1990",
+        "frank-rijkaard-1994"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "franz-beckenbauer",
+      "playerName": "Franz Beckenbauer",
+      "cardIds": [
+        "franz-beckenbauer-1970",
+        "franz-beckenbauer-1974"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "gabriel-batistuta",
+      "playerName": "Gabriel Batistuta",
+      "cardIds": [
+        "gabriel-batistuta-1994",
+        "gabriel-batistuta-1998",
+        "gabriel-batistuta-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "gaetano-scirea",
+      "playerName": "Gaetano Scirea",
+      "cardIds": [
+        "gaetano-scirea-1978",
+        "gaetano-scirea-1982",
+        "gaetano-scirea-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "gary-lineker",
+      "playerName": "Gary Lineker",
+      "cardIds": [
+        "gary-lineker-1986",
+        "gary-lineker-1990"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "gary-neville",
+      "playerName": "Gary Neville",
+      "cardIds": [
+        "gary-neville-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "gennaro-gattuso",
+      "playerName": "Gennaro Gattuso",
+      "cardIds": [
+        "gennaro-gattuso-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "gerd-muller",
+      "playerName": "Gerd Müller",
+      "cardIds": [
+        "gerd-muller-1970",
+        "gerd-muller-1974"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "gheorghe-hagi",
+      "playerName": "Gheorghe Hagi",
+      "cardIds": [
+        "gheorghe-hagi-1990",
+        "gheorghe-hagi-1994",
+        "gheorghe-hagi-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "giacinto-facchetti",
+      "playerName": "Giacinto Facchetti",
+      "cardIds": [
+        "giacinto-facchetti-1970",
+        "giacinto-facchetti-1974"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "gianluca-zambrotta",
+      "playerName": "Gianluca Zambrotta",
+      "cardIds": [
+        "gianluca-zambrotta-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "gianluigi-buffon",
+      "playerName": "Gianluigi Buffon",
+      "cardIds": [
+        "gianluigi-buffon-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "gordon-banks",
+      "playerName": "Gordon Banks",
+      "cardIds": [
+        "gordon-banks-1970"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "grzegorz-lato",
+      "playerName": "Grzegorz Lato",
+      "cardIds": [
+        "grzegorz-lato-1974",
+        "grzegorz-lato-1978",
+        "grzegorz-lato-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "hakan-sukur",
+      "playerName": "Hakan Şükür",
+      "cardIds": [
+        "hakan-sukur-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "harald-schumacher",
+      "playerName": "Harald Schumacher",
+      "cardIds": [
+        "harald-schumacher-1982",
+        "harald-schumacher-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "hasan-sas",
+      "playerName": "Hasan Şaş",
+      "cardIds": [
+        "hasan-sas-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "hong-myung-bo",
+      "playerName": "Hong Myung-bo",
+      "cardIds": [
+        "hong-myung-bo-1990",
+        "hong-myung-bo-1994",
+        "hong-myung-bo-1998",
+        "hong-myung-bo-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "hristo-stoichkov",
+      "playerName": "Hristo Stoichkov",
+      "cardIds": [
+        "hristo-stoichkov-1994",
+        "hristo-stoichkov-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "igor-belanov",
+      "playerName": "Igor Belanov",
+      "cardIds": [
+        "igor-belanov-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "iker-casillas",
+      "playerName": "Iker Casillas",
+      "cardIds": [
+        "iker-casillas-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "ilhan-mans-z",
+      "playerName": "İlhan Mansız",
+      "cardIds": [
+        "ilhan-mans-z-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "jaap-stam",
+      "playerName": "Jaap Stam",
+      "cardIds": [
+        "jaap-stam-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "jairzinho",
+      "playerName": "Jairzinho",
+      "cardIds": [
+        "jairzinho-1970",
+        "jairzinho-1974"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "jared-borgetti",
+      "playerName": "Jared Borgetti",
+      "cardIds": [
+        "jared-borgetti-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "javier-zanetti",
+      "playerName": "Javier Zanetti",
+      "cardIds": [
+        "javier-zanetti-1998",
+        "javier-zanetti-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "jean-tigana",
+      "playerName": "Jean Tigana",
+      "cardIds": [
+        "jean-tigana-1982",
+        "jean-tigana-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "johan-cruyff",
+      "playerName": "Johan Cruyff",
+      "cardIds": [
+        "johan-cruyff-1974"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "johan-neeskens",
+      "playerName": "Johan Neeskens",
+      "cardIds": [
+        "johan-neeskens-1974",
+        "johan-neeskens-1978"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "jorge-burruchaga",
+      "playerName": "Jorge Burruchaga",
+      "cardIds": [
+        "jorge-burruchaga-1986",
+        "jorge-burruchaga-1990"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "jorge-campos",
+      "playerName": "Jorge Campos",
+      "cardIds": [
+        "jorge-campos-1994",
+        "jorge-campos-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "jorge-valdano",
+      "playerName": "Jorge Valdano",
+      "cardIds": [
+        "jorge-valdano-1982",
+        "jorge-valdano-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "jose-luis-chilavert",
+      "playerName": "José Luis Chilavert",
+      "cardIds": [
+        "jose-luis-chilavert-1998",
+        "jose-luis-chilavert-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "juninho-paulista",
+      "playerName": "Juninho Paulista",
+      "cardIds": [
+        "juninho-paulista-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "jurgen-klinsmann",
+      "playerName": "Jürgen Klinsmann",
+      "cardIds": [
+        "jurgen-klinsmann-1990",
+        "jurgen-klinsmann-1994",
+        "jurgen-klinsmann-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "kaka",
+      "playerName": "Kaká",
+      "cardIds": [
+        "kaka-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "kazimierz-deyna",
+      "playerName": "Kazimierz Deyna",
+      "cardIds": [
+        "kazimierz-deyna-1974",
+        "kazimierz-deyna-1978"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "kleberson",
+      "playerName": "Kléberson",
+      "cardIds": [
+        "kleberson-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "landon-donovan",
+      "playerName": "Landon Donovan",
+      "cardIds": [
+        "landon-donovan-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "laurent-blanc",
+      "playerName": "Laurent Blanc",
+      "cardIds": [
+        "laurent-blanc-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "lee-woon-jae",
+      "playerName": "Lee Woon-jae",
+      "cardIds": [
+        "lee-woon-jae-1994",
+        "lee-woon-jae-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "lilian-thuram",
+      "playerName": "Lilian Thuram",
+      "cardIds": [
+        "lilian-thuram-1998",
+        "lilian-thuram-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "lothar-matthaus",
+      "playerName": "Lothar Matthäus",
+      "cardIds": [
+        "lothar-matthaus-1982",
+        "lothar-matthaus-1986",
+        "lothar-matthaus-1990",
+        "lothar-matthaus-1994",
+        "lothar-matthaus-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "lucio",
+      "playerName": "Lúcio",
+      "cardIds": [
+        "lucio-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "luis-figo",
+      "playerName": "Luís Figo",
+      "cardIds": [
+        "luis-figo-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "luis-hernandez",
+      "playerName": "Luis Hernández",
+      "cardIds": [
+        "luis-hernandez-1998",
+        "luis-hernandez-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "marc-overmars",
+      "playerName": "Marc Overmars",
+      "cardIds": [
+        "marc-overmars-1994",
+        "marc-overmars-1998"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "marcel-desailly",
+      "playerName": "Marcel Desailly",
+      "cardIds": [
+        "marcel-desailly-1998",
+        "marcel-desailly-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "marco-materazzi",
+      "playerName": "Marco Materazzi",
+      "cardIds": [
+        "marco-materazzi-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "marcos",
+      "playerName": "Marcos",
+      "cardIds": [
+        "marcos-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "mario-kempes",
+      "playerName": "Mario Kempes",
+      "cardIds": [
+        "mario-kempes-1974",
+        "mario-kempes-1978",
+        "mario-kempes-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "michael-ballack",
+      "playerName": "Michael Ballack",
+      "cardIds": [
+        "michael-ballack-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "michael-laudrup",
+      "playerName": "Michael Laudrup",
+      "cardIds": [
+        "michael-laudrup-1986",
+        "michael-laudrup-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "michael-owen",
+      "playerName": "Michael Owen",
+      "cardIds": [
+        "michael-owen-1998",
+        "michael-owen-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "michel-platini",
+      "playerName": "Michel Platini",
+      "cardIds": [
+        "michel-platini-1978",
+        "michel-platini-1982",
+        "michel-platini-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "miroslav-klose",
+      "playerName": "Miroslav Klose",
+      "cardIds": [
+        "miroslav-klose-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "murtaz-khurtsilava",
+      "playerName": "Murtaz Khurtsilava",
+      "cardIds": [
+        "murtaz-khurtsilava-1970"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "nicky-butt",
+      "playerName": "Nicky Butt",
+      "cardIds": [
+        "nicky-butt-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "oleg-salenko",
+      "playerName": "Oleg Salenko",
+      "cardIds": [
+        "oleg-salenko-1994"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "oliver-kahn",
+      "playerName": "Oliver Kahn",
+      "cardIds": [
+        "oliver-kahn-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "paolo-maldini",
+      "playerName": "Paolo Maldini",
+      "cardIds": [
+        "paolo-maldini-1990",
+        "paolo-maldini-1994",
+        "paolo-maldini-1998",
+        "paolo-maldini-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "paolo-rossi",
+      "playerName": "Paolo Rossi",
+      "cardIds": [
+        "paolo-rossi-1978",
+        "paolo-rossi-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "park-ji-sung",
+      "playerName": "Park Ji-sung",
+      "cardIds": [
+        "park-ji-sung-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "paul-breitner",
+      "playerName": "Paul Breitner",
+      "cardIds": [
+        "paul-breitner-1974",
+        "paul-breitner-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "paul-gascoigne",
+      "playerName": "Paul Gascoigne",
+      "cardIds": [
+        "paul-gascoigne-1990"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "pele",
+      "playerName": "Pelé",
+      "cardIds": [
+        "pele-1970"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "peter-schmeichel",
+      "playerName": "Peter Schmeichel",
+      "cardIds": [
+        "peter-schmeichel-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "pierre-littbarski",
+      "playerName": "Pierre Littbarski",
+      "cardIds": [
+        "pierre-littbarski-1982",
+        "pierre-littbarski-1986",
+        "pierre-littbarski-1990"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "preben-elkj-r",
+      "playerName": "Preben Elkjær",
+      "cardIds": [
+        "preben-elkj-r-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "rafael-marquez",
+      "playerName": "Rafael Márquez",
+      "cardIds": [
+        "rafael-marquez-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "rene-houseman",
+      "playerName": "René Houseman",
+      "cardIds": [
+        "rene-houseman-1974",
+        "rene-houseman-1978"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "rio-ferdinand",
+      "playerName": "Rio Ferdinand",
+      "cardIds": [
+        "rio-ferdinand-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "rivaldo",
+      "playerName": "Rivaldo",
+      "cardIds": [
+        "rivaldo-1998",
+        "rivaldo-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "rivelino",
+      "playerName": "Rivelino",
+      "cardIds": [
+        "rivelino-1970",
+        "rivelino-1974",
+        "rivelino-1978"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "rob-rensenbrink",
+      "playerName": "Rob Rensenbrink",
+      "cardIds": [
+        "rob-rensenbrink-1974",
+        "rob-rensenbrink-1978"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "roberto-baggio",
+      "playerName": "Roberto Baggio",
+      "cardIds": [
+        "roberto-baggio-1990",
+        "roberto-baggio-1994",
+        "roberto-baggio-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "roberto-carlos",
+      "playerName": "Roberto Carlos",
+      "cardIds": [
+        "roberto-carlos-1998",
+        "roberto-carlos-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "roger-milla",
+      "playerName": "Roger Milla",
+      "cardIds": [
+        "roger-milla-1982",
+        "roger-milla-1990",
+        "roger-milla-1994"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "romario",
+      "playerName": "Romário",
+      "cardIds": [
+        "romario-1990",
+        "romario-1994"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "ronaldinho",
+      "playerName": "Ronaldinho",
+      "cardIds": [
+        "ronaldinho-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "ronaldo",
+      "playerName": "Ronaldo",
+      "cardIds": [
+        "ronaldo-1998",
+        "ronaldo-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "rustu-recber",
+      "playerName": "Rüştü Reçber",
+      "cardIds": [
+        "rustu-recber-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "ruud-krol",
+      "playerName": "Ruud Krol",
+      "cardIds": [
+        "ruud-krol-1974",
+        "ruud-krol-1978"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "salvatore-schillaci",
+      "playerName": "Salvatore Schillaci",
+      "cardIds": [
+        "salvatore-schillaci-1990"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "samuel-etoo",
+      "playerName": "Samuel Eto’o",
+      "cardIds": [
+        "samuel-etoo-1998",
+        "samuel-etoo-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "sepp-maier",
+      "playerName": "Sepp Maier",
+      "cardIds": [
+        "sepp-maier-1970",
+        "sepp-maier-1974",
+        "sepp-maier-1978"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "sergio-goycochea",
+      "playerName": "Sergio Goycochea",
+      "cardIds": [
+        "sergio-goycochea-1990"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "socrates",
+      "playerName": "Sócrates",
+      "cardIds": [
+        "socrates-1982",
+        "socrates-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "sol-campbell",
+      "playerName": "Sol Campbell",
+      "cardIds": [
+        "sol-campbell-1998",
+        "sol-campbell-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "sunday-oliseh",
+      "playerName": "Sunday Oliseh",
+      "cardIds": [
+        "sunday-oliseh-1994",
+        "sunday-oliseh-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "teofilo-cubillas",
+      "playerName": "Teófilo Cubillas",
+      "cardIds": [
+        "teofilo-cubillas-1970",
+        "teofilo-cubillas-1978",
+        "teofilo-cubillas-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "thierry-henry",
+      "playerName": "Thierry Henry",
+      "cardIds": [
+        "thierry-henry-1998",
+        "thierry-henry-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "tomas-brolin",
+      "playerName": "Tomas Brolin",
+      "cardIds": [
+        "tomas-brolin-1990",
+        "tomas-brolin-1994"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "tomas-skuhravy",
+      "playerName": "Tomáš Skuhravý",
+      "cardIds": [
+        "tomas-skuhravy-1990"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "torsten-frings",
+      "playerName": "Torsten Frings",
+      "cardIds": [
+        "torsten-frings-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "tostao",
+      "playerName": "Tostão",
+      "cardIds": [
+        "tostao-1970"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "ubaldo-fillol",
+      "playerName": "Ubaldo Fillol",
+      "cardIds": [
+        "ubaldo-fillol-1974",
+        "ubaldo-fillol-1978",
+        "ubaldo-fillol-1982"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "victor-ikpeba",
+      "playerName": "Victor Ikpeba",
+      "cardIds": [
+        "victor-ikpeba-1998"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "wolfgang-overath",
+      "playerName": "Wolfgang Overath",
+      "cardIds": [
+        "wolfgang-overath-1970",
+        "wolfgang-overath-1974"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "xavi",
+      "playerName": "Xavi",
+      "cardIds": [
+        "xavi-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "yoo-sang-chul",
+      "playerName": "Yoo Sang-chul",
+      "cardIds": [
+        "yoo-sang-chul-1998",
+        "yoo-sang-chul-2002"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "zbigniew-boniek",
+      "playerName": "Zbigniew Boniek",
+      "cardIds": [
+        "zbigniew-boniek-1978",
+        "zbigniew-boniek-1982",
+        "zbigniew-boniek-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "zico",
+      "playerName": "Zico",
+      "cardIds": [
+        "zico-1978",
+        "zico-1982",
+        "zico-1986"
+      ],
+      "status": "failed",
+      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+    },
+    {
+      "playerIdentityId": "zinedine-zidane",
+      "playerName": "Zinedine Zidane",
+      "cardIds": [
+        "zinedine-zidane-1998",
+        "zinedine-zidane-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "zlatan-ibrahimovic",
+      "playerName": "Zlatan Ibrahimović",
+      "cardIds": [
+        "zlatan-ibrahimovic-2002"
+      ],
+      "status": "skipped",
+      "reason": "Completed FBref portrait import is cached locally."
+    }
+  ]
+}

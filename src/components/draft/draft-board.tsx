@@ -11,7 +11,13 @@ import {
   X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { ManagerDetails } from "@/components/cards/manager-details";
 import { PlayerAccolades } from "@/components/cards/player-accolades";
@@ -57,6 +63,41 @@ const benchSlots: BenchSlotId[] = ["bench-1", "bench-2", "bench-3"];
 const respinLabel = (remaining: number) =>
   remaining === 0 ? "PLAYER RESPINS USED" : `PLAYER RESPINS ×${remaining}`;
 
+const chemistryFactors = [
+  {
+    title: "POSITION FIT",
+    copy: "Players perform better in roles that suit them.",
+  },
+  {
+    title: "MANAGER FIT",
+    copy: "Your manager’s approach should complement the squad.",
+  },
+  {
+    title: "ERA FIT",
+    copy: "Players and managers adapt differently to each match environment.",
+  },
+  {
+    title: "TACTICAL BALANCE",
+    copy: "Complementary roles create a more complete team.",
+  },
+  {
+    title: "SQUAD LINKS",
+    copy: "Shared football backgrounds and compatible playing styles improve cohesion.",
+  },
+  {
+    title: "LEADERSHIP & ACCOLADES",
+    copy: "Experienced winners can add small, capped squad benefits.",
+  },
+] as const;
+
+const chemistryScale = [
+  ["0–39", "DISCONNECTED"],
+  ["40–59", "DEVELOPING"],
+  ["60–74", "BALANCED"],
+  ["75–89", "STRONG"],
+  ["90–100", "ELITE"],
+] as const;
+
 export function DraftBoard() {
   const router = useRouter();
   const reduceMotion = useReducedMotion();
@@ -70,7 +111,89 @@ export function DraftBoard() {
   const [detailReturnFocus, setDetailReturnFocus] =
     useState<HTMLElement | null>(null);
   const squadControlRef = useRef<HTMLButtonElement | null>(null);
+  const chemistryTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const chemistryDialogRef = useRef<HTMLDivElement | null>(null);
+  const closeChemistryInfo = useCallback(() => {
+    setShowChemistryInfo(false);
+    window.requestAnimationFrame(() => chemistryTriggerRef.current?.focus());
+  }, []);
+
+  useEffect(() => {
+    if (!showChemistryInfo) return;
+
+    const body = document.body;
+    const scrollY = window.scrollY;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    const previousStyles = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      paddingRight: body.style.paddingRight,
+    };
+    const currentPaddingRight =
+      Number.parseFloat(window.getComputedStyle(body).paddingRight) || 0;
+
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${currentPaddingRight + scrollbarWidth}px`;
+    }
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      chemistryDialogRef.current
+        ?.querySelector<HTMLButtonElement>("[data-chemistry-close]")
+        ?.focus();
+    });
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeChemistryInfo();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        chemistryDialogRef.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable.at(-1)!;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener("keydown", handleKeyDown);
+      body.style.overflow = previousStyles.overflow;
+      body.style.position = previousStyles.position;
+      body.style.top = previousStyles.top;
+      body.style.left = previousStyles.left;
+      body.style.right = previousStyles.right;
+      body.style.width = previousStyles.width;
+      body.style.paddingRight = previousStyles.paddingRight;
+      window.scrollTo(0, scrollY);
+    };
+  }, [closeChemistryInfo, showChemistryInfo]);
+
   const formationId = useGameStore((state) => state.formationId)!;
+  const gameMode = useGameStore((state) => state.gameMode);
   const eraId = useGameStore((state) => state.eraId)!;
   const managerId = useGameStore((state) => state.managerId)!;
   const picks = useGameStore((state) => state.picks);
@@ -411,6 +534,7 @@ export function DraftBoard() {
               current={chemistry}
               projected={selectedPlayer ? projectedChemistry : undefined}
               reasons={chemistryReasons}
+              explainButtonRef={chemistryTriggerRef}
               onExplain={() => setShowChemistryInfo(true)}
             />
           </div>
@@ -510,7 +634,17 @@ export function DraftBoard() {
               benchPicks={benchPicks}
               onMove={moveBenchPlayer}
               onInspect={openPlayer}
-              onContinue={finalizeBench}
+              continueLabel={
+                gameMode === "world-cup-run"
+                  ? "Enter World Cup"
+                  : "Choose opponent"
+              }
+              onContinue={() => {
+                finalizeBench();
+                if (gameMode === "world-cup-run") {
+                  router.push("/play/world-cup-run");
+                }
+              }}
             />
           ) : draftPhase === "bench" ? (
             pendingBenchPlayer ? (
@@ -710,35 +844,66 @@ export function DraftBoard() {
       )}
 
       {showChemistryInfo && (
-        <div className="dialog-backdrop" role="presentation">
+        <div
+          className={`dialog-backdrop ${styles.chemistryBackdrop}`}
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeChemistryInfo();
+          }}
+        >
           <div
             className={`dialog ${styles.chemistryDialog}`}
             role="dialog"
             aria-modal="true"
             aria-labelledby="chemistry-info-title"
+            aria-describedby="chemistry-info-subtitle"
+            ref={chemistryDialogRef}
+            onMouseDown={(event) => event.stopPropagation()}
           >
-            <span className="eyebrow eyebrow--gold">SQUAD CONNECTIONS</span>
-            <h2 id="chemistry-info-title">How Chemistry works</h2>
-            <p>
-              Chemistry measures how naturally your fourteen-player squad works
-              together. It rewards strong position fit, manager compatibility,
-              era adaptation, tactical balance, complementary roles,
-              leadership, squad connections, and bench coverage.
-            </p>
-            <ul>
-              <li>Higher Chemistry improves organization and consistency.</li>
-              <li>Chemistry does not replace player quality.</li>
-              <li>
-                A lower-rated player with excellent fit may improve the squad
-                more than a higher-rated player used awkwardly.
-              </li>
-              <li>
-                Accolades may add small capped Chemistry or leadership boosts.
-              </li>
-            </ul>
-            <Button onClick={() => setShowChemistryInfo(false)} autoFocus>
-              Close
-            </Button>
+            <header className={styles.chemistryDialogHeader}>
+              <div>
+                <h2 id="chemistry-info-title">CHEMISTRY</h2>
+                <p id="chemistry-info-subtitle">
+                  How naturally your squad works together.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="icon-button"
+                aria-label="Close Chemistry information"
+                data-chemistry-close
+                onClick={closeChemistryInfo}
+              >
+                <X size={18} aria-hidden />
+              </button>
+            </header>
+            <div className={styles.chemistryDialogScroll}>
+              <div
+                className={styles.chemistryFactorGrid}
+                aria-label="Chemistry factors"
+              >
+                {chemistryFactors.map((factor) => (
+                  <article key={factor.title}>
+                    <h3>{factor.title}</h3>
+                    <p>{factor.copy}</p>
+                  </article>
+                ))}
+              </div>
+              <section
+                className={styles.chemistryScale}
+                aria-labelledby="chemistry-scale-title"
+              >
+                <h3 id="chemistry-scale-title">CHEMISTRY SCALE</h3>
+                <ol>
+                  {chemistryScale.map(([range, label]) => (
+                    <li key={range}>
+                      <b>{range}</b>
+                      <span>{label}</span>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            </div>
           </div>
         </div>
       )}
@@ -930,12 +1095,14 @@ function ChemistryPreviewHud({
   current,
   projected,
   reasons,
+  explainButtonRef,
   onExplain,
 }: {
   slotLabel?: string;
   current: ChemistryBreakdown;
   projected?: ChemistryBreakdown;
   reasons: ChemistryReason[];
+  explainButtonRef: React.RefObject<HTMLButtonElement | null>;
   onExplain: () => void;
 }) {
   const chemistryDelta = projected
@@ -953,7 +1120,7 @@ function ChemistryPreviewHud({
       }
     >
       <div className={styles.chemistryHeading}>
-        <button type="button" onClick={onExplain}>
+        <button type="button" ref={explainButtonRef} onClick={onExplain}>
           CHEMISTRY <span aria-hidden>ⓘ</span>
           <span className="sr-only"> information</span>
         </button>
@@ -1305,11 +1472,13 @@ function BenchReview({
   benchPicks,
   onMove,
   onInspect,
+  continueLabel,
   onContinue,
 }: {
   benchPicks: Array<{ slotId: BenchSlotId; cardId: string }>;
   onMove: (slotId: BenchSlotId, direction: -1 | 1) => void;
   onInspect: (player: PlayerTournamentCard) => void;
+  continueLabel: string;
   onContinue: () => void;
 }) {
   return (
@@ -1374,7 +1543,7 @@ function BenchReview({
         })}
       </ol>
       <Button onClick={onContinue}>
-        Choose opponent <ArrowRight size={16} aria-hidden />
+        {continueLabel} <ArrowRight size={16} aria-hidden />
       </Button>
     </div>
   );

@@ -28,9 +28,6 @@ describe("ManagerCard", () => {
     expect(within(card as HTMLElement).getByText("Selected")).toBeInTheDocument();
     expect(card).not.toHaveTextContent(/iconic|legend|elite|standout|reliable|limited/i);
     expect(card).not.toHaveTextContent(/tournament versions/i);
-    expect(
-      card.querySelector('[data-photo-status="available"]'),
-    ).toBeInTheDocument();
     expect(card.querySelector("img")).toHaveAttribute(
       "src",
       expect.stringContaining(
@@ -52,7 +49,7 @@ describe("ManagerCard", () => {
     expect(onInspect).toHaveBeenCalledOnce();
   });
 
-  it("keeps a missing portrait selectable with Photo Pending", () => {
+  it("keeps a manager with a neutral identity marker selectable", () => {
     const manager = managersById.get("herve-renard-2022")!;
     render(
       <ManagerCard
@@ -63,7 +60,7 @@ describe("ManagerCard", () => {
     );
     expect(
       screen.getByRole("img", {
-        name: /photo pending for hervé renard 2022/i,
+        name: /hervé renard 2022 portrait/i,
       }),
     ).toBeInTheDocument();
     expect(

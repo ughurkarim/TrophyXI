@@ -3,7 +3,7 @@
 import { X } from "lucide-react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { managerGradeLabel } from "@/data/managers";
-import { historicalOpponents, historicalOpponentSource } from "@/data/opponents";
+import { historicalOpponents } from "@/data/opponents";
 import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { flagForCountry, flagForTeamName } from "@/lib/utils";
 import type { DraftEraId, ManagerTournamentCard } from "@/types/game";
@@ -158,14 +158,6 @@ export function ManagerDetails({
                 {tournamentRecord.tournamentFinish}
               </b>
             </p>
-            <a
-              className={styles.resultSource}
-              href={historicalOpponentSource.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {historicalOpponentSource.label}
-            </a>
           </section>
         )}
         {manager.achievements.length > 0 && (
@@ -176,13 +168,6 @@ export function ManagerDetails({
                 <li key={achievement.id}>
                   <b>{achievement.label}</b>
                   <p>{achievement.description}</p>
-                  <a
-                    href={achievement.source.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {achievement.source.publisher}
-                  </a>
                 </li>
               ))}
             </ul>

@@ -2,7 +2,10 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { OpponentSelection } from "@/components/draft/opponent-selection";
-import { worldCupAllStars } from "@/data/opponents";
+import {
+  historicalOpponents,
+  worldCupAllStars,
+} from "@/data/opponents";
 import { useGameStore } from "@/store/game-store";
 
 describe("OpponentSelection", () => {
@@ -22,11 +25,9 @@ describe("OpponentSelection", () => {
     });
   });
 
-  it("defaults Champions Only on and keeps All-Stars featured", () => {
+  it("shows the featured All-Stars and exactly fourteen champions newest first", () => {
     render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
-    expect(
-      screen.getByRole("switch", { name: "Champions Only" }),
-    ).toBeChecked();
+
     expect(
       screen.getByRole("button", { name: /select world cup all-stars/i }),
     ).toBeInTheDocument();
@@ -35,9 +36,26 @@ describe("OpponentSelection", () => {
         name: /world cup winners, newest first/i,
       }),
     ).toBeInTheDocument();
+
+    const championButtons = historicalOpponents.map((opponent) =>
+      screen.getByRole("button", {
+        name: new RegExp(
+          `select ${opponent.nationName} ${opponent.tournamentYear}`,
+          "i",
+        ),
+      }),
+    );
+    expect(championButtons).toHaveLength(14);
+    expect(
+      historicalOpponents.map((opponent) => opponent.tournamentYear),
+    ).toEqual(
+      [...historicalOpponents]
+        .map((opponent) => opponent.tournamentYear)
+        .sort((first, second) => (second ?? 0) - (first ?? 0)),
+    );
   });
 
-  it("presents Zagallo's real 1970 profile without archive-status wording", () => {
+  it("presents Zagallo's All-Stars manager profile", () => {
     render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
     const allStars = screen.getByRole("button", {
       name: /select world cup all-stars/i,
@@ -53,9 +71,6 @@ describe("OpponentSelection", () => {
       style: "fluid",
       preferredFormations: ["4-3-3", "4-2-3-1"],
     });
-    expect(worldCupAllStars.formation).toBe(
-      worldCupAllStars.allStars?.manager.preferredFormations[0],
-    );
     expect(
       within(allStars).getByText(/Mário Zagallo · 🇧🇷 Brazil 1970/i),
     ).toBeInTheDocument();
@@ -68,25 +83,60 @@ describe("OpponentSelection", () => {
       "Preferred formations",
       "Tactical style",
     ]) {
-      expect(
-        within(allStars).getByText(label, { exact: true }),
-      ).toBeVisible();
+      expect(within(allStars).getByText(label, { exact: true })).toBeVisible();
     }
-    for (const hiddenCopy of [
-      /Partial Historical Data/i,
-      /Trophy XI Modeled Lineup/i,
-      /Trophy XI Manager/i,
-      /Trophy XI composite manager/i,
-      /Manager Not sourced/i,
-    ]) {
-      expect(screen.queryByText(hiddenCopy)).not.toBeInTheDocument();
-    }
-    expect(
-      screen.queryByRole("combobox", { name: "Historical data status" }),
-    ).not.toBeInTheDocument();
   });
 
-  it("uses stable player-facing footer labels for All-Stars and champions", async () => {
+  it("reveals the selected champion manager, shape, squad, ratings, tactics, and fact", async () => {
+    const user = userEvent.setup();
+    const champion = historicalOpponents[0]!;
+    render(<OpponentSelection eraId="2020s" onContinue={vi.fn()} />);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: new RegExp(
+          `select ${champion.nationName} ${champion.tournamentYear}`,
+          "i",
+        ),
+      }),
+    );
+
+    const dossier = screen.getByRole("region", {
+      name: new RegExp(
+        `${champion.nationName} ${champion.tournamentYear}`,
+        "i",
+      ),
+    });
+    expect(within(dossier).getByText(champion.managerName!)).toBeVisible();
+    expect(
+      within(dossier).getByText(
+        champion.formationLabel ?? champion.formation,
+      ),
+    ).toBeVisible();
+    expect(within(dossier).getByText(champion.tacticalProfile)).toBeVisible();
+    expect(within(dossier).getByText(champion.championFact!)).toBeVisible();
+    expect(
+      within(dossier).getByRole("list", {
+        name: new RegExp(
+          `${champion.nationName} ${champion.tournamentYear} starting eleven`,
+          "i",
+        ),
+      }).children,
+    ).toHaveLength(11);
+    expect(
+      within(dossier).getByRole("list", {
+        name: new RegExp(
+          `${champion.nationName} ${champion.tournamentYear} available substitutes`,
+          "i",
+        ),
+      }).children,
+    ).toHaveLength(champion.substitutes.length);
+    expect(
+      within(dossier).getByLabelText(`${champion.nationName} ratings`),
+    ).toHaveTextContent(String(champion.ratings.overall));
+  });
+
+  it("uses stable footer labels and keeps selection keyboard accessible", async () => {
     const user = userEvent.setup();
     render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
 
@@ -108,47 +158,74 @@ describe("OpponentSelection", () => {
     expect(screen.getByText("Brazil 1970")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /enter the tunnel/i }),
-    ).toHaveTextContent("Enter the tunnel");
+    ).toBeEnabled();
   });
 
-  it("disables Champions Only and exposes every team for a year", async () => {
+  it("disables squad conflicts and lets Free Selection return to editing", async () => {
     const user = userEvent.setup();
-    render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
-    await user.click(
-      screen.getByRole("switch", { name: "Champions Only" }),
+    const onEditSquad = vi.fn();
+    useGameStore.setState({
+      picks: [
+        { slotId: "slot-0", cardId: "lionel-messi-2022" },
+        ...Array.from({ length: 10 }, (_, index) => ({
+          slotId: `slot-${index + 1}`,
+          cardId: `starter-${index}`,
+        })),
+      ],
+    });
+    render(
+      <OpponentSelection
+        eraId="2020s"
+        onContinue={vi.fn()}
+        onEditSquad={onEditSquad}
+      />,
     );
-    await user.selectOptions(
-      screen.getByRole("combobox", { name: "Tournament year" }),
-      "1970",
-    );
-    const teams = screen.getAllByRole("button", { name: /^select /i });
-    expect(teams).toHaveLength(17);
+
     expect(
-      screen.getByRole("button", { name: /select brazil 1970/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: /select belgium 1970/i }),
-    ).toBeInTheDocument();
+      screen.getByRole("button", {
+        name: /argentina 2022 unavailable.*lionel messi/i,
+      }),
+    ).toBeDisabled();
+    expect(screen.getByText("SQUAD CONFLICT")).toBeVisible();
     expect(
       screen.getByRole("button", { name: /select world cup all-stars/i }),
-    ).toBeInTheDocument();
+    ).toBeEnabled();
+    await user.click(
+      screen.getByRole("button", { name: /edit squad/i }),
+    );
+    expect(onEditSquad).toHaveBeenCalledOnce();
   });
 
-  it("shows 2026 as in progress with no champion", async () => {
-    const user = userEvent.setup();
+  it("does not expose archive controls, implementation labels, sources, or 2026", () => {
     render(<OpponentSelection eraId="2020s" onContinue={vi.fn()} />);
-    await user.selectOptions(
-      screen.getByRole("combobox", { name: "Tournament year" }),
-      "2026",
-    );
-    expect(
-      screen.queryByRole("button", { name: /select .* 2026/i }),
-    ).not.toBeInTheDocument();
-    await user.click(
-      screen.getByRole("switch", { name: "Champions Only" }),
-    );
-    expect(
-      screen.getAllByText(/tournament in progress/i).length,
-    ).toBeGreaterThan(0);
+
+    for (const controlName of [
+      "Champions Only",
+      "Tournament year",
+      "Nation",
+      "Tournament finish",
+      "Confederation",
+      "Difficulty",
+      "Historical data status",
+    ]) {
+      expect(
+        screen.queryByRole(/Champions Only/.test(controlName) ? "switch" : "combobox", {
+          name: controlName,
+        }),
+      ).not.toBeInTheDocument();
+    }
+    for (const hiddenCopy of [
+      /Partial Historical Data/i,
+      /Modeled Lineup/i,
+      /Manager Not sourced/i,
+      /Lineup Not sourced/i,
+      /Complete participant archive/i,
+      /research/i,
+      /provenance/i,
+      /source:/i,
+      /2026/i,
+    ]) {
+      expect(screen.queryByText(hiddenCopy)).not.toBeInTheDocument();
+    }
   });
 });

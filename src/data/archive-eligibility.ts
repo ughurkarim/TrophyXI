@@ -1,7 +1,7 @@
 /**
  * Player eligibility comes from the typed archive. Portrait availability is
- * deliberately independent: only exact card-year files in the game-face
- * manifest render, and every missing file receives Photo Pending.
+ * deliberately independent: only card-specific files in the reviewed image
+ * manifests render, and every missing file receives Photo Pending.
  */
 export const licensedPlayerPortraitCardIds = [] as const;
 

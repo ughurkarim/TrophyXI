@@ -86,6 +86,26 @@ describe("TacticalPitch", () => {
     expect(filled).toHaveClass("pitch-node--filled");
   });
 
+  it("renders Messi's exact 2006 image in a filled XI node", () => {
+    const messi = playersById.get("lionel-messi-2006")!;
+    render(
+      <TacticalPitch
+        formation={getFormation("4-3-3")}
+        lineup={[messi]}
+        picks={[{ slotId: "rw", cardId: messi.id }]}
+      />,
+    );
+
+    expect(
+      screen.getByRole("img", { name: /lionel messi 2006 portrait/i }),
+    ).toHaveAttribute(
+      "src",
+      expect.stringMatching(
+        /^\/assets\/players\/2006\/lionel-messi-2006\.png\?v=/,
+      ),
+    );
+  });
+
   it("renders labeled green, yellow, red, and incompatible fit previews", () => {
     const formation = getFormation("4-3-3");
     render(
@@ -197,6 +217,60 @@ describe("TacticalPitch", () => {
       top: node.style.top,
       x: node.dataset.slotX,
       y: node.dataset.slotY,
+    }).toEqual(coordinates);
+  });
+
+  it("accepts a valid goalkeeper at the fixed GK coordinates without a zero penalty", async () => {
+    const user = userEvent.setup();
+    const onSelectSlot = vi.fn();
+    render(
+      <TacticalPitch
+        formation={getFormation("3-5-2")}
+        onSelectSlot={onSelectSlot}
+        fitPreviews={[
+          {
+            slotId: "gk",
+            fit: 100,
+            state: "green",
+            label: "Perfect Fit",
+            penaltyPercent: 0,
+            canPlace: true,
+            feasibilityBlocked: false,
+          },
+        ]}
+      />,
+    );
+
+    const goalkeeperSlot = screen.getByRole("button", {
+      name: /GK\. Perfect Fit, 100 percent\. No placement penalty/i,
+    });
+    expect(goalkeeperSlot).toHaveStyle({ left: "50%", top: "91%" });
+    expect(goalkeeperSlot).toHaveClass("pitch-node--fit-label-above");
+    expect(goalkeeperSlot).toHaveClass("pitch-node--near-bottom");
+    expect(goalkeeperSlot).toHaveClass("pitch-node--goalkeeper");
+    expect(goalkeeperSlot).toHaveAttribute("data-slot-position", "GK");
+    for (const centerBack of ["LCB", "CB", "RCB"]) {
+      const node = screen.getByRole("button", {
+        name: new RegExp(`^${centerBack}: empty`, "i"),
+      });
+      expect(node).toHaveClass("pitch-node--low-center-back");
+      expect(node).toHaveAttribute("data-slot-position", centerBack);
+    }
+    expect(goalkeeperSlot).not.toHaveTextContent("−0%");
+    const coordinates = {
+      left: goalkeeperSlot.style.left,
+      top: goalkeeperSlot.style.top,
+      x: goalkeeperSlot.dataset.slotX,
+      y: goalkeeperSlot.dataset.slotY,
+    };
+    goalkeeperSlot.focus();
+    await user.click(goalkeeperSlot);
+    expect(onSelectSlot).toHaveBeenCalledWith("gk");
+    expect({
+      left: goalkeeperSlot.style.left,
+      top: goalkeeperSlot.style.top,
+      x: goalkeeperSlot.dataset.slotX,
+      y: goalkeeperSlot.dataset.slotY,
     }).toEqual(coordinates);
   });
 });

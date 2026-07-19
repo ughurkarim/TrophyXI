@@ -3,10 +3,13 @@ import { draftEras } from "@/data/eras";
 import { draftEligibleManagers, managers } from "@/data/managers";
 import {
   gameFacePathFor,
+  historicalPlayerImages,
+  identityFallbackPlayerImages,
   imageAttributions,
   imagesById,
   managerImages,
   playerImages,
+  userSuppliedPlayerImages,
 } from "@/data/player-images";
 import { draftEligiblePlayers, players } from "@/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "@/types/game";
@@ -74,6 +77,59 @@ describe("expanded archive contracts", () => {
     expect(
       players.filter((player) => !imagesById.has(player.imageId)),
     ).toHaveLength(629 - playerImages.length);
+    expect(
+      historicalPlayerImages,
+    ).toHaveLength(56);
+    expect(
+      historicalPlayerImages
+        .every(
+          (image) =>
+            image.tournamentYear <= 2002 &&
+            image.photographedYear === null &&
+            image.exactTournamentImage === false,
+        ),
+    ).toBe(true);
+    expect(userSuppliedPlayerImages).toHaveLength(11);
+    expect(
+      userSuppliedPlayerImages.every(
+        (image) =>
+          image.photographedYear === null &&
+          image.exactTournamentImage === false &&
+          image.matchQuality === "user-supplied-permissioned",
+      ),
+    ).toBe(true);
+    expect(identityFallbackPlayerImages).toHaveLength(38);
+    expect(
+      identityFallbackPlayerImages.every(
+        (image) =>
+          image.fallback &&
+          image.gameEdition === null &&
+          ["identity-only-permissioned", "user-supplied-permissioned"].includes(
+            image.matchQuality,
+          ),
+      ),
+    ).toBe(true);
+    expect(imagesById.get("mario-kempes-1982")).toMatchObject({
+      file: "/assets/players/1974/mario-kempes-1974.webp",
+      fallback: true,
+      exactTournamentImage: false,
+    });
+    expect(imagesById.get("sofyan-amrabat-2018")).toMatchObject({
+      file: "/assets/players/2022/sofyan-amrabat-2022.webp",
+      fallback: true,
+      exactTournamentImage: false,
+    });
+    expect(imagesById.get("gianluigi-buffon-2010")).toMatchObject({
+      file: "/assets/players/2002/gianluigi-buffon-2002.png",
+      fallback: true,
+      exactTournamentImage: false,
+    });
+    expect(imagesById.has("sergio-ramos-2010")).toBe(false);
+    const messi2006 = imagesById.get("lionel-messi-2006");
+    expect(messi2006?.file).toBe(
+      "/assets/players/2006/lionel-messi-2006.png",
+    );
+    expect(messi2006?.cacheVersion).toBe("1f22e4d1c9abdbeb");
   });
 
   it("enforces the 99 cap and broad tournament-card rating distribution", () => {
@@ -113,6 +169,45 @@ describe("expanded archive contracts", () => {
         "limited",
       ]),
     );
+    const silverBallPlayers = draftEligiblePlayers.filter((player) =>
+      player.achievements.some(
+        (achievement) => achievement.label === "Silver Ball",
+      ),
+    );
+    expect(silverBallPlayers.length).toBeGreaterThan(0);
+    expect(silverBallPlayers.every((player) => player.overall >= 92)).toBe(
+      true,
+    );
+    expect(players.find((player) => player.id === "eden-hazard-2018")?.overall)
+      .toBeGreaterThanOrEqual(92);
+    expect(players.find((player) => player.id === "gary-lineker-1990")?.overall)
+      .toBe(91);
+  });
+
+  it("keeps the audited 2014 James Rodríguez card elite and fully evidenced", () => {
+    const james = players.find(
+      (player) => player.id === "james-rodriguez-2014",
+    )!;
+    expect(james.overall).toBe(94);
+    expect(james.tournamentStats).toMatchObject({
+      appearances: 5,
+      starts: 4,
+      minutes: 399,
+      goals: 6,
+      assists: 2,
+    });
+    expect(james.achievements.map((item) => item.label)).toContain(
+      "Golden Boot",
+    );
+    for (const field of [
+      "appearances",
+      "starts",
+      "minutes",
+      "goals",
+      "assists",
+    ] as const) {
+      expect(james.statSourcesByField[field]?.url).toMatch(/^https:\/\//);
+    }
   });
 
   it("keeps tournament versions on independent image keys", () => {
@@ -159,8 +254,17 @@ describe("expanded archive contracts", () => {
       "/assets/managers/2022/lionel-scaloni-2022.png",
     );
     expect(messi.every((player) => player.isDraftEligible)).toBe(true);
-    expect(new Set(messi.map((player) => player.overall)).size).toBe(6);
-    expect(new Set(cristiano.map((player) => player.overall)).size).toBe(6);
+    expect(new Set(messi.map((player) => player.id)).size).toBe(6);
+    expect(new Set(cristiano.map((player) => player.id)).size).toBe(6);
+    expect(
+      players.some((player, index) =>
+        players.slice(index + 1).some(
+          (other) =>
+            other.playerIdentityId === player.playerIdentityId &&
+            other.overall === player.overall,
+        ),
+      ),
+    ).toBe(true);
   });
 
   it("stores sourced career accolades and curated Top 100 independently", () => {
@@ -184,6 +288,52 @@ describe("expanded archive contracts", () => {
     );
     expect(
       players.some((player) => player.top100Player && player.overall < 90),
+    ).toBe(true);
+  });
+
+  it("attaches a reviewed FBref profile to every identity and Giroud's honors", () => {
+    const identityRepresentatives = [
+      ...new Map(
+        players.map((player) => [player.playerIdentityId, player]),
+      ).values(),
+    ];
+    expect(identityRepresentatives).toHaveLength(287);
+    expect(
+      identityRepresentatives.every(
+        (player) =>
+          player.careerStats?.sourceName === "FBref" &&
+          player.careerStats.sourceUrl.startsWith(
+            "https://fbref.com/en/players/",
+          ),
+      ),
+    ).toBe(true);
+
+    const giroud = players.find(
+      (player) => player.id === "olivier-giroud-2018",
+    )!;
+    expect(giroud.careerAccolades).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Domestic League Champion",
+          count: 2,
+        }),
+        expect.objectContaining({
+          label: "UEFA Champions League Champion",
+          count: 1,
+        }),
+        expect.objectContaining({
+          label: "World Cup Champion",
+          count: 1,
+        }),
+      ]),
+    );
+    expect(
+      giroud.careerAccolades.every(
+        (accolade) =>
+          accolade.sourceName === "FBref" &&
+          accolade.sourceUrl ===
+            "https://fbref.com/en/players/16ceb862/Olivier-Giroud",
+      ),
     ).toBe(true);
   });
 

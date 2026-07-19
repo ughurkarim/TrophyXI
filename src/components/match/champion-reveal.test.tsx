@@ -1,8 +1,11 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ChampionReveal } from "@/components/match/champion-reveal";
 import { getFormation } from "@/data/formations";
-import { historicalOpponentsById } from "@/data/opponents";
+import {
+  historicalOpponents,
+  historicalOpponentsById,
+} from "@/data/opponents";
 import { calculateTeamRatings } from "@/engine/ratings";
 import { testLineup } from "@/engine/ratings.test";
 
@@ -21,10 +24,13 @@ vi.mock("framer-motion", async () => {
 const opponent = historicalOpponentsById.get("world-cup-all-stars")!;
 const userRatings = calculateTeamRatings(testLineup, getFormation("4-3-3"));
 
-const renderReveal = (onSimulate = vi.fn()) => {
+const renderReveal = (
+  onSimulate = vi.fn(),
+  selectedOpponent = opponent,
+) => {
   render(
     <ChampionReveal
-      opponent={opponent}
+      opponent={selectedOpponent}
       userRatings={userRatings}
       userEra="2010s environment"
       opponentEraFit={98}
@@ -69,5 +75,32 @@ describe("ChampionReveal match transition", () => {
       "data-transitioning",
       "false",
     );
+  });
+
+  it("shows a champion's manager, exact shape, available squad, tactics, and fact", () => {
+    motionPreference.reduced = true;
+    const champion = historicalOpponents[0]!;
+    renderReveal(vi.fn(), champion);
+
+    const dossier = screen.getByRole("region", {
+      name: new RegExp(`${champion.nationName} match dossier`, "i"),
+    });
+    expect(dossier).toHaveTextContent(`Manager ${champion.managerName}`);
+    expect(
+      within(dossier).getByText(champion.formationLabel ?? champion.formation),
+    ).toBeVisible();
+    expect(within(dossier).getByText(champion.tacticalProfile)).toBeVisible();
+    expect(within(dossier).getByText(champion.championFact!)).toBeVisible();
+    expect(
+      within(dossier).getByRole("list", { name: "Starting XI" }).children,
+    ).toHaveLength(11);
+    expect(
+      within(dossier).getByRole("list", {
+        name: "Available substitutes",
+      }).children,
+    ).toHaveLength(champion.substitutes.length);
+    expect(within(dossier).getByText(`${champion.ratings.overall} OVR`)).toBeVisible();
+    expect(within(dossier).queryByText(/not sourced/i)).not.toBeInTheDocument();
+    expect(within(dossier).queryByText(/trophy xi tactical model/i)).not.toBeInTheDocument();
   });
 });

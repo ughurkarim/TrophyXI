@@ -16,7 +16,53 @@ describe("CircularPortrait", () => {
     );
   });
 
-  it("renders a draftable non-face Photo Pending identity marker", () => {
+  it("renders a neutral non-face identity marker", () => {
+    render(
+      <CircularPortrait
+        imageId="dida-2006"
+        subjectName="Dida"
+        era="2000s"
+        statusTier="reliable"
+        countryCode="BRA"
+        tournamentYear={2006}
+      />,
+    );
+    const pending = screen.getByRole("img", {
+      name: /dida 2006 portrait/i,
+    });
+    expect(pending).toHaveTextContent("D");
+    expect(pending).not.toHaveTextContent(/photo|source|pending/i);
+    expect(pending.closest(".circular-portrait")).toHaveClass(
+      "circular-portrait--reliable",
+    );
+  });
+
+  it("renders a supplied 2006 portrait without source language", () => {
+    render(
+      <CircularPortrait
+        imageId="cristiano-ronaldo-2006"
+        subjectName="Cristiano Ronaldo"
+        era="2000s"
+        statusTier="elite"
+        countryCode="POR"
+        tournamentYear={2006}
+      />,
+    );
+    const portrait = screen.getByRole("img", {
+      name: /cristiano ronaldo 2006 portrait/i,
+    });
+    expect(portrait.closest(".circular-portrait")).not.toHaveAttribute(
+      "data-image-context",
+    );
+    expect(portrait).toHaveAttribute(
+      "src",
+      expect.stringMatching(
+        /^\/assets\/players\/2006\/cristiano-ronaldo-2006\.png\?v=/,
+      ),
+    );
+  });
+
+  it("uses a neutral accessible label for historical portraits", () => {
     render(
       <CircularPortrait
         imageId="pele-1970"
@@ -27,19 +73,11 @@ describe("CircularPortrait", () => {
         tournamentYear={1970}
       />,
     );
-    const pending = screen.getByRole("img", {
-      name: /photo pending for pelé 1970/i,
+    const portrait = screen.getByRole("img", {
+      name: /pelé 1970 portrait/i,
     });
-    expect(pending).toHaveTextContent("P");
-    expect(pending).toHaveTextContent("PHOTO PENDING");
-    expect(pending.closest(".circular-portrait")).toHaveAttribute(
-      "data-photo-status",
-      "pending",
+    expect(portrait.closest(".circular-portrait")).not.toHaveAttribute(
+      "data-image-context",
     );
-    expect(pending.closest(".circular-portrait")).toHaveClass(
-      "circular-portrait--legend",
-    );
-    expect(screen.queryByRole("img", { name: /exact-year card face/i }))
-      .not.toBeInTheDocument();
   });
 });

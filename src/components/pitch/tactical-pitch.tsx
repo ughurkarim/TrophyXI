@@ -43,6 +43,12 @@ export function TacticalPitch({
         <span className="pitch__box pitch__box--bottom" />
       </div>
       {formation.slots.map((slot, index) => {
+        const isGoalkeeper = slot.position === "GK";
+        const isLowCenterBack =
+          slot.y >= 75 &&
+          (slot.position === "CB" ||
+            slot.position === "LCB" ||
+            slot.position === "RCB");
         const fitPreview = fitPreviews.find(
           (candidate) => candidate.slotId === slot.id,
         );
@@ -68,8 +74,12 @@ export function TacticalPitch({
           fitPreview && slot.x <= 15 && "pitch-node--near-left",
           fitPreview && slot.x >= 85 && "pitch-node--near-right",
           fitPreview && slot.y <= 20 && "pitch-node--near-top",
+          isGoalkeeper && "pitch-node--goalkeeper",
+          isLowCenterBack && "pitch-node--low-center-back",
           slot.y >= 80 && "pitch-node--near-bottom",
-          fitPreview && slot.y >= 80 && "pitch-node--fit-label-above",
+          fitPreview &&
+            (isGoalkeeper || isLowCenterBack) &&
+            "pitch-node--fit-label-above",
           fitPreview?.feasibilityBlocked && "pitch-node--feasibility-blocked",
         );
         const ariaLabel = player
@@ -138,6 +148,7 @@ export function TacticalPitch({
             style={{ left: `${slot.x}%`, top: `${slot.y}%` }}
             data-slot-x={slot.x}
             data-slot-y={slot.y}
+            data-slot-position={slot.position}
             aria-label={ariaLabel}
             aria-pressed={!player && onSelectSlot ? isSelected : undefined}
             aria-disabled={
@@ -175,6 +186,7 @@ export function TacticalPitch({
             style={{ left: `${slot.x}%`, top: `${slot.y}%` }}
             data-slot-x={slot.x}
             data-slot-y={slot.y}
+            data-slot-position={slot.position}
             aria-label={ariaLabel}
           >
             {content}

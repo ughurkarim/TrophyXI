@@ -15,9 +15,6 @@ export function PlayerPortrait({ player }: { player: PlayerTournamentCard }) {
         tournamentYear={player.tournamentYear}
         size="featured"
       />
-      <span className="portrait-year" aria-hidden>
-        {String(player.tournamentYear).slice(-2)}
-      </span>
     </div>
   );
 }

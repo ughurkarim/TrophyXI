@@ -16,7 +16,7 @@ const input = {
   lineup: testLineup,
   bench: testBench,
   formation: getFormation("4-3-3"),
-  opponent: historicalOpponentsById.get("brazil-1970")!,
+  opponent: historicalOpponentsById.get("west-germany-1974")!,
   seed: 8675309,
 } as const;
 
@@ -42,7 +42,67 @@ describe("match simulation", () => {
     ).toBe(true);
     expect(
       result.events.filter((event) => event.type === "substitution").length,
-    ).toBe(result.substitutions.length);
+    ).toBe(result.substitutions.length + result.opponentSubstitutions.length);
+  });
+
+  it("uses the selected champion roster for opponent events and substitutions", () => {
+    const result = simulateMatch(input);
+    const rosterNames = new Set(
+      [
+        ...input.opponent.startingLineup,
+        ...input.opponent.substitutes,
+      ].map((player) => player.name),
+    );
+    const opponentPlayerEvents = result.events.filter(
+      (event) =>
+        event.team === "opponent" &&
+        ["goal", "substitution", "yellow"].includes(event.type),
+    );
+
+    expect(result.opponentSubstitutions.length).toBeGreaterThan(0);
+    expect(
+      result.opponentSubstitutions.every(
+        (substitution) =>
+          substitution.playerInId.startsWith(`${input.opponent.id}:`) &&
+          substitution.playerOutId.startsWith(`${input.opponent.id}:`),
+      ),
+    ).toBe(true);
+    expect(
+      opponentPlayerEvents.every((event) =>
+        [...rosterNames].some((name) => event.title.includes(name)),
+      ),
+    ).toBe(true);
+  });
+
+  it("supports a champion's full available substitute pool safely", () => {
+    const argentina = historicalOpponentsById.get("argentina-2022")!;
+    const identitySafeLineup = testLineup.map((player) =>
+      player.playerIdentityId === "lionel-messi"
+        ? playersById.get("neymar-2014")!
+        : player,
+    );
+    const result = simulateMatch({
+      ...input,
+      lineup: identitySafeLineup,
+      opponent: argentina,
+      seed: 2022,
+    });
+    const rosterIds = new Set([
+      ...argentina.startingLineup.map((player) => player.sourcePlayerId),
+      ...argentina.substitutes.map((player) => player.sourcePlayerId),
+    ]);
+
+    expect(argentina.substitutes.length).toBeGreaterThan(3);
+    expect(result.opponentSubstitutions.length).toBeLessThanOrEqual(3);
+    expect(
+      result.opponentSubstitutions.every((substitution) =>
+        [...rosterIds].some(
+          (sourceId) =>
+            sourceId &&
+            substitution.playerInId.includes(sourceId),
+        ),
+      ),
+    ).toBe(true);
   });
 
   it("uses bench order as substitution priority", () => {

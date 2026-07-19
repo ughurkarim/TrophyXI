@@ -48,6 +48,7 @@ const MANIFEST_FILE = path.join(
 const RATE_LIMIT_MS = 2_000;
 const MAX_DAILY_DOWNLOADS = 5_000;
 const MAX_SOURCE_BYTES = 10 * 1024 * 1024;
+const force = process.argv.includes("--force");
 
 type ImportCache = Record<
   string,
@@ -183,7 +184,7 @@ const importCandidate = async (
     redirect: "manual",
     headers: {
       "User-Agent":
-        "TrophyXI/1.0 (permissioned exact-year face importer; attribution preserved)",
+        "TrophyXI/1.0 (permissioned tournament-edition face importer; attribution preserved)",
       Accept: "image/png",
       ...(cached?.etag ? { "If-None-Match": cached.etag } : {}),
       ...(cached?.lastModified
@@ -191,17 +192,6 @@ const importCandidate = async (
         : {}),
     },
   });
-  if (response.status >= 300 && response.status < 400) {
-    const redirectTarget = response.headers.get("location");
-    throw new Error(
-      `source redirected${
-        redirectTarget ? ` to ${redirectTarget}` : ""
-      }; review and configure the direct permitted asset URL`,
-    );
-  }
-  if (!isPermittedGameAssetHost(response.url)) {
-    throw new Error("response host is outside the permitted EA/SoFIFA scope");
-  }
   if (response.status === 304) {
     if (!existsSync(outputFile)) {
       throw new Error("conditional cache hit requires an existing local asset");
@@ -220,6 +210,17 @@ const importCandidate = async (
       sha256: createHash("sha256").update(buffer).digest("hex"),
       byteLength: buffer.byteLength,
     };
+  }
+  if (response.status >= 300 && response.status < 400) {
+    const redirectTarget = response.headers.get("location");
+    throw new Error(
+      `source redirected${
+        redirectTarget ? ` to ${redirectTarget}` : ""
+      }; review and configure the direct permitted asset URL`,
+    );
+  }
+  if (!isPermittedGameAssetHost(response.url)) {
+    throw new Error("response host is outside the permitted EA/SoFIFA scope");
   }
   if (!response.ok) {
     throw new Error(`download failed with HTTP ${response.status}`);
@@ -286,6 +287,7 @@ const main = async () => {
   );
   const nextManifest: GameFaceManifestRecord[] = [];
   const results: GameFaceImportResult[] = [];
+  const refreshFailures: Array<{ id: string; reason: string }> = [];
   for (const candidate of candidates) {
     const card = cardsById.get(candidate.id);
     const errors = validateGameFaceCandidate(candidate, card);
@@ -308,6 +310,7 @@ const main = async () => {
 
     const previous = previousById.get(candidate.id);
     if (
+      !force &&
       previous &&
       previous.sourceUrl === candidate.sourceUrl &&
       existsSync(localFileFor(previous.localPath))
@@ -326,7 +329,7 @@ const main = async () => {
         id: candidate.id,
         kind: candidate.kind,
         status: "skipped",
-        reason: "Completed exact-year import is already cached locally.",
+        reason: "Completed tournament-edition import is already cached locally.",
       });
       cache[candidate.id] = {
         ...cache[candidate.id],
@@ -341,7 +344,7 @@ const main = async () => {
       const imported = await importCandidate(
         candidate,
         card,
-        cache[candidate.id]?.sourceUrl === candidate.sourceUrl
+        !force && cache[candidate.id]?.sourceUrl === candidate.sourceUrl
           ? cache[candidate.id]
           : undefined,
         requestLedger,
@@ -366,6 +369,37 @@ const main = async () => {
     } catch (error) {
       const reason =
         error instanceof Error ? error.message : "unknown import failure";
+      if (
+        previous &&
+        previous.sourceUrl === candidate.sourceUrl &&
+        existsSync(localFileFor(previous.localPath))
+      ) {
+        nextManifest.push({
+          ...previous,
+          ...candidate,
+          localPath: gameFacePathForCard(
+            card.kind,
+            card.id,
+            card.tournamentYear,
+          ),
+          sourceFile: previous.localPath,
+        });
+        results.push({
+          id: candidate.id,
+          kind: candidate.kind,
+          status: "skipped",
+          reason: `Refresh failed; retained existing local asset. ${reason}`,
+        });
+        refreshFailures.push({ id: candidate.id, reason });
+        cache[candidate.id] = {
+          ...cache[candidate.id],
+          status: "failed",
+          checkedAt: new Date().toISOString(),
+          sourceUrl: candidate.sourceUrl,
+          reason,
+        };
+        continue;
+      }
       results.push({
         id: candidate.id,
         kind: candidate.kind,
@@ -417,11 +451,13 @@ const main = async () => {
     policy:
       "Project-specific EA/SoFIFA permission only: local cache first; at least two seconds between requests; maximum 5,000 per UTC day; original PNG metadata and watermarks preserved; required attribution retained. The former UTC download window no longer applies.",
     configuredCandidates: candidates.length,
-    activeExactYearFaces: nextManifest.length,
+    activeTournamentEditionFaces: nextManifest.length,
+    refreshFailures: refreshFailures.length,
+    refreshFailureResults: refreshFailures,
     ...summary,
   });
 
-  console.log("Exact-year face import summary");
+  console.log("Tournament-edition face import summary");
   console.log(`Downloaded: ${summary.downloaded}`);
   console.log(`Skipped: ${summary.skipped}`);
   console.log(`Failed: ${summary.failed}`);

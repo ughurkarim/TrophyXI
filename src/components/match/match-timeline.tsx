@@ -82,7 +82,7 @@ function TeamPanel({
   side: "user" | "opponent";
   teamName: string;
   code: string;
-  coach: string;
+  coach?: string;
   formation: string;
   lineup: BroadcastPlayer[];
   label: string;
@@ -117,40 +117,40 @@ function TeamPanel({
       </div>
 
       <dl className={styles.teamMeta}>
-        <div>
-          <dt>Coach</dt>
-          <dd>{coach}</dd>
-        </div>
+        {coach && (
+          <div>
+            <dt>Coach</dt>
+            <dd>{coach}</dd>
+          </div>
+        )}
         <div>
           <dt>Formation</dt>
           <dd>{formation}</dd>
         </div>
       </dl>
 
-      <div className={styles.lineupHeading}>
-        <span>STARTING XI</span>
-        <b>{lineup.length}/11</b>
-      </div>
-      {lineup.length === 11 ? (
-        <div className={styles.lineupLines}>
-          {grouped.map(({ line, players }) => (
-            <div className={styles.lineupLine} key={line}>
-              <span>{lineLabels[line]}</span>
-              <ol aria-label={`${teamName} ${line}`}>
-                {players.map((player) => (
-                  <li key={`${player.id}-${player.position}`}>
-                    <b>{player.position}</b>
-                    <span>{player.name}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p className={styles.lineupUnavailable}>
-          Starting XI unavailable for this archive record.
-        </p>
+      {lineup.length === 11 && (
+        <>
+          <div className={styles.lineupHeading}>
+            <span>STARTING XI</span>
+            <b>11/11</b>
+          </div>
+          <div className={styles.lineupLines}>
+            {grouped.map(({ line, players }) => (
+              <div className={styles.lineupLine} key={line}>
+                <span>{lineLabels[line]}</span>
+                <ol aria-label={`${teamName} ${line}`}>
+                  {players.map((player) => (
+                    <li key={`${player.id}-${player.position}`}>
+                      <b>{player.position}</b>
+                      <span>{player.name}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </aside>
   );
@@ -199,7 +199,7 @@ export function MatchTimeline({
     [opponent.startingLineup],
   );
   const opponentName =
-    opponent.kind === "all-stars"
+    opponent.kind === "all-stars" || opponent.tournamentYear === null
       ? opponent.nationName
       : `${opponent.nationName} ${opponent.tournamentYear}`;
   const opponentLabel =
@@ -321,7 +321,7 @@ export function MatchTimeline({
           side="user"
           teamName="Trophy XI"
           code="TXI"
-          coach={userManager?.managerName ?? "Coach record unavailable"}
+          coach={userManager?.managerName}
           formation={formation?.id ?? "—"}
           lineup={userLineup}
           label="YOUR XI"
@@ -436,11 +436,7 @@ export function MatchTimeline({
           side="opponent"
           teamName={opponentName}
           code={opponent.nationCode}
-          coach={
-            opponentManager?.managerName ??
-            opponent.managerName ??
-            "Coach record unavailable"
-          }
+          coach={opponentManager?.managerName ?? opponent.managerName ?? undefined}
           formation={opponent.formation}
           lineup={opponentLineup}
           label={opponentLabel}

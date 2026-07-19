@@ -20,6 +20,7 @@ import {
   calculateManagerEraFit,
   managerEraEffectiveness,
 } from "@/engine/manager-era-fit";
+import { compatibleHistoricalPositions } from "@/engine/historical-lineup";
 import type {
   BenchSlotId,
   DraftEraId,
@@ -29,6 +30,7 @@ import type {
   ManagerTournamentCard,
   MatchEvent,
   MatchResult,
+  PlayerAttributes,
   PlayerTournamentCard,
   Position,
   SubstitutionRecord,
@@ -43,7 +45,18 @@ export type SimulationInput = {
   eraId?: DraftEraId;
   opponent: HistoricalWorldCupTeam;
   seed: number;
+  competitionStage?: "group" | "knockout";
   knockoutMode?: "normal" | "force-extra-time" | "force-penalties";
+};
+
+type SimulationPlayer = {
+  id: string;
+  playerName: string;
+  tournamentYear: number;
+  primaryPosition: Position;
+  eligiblePositions: Position[];
+  overall: number;
+  attributes: Pick<PlayerAttributes, "attack" | "creativity" | "clutch">;
 };
 
 const clamp = (value: number, min: number, max: number) =>
@@ -98,7 +111,7 @@ const chooseUserAssist = (
 
 const chooseOpponentPlayer = (
   opponent: HistoricalWorldCupTeam,
-  lineup: PlayerTournamentCard[],
+  lineup: SimulationPlayer[],
   random: RandomSource,
   excludedId?: string,
 ) => {
@@ -126,8 +139,8 @@ const chooseOpponentPlayer = (
 };
 
 const substitutionPosition = (
-  substitute: PlayerTournamentCard,
-  lineup: PlayerTournamentCard[],
+  substitute: SimulationPlayer,
+  lineup: SimulationPlayer[],
   alreadyRemoved: Set<string>,
 ) => {
   const compatible = lineup.filter(
@@ -158,8 +171,8 @@ const createSubstitutions = ({
   extraTime,
   random,
 }: {
-  lineup: PlayerTournamentCard[];
-  bench: PlayerTournamentCard[];
+  lineup: SimulationPlayer[];
+  bench: SimulationPlayer[];
   manager?: ManagerTournamentCard;
   managerEraFit?: number;
   trailing: boolean;
@@ -227,6 +240,45 @@ const createSubstitutions = ({
   });
 };
 
+const historicalSimulationPlayer = (
+  opponent: HistoricalWorldCupTeam,
+  player: HistoricalWorldCupTeam["startingLineup"][number],
+  index: number,
+): SimulationPlayer => {
+  const overall = player.rating ?? opponent.ratings.overall;
+  const attackingPosition = [
+    "AM",
+    "LM",
+    "RM",
+    "LW",
+    "RW",
+    "CF",
+    "ST",
+  ].includes(player.position);
+  const creativePosition = [
+    "DM",
+    "CM",
+    "AM",
+    "LM",
+    "RM",
+    "LW",
+    "RW",
+  ].includes(player.position);
+  return {
+    id: `${opponent.id}:${player.sourcePlayerId ?? player.playerIdentityId}:${index}`,
+    playerName: player.name,
+    tournamentYear: opponent.tournamentYear ?? 2026,
+    primaryPosition: player.position,
+    eligiblePositions: compatibleHistoricalPositions(player.position),
+    overall,
+    attributes: {
+      attack: clamp(overall + (attackingPosition ? 5 : -12), 45, 99),
+      creativity: clamp(overall + (creativePosition ? 4 : -7), 45, 99),
+      clutch: clamp(overall + 3, 45, 99),
+    },
+  };
+};
+
 export const simulateMatch = ({
   lineup,
   bench,
@@ -236,6 +288,7 @@ export const simulateMatch = ({
   eraId = "all",
   opponent,
   seed,
+  competitionStage = "knockout",
   knockoutMode = "normal",
 }: SimulationInput): MatchResult => {
   if (lineup.length !== 11) throw new Error("A complete eleven is required");
@@ -265,7 +318,7 @@ export const simulateMatch = ({
   const opponentEraFit = calculateOpponentEraFit(opponent, eraId);
   const allStarsRatings =
     opponent.kind === "all-stars"
-      ? calculateWorldCupAllStarsRatings(eraId)
+      ? calculateWorldCupAllStarsRatings(eraId, opponent)
       : null;
   const opponentRatings = allStarsRatings
     ? {
@@ -282,10 +335,22 @@ export const simulateMatch = ({
         chemistry: 86,
         overall: opponent.ratings.overall,
       };
-  const opponentLineup =
-    opponent.kind === "all-stars" ? getWorldCupAllStarsLineup() : [];
-  const opponentBench =
-    opponent.kind === "all-stars" ? getWorldCupAllStarsBench() : [];
+  const opponentLineup: SimulationPlayer[] =
+    opponent.kind === "all-stars"
+      ? getWorldCupAllStarsLineup(opponent)
+      : opponent.startingLineup.map((player, index) =>
+          historicalSimulationPlayer(opponent, player, index),
+        );
+  const opponentBench: SimulationPlayer[] =
+    opponent.kind === "all-stars"
+      ? getWorldCupAllStarsBench(opponent)
+      : opponent.substitutes.map((player, index) =>
+          historicalSimulationPlayer(
+            opponent,
+            player,
+            opponent.startingLineup.length + index,
+          ),
+        );
   const opponentManager = opponent.allStars?.manager;
   const managerEraFit = manager
     ? calculateManagerEraFit(manager, eraId).score
@@ -346,7 +411,7 @@ export const simulateMatch = ({
   let afterExtraTime = false;
   let penalties: [number, number] | undefined;
 
-  if (userGoals === opponentGoals) {
+  if (userGoals === opponentGoals && competitionStage === "knockout") {
     afterExtraTime = true;
     extraUserGoals = poisson(userXg * 0.27, random, 2);
     extraOpponentGoals = poisson(opponentXg * 0.27, random, 2);
@@ -384,9 +449,9 @@ export const simulateMatch = ({
     random,
   }).sort((first, second) => first.minute - second.minute);
   const opponentSubstitutions = opponentLineup.length
-    ? createSubstitutions({
+      ? createSubstitutions({
         lineup: opponentLineup,
-        bench: opponentBench,
+        bench: opponentBench.slice(0, 3),
         manager: opponentManager,
         managerEraFit: opponentManagerEraFit,
         trailing: opponentGoals < userGoals,
@@ -561,13 +626,20 @@ export const simulateMatch = ({
     });
   }
   for (let index = 0; index < opponentYellows; index += 1) {
+    const eligible = opponentLineup.filter(
+      (player) => player.primaryPosition !== "GK",
+    );
+    const player =
+      eligible.length > 0
+        ? eligible[randomInt(random, 0, eligible.length - 1)]
+        : undefined;
     const minute = randomInt(random, 24, 84);
     rawEvents.push({
       minute,
       minuteLabel: `${minute}’`,
       type: "yellow",
       team: "opponent",
-      title: `Yellow card — ${opponent.nationName}`,
+      title: `Yellow card — ${player?.playerName ?? opponent.nationName}`,
       detail: "The referee has seen enough of the tactical foul.",
       userScore: 0,
       opponentScore: 0,

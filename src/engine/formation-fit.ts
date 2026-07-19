@@ -71,8 +71,3 @@ export const calculateFormationEraFit = (
 
   return Math.round(clamp(score, 60, 99));
 };
-
-export const calculateFormationRecommendationScore = (
-  managerFit: number,
-  eraFit: number,
-) => managerFit * 0.55 + eraFit * 0.45;

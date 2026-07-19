@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { draftEras } from "@/data/eras";
 import { formations, getFormation } from "@/data/formations";
-import {
-  calculateFormationEraFit,
-  calculateFormationRecommendationScore,
-} from "@/engine/formation-fit";
+import { calculateFormationEraFit } from "@/engine/formation-fit";
 
 describe("formation Era Fit", () => {
   it("produces bounded numeric compatibility for every formation and era", () => {
@@ -26,15 +23,6 @@ describe("formation Era Fit", () => {
     );
     expect(calculateFormationEraFit(pressing, "2020s")).toBeGreaterThan(
       calculateFormationEraFit(classic, "2020s"),
-    );
-  });
-
-  it("combines manager and era compatibility without discarding either", () => {
-    expect(calculateFormationRecommendationScore(96, 80)).toBeGreaterThan(
-      calculateFormationRecommendationScore(85, 88),
-    );
-    expect(calculateFormationRecommendationScore(80, 96)).toBeGreaterThan(
-      calculateFormationRecommendationScore(80, 82),
     );
   });
 });

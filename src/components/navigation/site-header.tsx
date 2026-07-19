@@ -10,13 +10,14 @@ const links = [
   { label: "Database", href: "/database" },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Champions", href: "/#champions" },
-  { label: "Credits", href: "/credits" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ fixed = false }: { fixed?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
-    <header className="site-header">
+    <header
+      className={fixed ? "site-header site-header--fixed" : "site-header"}
+    >
       <div className="container site-header__inner">
         <Link href="/" className="brand-link" aria-label="Trophy XI home">
           <Wordmark />
@@ -29,7 +30,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="site-header__actions">
-          <ButtonLink href="/play/era" className="header-cta">
+          <ButtonLink href="/play" className="header-cta">
             Play now
           </ButtonLink>
           <button
@@ -49,7 +50,7 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <ButtonLink href="/play/era">Build your XI</ButtonLink>
+          <ButtonLink href="/play">Build your XI</ButtonLink>
         </nav>
       )}
     </header>

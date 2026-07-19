@@ -1,0 +1,417 @@
+.main {
+  padding-block: 1.5rem 4rem;
+}
+
+.heading,
+.archiveHeading,
+.context,
+.progress,
+.resume {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.heading {
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.heading h1,
+.archiveHeading h2 {
+  margin: 0.35rem 0 0.55rem;
+}
+
+.heading p:last-child {
+  color: var(--text-muted);
+  max-width: 720px;
+}
+
+.builder {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+}
+
+.pitchPanel,
+.squadPanel,
+.archive {
+  background: rgba(6, 11, 10, 0.76);
+  border: 1px solid rgba(206, 168, 86, 0.2);
+  border-radius: 16px;
+}
+
+.pitchPanel {
+  padding: 0.85rem;
+}
+
+.pitchPanel :global(.pitch) {
+  min-height: 600px;
+}
+
+.context {
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.35rem 0.85rem;
+  text-transform: uppercase;
+}
+
+.squadPanel {
+  align-self: start;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  position: sticky;
+  top: 88px;
+}
+
+.progress {
+  border-bottom: 1px solid rgba(206, 168, 86, 0.16);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  padding-bottom: 0.85rem;
+}
+
+.progress b {
+  color: var(--gold);
+}
+
+.selected,
+.instruction {
+  background: rgba(206, 168, 86, 0.06);
+  border: 1px solid rgba(206, 168, 86, 0.15);
+  border-radius: 10px;
+  padding: 0.85rem;
+}
+
+.selected strong {
+  display: block;
+  margin-top: 0.4rem;
+}
+
+.selected p,
+.instruction {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.previewMetrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin: 0.75rem 0 0;
+}
+
+.previewMetrics > div {
+  padding: 0.45rem;
+  border: 1px solid rgba(206, 168, 86, 0.12);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.previewMetrics dt {
+  color: var(--text-muted);
+  font-size: 0.55rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.previewMetrics dd {
+  margin: 0.2rem 0 0;
+  color: var(--gold);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+}
+
+.previewMetrics small {
+  margin-left: 0.3rem;
+  color: var(--text-muted);
+}
+
+.benchActions {
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 0.75rem;
+}
+
+.benchActions button {
+  min-height: 38px;
+  padding-inline: 0.45rem;
+}
+
+.roster {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.roster h2 {
+  color: var(--gold);
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+  margin: 0.55rem 0 0.2rem;
+}
+
+.roster > div {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.025);
+  border-radius: 7px;
+  display: grid;
+  font-size: 0.72rem;
+  gap: 0.5rem;
+  grid-template-columns: 56px 1fr auto;
+  min-height: 32px;
+  padding: 0.35rem 0.45rem;
+}
+
+.roster span {
+  color: var(--text-muted);
+}
+
+.roster button {
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.archive {
+  margin-top: 1rem;
+  padding: 1.25rem;
+}
+
+.archiveHeading {
+  margin-bottom: 1rem;
+}
+
+.archiveHeading b {
+  color: var(--gold);
+}
+
+.filters {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: minmax(230px, 1fr) repeat(4, minmax(130px, auto));
+  margin-bottom: 1.15rem;
+}
+
+.filters input,
+.filters select {
+  background: rgba(4, 8, 7, 0.9);
+  border: 1px solid rgba(206, 168, 86, 0.18);
+  border-radius: 8px;
+  color: var(--text);
+  min-height: 42px;
+  padding: 0 0.7rem;
+  width: 100%;
+}
+
+.search {
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.search svg {
+  color: var(--text-muted);
+  left: 0.75rem;
+  position: absolute;
+}
+
+.search input {
+  padding-left: 2.2rem;
+}
+
+.cardGrid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 1200px) and (min-height: 720px) {
+  .main {
+    display: grid;
+    gap: 0.75rem 1rem;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 0.48fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    height: calc(100svh - 82px);
+    overflow: hidden;
+    padding-block: 0.65rem;
+  }
+
+  .heading {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .heading h1 {
+    font-size: clamp(1.45rem, 2vw, 2rem);
+    margin-block: 0.18rem 0.3rem;
+  }
+
+  .heading p:last-child {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    margin-bottom: 0;
+  }
+
+  .builder {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 290px);
+    height: 100%;
+    min-height: 0;
+  }
+
+  .pitchPanel,
+  .squadPanel,
+  .archive {
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: rgba(206, 168, 86, 0.35) transparent;
+    scrollbar-width: thin;
+  }
+
+  .pitchPanel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    padding: 0.65rem;
+  }
+
+  .pitchPanel :global(.pitch) {
+    height: clamp(360px, 47svh, 470px);
+    min-height: 0;
+  }
+
+  .context {
+    font-size: 0.62rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .squadPanel {
+    align-self: stretch;
+    gap: 0.55rem;
+    padding: 0.7rem;
+    position: static;
+  }
+
+  .progress {
+    padding-bottom: 0.55rem;
+  }
+
+  .selected,
+  .instruction {
+    padding: 0.6rem;
+  }
+
+  .selected p,
+  .instruction {
+    line-height: 1.4;
+    margin-bottom: 0;
+  }
+
+  .previewMetrics {
+    margin-top: 0.5rem;
+  }
+
+  .benchActions {
+    margin-top: 0.5rem;
+  }
+
+  .roster {
+    gap: 0.2rem;
+  }
+
+  .roster h2 {
+    margin-top: 0.25rem;
+  }
+
+  .roster > div {
+    min-height: 28px;
+    padding-block: 0.2rem;
+  }
+
+  .archive {
+    margin-top: 0;
+    padding: 0.75rem;
+  }
+
+  .archiveHeading {
+    margin-bottom: 0.55rem;
+  }
+
+  .archiveHeading h2 {
+    font-size: 1.05rem;
+    margin-block: 0.15rem 0;
+  }
+
+  .filters {
+    gap: 0.4rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 0.65rem;
+  }
+
+  .search {
+    grid-column: 1 / -1;
+  }
+
+  .filters input,
+  .filters select {
+    min-height: 36px;
+  }
+
+  .cardGrid {
+    gap: 0.55rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1120px) {
+  .builder {
+    grid-template-columns: 1fr;
+  }
+
+  .squadPanel {
+    position: static;
+  }
+
+  .filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search {
+    grid-column: 1 / -1;
+  }
+
+  .cardGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pitchPanel :global(.pitch) {
+    min-height: 520px;
+  }
+
+  .cardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .filters,
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}

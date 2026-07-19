@@ -45,9 +45,9 @@
   Preserve the original PNG bytes, embedded metadata, and watermarks. Keep the
   required attribution:
   “EA SPORTS player imagery, sourced via SoFIFA, used under project-specific
-  permission.” Resolve each tournament to the edition available by June of that
-  World Cup year (including EA SPORTS FC 26 for 2026); never substitute the
-  following season's edition or another tournament version's face. Never hotlink.
+  permission.” Use FIFA 14 for 2014, FIFA 18 for 2018, FIFA 23 for the
+  November–December 2022 tournament, and EA SPORTS FC 26 for 2026. Never
+  substitute another tournament version's face. Never hotlink.
 - Active manager portraits must remain local, permissioned, exact-year assets
   with complete source, author, license, context, and change metadata. Never
   hotlink them or infer an unstated image context.

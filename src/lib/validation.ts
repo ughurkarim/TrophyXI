@@ -77,8 +77,35 @@ export const playerCardSchema = z.object({
     assists: nullableCount,
     cleanSheets: nullableCount,
     saves: nullableCount,
+    goalsConceded: nullableCount,
+    penaltiesSaved: nullableCount,
   }),
   statSources: z.array(citationSchema),
+  statSourcesByField: z.object({
+    appearances: citationSchema.optional(),
+    starts: citationSchema.optional(),
+    minutes: citationSchema.optional(),
+    goals: citationSchema.optional(),
+    assists: citationSchema.optional(),
+    cleanSheets: citationSchema.optional(),
+    saves: citationSchema.optional(),
+    goalsConceded: citationSchema.optional(),
+    penaltiesSaved: citationSchema.optional(),
+  }),
+  tournamentFinish: z
+    .enum([
+      "champion",
+      "runner-up",
+      "third place",
+      "fourth place",
+      "semi-finals",
+      "quarter-finals",
+      "round of 16",
+      "second group stage",
+      "group stage",
+    ])
+    .nullable(),
+  tournamentFinishSource: citationSchema.nullable(),
   achievements: z.array(
     z.object({
       id: z.string().regex(/^[a-z0-9-]+$/),

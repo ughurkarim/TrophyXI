@@ -1,0 +1,1665 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-19T06:25:29.161Z",
+  "accessedOn": "2026-07-19",
+  "competitionSources": [
+    {
+      "tournamentYear": 1970,
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/1970/stats/1970-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/1970/keepers/1970-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 1974,
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/1974/stats/1974-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/1974/keepers/1974-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 1978,
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/1978/stats/1978-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/1978/keepers/1978-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 1982,
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/1982/stats/1982-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/1982/keepers/1982-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 1986,
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/1986/stats/1986-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/1986/keepers/1986-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 1990,
+      "overviewUrl": "https://fbref.com/en/comps/1/1990/1990-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/1990/stats/1990-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/1990/keepers/1990-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 1994,
+      "overviewUrl": "https://fbref.com/en/comps/1/1994/1994-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/1994/stats/1994-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/1994/keepers/1994-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 1998,
+      "overviewUrl": "https://fbref.com/en/comps/1/1998/1998-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/1998/stats/1998-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/1998/keepers/1998-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 2002,
+      "overviewUrl": "https://fbref.com/en/comps/1/2002/2002-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/2002/stats/2002-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/2002/keepers/2002-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 2006,
+      "overviewUrl": "https://fbref.com/en/comps/1/2006/2006-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/2006/stats/2006-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/2006/keepers/2006-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 2010,
+      "overviewUrl": "https://fbref.com/en/comps/1/2010/2010-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/2010/stats/2010-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/2010/keepers/2010-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 2014,
+      "overviewUrl": "https://fbref.com/en/comps/1/2014/2014-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/2014/stats/2014-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/2014/keepers/2014-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 2018,
+      "overviewUrl": "https://fbref.com/en/comps/1/2018/2018-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/2018/stats/2018-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/2018/keepers/2018-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 2022,
+      "overviewUrl": "https://fbref.com/en/comps/1/2022/2022-World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/2022/stats/2022-World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/2022/keepers/2022-World-Cup-Stats"
+    },
+    {
+      "tournamentYear": 2026,
+      "overviewUrl": "https://fbref.com/en/comps/1/World-Cup-Stats",
+      "standardUrl": "https://fbref.com/en/comps/1/stats/World-Cup-Stats",
+      "keeperUrl": "https://fbref.com/en/comps/1/keepers/World-Cup-Stats"
+    }
+  ],
+  "records": {
+    "arie-haan-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "arie-haan",
+      "playerName": "Arie Haan",
+      "fbrefId": "c7721b97",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/c7721b97/Arie-Haan",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "arie-haan-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "arie-haan",
+      "playerName": "Arie Haan",
+      "fbrefId": "c7721b97",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 570,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/c7721b97/Arie-Haan",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "bobby-moore-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "bobby-moore",
+      "playerName": "Bobby Moore",
+      "fbrefId": "df7fbe9d",
+      "stats": {
+        "appearances": 4,
+        "starts": 4,
+        "minutes": 390,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/df7fbe9d/Bobby-Moore",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "claudio-gentile-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "claudio-gentile",
+      "playerName": "Claudio Gentile",
+      "fbrefId": "a8e22e15",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/a8e22e15/Claudio-Gentile",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "claudio-gentile-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "claudio-gentile",
+      "playerName": "Claudio Gentile",
+      "fbrefId": "a8e22e15",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 540,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/a8e22e15/Claudio-Gentile",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "daniel-passarella-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "daniel-passarella",
+      "playerName": "Daniel Passarella",
+      "fbrefId": "4b737869",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 660,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/4b737869/Daniel-Passarella",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "daniel-passarella-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "daniel-passarella",
+      "playerName": "Daniel Passarella",
+      "fbrefId": "4b737869",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 450,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/4b737869/Daniel-Passarella",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "dino-zoff-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "dino-zoff",
+      "playerName": "Dino Zoff",
+      "fbrefId": "471deff1",
+      "stats": {
+        "appearances": 3,
+        "starts": 3,
+        "minutes": 270,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/471deff1/Dino-Zoff",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "dino-zoff-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "dino-zoff",
+      "playerName": "Dino Zoff",
+      "fbrefId": "471deff1",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/471deff1/Dino-Zoff",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "dino-zoff-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "dino-zoff",
+      "playerName": "Dino Zoff",
+      "fbrefId": "471deff1",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/471deff1/Dino-Zoff",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "falcao-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "falcao",
+      "playerName": "Falcão",
+      "fbrefId": "cc2e8844",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 450,
+        "goals": 3,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/cc2e8844/Paulo-Roberto-Falcao",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "falcao-1986": {
+      "tournamentYear": 1986,
+      "playerIdentityId": "falcao",
+      "playerName": "Falcão",
+      "fbrefId": "cc2e8844",
+      "stats": {
+        "appearances": 2,
+        "starts": 0,
+        "minutes": 93,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/cc2e8844/Paulo-Roberto-Falcao",
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "franz-beckenbauer-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "franz-beckenbauer",
+      "playerName": "Franz Beckenbauer",
+      "fbrefId": "22e24cc2",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 491,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/22e24cc2/Franz-Beckenbauer",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "franz-beckenbauer-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "franz-beckenbauer",
+      "playerName": "Franz Beckenbauer",
+      "fbrefId": "22e24cc2",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/22e24cc2/Franz-Beckenbauer",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "gaetano-scirea-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "gaetano-scirea",
+      "playerName": "Gaetano Scirea",
+      "fbrefId": "e07c4674",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/e07c4674/Gaetano-Scirea",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "gaetano-scirea-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "gaetano-scirea",
+      "playerName": "Gaetano Scirea",
+      "fbrefId": "e07c4674",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/e07c4674/Gaetano-Scirea",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "gaetano-scirea-1986": {
+      "tournamentYear": 1986,
+      "playerIdentityId": "gaetano-scirea",
+      "playerName": "Gaetano Scirea",
+      "fbrefId": "e07c4674",
+      "stats": {
+        "appearances": 4,
+        "starts": 4,
+        "minutes": 360,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/e07c4674/Gaetano-Scirea",
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "gerd-muller-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "gerd-muller",
+      "playerName": "Gerd Müller",
+      "fbrefId": "0d32232a",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 600,
+        "goals": 10,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/0d32232a/Gerd-Muller",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "gerd-muller-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "gerd-muller",
+      "playerName": "Gerd Müller",
+      "fbrefId": "0d32232a",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 4,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/0d32232a/Gerd-Muller",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "giacinto-facchetti-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "giacinto-facchetti",
+      "playerName": "Giacinto Facchetti",
+      "fbrefId": "8873bedb",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 570,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/8873bedb/Giacinto-Facchetti",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "giacinto-facchetti-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "giacinto-facchetti",
+      "playerName": "Giacinto Facchetti",
+      "fbrefId": "8873bedb",
+      "stats": {
+        "appearances": 3,
+        "starts": 3,
+        "minutes": 270,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/8873bedb/Giacinto-Facchetti",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "gordon-banks-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "gordon-banks",
+      "playerName": "Gordon Banks",
+      "fbrefId": "82d95a5a",
+      "stats": {
+        "appearances": 3,
+        "starts": 3,
+        "minutes": 270,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/82d95a5a/Gordon-Banks",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "grzegorz-lato-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "grzegorz-lato",
+      "playerName": "Grzegorz Lato",
+      "fbrefId": "d6a4cff8",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 7,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/d6a4cff8/Grzegorz-Lato",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "grzegorz-lato-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "grzegorz-lato",
+      "playerName": "Grzegorz Lato",
+      "fbrefId": "d6a4cff8",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 540,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/d6a4cff8/Grzegorz-Lato",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "grzegorz-lato-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "grzegorz-lato",
+      "playerName": "Grzegorz Lato",
+      "fbrefId": "d6a4cff8",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/d6a4cff8/Grzegorz-Lato",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "jairzinho-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "jairzinho",
+      "playerName": "Jairzinho",
+      "fbrefId": "3cee13fc",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 529,
+        "goals": 7,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/3cee13fc/Jairzinho",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "jairzinho-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "jairzinho",
+      "playerName": "Jairzinho",
+      "fbrefId": "3cee13fc",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/3cee13fc/Jairzinho",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "johan-cruyff-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "johan-cruyff",
+      "playerName": "Johan Cruyff",
+      "fbrefId": "fd5e6eed",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 3,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/fd5e6eed/Johan-Cruyff",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "johan-neeskens-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "johan-neeskens",
+      "playerName": "Johan Neeskens",
+      "fbrefId": "f06738c7",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 612,
+        "goals": 5,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/f06738c7/Johan-Neeskens",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "johan-neeskens-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "johan-neeskens",
+      "playerName": "Johan Neeskens",
+      "fbrefId": "f06738c7",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 376,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/f06738c7/Johan-Neeskens",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "jorge-burruchaga-1986": {
+      "tournamentYear": 1986,
+      "playerIdentityId": "jorge-burruchaga",
+      "playerName": "Jorge Burruchaga",
+      "fbrefId": "58170d5e",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 607,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/58170d5e/Jorge-Burruchaga",
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "jorge-burruchaga-1990": {
+      "tournamentYear": 1990,
+      "playerIdentityId": "jorge-burruchaga",
+      "playerName": "Jorge Burruchaga",
+      "fbrefId": "58170d5e",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 621,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/58170d5e/Jorge-Burruchaga",
+      "overviewUrl": "https://fbref.com/en/comps/1/1990/1990-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "jorge-valdano-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "jorge-valdano",
+      "playerName": "Jorge Valdano",
+      "fbrefId": "01a598d2",
+      "stats": {
+        "appearances": 2,
+        "starts": 1,
+        "minutes": 51,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/01a598d2/Jorge-Valdano",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "jorge-valdano-1986": {
+      "tournamentYear": 1986,
+      "playerIdentityId": "jorge-valdano",
+      "playerName": "Jorge Valdano",
+      "fbrefId": "01a598d2",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 4,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/01a598d2/Jorge-Valdano",
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "kazimierz-deyna-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "kazimierz-deyna",
+      "playerName": "Kazimierz Deyna",
+      "fbrefId": "edccceaa",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 619,
+        "goals": 3,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/edccceaa/Kazimierz-Deyna",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "kazimierz-deyna-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "kazimierz-deyna",
+      "playerName": "Kazimierz Deyna",
+      "fbrefId": "edccceaa",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 540,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/edccceaa/Kazimierz-Deyna",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "lee-woon-jae-1994": {
+      "tournamentYear": 1994,
+      "playerIdentityId": "lee-woon-jae",
+      "playerName": "Lee Woon-jae",
+      "fbrefId": "1fbf6932",
+      "stats": {
+        "appearances": 1,
+        "starts": 0,
+        "minutes": 45,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/1fbf6932/Lee-Woon-jae",
+      "overviewUrl": "https://fbref.com/en/comps/1/1994/1994-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "lee-woon-jae-2002": {
+      "tournamentYear": 2002,
+      "playerIdentityId": "lee-woon-jae",
+      "playerName": "Lee Woon-jae",
+      "fbrefId": "1fbf6932",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 690,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": 3,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/1fbf6932/Lee-Woon-jae",
+      "overviewUrl": "https://fbref.com/en/comps/1/2002/2002-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "lee-woon-jae-2006": {
+      "tournamentYear": 2006,
+      "playerIdentityId": "lee-woon-jae",
+      "playerName": "Lee Woon-jae",
+      "fbrefId": "1fbf6932",
+      "stats": {
+        "appearances": 3,
+        "starts": 3,
+        "minutes": 270,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": 0,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/1fbf6932/Lee-Woon-jae",
+      "overviewUrl": "https://fbref.com/en/comps/1/2006/2006-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "marcos-2002": {
+      "tournamentYear": 2002,
+      "playerIdentityId": "marcos",
+      "playerName": "Marcos",
+      "fbrefId": "d89577f6",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": 4,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/d89577f6/Marcos",
+      "overviewUrl": "https://fbref.com/en/comps/1/2002/2002-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "mario-kempes-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "mario-kempes",
+      "playerName": "Mario Kempes",
+      "fbrefId": "42fe1917",
+      "stats": {
+        "appearances": 6,
+        "starts": 5,
+        "minutes": 411,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/42fe1917/Mario-Kempes",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "mario-kempes-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "mario-kempes",
+      "playerName": "Mario Kempes",
+      "fbrefId": "42fe1917",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 660,
+        "goals": 6,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/42fe1917/Mario-Kempes",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "mario-kempes-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "mario-kempes",
+      "playerName": "Mario Kempes",
+      "fbrefId": "42fe1917",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 372,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/42fe1917/Mario-Kempes",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "michel-platini-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "michel-platini",
+      "playerName": "Michel Platini",
+      "fbrefId": "55512f39",
+      "stats": {
+        "appearances": 3,
+        "starts": 2,
+        "minutes": 225,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/55512f39/Michel-Platini",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "michel-platini-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "michel-platini",
+      "playerName": "Michel Platini",
+      "fbrefId": "55512f39",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 470,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/55512f39/Michel-Platini",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "michel-platini-1986": {
+      "tournamentYear": 1986,
+      "playerIdentityId": "michel-platini",
+      "playerName": "Michel Platini",
+      "fbrefId": "55512f39",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 564,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/55512f39/Michel-Platini",
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "murtaz-khurtsilava-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "murtaz-khurtsilava",
+      "playerName": "Murtaz Khurtsilava",
+      "fbrefId": "10adb356",
+      "stats": {
+        "appearances": 3,
+        "starts": 3,
+        "minutes": 265,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/10adb356/Murtaz-Khurtsilava",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "paolo-rossi-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "paolo-rossi",
+      "playerName": "Paolo Rossi",
+      "fbrefId": "221d901a",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 3,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/221d901a/Paolo-Rossi",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "paolo-rossi-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "paolo-rossi",
+      "playerName": "Paolo Rossi",
+      "fbrefId": "221d901a",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 574,
+        "goals": 6,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/221d901a/Paolo-Rossi",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "paul-breitner-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "paul-breitner",
+      "playerName": "Paul Breitner",
+      "fbrefId": "cba73b81",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 3,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/cba73b81/Paul-Breitner",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "paul-breitner-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "paul-breitner",
+      "playerName": "Paul Breitner",
+      "fbrefId": "cba73b81",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/cba73b81/Paul-Breitner",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "pele-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "pele",
+      "playerName": "Pelé",
+      "fbrefId": "52961d3b",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 540,
+        "goals": 4,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/52961d3b/Pele",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "rene-houseman-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "rene-houseman",
+      "playerName": "René Houseman",
+      "fbrefId": "8490d56f",
+      "stats": {
+        "appearances": 6,
+        "starts": 4,
+        "minutes": 372,
+        "goals": 3,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/8490d56f/Rene-Houseman",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "rene-houseman-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "rene-houseman",
+      "playerName": "René Houseman",
+      "fbrefId": "8490d56f",
+      "stats": {
+        "appearances": 6,
+        "starts": 3,
+        "minutes": 331,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/8490d56f/Rene-Houseman",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "rivelino-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "rivelino",
+      "playerName": "Rivelino",
+      "fbrefId": "b1255051",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 450,
+        "goals": 3,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/b1255051/Rivellino",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "rivelino-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "rivelino",
+      "playerName": "Rivelino",
+      "fbrefId": "b1255051",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 3,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/b1255051/Rivellino",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "rivelino-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "rivelino",
+      "playerName": "Rivelino",
+      "fbrefId": "b1255051",
+      "stats": {
+        "appearances": 3,
+        "starts": 1,
+        "minutes": 131,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/b1255051/Rivellino",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "rob-rensenbrink-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "rob-rensenbrink",
+      "playerName": "Rob Rensenbrink",
+      "fbrefId": "2805b896",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 471,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/2805b896/Rob-Rensenbrink",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "rob-rensenbrink-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "rob-rensenbrink",
+      "playerName": "Rob Rensenbrink",
+      "fbrefId": "2805b896",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 660,
+        "goals": 5,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/2805b896/Rob-Rensenbrink",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "roger-milla-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "roger-milla",
+      "playerName": "Roger Milla",
+      "fbrefId": "1c557a10",
+      "stats": {
+        "appearances": 3,
+        "starts": 3,
+        "minutes": 268,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/1c557a10/Roger-Milla",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "roger-milla-1990": {
+      "tournamentYear": 1990,
+      "playerIdentityId": "roger-milla",
+      "playerName": "Roger Milla",
+      "fbrefId": "1c557a10",
+      "stats": {
+        "appearances": 5,
+        "starts": 0,
+        "minutes": 241,
+        "goals": 4,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/1c557a10/Roger-Milla",
+      "overviewUrl": "https://fbref.com/en/comps/1/1990/1990-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "roger-milla-1994": {
+      "tournamentYear": 1994,
+      "playerIdentityId": "roger-milla",
+      "playerName": "Roger Milla",
+      "fbrefId": "1c557a10",
+      "stats": {
+        "appearances": 2,
+        "starts": 0,
+        "minutes": 72,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/1c557a10/Roger-Milla",
+      "overviewUrl": "https://fbref.com/en/comps/1/1994/1994-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "ruud-krol-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "ruud-krol",
+      "playerName": "Ruud Krol",
+      "fbrefId": "17d795ff",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/17d795ff/Ruud-Krol",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "ruud-krol-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "ruud-krol",
+      "playerName": "Ruud Krol",
+      "fbrefId": "17d795ff",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 660,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/17d795ff/Ruud-Krol",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "sepp-maier-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "sepp-maier",
+      "playerName": "Sepp Maier",
+      "fbrefId": "c87070fa",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 510,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/c87070fa/Sepp-Maier",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "sepp-maier-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "sepp-maier",
+      "playerName": "Sepp Maier",
+      "fbrefId": "c87070fa",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 630,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/c87070fa/Sepp-Maier",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "sepp-maier-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "sepp-maier",
+      "playerName": "Sepp Maier",
+      "fbrefId": "c87070fa",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 540,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/c87070fa/Sepp-Maier",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "sergio-goycochea-1990": {
+      "tournamentYear": 1990,
+      "playerIdentityId": "sergio-goycochea",
+      "playerName": "Sergio Goycochea",
+      "fbrefId": "c879395e",
+      "stats": {
+        "appearances": 6,
+        "starts": 5,
+        "minutes": 590,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/c879395e/Sergio-Goycochea",
+      "overviewUrl": "https://fbref.com/en/comps/1/1990/1990-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "socrates-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "socrates",
+      "playerName": "Sócrates",
+      "fbrefId": "0532c68a",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 450,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/0532c68a/Socrates",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "socrates-1986": {
+      "tournamentYear": 1986,
+      "playerIdentityId": "socrates",
+      "playerName": "Sócrates",
+      "fbrefId": "0532c68a",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 435,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/0532c68a/Socrates",
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "teofilo-cubillas-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "teofilo-cubillas",
+      "playerName": "Teófilo Cubillas",
+      "fbrefId": "a675e2b2",
+      "stats": {
+        "appearances": 4,
+        "starts": 4,
+        "minutes": 360,
+        "goals": 5,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/a675e2b2/Teofilo-Cubillas",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "teofilo-cubillas-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "teofilo-cubillas",
+      "playerName": "Teófilo Cubillas",
+      "fbrefId": "a675e2b2",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 540,
+        "goals": 5,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/a675e2b2/Teofilo-Cubillas",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "teofilo-cubillas-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "teofilo-cubillas",
+      "playerName": "Teófilo Cubillas",
+      "fbrefId": "a675e2b2",
+      "stats": {
+        "appearances": 3,
+        "starts": 3,
+        "minutes": 195,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/a675e2b2/Teofilo-Cubillas",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "tostao-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "tostao",
+      "playerName": "Tostão",
+      "fbrefId": "eeda344a",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 517,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/eeda344a/Tostao",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "ubaldo-fillol-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "ubaldo-fillol",
+      "playerName": "Ubaldo Fillol",
+      "fbrefId": "e9f63c61",
+      "stats": {
+        "appearances": 1,
+        "starts": 1,
+        "minutes": 90,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/e9f63c61/Ubaldo-Fillol",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "ubaldo-fillol-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "ubaldo-fillol",
+      "playerName": "Ubaldo Fillol",
+      "fbrefId": "e9f63c61",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 660,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/e9f63c61/Ubaldo-Fillol",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "ubaldo-fillol-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "ubaldo-fillol",
+      "playerName": "Ubaldo Fillol",
+      "fbrefId": "e9f63c61",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 450,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/e9f63c61/Ubaldo-Fillol",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "wolfgang-overath-1970": {
+      "tournamentYear": 1970,
+      "playerIdentityId": "wolfgang-overath",
+      "playerName": "Wolfgang Overath",
+      "fbrefId": "456470e3",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 600,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/456470e3/Wolfgang-Overath",
+      "overviewUrl": "https://fbref.com/en/comps/1/1970/1970-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "wolfgang-overath-1974": {
+      "tournamentYear": 1974,
+      "playerIdentityId": "wolfgang-overath",
+      "playerName": "Wolfgang Overath",
+      "fbrefId": "456470e3",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 592,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/456470e3/Wolfgang-Overath",
+      "overviewUrl": "https://fbref.com/en/comps/1/1974/1974-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "yoo-sang-chul-1998": {
+      "tournamentYear": 1998,
+      "playerIdentityId": "yoo-sang-chul",
+      "playerName": "Yoo Sang-chul",
+      "fbrefId": "c62719bd",
+      "stats": {
+        "appearances": 3,
+        "starts": 3,
+        "minutes": 270,
+        "goals": 1,
+        "assists": 0,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/c62719bd/Yoo-Sang-chul",
+      "overviewUrl": "https://fbref.com/en/comps/1/1998/1998-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "yoo-sang-chul-2002": {
+      "tournamentYear": 2002,
+      "playerIdentityId": "yoo-sang-chul",
+      "playerName": "Yoo Sang-chul",
+      "fbrefId": "c62719bd",
+      "stats": {
+        "appearances": 7,
+        "starts": 7,
+        "minutes": 577,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/c62719bd/Yoo-Sang-chul",
+      "overviewUrl": "https://fbref.com/en/comps/1/2002/2002-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "zbigniew-boniek-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "zbigniew-boniek",
+      "playerName": "Zbigniew Boniek",
+      "fbrefId": "b947688b",
+      "stats": {
+        "appearances": 6,
+        "starts": 4,
+        "minutes": 382,
+        "goals": 2,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/b947688b/Zbigniew-Boniek",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "zbigniew-boniek-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "zbigniew-boniek",
+      "playerName": "Zbigniew Boniek",
+      "fbrefId": "b947688b",
+      "stats": {
+        "appearances": 6,
+        "starts": 6,
+        "minutes": 540,
+        "goals": 4,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/b947688b/Zbigniew-Boniek",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "zbigniew-boniek-1986": {
+      "tournamentYear": 1986,
+      "playerIdentityId": "zbigniew-boniek",
+      "playerName": "Zbigniew Boniek",
+      "fbrefId": "b947688b",
+      "stats": {
+        "appearances": 4,
+        "starts": 4,
+        "minutes": 360,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/b947688b/Zbigniew-Boniek",
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "zico-1978": {
+      "tournamentYear": 1978,
+      "playerIdentityId": "zico",
+      "playerName": "Zico",
+      "fbrefId": "f78ed405",
+      "stats": {
+        "appearances": 6,
+        "starts": 3,
+        "minutes": 230,
+        "goals": 1,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/f78ed405/Zico",
+      "overviewUrl": "https://fbref.com/en/comps/1/1978/1978-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "zico-1982": {
+      "tournamentYear": 1982,
+      "playerIdentityId": "zico",
+      "playerName": "Zico",
+      "fbrefId": "f78ed405",
+      "stats": {
+        "appearances": 5,
+        "starts": 5,
+        "minutes": 442,
+        "goals": 4,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/f78ed405/Zico",
+      "overviewUrl": "https://fbref.com/en/comps/1/1982/1982-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    },
+    "zico-1986": {
+      "tournamentYear": 1986,
+      "playerIdentityId": "zico",
+      "playerName": "Zico",
+      "fbrefId": "f78ed405",
+      "stats": {
+        "appearances": 3,
+        "starts": 0,
+        "minutes": 95,
+        "goals": 0,
+        "assists": null,
+        "cleanSheets": null,
+        "saves": null
+      },
+      "sourceUrl": "https://fbref.com/en/players/f78ed405/Zico",
+      "overviewUrl": "https://fbref.com/en/comps/1/1986/1986-World-Cup-Stats",
+      "sourceKind": "cached-player-profile"
+    }
+  }
+}

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { FreeFormationPicker } from "@/components/formation/free-formation-picker";
 import { FormationSelection } from "@/components/formation/formation-selection";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
@@ -13,6 +14,7 @@ import styles from "./formation-page.module.css";
 export default function FormationPage() {
   const router = useRouter();
   const hydrated = useGameStore((state) => state.hasHydrated);
+  const gameMode = useGameStore((state) => state.gameMode);
   const eraId = useGameStore((state) => state.eraId);
   const managerId = useGameStore((state) => state.managerId);
   const formationOptionIds = useGameStore((state) => state.formationOptionIds);
@@ -43,17 +45,29 @@ export default function FormationPage() {
       <GameHeader step="FORMATION / 03" />
       <SaveNotice />
       <main className={`container game-main ${styles.main}`}>
-        <FormationSelection
-          manager={manager}
-          eraId={eraId}
-          offerIds={formationOptionIds}
-          formationRespinRemaining={formationRespinRemaining}
-          onRespin={respinFormations}
-          onContinue={(formationId) => {
-            selectFormation(formationId);
-            router.push("/play/draft");
-          }}
-        />
+        {gameMode === "free-selection" ? (
+          <FreeFormationPicker
+            manager={manager}
+            eraId={eraId}
+            formationIds={formationOptionIds}
+            onContinue={(formationId) => {
+              selectFormation(formationId);
+              router.push("/play/free-selection");
+            }}
+          />
+        ) : (
+          <FormationSelection
+            manager={manager}
+            eraId={eraId}
+            offerIds={formationOptionIds}
+            formationRespinRemaining={formationRespinRemaining}
+            onRespin={respinFormations}
+            onContinue={(formationId) => {
+              selectFormation(formationId);
+              router.push("/play/draft");
+            }}
+          />
+        )}
       </main>
     </div>
   );
