@@ -2,6 +2,7 @@ import { tournamentEraFor } from "@/data/eras";
 import { draftEligibleManagerIdSet } from "@/data/archive-eligibility";
 import type {
   FormationId,
+  ManagerEraFitProfile,
   ManagerStyle,
   ManagerTournamentCard,
   QualityBand,
@@ -102,6 +103,131 @@ const styleFormations: Record<ManagerStyle, FormationId[]> = {
   fluid: ["4-3-3", "3-5-2", "3-4-3", "3-4-2-1", "4-3-1-2"],
 };
 
+const styleEraProfiles: Record<ManagerStyle, ManagerEraFitProfile> = {
+  possession: {
+    pressingIntensity: 72,
+    defensiveStructure: 82,
+    tempo: 73,
+    positionalFlexibility: 92,
+    substitutionApproach: 80,
+    physicalDemand: 66,
+    technicalDemand: 96,
+    adaptability: 86,
+  },
+  pressing: {
+    pressingIntensity: 95,
+    defensiveStructure: 83,
+    tempo: 92,
+    positionalFlexibility: 88,
+    substitutionApproach: 84,
+    physicalDemand: 91,
+    technicalDemand: 86,
+    adaptability: 85,
+  },
+  counter: {
+    pressingIntensity: 66,
+    defensiveStructure: 91,
+    tempo: 89,
+    positionalFlexibility: 77,
+    substitutionApproach: 86,
+    physicalDemand: 88,
+    technicalDemand: 76,
+    adaptability: 83,
+  },
+  defensive: {
+    pressingIntensity: 53,
+    defensiveStructure: 97,
+    tempo: 62,
+    positionalFlexibility: 69,
+    substitutionApproach: 83,
+    physicalDemand: 90,
+    technicalDemand: 68,
+    adaptability: 79,
+  },
+  balanced: {
+    pressingIntensity: 73,
+    defensiveStructure: 87,
+    tempo: 77,
+    positionalFlexibility: 84,
+    substitutionApproach: 87,
+    physicalDemand: 80,
+    technicalDemand: 82,
+    adaptability: 89,
+  },
+  direct: {
+    pressingIntensity: 60,
+    defensiveStructure: 83,
+    tempo: 88,
+    positionalFlexibility: 66,
+    substitutionApproach: 79,
+    physicalDemand: 94,
+    technicalDemand: 64,
+    adaptability: 77,
+  },
+  fluid: {
+    pressingIntensity: 79,
+    defensiveStructure: 76,
+    tempo: 89,
+    positionalFlexibility: 97,
+    substitutionApproach: 85,
+    physicalDemand: 75,
+    technicalDemand: 95,
+    adaptability: 91,
+  },
+};
+
+const eraProfileOverrides: Partial<
+  Record<string, Partial<ManagerEraFitProfile>>
+> = {
+  "mario-zagallo-1970": {
+    positionalFlexibility: 98,
+    technicalDemand: 98,
+    adaptability: 96,
+  },
+  "rinus-michels-1974": {
+    pressingIntensity: 98,
+    positionalFlexibility: 99,
+    adaptability: 99,
+  },
+  "helmut-schon-1974": { adaptability: 96 },
+  "franz-beckenbauer-1990": {
+    positionalFlexibility: 94,
+    substitutionApproach: 95,
+    adaptability: 97,
+  },
+  "guus-hiddink-2002": {
+    pressingIntensity: 97,
+    physicalDemand: 96,
+    adaptability: 94,
+  },
+  "marcelo-bielsa-2002": {
+    pressingIntensity: 99,
+    defensiveStructure: 67,
+    substitutionApproach: 66,
+    adaptability: 77,
+  },
+  "marcello-lippi-2006": {
+    defensiveStructure: 97,
+    positionalFlexibility: 91,
+    adaptability: 94,
+  },
+  "louis-van-gaal-2014": {
+    positionalFlexibility: 96,
+    technicalDemand: 89,
+    adaptability: 97,
+  },
+  "didier-deschamps-2018": {
+    defensiveStructure: 97,
+    substitutionApproach: 94,
+    adaptability: 95,
+  },
+  "lionel-scaloni-2022": {
+    positionalFlexibility: 98,
+    substitutionApproach: 96,
+    adaptability: 97,
+  },
+};
+
 const qualityBase: Record<QualityBand, number> = {
   iconic: 87,
   elite: 83,
@@ -132,8 +258,8 @@ const gradesFor = (seed: ManagerSeed) => {
     fluid: -1,
   }[seed.style];
   return {
-    offense: Math.min(92, base + offenseStyle),
-    defense: Math.min(92, base + defenseStyle),
+    offense: Math.min(100, base + offenseStyle),
+    defense: Math.min(100, base + defenseStyle),
   };
 };
 
@@ -146,6 +272,48 @@ const activeGradeOverrides: Record<
     gameManagement: number;
   }
 > = {
+  "mario-zagallo-1970": {
+    offense: 96,
+    defense: 89,
+    leadership: 95,
+    gameManagement: 94,
+  },
+  "rinus-michels-1974": {
+    offense: 95,
+    defense: 91,
+    leadership: 95,
+    gameManagement: 93,
+  },
+  "helmut-schon-1974": {
+    offense: 91,
+    defense: 90,
+    leadership: 94,
+    gameManagement: 95,
+  },
+  "enzo-bearzot-1982": {
+    offense: 87,
+    defense: 95,
+    leadership: 94,
+    gameManagement: 95,
+  },
+  "carlos-bilardo-1986": {
+    offense: 84,
+    defense: 94,
+    leadership: 92,
+    gameManagement: 95,
+  },
+  "franz-beckenbauer-1990": {
+    offense: 90,
+    defense: 93,
+    leadership: 95,
+    gameManagement: 96,
+  },
+  "aime-jacquet-1998": {
+    offense: 84,
+    defense: 95,
+    leadership: 94,
+    gameManagement: 94,
+  },
   "guus-hiddink-2002": {
     offense: 84,
     defense: 76,
@@ -157,6 +325,18 @@ const activeGradeOverrides: Record<
     defense: 70,
     leadership: 78,
     gameManagement: 72,
+  },
+  "marcello-lippi-2006": {
+    offense: 89,
+    defense: 96,
+    leadership: 94,
+    gameManagement: 95,
+  },
+  "vicente-del-bosque-2010": {
+    offense: 95,
+    defense: 90,
+    leadership: 94,
+    gameManagement: 95,
   },
   "joachim-low-2014": {
     offense: 88,
@@ -172,7 +352,7 @@ const activeGradeOverrides: Record<
   },
   "didier-deschamps-2018": {
     offense: 83,
-    defense: 88,
+    defense: 95,
     leadership: 88,
     gameManagement: 89,
   },
@@ -197,8 +377,8 @@ const activeGradeOverrides: Record<
   "lionel-scaloni-2022": {
     offense: 87,
     defense: 84,
-    leadership: 89,
-    gameManagement: 88,
+    leadership: 95,
+    gameManagement: 95,
   },
   "walid-regragui-2022": {
     offense: 72,
@@ -212,37 +392,66 @@ export const managerGradeLabel = (value: number) => {
   if (value >= 95) return "S";
   if (value >= 92) return "A+";
   if (value >= 88) return "A";
-  if (value >= 85) return "A-";
-  if (value >= 82) return "B+";
-  if (value >= 78) return "B";
-  if (value >= 75) return "B-";
-  if (value >= 72) return "C+";
-  if (value >= 68) return "C";
-  if (value >= 65) return "C-";
-  if (value >= 55) return "D";
+  if (value >= 84) return "A-";
+  if (value >= 80) return "B+";
+  if (value >= 75) return "B";
+  if (value >= 70) return "B-";
+  if (value >= 65) return "C+";
+  if (value >= 60) return "C";
+  if (value >= 50) return "D";
   return "F";
+};
+
+const clampProfileValue = (value: number) =>
+  Math.max(0, Math.min(100, Math.round(value)));
+
+const eraFitProfileFor = (
+  seed: ManagerSeed,
+  acceptableFormationCount: number,
+  leadership: number,
+  gameManagement: number,
+): ManagerEraFitProfile => {
+  const base = styleEraProfiles[seed.style];
+  const override = eraProfileOverrides[seed.id] ?? {};
+  return {
+    ...base,
+    adaptability: clampProfileValue(
+      (base.adaptability + leadership + gameManagement) / 3 +
+        Math.max(0, acceptableFormationCount - 4) * 1.2,
+    ),
+    ...override,
+  };
 };
 
 export const managers: ManagerTournamentCard[] = seeds.map((seed) => {
   const override = activeGradeOverrides[seed.id];
+  const acceptableFormations = [
+    ...new Set([...seed.preferredFormations, ...styleFormations[seed.style]]),
+  ];
+  const leadership =
+    override?.leadership ?? Math.min(100, qualityBase[seed.qualityBand] + 2);
+  const gameManagement =
+    override?.gameManagement ??
+    Math.min(
+      100,
+      qualityBase[seed.qualityBand] +
+        (["balanced", "defensive", "counter"].includes(seed.style) ? 3 : 0),
+    );
   return {
     ...seed,
-    acceptableFormations: [
-      ...new Set([...seed.preferredFormations, ...styleFormations[seed.style]]),
-    ],
+    acceptableFormations,
     era: tournamentEraFor(seed.tournamentYear),
     description: `${seed.teamName} ${seed.tournamentYear} · ${seed.tacticalIdentity}.`,
     simulationModifier: modifierFor(seed.style),
     grades: override ?? gradesFor(seed),
-    leadership:
-      override?.leadership ?? Math.min(92, qualityBase[seed.qualityBand] + 2),
-    gameManagement:
-      override?.gameManagement ??
-      Math.min(
-        92,
-        qualityBase[seed.qualityBand] +
-          (["balanced", "defensive", "counter"].includes(seed.style) ? 3 : 0),
-      ),
+    leadership,
+    gameManagement,
+    eraFitProfile: eraFitProfileFor(
+      seed,
+      acceptableFormations.length,
+      leadership,
+      gameManagement,
+    ),
     imageId: seed.id,
     achievements: [],
     isDraftEligible: draftEligibleManagerIdSet.has(seed.id),

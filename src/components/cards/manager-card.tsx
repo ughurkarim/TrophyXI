@@ -1,30 +1,77 @@
-import { Check, Crown, ShieldCheck } from "lucide-react";
+import { Check, ShieldCheck } from "lucide-react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
-import { managerGradeLabel, managers } from "@/data/managers";
-import type { ManagerTournamentCard } from "@/types/game";
+import { managerGradeLabel } from "@/data/managers";
+import { calculateManagerEraFit } from "@/engine/manager-era-fit";
+import type {
+  DraftEraId,
+  ManagerStyle,
+  ManagerTournamentCard,
+} from "@/types/game";
 import { cn, flagForCountry, flagForTeamName } from "@/lib/utils";
+import styles from "./manager-card.module.css";
+
+const styleClasses: Record<ManagerStyle, string> = {
+  possession: styles.attacking,
+  pressing: styles.attacking,
+  fluid: styles.attacking,
+  counter: styles.transition,
+  direct: styles.transition,
+  defensive: styles.defensive,
+  balanced: styles.balanced,
+};
 
 export function ManagerCard({
   manager,
+  eraId,
   selected,
   onSelect,
   onInspect,
 }: {
   manager: ManagerTournamentCard;
+  eraId: DraftEraId;
   selected?: boolean;
   onSelect: () => void;
   onInspect?: () => void;
 }) {
-  const versionYears = managers
-    .filter(
-      (candidate) =>
-        candidate.managerIdentityId === manager.managerIdentityId,
-    )
-    .map((candidate) => candidate.tournamentYear)
-    .sort((first, second) => second - first);
+  const eraFit = calculateManagerEraFit(manager, eraId).score;
+  const metricValues = [
+    {
+      label: "OFF",
+      value: manager.grades.offense,
+      grade: managerGradeLabel(manager.grades.offense),
+    },
+    {
+      label: "DEF",
+      value: manager.grades.defense,
+      grade: managerGradeLabel(manager.grades.defense),
+    },
+    {
+      label: "LEAD",
+      value: manager.leadership,
+      grade: managerGradeLabel(manager.leadership),
+    },
+    {
+      label: "GAME",
+      value: manager.gameManagement,
+      grade: managerGradeLabel(manager.gameManagement),
+    },
+    {
+      label: "ERA FIT",
+      value: eraFit,
+      grade: managerGradeLabel(eraFit),
+    },
+  ];
+
   return (
     <article
-      className={cn("manager-card", selected && "manager-card--selected")}
+      className={cn(
+        "manager-card",
+        styles.card,
+        styleClasses[manager.style],
+        eraFit >= 92 && styles.highEraFit,
+        selected && "manager-card--selected",
+        selected && styles.selected,
+      )}
     >
       <button
         type="button"
@@ -34,11 +81,13 @@ export function ManagerCard({
         aria-label={`Choose ${manager.managerName}, ${manager.teamName} ${manager.tournamentYear}`}
       />
       <div className="manager-card__halo" aria-hidden />
-      <div className="manager-card__meta">
-        <span>{flagForCountry(manager.countryCode)} {manager.countryCode}</span>
+      <div className={cn("manager-card__meta", styles.meta)}>
+        <span>
+          {flagForCountry(manager.countryCode)} {manager.countryCode}
+        </span>
         <span>{manager.tournamentYear}</span>
       </div>
-      <div className="manager-card__portrait">
+      <div className={cn("manager-card__portrait", styles.portrait)}>
         <CircularPortrait
           imageId={manager.imageId}
           subjectName={manager.managerName}
@@ -47,58 +96,50 @@ export function ManagerCard({
           tournamentYear={manager.tournamentYear}
           size="hero"
         />
+        {selected && (
+          <strong className={styles.selectedBadge}>
+            <Check size={14} strokeWidth={2.4} aria-hidden />
+            Selected
+          </strong>
+        )}
       </div>
-      <div className="manager-card__copy">
-        <span className="manager-card__band">
-          <Crown size={13} aria-hidden /> {manager.qualityBand}
+      <div className={cn("manager-card__copy", styles.copy)}>
+        <span className={styles.styleLabel}>
+          {manager.style} tactics
         </span>
         <h2>{manager.managerName}</h2>
         <p>
-          {flagForTeamName(manager.teamName)} {manager.teamName} ·{" "}
-          {manager.style}
+          {flagForTeamName(manager.teamName)} {manager.teamName}
         </p>
         <div
-          className="manager-card__grades"
-          aria-label={`${manager.managerName} grades: offense ${managerGradeLabel(manager.grades.offense)}, defense ${managerGradeLabel(manager.grades.defense)}`}
+          className={cn("manager-card__grades", styles.metrics)}
+          aria-label={`${manager.managerName} metrics: offense ${managerGradeLabel(manager.grades.offense)}, defense ${managerGradeLabel(manager.grades.defense)}, leadership ${managerGradeLabel(manager.leadership)}, game management ${managerGradeLabel(manager.gameManagement)}, Era Fit ${managerGradeLabel(eraFit)} ${eraFit}`}
         >
-          <span>
-            <small>OFF</small>
-            <b>{managerGradeLabel(manager.grades.offense)}</b>
-            <i>{manager.grades.offense}</i>
-          </span>
-          <span>
-            <small>DEF</small>
-            <b>{managerGradeLabel(manager.grades.defense)}</b>
-            <i>{manager.grades.defense}</i>
-          </span>
-          <span>
-            <small>LEAD</small>
-            <b>{manager.leadership}</b>
-          </span>
-          <span>
-            <small>GAME</small>
-            <b>{manager.gameManagement}</b>
-          </span>
+          {metricValues.map((metric) => (
+            <span key={metric.label}>
+              <small>{metric.label}</small>
+              <b>{metric.grade}</b>
+              <i>{metric.value}</i>
+            </span>
+          ))}
         </div>
         <blockquote>{manager.tacticalIdentity}</blockquote>
-        <small className="manager-card__versions">
-          Tournament versions {versionYears.join(" · ")}
+        <small className={styles.formations}>
+          <ShieldCheck size={13} aria-hidden />
+          {manager.preferredFormations.join(" · ")}
         </small>
-      </div>
-      <div className="manager-card__footer">
-        <span><ShieldCheck size={13} aria-hidden /> {manager.preferredFormations.join(" · ")}</span>
-        {selected && <b><Check size={14} aria-hidden /> Selected</b>}
       </div>
       {onInspect && (
         <button
           type="button"
-          className="manager-card__inspect"
+          className={cn("manager-card__inspect", styles.inspect)}
           onClick={(event) => {
             event.stopPropagation();
             onInspect();
           }}
+          aria-label={`View manager record for ${manager.managerName}`}
         >
-          View manager record
+          View profile
         </button>
       )}
     </article>

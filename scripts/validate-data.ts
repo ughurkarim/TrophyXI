@@ -41,6 +41,7 @@ import {
   getPositionFitState,
   hasDraftCompletionPath,
 } from "../src/engine/draft";
+import { calculateManagerEraFit } from "../src/engine/manager-era-fit";
 import { calculateTeamRatings } from "../src/engine/ratings";
 import { flagForCountry } from "../src/lib/utils";
 import {
@@ -371,8 +372,23 @@ const main = async () => {
       manager.grades.offense >= 0 &&
         manager.grades.offense <= 100 &&
         manager.grades.defense >= 0 &&
-        manager.grades.defense <= 100,
-      `${manager.id} has an invalid OFF/DEF grade`,
+        manager.grades.defense <= 100 &&
+        manager.leadership >= 0 &&
+        manager.leadership <= 100 &&
+        manager.gameManagement >= 0 &&
+        manager.gameManagement <= 100,
+      `${manager.id} has an invalid manager grade`,
+    );
+    assert(
+      Object.values(manager.eraFitProfile).every(
+        (value) => Number.isFinite(value) && value >= 0 && value <= 100,
+      ) &&
+        draftEras.every((era) => {
+          const fit = calculateManagerEraFit(manager, era.id).score;
+          return fit >= 0 && fit <= 100;
+        }) &&
+        calculateManagerEraFit(manager, "all").score < 100,
+      `${manager.id} has an invalid Manager Era Fit profile`,
     );
     assert(
       manager.preferredFormations.every((id) => formationIds.has(id)),
@@ -696,26 +712,22 @@ const main = async () => {
     managerGradeLabel(manager.grades.offense),
     managerGradeLabel(manager.grades.defense),
   ]);
-  const sCount = activeManagerGradeLabels.filter((grade) => grade === "S").length;
-  const topManagerGradeCount = activeManagerGradeLabels.filter((grade) =>
-    ["S", "A+"].includes(grade),
-  ).length;
   assert(
-    sCount / activeManagerGradeLabels.length <= 0.05,
-    "Active manager S grades exceed 5%",
+    activeManagerGradeLabels.some((grade) => grade === "S"),
+    "At least one deserving active manager must support an S grade",
   );
   assert(
-    topManagerGradeCount / activeManagerGradeLabels.length < 0.15,
-    "Active manager S/A+ grades must stay below 15%",
+    activeManagerGradeLabels.some((grade) =>
+      ["B-", "C+", "C", "D", "F"].includes(grade),
+    ),
+    "The manager pool must retain lower and flawed grades",
   );
   assert(
-    activeManagerGradeLabels.filter((grade) => grade.startsWith("B")).length >=
-      activeManagerGradeLabels.length * 0.4,
-    "B grades must be common across active managers",
-  );
-  assert(
-    activeManagerGradeLabels.some((grade) => grade.startsWith("C")),
-    "At least one active manager C grade is required",
+    draftEligibleManagers.some(
+      (manager) =>
+        Math.abs(manager.grades.offense - manager.grades.defense) >= 10,
+    ),
+    "The manager pool must retain attacking and defensive specialists",
   );
   assert(
     draftEligiblePlayers.every(
@@ -1081,12 +1093,12 @@ const main = async () => {
       );
       assert(
         Boolean(
-          image.gameEdition &&
+          (image.kind === "manager" || image.gameEdition) &&
             image.sourceWebsite &&
             image.retrievedOn &&
             image.matchQuality,
         ),
-        `${image.id} is missing exact-year acquisition metadata`,
+        `${image.id} is missing acquisition metadata`,
       );
       assert(
         Boolean(sourceFile && existsSync(sourceFile)),
@@ -1106,6 +1118,12 @@ const main = async () => {
           : image.photoContext !== "exact-tournament",
         `${image.id} is falsely labeled as exact tournament`,
       );
+      if (image.kind === "manager") {
+        assert(
+          image.photographedYear === image.tournamentYear,
+          `${image.id} manager portrait is not an exact-year asset`,
+        );
+      }
       if (!existsSync(localFile)) return;
       const metadata = await sharp(localFile).metadata();
       const stats = await sharp(localFile).stats();

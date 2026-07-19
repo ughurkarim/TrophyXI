@@ -1,0 +1,29 @@
+.metrics {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.metrics dt {
+  min-height: 2.4em;
+}
+
+.result {
+  color: #e8d388;
+  text-transform: capitalize;
+}
+
+.resultSource {
+  display: inline-block;
+  margin-top: 7px;
+  color: #a98c42;
+  font-size: 0.68rem;
+}
+
+@media (max-width: 700px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metrics > div:last-child {
+    grid-column: 1 / -1;
+  }
+}

@@ -1,4 +1,5 @@
 import { formations } from "@/data/formations";
+import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { createSeededRandom, hashString, shuffle } from "@/engine/random";
 import type {
   BenchPick,
@@ -523,6 +524,7 @@ export const generateFormationOffer = (
   count = 4,
   rules: FormationOfferRules = {},
 ): FormationId[] => {
+  const managerEraFit = calculateManagerEraFit(manager, eraId).score;
   const excluded = new Set(rules.excludedFormationIds ?? []);
   const available =
     formations.filter((formation) => !excluded.has(formation.id)).length >= count
@@ -570,10 +572,16 @@ export const generateFormationOffer = (
       selected.push(formation.id);
     }
   };
-  add(preferred[0]);
+  if (managerEraFit >= 84) {
+    add(preferred[0]);
+  } else {
+    add(eraStrong.find((formation) => !selected.includes(formation.id)));
+    add(preferred.find((formation) => !selected.includes(formation.id)));
+  }
   add(balanced[0]);
   add(contrasting[0]);
   add(eraStrong.find((formation) => !selected.includes(formation.id)));
+  add(preferred.find((formation) => !selected.includes(formation.id)));
   for (const formation of shuffle(available, random)) {
     if (selected.length >= count) break;
     add(formation);

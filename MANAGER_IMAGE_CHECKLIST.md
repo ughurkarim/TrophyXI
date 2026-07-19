@@ -1,0 +1,57 @@
+# Trophy XI manager image checklist
+
+Generated from the active manager archive: 49 tournament-manager cards.
+
+| Manager card ID | Manager identity ID | Manager | Country | Team | Tournament year | Expected image path | Image present | Photo status |
+| --- | --- | --- | --- | --- | ---: | --- | --- | --- |
+| didier-deschamps-2022 | didier-deschamps | Didier Deschamps | France | France | 2022 | `assets/managers/2022/didier-deschamps-2022.png` | no | photo-pending |
+| herve-renard-2022 | herve-renard | Hervé Renard | France | Saudi Arabia | 2022 | `assets/managers/2022/herve-renard-2022.png` | no | photo-pending |
+| lionel-scaloni-2022 | lionel-scaloni | Lionel Scaloni | Argentina | Argentina | 2022 | `assets/managers/2022/lionel-scaloni-2022.png` | yes | available |
+| tite-2022 | tite | Tite | Brazil | Brazil | 2022 | `assets/managers/2022/tite-2022.png` | no | photo-pending |
+| walid-regragui-2022 | walid-regragui | Walid Regragui | Morocco | Morocco | 2022 | `assets/managers/2022/walid-regragui-2022.png` | no | photo-pending |
+| zlatko-dalic-2022 | zlatko-dalic | Zlatko Dalić | Croatia | Croatia | 2022 | `assets/managers/2022/zlatko-dalic-2022.png` | no | photo-pending |
+| didier-deschamps-2018 | didier-deschamps | Didier Deschamps | France | France | 2018 | `assets/managers/2018/didier-deschamps-2018.png` | no | photo-pending |
+| zlatko-dalic-2018 | zlatko-dalic | Zlatko Dalić | Croatia | Croatia | 2018 | `assets/managers/2018/zlatko-dalic-2018.png` | yes | available |
+| alejandro-sabella-2014 | alejandro-sabella | Alejandro Sabella | Argentina | Argentina | 2014 | `assets/managers/2014/alejandro-sabella-2014.png` | no | photo-pending |
+| joachim-low-2014 | joachim-low | Joachim Löw | Germany | Germany | 2014 | `assets/managers/2014/joachim-low-2014.png` | no | photo-pending |
+| louis-van-gaal-2014 | louis-van-gaal | Louis van Gaal | Netherlands | Netherlands | 2014 | `assets/managers/2014/louis-van-gaal-2014.png` | yes | available |
+| vicente-del-bosque-2014 | vicente-del-bosque | Vicente del Bosque | Spain | Spain | 2014 | `assets/managers/2014/vicente-del-bosque-2014.png` | no | photo-pending |
+| joachim-low-2010 | joachim-low | Joachim Löw | Germany | Germany | 2010 | `assets/managers/2010/joachim-low-2010.png` | no | photo-pending |
+| oscar-tabarez-2010 | oscar-tabarez | Óscar Tabárez | Uruguay | Uruguay | 2010 | `assets/managers/2010/oscar-tabarez-2010.png` | no | photo-pending |
+| vicente-del-bosque-2010 | vicente-del-bosque | Vicente del Bosque | Spain | Spain | 2010 | `assets/managers/2010/vicente-del-bosque-2010.png` | no | photo-pending |
+| jose-pekerman-2006 | jose-pekerman | José Pékerman | Argentina | Argentina | 2006 | `assets/managers/2006/jose-pekerman-2006.png` | no | photo-pending |
+| jurgen-klinsmann-2006 | jurgen-klinsmann | Jürgen Klinsmann | Germany | Germany | 2006 | `assets/managers/2006/jurgen-klinsmann-2006.png` | no | photo-pending |
+| luiz-felipe-scolari-2006 | luiz-felipe-scolari | Luiz Felipe Scolari | Brazil | Portugal | 2006 | `assets/managers/2006/luiz-felipe-scolari-2006.png` | no | photo-pending |
+| marcello-lippi-2006 | marcello-lippi | Marcello Lippi | Italy | Italy | 2006 | `assets/managers/2006/marcello-lippi-2006.png` | no | photo-pending |
+| raymond-domenech-2006 | raymond-domenech | Raymond Domenech | France | France | 2006 | `assets/managers/2006/raymond-domenech-2006.png` | no | photo-pending |
+| bruno-metsu-2002 | bruno-metsu | Bruno Metsu | France | Senegal | 2002 | `assets/managers/2002/bruno-metsu-2002.png` | no | photo-pending |
+| guus-hiddink-2002 | guus-hiddink | Guus Hiddink | Netherlands | South Korea | 2002 | `assets/managers/2002/guus-hiddink-2002.png` | no | photo-pending |
+| luiz-felipe-scolari-2002 | luiz-felipe-scolari | Luiz Felipe Scolari | Brazil | Brazil | 2002 | `assets/managers/2002/luiz-felipe-scolari-2002.png` | no | photo-pending |
+| marcelo-bielsa-2002 | marcelo-bielsa | Marcelo Bielsa | Argentina | Argentina | 2002 | `assets/managers/2002/marcelo-bielsa-2002.png` | no | photo-pending |
+| rudi-voller-2002 | rudi-voller | Rudi Völler | Germany | Germany | 2002 | `assets/managers/2002/rudi-voller-2002.png` | no | photo-pending |
+| aime-jacquet-1998 | aime-jacquet | Aimé Jacquet | France | France | 1998 | `assets/managers/1998/aime-jacquet-1998.png` | no | photo-pending |
+| guus-hiddink-1998 | guus-hiddink | Guus Hiddink | Netherlands | Netherlands | 1998 | `assets/managers/1998/guus-hiddink-1998.png` | no | photo-pending |
+| mario-zagallo-1998 | mario-zagallo | Mário Zagallo | Brazil | Brazil | 1998 | `assets/managers/1998/mario-zagallo-1998.png` | no | photo-pending |
+| arrigo-sacchi-1994 | arrigo-sacchi | Arrigo Sacchi | Italy | Italy | 1994 | `assets/managers/1994/arrigo-sacchi-1994.png` | no | photo-pending |
+| carlos-alberto-parreira-1994 | carlos-alberto-parreira | Carlos Alberto Parreira | Brazil | Brazil | 1994 | `assets/managers/1994/carlos-alberto-parreira-1994.png` | no | photo-pending |
+| tommy-svensson-1994 | tommy-svensson | Tommy Svensson | Sweden | Sweden | 1994 | `assets/managers/1994/tommy-svensson-1994.png` | no | photo-pending |
+| azeglio-vicini-1990 | azeglio-vicini | Azeglio Vicini | Italy | Italy | 1990 | `assets/managers/1990/azeglio-vicini-1990.png` | no | photo-pending |
+| bobby-robson-1990 | bobby-robson | Bobby Robson | England | England | 1990 | `assets/managers/1990/bobby-robson-1990.png` | no | photo-pending |
+| franz-beckenbauer-1990 | franz-beckenbauer | Franz Beckenbauer | Germany | West Germany | 1990 | `assets/managers/1990/franz-beckenbauer-1990.png` | no | photo-pending |
+| carlos-bilardo-1986 | carlos-bilardo | Carlos Bilardo | Argentina | Argentina | 1986 | `assets/managers/1986/carlos-bilardo-1986.png` | no | photo-pending |
+| franz-beckenbauer-1986 | franz-beckenbauer | Franz Beckenbauer | Germany | West Germany | 1986 | `assets/managers/1986/franz-beckenbauer-1986.png` | no | photo-pending |
+| guy-thys-1986 | guy-thys | Guy Thys | Belgium | Belgium | 1986 | `assets/managers/1986/guy-thys-1986.png` | no | photo-pending |
+| enzo-bearzot-1982 | enzo-bearzot | Enzo Bearzot | Italy | Italy | 1982 | `assets/managers/1982/enzo-bearzot-1982.png` | no | photo-pending |
+| michel-hidalgo-1982 | michel-hidalgo | Michel Hidalgo | France | France | 1982 | `assets/managers/1982/michel-hidalgo-1982.png` | no | photo-pending |
+| tele-santana-1982 | tele-santana | Telê Santana | Brazil | Brazil | 1982 | `assets/managers/1982/tele-santana-1982.png` | no | photo-pending |
+| cesar-luis-menotti-1978 | cesar-luis-menotti | César Luis Menotti | Argentina | Argentina | 1978 | `assets/managers/1978/cesar-luis-menotti-1978.png` | no | photo-pending |
+| enzo-bearzot-1978 | enzo-bearzot | Enzo Bearzot | Italy | Italy | 1978 | `assets/managers/1978/enzo-bearzot-1978.png` | no | photo-pending |
+| ernst-happel-1978 | ernst-happel | Ernst Happel | Austria | Netherlands | 1978 | `assets/managers/1978/ernst-happel-1978.png` | no | photo-pending |
+| helmut-schon-1974 | helmut-schon | Helmut Schön | Germany | West Germany | 1974 | `assets/managers/1974/helmut-schon-1974.png` | no | photo-pending |
+| kazimierz-gorski-1974 | kazimierz-gorski | Kazimierz Górski | Poland | Poland | 1974 | `assets/managers/1974/kazimierz-gorski-1974.png` | no | photo-pending |
+| rinus-michels-1974 | rinus-michels | Rinus Michels | Netherlands | Netherlands | 1974 | `assets/managers/1974/rinus-michels-1974.png` | no | photo-pending |
+| alf-ramsey-1970 | alf-ramsey | Alf Ramsey | England | England | 1970 | `assets/managers/1970/alf-ramsey-1970.png` | no | photo-pending |
+| helmut-schon-1970 | helmut-schon | Helmut Schön | Germany | West Germany | 1970 | `assets/managers/1970/helmut-schon-1970.png` | no | photo-pending |
+| mario-zagallo-1970 | mario-zagallo | Mário Zagallo | Brazil | Brazil | 1970 | `assets/managers/1970/mario-zagallo-1970.png` | no | photo-pending |
+
+Manager portraits are card-specific. A file for one tournament card must never be reused for another year.

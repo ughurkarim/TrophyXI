@@ -281,6 +281,17 @@ export type ManagerStyle =
   | "direct"
   | "fluid";
 
+export type ManagerEraFitProfile = {
+  pressingIntensity: number;
+  defensiveStructure: number;
+  tempo: number;
+  positionalFlexibility: number;
+  substitutionApproach: number;
+  physicalDemand: number;
+  technicalDemand: number;
+  adaptability: number;
+};
+
 export type ManagerTournamentCard = {
   id: string;
   managerIdentityId: string;
@@ -308,6 +319,7 @@ export type ManagerTournamentCard = {
   };
   leadership: number;
   gameManagement: number;
+  eraFitProfile: ManagerEraFitProfile;
   imageId: string;
   achievements: TournamentAchievement[];
   isDraftEligible: boolean;

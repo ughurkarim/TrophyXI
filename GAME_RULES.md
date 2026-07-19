@@ -7,6 +7,10 @@ versions, optionally respin four seeded formations once, choose a formation,
 draft eleven starters and three substitutes from five-card spins, reorder Bench
 1–3, choose an opponent, and play a deterministic knockout match.
 
+Manager selection is a separate confirmation step: selecting one of the three
+cards highlights it without advancing, and the named Continue button opens the
+formation step.
+
 Starter drafting is player first. The first click selects one of five
 identity-safe tournament cards without changing the XI. Every open tactical slot
 then previews Position Fit and the exact engine penalty. A second click on an
@@ -42,6 +46,20 @@ broad lower-card cohort. Status tiers use non-overlapping content bands:
 - limited: 65–73
 
 Status and every numeric attribute remain project-created estimates.
+
+## Manager metrics
+
+Manager cards show exactly OFF, DEF, Leadership, Game Management, and Manager
+Era Fit. Era Fit is recalculated for the selected match environment from the
+manager card's tournament year, tactical demands, adaptability, and formation
+breadth. Neutral reduces distance pressure without granting an automatic 100.
+The score modestly informs formation offers, tactical compatibility, Chemistry,
+simulation, and manager effectiveness without overpowering the players.
+
+Manager grades use S at 95–100, A+ at 92–94, A at 88–91, A− at 84–87, B+ at
+80–83, B at 75–79, B− at 70–74, C+ at 65–69, C at 60–64, D at 50–59, and F
+below 50. Exceptional manager metrics may earn S while lower and specialist
+profiles remain in the pool.
 
 ## Match environment versus card year
 

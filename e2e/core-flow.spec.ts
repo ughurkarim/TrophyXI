@@ -249,13 +249,34 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await page.getByRole("button", { name: /choose 1970s/i }).click();
 
   await expect(
-    page.getByRole("heading", { name: /choose the mind behind the xi/i }),
+    page.getByRole("heading", { name: /choose your manager/i }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Choose the manager whose tactics, leadership, and match decisions best fit the team you want to build.",
+    ),
   ).toBeVisible();
   await expect(page.locator(".manager-card")).toHaveCount(3);
+  await expect(page.getByText(/tournament versions/i)).toHaveCount(0);
   await expect(
-    page.locator('.manager-card .circular-portrait[data-photo-status="pending"]'),
+    page.locator(".manager-card .circular-portrait[data-photo-status]"),
   ).toHaveCount(3);
+  await expect(
+    page.getByText("Each respin is saved and used separately."),
+  ).toBeVisible();
+  await expect(page.getByText("MATCH ERA · 1970s")).toBeVisible();
+  await expect(page.getByText("FORMATION RESPIN ×1")).toBeVisible();
   await expect(page.getByText("PLAYER RESPINS ×2")).toBeVisible();
+  if ((page.viewportSize()?.width ?? 0) >= 1400) {
+    const managerPageHeight = await page.evaluate(() => ({
+      viewport: window.innerHeight,
+      document: document.documentElement.scrollHeight,
+      body: document.body.scrollHeight,
+    }));
+    expect(
+      Math.max(managerPageHeight.document, managerPageHeight.body),
+    ).toBeLessThanOrEqual(managerPageHeight.viewport + 1);
+  }
   await captureState("01-manager-three.png");
   const originalManagerNames = await page
     .locator(".manager-card h2")
@@ -289,11 +310,15 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
       elements.map((element) => element.getAttribute("aria-label") ?? ""),
     );
   expect(managerGradeLabels).toHaveLength(3);
+  await expect(page.locator(".manager-card__grades > span")).toHaveCount(15);
   expect(
     managerGradeLabels.every(
       (label) =>
-        /offense [A-C][+-]?/i.test(label) &&
-        /defense [A-C][+-]?/i.test(label),
+        /offense (?:S|[A-F][+-]?)/i.test(label) &&
+        /defense (?:S|[A-F][+-]?)/i.test(label) &&
+        /leadership (?:S|[A-F][+-]?)/i.test(label) &&
+        /game management (?:S|[A-F][+-]?)/i.test(label) &&
+        /era fit (?:S|[A-F][+-]?) \d+/i.test(label),
     ),
   ).toBe(true);
   const managerInspect = page
@@ -301,12 +326,14 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     .first();
   await managerInspect.click();
   const managerDialog = page.getByRole("dialog");
-  await expect(managerDialog.getByText("TOURNAMENT MODEL")).toBeVisible();
-  await expect(managerDialog.getByText("TACTICAL FIT")).toBeVisible();
-  await expect(managerDialog.getByText("TROPHY XI MANAGER TAGS")).toBeVisible();
-  await expect(managerDialog.getByText("PHOTO STATUS")).toBeVisible();
+  await expect(managerDialog.getByText("MANAGER RECORD")).toBeVisible();
+  await expect(managerDialog.getByText("TACTICAL PROFILE")).toBeVisible();
+  await expect(managerDialog.getByText("TOURNAMENT RESULT")).toBeVisible();
+  await expect(managerDialog.getByText("TROPHY XI MANAGER TAGS")).toHaveCount(0);
+  await expect(managerDialog.getByText("PHOTO STATUS")).toHaveCount(0);
+  await expect(managerDialog.getByText(/original Trophy XI estimates/i)).toHaveCount(0);
   await expect(
-    managerDialog.locator('.circular-portrait[data-photo-status="pending"]'),
+    managerDialog.locator(".circular-portrait[data-photo-status]"),
   ).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(managerInspect).toBeFocused();
@@ -314,6 +341,32 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     await page.locator(".manager-card h2").first().textContent()
   )!;
   await page.getByRole("button", { name: /^Choose /i }).first().click();
+  await expect(page).toHaveURL(/\/play\/manager$/);
+  await expect(
+    page.getByRole("button", {
+      name: new RegExp(`continue with ${managerName}`, "i"),
+    }),
+  ).toBeEnabled();
+  const selectedCard = page.locator(".manager-card").first();
+  await expect(selectedCard).toHaveClass(/manager-card--selected/);
+  await expect(selectedCard).toHaveCSS("transform", "none");
+  const selectedLabel = selectedCard.getByText("Selected", { exact: true });
+  await expect(selectedLabel).toBeVisible();
+  const [selectedCardBox, selectedLabelBox] = await Promise.all([
+    selectedCard.boundingBox(),
+    selectedLabel.boundingBox(),
+  ]);
+  expect(selectedCardBox).not.toBeNull();
+  expect(selectedLabelBox).not.toBeNull();
+  expect(selectedLabelBox!.x).toBeGreaterThanOrEqual(selectedCardBox!.x);
+  expect(selectedLabelBox!.x + selectedLabelBox!.width).toBeLessThanOrEqual(
+    selectedCardBox!.x + selectedCardBox!.width,
+  );
+  await page
+    .getByRole("button", {
+      name: new RegExp(`continue with ${managerName}`, "i"),
+    })
+    .click();
 
   await expect(
     page.getByRole("heading", { name: /give the manager a system/i }),
@@ -761,6 +814,11 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   ).toBeVisible();
   await expect(page.getByText(/brazil 1970/i).first()).toBeVisible();
   await captureState("06-result.png");
+  await page.getByRole("button", { name: "Redraft" }).click();
+  await expect(page).toHaveURL(/\/play\/manager$/);
+  await expect(
+    page.getByRole("heading", { name: /choose your manager/i }),
+  ).toBeVisible();
 
   await page.goto("/credits");
   await expect(
@@ -768,7 +826,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   ).toBeVisible();
   await expect(page.getByText(/active local png masters/i)).toBeVisible();
   await expect(page.getByText(/exact-year player faces/i)).toBeVisible();
-  await expect(page.getByText(/0 exact-year manager faces/i)).toBeVisible();
+  await expect(page.getByText(/3 exact-year manager faces/i)).toBeVisible();
   await expect(page.getByText(/photo-pending player cards/i)).toBeVisible();
-  await expect(page.getByText(/49 photo-pending manager cards/i)).toBeVisible();
+  await expect(page.getByText(/46 photo-pending manager cards/i)).toBeVisible();
 });

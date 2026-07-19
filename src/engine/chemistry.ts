@@ -1,5 +1,6 @@
 import { calculateEraFit, getDraftEra } from "@/data/eras";
 import { getPositionFit } from "@/engine/draft";
+import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import type {
   DraftEraId,
   DraftPick,
@@ -33,10 +34,22 @@ export const calculateManagerFit = (
   const eraMatch =
     eraId === "all" ||
     Math.abs(manager.tournamentYear - era.midpointYear) <= 8;
-  if (formationMatch && styleMatch && eraMatch) return 100;
-  if (formationMatch && styleMatch) return 96;
-  if (formationMatch || styleMatch) return eraMatch ? 91 : 86;
-  return eraMatch ? 82 : 75;
+  const structuralFit =
+    formationMatch && styleMatch && eraMatch
+      ? 100
+      : formationMatch && styleMatch
+        ? 96
+        : formationMatch || styleMatch
+          ? eraMatch
+            ? 91
+            : 86
+          : eraMatch
+            ? 82
+            : 75;
+  const eraFit = calculateManagerEraFit(manager, eraId).score;
+  return Math.round(
+    Math.max(45, Math.min(100, structuralFit * 0.74 + eraFit * 0.26)),
+  );
 };
 
 export const calculateChemistry = (
@@ -114,11 +127,11 @@ export const calculateChemistry = (
   const score = Math.round(
     Math.min(
       100,
-      (34 +
+      (31 +
         weightedLinks * 30 +
         averagePositionFit * 0.21 +
         averageEraFit * 0.08 +
-        managerFit * 0.07) *
+        managerFit * 0.11) *
         completion,
     ),
   );

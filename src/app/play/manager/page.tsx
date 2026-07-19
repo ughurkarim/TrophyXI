@@ -1,6 +1,6 @@
 "use client";
 
-import { RefreshCw } from "lucide-react";
+import { ArrowRight, RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ManagerCard } from "@/components/cards/manager-card";
@@ -11,15 +11,23 @@ import { Button } from "@/components/ui/button";
 import { getDraftEra } from "@/data/eras";
 import { managersById } from "@/data/managers";
 import { useGameStore } from "@/store/game-store";
+import styles from "./manager-page.module.css";
 
 export default function ManagerPage() {
   const router = useRouter();
   const hydrated = useGameStore((state) => state.hasHydrated);
   const eraId = useGameStore((state) => state.eraId);
   const optionIds = useGameStore((state) => state.managerOptionIds);
+  const managerId = useGameStore((state) => state.managerId);
   const selectManager = useGameStore((state) => state.selectManager);
   const managerRespinRemaining = useGameStore(
     (state) => state.managerRespinRemaining,
+  );
+  const formationRespinRemaining = useGameStore(
+    (state) => state.formationRespinRemaining,
+  );
+  const playerRespinsRemaining = useGameStore(
+    (state) => state.playerRespinsRemaining,
   );
   const respinManagers = useGameStore((state) => state.respinManagers);
   const [showRespin, setShowRespin] = useState(false);
@@ -44,32 +52,34 @@ export default function ManagerPage() {
 
   const era = getDraftEra(eraId);
   const options = optionIds.map((id) => managersById.get(id)).filter(Boolean);
+  const selectedManager = managerId ? managersById.get(managerId) : undefined;
 
   return (
     <div className={`game-page game-page--stadium ${era.themeClass}`}>
       <GameHeader step="MANAGER / 02" />
       <SaveNotice />
-      <main className="container game-main">
-        <section className="manager-selection" aria-labelledby="manager-title">
-          <div className="game-intro">
+      <main className={`container game-main ${styles.main}`}>
+        <section
+          className={`manager-selection ${styles.managerScreen}`}
+          aria-labelledby="manager-title"
+        >
+          <div className={styles.intro}>
             <p className="eyebrow eyebrow--gold">TOURNAMENT MANAGERS / STEP 02</p>
-            <h1 id="manager-title">Choose the mind behind the XI.</h1>
+            <h1 id="manager-title">Choose your manager.</h1>
             <p>
-              Three tournament versions spanning elite, strong, average, and
-              flawed tactical profiles. OFF, DEF, leadership, and game
-              management shape every choice.
+              Choose the manager whose tactics, leadership, and match decisions
+              best fit the team you want to build.
             </p>
           </div>
-          <div className="manager-grid">
+          <div className={`manager-grid ${styles.managerGrid}`}>
             {options.map((manager) =>
               manager ? (
                 <ManagerCard
                   key={manager.id}
                   manager={manager}
-                  onSelect={() => {
-                    selectManager(manager.id);
-                    router.push("/play/formation");
-                  }}
+                  eraId={eraId}
+                  selected={managerId === manager.id}
+                  onSelect={() => selectManager(manager.id)}
                   onInspect={() => {
                     const active = document.activeElement;
                     setDetailReturnFocus(
@@ -81,19 +91,24 @@ export default function ManagerPage() {
               ) : null,
             )}
           </div>
-          <div className="manager-utility">
-            <div>
-              <span className="eyebrow">{era.label}</span>
+          <div className={`manager-utility ${styles.utility}`}>
+            <div className={styles.eraContext}>
+              <span className="eyebrow">
+                MATCH ERA · {era.label}
+              </span>
               <p>
-                Manager, formation, and player respins are three independent,
-                persistent resources.
+                Manager tactics will adapt to the selected match environment.
               </p>
+              <small>Each respin is saved and used separately.</small>
             </div>
-            <div className="manager-respin-actions">
+            <div
+              className={`manager-respin-actions ${styles.respinActions}`}
+              aria-label="Saved respin counters"
+            >
               <Button
                 variant="secondary"
                 onClick={() => setShowRespin(true)}
-                disabled={managerRespinRemaining === 0}
+                disabled={managerRespinRemaining === 0 || Boolean(managerId)}
                 aria-label={
                   managerRespinRemaining
                     ? "MANAGER RESPIN ×1"
@@ -105,8 +120,27 @@ export default function ManagerPage() {
                   ? "MANAGER RESPIN ×1"
                   : "MANAGER RESPIN USED"}
               </Button>
-              <strong className="respin-counter">PLAYER RESPINS ×2</strong>
+              <strong className={styles.disabledCounter} aria-disabled="true">
+                {formationRespinRemaining
+                  ? "FORMATION RESPIN ×1"
+                  : "FORMATION RESPIN USED"}
+              </strong>
+              <strong className="respin-counter">
+                {playerRespinsRemaining
+                  ? `PLAYER RESPINS ×${playerRespinsRemaining}`
+                  : "PLAYER RESPINS USED"}
+              </strong>
             </div>
+            <Button
+              className={styles.continueButton}
+              disabled={!selectedManager}
+              onClick={() => router.push("/play/formation")}
+            >
+              {selectedManager
+                ? `CONTINUE WITH ${selectedManager.managerName.toLocaleUpperCase()}`
+                : "SELECT A MANAGER TO CONTINUE"}
+              <ArrowRight size={16} aria-hidden />
+            </Button>
           </div>
         </section>
       </main>
@@ -149,6 +183,7 @@ export default function ManagerPage() {
       {inspectedManagerId && managersById.get(inspectedManagerId) && (
         <ManagerDetails
           manager={managersById.get(inspectedManagerId)!}
+          eraId={eraId}
           onClose={() => {
             setInspectedManagerId(null);
             window.requestAnimationFrame(() => detailReturnFocus?.focus());

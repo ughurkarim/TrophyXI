@@ -1,0 +1,316 @@
+.card.card {
+  --manager-accent: #e5cf79;
+
+  display: flex;
+  height: clamp(420px, 43vh, 430px);
+  min-height: 0;
+  overflow: hidden;
+  flex-direction: column;
+  border: 1px solid color-mix(in srgb, var(--manager-accent) 44%, #343633);
+  border-radius: 17px;
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      color-mix(in srgb, var(--manager-accent) 13%, transparent),
+      transparent 36%
+    ),
+    linear-gradient(155deg, #1b1912, #070908 62%);
+  box-shadow:
+    inset 0 1px rgba(255, 248, 213, 0.08),
+    0 18px 44px rgba(0, 0, 0, 0.36);
+  transform: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.card.card::before {
+  inset: 5px;
+  border-color: color-mix(in srgb, var(--manager-accent) 17%, transparent);
+  border-radius: 12px;
+}
+
+.card.card::after {
+  top: 10px;
+  width: 44px;
+  height: 5px;
+  border-color: var(--manager-accent);
+}
+
+.card.card:hover,
+.card.card:focus-within,
+.card.selected {
+  border-color: var(--manager-accent);
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      color-mix(in srgb, var(--manager-accent) 21%, transparent),
+      transparent 40%
+    ),
+    linear-gradient(155deg, #211e14, #080a09 62%);
+  box-shadow:
+    inset 0 0 0 1px
+      color-mix(in srgb, var(--manager-accent) 18%, transparent),
+    0 20px 48px rgba(0, 0, 0, 0.42),
+    0 0 28px color-mix(in srgb, var(--manager-accent) 18%, transparent);
+  transform: none;
+}
+
+.card.selected {
+  border-width: 2px;
+}
+
+.attacking {
+  --manager-accent: #d7b64d;
+}
+
+.transition {
+  --manager-accent: #c98a45;
+}
+
+.defensive {
+  --manager-accent: #79a9c7;
+}
+
+.balanced {
+  --manager-accent: #e5cf79;
+}
+
+.highEraFit {
+  --manager-accent: var(--era-accent, #e5cf79);
+}
+
+.card .meta {
+  min-height: 39px;
+  padding: 18px 18px 0;
+  color: color-mix(in srgb, var(--manager-accent) 82%, white);
+  font-size: 0.61rem;
+}
+
+.card .portrait {
+  position: relative;
+  height: 112px;
+  min-height: 112px;
+  margin-top: 0;
+}
+
+.card .portrait :global(.circular-portrait) {
+  --portrait-size: 104px;
+
+  width: var(--portrait-size);
+  height: var(--portrait-size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.card .portrait :global(.circular-portrait__mask) {
+  width: auto;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.card .portrait :global(.circular-portrait__mask img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.card.selected .portrait :global(.circular-portrait__rim) {
+  border-color: var(--manager-accent);
+  box-shadow:
+    inset 0 0 16px
+      color-mix(in srgb, var(--manager-accent) 28%, transparent),
+    0 0 26px color-mix(in srgb, var(--manager-accent) 48%, transparent);
+}
+
+.selectedBadge {
+  position: absolute;
+  z-index: 10;
+  right: 15px;
+  bottom: 1px;
+  display: inline-flex;
+  min-height: 27px;
+  align-items: center;
+  gap: 5px;
+  padding: 0 9px;
+  color: #fff8d7;
+  border: 1px solid var(--manager-accent);
+  border-radius: 999px;
+  background: #10120f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.09em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.card .copy {
+  display: flex;
+  min-height: 0;
+  padding: 12px 17px 8px;
+  margin: 0;
+  flex: 1;
+  flex-direction: column;
+  background: none;
+}
+
+.styleLabel {
+  color: var(--manager-accent);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.card .copy h2 {
+  min-height: 0;
+  margin: 5px 0 2px;
+  font-size: clamp(1.12rem, 1.5vw, 1.35rem);
+  line-height: 1.05;
+}
+
+.card .copy > p {
+  margin: 0;
+  color: #aeb3ad;
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.card .metrics {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 11px;
+}
+
+.card .metrics span {
+  min-width: 0;
+  min-height: 50px;
+  border-color: color-mix(
+    in srgb,
+    var(--manager-accent) 22%,
+    transparent
+  );
+  background: color-mix(in srgb, var(--manager-accent) 5%, transparent);
+}
+
+.card .metrics small,
+.card .metrics i {
+  font-size: 0.42rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.card .metrics b {
+  color: color-mix(in srgb, var(--manager-accent) 86%, white);
+  font-size: 0.92rem;
+  line-height: 1;
+}
+
+.card .copy blockquote {
+  min-height: 2.7em;
+  margin: 10px 0 7px;
+  color: #b9bdb8;
+  font-size: 0.67rem;
+  line-height: 1.35;
+}
+
+.formations {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+  color: #9b9f99;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.49rem;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.card .inspect {
+  position: relative;
+  z-index: 11;
+  right: auto;
+  bottom: auto;
+  width: auto;
+  min-height: 34px;
+  margin: 0 17px 13px;
+  color: color-mix(in srgb, var(--manager-accent) 84%, white);
+  border: 1px solid color-mix(
+    in srgb,
+    var(--manager-accent) 30%,
+    transparent
+  );
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--manager-accent) 5%, #090b09);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card .inspect:hover,
+.card .inspect:focus-visible {
+  border-color: var(--manager-accent);
+  background: color-mix(in srgb, var(--manager-accent) 12%, #090b09);
+}
+
+@media (max-width: 1000px) {
+  .card.card {
+    display: flex;
+    height: auto;
+    min-height: 430px;
+    grid-template-columns: none;
+  }
+
+  .card .meta,
+  .card .portrait,
+  .card .copy {
+    position: relative;
+  }
+
+  .card .portrait {
+    height: 120px;
+    min-height: 120px;
+    grid-row: auto;
+  }
+
+  .card .copy {
+    padding-top: 13px;
+  }
+}
+
+@media (max-width: 520px) {
+  .card.card {
+    min-height: 445px;
+  }
+
+  .card .metrics {
+    gap: 4px;
+  }
+
+  .card .metrics span {
+    min-height: 53px;
+  }
+
+  .card .metrics small {
+    font-size: 0.39rem;
+  }
+
+  .selectedBadge {
+    right: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.card {
+    transition: none !important;
+  }
+}

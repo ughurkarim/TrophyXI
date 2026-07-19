@@ -1,0 +1,172 @@
+.main {
+  padding-top: clamp(12px, 1.8vh, 20px);
+  padding-bottom: 16px;
+}
+
+.managerScreen {
+  display: grid;
+  min-height: calc(100svh - 124px);
+  padding: 0;
+  align-content: start;
+  gap: clamp(11px, 1.5vh, 16px);
+}
+
+.intro {
+  width: min(100%, 850px);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.intro h1 {
+  margin: 6px 0 7px;
+  font-size: clamp(2.15rem, 3.5vw, 3.25rem);
+  font-weight: 640;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.intro > p:last-child {
+  max-width: 760px;
+  margin: 0 auto;
+  color: #9aa39d;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.managerScreen .managerGrid {
+  width: 100%;
+  max-width: 1160px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+  margin: 0 auto;
+}
+
+.managerScreen .utility {
+  display: grid;
+  width: 100%;
+  max-width: 1160px;
+  min-height: 86px;
+  grid-template-columns: minmax(230px, 1fr) auto minmax(240px, auto);
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  margin: 0 auto;
+  border-color: rgba(214, 180, 92, 0.22);
+  border-radius: 11px;
+}
+
+.eraContext p,
+.eraContext small {
+  display: block;
+  margin: 3px 0 0;
+  color: #8f9892;
+  font-size: 0.64rem;
+  line-height: 1.25;
+}
+
+.eraContext small {
+  color: #6f7872;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.49rem;
+  letter-spacing: 0.03em;
+}
+
+.respinActions {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  align-items: center;
+  gap: 7px;
+}
+
+.respinActions :global(.button) {
+  min-height: 36px;
+  padding-inline: 10px;
+  font-size: 0.57rem;
+}
+
+.respinActions :global(.respin-counter),
+.disabledCounter {
+  min-height: 36px;
+  padding: 0 9px;
+  border: 1px solid rgba(214, 180, 92, 0.17);
+  border-radius: 7px;
+  background: rgba(214, 180, 92, 0.025);
+  font-size: 0.55rem;
+  line-height: 34px;
+  white-space: nowrap;
+}
+
+.disabledCounter {
+  color: #747b76;
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.06em;
+}
+
+.continueButton {
+  min-height: 42px;
+  justify-content: center;
+  padding-inline: 14px;
+  font-size: 0.61rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 1180px) {
+  .managerScreen .utility {
+    grid-template-columns: 1fr;
+  }
+
+  .respinActions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .respinActions > * {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 1000px) {
+  .main {
+    padding-top: 18px;
+    padding-bottom: 32px;
+  }
+
+  .managerScreen {
+    min-height: auto;
+    gap: 18px;
+  }
+
+  .managerScreen .managerGrid {
+    grid-template-columns: 1fr;
+    max-width: 620px;
+  }
+
+  .managerScreen .utility {
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 580px) {
+  .intro h1 {
+    font-size: 2.25rem;
+  }
+
+  .intro > p:last-child {
+    font-size: 0.8rem;
+  }
+
+  .respinActions {
+    grid-template-columns: 1fr;
+  }
+
+  .respinActions :global(.respin-counter),
+  .disabledCounter {
+    width: 100%;
+  }
+
+  .continueButton {
+    width: 100%;
+    min-height: 48px;
+    white-space: normal;
+  }
+}

@@ -253,6 +253,7 @@ export function DraftBoard() {
         {showManagerDetails && (
           <ManagerDetails
             manager={manager}
+            eraId={eraId}
             onClose={() => closeDetail("manager")}
           />
         )}
@@ -618,6 +619,7 @@ export function DraftBoard() {
       {showManagerDetails && (
         <ManagerDetails
           manager={manager}
+          eraId={eraId}
           onClose={() => closeDetail("manager")}
         />
       )}

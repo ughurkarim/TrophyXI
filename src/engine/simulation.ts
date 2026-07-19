@@ -16,6 +16,10 @@ import {
   type RandomSource,
   weightedPick,
 } from "@/engine/random";
+import {
+  calculateManagerEraFit,
+  managerEraEffectiveness,
+} from "@/engine/manager-era-fit";
 import type {
   BenchSlotId,
   DraftEraId,
@@ -148,6 +152,7 @@ const createSubstitutions = ({
   lineup,
   bench,
   manager,
+  managerEraFit,
   trailing,
   winning,
   extraTime,
@@ -156,6 +161,7 @@ const createSubstitutions = ({
   lineup: PlayerTournamentCard[];
   bench: PlayerTournamentCard[];
   manager?: ManagerTournamentCard;
+  managerEraFit?: number;
   trailing: boolean;
   winning: boolean;
   extraTime: boolean;
@@ -168,6 +174,9 @@ const createSubstitutions = ({
   ];
   const baselineUse = [0.96, 0.82, extraTime ? 0.82 : 0.58];
   const removed = new Set<string>();
+  const eraEffectiveness = manager
+    ? clamp(0.82 + ((managerEraFit ?? 75) - 75) * 0.006, 0.64, 0.98)
+    : 0;
   return bench.flatMap((substitute, index) => {
     const aggressive =
       trailing &&
@@ -178,9 +187,12 @@ const createSubstitutions = ({
         substitute.primaryPosition,
       );
     const managerUse =
-      ((manager?.gameManagement ?? 78) - 78) * 0.004 +
-      (aggressive ? ((manager?.grades.offense ?? 78) - 78) * 0.003 : 0) +
-      (protective ? ((manager?.grades.defense ?? 78) - 78) * 0.003 : 0);
+      (((manager?.gameManagement ?? 78) - 78) * 0.004 +
+        (aggressive ? ((manager?.grades.offense ?? 78) - 78) * 0.003 : 0) +
+        (protective
+          ? ((manager?.grades.defense ?? 78) - 78) * 0.003
+          : 0)) *
+      eraEffectiveness;
     if (random() > baselineUse[index] + managerUse) return [];
     const outgoing = substitutionPosition(substitute, lineup, removed);
     if (!outgoing) return [];
@@ -207,7 +219,9 @@ const createSubstitutions = ({
             : index === 0
               ? "Priority change to refresh the shape"
               : "Fatigue and tactical balance",
-        managerInfluence: manager?.gameManagement ?? 75,
+        managerInfluence: Math.round(
+          (manager?.gameManagement ?? 75) * (0.82 + eraEffectiveness * 0.18),
+        ),
       },
     ];
   });
@@ -273,10 +287,17 @@ export const simulateMatch = ({
   const opponentBench =
     opponent.kind === "all-stars" ? getWorldCupAllStarsBench() : [];
   const opponentManager = opponent.allStars?.manager;
+  const managerEraFit = manager
+    ? calculateManagerEraFit(manager, eraId).score
+    : 75;
+  const managerEffectiveness = managerEraEffectiveness(manager, eraId);
+  const opponentManagerEraFit = opponentManager
+    ? calculateManagerEraFit(opponentManager, eraId).score
+    : opponentEraFit;
   const avgClutch =
     lineup.reduce((sum, player) => sum + player.attributes.clutch, 0) /
       lineup.length +
-    (manager?.simulationModifier.clutch ?? 0);
+    (manager?.simulationModifier.clutch ?? 0) * managerEffectiveness;
   const midfieldEdge = userRatings.midfield - opponentRatings.midfield;
   const userPossession = Math.round(clamp(50 + midfieldEdge * 0.72 + (random() - 0.5) * 8, 32, 64));
   const opponentPossession = 100 - userPossession;
@@ -286,7 +307,10 @@ export const simulateMatch = ({
       midfieldEdge * 0.014 +
       (userRatings.chemistry - 75) * 0.006 +
       (avgClutch - 85) * 0.008 +
-      ((manager?.grades.offense ?? 78) - 78) * 0.006 +
+      ((manager?.grades.offense ?? 78) - 78) *
+        0.006 *
+        managerEffectiveness +
+      (managerEraFit - 75) * 0.003 +
       (userRatings.eraFit - opponentEraFit) * 0.005 +
       (random() - 0.5) * 0.42,
     0.35,
@@ -297,7 +321,10 @@ export const simulateMatch = ({
       (opponentRatings.attack - userRatings.defense) * 0.035 -
       midfieldEdge * 0.011 +
       (opponentRatings.chemistry - 90) * 0.005 +
-      ((manager?.grades.defense ?? 78) - 78) * -0.005 +
+      ((manager?.grades.defense ?? 78) - 78) *
+        -0.005 *
+        managerEffectiveness -
+      (managerEraFit - 75) * 0.0025 +
       (opponentEraFit - userRatings.eraFit) * 0.005 +
       (random() - 0.5) * 0.42,
     0.35,
@@ -350,6 +377,7 @@ export const simulateMatch = ({
     lineup,
     bench,
     manager,
+    managerEraFit,
     trailing: userGoals < opponentGoals,
     winning: userGoals > opponentGoals,
     extraTime: afterExtraTime,
@@ -360,6 +388,7 @@ export const simulateMatch = ({
         lineup: opponentLineup,
         bench: opponentBench,
         manager: opponentManager,
+        managerEraFit: opponentManagerEraFit,
         trailing: opponentGoals < userGoals,
         winning: opponentGoals > userGoals,
         extraTime: afterExtraTime,
@@ -427,7 +456,7 @@ export const simulateMatch = ({
       team: "user",
       title: `${manager.managerName} adjusts the shape`,
       detail:
-        userRatings.managerFit >= 94
+        managerEraFit >= 94
           ? `${manager.tacticalIdentity}. The system responds immediately.`
           : `${manager.tacticalIdentity}. The XI works to translate the instruction.`,
       userScore: 0,
@@ -689,7 +718,7 @@ export const simulateMatch = ({
       expectedGoals: [Number(userXg.toFixed(2)), Number(opponentXg.toFixed(2))],
       yellowCards: [userYellows, opponentYellows],
       tacticalImpact: [
-        userRatings.managerFit,
+        Math.round((userRatings.managerFit + managerEraFit) / 2),
         opponentEraFit,
       ],
     },
@@ -700,7 +729,7 @@ export const simulateMatch = ({
         : `${opponent.nationName} ${opponent.tournamentYear}`,
     userRatings,
     managerImpact: manager
-      ? `${manager.managerName} delivered ${userRatings.managerFit}% tactical fit with OFF ${manager.grades.offense}, DEF ${manager.grades.defense}, and ${substitutions.length} substitutions.`
+      ? `${manager.managerName} delivered ${userRatings.managerFit}% tactical fit and ${managerEraFit}% Era Fit with OFF ${manager.grades.offense}, DEF ${manager.grades.defense}, and ${substitutions.length} substitutions.`
       : "No tournament manager impact was applied.",
     opponentEraFit,
     substitutions,

@@ -5,26 +5,34 @@ import { ManagerDetails } from "@/components/cards/manager-details";
 import { managersById } from "@/data/managers";
 
 describe("ManagerDetails", () => {
-  it("shows Photo Pending, grades, strengths, and tags", async () => {
+  it("shows the player-facing manager record without development metadata", async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
     const manager = managersById.get("lionel-scaloni-2022")!;
-    render(<ManagerDetails manager={manager} onClose={onClose} />);
+    render(
+      <ManagerDetails manager={manager} eraId="2020s" onClose={onClose} />,
+    );
     const dialog = screen.getByRole("dialog", { name: /lionel scaloni/i });
     expect(
       within(dialog).getByRole("img", {
-        name: /photo pending for lionel scaloni 2022/i,
+        name: /lionel scaloni/i,
       }),
     ).toBeInTheDocument();
-    expect(within(dialog).getByText("TOURNAMENT MODEL")).toBeInTheDocument();
+    expect(within(dialog).getByText("MANAGER RECORD")).toBeInTheDocument();
+    expect(within(dialog).getByText("Era Fit")).toBeInTheDocument();
     expect(within(dialog).getByText("Tactical strengths")).toBeInTheDocument();
     expect(within(dialog).getByText("Tactical weaknesses")).toBeInTheDocument();
+    expect(within(dialog).getByText("TOURNAMENT RESULT")).toBeInTheDocument();
+    expect(within(dialog).getByText("champion")).toBeInTheDocument();
     expect(
-      within(dialog).getByText("TROPHY XI MANAGER TAGS"),
-    ).toBeInTheDocument();
-    expect(within(dialog).getByText("MANAGER ACCOLADES")).toBeInTheDocument();
-    expect(within(dialog).getByText("PHOTO STATUS")).toBeInTheDocument();
+      within(dialog).queryByText("TROPHY XI MANAGER TAGS"),
+    ).not.toBeInTheDocument();
+    expect(within(dialog).queryByText("PHOTO STATUS")).not.toBeInTheDocument();
     expect(within(dialog).queryByText("PORTRAIT SOURCE")).not.toBeInTheDocument();
+    expect(within(dialog).queryByText("ARCHIVE VERSIONS")).not.toBeInTheDocument();
+    expect(
+      within(dialog).queryByText(/original Trophy XI estimates/i),
+    ).not.toBeInTheDocument();
     await user.click(
       within(dialog).getByRole("button", { name: /close manager record/i }),
     );

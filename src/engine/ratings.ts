@@ -3,6 +3,7 @@ import {
   getPlacementPenaltyPercent,
   getPositionFit,
 } from "@/engine/draft";
+import { managerEraEffectiveness } from "@/engine/manager-era-fit";
 import type {
   DraftEraId,
   DraftPick,
@@ -61,6 +62,10 @@ export const calculateTeamRatings = (
     (player) => player.primaryPosition !== "GK",
   );
   const manager = context.manager;
+  const managerEffectiveness = managerEraEffectiveness(
+    manager,
+    context.eraId ?? "all",
+  );
   const placementMultiplier = new Map(
     lineup.map((player, index) => {
       const pick = context.picks?.find(
@@ -99,8 +104,10 @@ export const calculateTeamRatings = (
       4,
     ) +
     formation.modifiers.attack +
-    (manager?.simulationModifier.attack ?? 0) +
-    ((manager?.grades.offense ?? 78) - 78) * 0.045 +
+    (manager?.simulationModifier.attack ?? 0) * managerEffectiveness +
+    ((manager?.grades.offense ?? 78) - 78) *
+      0.045 *
+      managerEffectiveness +
     achievementBoost * 0.35;
   const midfield =
     topAverage(
@@ -113,7 +120,7 @@ export const calculateTeamRatings = (
       5,
     ) +
     formation.modifiers.midfield +
-    (manager?.simulationModifier.midfield ?? 0) +
+    (manager?.simulationModifier.midfield ?? 0) * managerEffectiveness +
     achievementBoost * 0.35;
   const outfieldDefense = topAverage(
     outfield.map(
@@ -133,8 +140,10 @@ export const calculateTeamRatings = (
     outfieldDefense * 0.76 +
     (keeperDefense || outfieldDefense) * 0.24 +
     formation.modifiers.defense +
-    (manager?.simulationModifier.defense ?? 0) +
-    ((manager?.grades.defense ?? 78) - 78) * 0.045 +
+    (manager?.simulationModifier.defense ?? 0) * managerEffectiveness +
+    ((manager?.grades.defense ?? 78) - 78) *
+      0.045 *
+      managerEffectiveness +
     achievementBoost * 0.3;
   const chemistry = calculateChemistry(lineup, formation, context);
   const quality = attack * 0.34 + midfield * 0.33 + defense * 0.33;

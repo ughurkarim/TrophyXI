@@ -3,6 +3,7 @@ import {
   playerGameFaceRecords,
 } from "@/data/game-face-manifest";
 import { managersById } from "@/data/managers";
+import { licensedManagerPortraitImages } from "@/data/manager-images";
 import { playersById } from "@/data/players";
 import type { GameFaceManifestRecord } from "@/lib/importers/game-face";
 import type { ImageAttribution } from "@/types/game";
@@ -64,7 +65,10 @@ const buildAttribution = (
 
 export const playerImages = playerGameFaceRecords.map(buildAttribution);
 
-export const managerImages = managerGameFaceRecords.map(buildAttribution);
+export const managerImages = [
+  ...managerGameFaceRecords.map(buildAttribution),
+  ...licensedManagerPortraitImages,
+];
 
 export const imageAttributions = [...playerImages, ...managerImages];
 export const imagesById = new Map(

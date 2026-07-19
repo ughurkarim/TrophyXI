@@ -107,8 +107,10 @@ Ratings and tiers are game estimates, not historical honors.
   with search, nation/year/position/rating/tier/era/photo filters, four sort
   orders, bounded scrolling, incremental rendering, and the full player record.
 - Manager selection: three identity-safe cards and one permanent deterministic
-  Manager Respin. It excludes original identities when alternatives exist and
-  never consumes the separate Formation Respin or two Player Respins.
+  Manager Respin. Cards use tactical accents and show OFF, DEF, Leadership, Game
+  Management, and selected-era Era Fit; selecting a card does not advance. The
+  respin excludes original identities when alternatives exist and never consumes
+  the separate Formation Respin or two Player Respins.
 - Formation offers: four cards, each with diagram, tendencies, manager fit,
   environment suitability, and tactical difficulty. The separate respin uses a
   restrained refresh-icon turn and replaces the grid only after the named

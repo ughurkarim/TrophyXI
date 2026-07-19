@@ -2,34 +2,40 @@
 
 import { X } from "lucide-react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
-import { managerGradeLabel, managers } from "@/data/managers";
-import { imagesById } from "@/data/player-images";
+import { managerGradeLabel } from "@/data/managers";
+import { historicalOpponents, historicalOpponentSource } from "@/data/opponents";
+import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { flagForCountry, flagForTeamName } from "@/lib/utils";
-import type { ManagerTournamentCard } from "@/types/game";
+import type { DraftEraId, ManagerTournamentCard } from "@/types/game";
+import styles from "./manager-details.module.css";
 
 export function ManagerDetails({
   manager,
+  eraId = "all",
   onClose,
 }: {
   manager: ManagerTournamentCard;
+  eraId?: DraftEraId;
   onClose: () => void;
 }) {
-  const versions = managers
-    .filter(
-      (candidate) =>
-        candidate.managerIdentityId === manager.managerIdentityId,
-    )
-    .sort((first, second) => second.tournamentYear - first.tournamentYear);
-  const image = imagesById.get(manager.imageId);
+  const eraFit = calculateManagerEraFit(manager, eraId);
+  const tournamentRecord = historicalOpponents.find(
+    (opponent) =>
+      opponent.tournamentYear === manager.tournamentYear &&
+      opponent.nationName === manager.teamName,
+  );
   const weaknesses = [
     manager.grades.offense < 78
-      ? "Attacking grade is below the active-manager B range."
+      ? "Attacking plans can lack variety against a settled defense."
       : null,
     manager.grades.defense < 78
-      ? "Defensive grade is below the active-manager B range."
+      ? "The defensive structure can leave avoidable space."
       : null,
     manager.acceptableFormations.length <= 4
-      ? "Narrower modeled formation compatibility."
+      ? "Works best within a narrower range of formations."
+      : null,
+    eraFit.score < 75
+      ? "The selected match environment asks for significant tactical adaptation."
       : null,
   ].filter((item): item is string => Boolean(item));
   return (
@@ -72,17 +78,19 @@ export function ManagerDetails({
           </div>
         </div>
         <section>
-          <span className="eyebrow">TOURNAMENT MODEL</span>
-          <dl className="record-grid manager-detail-grades">
+          <span className="eyebrow">MANAGER RECORD</span>
+          <dl
+            className={`record-grid manager-detail-grades ${styles.metrics}`}
+          >
             <div>
-              <dt>Offense</dt>
+              <dt>OFF</dt>
               <dd>
                 {managerGradeLabel(manager.grades.offense)}{" "}
                 <small>{manager.grades.offense}</small>
               </dd>
             </div>
             <div>
-              <dt>Defense</dt>
+              <dt>DEF</dt>
               <dd>
                 {managerGradeLabel(manager.grades.defense)}{" "}
                 <small>{manager.grades.defense}</small>
@@ -90,21 +98,38 @@ export function ManagerDetails({
             </div>
             <div>
               <dt>Leadership</dt>
-              <dd>{manager.leadership}</dd>
+              <dd>
+                {managerGradeLabel(manager.leadership)}{" "}
+                <small>{manager.leadership}</small>
+              </dd>
             </div>
             <div>
               <dt>Game management</dt>
-              <dd>{manager.gameManagement}</dd>
+              <dd>
+                {managerGradeLabel(manager.gameManagement)}{" "}
+                <small>{manager.gameManagement}</small>
+              </dd>
+            </div>
+            <div>
+              <dt>Era Fit</dt>
+              <dd>
+                {managerGradeLabel(eraFit.score)} <small>{eraFit.score}</small>
+              </dd>
             </div>
           </dl>
         </section>
         <section>
-          <span className="eyebrow">TACTICAL FIT</span>
+          <span className="eyebrow">TACTICAL PROFILE</span>
           <p className="data-disclosure">
             Preferred: {manager.preferredFormations.join(" · ")}
           </p>
           <p className="data-disclosure">
-            Style: {manager.style} · Era model: {manager.era}
+            Style: {manager.style} · {manager.teamName}{" "}
+            {manager.tournamentYear}
+          </p>
+          <p className="data-disclosure">
+            Era Fit: {eraFit.score} · Manager tactics adapt to the selected
+            match environment.
           </p>
           <div className="manager-strength-grid">
             <article>
@@ -119,33 +144,33 @@ export function ManagerDetails({
               <p>
                 {weaknesses.length
                   ? weaknesses.join(" ")
-                  : "No severe grade weakness; non-preferred formations still reduce Manager Fit."}
+                  : "No severe tactical weakness, though preferred formations still offer the clearest fit."}
               </p>
             </article>
           </div>
         </section>
-        <section>
-          <span className="eyebrow">TROPHY XI MANAGER TAGS</span>
-          <div className="modeled-tag-list manager-tag-list">
-            <article>
-              <span>{manager.style}</span>
-              <p>Shapes the manager’s capped simulation modifiers.</p>
-              <small>Production manager-fit model</small>
-            </article>
-            <article>
-              <span>
-                {manager.leadership >= 85
-                  ? "Leadership presence"
-                  : "Measured leadership"}
-              </span>
-              <p>Influences the manager profile without becoming an overall.</p>
-              <small>Leadership {manager.leadership} / 99</small>
-            </article>
-          </div>
-        </section>
-        <section>
-          <span className="eyebrow">MANAGER ACCOLADES</span>
-          {manager.achievements.length ? (
+        {tournamentRecord?.tournamentFinish && (
+          <section>
+            <span className="eyebrow">TOURNAMENT RESULT</span>
+            <p className="data-disclosure">
+              {manager.teamName} ·{" "}
+              <b className={styles.result}>
+                {tournamentRecord.tournamentFinish}
+              </b>
+            </p>
+            <a
+              className={styles.resultSource}
+              href={historicalOpponentSource.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {historicalOpponentSource.label}
+            </a>
+          </section>
+        )}
+        {manager.achievements.length > 0 && (
+          <section>
+            <span className="eyebrow">MANAGER ACCOLADES</span>
             <ul className="achievement-list">
               {manager.achievements.map((achievement) => (
                 <li key={achievement.id}>
@@ -161,56 +186,8 @@ export function ManagerDetails({
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="data-disclosure">
-              No manager accolade is displayed without a card-level source.
-            </p>
-          )}
-        </section>
-        <section>
-          <span className="eyebrow">PHOTO STATUS</span>
-          <p className="data-disclosure">
-            {image
-              ? `Exact-year local face · ${manager.managerName} ${manager.tournamentYear}.`
-              : `Photo Pending · no exact-year local face is stored for ${manager.managerName} ${manager.tournamentYear}.`}
-          </p>
-        </section>
-        {image?.sourcePage && (
-          <section>
-            <span className="eyebrow">PORTRAIT SOURCE</span>
-            <p className="data-disclosure">
-              {flagForCountry(manager.countryCode)} {manager.countryName} ·{" "}
-              {image.photoContext === "same-year-game-face"
-                ? `${image.gameEdition} game face · represents ${image.tournamentYear}`
-                : `${image.photoContext.replaceAll("-", " ")}${
-                    image.photographedYear
-                      ? ` · photographed ${image.photographedYear}`
-                      : " · photograph date not stated"
-                  }`}
-            </p>
-            <a href={image.sourcePage} target="_blank" rel="noreferrer">
-              {image.author} · {image.license}
-            </a>
-            <p className="data-disclosure">{image.requiredAttribution}</p>
           </section>
         )}
-        <section>
-          <span className="eyebrow">ARCHIVE VERSIONS</span>
-          <p className="data-disclosure">
-            {versions
-              .map(
-                (version) =>
-                  `${version.teamName} ${version.tournamentYear}${
-                    version.isDraftEligible ? "" : " · research"
-                  }`,
-              )
-              .join(" / ")}
-          </p>
-        </section>
-        <p className="rating-disclosure">
-          Grades and manager effects are original Trophy XI estimates, not
-          official historical ratings.
-        </p>
       </aside>
     </div>
   );
