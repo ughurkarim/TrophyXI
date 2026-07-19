@@ -21,6 +21,59 @@ describe("draft eras", () => {
     ]);
   });
 
+  it("keeps the compact era selector labels and playstyle copy exact", () => {
+    expect(
+      draftEras.map(({ id, accent, description }) => ({
+        id,
+        accent,
+        description,
+      })),
+    ).toEqual([
+      {
+        id: "2020s",
+        accent: "Electric Cyan",
+        description:
+          "High pressing, rapid transitions, hybrid roles, and technical goalkeepers.",
+      },
+      {
+        id: "2010s",
+        accent: "Royal Violet",
+        description:
+          "Structured pressing, positional play, technical midfields, and flexible attacks.",
+      },
+      {
+        id: "2000s",
+        accent: "Trophy Gold",
+        description:
+          "Explosive pace, powerful specialists, and increasingly fluid possession football.",
+      },
+      {
+        id: "1990s",
+        accent: "Burnt Amber",
+        description:
+          "Defensive organization, athletic duels, quick transitions, and contrasting systems.",
+      },
+      {
+        id: "1980s",
+        accent: "Deep Crimson",
+        description:
+          "Creative playmakers, compact marking, physical battles, and direct counterattacks.",
+      },
+      {
+        id: "1970s",
+        accent: "Archive Gray",
+        description:
+          "Heavy challenges, slower pitches, aerial duels, and individual invention.",
+      },
+      {
+        id: "all",
+        accent: "Ivory Gold",
+        description:
+          "Balanced conditions with minimal era penalty and greater emphasis on adaptability.",
+      },
+    ]);
+  });
+
   it(
     "supports a complete, five-choice player-first draft in every era and formation",
     () => {

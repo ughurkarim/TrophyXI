@@ -234,7 +234,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
 
   await page.getByRole("link", { name: /build your xi/i }).first().click();
   await expect(
-    page.getByRole("heading", { name: /choose the match environment/i }),
+    page.getByRole("heading", { name: /choose your era/i }),
   ).toBeVisible();
   const eraLabels = await page.locator(".era-card h2").allTextContents();
   expect(eraLabels).toEqual([

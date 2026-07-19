@@ -1,16 +1,28 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
 import { draftEras } from "@/data/eras";
-import { draftEligiblePlayers } from "@/data/players";
 import { useGameStore } from "@/store/game-store";
+import type { DraftEraId } from "@/types/game";
+import styles from "./era-page.module.css";
+
+const eraThemeClasses: Record<DraftEraId, string> = {
+  "2020s": styles.theme2020s,
+  "2010s": styles.theme2010s,
+  "2000s": styles.theme2000s,
+  "1990s": styles.theme1990s,
+  "1980s": styles.theme1980s,
+  "1970s": styles.theme1970s,
+  all: styles.themeNeutral,
+};
 
 export default function EraPage() {
   const router = useRouter();
   const hydrated = useGameStore((state) => state.hasHydrated);
+  const selectedEraId = useGameStore((state) => state.eraId);
   const selectEra = useGameStore((state) => state.selectEra);
 
   if (!hydrated) {
@@ -26,39 +38,51 @@ export default function EraPage() {
     <div className="game-page game-page--stadium">
       <GameHeader step="ERA / 01" />
       <SaveNotice />
-      <main className="container game-main">
-        <section className="era-page" aria-labelledby="era-title">
-          <div className="game-intro">
+      <main className={`container game-main ${styles.main}`}>
+        <section
+          className={`${styles.eraScreen} era-page`}
+          aria-labelledby="era-title"
+        >
+          <div className={styles.intro}>
             <p className="eyebrow eyebrow--gold">THE GRAND ARCHIVE / STEP 01</p>
-            <h1 id="era-title">Choose the match environment.</h1>
+            <h1 id="era-title">Choose your era.</h1>
             <p>
-              Every valid tournament card remains available in every era.
-              Missing exact-year faces use a clean Photo Pending identity
-              marker without changing draft eligibility.
+              The era sets the style and conditions of the match. Every player
+              remains available, but their pace, technique, physicality,
+              tactics, and overall fit may translate differently.
             </p>
           </div>
-          <div className="era-grid era-grid--flow">
+          <div className={styles.grid}>
             {draftEras.map((era) => {
+              const isSelected = selectedEraId === era.id;
+
               return (
                 <button
                   key={era.id}
-                  className={`era-card ${era.themeClass}`}
+                  className={`era-card ${styles.card} ${eraThemeClasses[era.id]} ${
+                    isSelected ? styles.selected : ""
+                  }`}
                   onClick={() => {
                     selectEra(era.id);
                     router.push("/play/manager");
                   }}
                   aria-label={`Choose ${era.label}, ${era.years}`}
+                  aria-pressed={isSelected}
                 >
-                  <span>{era.accent}</span>
-                  <b>{era.years}</b>
+                  <span className={styles.themeLabel}>{era.accent}</span>
+                  <b className={styles.yearRange}>{era.years}</b>
                   <h2>{era.label}</h2>
                   <p>{era.description}</p>
-                  <footer>
-                    <small>
-                      {draftEligiblePlayers.length} draftable cards available
-                    </small>
-                    <ArrowRight size={17} aria-hidden />
-                  </footer>
+                  <span className={styles.action} aria-hidden="true">
+                    {isSelected ? (
+                      <>
+                        <Check size={14} strokeWidth={2.25} />
+                        Selected
+                      </>
+                    ) : (
+                      "Select era"
+                    )}
+                  </span>
                 </button>
               );
             })}

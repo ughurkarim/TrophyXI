@@ -26,8 +26,8 @@ const eraDefinitions: DraftEra[] = [
     yearRange: [1970, 1979],
     midpointYear: 1975,
     description:
-      "Heavy contact, slower surfaces, direct buildup, aerial duels, and individual invention.",
-    accent: "The Heavy Crown",
+      "Heavy challenges, slower pitches, aerial duels, and individual invention.",
+    accent: "Archive Gray",
     themeClass: "era-theme--century",
     environment: {
       physicalContact: 96,
@@ -47,8 +47,8 @@ const eraDefinitions: DraftEra[] = [
     yearRange: [1980, 1989],
     midpointYear: 1985,
     description:
-      "Compact marking, specialist roles, creative tens, physical systems, and direct transitions.",
-    accent: "Specialist Theatre",
+      "Creative playmakers, compact marking, physical battles, and direct counterattacks.",
+    accent: "Deep Crimson",
     themeClass: "era-theme--century",
     environment: {
       physicalContact: 91,
@@ -68,8 +68,8 @@ const eraDefinitions: DraftEra[] = [
     yearRange: [1990, 1999],
     midpointYear: 1995,
     description:
-      "Defensive organization, athletic duels, faster transitions, and mixed technical-direct systems.",
-    accent: "Iron Organization",
+      "Defensive organization, athletic duels, quick transitions, and contrasting systems.",
+    accent: "Burnt Amber",
     themeClass: "era-theme--century",
     environment: {
       physicalContact: 86,
@@ -89,8 +89,8 @@ const eraDefinitions: DraftEra[] = [
     yearRange: [2000, 2009],
     midpointYear: 2005,
     description:
-      "Greater speed, powerful specialists, growing flexibility, and balanced possession-transition play.",
-    accent: "Gilded Acceleration",
+      "Explosive pace, powerful specialists, and increasingly fluid possession football.",
+    accent: "Trophy Gold",
     themeClass: "era-theme--all",
     environment: {
       physicalContact: 82,
@@ -110,8 +110,8 @@ const eraDefinitions: DraftEra[] = [
     yearRange: [2010, 2019],
     midpointYear: 2015,
     description:
-      "Structured pressing, positional play, technical midfields, buildup, and flexible attacks.",
-    accent: "Midnight Masters",
+      "Structured pressing, positional play, technical midfields, and flexible attacks.",
+    accent: "Royal Violet",
     themeClass: "era-theme--modern",
     environment: {
       physicalContact: 74,
@@ -131,8 +131,8 @@ const eraDefinitions: DraftEra[] = [
     yearRange: [2020, 2029],
     midpointYear: 2024,
     description:
-      "Aggressive pressing, rapid transitions, hybrid roles, high lines, and distributor goalkeepers.",
-    accent: "Crown of Tomorrow",
+      "High pressing, rapid transitions, hybrid roles, and technical goalkeepers.",
+    accent: "Electric Cyan",
     themeClass: "era-theme--new",
     environment: {
       physicalContact: 72,
@@ -152,8 +152,8 @@ const eraDefinitions: DraftEra[] = [
     yearRange: [1970, 2026],
     midpointYear: 1998,
     description:
-      "Minimal year penalty, balanced assumptions, and greater emphasis on adaptability.",
-    accent: "The Grand Archive",
+      "Balanced conditions with minimal era penalty and greater emphasis on adaptability.",
+    accent: "Ivory Gold",
     themeClass: "era-theme--all",
     environment: neutralEnvironment,
   },

@@ -1,0 +1,328 @@
+.main {
+  padding-top: clamp(18px, 2.5vh, 28px);
+  padding-bottom: 24px;
+}
+
+.eraScreen {
+  display: grid;
+  min-height: calc(100svh - 122px);
+  padding: 0;
+  align-content: start;
+  gap: clamp(18px, 2.5vh, 28px);
+}
+
+.intro {
+  width: min(100%, 1050px);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.intro h1 {
+  margin: 8px 0 9px;
+  font-size: clamp(2.35rem, 4vw, 3.8rem);
+  font-weight: 630;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.intro > p:last-child {
+  max-width: 1020px;
+  margin: 0 auto;
+  color: #9aa39d;
+  font-size: clamp(0.82rem, 1.05vw, 0.95rem);
+  line-height: 1.52;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: clamp(10px, 1vw, 14px);
+}
+
+.eraScreen .card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  height: clamp(194px, 21.5vh, 218px);
+  min-height: 0;
+  padding: clamp(17px, 1.5vw, 21px);
+  overflow: hidden;
+  flex-direction: column;
+  grid-column: span 2;
+  color: #f4f3ee;
+  border: 1px solid color-mix(in srgb, var(--era-accent) 55%, #353835);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  background:
+    radial-gradient(
+      circle at 88% 8%,
+      color-mix(in srgb, var(--era-accent) 19%, transparent),
+      transparent 42%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--era-surface) 91%, var(--era-accent) 9%),
+      color-mix(in srgb, #050706 84%, var(--era-surface) 16%)
+    );
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.06),
+    0 15px 34px rgba(0, 0, 0, 0.26);
+  isolation: isolate;
+  transform: none;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease,
+    filter 150ms ease;
+}
+
+.eraScreen .card::before {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  content: "";
+  background: var(--era-accent);
+  box-shadow: 0 0 18px
+    color-mix(in srgb, var(--era-accent) 58%, transparent);
+}
+
+.eraScreen .card::after {
+  display: none;
+  content: none;
+}
+
+.eraScreen .card:nth-child(5) {
+  grid-column: 2 / span 2;
+}
+
+.eraScreen .card:nth-child(6) {
+  grid-column: 4 / span 2;
+}
+
+.eraScreen .card:nth-child(7) {
+  grid-column: 6 / span 2;
+}
+
+.eraScreen .card:hover,
+.eraScreen .card:focus-visible,
+.eraScreen .selected {
+  border-color: var(--era-accent);
+  background:
+    radial-gradient(
+      circle at 88% 8%,
+      color-mix(in srgb, var(--era-accent) 30%, transparent),
+      transparent 47%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--era-surface) 82%, var(--era-accent) 18%),
+      color-mix(in srgb, #060807 74%, var(--era-surface) 26%)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--era-accent) 28%, transparent),
+    inset 0 1px rgba(255, 255, 255, 0.09),
+    0 18px 42px rgba(0, 0, 0, 0.38),
+    0 0 30px color-mix(in srgb, var(--era-accent) 30%, transparent);
+  filter: brightness(1.08);
+  transform: none;
+}
+
+.eraScreen .card:focus-visible {
+  outline: 2px solid var(--era-accent);
+  outline-offset: 3px;
+}
+
+.eraScreen .themeLabel {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 0 0 auto;
+  color: var(--era-accent);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.59rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.eraScreen .yearRange {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 16px 0 4px;
+  color: color-mix(in srgb, var(--era-accent) 78%, #ffffff);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.eraScreen .card h2 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 7px;
+  font-size: clamp(1.08rem, 1.45vw, 1.35rem);
+  font-weight: 680;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.eraScreen .card p {
+  position: relative;
+  z-index: 1;
+  min-height: 3.75em;
+  margin: 0;
+  color: #a8afaa;
+  font-size: clamp(0.68rem, 0.82vw, 0.76rem);
+  line-height: 1.42;
+}
+
+.eraScreen .action {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: 17px;
+  align-items: center;
+  gap: 5px;
+  margin-top: 9px;
+  color: color-mix(in srgb, var(--era-accent) 86%, #ffffff);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  opacity: 0;
+  text-transform: uppercase;
+  transition: opacity 150ms ease;
+}
+
+.eraScreen .card:hover .action,
+.eraScreen .card:focus-visible .action,
+.eraScreen .selected .action {
+  opacity: 1;
+}
+
+.theme2020s {
+  --era-accent: #59c7d8;
+  --era-surface: #082128;
+}
+
+.theme2010s {
+  --era-accent: #a786d8;
+  --era-surface: #21152e;
+}
+
+.theme2000s {
+  --era-accent: #d7b64d;
+  --era-surface: #27230e;
+}
+
+.theme1990s {
+  --era-accent: #c98a45;
+  --era-surface: #2a190f;
+}
+
+.theme1980s {
+  --era-accent: #b86655;
+  --era-surface: #2b1117;
+}
+
+.theme1970s {
+  --era-accent: #a6a39a;
+  --era-surface: #202221;
+}
+
+.themeNeutral {
+  --era-accent: #e5cf79;
+  --era-surface: #1d1a10;
+}
+
+@media (max-width: 1000px) {
+  .eraScreen {
+    min-height: auto;
+  }
+
+  .grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .eraScreen .card:nth-child(n) {
+    grid-column: span 2;
+  }
+
+  .eraScreen .card:nth-child(7) {
+    grid-column: 3 / span 2;
+  }
+}
+
+@media (max-width: 650px) {
+  .main {
+    padding-top: 19px;
+    padding-bottom: 30px;
+  }
+
+  .eraScreen {
+    gap: 18px;
+  }
+
+  .intro h1 {
+    font-size: clamp(2.15rem, 10vw, 2.8rem);
+  }
+
+  .intro > p:last-child {
+    font-size: 0.82rem;
+    line-height: 1.48;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .eraScreen .card:nth-child(n) {
+    height: 235px;
+    grid-column: span 1;
+  }
+
+  .eraScreen .card:nth-child(7) {
+    grid-column: 1 / -1;
+  }
+
+  .eraScreen .card h2 {
+    font-size: 1.05rem;
+  }
+
+  .eraScreen .card p {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .eraScreen .card:nth-child(n) {
+    height: 205px;
+    grid-column: 1;
+  }
+
+  .eraScreen .card p {
+    min-height: 0;
+    font-size: 0.73rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eraScreen .card,
+  .eraScreen .action {
+    transition: none !important;
+  }
+}
