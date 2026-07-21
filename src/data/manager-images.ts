@@ -4,7 +4,7 @@ export const licensedManagerPortraitImages = [
     kind: "manager",
     subjectName: "Louis van Gaal",
     tournamentYear: 2014,
-    file: "/assets/managers/2014/louis-van-gaal-2014.png",
+    file: "/assets/managers/louis-van-gaal-2014.png",
     cacheVersion: "43596ec0fc3ea18e",
     sourceFile: "public/managers/sources/louis-van-gaal-2014.jpg",
     sourcePage:
@@ -26,15 +26,13 @@ export const licensedManagerPortraitImages = [
     sourceWebsite: "Wikimedia Commons",
     retrievedOn: "2026-07-18",
     matchQuality: "identity-only-permissioned",
-    requiredAttribution:
-      "Louis van Gaal photograph by Congres in Beeld, CC BY-SA 2.0, via Wikimedia Commons.",
   },
   {
     id: "zlatko-dalic-2018",
     kind: "manager",
     subjectName: "Zlatko Dalić",
     tournamentYear: 2018,
-    file: "/assets/managers/2018/zlatko-dalic-2018.png",
+    file: "/assets/managers/zlatko-dalic-2018.png",
     cacheVersion: "aa33e3f907ad7f3c",
     sourceFile: "public/managers/sources/zlatko-dalic-2018.jpg",
     sourcePage:
@@ -56,15 +54,13 @@ export const licensedManagerPortraitImages = [
     sourceWebsite: "Wikimedia Commons",
     retrievedOn: "2026-07-18",
     matchQuality: "identity-only-permissioned",
-    requiredAttribution:
-      "Zlatko Dalić photograph by Анна Нэсси, CC BY-SA 3.0, via Wikimedia Commons.",
   },
   {
     id: "lionel-scaloni-2022",
     kind: "manager",
     subjectName: "Lionel Scaloni",
     tournamentYear: 2022,
-    file: "/assets/managers/2022/lionel-scaloni-2022.png",
+    file: "/assets/managers/lionel-scaloni-2022.png",
     cacheVersion: "9540e3331dcb5b46",
     sourceFile: "public/managers/sources/lionel-scaloni-2022.jpg",
     sourcePage:

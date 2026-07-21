@@ -1,15 +1,15 @@
 managerCardId,managerIdentityId,managerName,country,team,tournamentYear,expectedImagePath,imagePresent,photoStatus
 didier-deschamps-2022,didier-deschamps,Didier Deschamps,France,France,2022,assets/managers/2022/didier-deschamps-2022.png,false,photo-pending
 herve-renard-2022,herve-renard,Hervé Renard,France,Saudi Arabia,2022,assets/managers/2022/herve-renard-2022.png,false,photo-pending
-lionel-scaloni-2022,lionel-scaloni,Lionel Scaloni,Argentina,Argentina,2022,assets/managers/2022/lionel-scaloni-2022.png,true,available
+lionel-scaloni-2022,lionel-scaloni,Lionel Scaloni,Argentina,Argentina,2022,assets/managers/lionel-scaloni-2022.png,true,available
 tite-2022,tite,Tite,Brazil,Brazil,2022,assets/managers/2022/tite-2022.png,false,photo-pending
 walid-regragui-2022,walid-regragui,Walid Regragui,Morocco,Morocco,2022,assets/managers/2022/walid-regragui-2022.png,false,photo-pending
 zlatko-dalic-2022,zlatko-dalic,Zlatko Dalić,Croatia,Croatia,2022,assets/managers/2022/zlatko-dalic-2022.png,false,photo-pending
 didier-deschamps-2018,didier-deschamps,Didier Deschamps,France,France,2018,assets/managers/2018/didier-deschamps-2018.png,false,photo-pending
-zlatko-dalic-2018,zlatko-dalic,Zlatko Dalić,Croatia,Croatia,2018,assets/managers/2018/zlatko-dalic-2018.png,true,available
+zlatko-dalic-2018,zlatko-dalic,Zlatko Dalić,Croatia,Croatia,2018,assets/managers/zlatko-dalic-2018.png,true,available
 alejandro-sabella-2014,alejandro-sabella,Alejandro Sabella,Argentina,Argentina,2014,assets/managers/2014/alejandro-sabella-2014.png,false,photo-pending
 joachim-low-2014,joachim-low,Joachim Löw,Germany,Germany,2014,assets/managers/2014/joachim-low-2014.png,false,photo-pending
-louis-van-gaal-2014,louis-van-gaal,Louis van Gaal,Netherlands,Netherlands,2014,assets/managers/2014/louis-van-gaal-2014.png,true,available
+louis-van-gaal-2014,louis-van-gaal,Louis van Gaal,Netherlands,Netherlands,2014,assets/managers/louis-van-gaal-2014.png,true,available
 vicente-del-bosque-2014,vicente-del-bosque,Vicente del Bosque,Spain,Spain,2014,assets/managers/2014/vicente-del-bosque-2014.png,false,photo-pending
 joachim-low-2010,joachim-low,Joachim Löw,Germany,Germany,2010,assets/managers/2010/joachim-low-2010.png,false,photo-pending
 oscar-tabarez-2010,oscar-tabarez,Óscar Tabárez,Uruguay,Uruguay,2010,assets/managers/2010/oscar-tabarez-2010.png,false,photo-pending

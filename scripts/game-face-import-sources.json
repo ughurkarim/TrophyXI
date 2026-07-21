@@ -12,6 +12,7 @@
     "retrievedOn": "2026-07-18",
     "matchQuality": "manually-reviewed-edition",
     "permissionScope": "project-specific-ea-sofifa",
+    "requiredAttribution": "EA SPORTS player imagery, sourced via SoFIFA, used under project-specific permission.",
     "preserveMetadataAndWatermarks": true,
     "cachePolicy": "local-first-conditional",
     "reusableLicenseConfirmed": true,
