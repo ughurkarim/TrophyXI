@@ -33,9 +33,9 @@ export const metadata: Metadata = {
   },
   description:
     "Draft legendary tournament performances and challenge the greatest World Cup champions in history.",
-  metadataBase: new URL("https://trophyxi.local"),
+  metadataBase: new URL("https://trophyxi.com"),
   openGraph: {
-    title: "Trophy XI — Build the XI. Beat history.",
+    title: "Trophy XI",
     description:
       "Draft fourteen tournament performances. Choose a historical World Cup opponent. Rewrite history.",
     type: "website",
