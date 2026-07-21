@@ -30,9 +30,7 @@ describe("ManagerCard", () => {
     expect(card).not.toHaveTextContent(/tournament versions/i);
     expect(card.querySelector("img")).toHaveAttribute(
       "src",
-      expect.stringContaining(
-        "/assets/managers/2022/lionel-scaloni-2022.png",
-      ),
+      expect.stringContaining("/assets/managers/lionel-scaloni-2022.png"),
     );
 
     await user.click(

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { imagesById } from "@/data/player-images";
+import { assetUrl } from "@/lib/assets";
 import { flagForCountry } from "@/lib/utils";
 import type { PlayerStatusTier } from "@/types/game";
 
@@ -44,7 +45,9 @@ export function CircularPortrait({
       <span className="circular-portrait__mask">
         {image ? (
           <Image
-            src={`${image.file}?v=${encodeURIComponent(image.cacheVersion)}`}
+            src={`${assetUrl(image.file)}?v=${encodeURIComponent(
+              image.cacheVersion,
+            )}`}
             alt={`${subjectName}${tournamentYear ? ` ${tournamentYear}` : ""} portrait`}
             fill
             unoptimized
