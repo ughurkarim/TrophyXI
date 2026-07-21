@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-07-19T01:07:02.830Z",
+  "generatedAt": "2026-07-19T15:34:50.363Z",
   "policy": "User-confirmed project-specific FBref permission. FBref remains the source; Internet Archive is only the retrieval route because direct automated access returned a Cloudflare challenge. Local cache first; profile headshot markup first, then the reviewed exact-ID legacy headshot path; validated image bytes only; identity-only context; no hotlinks.",
-  "targetHistoricalCards": 265,
-  "targetHistoricalIdentities": 146,
-  "configuredMappings": 146,
+  "targetHistoricalCards": 321,
+  "targetHistoricalIdentities": 172,
+  "configuredMappings": 172,
   "coveredCards": 56,
   "coveredIdentities": 36,
   "downloadedIdentities": 0,
-  "skippedIdentities": 36,
-  "failedIdentities": 110,
-  "photoPendingCards": 209,
+  "skippedIdentities": 72,
+  "failedIdentities": 100,
+  "photoPendingCards": 265,
   "results": [
     {
       "playerIdentityId": "ahn-jung-hwan",
@@ -18,7 +18,27 @@
         "ahn-jung-hwan-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "alain-giresse",
+      "playerName": "Alain Giresse",
+      "cardIds": [
+        "alain-giresse-1982",
+        "alain-giresse-1986"
+      ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
+    },
+    {
+      "playerIdentityId": "aldair",
+      "playerName": "Aldair",
+      "cardIds": [
+        "aldair-1994",
+        "aldair-1998"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "alessandro-nesta",
@@ -37,7 +57,7 @@
         "alpay-ozalan-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "andreas-brehme",
@@ -48,7 +68,7 @@
         "andreas-brehme-1994"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "arie-haan",
@@ -57,8 +77,8 @@
         "arie-haan-1974",
         "arie-haan-1978"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "ariel-ortega",
@@ -69,7 +89,7 @@
         "ariel-ortega-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "ashley-cole",
@@ -89,7 +109,18 @@
         "bebeto-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "berti-vogts",
+      "playerName": "Berti Vogts",
+      "cardIds": [
+        "berti-vogts-1970",
+        "berti-vogts-1974",
+        "berti-vogts-1978"
+      ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "bixente-lizarazu",
@@ -99,7 +130,7 @@
         "bixente-lizarazu-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "bobby-moore",
@@ -107,8 +138,19 @@
       "cardIds": [
         "bobby-moore-1970"
       ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
+    },
+    {
+      "playerIdentityId": "branco",
+      "playerName": "Branco",
+      "cardIds": [
+        "branco-1986",
+        "branco-1990",
+        "branco-1994"
+      ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "brian-laudrup",
@@ -117,7 +159,17 @@
         "brian-laudrup-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "bruno-conti",
+      "playerName": "Bruno Conti",
+      "cardIds": [
+        "bruno-conti-1982",
+        "bruno-conti-1986"
+      ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "cafu",
@@ -128,7 +180,17 @@
         "cafu-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "careca",
+      "playerName": "Careca",
+      "cardIds": [
+        "careca-1986",
+        "careca-1990"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "carles-puyol",
@@ -137,7 +199,27 @@
         "carles-puyol-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "carlos-alberto",
+      "playerName": "Carlos Alberto",
+      "cardIds": [
+        "carlos-alberto-1970"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "carlos-valderrama",
+      "playerName": "Carlos Valderrama",
+      "cardIds": [
+        "carlos-valderrama-1990",
+        "carlos-valderrama-1994",
+        "carlos-valderrama-1998"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "christian-panucci",
@@ -156,7 +238,7 @@
         "christian-vieri-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "claude-makelele",
@@ -174,8 +256,8 @@
         "claudio-gentile-1978",
         "claudio-gentile-1982"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "claudio-taffarel",
@@ -186,7 +268,7 @@
         "claudio-taffarel-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "cuauhtemoc-blanco",
@@ -196,7 +278,7 @@
         "cuauhtemoc-blanco-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "daniel-passarella",
@@ -205,8 +287,8 @@
         "daniel-passarella-1978",
         "daniel-passarella-1982"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "david-beckham",
@@ -216,7 +298,7 @@
         "david-beckham-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "david-seaman",
@@ -226,7 +308,7 @@
         "david-seaman-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "david-trezeguet",
@@ -236,7 +318,7 @@
         "david-trezeguet-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "davor-suker",
@@ -246,7 +328,7 @@
         "davor-suker-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "dennis-bergkamp",
@@ -256,7 +338,7 @@
         "dennis-bergkamp-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "didier-deschamps",
@@ -296,8 +378,19 @@
         "dino-zoff-1978",
         "dino-zoff-1982"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
+    },
+    {
+      "playerIdentityId": "dirceu",
+      "playerName": "Dirceu",
+      "cardIds": [
+        "dirceu-1974",
+        "dirceu-1978",
+        "dirceu-1982"
+      ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "dunga",
@@ -326,7 +419,7 @@
         "edwin-van-der-sar-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "el-hadji-diouf",
@@ -345,7 +438,7 @@
         "emilio-butragueno-1990"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "emmanuel-petit",
@@ -355,7 +448,7 @@
         "emmanuel-petit-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "fabien-barthez",
@@ -365,7 +458,7 @@
         "fabien-barthez-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "fabio-cannavaro",
@@ -384,8 +477,8 @@
         "falcao-1982",
         "falcao-1986"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "francesco-totti",
@@ -404,7 +497,7 @@
         "franco-baresi-1994"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "frank-de-boer",
@@ -424,7 +517,7 @@
         "frank-rijkaard-1994"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "franz-beckenbauer",
@@ -433,8 +526,8 @@
         "franz-beckenbauer-1970",
         "franz-beckenbauer-1974"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "gabriel-batistuta",
@@ -445,7 +538,7 @@
         "gabriel-batistuta-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "gaetano-scirea",
@@ -455,8 +548,8 @@
         "gaetano-scirea-1982",
         "gaetano-scirea-1986"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "gary-lineker",
@@ -466,7 +559,7 @@
         "gary-lineker-1990"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "gary-neville",
@@ -475,7 +568,7 @@
         "gary-neville-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "gennaro-gattuso",
@@ -493,8 +586,17 @@
         "gerd-muller-1970",
         "gerd-muller-1974"
       ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
+    },
+    {
+      "playerIdentityId": "gerson",
+      "playerName": "Gérson",
+      "cardIds": [
+        "gerson-1970"
+      ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "gheorghe-hagi",
@@ -514,8 +616,8 @@
         "giacinto-facchetti-1970",
         "giacinto-facchetti-1974"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "gianluca-zambrotta",
@@ -524,7 +626,7 @@
         "gianluca-zambrotta-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "gianluigi-buffon",
@@ -536,13 +638,23 @@
       "reason": "Completed FBref portrait import is cached locally."
     },
     {
+      "playerIdentityId": "gianni-rivera",
+      "playerName": "Gianni Rivera",
+      "cardIds": [
+        "gianni-rivera-1970",
+        "gianni-rivera-1974"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
       "playerIdentityId": "gordon-banks",
       "playerName": "Gordon Banks",
       "cardIds": [
         "gordon-banks-1970"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "grzegorz-lato",
@@ -552,8 +664,8 @@
         "grzegorz-lato-1978",
         "grzegorz-lato-1982"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "hakan-sukur",
@@ -562,7 +674,7 @@
         "hakan-sukur-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "harald-schumacher",
@@ -572,7 +684,7 @@
         "harald-schumacher-1986"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "hasan-sas",
@@ -581,7 +693,7 @@
         "hasan-sas-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "hong-myung-bo",
@@ -603,7 +715,7 @@
         "hristo-stoichkov-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "igor-belanov",
@@ -612,7 +724,7 @@
         "igor-belanov-1986"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "iker-casillas",
@@ -630,7 +742,7 @@
         "ilhan-mans-z-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "jaap-stam",
@@ -648,8 +760,8 @@
         "jairzinho-1970",
         "jairzinho-1974"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "jared-borgetti",
@@ -658,7 +770,7 @@
         "jared-borgetti-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "javier-zanetti",
@@ -668,7 +780,28 @@
         "javier-zanetti-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "jay-jay-okocha",
+      "playerName": "Jay-Jay Okocha",
+      "cardIds": [
+        "jay-jay-okocha-1994",
+        "jay-jay-okocha-1998",
+        "jay-jay-okocha-2002"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "jean-marie-pfaff",
+      "playerName": "Jean-Marie Pfaff",
+      "cardIds": [
+        "jean-marie-pfaff-1982",
+        "jean-marie-pfaff-1986"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "jean-tigana",
@@ -678,7 +811,7 @@
         "jean-tigana-1986"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "johan-cruyff",
@@ -686,8 +819,8 @@
       "cardIds": [
         "johan-cruyff-1974"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "johan-neeskens",
@@ -696,8 +829,8 @@
         "johan-neeskens-1974",
         "johan-neeskens-1978"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "jorge-burruchaga",
@@ -707,7 +840,7 @@
         "jorge-burruchaga-1990"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "jorge-campos",
@@ -717,7 +850,7 @@
         "jorge-campos-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "jorge-valdano",
@@ -727,7 +860,17 @@
         "jorge-valdano-1986"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "jorginho",
+      "playerName": "Jorginho",
+      "cardIds": [
+        "jorginho-1990",
+        "jorginho-1994"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "jose-luis-chilavert",
@@ -737,7 +880,17 @@
         "jose-luis-chilavert-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "juan-sebastian-veron",
+      "playerName": "Juan Sebastián Verón",
+      "cardIds": [
+        "juan-sebastian-veron-1998",
+        "juan-sebastian-veron-2002"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "juninho-paulista",
@@ -746,7 +899,7 @@
         "juninho-paulista-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "jurgen-klinsmann",
@@ -769,14 +922,25 @@
       "reason": "Completed FBref portrait import is cached locally."
     },
     {
+      "playerIdentityId": "karl-heinz-rummenigge",
+      "playerName": "Karl-Heinz Rummenigge",
+      "cardIds": [
+        "karl-heinz-rummenigge-1978",
+        "karl-heinz-rummenigge-1982",
+        "karl-heinz-rummenigge-1986"
+      ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
+    },
+    {
       "playerIdentityId": "kazimierz-deyna",
       "playerName": "Kazimierz Deyna",
       "cardIds": [
         "kazimierz-deyna-1974",
         "kazimierz-deyna-1978"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "kleberson",
@@ -785,7 +949,17 @@
         "kleberson-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "ladislao-mazurkiewicz",
+      "playerName": "Ladislao Mazurkiewicz",
+      "cardIds": [
+        "ladislao-mazurkiewicz-1970",
+        "ladislao-mazurkiewicz-1974"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "landon-donovan",
@@ -823,7 +997,7 @@
         "lilian-thuram-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "lothar-matthaus",
@@ -836,7 +1010,7 @@
         "lothar-matthaus-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "lucio",
@@ -845,7 +1019,7 @@
         "lucio-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "luis-figo",
@@ -854,7 +1028,7 @@
         "luis-figo-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "luis-hernandez",
@@ -864,7 +1038,7 @@
         "luis-hernandez-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "marc-overmars",
@@ -884,7 +1058,7 @@
         "marcel-desailly-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "marco-materazzi",
@@ -893,7 +1067,17 @@
         "marco-materazzi-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "marco-tardelli",
+      "playerName": "Marco Tardelli",
+      "cardIds": [
+        "marco-tardelli-1978",
+        "marco-tardelli-1982"
+      ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "marcos",
@@ -902,7 +1086,7 @@
         "marcos-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "mario-kempes",
@@ -912,8 +1096,8 @@
         "mario-kempes-1978",
         "mario-kempes-1982"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "michael-ballack",
@@ -922,7 +1106,7 @@
         "michael-ballack-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "michael-laudrup",
@@ -932,7 +1116,7 @@
         "michael-laudrup-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "michael-owen",
@@ -942,7 +1126,7 @@
         "michael-owen-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "michel-platini",
@@ -952,8 +1136,8 @@
         "michel-platini-1982",
         "michel-platini-1986"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "miroslav-klose",
@@ -971,7 +1155,7 @@
         "murtaz-khurtsilava-1970"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "nicky-butt",
@@ -980,7 +1164,7 @@
         "nicky-butt-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "oleg-salenko",
@@ -989,7 +1173,7 @@
         "oleg-salenko-1994"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "oliver-kahn",
@@ -998,7 +1182,17 @@
         "oliver-kahn-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "osvaldo-ardiles",
+      "playerName": "Osvaldo Ardiles",
+      "cardIds": [
+        "osvaldo-ardiles-1978",
+        "osvaldo-ardiles-1982"
+      ],
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "paolo-maldini",
@@ -1010,7 +1204,7 @@
         "paolo-maldini-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "paolo-rossi",
@@ -1019,8 +1213,8 @@
         "paolo-rossi-1978",
         "paolo-rossi-1982"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "park-ji-sung",
@@ -1029,7 +1223,17 @@
         "park-ji-sung-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "patrick-vieira",
+      "playerName": "Patrick Vieira",
+      "cardIds": [
+        "patrick-vieira-1998",
+        "patrick-vieira-2002"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "paul-breitner",
@@ -1038,8 +1242,8 @@
         "paul-breitner-1974",
         "paul-breitner-1982"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "paul-gascoigne",
@@ -1048,7 +1252,7 @@
         "paul-gascoigne-1990"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "pele",
@@ -1066,7 +1270,18 @@
         "peter-schmeichel-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "peter-shilton",
+      "playerName": "Peter Shilton",
+      "cardIds": [
+        "peter-shilton-1982",
+        "peter-shilton-1986",
+        "peter-shilton-1990"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "pierre-littbarski",
@@ -1077,7 +1292,7 @@
         "pierre-littbarski-1990"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "preben-elkj-r",
@@ -1086,7 +1301,7 @@
         "preben-elkj-r-1986"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "rafael-marquez",
@@ -1098,6 +1313,25 @@
       "reason": "Completed FBref portrait import is cached locally."
     },
     {
+      "playerIdentityId": "raul",
+      "playerName": "Raúl",
+      "cardIds": [
+        "raul-1998",
+        "raul-2002"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "rene-higuita",
+      "playerName": "René Higuita",
+      "cardIds": [
+        "rene-higuita-1990"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
       "playerIdentityId": "rene-houseman",
       "playerName": "René Houseman",
       "cardIds": [
@@ -1105,7 +1339,7 @@
         "rene-houseman-1978"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "rio-ferdinand",
@@ -1124,7 +1358,7 @@
         "rivaldo-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "rivelino",
@@ -1134,8 +1368,8 @@
         "rivelino-1974",
         "rivelino-1978"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "rob-rensenbrink",
@@ -1144,8 +1378,8 @@
         "rob-rensenbrink-1974",
         "rob-rensenbrink-1978"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "roberto-baggio",
@@ -1156,7 +1390,7 @@
         "roberto-baggio-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "roberto-carlos",
@@ -1166,7 +1400,7 @@
         "roberto-carlos-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "roger-milla",
@@ -1177,7 +1411,7 @@
         "roger-milla-1994"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "romario",
@@ -1187,7 +1421,7 @@
         "romario-1994"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "ronaldinho",
@@ -1209,13 +1443,24 @@
       "reason": "Completed FBref portrait import is cached locally."
     },
     {
+      "playerIdentityId": "rudi-voller",
+      "playerName": "Rudi Völler",
+      "cardIds": [
+        "rudi-voller-1986",
+        "rudi-voller-1990",
+        "rudi-voller-1994"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
       "playerIdentityId": "rustu-recber",
       "playerName": "Rüştü Reçber",
       "cardIds": [
         "rustu-recber-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "ruud-krol",
@@ -1224,8 +1469,8 @@
         "ruud-krol-1974",
         "ruud-krol-1978"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "salvatore-schillaci",
@@ -1234,7 +1479,7 @@
         "salvatore-schillaci-1990"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "samuel-etoo",
@@ -1244,7 +1489,7 @@
         "samuel-etoo-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "sepp-maier",
@@ -1254,8 +1499,8 @@
         "sepp-maier-1974",
         "sepp-maier-1978"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "sergio-goycochea",
@@ -1264,7 +1509,7 @@
         "sergio-goycochea-1990"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "socrates",
@@ -1274,7 +1519,7 @@
         "socrates-1986"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "sol-campbell",
@@ -1284,7 +1529,7 @@
         "sol-campbell-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "sunday-oliseh",
@@ -1294,7 +1539,7 @@
         "sunday-oliseh-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "teofilo-cubillas",
@@ -1304,8 +1549,8 @@
         "teofilo-cubillas-1978",
         "teofilo-cubillas-1982"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "thierry-henry",
@@ -1325,7 +1570,7 @@
         "tomas-brolin-1994"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "tomas-skuhravy",
@@ -1334,7 +1579,7 @@
         "tomas-skuhravy-1990"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "torsten-frings",
@@ -1351,8 +1596,8 @@
       "cardIds": [
         "tostao-1970"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "ubaldo-fillol",
@@ -1363,7 +1608,7 @@
         "ubaldo-fillol-1982"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "victor-ikpeba",
@@ -1372,7 +1617,7 @@
         "victor-ikpeba-1998"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "wolfgang-overath",
@@ -1381,8 +1626,8 @@
         "wolfgang-overath-1970",
         "wolfgang-overath-1974"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "xavi",
@@ -1401,7 +1646,17 @@
         "yoo-sang-chul-2002"
       ],
       "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "reason": "portrait is not available in the local portrait cache"
+    },
+    {
+      "playerIdentityId": "youri-djorkaeff",
+      "playerName": "Youri Djorkaeff",
+      "cardIds": [
+        "youri-djorkaeff-1998",
+        "youri-djorkaeff-2002"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     },
     {
       "playerIdentityId": "zbigniew-boniek",
@@ -1411,8 +1666,8 @@
         "zbigniew-boniek-1982",
         "zbigniew-boniek-1986"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "zico",
@@ -1422,8 +1677,8 @@
         "zico-1982",
         "zico-1986"
       ],
-      "status": "failed",
-      "reason": "archived retrieval failed after 3 attempts: archived source returned HTTP 404"
+      "status": "skipped",
+      "reason": "User-supplied identity portrait already covers this player; preserved without overwrite."
     },
     {
       "playerIdentityId": "zinedine-zidane",
@@ -1443,6 +1698,15 @@
       ],
       "status": "skipped",
       "reason": "Completed FBref portrait import is cached locally."
+    },
+    {
+      "playerIdentityId": "zvonimir-boban",
+      "playerName": "Zvonimir Boban",
+      "cardIds": [
+        "zvonimir-boban-1998"
+      ],
+      "status": "failed",
+      "reason": "portrait is not available in the local portrait cache"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-19T00:56:31.949Z",
+  "generatedAt": "2026-07-19T15:26:53.686Z",
   "faces": [
     {
       "id": "alexis-sanchez-2014",
@@ -3962,6 +3962,30 @@
       "gameEditionLaunchYear": 2022,
       "editionEvidence": "FIFA 23 legacy index entry dated 2022-09-26 records real_face=Yes for Yassine Bounou; matched by published name and birth date to P-50688. FIFA 23 launched in 2022 for the 2022–23 season and is the prescribed game edition for the 2022 tournament card; this does not claim the underlying face was photographed in 2022."
     },
+    {
+  "id": "vinicius-junior-2022",
+  "kind": "player",
+  "tournamentYear": 2022,
+  "gameEdition": "FIFA 23",
+  "sourceWebsite": "SoFIFA",
+  "sourceUrl": "https://cdn.sofifa.net/players/238/794/23_120.png",
+  "author": "EA SPORTS",
+  "license": "Project-specific EA/SoFIFA permission",
+  "licenseUrl": "https://sofifa.com/player/238794/vinicius-jose-de-oliveira-junior/230006",
+  "retrievedOn": "2026-07-19",
+  "matchQuality": "manually-reviewed-edition",
+  "permissionScope": "project-specific-ea-sofifa",
+  "requiredAttribution": "EA SPORTS player imagery, sourced via SoFIFA, used under project-specific permission.",
+  "preserveMetadataAndWatermarks": true,
+  "cachePolicy": "local-first-conditional",
+  "reusableLicenseConfirmed": true,
+  "approvedForImport": true,
+  "localPath": "/assets/players/2022/vinicius-junior-2022.png",
+  "sourceFile": "/assets/players/2022/vinicius-junior-2022.png",
+  "changes": "No image transformation. Original PNG bytes, embedded metadata, and any watermark are preserved exactly as downloaded.",
+  "gameEditionLaunchYear": 2022,
+  "editionEvidence": "FIFA 23 SoFIFA entry for player 238794 records Real face=Yes for Vinícius Júnior; matched by published full name and date of birth. FIFA 23 is the prescribed game edition for the 2022 tournament card."
+},
     {
       "id": "cristiano-ronaldo-2026",
       "kind": "player",

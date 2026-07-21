@@ -179,7 +179,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await page.evaluate(() =>
     window.scrollTo({ top: 0, behavior: "instant" }),
   );
-  await expect(page.getByText("629", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("719", { exact: true }).first()).toBeVisible();
   const databaseSearch = page.getByPlaceholder("Search player or nation");
   await databaseSearch.fill("Bastian Schweinsteiger");
   const longNameCard = page.getByRole("button", {

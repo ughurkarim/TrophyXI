@@ -3,7 +3,8 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
-import { players } from "../src/data/players";
+import { players, playersById } from "../src/data/players";
+import { userSuppliedPlayerImages } from "../src/data/user-player-portraits";
 import {
   FBREF_REQUIRED_ATTRIBUTION,
   fbrefPortraitPathForCard,
@@ -41,6 +42,7 @@ const MAX_SOURCE_BYTES = 10 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 20_000;
 const MAX_REQUEST_ATTEMPTS = 3;
 const force = process.argv.includes("--force");
+const cacheOnly = process.argv.includes("--cache-only");
 
 type GeneratedManifest = {
   version: 1;
@@ -115,6 +117,9 @@ const readOrFetchProfile = async (mapping: FbrefPortraitMapping) => {
   if (!force && existsSync(cacheFile)) {
     return readFile(cacheFile, "utf8");
   }
+  if (cacheOnly) {
+    throw new Error("profile is not available in the local portrait cache");
+  }
   const { response } = await fetchArchived(
     mapping.sourcePage,
     "text/html,application/xhtml+xml",
@@ -143,6 +148,9 @@ const readOrFetchPortrait = async (sourceAssetUrl: string, fbrefId: string) => {
       bytes: await readFile(cacheFile),
       retrievalUrl: waybackRawUrlFor(sourceAssetUrl),
     };
+  }
+  if (cacheOnly) {
+    throw new Error("portrait is not available in the local portrait cache");
   }
   const { response, retrievalUrl } = await fetchArchived(
     sourceAssetUrl,
@@ -195,6 +203,12 @@ const main = async () => {
   const targetIdentityIds = new Set(
     historicalCards.map((card) => card.playerIdentityId),
   );
+  const userSuppliedIdentityIds = new Set(
+    userSuppliedPlayerImages.flatMap((image) => {
+      const player = playersById.get(image.id);
+      return player ? [player.playerIdentityId] : [];
+    }),
+  );
   const mappings = JSON.parse(
     await readFile(MAPPING_FILE, "utf8"),
   ) as FbrefPortraitMapping[];
@@ -232,6 +246,17 @@ const main = async () => {
         reason:
           mappingErrors.join("; ") ||
           "mapping has no pre-2003 active tournament card",
+      });
+      continue;
+    }
+    if (userSuppliedIdentityIds.has(mapping.playerIdentityId)) {
+      results.push({
+        playerIdentityId: mapping.playerIdentityId,
+        playerName: mapping.playerName,
+        cardIds: cards.map((card) => card.id),
+        status: "skipped",
+        reason:
+          "User-supplied identity portrait already covers this player; preserved without overwrite.",
       });
       continue;
     }

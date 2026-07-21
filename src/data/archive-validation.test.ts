@@ -20,10 +20,55 @@ describe("expanded archive contracts", () => {
     const defenders = ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB"];
     const midfielders = ["DM", "CM", "AM", "LM", "RM"];
     const attackers = ["LW", "RW", "CF", "ST"];
-    expect(players).toHaveLength(629);
+    expect(players).toHaveLength(719);
     expect(new Set(players.map((player) => player.playerIdentityId)).size).toBe(
-      287,
+      326,
     );
+    expect(
+      [
+        "carlos-alberto",
+        "gerson",
+        "ladislao-mazurkiewicz",
+        "gianni-rivera",
+        "berti-vogts",
+        "dirceu",
+        "osvaldo-ardiles",
+        "karl-heinz-rummenigge",
+        "marco-tardelli",
+        "bruno-conti",
+        "alain-giresse",
+        "careca",
+        "jean-marie-pfaff",
+        "rudi-voller",
+        "peter-shilton",
+        "carlos-valderrama",
+        "rene-higuita",
+        "jorginho",
+        "branco",
+        "aldair",
+        "patrick-vieira",
+        "zvonimir-boban",
+        "jay-jay-okocha",
+        "youri-djorkaeff",
+        "juan-sebastian-veron",
+        "raul",
+        "franck-ribery",
+        "xabi-alonso",
+        "fabio-grosso",
+        "gerard-pique",
+        "edinson-cavani",
+        "mario-gotze",
+        "jerome-boateng",
+        "juan-cuadrado",
+        "mario-mandzukic",
+        "casemiro",
+        "bruno-fernandes",
+        "vinicius-junior",
+        "pepe",
+      ].every((identityId) =>
+        players.some((player) => player.playerIdentityId === identityId),
+      ),
+    ).toBe(true);
     expect(
       players.filter((player) => player.primaryPosition === "GK"),
     ).toHaveLength(73);
@@ -65,7 +110,7 @@ describe("expanded archive contracts", () => {
     expect(new Set(managers.map((manager) => manager.managerIdentityId)).size).toBe(
       39,
     );
-    expect(draftEligiblePlayers).toHaveLength(629);
+    expect(draftEligiblePlayers).toHaveLength(719);
     expect(draftEligibleManagers).toHaveLength(49);
     expect(imageAttributions).toHaveLength(
       playerImages.length + managerImages.length,
@@ -76,7 +121,7 @@ describe("expanded archive contracts", () => {
     ).toBe(true);
     expect(
       players.filter((player) => !imagesById.has(player.imageId)),
-    ).toHaveLength(629 - playerImages.length);
+    ).toHaveLength(719 - playerImages.length);
     expect(
       historicalPlayerImages,
     ).toHaveLength(56);
@@ -89,7 +134,7 @@ describe("expanded archive contracts", () => {
             image.exactTournamentImage === false,
         ),
     ).toBe(true);
-    expect(userSuppliedPlayerImages).toHaveLength(29);
+    expect(userSuppliedPlayerImages).toHaveLength(53);
     expect(
       userSuppliedPlayerImages.every(
         (image) =>
@@ -98,7 +143,7 @@ describe("expanded archive contracts", () => {
           image.matchQuality === "user-supplied-permissioned",
       ),
     ).toBe(true);
-    expect(identityFallbackPlayerImages).toHaveLength(59);
+    expect(identityFallbackPlayerImages).toHaveLength(92);
     expect(
       identityFallbackPlayerImages.every(
         (image) =>
@@ -317,7 +362,7 @@ describe("expanded archive contracts", () => {
         players.map((player) => [player.playerIdentityId, player]),
       ).values(),
     ];
-    expect(identityRepresentatives).toHaveLength(287);
+    expect(identityRepresentatives).toHaveLength(326);
     expect(
       identityRepresentatives.every(
         (player) =>

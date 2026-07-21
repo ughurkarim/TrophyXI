@@ -1274,7 +1274,8 @@ const main = async () => {
       assert(
         !/^https?:\/\//i.test(image.file) &&
           (image.file.endsWith(".png") ||
-            (userSupplied && image.file.endsWith(".webp"))),
+            (userSupplied &&
+              /\.(?:webp|jpe?g)$/i.test(image.file))),
         `${image.id} has a remote or unsupported production path`,
       );
       assert(
@@ -1320,7 +1321,8 @@ const main = async () => {
       const metadata = await sharp(localFile).metadata();
       assert(
         metadata.format === "png" ||
-          (userSupplied && metadata.format === "webp"),
+          (userSupplied &&
+            ["webp", "jpeg"].includes(metadata.format ?? "")),
         `${image.id} has an unsupported local portrait format`,
       );
       if (userSupplied) {
@@ -1333,8 +1335,11 @@ const main = async () => {
       const alpha = stats.channels[3];
       const preservesOpaqueUserPortrait =
         userSupplied &&
-        image.file ===
-          "/assets/players/1970/wolfgang-overath-1970.png";
+        (image.file ===
+          "/assets/players/1970/wolfgang-overath-1970.png" ||
+          image.file ===
+            "/assets/players/1978/marco-tardelli-1978.webp" ||
+          metadata.format === "jpeg");
       assert(
         preservesOpaqueUserPortrait ||
           (metadata.hasAlpha === true && Boolean(alpha && alpha.min < 255)),

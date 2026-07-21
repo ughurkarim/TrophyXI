@@ -58,5 +58,40 @@
     "playerIdentityId": "zico",
     "fbrefId": "f78ed405",
     "sourcePage": "https://fbref.com/en/players/f78ed405/Zico"
+  },
+  {
+    "playerIdentityId": "berti-vogts",
+    "fbrefId": "057ce78a",
+    "sourcePage": "https://fbref.com/en/players/057ce78a/Berti-Vogts"
+  },
+  {
+    "playerIdentityId": "careca",
+    "fbrefId": "8016a874",
+    "sourcePage": "https://fbref.com/en/players/8016a874/Careca"
+  },
+  {
+    "playerIdentityId": "carlos-alberto",
+    "fbrefId": "ed35e85e",
+    "sourcePage": "https://fbref.com/en/players/ed35e85e/Carlos-Alberto-Torres"
+  },
+  {
+    "playerIdentityId": "dirceu",
+    "fbrefId": "8d5c5924",
+    "sourcePage": "https://fbref.com/en/players/8d5c5924/Dirceu"
+  },
+  {
+    "playerIdentityId": "gerson",
+    "fbrefId": "63232fb0",
+    "sourcePage": "https://fbref.com/en/players/63232fb0/Gerson"
+  },
+  {
+    "playerIdentityId": "jorginho",
+    "fbrefId": "9d4c380a",
+    "sourcePage": "https://fbref.com/en/players/9d4c380a/Jorginho"
+  },
+  {
+    "playerIdentityId": "rene-higuita",
+    "fbrefId": "a45cdb7e",
+    "sourcePage": "https://fbref.com/en/players/a45cdb7e/Rene-Higuita"
   }
 ]

@@ -8,6 +8,22 @@
     "wikidataItem": "Q313968"
   },
   {
+    "playerIdentityId": "alain-giresse",
+    "playerName": "Alain Giresse",
+    "fbrefId": "5bef681c",
+    "sourcePage": "https://fbref.com/en/players/5bef681c/Alain-Giresse",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Alain_Giresse",
+    "wikidataItem": "Q312170"
+  },
+  {
+    "playerIdentityId": "aldair",
+    "playerName": "Aldair",
+    "fbrefId": "7b0ec088",
+    "sourcePage": "https://fbref.com/en/players/7b0ec088/Aldair",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Aldair",
+    "wikidataItem": "Q297721"
+  },
+  {
     "playerIdentityId": "alessandro-nesta",
     "playerName": "Alessandro Nesta",
     "fbrefId": "16cabe2a",
@@ -64,6 +80,14 @@
     "wikidataItem": "Q204825"
   },
   {
+    "playerIdentityId": "berti-vogts",
+    "playerName": "Berti Vogts",
+    "fbrefId": "057ce78a",
+    "sourcePage": "https://fbref.com/en/players/057ce78a/Berti-Vogts",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Berti_Vogts",
+    "wikidataItem": "Q828203"
+  },
+  {
     "playerIdentityId": "bixente-lizarazu",
     "playerName": "Bixente Lizarazu",
     "fbrefId": "2ab8a20e",
@@ -80,12 +104,28 @@
     "wikidataItem": "Q191492"
   },
   {
+    "playerIdentityId": "branco",
+    "playerName": "Branco",
+    "fbrefId": "7691db8d",
+    "sourcePage": "https://fbref.com/en/players/7691db8d/Branco",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Branco_(footballer)",
+    "wikidataItem": "Q351827"
+  },
+  {
     "playerIdentityId": "brian-laudrup",
     "playerName": "Brian Laudrup",
     "fbrefId": "d6d70954",
     "sourcePage": "https://fbref.com/en/players/d6d70954/Brian-Laudrup",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Brian_Laudrup",
     "wikidataItem": "Q212854"
+  },
+  {
+    "playerIdentityId": "bruno-conti",
+    "playerName": "Bruno Conti",
+    "fbrefId": "c8b6f32a",
+    "sourcePage": "https://fbref.com/en/players/c8b6f32a/Bruno-Conti",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Bruno_Conti",
+    "wikidataItem": "Q355923"
   },
   {
     "playerIdentityId": "cafu",
@@ -96,12 +136,36 @@
     "wikidataItem": "Q178683"
   },
   {
+    "playerIdentityId": "careca",
+    "playerName": "Careca",
+    "fbrefId": "8016a874",
+    "sourcePage": "https://fbref.com/en/players/8016a874/Careca",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Careca",
+    "wikidataItem": "Q342489"
+  },
+  {
     "playerIdentityId": "carles-puyol",
     "playerName": "Carles Puyol",
     "fbrefId": "7c0bda9b",
     "sourcePage": "https://fbref.com/en/players/7c0bda9b/Carles-Puyol",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Carles_Puyol",
     "wikidataItem": "Q17158"
+  },
+  {
+    "playerIdentityId": "carlos-alberto",
+    "playerName": "Carlos Alberto",
+    "fbrefId": "ed35e85e",
+    "sourcePage": "https://fbref.com/en/players/ed35e85e/Carlos-Alberto-Torres",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Carlos_Alberto_Torres",
+    "wikidataItem": "Q295262"
+  },
+  {
+    "playerIdentityId": "carlos-valderrama",
+    "playerName": "Carlos Valderrama",
+    "fbrefId": "2592bae1",
+    "sourcePage": "https://fbref.com/en/players/2592bae1/Carlos-Valderrama",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Carlos_Valderrama",
+    "wikidataItem": "Q204089"
   },
   {
     "playerIdentityId": "christian-panucci",
@@ -230,6 +294,14 @@
     "sourcePage": "https://fbref.com/en/players/471deff1/Dino-Zoff",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Dino_Zoff",
     "wikidataItem": "Q180661"
+  },
+  {
+    "playerIdentityId": "dirceu",
+    "playerName": "Dirceu",
+    "fbrefId": "8d5c5924",
+    "sourcePage": "https://fbref.com/en/players/8d5c5924/Dirceu",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Dirceu",
+    "wikidataItem": "Q455565"
   },
   {
     "playerIdentityId": "dunga",
@@ -392,6 +464,14 @@
     "wikidataItem": "Q43744"
   },
   {
+    "playerIdentityId": "gerson",
+    "playerName": "Gérson",
+    "fbrefId": "63232fb0",
+    "sourcePage": "https://fbref.com/en/players/63232fb0/Gerson",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/G%C3%A9rson",
+    "wikidataItem": "Q280306"
+  },
+  {
     "playerIdentityId": "gheorghe-hagi",
     "playerName": "Gheorghe Hagi",
     "fbrefId": "6fd25988",
@@ -422,6 +502,14 @@
     "sourcePage": "https://fbref.com/en/players/e40d028b/Gianluigi-Buffon",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Gianluigi_Buffon",
     "wikidataItem": "Q68060"
+  },
+  {
+    "playerIdentityId": "gianni-rivera",
+    "playerName": "Gianni Rivera",
+    "fbrefId": "33b450cd",
+    "sourcePage": "https://fbref.com/en/players/33b450cd/Gianni-Rivera",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Gianni_Rivera",
+    "wikidataItem": "Q230046"
   },
   {
     "playerIdentityId": "gordon-banks",
@@ -536,6 +624,22 @@
     "wikidataItem": "Q52876"
   },
   {
+    "playerIdentityId": "jay-jay-okocha",
+    "playerName": "Jay-Jay Okocha",
+    "fbrefId": "66ceb871",
+    "sourcePage": "https://fbref.com/en/players/66ceb871/Jay-Jay-Okocha",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Jay-Jay_Okocha",
+    "wikidataItem": "Q605817"
+  },
+  {
+    "playerIdentityId": "jean-marie-pfaff",
+    "playerName": "Jean-Marie Pfaff",
+    "fbrefId": "4eadde7b",
+    "sourcePage": "https://fbref.com/en/players/4eadde7b/Jean-Marie-Pfaff",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Jean-Marie_Pfaff",
+    "wikidataItem": "Q155065"
+  },
+  {
     "playerIdentityId": "jean-tigana",
     "playerName": "Jean Tigana",
     "fbrefId": "47198ed8",
@@ -584,12 +688,28 @@
     "wikidataItem": "Q298305"
   },
   {
+    "playerIdentityId": "jorginho",
+    "playerName": "Jorginho",
+    "fbrefId": "9d4c380a",
+    "sourcePage": "https://fbref.com/en/players/9d4c380a/Jorginho",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Jorginho_(footballer,_born_1964)",
+    "wikidataItem": "Q163750"
+  },
+  {
     "playerIdentityId": "jose-luis-chilavert",
     "playerName": "José Luis Chilavert",
     "fbrefId": "8b88ac0e",
     "sourcePage": "https://fbref.com/en/players/8b88ac0e/Jose-Luis-Chilavert",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Jos%C3%A9_Luis_Chilavert",
     "wikidataItem": "Q216312"
+  },
+  {
+    "playerIdentityId": "juan-sebastian-veron",
+    "playerName": "Juan Sebastián Verón",
+    "fbrefId": "f11a57c1",
+    "sourcePage": "https://fbref.com/en/players/f11a57c1/Juan-Sebastian-Veron",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Juan_Sebasti%C3%A1n_Ver%C3%B3n",
+    "wikidataItem": "Q46502"
   },
   {
     "playerIdentityId": "juninho-paulista",
@@ -616,6 +736,14 @@
     "wikidataItem": "Q531814"
   },
   {
+    "playerIdentityId": "karl-heinz-rummenigge",
+    "playerName": "Karl-Heinz Rummenigge",
+    "fbrefId": "53b3b85c",
+    "sourcePage": "https://fbref.com/en/players/53b3b85c/Karl-Heinz-Rummenigge",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Karl-Heinz_Rummenigge",
+    "wikidataItem": "Q152871"
+  },
+  {
     "playerIdentityId": "kazimierz-deyna",
     "playerName": "Kazimierz Deyna",
     "fbrefId": "edccceaa",
@@ -630,6 +758,14 @@
     "sourcePage": "https://fbref.com/en/players/b05f5f22/Kleberson",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Jos%C3%A9_Kl%C3%A9berson",
     "wikidataItem": "Q311035"
+  },
+  {
+    "playerIdentityId": "ladislao-mazurkiewicz",
+    "playerName": "Ladislao Mazurkiewicz",
+    "fbrefId": "803a033e",
+    "sourcePage": "https://fbref.com/en/players/803a033e/Ladislao-Mazurkiewicz",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Ladislao_Mazurkiewicz",
+    "wikidataItem": "Q608126"
   },
   {
     "playerIdentityId": "landon-donovan",
@@ -720,6 +856,14 @@
     "wikidataItem": "Q185081"
   },
   {
+    "playerIdentityId": "marco-tardelli",
+    "playerName": "Marco Tardelli",
+    "fbrefId": "8e63b4a1",
+    "sourcePage": "https://fbref.com/en/players/8e63b4a1/Marco-Tardelli",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Marco_Tardelli",
+    "wikidataItem": "Q312626"
+  },
+  {
     "playerIdentityId": "marcos",
     "playerName": "Marcos",
     "fbrefId": "d89577f6",
@@ -808,6 +952,14 @@
     "wikidataItem": "Q131261"
   },
   {
+    "playerIdentityId": "osvaldo-ardiles",
+    "playerName": "Osvaldo Ardiles",
+    "fbrefId": "6a32e74b",
+    "sourcePage": "https://fbref.com/en/players/6a32e74b/Osvaldo-Ardiles",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Osvaldo_Ardiles",
+    "wikidataItem": "Q310373"
+  },
+  {
     "playerIdentityId": "paolo-maldini",
     "playerName": "Paolo Maldini",
     "fbrefId": "14323e81",
@@ -830,6 +982,14 @@
     "sourcePage": "https://fbref.com/en/players/3de4cb30/Park-Ji-sung",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Park_Ji-sung",
     "wikidataItem": "Q50603"
+  },
+  {
+    "playerIdentityId": "patrick-vieira",
+    "playerName": "Patrick Vieira",
+    "fbrefId": "f90f1086",
+    "sourcePage": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Patrick_Vieira",
+    "wikidataItem": "Q46347"
   },
   {
     "playerIdentityId": "paul-breitner",
@@ -864,6 +1024,14 @@
     "wikidataItem": "Q182314"
   },
   {
+    "playerIdentityId": "peter-shilton",
+    "playerName": "Peter Shilton",
+    "fbrefId": "9ee3b365",
+    "sourcePage": "https://fbref.com/en/players/9ee3b365/Peter-Shilton",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Peter_Shilton",
+    "wikidataItem": "Q244799"
+  },
+  {
     "playerIdentityId": "pierre-littbarski",
     "playerName": "Pierre Littbarski",
     "fbrefId": "8c870d08",
@@ -886,6 +1054,22 @@
     "sourcePage": "https://fbref.com/en/players/ce067ffe/Rafael-Marquez",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Rafael_M%C3%A1rquez",
     "wikidataItem": "Q186330"
+  },
+  {
+    "playerIdentityId": "raul",
+    "playerName": "Raúl",
+    "fbrefId": "2b81295d",
+    "sourcePage": "https://fbref.com/en/players/2b81295d/Raul",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Ra%C3%BAl_(footballer)",
+    "wikidataItem": "Q11576"
+  },
+  {
+    "playerIdentityId": "rene-higuita",
+    "playerName": "René Higuita",
+    "fbrefId": "a45cdb7e",
+    "sourcePage": "https://fbref.com/en/players/a45cdb7e/Rene-Higuita",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Ren%C3%A9_Higuita",
+    "wikidataItem": "Q237494"
   },
   {
     "playerIdentityId": "rene-houseman",
@@ -974,6 +1158,14 @@
     "sourcePage": "https://fbref.com/en/players/57feb553/Ronaldo",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Ronaldo_(Brazilian_footballer)",
     "wikidataItem": "Q529207"
+  },
+  {
+    "playerIdentityId": "rudi-voller",
+    "playerName": "Rudi Völler",
+    "fbrefId": "cbcf1eee",
+    "sourcePage": "https://fbref.com/en/players/cbcf1eee/Rudi-Voller",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Rudi_V%C3%B6ller",
+    "wikidataItem": "Q44464"
   },
   {
     "playerIdentityId": "rustu-recber",
@@ -1136,6 +1328,14 @@
     "wikidataItem": "Q484533"
   },
   {
+    "playerIdentityId": "youri-djorkaeff",
+    "playerName": "Youri Djorkaeff",
+    "fbrefId": "e9f1bedd",
+    "sourcePage": "https://fbref.com/en/players/e9f1bedd/Youri-Djorkaeff",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Youri_Djorkaeff",
+    "wikidataItem": "Q217482"
+  },
+  {
     "playerIdentityId": "zbigniew-boniek",
     "playerName": "Zbigniew Boniek",
     "fbrefId": "b947688b",
@@ -1166,5 +1366,13 @@
     "sourcePage": "https://fbref.com/en/players/4cde5509/Zlatan-Ibrahimovic",
     "wikipediaPage": "https://en.wikipedia.org/wiki/Zlatan_Ibrahimovi%C4%87",
     "wikidataItem": "Q46896"
+  },
+  {
+    "playerIdentityId": "zvonimir-boban",
+    "playerName": "Zvonimir Boban",
+    "fbrefId": "d588d6d5",
+    "sourcePage": "https://fbref.com/en/players/d588d6d5/Zvonimir-Boban",
+    "wikipediaPage": "https://en.wikipedia.org/wiki/Zvonimir_Boban",
+    "wikidataItem": "Q231468"
   }
 ]

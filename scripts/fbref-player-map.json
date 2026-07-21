@@ -18,6 +18,18 @@
     "sourceUrl": "https://fbref.com/en/players/6f10c5f4/Ahn-Jung-hwan"
   },
   {
+    "playerIdentityId": "alain-giresse",
+    "playerName": "Alain Giresse",
+    "fbrefId": "5bef681c",
+    "sourceUrl": "https://fbref.com/en/players/5bef681c/Alain-Giresse"
+  },
+  {
+    "playerIdentityId": "aldair",
+    "playerName": "Aldair",
+    "fbrefId": "7b0ec088",
+    "sourceUrl": "https://fbref.com/en/players/7b0ec088/Aldair"
+  },
+  {
     "playerIdentityId": "aleksandr-golovin",
     "playerName": "Aleksandr Golovin",
     "fbrefId": "3708e9fa",
@@ -132,6 +144,12 @@
     "sourceUrl": "https://fbref.com/en/players/c837c895/Bebeto"
   },
   {
+    "playerIdentityId": "berti-vogts",
+    "playerName": "Berti Vogts",
+    "fbrefId": "057ce78a",
+    "sourceUrl": "https://fbref.com/en/players/057ce78a/Berti-Vogts"
+  },
+  {
     "playerIdentityId": "bixente-lizarazu",
     "playerName": "Bixente Lizarazu",
     "fbrefId": "2ab8a20e",
@@ -144,6 +162,12 @@
     "sourceUrl": "https://fbref.com/en/players/df7fbe9d/Bobby-Moore"
   },
   {
+    "playerIdentityId": "branco",
+    "playerName": "Branco",
+    "fbrefId": "7691db8d",
+    "sourceUrl": "https://fbref.com/en/players/7691db8d/Branco"
+  },
+  {
     "playerIdentityId": "breel-embolo",
     "playerName": "Breel Embolo",
     "fbrefId": "0b4f388a",
@@ -154,6 +178,18 @@
     "playerName": "Brian Laudrup",
     "fbrefId": "d6d70954",
     "sourceUrl": "https://fbref.com/en/players/d6d70954/Brian-Laudrup"
+  },
+  {
+    "playerIdentityId": "bruno-conti",
+    "playerName": "Bruno Conti",
+    "fbrefId": "c8b6f32a",
+    "sourceUrl": "https://fbref.com/en/players/c8b6f32a/Bruno-Conti"
+  },
+  {
+    "playerIdentityId": "bruno-fernandes",
+    "playerName": "Bruno Fernandes",
+    "fbrefId": "507c7bdf",
+    "sourceUrl": "https://fbref.com/en/players/507c7bdf/Bruno-Fernandes"
   },
   {
     "playerIdentityId": "bryan-ruiz",
@@ -174,10 +210,35 @@
     "sourceUrl": "https://fbref.com/en/players/f0ee7526/Cafu"
   },
   {
+    "playerIdentityId": "careca",
+    "playerName": "Careca",
+    "fbrefId": "8016a874",
+    "sourceUrl": "https://fbref.com/en/players/8016a874/Careca"
+  },
+  {
     "playerIdentityId": "carles-puyol",
     "playerName": "Carles Puyol",
     "fbrefId": "7c0bda9b",
     "sourceUrl": "https://fbref.com/en/players/7c0bda9b/Carles-Puyol"
+  },
+  {
+    "playerIdentityId": "carlos-alberto",
+    "playerName": "Carlos Alberto",
+    "fbrefProfileName": "Carlos Alberto Torres",
+    "fbrefId": "ed35e85e",
+    "sourceUrl": "https://fbref.com/en/players/ed35e85e/Carlos-Alberto-Torres"
+  },
+  {
+    "playerIdentityId": "carlos-valderrama",
+    "playerName": "Carlos Valderrama",
+    "fbrefId": "2592bae1",
+    "sourceUrl": "https://fbref.com/en/players/2592bae1/Carlos-Valderrama"
+  },
+  {
+    "playerIdentityId": "casemiro",
+    "playerName": "Casemiro",
+    "fbrefId": "4d224fe8",
+    "sourceUrl": "https://fbref.com/en/players/4d224fe8/Casemiro"
   },
   {
     "playerIdentityId": "chris-wood",
@@ -378,6 +439,12 @@
     "sourceUrl": "https://fbref.com/en/players/471deff1/Dino-Zoff"
   },
   {
+    "playerIdentityId": "dirceu",
+    "playerName": "Dirceu",
+    "fbrefId": "8d5c5924",
+    "sourceUrl": "https://fbref.com/en/players/8d5c5924/Dirceu"
+  },
+  {
     "playerIdentityId": "dominik-livakovic",
     "playerName": "Dominik Livaković",
     "fbrefId": "58f077c0",
@@ -400,6 +467,12 @@
     "playerName": "Edgar Davids",
     "fbrefId": "19d5e43e",
     "sourceUrl": "https://fbref.com/en/players/19d5e43e/Edgar-Davids"
+  },
+  {
+    "playerIdentityId": "edinson-cavani",
+    "playerName": "Edinson Cavani",
+    "fbrefId": "527f063d",
+    "sourceUrl": "https://fbref.com/en/players/527f063d/Edinson-Cavani"
   },
   {
     "playerIdentityId": "edwin-van-der-sar",
@@ -468,6 +541,12 @@
     "sourceUrl": "https://fbref.com/en/players/51152527/Fabio-Cannavaro"
   },
   {
+    "playerIdentityId": "fabio-grosso",
+    "playerName": "Fabio Grosso",
+    "fbrefId": "db77a624",
+    "sourceUrl": "https://fbref.com/en/players/db77a624/Fabio-Grosso"
+  },
+  {
     "playerIdentityId": "falcao",
     "playerName": "Falcão",
     "fbrefProfileName": "Paulo Roberto Falcão",
@@ -485,6 +564,12 @@
     "playerName": "Francesco Totti",
     "fbrefId": "ed75b6c7",
     "sourceUrl": "https://fbref.com/en/players/ed75b6c7/Francesco-Totti"
+  },
+  {
+    "playerIdentityId": "franck-ribery",
+    "playerName": "Franck Ribéry",
+    "fbrefId": "f61c7c4e",
+    "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery"
   },
   {
     "playerIdentityId": "franco-baresi",
@@ -547,10 +632,22 @@
     "sourceUrl": "https://fbref.com/en/players/46b066b5/Gennaro-Gattuso"
   },
   {
+    "playerIdentityId": "gerard-pique",
+    "playerName": "Gerard Piqué",
+    "fbrefId": "adfc9123",
+    "sourceUrl": "https://fbref.com/en/players/adfc9123/Gerard-Pique"
+  },
+  {
     "playerIdentityId": "gerd-muller",
     "playerName": "Gerd Müller",
     "fbrefId": "0d32232a",
     "sourceUrl": "https://fbref.com/en/players/0d32232a/Gerd-Muller"
+  },
+  {
+    "playerIdentityId": "gerson",
+    "playerName": "Gérson",
+    "fbrefId": "63232fb0",
+    "sourceUrl": "https://fbref.com/en/players/63232fb0/Gerson"
   },
   {
     "playerIdentityId": "gheorghe-hagi",
@@ -575,6 +672,12 @@
     "playerName": "Gianluigi Buffon",
     "fbrefId": "e40d028b",
     "sourceUrl": "https://fbref.com/en/players/e40d028b/Gianluigi-Buffon"
+  },
+  {
+    "playerIdentityId": "gianni-rivera",
+    "playerName": "Gianni Rivera",
+    "fbrefId": "33b450cd",
+    "sourceUrl": "https://fbref.com/en/players/33b450cd/Gianni-Rivera"
   },
   {
     "playerIdentityId": "goncalo-ramos",
@@ -715,6 +818,18 @@
     "sourceUrl": "https://fbref.com/en/players/2fb9e5c1/Javier-Zanetti"
   },
   {
+    "playerIdentityId": "jay-jay-okocha",
+    "playerName": "Jay-Jay Okocha",
+    "fbrefId": "66ceb871",
+    "sourceUrl": "https://fbref.com/en/players/66ceb871/Jay-Jay-Okocha"
+  },
+  {
+    "playerIdentityId": "jean-marie-pfaff",
+    "playerName": "Jean-Marie Pfaff",
+    "fbrefId": "4eadde7b",
+    "sourceUrl": "https://fbref.com/en/players/4eadde7b/Jean-Marie-Pfaff"
+  },
+  {
     "playerIdentityId": "jean-tigana",
     "playerName": "Jean Tigana",
     "fbrefId": "47198ed8",
@@ -731,6 +846,12 @@
     "playerName": "Jermaine Jones",
     "fbrefId": "0c577541",
     "sourceUrl": "https://fbref.com/en/players/0c577541/Jermaine-Jones"
+  },
+  {
+    "playerIdentityId": "jerome-boateng",
+    "playerName": "Jérôme Boateng",
+    "fbrefId": "2db2fd7b",
+    "sourceUrl": "https://fbref.com/en/players/2db2fd7b/Jerome-Boateng"
   },
   {
     "playerIdentityId": "joel-campbell",
@@ -781,6 +902,12 @@
     "sourceUrl": "https://fbref.com/en/players/01a598d2/Jorge-Valdano"
   },
   {
+    "playerIdentityId": "jorginho",
+    "playerName": "Jorginho",
+    "fbrefId": "9d4c380a",
+    "sourceUrl": "https://fbref.com/en/players/9d4c380a/Jorginho"
+  },
+  {
     "playerIdentityId": "jose-luis-chilavert",
     "playerName": "José Luis Chilavert",
     "fbrefId": "8b88ac0e",
@@ -805,10 +932,22 @@
     "sourceUrl": "https://fbref.com/en/players/0e5b2af1/Juan"
   },
   {
+    "playerIdentityId": "juan-cuadrado",
+    "playerName": "Juan Cuadrado",
+    "fbrefId": "0ab1f153",
+    "sourceUrl": "https://fbref.com/en/players/0ab1f153/Juan-Cuadrado"
+  },
+  {
     "playerIdentityId": "juan-roman-riquelme",
     "playerName": "Juan Román Riquelme",
     "fbrefId": "04381207",
     "sourceUrl": "https://fbref.com/en/players/04381207/Juan-Roman-Riquelme"
+  },
+  {
+    "playerIdentityId": "juan-sebastian-veron",
+    "playerName": "Juan Sebastián Verón",
+    "fbrefId": "f11a57c1",
+    "sourceUrl": "https://fbref.com/en/players/f11a57c1/Juan-Sebastian-Veron"
   },
   {
     "playerIdentityId": "jude-bellingham",
@@ -845,6 +984,12 @@
     "playerName": "Kalidou Koulibaly",
     "fbrefId": "da974c7b",
     "sourceUrl": "https://fbref.com/en/players/da974c7b/Kalidou-Koulibaly"
+  },
+  {
+    "playerIdentityId": "karl-heinz-rummenigge",
+    "playerName": "Karl-Heinz Rummenigge",
+    "fbrefId": "53b3b85c",
+    "sourceUrl": "https://fbref.com/en/players/53b3b85c/Karl-Heinz-Rummenigge"
   },
   {
     "playerIdentityId": "kazimierz-deyna",
@@ -900,6 +1045,12 @@
     "playerName": "Kylian Mbappé",
     "fbrefId": "42fd9c7f",
     "sourceUrl": "https://fbref.com/en/players/42fd9c7f/Kylian-Mbappe"
+  },
+  {
+    "playerIdentityId": "ladislao-mazurkiewicz",
+    "playerName": "Ladislao Mazurkiewicz",
+    "fbrefId": "803a033e",
+    "sourceUrl": "https://fbref.com/en/players/803a033e/Ladislao-Mazurkiewicz"
   },
   {
     "playerIdentityId": "landon-donovan",
@@ -1023,6 +1174,12 @@
     "sourceUrl": "https://fbref.com/en/players/5f08a3e3/Marco-Materazzi"
   },
   {
+    "playerIdentityId": "marco-tardelli",
+    "playerName": "Marco Tardelli",
+    "fbrefId": "8e63b4a1",
+    "sourceUrl": "https://fbref.com/en/players/8e63b4a1/Marco-Tardelli"
+  },
+  {
     "playerIdentityId": "marcos",
     "playerName": "Marcos",
     "fbrefId": "d89577f6",
@@ -1041,10 +1198,22 @@
     "sourceUrl": "https://fbref.com/en/players/7c1a0c67/Mario-Fernandes"
   },
   {
+    "playerIdentityId": "mario-gotze",
+    "playerName": "Mario Götze",
+    "fbrefId": "9efa1d25",
+    "sourceUrl": "https://fbref.com/en/players/9efa1d25/Mario-Gotze"
+  },
+  {
     "playerIdentityId": "mario-kempes",
     "playerName": "Mario Kempes",
     "fbrefId": "42fe1917",
     "sourceUrl": "https://fbref.com/en/players/42fe1917/Mario-Kempes"
+  },
+  {
+    "playerIdentityId": "mario-mandzukic",
+    "playerName": "Mario Mandžukić",
+    "fbrefId": "afa0d4e0",
+    "sourceUrl": "https://fbref.com/en/players/afa0d4e0/Mario-Mandzukic"
   },
   {
     "playerIdentityId": "mark-paston",
@@ -1192,6 +1361,12 @@
     "sourceUrl": "https://fbref.com/en/players/16ceb862/Olivier-Giroud"
   },
   {
+    "playerIdentityId": "osvaldo-ardiles",
+    "playerName": "Osvaldo Ardiles",
+    "fbrefId": "6a32e74b",
+    "sourceUrl": "https://fbref.com/en/players/6a32e74b/Osvaldo-Ardiles"
+  },
+  {
     "playerIdentityId": "pablo-zabaleta",
     "playerName": "Pablo Zabaleta",
     "fbrefId": "6813ac34",
@@ -1214,6 +1389,12 @@
     "playerName": "Park Ji-sung",
     "fbrefId": "3de4cb30",
     "sourceUrl": "https://fbref.com/en/players/3de4cb30/Park-Ji-sung"
+  },
+  {
+    "playerIdentityId": "patrick-vieira",
+    "playerName": "Patrick Vieira",
+    "fbrefId": "f90f1086",
+    "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira"
   },
   {
     "playerIdentityId": "paul-breitner",
@@ -1246,10 +1427,22 @@
     "sourceUrl": "https://fbref.com/en/players/52961d3b/Pele"
   },
   {
+    "playerIdentityId": "pepe",
+    "playerName": "Pepe",
+    "fbrefId": "c906ce0f",
+    "sourceUrl": "https://fbref.com/en/players/c906ce0f/Pepe"
+  },
+  {
     "playerIdentityId": "peter-schmeichel",
     "playerName": "Peter Schmeichel",
     "fbrefId": "f1fe7ffe",
     "sourceUrl": "https://fbref.com/en/players/f1fe7ffe/Peter-Schmeichel"
+  },
+  {
+    "playerIdentityId": "peter-shilton",
+    "playerName": "Peter Shilton",
+    "fbrefId": "9ee3b365",
+    "sourceUrl": "https://fbref.com/en/players/9ee3b365/Peter-Shilton"
   },
   {
     "playerIdentityId": "philipp-lahm",
@@ -1293,6 +1486,18 @@
     "playerName": "Raphaël Varane",
     "fbrefId": "9f8e9423",
     "sourceUrl": "https://fbref.com/en/players/9f8e9423/Raphael-Varane"
+  },
+  {
+    "playerIdentityId": "raul",
+    "playerName": "Raúl",
+    "fbrefId": "2b81295d",
+    "sourceUrl": "https://fbref.com/en/players/2b81295d/Raul"
+  },
+  {
+    "playerIdentityId": "rene-higuita",
+    "playerName": "René Higuita",
+    "fbrefId": "a45cdb7e",
+    "sourceUrl": "https://fbref.com/en/players/a45cdb7e/Rene-Higuita"
   },
   {
     "playerIdentityId": "rene-houseman",
@@ -1396,6 +1601,12 @@
     "playerName": "Ronaldo",
     "fbrefId": "57feb553",
     "sourceUrl": "https://fbref.com/en/players/57feb553/Ronaldo"
+  },
+  {
+    "playerIdentityId": "rudi-voller",
+    "playerName": "Rudi Völler",
+    "fbrefId": "cbcf1eee",
+    "sourceUrl": "https://fbref.com/en/players/cbcf1eee/Rudi-Voller"
   },
   {
     "playerIdentityId": "rustu-recber",
@@ -1638,6 +1849,12 @@
     "sourceUrl": "https://fbref.com/en/players/8637e09a/Vincent-Aboubakar"
   },
   {
+    "playerIdentityId": "vinicius-junior",
+    "playerName": "Vinícius Júnior",
+    "fbrefId": "7111d552",
+    "sourceUrl": "https://fbref.com/en/players/7111d552/Vinicius-Junior"
+  },
+  {
     "playerIdentityId": "wahbi-khazri",
     "playerName": "Wahbi Khazri",
     "fbrefId": "2677a1de",
@@ -1666,6 +1883,12 @@
     "playerName": "Wolfgang Overath",
     "fbrefId": "456470e3",
     "sourceUrl": "https://fbref.com/en/players/456470e3/Wolfgang-Overath"
+  },
+  {
+    "playerIdentityId": "xabi-alonso",
+    "playerName": "Xabi Alonso",
+    "fbrefId": "dc001a06",
+    "sourceUrl": "https://fbref.com/en/players/dc001a06/Xabi-Alonso"
   },
   {
     "playerIdentityId": "xavi",
@@ -1698,6 +1921,12 @@
     "sourceUrl": "https://fbref.com/en/players/c62719bd/Yoo-Sang-chul"
   },
   {
+    "playerIdentityId": "youri-djorkaeff",
+    "playerName": "Youri Djorkaeff",
+    "fbrefId": "e9f1bedd",
+    "sourceUrl": "https://fbref.com/en/players/e9f1bedd/Youri-Djorkaeff"
+  },
+  {
     "playerIdentityId": "yuji-nakazawa",
     "playerName": "Yuji Nakazawa",
     "fbrefId": "8d71a3df",
@@ -1726,5 +1955,11 @@
     "playerName": "Zlatan Ibrahimović",
     "fbrefId": "4cde5509",
     "sourceUrl": "https://fbref.com/en/players/4cde5509/Zlatan-Ibrahimovic"
+  },
+  {
+    "playerIdentityId": "zvonimir-boban",
+    "playerName": "Zvonimir Boban",
+    "fbrefId": "d588d6d5",
+    "sourceUrl": "https://fbref.com/en/players/d588d6d5/Zvonimir-Boban"
   }
 ]

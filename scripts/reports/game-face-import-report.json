@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-07-19T00:56:31.949Z",
+  "generatedAt": "2026-07-19T15:26:53.686Z",
   "policy": "Project-specific EA/SoFIFA permission only: local cache first; at least two seconds between requests; maximum 5,000 per UTC day; original PNG metadata and watermarks preserved; required attribution retained. The former UTC download window no longer applies.",
   "configuredCandidates": 167,
   "activeTournamentEditionFaces": 167,
   "refreshFailures": 0,
   "refreshFailureResults": [],
-  "downloaded": 167,
-  "skipped": 0,
+  "downloaded": 0,
+  "skipped": 167,
   "failed": 0,
-  "photoPending": 511,
+  "photoPending": 601,
   "results": [
     {
       "id": "achraf-hakimi-2018",
@@ -19,7 +19,8 @@
     {
       "id": "achraf-hakimi-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ahmed-musa-2014",
@@ -30,7 +31,8 @@
     {
       "id": "ahmed-musa-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ahn-jung-hwan-2002",
@@ -40,6 +42,30 @@
     },
     {
       "id": "ahn-jung-hwan-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "alain-giresse-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "alain-giresse-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "aldair-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "aldair-1998",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -71,7 +97,8 @@
     {
       "id": "alexis-mac-allister-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "alexis-sanchez-2010",
@@ -82,7 +109,8 @@
     {
       "id": "alexis-sanchez-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "alpay-ozalan-2002",
@@ -105,7 +133,8 @@
     {
       "id": "andrea-pirlo-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "andreas-brehme-1986",
@@ -140,12 +169,14 @@
     {
       "id": "andres-iniesta-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "andres-iniesta-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "andriy-shevchenko-2006",
@@ -162,32 +193,38 @@
     {
       "id": "angel-di-maria-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "angel-di-maria-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "angel-di-maria-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "antoine-griezmann-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "antoine-griezmann-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "antoine-griezmann-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "arie-haan-1974",
@@ -234,7 +271,8 @@
     {
       "id": "arjen-robben-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "asamoah-gyan-2006",
@@ -293,7 +331,8 @@
     {
       "id": "bastian-schweinsteiger-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "bebeto-1990",
@@ -309,6 +348,24 @@
     },
     {
       "id": "bebeto-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "berti-vogts-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "berti-vogts-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "berti-vogts-1978",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -332,6 +389,24 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "branco-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "branco-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "branco-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "breel-embolo-2018",
       "kind": "player",
       "status": "photo-pending",
@@ -340,10 +415,35 @@
     {
       "id": "breel-embolo-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "brian-laudrup-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "bruno-conti-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "bruno-conti-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "bruno-fernandes-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "bruno-fernandes-2022",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -369,7 +469,8 @@
     {
       "id": "bukayo-saka-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "cafu-1994",
@@ -396,6 +497,18 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "careca-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "careca-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "carles-puyol-2002",
       "kind": "player",
       "status": "photo-pending",
@@ -409,6 +522,42 @@
     },
     {
       "id": "carles-puyol-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "carlos-alberto-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "carlos-valderrama-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "carlos-valderrama-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "carlos-valderrama-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "casemiro-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "casemiro-2022",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -482,7 +631,8 @@
     {
       "id": "cody-gakpo-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "cristian-romero-2022",
@@ -505,17 +655,20 @@
     {
       "id": "cristiano-ronaldo-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "cristiano-ronaldo-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "cristiano-ronaldo-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "cuauhtemoc-blanco-1998",
@@ -544,7 +697,8 @@
     {
       "id": "daley-blind-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "daniel-passarella-1978",
@@ -585,7 +739,8 @@
     {
       "id": "david-luiz-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "david-seaman-1998",
@@ -632,7 +787,8 @@
     {
       "id": "david-villa-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "davor-suker-1998",
@@ -649,7 +805,8 @@
     {
       "id": "dayot-upamecano-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "deco-2006",
@@ -666,7 +823,8 @@
     {
       "id": "dele-alli-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "denis-cheryshev-2018",
@@ -689,7 +847,8 @@
     {
       "id": "denzel-dumfries-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "dida-2006",
@@ -718,7 +877,8 @@
     {
       "id": "didier-drogba-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "diego-forlan-2002",
@@ -735,7 +895,8 @@
     {
       "id": "diego-forlan-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "diego-godin-2010",
@@ -746,17 +907,20 @@
     {
       "id": "diego-godin-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "diego-godin-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "diego-godin-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "diego-laxalt-2018",
@@ -807,6 +971,24 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "dirceu-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "dirceu-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "dirceu-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "dominik-livakovic-2022",
       "kind": "player",
       "status": "photo-pending",
@@ -833,20 +1015,47 @@
     {
       "id": "eden-hazard-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "eden-hazard-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "eden-hazard-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "edgar-davids-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "edinson-cavani-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "edinson-cavani-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "edinson-cavani-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "edinson-cavani-2022",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -872,7 +1081,8 @@
     {
       "id": "emiliano-martinez-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "emilio-butragueno-1986",
@@ -907,7 +1117,8 @@
     {
       "id": "enner-valencia-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "enzo-fernandez-2022",
@@ -976,6 +1187,12 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "fabio-grosso-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "falcao-1982",
       "kind": "player",
       "status": "photo-pending",
@@ -1002,7 +1219,8 @@
     {
       "id": "fernando-torres-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "francesco-totti-2002",
@@ -1012,6 +1230,18 @@
     },
     {
       "id": "francesco-totti-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "franck-ribery-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "franck-ribery-2010",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -1067,7 +1297,8 @@
     {
       "id": "frenkie-de-jong-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "gabriel-batistuta-1994",
@@ -1148,6 +1379,24 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "gerard-pique-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "gerard-pique-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "gerard-pique-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "gerd-muller-1970",
       "kind": "player",
       "status": "photo-pending",
@@ -1155,6 +1404,12 @@
     },
     {
       "id": "gerd-muller-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "gerson-1970",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -1228,7 +1483,20 @@
     {
       "id": "gianluigi-buffon-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
+    },
+    {
+      "id": "gianni-rivera-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "gianni-rivera-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
     },
     {
       "id": "goncalo-ramos-2022",
@@ -1263,17 +1531,20 @@
     {
       "id": "guillermo-ochoa-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "guillermo-ochoa-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "guillermo-ochoa-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "hakan-sukur-2002",
@@ -1296,12 +1567,14 @@
     {
       "id": "harry-kane-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "harry-kane-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "hasan-sas-2002",
@@ -1354,17 +1627,20 @@
     {
       "id": "hugo-lloris-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "hugo-lloris-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "hugo-lloris-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "igor-belanov-1986",
@@ -1393,7 +1669,8 @@
     {
       "id": "iker-casillas-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ilhan-mans-z-2002",
@@ -1410,7 +1687,8 @@
     {
       "id": "ismaila-sarr-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ivan-perisic-2014",
@@ -1421,22 +1699,26 @@
     {
       "id": "ivan-perisic-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ivan-perisic-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ivan-rakitic-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ivan-rakitic-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "jaap-stam-1998",
@@ -1459,12 +1741,14 @@
     {
       "id": "james-rodriguez-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "james-rodriguez-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "jared-borgetti-2002",
@@ -1493,12 +1777,14 @@
     {
       "id": "javier-mascherano-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "javier-mascherano-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "javier-zanetti-1998",
@@ -1508,6 +1794,36 @@
     },
     {
       "id": "javier-zanetti-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "jay-jay-okocha-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "jay-jay-okocha-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "jay-jay-okocha-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "jean-marie-pfaff-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "jean-marie-pfaff-1986",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -1533,7 +1849,26 @@
     {
       "id": "jermaine-jones-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
+    },
+    {
+      "id": "jerome-boateng-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "jerome-boateng-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "jerome-boateng-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
     },
     {
       "id": "joel-campbell-2014",
@@ -1544,7 +1879,8 @@
     {
       "id": "joel-campbell-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "joel-campbell-2022",
@@ -1585,17 +1921,20 @@
     {
       "id": "jordi-alba-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "jordi-alba-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "jordi-alba-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "jorge-burruchaga-1986",
@@ -1634,6 +1973,18 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "jorginho-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "jorginho-1994",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "jose-luis-chilavert-1998",
       "kind": "player",
       "status": "photo-pending",
@@ -1648,17 +1999,20 @@
     {
       "id": "joshua-kimmich-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "joshua-kimmich-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "josko-gvardiol-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "juan-2006",
@@ -1673,7 +2027,37 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "juan-cuadrado-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "juan-cuadrado-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "juan-roman-riquelme-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "juan-sebastian-veron-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "juan-sebastian-veron-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "juan-sebastian-veron-2010",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -1681,7 +2065,8 @@
     {
       "id": "jude-bellingham-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "julian-alvarez-2022",
@@ -1740,7 +2125,26 @@
     {
       "id": "kalidou-koulibaly-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
+    },
+    {
+      "id": "karl-heinz-rummenigge-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "karl-heinz-rummenigge-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "karl-heinz-rummenigge-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
     },
     {
       "id": "kazimierz-deyna-1974",
@@ -1763,27 +2167,32 @@
     {
       "id": "keisuke-honda-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "keisuke-honda-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "kevin-de-bruyne-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "kevin-de-bruyne-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "kevin-de-bruyne-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "kevin-prince-boateng-2010",
@@ -1794,7 +2203,8 @@
     {
       "id": "kevin-prince-boateng-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "keylor-navas-2014",
@@ -1805,22 +2215,26 @@
     {
       "id": "keylor-navas-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "keylor-navas-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "kieran-trippier-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "kieran-trippier-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "kim-min-jae-2022",
@@ -1843,12 +2257,26 @@
     {
       "id": "kylian-mbappe-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "kylian-mbappe-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
+    },
+    {
+      "id": "ladislao-mazurkiewicz-1970",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "ladislao-mazurkiewicz-1974",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
     },
     {
       "id": "landon-donovan-2002",
@@ -1925,17 +2353,20 @@
     {
       "id": "lionel-messi-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "lionel-messi-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "lionel-messi-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "lothar-matthaus-1982",
@@ -1976,7 +2407,8 @@
     {
       "id": "lucas-hernandez-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "lucio-2002",
@@ -2029,17 +2461,20 @@
     {
       "id": "luis-suarez-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "luis-suarez-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "luis-suarez-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "luka-modric-2006",
@@ -2050,17 +2485,20 @@
     {
       "id": "luka-modric-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "luka-modric-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "luka-modric-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "lukas-podolski-2006",
@@ -2077,7 +2515,8 @@
     {
       "id": "lukas-podolski-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "maicon-2010",
@@ -2088,7 +2527,8 @@
     {
       "id": "maicon-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "maniche-2006",
@@ -2105,17 +2545,20 @@
     {
       "id": "manuel-neuer-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "manuel-neuer-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "manuel-neuer-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "marc-overmars-1994",
@@ -2144,12 +2587,14 @@
     {
       "id": "marcelo-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "marcelo-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "marco-materazzi-2002",
@@ -2159,6 +2604,18 @@
     },
     {
       "id": "marco-materazzi-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "marco-tardelli-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "marco-tardelli-1982",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -2188,6 +2645,18 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "mario-gotze-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "mario-gotze-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "mario-kempes-1974",
       "kind": "player",
       "status": "photo-pending",
@@ -2201,6 +2670,18 @@
     },
     {
       "id": "mario-kempes-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "mario-mandzukic-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "mario-mandzukic-2018",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -2226,12 +2707,14 @@
     {
       "id": "marquinhos-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "marquinhos-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "mathew-ryan-2014",
@@ -2248,22 +2731,26 @@
     {
       "id": "mathew-ryan-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "mats-hummels-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "mats-hummels-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "matt-besler-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "maxi-rodriguez-2006",
@@ -2280,7 +2767,8 @@
     {
       "id": "maxi-rodriguez-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "mehdi-taremi-2018",
@@ -2303,12 +2791,14 @@
     {
       "id": "mesut-ozil-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "mesut-ozil-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "michael-ballack-2002",
@@ -2391,7 +2881,8 @@
     {
       "id": "miroslav-klose-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "mohammed-kudus-2022",
@@ -2414,22 +2905,26 @@
     {
       "id": "neymar-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "neymar-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "neymar-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ngolo-kante-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "nicky-butt-2002",
@@ -2446,12 +2941,14 @@
     {
       "id": "nicolas-otamendi-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "nicolas-otamendi-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "oleg-salenko-1994",
@@ -2474,22 +2971,38 @@
     {
       "id": "olivier-giroud-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "olivier-giroud-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "olivier-giroud-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
+    },
+    {
+      "id": "osvaldo-ardiles-1978",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "osvaldo-ardiles-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
     },
     {
       "id": "pablo-zabaleta-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "paolo-maldini-1990",
@@ -2546,6 +3059,24 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "patrick-vieira-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "patrick-vieira-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "patrick-vieira-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "paul-breitner-1974",
       "kind": "player",
       "status": "photo-pending",
@@ -2566,12 +3097,14 @@
     {
       "id": "paul-pogba-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "paul-pogba-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "pavel-nedved-2006",
@@ -2586,7 +3119,49 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "pepe-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "pepe-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "pepe-2018",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "pepe-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "peter-schmeichel-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "peter-shilton-1982",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "peter-shilton-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "peter-shilton-1990",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -2606,12 +3181,14 @@
     {
       "id": "philipp-lahm-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "piero-hincapie-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "pierre-littbarski-1982",
@@ -2676,17 +3253,44 @@
     {
       "id": "raphael-varane-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "raphael-varane-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "raphael-varane-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
+    },
+    {
+      "id": "raul-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "raul-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "raul-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "rene-higuita-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
     },
     {
       "id": "rene-houseman-1974",
@@ -2721,7 +3325,8 @@
     {
       "id": "richarlison-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "rio-ferdinand-2002",
@@ -2738,7 +3343,8 @@
     {
       "id": "ritsu-doan-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "rivaldo-1998",
@@ -2833,7 +3439,8 @@
     {
       "id": "robin-van-persie-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "roger-milla-1982",
@@ -2868,17 +3475,20 @@
     {
       "id": "romelu-lukaku-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "romelu-lukaku-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "romelu-lukaku-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ronaldinho-2002",
@@ -2906,6 +3516,24 @@
     },
     {
       "id": "ronaldo-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "rudi-voller-1986",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "rudi-voller-1990",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "rudi-voller-1994",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -2943,7 +3571,8 @@
     {
       "id": "salem-al-dawsari-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "salvatore-schillaci-1990",
@@ -2972,7 +3601,8 @@
     {
       "id": "samuel-etoo-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "sepp-maier-1970",
@@ -3001,17 +3631,20 @@
     {
       "id": "sergio-busquets-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "sergio-busquets-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "sergio-busquets-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "sergio-goycochea-1990",
@@ -3034,12 +3667,14 @@
     {
       "id": "sergio-ramos-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "sergio-ramos-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "shunsuke-nakamura-2006",
@@ -3122,17 +3757,20 @@
     {
       "id": "son-heung-min-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "son-heung-min-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "son-heung-min-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "stefan-de-vrij-2014",
@@ -3191,37 +3829,44 @@
     {
       "id": "theo-hernandez-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thiago-silva-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thiago-silva-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thiago-silva-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thibaut-courtois-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thibaut-courtois-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thibaut-courtois-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thierry-henry-1998",
@@ -3256,17 +3901,20 @@
     {
       "id": "thomas-muller-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thomas-muller-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "thomas-muller-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "tim-cahill-2006",
@@ -3283,12 +3931,14 @@
     {
       "id": "tim-cahill-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "tim-cahill-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "tim-howard-2010",
@@ -3299,7 +3949,8 @@
     {
       "id": "tim-howard-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "toby-alderweireld-2014",
@@ -3310,12 +3961,14 @@
     {
       "id": "toby-alderweireld-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "toby-alderweireld-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "tomas-brolin-1990",
@@ -3344,12 +3997,14 @@
     {
       "id": "toni-kroos-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "toni-kroos-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "torsten-frings-2002",
@@ -3372,7 +4027,8 @@
     {
       "id": "tyler-adams-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "ubaldo-fillol-1974",
@@ -3413,17 +4069,26 @@
     {
       "id": "vincent-aboubakar-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
+    },
+    {
+      "id": "vinicius-junior-2022",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
     },
     {
       "id": "wahbi-khazri-2018",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "wahbi-khazri-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "wesley-sneijder-2006",
@@ -3440,7 +4105,8 @@
     {
       "id": "wesley-sneijder-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "willy-sagnol-2006",
@@ -3467,6 +4133,24 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "xabi-alonso-2006",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "xabi-alonso-2010",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "xabi-alonso-2014",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "xavi-2002",
       "kind": "player",
       "status": "photo-pending",
@@ -3487,12 +4171,14 @@
     {
       "id": "xavi-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "yassine-bounou-2022",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "yaya-toure-2006",
@@ -3509,7 +4195,8 @@
     {
       "id": "yaya-toure-2014",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "yerry-mina-2018",
@@ -3525,6 +4212,18 @@
     },
     {
       "id": "yoo-sang-chul-2002",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "youri-djorkaeff-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
+      "id": "youri-djorkaeff-2002",
       "kind": "player",
       "status": "photo-pending",
       "reason": "No approved tournament-edition source is configured."
@@ -3608,14 +4307,22 @@
       "reason": "No approved tournament-edition source is configured."
     },
     {
+      "id": "zvonimir-boban-1998",
+      "kind": "player",
+      "status": "photo-pending",
+      "reason": "No approved tournament-edition source is configured."
+    },
+    {
       "id": "lionel-messi-2026",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "cristiano-ronaldo-2026",
       "kind": "player",
-      "status": "downloaded"
+      "status": "skipped",
+      "reason": "Completed tournament-edition import is already cached locally."
     },
     {
       "id": "alf-ramsey-1970",

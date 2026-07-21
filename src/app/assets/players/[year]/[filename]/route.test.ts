@@ -17,6 +17,19 @@ describe("player portrait asset route", () => {
     expect((await response.arrayBuffer()).byteLength).toBeGreaterThan(0);
   });
 
+  it("serves user-supplied JPEG portraits", async () => {
+    const response = await GET(request, {
+      params: Promise.resolve({
+        year: "1978",
+        filename: "zico-1978.jpeg",
+      }),
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toBe("image/jpeg");
+    expect((await response.arrayBuffer()).byteLength).toBeGreaterThan(0);
+  });
+
   it("keeps path traversal outside the portrait directory", async () => {
     const response = await GET(request, {
       params: Promise.resolve({

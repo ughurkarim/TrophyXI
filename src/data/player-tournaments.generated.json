@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-18T22:07:23.599Z",
+  "generatedAt": "2026-07-19T15:23:09.157Z",
   "source": {
     "name": "The Fjelstul World Cup Database",
     "version": "1.2.0",
@@ -107,6 +107,71 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
+        ],
+        "awards": []
+      }
+    ],
+    "alain-giresse": [
+      {
+        "playerId": "P-79617",
+        "tournamentYear": 1982,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "third-place match",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 3,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-79617",
+        "tournamentYear": 1986,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "third-place match",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM",
+          "LM"
+        ],
+        "awards": []
+      }
+    ],
+    "aldair": [
+      {
+        "playerId": "P-56505",
+        "tournamentYear": 1994,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-56505",
+        "tournamentYear": 1998,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "final",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
         ],
         "awards": []
       }
@@ -908,6 +973,53 @@
         "awards": []
       }
     ],
+    "berti-vogts": [
+      {
+        "playerId": "P-69695",
+        "tournamentYear": 1970,
+        "teamCode": "GER",
+        "teamName": "West Germany",
+        "teamPerformance": "third-place match",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "RB",
+        "eligiblePositions": [
+          "RB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-69695",
+        "tournamentYear": 1974,
+        "teamCode": "GER",
+        "teamName": "West Germany",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 0,
+        "primaryPosition": "RB",
+        "eligiblePositions": [
+          "RB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-69695",
+        "tournamentYear": 1978,
+        "teamCode": "GER",
+        "teamName": "West Germany",
+        "teamPerformance": "second group stage",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "RB",
+        "eligiblePositions": [
+          "RB"
+        ],
+        "awards": []
+      }
+    ],
     "bixente-lizarazu": [
       {
         "playerId": "P-56735",
@@ -953,6 +1065,54 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
+        ],
+        "awards": []
+      }
+    ],
+    "branco": [
+      {
+        "playerId": "P-90842",
+        "tournamentYear": 1986,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "quarter-finals",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 0,
+        "primaryPosition": "LB",
+        "eligiblePositions": [
+          "LB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-90842",
+        "tournamentYear": 1990,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM",
+          "LM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-90842",
+        "tournamentYear": 1994,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "final",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 1,
+        "primaryPosition": "LB",
+        "eligiblePositions": [
+          "LB"
         ],
         "awards": []
       }
@@ -1004,6 +1164,75 @@
         "eligiblePositions": [
           "RW",
           "CF"
+        ],
+        "awards": []
+      }
+    ],
+    "bruno-conti": [
+      {
+        "playerId": "P-66365",
+        "tournamentYear": 1982,
+        "teamCode": "ITA",
+        "teamName": "Italy",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 1,
+        "primaryPosition": "RW",
+        "eligiblePositions": [
+          "RW",
+          "CM",
+          "RM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-66365",
+        "tournamentYear": 1986,
+        "teamCode": "ITA",
+        "teamName": "Italy",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      }
+    ],
+    "bruno-fernandes": [
+      {
+        "playerId": "P-39584",
+        "tournamentYear": 2018,
+        "teamCode": "POR",
+        "teamName": "Portugal",
+        "teamPerformance": "round of 16",
+        "appearances": 2,
+        "starts": 1,
+        "goals": 0,
+        "primaryPosition": "LW",
+        "eligiblePositions": [
+          "LW",
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-39584",
+        "tournamentYear": 2022,
+        "teamCode": "POR",
+        "teamName": "Portugal",
+        "teamPerformance": "quarter-finals",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 2,
+        "primaryPosition": "RW",
+        "eligiblePositions": [
+          "RW",
+          "CM",
+          "AM"
         ],
         "awards": []
       }
@@ -1137,6 +1366,44 @@
         "awards": []
       }
     ],
+    "careca": [
+      {
+        "playerId": "P-90635",
+        "tournamentYear": 1986,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "quarter-finals",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 5,
+        "primaryPosition": "ST",
+        "eligiblePositions": [
+          "ST"
+        ],
+        "awards": [
+          {
+            "id": "A-5",
+            "label": "Silver Boot",
+            "shared": true
+          }
+        ]
+      },
+      {
+        "playerId": "P-90635",
+        "tournamentYear": 1990,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 2,
+        "primaryPosition": "ST",
+        "eligiblePositions": [
+          "ST"
+        ],
+        "awards": []
+      }
+    ],
     "carles-puyol": [
       {
         "playerId": "P-51089",
@@ -1180,6 +1447,103 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
+        ],
+        "awards": []
+      }
+    ],
+    "carlos-alberto": [
+      {
+        "playerId": "P-25829",
+        "tournamentYear": 1970,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "final",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 1,
+        "primaryPosition": "RB",
+        "eligiblePositions": [
+          "RB"
+        ],
+        "awards": []
+      }
+    ],
+    "carlos-valderrama": [
+      {
+        "playerId": "P-49600",
+        "tournamentYear": 1990,
+        "teamCode": "COL",
+        "teamName": "Colombia",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-49600",
+        "tournamentYear": 1994,
+        "teamCode": "COL",
+        "teamName": "Colombia",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 0,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-49600",
+        "tournamentYear": 1998,
+        "teamCode": "COL",
+        "teamName": "Colombia",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 0,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
+        ],
+        "awards": []
+      }
+    ],
+    "casemiro": [
+      {
+        "playerId": "P-02305",
+        "tournamentYear": 2018,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "quarter-finals",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-02305",
+        "tournamentYear": 2022,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "quarter-finals",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM",
+          "DM"
         ],
         "awards": []
       }
@@ -2346,6 +2710,60 @@
         "awards": []
       }
     ],
+    "dirceu": [
+      {
+        "playerId": "P-89519",
+        "tournamentYear": 1974,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "third-place match",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 0,
+        "primaryPosition": "ST",
+        "eligiblePositions": [
+          "ST"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-89519",
+        "tournamentYear": 1978,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "third-place match",
+        "appearances": 7,
+        "starts": 6,
+        "goals": 3,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM",
+          "ST"
+        ],
+        "awards": [
+          {
+            "id": "A-3",
+            "label": "Bronze Ball",
+            "shared": false
+          }
+        ]
+      },
+      {
+        "playerId": "P-89519",
+        "tournamentYear": 1982,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "second group stage",
+        "appearances": 1,
+        "starts": 1,
+        "goals": 0,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
+        ],
+        "awards": []
+      }
+    ],
     "dominik-livakovic": [
       {
         "playerId": "P-99988",
@@ -2481,6 +2899,72 @@
         "eligiblePositions": [
           "CM",
           "DM"
+        ],
+        "awards": []
+      }
+    ],
+    "edinson-cavani": [
+      {
+        "playerId": "P-59138",
+        "tournamentYear": 2010,
+        "teamCode": "URU",
+        "teamName": "Uruguay",
+        "teamPerformance": "third-place match",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 1,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF",
+          "RW",
+          "LM",
+          "LW"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-59138",
+        "tournamentYear": 2014,
+        "teamCode": "URU",
+        "teamName": "Uruguay",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-59138",
+        "tournamentYear": 2018,
+        "teamCode": "URU",
+        "teamName": "Uruguay",
+        "teamPerformance": "quarter-finals",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 3,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-59138",
+        "tournamentYear": 2022,
+        "teamCode": "URU",
+        "teamName": "Uruguay",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 1,
+        "goals": 0,
+        "primaryPosition": "ST",
+        "eligiblePositions": [
+          "ST",
+          "CF"
         ],
         "awards": []
       }
@@ -2858,6 +3342,23 @@
         "awards": []
       }
     ],
+    "fabio-grosso": [
+      {
+        "playerId": "P-99473",
+        "tournamentYear": 2006,
+        "teamCode": "ITA",
+        "teamName": "Italy",
+        "teamPerformance": "final",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 1,
+        "primaryPosition": "LB",
+        "eligiblePositions": [
+          "LB"
+        ],
+        "awards": []
+      }
+    ],
     "falcao": [
       {
         "playerId": "P-35736",
@@ -2975,6 +3476,42 @@
         "eligiblePositions": [
           "AM",
           "ST"
+        ],
+        "awards": []
+      }
+    ],
+    "franck-ribery": [
+      {
+        "playerId": "P-55659",
+        "tournamentYear": 2006,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 6,
+        "goals": 1,
+        "primaryPosition": "RW",
+        "eligiblePositions": [
+          "RW",
+          "LW",
+          "CM",
+          "RM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-55659",
+        "tournamentYear": 2010,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 0,
+        "primaryPosition": "LW",
+        "eligiblePositions": [
+          "LW",
+          "AM"
         ],
         "awards": []
       }
@@ -3353,6 +3890,53 @@
         "awards": []
       }
     ],
+    "gerard-pique": [
+      {
+        "playerId": "P-64348",
+        "tournamentYear": 2010,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 0,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-64348",
+        "tournamentYear": 2014,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "group stage",
+        "appearances": 1,
+        "starts": 1,
+        "goals": 0,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-64348",
+        "tournamentYear": 2018,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 0,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
+        ],
+        "awards": []
+      }
+    ],
     "gerd-muller": [
       {
         "playerId": "P-72441",
@@ -3389,6 +3973,23 @@
         "eligiblePositions": [
           "ST",
           "CF"
+        ],
+        "awards": []
+      }
+    ],
+    "gerson": [
+      {
+        "playerId": "P-04354",
+        "tournamentYear": 1970,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "final",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
         ],
         "awards": []
       }
@@ -3584,6 +4185,38 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
+        ],
+        "awards": []
+      }
+    ],
+    "gianni-rivera": [
+      {
+        "playerId": "P-62214",
+        "tournamentYear": 1970,
+        "teamCode": "ITA",
+        "teamName": "Italy",
+        "teamPerformance": "final",
+        "appearances": 4,
+        "starts": 0,
+        "goals": 2,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-62214",
+        "tournamentYear": 1974,
+        "teamCode": "ITA",
+        "teamName": "Italy",
+        "teamPerformance": "group stage",
+        "appearances": 2,
+        "starts": 2,
+        "goals": 1,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
         ],
         "awards": []
       }
@@ -4454,6 +5087,86 @@
         "awards": []
       }
     ],
+    "jay-jay-okocha": [
+      {
+        "playerId": "P-83122",
+        "tournamentYear": 1994,
+        "teamCode": "NGA",
+        "teamName": "Nigeria",
+        "teamPerformance": "round of 16",
+        "appearances": 3,
+        "starts": 1,
+        "goals": 0,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-83122",
+        "tournamentYear": 1998,
+        "teamCode": "NGA",
+        "teamName": "Nigeria",
+        "teamPerformance": "round of 16",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 0,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-83122",
+        "tournamentYear": 2002,
+        "teamCode": "NGA",
+        "teamName": "Nigeria",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 0,
+        "primaryPosition": "RM",
+        "eligiblePositions": [
+          "RM",
+          "CM"
+        ],
+        "awards": []
+      }
+    ],
+    "jean-marie-pfaff": [
+      {
+        "playerId": "P-84816",
+        "tournamentYear": 1982,
+        "teamCode": "BEL",
+        "teamName": "Belgium",
+        "teamPerformance": "second group stage",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 0,
+        "primaryPosition": "GK",
+        "eligiblePositions": [
+          "GK"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-84816",
+        "tournamentYear": 1986,
+        "teamCode": "BEL",
+        "teamName": "Belgium",
+        "teamPerformance": "third-place match",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 0,
+        "primaryPosition": "GK",
+        "eligiblePositions": [
+          "GK"
+        ],
+        "awards": []
+      }
+    ],
     "jean-tigana": [
       {
         "playerId": "P-76592",
@@ -4518,6 +5231,55 @@
         "eligiblePositions": [
           "CM",
           "DM"
+        ],
+        "awards": []
+      }
+    ],
+    "jerome-boateng": [
+      {
+        "playerId": "P-04224",
+        "tournamentYear": 2010,
+        "teamCode": "GER",
+        "teamName": "Germany",
+        "teamPerformance": "third-place match",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 0,
+        "primaryPosition": "LB",
+        "eligiblePositions": [
+          "LB",
+          "RB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-04224",
+        "tournamentYear": 2014,
+        "teamCode": "GER",
+        "teamName": "Germany",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 0,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB",
+          "RB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-04224",
+        "tournamentYear": 2018,
+        "teamCode": "GER",
+        "teamName": "Germany",
+        "teamPerformance": "group stage",
+        "appearances": 2,
+        "starts": 2,
+        "goals": 0,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
         ],
         "awards": []
       }
@@ -4806,6 +5568,39 @@
         "awards": []
       }
     ],
+    "jorginho": [
+      {
+        "playerId": "P-26340",
+        "tournamentYear": 1990,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM",
+          "RM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-26340",
+        "tournamentYear": 1994,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 0,
+        "primaryPosition": "RB",
+        "eligiblePositions": [
+          "RB"
+        ],
+        "awards": []
+      }
+    ],
     "jose-luis-chilavert": [
       {
         "playerId": "P-36426",
@@ -4920,6 +5715,39 @@
         "awards": []
       }
     ],
+    "juan-cuadrado": [
+      {
+        "playerId": "P-83216",
+        "tournamentYear": 2014,
+        "teamCode": "COL",
+        "teamName": "Colombia",
+        "teamPerformance": "quarter-finals",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 1,
+        "primaryPosition": "RM",
+        "eligiblePositions": [
+          "RM",
+          "RW"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-83216",
+        "tournamentYear": 2018,
+        "teamCode": "COL",
+        "teamName": "Colombia",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "RW",
+        "eligiblePositions": [
+          "RW"
+        ],
+        "awards": []
+      }
+    ],
     "juan-roman-riquelme": [
       {
         "playerId": "P-85199",
@@ -4933,6 +5761,53 @@
         "primaryPosition": "AM",
         "eligiblePositions": [
           "AM"
+        ],
+        "awards": []
+      }
+    ],
+    "juan-sebastian-veron": [
+      {
+        "playerId": "P-62209",
+        "tournamentYear": 1998,
+        "teamCode": "ARG",
+        "teamName": "Argentina",
+        "teamPerformance": "quarter-finals",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-62209",
+        "tournamentYear": 2002,
+        "teamCode": "ARG",
+        "teamName": "Argentina",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 2,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-62209",
+        "tournamentYear": 2010,
+        "teamCode": "ARG",
+        "teamName": "Argentina",
+        "teamPerformance": "quarter-finals",
+        "appearances": 3,
+        "starts": 2,
+        "goals": 0,
+        "primaryPosition": "RM",
+        "eligiblePositions": [
+          "RM"
         ],
         "awards": []
       }
@@ -5114,6 +5989,66 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
+        ],
+        "awards": []
+      }
+    ],
+    "karl-heinz-rummenigge": [
+      {
+        "playerId": "P-59574",
+        "tournamentYear": 1978,
+        "teamCode": "GER",
+        "teamName": "West Germany",
+        "teamPerformance": "second group stage",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 3,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-59574",
+        "tournamentYear": 1982,
+        "teamCode": "GER",
+        "teamName": "West Germany",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 6,
+        "goals": 5,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF",
+          "CM",
+          "RW"
+        ],
+        "awards": [
+          {
+            "id": "A-3",
+            "label": "Bronze Ball",
+            "shared": false
+          },
+          {
+            "id": "A-5",
+            "label": "Silver Boot",
+            "shared": false
+          }
+        ]
+      },
+      {
+        "playerId": "P-59574",
+        "tournamentYear": 1986,
+        "teamCode": "GER",
+        "teamName": "West Germany",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF"
         ],
         "awards": []
       }
@@ -5456,6 +6391,38 @@
             "shared": false
           }
         ]
+      }
+    ],
+    "ladislao-mazurkiewicz": [
+      {
+        "playerId": "P-53140",
+        "tournamentYear": 1970,
+        "teamCode": "URU",
+        "teamName": "Uruguay",
+        "teamPerformance": "third-place match",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "GK",
+        "eligiblePositions": [
+          "GK"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-53140",
+        "tournamentYear": 1974,
+        "teamCode": "URU",
+        "teamName": "Uruguay",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 0,
+        "primaryPosition": "GK",
+        "eligiblePositions": [
+          "GK"
+        ],
+        "awards": []
       }
     ],
     "landon-donovan": [
@@ -6415,6 +7382,38 @@
         "awards": []
       }
     ],
+    "marco-tardelli": [
+      {
+        "playerId": "P-93788",
+        "tournamentYear": 1978,
+        "teamCode": "ITA",
+        "teamName": "Italy",
+        "teamPerformance": "third-place match",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-93788",
+        "tournamentYear": 1982,
+        "teamCode": "ITA",
+        "teamName": "Italy",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 2,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      }
+    ],
     "marcos": [
       {
         "playerId": "P-64377",
@@ -6484,6 +7483,39 @@
         "awards": []
       }
     ],
+    "mario-gotze": [
+      {
+        "playerId": "P-63673",
+        "tournamentYear": 2014,
+        "teamCode": "GER",
+        "teamName": "Germany",
+        "teamPerformance": "final",
+        "appearances": 6,
+        "starts": 3,
+        "goals": 2,
+        "primaryPosition": "LW",
+        "eligiblePositions": [
+          "LW",
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-63673",
+        "tournamentYear": 2022,
+        "teamCode": "GER",
+        "teamName": "Germany",
+        "teamPerformance": "group stage",
+        "appearances": 2,
+        "starts": 0,
+        "goals": 0,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
+        ],
+        "awards": []
+      }
+    ],
     "mario-kempes": [
       {
         "playerId": "P-35082",
@@ -6539,6 +7571,38 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
+        ],
+        "awards": []
+      }
+    ],
+    "mario-mandzukic": [
+      {
+        "playerId": "P-25745",
+        "tournamentYear": 2014,
+        "teamCode": "CRO",
+        "teamName": "Croatia",
+        "teamPerformance": "group stage",
+        "appearances": 2,
+        "starts": 2,
+        "goals": 2,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-25745",
+        "tournamentYear": 2018,
+        "teamCode": "CRO",
+        "teamName": "Croatia",
+        "teamPerformance": "final",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 3,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF"
         ],
         "awards": []
       }
@@ -7403,6 +8467,38 @@
         ]
       }
     ],
+    "osvaldo-ardiles": [
+      {
+        "playerId": "P-66254",
+        "tournamentYear": 1978,
+        "teamCode": "ARG",
+        "teamName": "Argentina",
+        "teamPerformance": "final",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-66254",
+        "tournamentYear": 1982,
+        "teamCode": "ARG",
+        "teamName": "Argentina",
+        "teamPerformance": "second group stage",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 1,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      }
+    ],
     "pablo-zabaleta": [
       {
         "playerId": "P-96639",
@@ -7586,6 +8682,53 @@
         "awards": []
       }
     ],
+    "patrick-vieira": [
+      {
+        "playerId": "P-96540",
+        "tournamentYear": 1998,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "final",
+        "appearances": 2,
+        "starts": 1,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-96540",
+        "tournamentYear": 2002,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-96540",
+        "tournamentYear": 2006,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 2,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      }
+    ],
     "paul-breitner": [
       {
         "playerId": "P-48686",
@@ -7707,6 +8850,68 @@
         "awards": []
       }
     ],
+    "pepe": [
+      {
+        "playerId": "P-81972",
+        "tournamentYear": 2010,
+        "teamCode": "POR",
+        "teamName": "Portugal",
+        "teamPerformance": "round of 16",
+        "appearances": 2,
+        "starts": 2,
+        "goals": 0,
+        "primaryPosition": "DM",
+        "eligiblePositions": [
+          "DM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-81972",
+        "tournamentYear": 2014,
+        "teamCode": "POR",
+        "teamName": "Portugal",
+        "teamPerformance": "group stage",
+        "appearances": 2,
+        "starts": 2,
+        "goals": 0,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-81972",
+        "tournamentYear": 2018,
+        "teamCode": "POR",
+        "teamName": "Portugal",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-81972",
+        "tournamentYear": 2022,
+        "teamCode": "POR",
+        "teamName": "Portugal",
+        "teamPerformance": "quarter-finals",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "CB",
+        "eligiblePositions": [
+          "CB"
+        ],
+        "awards": []
+      }
+    ],
     "peter-schmeichel": [
       {
         "playerId": "P-35183",
@@ -7716,6 +8921,53 @@
         "teamPerformance": "quarter-finals",
         "appearances": 5,
         "starts": 5,
+        "goals": 0,
+        "primaryPosition": "GK",
+        "eligiblePositions": [
+          "GK"
+        ],
+        "awards": []
+      }
+    ],
+    "peter-shilton": [
+      {
+        "playerId": "P-20640",
+        "tournamentYear": 1982,
+        "teamCode": "ENG",
+        "teamName": "England",
+        "teamPerformance": "second group stage",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 0,
+        "primaryPosition": "GK",
+        "eligiblePositions": [
+          "GK"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-20640",
+        "tournamentYear": 1986,
+        "teamCode": "ENG",
+        "teamName": "England",
+        "teamPerformance": "quarter-finals",
+        "appearances": 5,
+        "starts": 5,
+        "goals": 0,
+        "primaryPosition": "GK",
+        "eligiblePositions": [
+          "GK"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-20640",
+        "tournamentYear": 1990,
+        "teamCode": "ENG",
+        "teamName": "England",
+        "teamPerformance": "third-place match",
+        "appearances": 7,
+        "starts": 7,
         "goals": 0,
         "primaryPosition": "GK",
         "eligiblePositions": [
@@ -8003,6 +9255,71 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
+        ],
+        "awards": []
+      }
+    ],
+    "raul": [
+      {
+        "playerId": "P-24556",
+        "tournamentYear": 1998,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 2,
+        "goals": 1,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF",
+          "LM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-24556",
+        "tournamentYear": 2002,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "quarter-finals",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 3,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-24556",
+        "tournamentYear": 2006,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 2,
+        "goals": 1,
+        "primaryPosition": "CF",
+        "eligiblePositions": [
+          "CF"
+        ],
+        "awards": []
+      }
+    ],
+    "rene-higuita": [
+      {
+        "playerId": "P-31928",
+        "tournamentYear": 1990,
+        "teamCode": "COL",
+        "teamName": "Colombia",
+        "teamPerformance": "round of 16",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 0,
+        "primaryPosition": "GK",
+        "eligiblePositions": [
+          "GK"
         ],
         "awards": []
       }
@@ -8685,6 +10002,54 @@
             "shared": false
           }
         ]
+      }
+    ],
+    "rudi-voller": [
+      {
+        "playerId": "P-04572",
+        "tournamentYear": 1986,
+        "teamCode": "GER",
+        "teamName": "West Germany",
+        "teamPerformance": "final",
+        "appearances": 6,
+        "starts": 4,
+        "goals": 3,
+        "primaryPosition": "ST",
+        "eligiblePositions": [
+          "ST"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-04572",
+        "tournamentYear": 1990,
+        "teamCode": "GER",
+        "teamName": "West Germany",
+        "teamPerformance": "final",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 3,
+        "primaryPosition": "ST",
+        "eligiblePositions": [
+          "ST",
+          "CF"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-04572",
+        "tournamentYear": 1994,
+        "teamCode": "GER",
+        "teamName": "Germany",
+        "teamPerformance": "quarter-finals",
+        "appearances": 3,
+        "starts": 2,
+        "goals": 2,
+        "primaryPosition": "ST",
+        "eligiblePositions": [
+          "ST"
+        ],
+        "awards": []
       }
     ],
     "rustu-recber": [
@@ -10190,6 +11555,23 @@
         "awards": []
       }
     ],
+    "vinicius-junior": [
+      {
+        "playerId": "P-92812",
+        "tournamentYear": 2022,
+        "teamCode": "BRA",
+        "teamName": "Brazil",
+        "teamPerformance": "quarter-finals",
+        "appearances": 4,
+        "starts": 4,
+        "goals": 1,
+        "primaryPosition": "LW",
+        "eligiblePositions": [
+          "LW"
+        ],
+        "awards": []
+      }
+    ],
     "wahbi-khazri": [
       {
         "playerId": "P-42223",
@@ -10344,6 +11726,56 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
+        ],
+        "awards": []
+      }
+    ],
+    "xabi-alonso": [
+      {
+        "playerId": "P-73924",
+        "tournamentYear": 2006,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "round of 16",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 1,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-73924",
+        "tournamentYear": 2010,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 7,
+        "goals": 0,
+        "primaryPosition": "LM",
+        "eligiblePositions": [
+          "LM",
+          "CM",
+          "DM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-73924",
+        "tournamentYear": 2014,
+        "teamCode": "ESP",
+        "teamName": "Spain",
+        "teamPerformance": "group stage",
+        "appearances": 3,
+        "starts": 3,
+        "goals": 1,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM",
+          "LM"
         ],
         "awards": []
       }
@@ -10523,6 +11955,42 @@
         "eligiblePositions": [
           "CM",
           "CB"
+        ],
+        "awards": []
+      }
+    ],
+    "youri-djorkaeff": [
+      {
+        "playerId": "P-80680",
+        "tournamentYear": 1998,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "final",
+        "appearances": 7,
+        "starts": 6,
+        "goals": 1,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM",
+          "CF",
+          "RW",
+          "LW",
+          "AM"
+        ],
+        "awards": []
+      },
+      {
+        "playerId": "P-80680",
+        "tournamentYear": 2002,
+        "teamCode": "FRA",
+        "teamName": "France",
+        "teamPerformance": "group stage",
+        "appearances": 2,
+        "starts": 1,
+        "goals": 0,
+        "primaryPosition": "AM",
+        "eligiblePositions": [
+          "AM"
         ],
         "awards": []
       }
@@ -10742,6 +12210,25 @@
         "goals": 0,
         "primaryPosition": "CF",
         "eligiblePositions": [
+          "CF"
+        ],
+        "awards": []
+      }
+    ],
+    "zvonimir-boban": [
+      {
+        "playerId": "P-05779",
+        "tournamentYear": 1998,
+        "teamCode": "CRO",
+        "teamName": "Croatia",
+        "teamPerformance": "third-place match",
+        "appearances": 6,
+        "starts": 6,
+        "goals": 0,
+        "primaryPosition": "CM",
+        "eligiblePositions": [
+          "CM",
+          "AM",
           "CF"
         ],
         "awards": []

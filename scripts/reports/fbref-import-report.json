@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-07-19T02:16:16.422Z",
+  "generatedAt": "2026-07-19T15:26:00.319Z",
   "mode": "refresh",
   "networkBlockedReason": "HTTP 403",
   "retrievalPolicy": "Local cache first. Direct FBref refresh only when robots policy permits; when direct access is unavailable, the Internet Archive raw snapshot is used solely as the retrieval route for the cited FBref profile.",
-  "totalPlayerIdentities": 287,
-  "reviewedMappings": 287,
-  "matchedPlayers": 287,
+  "totalPlayerIdentities": 326,
+  "reviewedMappings": 326,
+  "matchedPlayers": 326,
   "manualReviewPlayers": 0,
-  "importedAccolades": 836,
+  "importedAccolades": 932,
   "supplementaryAccolades": 8,
   "curatedTop100Players": 46,
   "validation": {
@@ -29,6 +29,16 @@
       "playerIdentityId": "ahn-jung-hwan",
       "sourceUrl": "https://fbref.com/en/players/6f10c5f4/Ahn-Jung-hwan",
       "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "alain-giresse",
+      "sourceUrl": "https://fbref.com/en/players/5bef681c/Alain-Giresse",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "aldair",
+      "sourceUrl": "https://fbref.com/en/players/7b0ec088/Aldair",
+      "accoladeCount": 2
     },
     {
       "playerIdentityId": "aleksandr-golovin",
@@ -126,6 +136,11 @@
       "accoladeCount": 2
     },
     {
+      "playerIdentityId": "berti-vogts",
+      "sourceUrl": "https://fbref.com/en/players/057ce78a/Berti-Vogts",
+      "accoladeCount": 3
+    },
+    {
       "playerIdentityId": "bixente-lizarazu",
       "sourceUrl": "https://fbref.com/en/players/2ab8a20e/Bixente-Lizarazu",
       "accoladeCount": 4
@@ -136,6 +151,11 @@
       "accoladeCount": 4
     },
     {
+      "playerIdentityId": "branco",
+      "sourceUrl": "https://fbref.com/en/players/7691db8d/Branco",
+      "accoladeCount": 1
+    },
+    {
       "playerIdentityId": "breel-embolo",
       "sourceUrl": "https://fbref.com/en/players/0b4f388a/Breel-Embolo",
       "accoladeCount": 1
@@ -144,6 +164,16 @@
       "playerIdentityId": "brian-laudrup",
       "sourceUrl": "https://fbref.com/en/players/d6d70954/Brian-Laudrup",
       "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "bruno-conti",
+      "sourceUrl": "https://fbref.com/en/players/c8b6f32a/Bruno-Conti",
+      "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "bruno-fernandes",
+      "sourceUrl": "https://fbref.com/en/players/507c7bdf/Bruno-Fernandes",
+      "accoladeCount": 3
     },
     {
       "playerIdentityId": "bryan-ruiz",
@@ -161,9 +191,29 @@
       "accoladeCount": 6
     },
     {
+      "playerIdentityId": "careca",
+      "sourceUrl": "https://fbref.com/en/players/8016a874/Careca",
+      "accoladeCount": 2
+    },
+    {
       "playerIdentityId": "carles-puyol",
       "sourceUrl": "https://fbref.com/en/players/7c0bda9b/Carles-Puyol",
       "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "carlos-alberto",
+      "sourceUrl": "https://fbref.com/en/players/ed35e85e/Carlos-Alberto-Torres",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "carlos-valderrama",
+      "sourceUrl": "https://fbref.com/en/players/2592bae1/Carlos-Valderrama",
+      "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "casemiro",
+      "sourceUrl": "https://fbref.com/en/players/4d224fe8/Casemiro",
+      "accoladeCount": 3
     },
     {
       "playerIdentityId": "chris-wood",
@@ -331,6 +381,11 @@
       "accoladeCount": 2
     },
     {
+      "playerIdentityId": "dirceu",
+      "sourceUrl": "https://fbref.com/en/players/8d5c5924/Dirceu",
+      "accoladeCount": 2
+    },
+    {
       "playerIdentityId": "dominik-livakovic",
       "sourceUrl": "https://fbref.com/en/players/58f077c0/Dominik-Livakovic",
       "accoladeCount": 1
@@ -348,6 +403,11 @@
     {
       "playerIdentityId": "edgar-davids",
       "sourceUrl": "https://fbref.com/en/players/19d5e43e/Edgar-Davids",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "edinson-cavani",
+      "sourceUrl": "https://fbref.com/en/players/527f063d/Edinson-Cavani",
       "accoladeCount": 3
     },
     {
@@ -406,6 +466,11 @@
       "accoladeCount": 8
     },
     {
+      "playerIdentityId": "fabio-grosso",
+      "sourceUrl": "https://fbref.com/en/players/db77a624/Fabio-Grosso",
+      "accoladeCount": 2
+    },
+    {
       "playerIdentityId": "falcao",
       "sourceUrl": "https://fbref.com/en/players/cc2e8844/Paulo-Roberto-Falcao",
       "accoladeCount": 3
@@ -419,6 +484,11 @@
       "playerIdentityId": "francesco-totti",
       "sourceUrl": "https://fbref.com/en/players/ed75b6c7/Francesco-Totti",
       "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "franck-ribery",
+      "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+      "accoladeCount": 7
     },
     {
       "playerIdentityId": "franco-baresi",
@@ -471,9 +541,19 @@
       "accoladeCount": 4
     },
     {
+      "playerIdentityId": "gerard-pique",
+      "sourceUrl": "https://fbref.com/en/players/adfc9123/Gerard-Pique",
+      "accoladeCount": 5
+    },
+    {
       "playerIdentityId": "gerd-muller",
       "sourceUrl": "https://fbref.com/en/players/0d32232a/Gerd-Muller",
       "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "gerson",
+      "sourceUrl": "https://fbref.com/en/players/63232fb0/Gerson",
+      "accoladeCount": 3
     },
     {
       "playerIdentityId": "gheorghe-hagi",
@@ -494,6 +574,11 @@
       "playerIdentityId": "gianluigi-buffon",
       "sourceUrl": "https://fbref.com/en/players/e40d028b/Gianluigi-Buffon",
       "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "gianni-rivera",
+      "sourceUrl": "https://fbref.com/en/players/33b450cd/Gianni-Rivera",
+      "accoladeCount": 1
     },
     {
       "playerIdentityId": "goncalo-ramos",
@@ -611,6 +696,16 @@
       "accoladeCount": 2
     },
     {
+      "playerIdentityId": "jay-jay-okocha",
+      "sourceUrl": "https://fbref.com/en/players/66ceb871/Jay-Jay-Okocha",
+      "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "jean-marie-pfaff",
+      "sourceUrl": "https://fbref.com/en/players/4eadde7b/Jean-Marie-Pfaff",
+      "accoladeCount": 1
+    },
+    {
       "playerIdentityId": "jean-tigana",
       "sourceUrl": "https://fbref.com/en/players/47198ed8/Jean-Tigana",
       "accoladeCount": 2
@@ -624,6 +719,11 @@
       "playerIdentityId": "jermaine-jones",
       "sourceUrl": "https://fbref.com/en/players/0c577541/Jermaine-Jones",
       "accoladeCount": 0
+    },
+    {
+      "playerIdentityId": "jerome-boateng",
+      "sourceUrl": "https://fbref.com/en/players/2db2fd7b/Jerome-Boateng",
+      "accoladeCount": 5
     },
     {
       "playerIdentityId": "joel-campbell",
@@ -666,6 +766,11 @@
       "accoladeCount": 1
     },
     {
+      "playerIdentityId": "jorginho",
+      "sourceUrl": "https://fbref.com/en/players/9d4c380a/Jorginho",
+      "accoladeCount": 4
+    },
+    {
       "playerIdentityId": "jose-luis-chilavert",
       "sourceUrl": "https://fbref.com/en/players/8b88ac0e/Jose-Luis-Chilavert",
       "accoladeCount": 3
@@ -686,9 +791,19 @@
       "accoladeCount": 0
     },
     {
+      "playerIdentityId": "juan-cuadrado",
+      "sourceUrl": "https://fbref.com/en/players/0ab1f153/Juan-Cuadrado",
+      "accoladeCount": 1
+    },
+    {
       "playerIdentityId": "juan-roman-riquelme",
       "sourceUrl": "https://fbref.com/en/players/04381207/Juan-Roman-Riquelme",
       "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "juan-sebastian-veron",
+      "sourceUrl": "https://fbref.com/en/players/f11a57c1/Juan-Sebastian-Veron",
+      "accoladeCount": 3
     },
     {
       "playerIdentityId": "jude-bellingham",
@@ -719,6 +834,11 @@
       "playerIdentityId": "kalidou-koulibaly",
       "sourceUrl": "https://fbref.com/en/players/da974c7b/Kalidou-Koulibaly",
       "accoladeCount": 1
+    },
+    {
+      "playerIdentityId": "karl-heinz-rummenigge",
+      "sourceUrl": "https://fbref.com/en/players/53b3b85c/Karl-Heinz-Rummenigge",
+      "accoladeCount": 4
     },
     {
       "playerIdentityId": "kazimierz-deyna",
@@ -764,6 +884,11 @@
       "playerIdentityId": "kylian-mbappe",
       "sourceUrl": "https://fbref.com/en/players/42fd9c7f/Kylian-Mbappe",
       "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "ladislao-mazurkiewicz",
+      "sourceUrl": "https://fbref.com/en/players/803a033e/Ladislao-Mazurkiewicz",
+      "accoladeCount": 1
     },
     {
       "playerIdentityId": "landon-donovan",
@@ -866,6 +991,11 @@
       "accoladeCount": 3
     },
     {
+      "playerIdentityId": "marco-tardelli",
+      "sourceUrl": "https://fbref.com/en/players/8e63b4a1/Marco-Tardelli",
+      "accoladeCount": 1
+    },
+    {
       "playerIdentityId": "marcos",
       "sourceUrl": "https://fbref.com/en/players/d89577f6/Marcos",
       "accoladeCount": 1
@@ -881,9 +1011,19 @@
       "accoladeCount": 1
     },
     {
+      "playerIdentityId": "mario-gotze",
+      "sourceUrl": "https://fbref.com/en/players/9efa1d25/Mario-Gotze",
+      "accoladeCount": 2
+    },
+    {
       "playerIdentityId": "mario-kempes",
       "sourceUrl": "https://fbref.com/en/players/42fe1917/Mario-Kempes",
       "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "mario-mandzukic",
+      "sourceUrl": "https://fbref.com/en/players/afa0d4e0/Mario-Mandzukic",
+      "accoladeCount": 3
     },
     {
       "playerIdentityId": "mark-paston",
@@ -1006,6 +1146,11 @@
       "accoladeCount": 3
     },
     {
+      "playerIdentityId": "osvaldo-ardiles",
+      "sourceUrl": "https://fbref.com/en/players/6a32e74b/Osvaldo-Ardiles",
+      "accoladeCount": 1
+    },
+    {
       "playerIdentityId": "pablo-zabaleta",
       "sourceUrl": "https://fbref.com/en/players/6813ac34/Pablo-Zabaleta",
       "accoladeCount": 1
@@ -1024,6 +1169,11 @@
       "playerIdentityId": "park-ji-sung",
       "sourceUrl": "https://fbref.com/en/players/3de4cb30/Park-Ji-sung",
       "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "patrick-vieira",
+      "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+      "accoladeCount": 6
     },
     {
       "playerIdentityId": "paul-breitner",
@@ -1051,9 +1201,19 @@
       "accoladeCount": 5
     },
     {
+      "playerIdentityId": "pepe",
+      "sourceUrl": "https://fbref.com/en/players/c906ce0f/Pepe",
+      "accoladeCount": 2
+    },
+    {
       "playerIdentityId": "peter-schmeichel",
       "sourceUrl": "https://fbref.com/en/players/f1fe7ffe/Peter-Schmeichel",
       "accoladeCount": 4
+    },
+    {
+      "playerIdentityId": "peter-shilton",
+      "sourceUrl": "https://fbref.com/en/players/9ee3b365/Peter-Shilton",
+      "accoladeCount": 1
     },
     {
       "playerIdentityId": "philipp-lahm",
@@ -1089,6 +1249,16 @@
       "playerIdentityId": "raphael-varane",
       "sourceUrl": "https://fbref.com/en/players/9f8e9423/Raphael-Varane",
       "accoladeCount": 5
+    },
+    {
+      "playerIdentityId": "raul",
+      "sourceUrl": "https://fbref.com/en/players/2b81295d/Raul",
+      "accoladeCount": 3
+    },
+    {
+      "playerIdentityId": "rene-higuita",
+      "sourceUrl": "https://fbref.com/en/players/a45cdb7e/Rene-Higuita",
+      "accoladeCount": 0
     },
     {
       "playerIdentityId": "rene-houseman",
@@ -1174,6 +1344,11 @@
       "playerIdentityId": "ronaldo",
       "sourceUrl": "https://fbref.com/en/players/57feb553/Ronaldo",
       "accoladeCount": 8
+    },
+    {
+      "playerIdentityId": "rudi-voller",
+      "sourceUrl": "https://fbref.com/en/players/cbcf1eee/Rudi-Voller",
+      "accoladeCount": 3
     },
     {
       "playerIdentityId": "rustu-recber",
@@ -1376,6 +1551,11 @@
       "accoladeCount": 1
     },
     {
+      "playerIdentityId": "vinicius-junior",
+      "sourceUrl": "https://fbref.com/en/players/7111d552/Vinicius-Junior",
+      "accoladeCount": 4
+    },
+    {
       "playerIdentityId": "wahbi-khazri",
       "sourceUrl": "https://fbref.com/en/players/2677a1de/Wahbi-Khazri",
       "accoladeCount": 0
@@ -1399,6 +1579,11 @@
       "playerIdentityId": "wolfgang-overath",
       "sourceUrl": "https://fbref.com/en/players/456470e3/Wolfgang-Overath",
       "accoladeCount": 2
+    },
+    {
+      "playerIdentityId": "xabi-alonso",
+      "sourceUrl": "https://fbref.com/en/players/dc001a06/Xabi-Alonso",
+      "accoladeCount": 4
     },
     {
       "playerIdentityId": "xavi",
@@ -1426,6 +1611,11 @@
       "accoladeCount": 1
     },
     {
+      "playerIdentityId": "youri-djorkaeff",
+      "sourceUrl": "https://fbref.com/en/players/e9f1bedd/Youri-Djorkaeff",
+      "accoladeCount": 1
+    },
+    {
       "playerIdentityId": "yuji-nakazawa",
       "sourceUrl": "https://fbref.com/en/players/8d71a3df/Yuji-Nakazawa",
       "accoladeCount": 1
@@ -1449,6 +1639,11 @@
       "playerIdentityId": "zlatan-ibrahimovic",
       "sourceUrl": "https://fbref.com/en/players/4cde5509/Zlatan-Ibrahimovic",
       "accoladeCount": 7
+    },
+    {
+      "playerIdentityId": "zvonimir-boban",
+      "sourceUrl": "https://fbref.com/en/players/d588d6d5/Zvonimir-Boban",
+      "accoladeCount": 3
     }
   ],
   "unresolved": []

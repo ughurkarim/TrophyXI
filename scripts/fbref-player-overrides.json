@@ -46,5 +46,48 @@
     "fbrefProfileName": "Preben Elkjær",
     "fbrefId": "75a72f6d",
     "sourceUrl": "https://fbref.com/en/players/75a72f6d/Preben-Elkjaer"
+  },
+  {
+    "playerIdentityId": "berti-vogts",
+    "playerName": "Berti Vogts",
+    "fbrefId": "057ce78a",
+    "sourceUrl": "https://fbref.com/en/players/057ce78a/Berti-Vogts"
+  },
+  {
+    "playerIdentityId": "careca",
+    "playerName": "Careca",
+    "fbrefId": "8016a874",
+    "sourceUrl": "https://fbref.com/en/players/8016a874/Careca"
+  },
+  {
+    "playerIdentityId": "carlos-alberto",
+    "playerName": "Carlos Alberto",
+    "fbrefProfileName": "Carlos Alberto Torres",
+    "fbrefId": "ed35e85e",
+    "sourceUrl": "https://fbref.com/en/players/ed35e85e/Carlos-Alberto-Torres"
+  },
+  {
+    "playerIdentityId": "dirceu",
+    "playerName": "Dirceu",
+    "fbrefId": "8d5c5924",
+    "sourceUrl": "https://fbref.com/en/players/8d5c5924/Dirceu"
+  },
+  {
+    "playerIdentityId": "gerson",
+    "playerName": "Gérson",
+    "fbrefId": "63232fb0",
+    "sourceUrl": "https://fbref.com/en/players/63232fb0/Gerson"
+  },
+  {
+    "playerIdentityId": "jorginho",
+    "playerName": "Jorginho",
+    "fbrefId": "9d4c380a",
+    "sourceUrl": "https://fbref.com/en/players/9d4c380a/Jorginho"
+  },
+  {
+    "playerIdentityId": "rene-higuita",
+    "playerName": "René Higuita",
+    "fbrefId": "a45cdb7e",
+    "sourceUrl": "https://fbref.com/en/players/a45cdb7e/Rene-Higuita"
   }
 ]

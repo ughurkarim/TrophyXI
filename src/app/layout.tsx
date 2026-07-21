@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { StoreHydrator } from "@/components/providers/store-hydrator";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const sora = localFont({
   src: "../../node_modules/@fontsource-variable/sora/files/sora-latin-wght-normal.woff2",
@@ -56,6 +58,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <StoreHydrator />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

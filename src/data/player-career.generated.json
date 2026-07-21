@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-19T02:16:16.422Z",
+  "generatedAt": "2026-07-19T15:26:00.319Z",
   "players": {
     "achraf-hakimi": {
       "careerStats": {
@@ -432,6 +432,232 @@
           "sourceUrl": "https://fbref.com/en/players/6f10c5f4/Ahn-Jung-hwan",
           "verified": true,
           "description": "FBref profile honor: 1999 South Korean K League 1 MVP."
+        }
+      ],
+      "top100Player": false
+    },
+    "alain-giresse": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 12,
+        "nationalTeamGoals": 3,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/5bef681c/Alain-Giresse",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1982-1-world-cup-fr-france",
+            "season": "1982",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "fr France",
+            "appearances": 6,
+            "goals": 3,
+            "assists": null
+          },
+          {
+            "id": "international-1986-1-world-cup-fr-france",
+            "season": "1986",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "fr France",
+            "appearances": 6,
+            "goals": 0,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "french-player-of-the-year",
+          "label": "French Player of the Year",
+          "count": 3,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/5bef681c/Alain-Giresse",
+          "verified": true,
+          "description": "FBref profile honor: 3x French Player of the Year."
+        }
+      ],
+      "top100Player": false
+    },
+    "aldair": {
+      "careerStats": {
+        "clubAppearances": 347,
+        "clubGoals": 15,
+        "clubAssists": 2,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/7b0ec088/Aldair",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1990-1991-1-serie-a-roma",
+            "season": "1990-1991",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 29,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1991-1992-1-serie-a-roma",
+            "season": "1991-1992",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 33,
+            "goals": 3,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1992-1993-1-serie-a-roma",
+            "season": "1992-1993",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 28,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1993-1994-1-serie-a-roma",
+            "season": "1993-1994",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 12,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1994-1995-1-serie-a-roma",
+            "season": "1994-1995",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 28,
+            "goals": 1,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1995-1996-1-serie-a-roma",
+            "season": "1995-1996",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 31,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1996-1997-1-serie-a-roma",
+            "season": "1996-1997",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 32,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1997-1998-1-serie-a-roma",
+            "season": "1997-1998",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 28,
+            "goals": 3,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1998-1999-1-serie-a-roma",
+            "season": "1998-1999",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 27,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-1999-2000-1-serie-a-roma",
+            "season": "1999-2000",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 34,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2000-2001-1-serie-a-roma",
+            "season": "2000-2001",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 15,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2001-2002-1-serie-a-roma",
+            "season": "2001-2002",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 16,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2002-2003-1-serie-a-roma",
+            "season": "2002-2003",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 17,
+            "goals": 0,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2003-2004-2-serie-b-genoa",
+            "season": "2003-2004",
+            "competition": "2. Serie B",
+            "scope": "domestic-league",
+            "squad": "Genoa",
+            "appearances": 17,
+            "goals": 1,
+            "assists": 1
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "serie-a-champion",
+          "label": "Serie A Champion",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/7b0ec088/Aldair",
+          "verified": true,
+          "description": "FBref profile honor: 2000-01 Serie A Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/7b0ec088/Aldair",
+          "verified": true,
+          "description": "FBref profile honor: 1994 World Cup Champion."
         }
       ],
       "top100Player": false
@@ -4055,6 +4281,84 @@
       ],
       "top100Player": false
     },
+    "berti-vogts": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 19,
+        "nationalTeamGoals": 0,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/057ce78a/Berti-Vogts",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1970-1-world-cup-de-west-germany",
+            "season": "1970",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "de West Germany",
+            "appearances": 6,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1974-1-world-cup-de-west-germany",
+            "season": "1974",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "de West Germany",
+            "appearances": 7,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1978-1-world-cup-de-west-germany",
+            "season": "1978",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "de West Germany",
+            "appearances": 6,
+            "goals": 0,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/057ce78a/Berti-Vogts",
+          "verified": true,
+          "description": "FBref profile honor: 1974 World Cup Champion."
+        },
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/057ce78a/Berti-Vogts",
+          "verified": true,
+          "description": "FBref profile honor: 2x FIFA World Cup All-Star Team."
+        },
+        {
+          "id": "german-male-footballer-of-the-year",
+          "label": "German Male Footballer of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/057ce78a/Berti-Vogts",
+          "verified": true,
+          "description": "FBref profile honor: 2x German Male Footballer of the Year."
+        }
+      ],
+      "top100Player": false
+    },
     "bixente-lizarazu": {
       "careerStats": {
         "clubAppearances": 236,
@@ -4325,6 +4629,94 @@
         "year": 2026,
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
+    },
+    "branco": {
+      "careerStats": {
+        "clubAppearances": 91,
+        "clubGoals": 9,
+        "clubAssists": 2,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/7691db8d/Branco",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1990-1991-1-serie-a-genoa",
+            "season": "1990-1991",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Genoa",
+            "appearances": 24,
+            "goals": 6,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1991-1992-1-serie-a-genoa",
+            "season": "1991-1992",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Genoa",
+            "appearances": 23,
+            "goals": 1,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1992-1993-1-serie-a-genoa",
+            "season": "1992-1993",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Genoa",
+            "appearances": 24,
+            "goals": 1,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1995-1996-1-premier-league-middlesbrough",
+            "season": "1995-1996",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Middlesbrough",
+            "appearances": 7,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-1996-1997-1-premier-league-middlesbrough",
+            "season": "1996-1997",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Middlesbrough",
+            "appearances": 2,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-1997-1-mls-metrostars",
+            "season": "1997",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "MetroStars",
+            "appearances": 11,
+            "goals": 1,
+            "assists": 2
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/7691db8d/Branco",
+          "verified": true,
+          "description": "FBref profile honor: 1994 World Cup Champion."
+        }
+      ],
+      "top100Player": false
     },
     "breel-embolo": {
       "careerStats": {
@@ -4608,6 +5000,262 @@
           "sourceUrl": "https://fbref.com/en/players/d6d70954/Brian-Laudrup",
           "verified": true,
           "description": "FBref profile honor: 1994-95 PFA Scotland Players' Player of the Year."
+        }
+      ],
+      "top100Player": false
+    },
+    "bruno-conti": {
+      "careerStats": {
+        "clubAppearances": 35,
+        "clubGoals": 3,
+        "clubAssists": null,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/c8b6f32a/Bruno-Conti",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1988-1989-1-serie-a-roma",
+            "season": "1988-1989",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 14,
+            "goals": 1,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1989-1990-1-serie-a-roma",
+            "season": "1989-1990",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 21,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1990-1991-1-serie-a-roma",
+            "season": "1990-1991",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 0,
+            "goals": 0,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/c8b6f32a/Bruno-Conti",
+          "verified": true,
+          "description": "FBref profile honor: 1982 World Cup Champion."
+        }
+      ],
+      "top100Player": false
+    },
+    "bruno-fernandes": {
+      "careerStats": {
+        "clubAppearances": 453,
+        "clubGoals": 129,
+        "clubAssists": 114,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/507c7bdf/Bruno-Fernandes",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2012-2013-2-serie-b-novara",
+            "season": "2012-2013",
+            "competition": "2. Serie B",
+            "scope": "domestic-league",
+            "squad": "Novara",
+            "appearances": 21,
+            "goals": 4,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2013-2014-1-serie-a-udinese",
+            "season": "2013-2014",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Udinese",
+            "appearances": 24,
+            "goals": 4,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2014-2015-1-serie-a-udinese",
+            "season": "2014-2015",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Udinese",
+            "appearances": 31,
+            "goals": 3,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2015-2016-1-serie-a-udinese",
+            "season": "2015-2016",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Udinese",
+            "appearances": 31,
+            "goals": 3,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2016-2017-1-serie-a-sampdoria",
+            "season": "2016-2017",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Sampdoria",
+            "appearances": 33,
+            "goals": 5,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2017-2018-1-primeira-liga-sporting-cp",
+            "season": "2017-2018",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Sporting CP",
+            "appearances": 33,
+            "goals": 11,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2018-2019-1-primeira-liga-sporting-cp",
+            "season": "2018-2019",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Sporting CP",
+            "appearances": 33,
+            "goals": 20,
+            "assists": 13
+          },
+          {
+            "id": "domestic-league-2019-2020-1-primeira-liga-sporting-cp",
+            "season": "2019-2020",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Sporting CP",
+            "appearances": 17,
+            "goals": 8,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2019-2020-1-premier-league-manchester-utd",
+            "season": "2019-2020",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 14,
+            "goals": 8,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2020-2021-1-premier-league-manchester-utd",
+            "season": "2020-2021",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 37,
+            "goals": 18,
+            "assists": 12
+          },
+          {
+            "id": "domestic-league-2021-2022-1-premier-league-manchester-utd",
+            "season": "2021-2022",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 36,
+            "goals": 10,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2022-2023-1-premier-league-manchester-utd",
+            "season": "2022-2023",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 37,
+            "goals": 8,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2023-2024-1-premier-league-manchester-utd",
+            "season": "2023-2024",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 35,
+            "goals": 10,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2024-2025-1-premier-league-manchester-utd",
+            "season": "2024-2025",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 36,
+            "goals": 8,
+            "assists": 10
+          },
+          {
+            "id": "domestic-league-2025-2026-1-premier-league-manchester-utd",
+            "season": "2025-2026",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 35,
+            "goals": 9,
+            "assists": 21
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "premier-league-player-of-the-season",
+          "label": "Premier League Player of the Season",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/507c7bdf/Bruno-Fernandes",
+          "verified": true,
+          "description": "FBref profile honor: 2025-26 Premier League Player of the Season."
+        },
+        {
+          "id": "fwa-footballer-of-the-year",
+          "label": "FWA Footballer of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/507c7bdf/Bruno-Fernandes",
+          "verified": true,
+          "description": "FBref profile honor: 2025-26 FWA Footballer of the Year."
+        },
+        {
+          "id": "portuguese-best-player",
+          "label": "Portuguese Best Player",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/507c7bdf/Bruno-Fernandes",
+          "verified": true,
+          "description": "FBref profile honor: 2x Portuguese Best Player."
         }
       ],
       "top100Player": false
@@ -5131,6 +5779,94 @@
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
     },
+    "careca": {
+      "careerStats": {
+        "clubAppearances": 138,
+        "clubGoals": 60,
+        "clubAssists": null,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/8016a874/Careca",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1988-1989-1-serie-a-napoli",
+            "season": "1988-1989",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Napoli",
+            "appearances": 30,
+            "goals": 19,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1989-1990-1-serie-a-napoli",
+            "season": "1989-1990",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Napoli",
+            "appearances": 22,
+            "goals": 10,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1990-1991-1-serie-a-napoli",
+            "season": "1990-1991",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Napoli",
+            "appearances": 29,
+            "goals": 9,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1991-1992-1-serie-a-napoli",
+            "season": "1991-1992",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Napoli",
+            "appearances": 33,
+            "goals": 15,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1992-1993-1-serie-a-napoli",
+            "season": "1992-1993",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Napoli",
+            "appearances": 24,
+            "goals": 7,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "serie-a-champion",
+          "label": "Serie A Champion",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/8016a874/Careca",
+          "verified": true,
+          "description": "FBref profile honor: 1989-90 Serie A Champion."
+        },
+        {
+          "id": "brazil-golden-ball",
+          "label": "Brazil Golden Ball",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/8016a874/Careca",
+          "verified": true,
+          "description": "FBref profile honor: 1986 Brazil Golden Ball."
+        }
+      ],
+      "top100Player": false
+    },
     "carles-puyol": {
       "careerStats": {
         "clubAppearances": 392,
@@ -5363,6 +6099,400 @@
         "year": 2026,
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
+    },
+    "carlos-alberto": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 6,
+        "nationalTeamGoals": 1,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/ed35e85e/Carlos-Alberto-Torres",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1970-1-world-cup-br-brazil",
+            "season": "1970",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "br Brazil",
+            "appearances": 6,
+            "goals": 1,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/ed35e85e/Carlos-Alberto-Torres",
+          "verified": true,
+          "description": "FBref profile honor: 1970 World Cup Champion."
+        },
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/ed35e85e/Carlos-Alberto-Torres",
+          "verified": true,
+          "description": "FBref profile honor: 1970 FIFA World Cup All-Star Team."
+        }
+      ],
+      "top100Player": false
+    },
+    "carlos-valderrama": {
+      "careerStats": {
+        "clubAppearances": 192,
+        "clubGoals": 17,
+        "clubAssists": 85,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/2592bae1/Carlos-Valderrama",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1991-1992-1-la-liga-valladolid",
+            "season": "1991-1992",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Valladolid",
+            "appearances": 17,
+            "goals": 1,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1996-1-mls-tb-mutiny",
+            "season": "1996",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "TB Mutiny",
+            "appearances": 23,
+            "goals": 4,
+            "assists": 11
+          },
+          {
+            "id": "domestic-league-1997-1-mls-tb-mutiny",
+            "season": "1997",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "TB Mutiny",
+            "appearances": 20,
+            "goals": 3,
+            "assists": 15
+          },
+          {
+            "id": "domestic-league-1998-1-mls-miami-fusion",
+            "season": "1998",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "Miami Fusion",
+            "appearances": 18,
+            "goals": 2,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-1999-1-mls-miami-fusion",
+            "season": "1999",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "Miami Fusion",
+            "appearances": 4,
+            "goals": 1,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-1999-1-mls-tb-mutiny",
+            "season": "1999",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "TB Mutiny",
+            "appearances": 27,
+            "goals": 3,
+            "assists": 13
+          },
+          {
+            "id": "domestic-league-2000-1-mls-tb-mutiny",
+            "season": "2000",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "TB Mutiny",
+            "appearances": 32,
+            "goals": 1,
+            "assists": 21
+          },
+          {
+            "id": "domestic-league-2001-1-mls-tb-mutiny",
+            "season": "2001",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "TB Mutiny",
+            "appearances": 12,
+            "goals": 1,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2001-1-mls-colorado-rapids",
+            "season": "2001",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "Colorado Rapids",
+            "appearances": 12,
+            "goals": 0,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2002-1-mls-colorado-rapids",
+            "season": "2002",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "Colorado Rapids",
+            "appearances": 27,
+            "goals": 1,
+            "assists": 7
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "south-american-footballer-of-the-year",
+          "label": "South American Footballer of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2592bae1/Carlos-Valderrama",
+          "verified": true,
+          "description": "FBref profile honor: 2x South American Footballer of the Year."
+        },
+        {
+          "id": "mls-mvp-award",
+          "label": "MLS MVP Award",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2592bae1/Carlos-Valderrama",
+          "verified": true,
+          "description": "FBref profile honor: 1996 MLS MVP Award."
+        }
+      ],
+      "top100Player": false
+    },
+    "casemiro": {
+      "careerStats": {
+        "clubAppearances": 376,
+        "clubGoals": 43,
+        "clubAssists": 26,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/4d224fe8/Casemiro",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2012-2013-2-la-liga-2-real-madrid-b",
+            "season": "2012-2013",
+            "competition": "2. La Liga 2",
+            "scope": "domestic-league",
+            "squad": "Real Madrid B",
+            "appearances": 15,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2012-2013-1-la-liga-real-madrid",
+            "season": "2012-2013",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 1,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2013-2014-1-la-liga-real-madrid",
+            "season": "2013-2014",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 12,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2014-2015-1-primeira-liga-porto",
+            "season": "2014-2015",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 28,
+            "goals": 3,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2015-2016-1-la-liga-real-madrid",
+            "season": "2015-2016",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 23,
+            "goals": 1,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2016-2017-1-la-liga-real-madrid",
+            "season": "2016-2017",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 25,
+            "goals": 4,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2017-2018-1-la-liga-real-madrid",
+            "season": "2017-2018",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 30,
+            "goals": 5,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2018-2019-1-la-liga-real-madrid",
+            "season": "2018-2019",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 29,
+            "goals": 3,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2019-2020-1-la-liga-real-madrid",
+            "season": "2019-2020",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 35,
+            "goals": 4,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2020-2021-1-la-liga-real-madrid",
+            "season": "2020-2021",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 34,
+            "goals": 6,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2021-2022-1-la-liga-real-madrid",
+            "season": "2021-2022",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 32,
+            "goals": 1,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2022-2023-1-la-liga-real-madrid",
+            "season": "2022-2023",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 1,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2022-2023-1-premier-league-manchester-utd",
+            "season": "2022-2023",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 28,
+            "goals": 4,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2023-2024-1-premier-league-manchester-utd",
+            "season": "2023-2024",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 25,
+            "goals": 1,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2024-2025-1-premier-league-manchester-utd",
+            "season": "2024-2025",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 24,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2025-2026-1-premier-league-manchester-utd",
+            "season": "2025-2026",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 34,
+            "goals": 9,
+            "assists": 2
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "la-liga-champion",
+          "label": "La Liga Champion",
+          "count": 3,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/4d224fe8/Casemiro",
+          "verified": true,
+          "description": "FBref profile honor: 3x La Liga Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 5,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/4d224fe8/Casemiro",
+          "verified": true,
+          "description": "FBref profile honor: 5x Champions League Champion."
+        },
+        {
+          "id": "fifa-fifpro-world-xi",
+          "label": "FIFA FIFPro World XI",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/4d224fe8/Casemiro",
+          "verified": true,
+          "description": "FBref profile honor: 2022 FIFA FIFPro World XI."
+        }
+      ],
+      "top100Player": false
     },
     "chris-wood": {
       "careerStats": {
@@ -11565,6 +12695,74 @@
       ],
       "top100Player": false
     },
+    "dirceu": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 12,
+        "nationalTeamGoals": 3,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/8d5c5924/Dirceu",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1974-1-world-cup-br-brazil",
+            "season": "1974",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "br Brazil",
+            "appearances": 4,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1978-1-world-cup-br-brazil",
+            "season": "1978",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "br Brazil",
+            "appearances": 7,
+            "goals": 3,
+            "assists": null
+          },
+          {
+            "id": "international-1982-1-world-cup-br-brazil",
+            "season": "1982",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "br Brazil",
+            "appearances": 1,
+            "goals": 0,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/8d5c5924/Dirceu",
+          "verified": true,
+          "description": "FBref profile honor: 1978 FIFA World Cup All-Star Team."
+        },
+        {
+          "id": "fifa-world-cup-bronze-ball",
+          "label": "FIFA World Cup Bronze Ball",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/8d5c5924/Dirceu",
+          "verified": true,
+          "description": "FBref profile honor: 1978 FIFA World Cup Bronze Ball."
+        }
+      ],
+      "top100Player": false
+    },
     "dominik-livakovic": {
       "careerStats": {
         "clubAppearances": 368,
@@ -12363,6 +13561,254 @@
           "sourceUrl": "https://fbref.com/en/players/19d5e43e/Edgar-Davids",
           "verified": true,
           "description": "FBref profile honor: 1998 FIFA World Cup All-Star Team."
+        }
+      ],
+      "top100Player": false
+    },
+    "edinson-cavani": {
+      "careerStats": {
+        "clubAppearances": 516,
+        "clubGoals": 275,
+        "clubAssists": 49,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/527f063d/Edinson-Cavani",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2006-2007-1-serie-a-palermo",
+            "season": "2006-2007",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Palermo",
+            "appearances": 7,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2007-2008-1-serie-a-palermo",
+            "season": "2007-2008",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Palermo",
+            "appearances": 33,
+            "goals": 5,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2008-2009-1-serie-a-palermo",
+            "season": "2008-2009",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Palermo",
+            "appearances": 35,
+            "goals": 14,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2009-2010-1-serie-a-palermo",
+            "season": "2009-2010",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Palermo",
+            "appearances": 34,
+            "goals": 13,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2010-2011-1-serie-a-napoli",
+            "season": "2010-2011",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Napoli",
+            "appearances": 35,
+            "goals": 26,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2011-2012-1-serie-a-napoli",
+            "season": "2011-2012",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Napoli",
+            "appearances": 35,
+            "goals": 23,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2012-2013-1-serie-a-napoli",
+            "season": "2012-2013",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Napoli",
+            "appearances": 34,
+            "goals": 29,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2013-2014-1-ligue-1-psg",
+            "season": "2013-2014",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 30,
+            "goals": 16,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2014-2015-1-ligue-1-psg",
+            "season": "2014-2015",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 35,
+            "goals": 18,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2015-2016-1-ligue-1-psg",
+            "season": "2015-2016",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 32,
+            "goals": 19,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2016-2017-1-ligue-1-psg",
+            "season": "2016-2017",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 36,
+            "goals": 35,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2017-2018-1-ligue-1-psg",
+            "season": "2017-2018",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 32,
+            "goals": 28,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2018-2019-1-ligue-1-psg",
+            "season": "2018-2019",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 21,
+            "goals": 18,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2019-2020-1-ligue-1-psg",
+            "season": "2019-2020",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 14,
+            "goals": 4,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2020-2021-1-premier-league-manchester-utd",
+            "season": "2020-2021",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 26,
+            "goals": 10,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2021-2022-1-premier-league-manchester-utd",
+            "season": "2021-2022",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 15,
+            "goals": 2,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2022-2023-1-la-liga-valencia",
+            "season": "2022-2023",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Valencia",
+            "appearances": 25,
+            "goals": 5,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2024-1-liga-argentina-boca-juniors",
+            "season": "2024",
+            "competition": "1. Liga Argentina",
+            "scope": "domestic-league",
+            "squad": "Boca Juniors",
+            "appearances": 17,
+            "goals": 4,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2025-1-liga-argentina-boca-juniors",
+            "season": "2025",
+            "competition": "1. Liga Argentina",
+            "scope": "domestic-league",
+            "squad": "Boca Juniors",
+            "appearances": 18,
+            "goals": 4,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2026-1-liga-argentina-boca-juniors",
+            "season": "2026",
+            "competition": "1. Liga Argentina",
+            "scope": "domestic-league",
+            "squad": "Boca Juniors",
+            "appearances": 2,
+            "goals": 0,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "ligue-1-player-of-the-year",
+          "label": "Ligue 1 Player of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/527f063d/Edinson-Cavani",
+          "verified": true,
+          "description": "FBref profile honor: 2016-17 Ligue 1 Player of the Year."
+        },
+        {
+          "id": "ligue-1-champion",
+          "label": "Ligue 1 Champion",
+          "count": 6,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/527f063d/Edinson-Cavani",
+          "verified": true,
+          "description": "FBref profile honor: 6x Ligue 1 Champion."
+        },
+        {
+          "id": "coupe-de-la-ligue-champion",
+          "label": "Coupe de la Ligue Champion",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/527f063d/Edinson-Cavani",
+          "verified": true,
+          "description": "FBref profile honor: 2x Coupe de la Ligue Champion."
         }
       ],
       "top100Player": false
@@ -14369,6 +15815,184 @@
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
     },
+    "fabio-grosso": {
+      "careerStats": {
+        "clubAppearances": 283,
+        "clubGoals": 15,
+        "clubAssists": 20,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/db77a624/Fabio-Grosso",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2001-2002-1-serie-a-perugia",
+            "season": "2001-2002",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Perugia",
+            "appearances": 24,
+            "goals": 1,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2002-2003-1-serie-a-perugia",
+            "season": "2002-2003",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Perugia",
+            "appearances": 30,
+            "goals": 4,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2003-2004-1-serie-a-perugia",
+            "season": "2003-2004",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Perugia",
+            "appearances": 13,
+            "goals": 2,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2003-2004-2-serie-b-palermo",
+            "season": "2003-2004",
+            "competition": "2. Serie B",
+            "scope": "domestic-league",
+            "squad": "Palermo",
+            "appearances": 21,
+            "goals": 1,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2004-2005-1-serie-a-palermo",
+            "season": "2004-2005",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Palermo",
+            "appearances": 36,
+            "goals": 1,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2005-2006-1-serie-a-palermo",
+            "season": "2005-2006",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Palermo",
+            "appearances": 33,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2005-2006-1-super-lg-yverdon-sport",
+            "season": "2005-2006",
+            "competition": "1. Super Lg",
+            "scope": "domestic-league",
+            "squad": "Yverdon-Sport",
+            "appearances": 3,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2006-2007-1-serie-a-inter",
+            "season": "2006-2007",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 23,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2007-2008-1-ligue-1-lyon",
+            "season": "2007-2008",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "Lyon",
+            "appearances": 30,
+            "goals": 1,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2008-2009-1-ligue-1-lyon",
+            "season": "2008-2009",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "Lyon",
+            "appearances": 22,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2009-2010-1-ligue-1-lyon",
+            "season": "2009-2010",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "Lyon",
+            "appearances": 1,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2009-2010-1-serie-a-juventus",
+            "season": "2009-2010",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 26,
+            "goals": 2,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2010-2011-1-serie-a-juventus",
+            "season": "2010-2011",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 19,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2011-2012-1-serie-a-juventus",
+            "season": "2011-2012",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 2,
+            "goals": 0,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "domestic-league-champion",
+          "label": "Domestic League Champion",
+          "count": 2,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/db77a624/Fabio-Grosso",
+          "verified": true,
+          "description": "FBref profile honor: 2x Domestic League Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/db77a624/Fabio-Grosso",
+          "verified": true,
+          "description": "FBref profile honor: 2006 World Cup Champion."
+        }
+      ],
+      "top100Player": false
+    },
     "falcao": {
       "careerStats": {
         "clubAppearances": null,
@@ -15029,6 +16653,294 @@
           "sourceUrl": "https://fbref.com/en/players/ed75b6c7/Francesco-Totti",
           "verified": true,
           "description": "FBref profile honor: 5x Serie A Italian Footballer of the Year."
+        }
+      ],
+      "top100Player": false
+    },
+    "franck-ribery": {
+      "careerStats": {
+        "clubAppearances": 441,
+        "clubGoals": 103,
+        "clubAssists": 127,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2004-2005-1-ligue-1-metz",
+            "season": "2004-2005",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "Metz",
+            "appearances": 20,
+            "goals": 2,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2004-2005-1-super-lig-galatasaray",
+            "season": "2004-2005",
+            "competition": "1. Süper Lig",
+            "scope": "domestic-league",
+            "squad": "Galatasaray",
+            "appearances": 14,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2005-2006-1-ligue-1-marseille",
+            "season": "2005-2006",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "Marseille",
+            "appearances": 35,
+            "goals": 6,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2006-2007-1-ligue-1-marseille",
+            "season": "2006-2007",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "Marseille",
+            "appearances": 25,
+            "goals": 5,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2007-2008-1-bundesliga-bayern-munich",
+            "season": "2007-2008",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 28,
+            "goals": 11,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2008-2009-1-bundesliga-bayern-munich",
+            "season": "2008-2009",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 25,
+            "goals": 9,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2009-2010-1-bundesliga-bayern-munich",
+            "season": "2009-2010",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 19,
+            "goals": 3,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2010-2011-1-bundesliga-bayern-munich",
+            "season": "2010-2011",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 25,
+            "goals": 7,
+            "assists": 12
+          },
+          {
+            "id": "domestic-league-2011-2012-1-bundesliga-bayern-munich",
+            "season": "2011-2012",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 32,
+            "goals": 12,
+            "assists": 12
+          },
+          {
+            "id": "domestic-league-2012-2013-1-bundesliga-bayern-munich",
+            "season": "2012-2013",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 27,
+            "goals": 10,
+            "assists": 14
+          },
+          {
+            "id": "domestic-league-2013-2014-1-bundesliga-bayern-munich",
+            "season": "2013-2014",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 22,
+            "goals": 10,
+            "assists": 10
+          },
+          {
+            "id": "domestic-league-2014-2015-1-bundesliga-bayern-munich",
+            "season": "2014-2015",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 15,
+            "goals": 5,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2015-2016-1-bundesliga-bayern-munich",
+            "season": "2015-2016",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 13,
+            "goals": 2,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2016-2017-1-bundesliga-bayern-munich",
+            "season": "2016-2017",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 22,
+            "goals": 5,
+            "assists": 11
+          },
+          {
+            "id": "domestic-league-2017-2018-1-bundesliga-bayern-munich",
+            "season": "2017-2018",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 20,
+            "goals": 5,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2018-2019-1-bundesliga-bayern-munich",
+            "season": "2018-2019",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 25,
+            "goals": 6,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2019-2020-1-serie-a-fiorentina",
+            "season": "2019-2020",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Fiorentina",
+            "appearances": 21,
+            "goals": 3,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2020-2021-1-serie-a-fiorentina",
+            "season": "2020-2021",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Fiorentina",
+            "appearances": 29,
+            "goals": 2,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2021-2022-1-serie-a-salernitana",
+            "season": "2021-2022",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Salernitana",
+            "appearances": 23,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2022-2023-1-serie-a-salernitana",
+            "season": "2022-2023",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Salernitana",
+            "appearances": 1,
+            "goals": 0,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "uefa-men-s-player-of-the-year",
+          "label": "UEFA Men's Player of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+          "verified": true,
+          "description": "FBref profile honor: 2012-13 UEFA Men's Player of the Year."
+        },
+        {
+          "id": "bundesliga-champion",
+          "label": "Bundesliga Champion",
+          "count": 9,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+          "verified": true,
+          "description": "FBref profile honor: 9x Bundesliga Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 1,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+          "verified": true,
+          "description": "FBref profile honor: 2012-13 Champions League Champion."
+        },
+        {
+          "id": "fifa-fifpro-world-xi",
+          "label": "FIFA FIFPro World XI",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+          "verified": true,
+          "description": "FBref profile honor: 2013 FIFA FIFPro World XI."
+        },
+        {
+          "id": "uefa-team-of-the-year",
+          "label": "UEFA Team of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+          "verified": true,
+          "description": "FBref profile honor: 2x UEFA Team of the Year."
+        },
+        {
+          "id": "french-player-of-the-year",
+          "label": "French Player of the Year",
+          "count": 3,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+          "verified": true,
+          "description": "FBref profile honor: 3x French Player of the Year."
+        },
+        {
+          "id": "german-male-footballer-of-the-year",
+          "label": "German Male Footballer of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f61c7c4e/Franck-Ribery",
+          "verified": true,
+          "description": "FBref profile honor: 2008 German Male Footballer of the Year."
         }
       ],
       "top100Player": false
@@ -16388,6 +18300,254 @@
       ],
       "top100Player": false
     },
+    "gerard-pique": {
+      "careerStats": {
+        "clubAppearances": 431,
+        "clubGoals": 31,
+        "clubAssists": 6,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/adfc9123/Gerard-Pique",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2005-2006-1-premier-league-manchester-utd",
+            "season": "2005-2006",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 3,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2006-2007-1-la-liga-zaragoza",
+            "season": "2006-2007",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Zaragoza",
+            "appearances": 22,
+            "goals": 2,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2007-2008-1-premier-league-manchester-utd",
+            "season": "2007-2008",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 9,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2008-2009-1-la-liga-barcelona",
+            "season": "2008-2009",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 25,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2009-2010-1-la-liga-barcelona",
+            "season": "2009-2010",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 32,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2010-2011-1-la-liga-barcelona",
+            "season": "2010-2011",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 31,
+            "goals": 3,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2011-2012-1-la-liga-barcelona",
+            "season": "2011-2012",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 22,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2012-2013-1-la-liga-barcelona",
+            "season": "2012-2013",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 28,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2013-2014-1-la-liga-barcelona",
+            "season": "2013-2014",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 26,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2014-2015-1-la-liga-barcelona",
+            "season": "2014-2015",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 27,
+            "goals": 5,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2015-2016-1-la-liga-barcelona",
+            "season": "2015-2016",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 30,
+            "goals": 2,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2016-2017-1-la-liga-barcelona",
+            "season": "2016-2017",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 25,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2017-2018-1-la-liga-barcelona",
+            "season": "2017-2018",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 30,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2018-2019-1-la-liga-barcelona",
+            "season": "2018-2019",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 35,
+            "goals": 4,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2019-2020-1-la-liga-barcelona",
+            "season": "2019-2020",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 35,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2020-2021-1-la-liga-barcelona",
+            "season": "2020-2021",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 18,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2021-2022-1-la-liga-barcelona",
+            "season": "2021-2022",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 27,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2022-2023-1-la-liga-barcelona",
+            "season": "2022-2023",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Barcelona",
+            "appearances": 6,
+            "goals": 0,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "domestic-league-champion",
+          "label": "Domestic League Champion",
+          "count": 10,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/adfc9123/Gerard-Pique",
+          "verified": true,
+          "description": "FBref profile honor: 10x Domestic League Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 4,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/adfc9123/Gerard-Pique",
+          "verified": true,
+          "description": "FBref profile honor: 4x Champions League Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/adfc9123/Gerard-Pique",
+          "verified": true,
+          "description": "FBref profile honor: 2010 World Cup Champion."
+        },
+        {
+          "id": "fifa-fifpro-world-xi",
+          "label": "FIFA FIFPro World XI",
+          "count": 4,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/adfc9123/Gerard-Pique",
+          "verified": true,
+          "description": "FBref profile honor: 4x FIFA FIFPro World XI."
+        },
+        {
+          "id": "uefa-team-of-the-year",
+          "label": "UEFA Team of the Year",
+          "count": 5,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/adfc9123/Gerard-Pique",
+          "verified": true,
+          "description": "FBref profile honor: 5x UEFA Team of the Year."
+        }
+      ],
+      "top100Player": false
+    },
     "gerd-muller": {
       "careerStats": {
         "clubAppearances": null,
@@ -16480,6 +18640,74 @@
         "year": 2026,
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
+    },
+    "gerson": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 5,
+        "nationalTeamGoals": 1,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/63232fb0/Gerson",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1966-1-world-cup-br-brazil",
+            "season": "1966",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "br Brazil",
+            "appearances": 1,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1970-1-world-cup-br-brazil",
+            "season": "1970",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "br Brazil",
+            "appearances": 4,
+            "goals": 1,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/63232fb0/Gerson",
+          "verified": true,
+          "description": "FBref profile honor: 1970 World Cup Champion."
+        },
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/63232fb0/Gerson",
+          "verified": true,
+          "description": "FBref profile honor: 1970 FIFA World Cup All-Star Team."
+        },
+        {
+          "id": "fifa-world-cup-silver-ball",
+          "label": "FIFA World Cup Silver Ball",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/63232fb0/Gerson",
+          "verified": true,
+          "description": "FBref profile honor: 1970 FIFA World Cup Silver Ball."
+        }
+      ],
+      "top100Player": false
     },
     "gheorghe-hagi": {
       "careerStats": {
@@ -17237,6 +19465,74 @@
         "year": 2026,
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
+    },
+    "gianni-rivera": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 9,
+        "nationalTeamGoals": 3,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/33b450cd/Gianni-Rivera",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1962-1-world-cup-it-italy",
+            "season": "1962",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "it Italy",
+            "appearances": 1,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1966-1-world-cup-it-italy",
+            "season": "1966",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "it Italy",
+            "appearances": 2,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1970-1-world-cup-it-italy",
+            "season": "1970",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "it Italy",
+            "appearances": 4,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "international-1974-1-world-cup-it-italy",
+            "season": "1974",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "it Italy",
+            "appearances": 2,
+            "goals": 1,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "ballon-d-or",
+          "label": "Ballon d'Or",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/33b450cd/Gianni-Rivera",
+          "verified": true,
+          "description": "FBref profile honor: 1969 Ballon d'Or."
+        }
+      ],
+      "top100Player": false
     },
     "goncalo-ramos": {
       "careerStats": {
@@ -20824,6 +23120,201 @@
       ],
       "top100Player": false
     },
+    "jay-jay-okocha": {
+      "careerStats": {
+        "clubAppearances": 316,
+        "clubGoals": 44,
+        "clubAssists": 22,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/66ceb871/Jay-Jay-Okocha",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1992-1993-1-bundesliga-frankfurt",
+            "season": "1992-1993",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Frankfurt",
+            "appearances": 20,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1993-1994-1-bundesliga-frankfurt",
+            "season": "1993-1994",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Frankfurt",
+            "appearances": 19,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1994-1995-1-bundesliga-frankfurt",
+            "season": "1994-1995",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Frankfurt",
+            "appearances": 27,
+            "goals": 7,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1995-1996-1-bundesliga-frankfurt",
+            "season": "1995-1996",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Frankfurt",
+            "appearances": 24,
+            "goals": 7,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1998-1999-1-division-1-psg",
+            "season": "1998-1999",
+            "competition": "1. Division 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 25,
+            "goals": 4,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1999-2000-1-division-1-psg",
+            "season": "1999-2000",
+            "competition": "1. Division 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 23,
+            "goals": 2,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2000-2001-1-division-1-psg",
+            "season": "2000-2001",
+            "competition": "1. Division 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 16,
+            "goals": 2,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2001-2002-1-division-1-psg",
+            "season": "2001-2002",
+            "competition": "1. Division 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 20,
+            "goals": 4,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2002-2003-1-premier-league-bolton",
+            "season": "2002-2003",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Bolton",
+            "appearances": 31,
+            "goals": 7,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2003-2004-1-premier-league-bolton",
+            "season": "2003-2004",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Bolton",
+            "appearances": 35,
+            "goals": 0,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2004-2005-1-premier-league-bolton",
+            "season": "2004-2005",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Bolton",
+            "appearances": 31,
+            "goals": 6,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2005-2006-1-premier-league-bolton",
+            "season": "2005-2006",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Bolton",
+            "appearances": 27,
+            "goals": 1,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2007-2008-2-championship-hull-city",
+            "season": "2007-2008",
+            "competition": "2. Championship",
+            "scope": "domestic-league",
+            "squad": "Hull City",
+            "appearances": 18,
+            "goals": 0,
+            "assists": 3
+          }
+        ]
+      },
+      "accolades": [],
+      "top100Player": false
+    },
+    "jean-marie-pfaff": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 10,
+        "nationalTeamGoals": 0,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/4eadde7b/Jean-Marie-Pfaff",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1982-1-world-cup-be-belgium",
+            "season": "1982",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "be Belgium",
+            "appearances": 3,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1986-1-world-cup-be-belgium",
+            "season": "1986",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "be Belgium",
+            "appearances": 7,
+            "goals": 0,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/4eadde7b/Jean-Marie-Pfaff",
+          "verified": true,
+          "description": "FBref profile honor: 1986 FIFA World Cup All-Star Team."
+        }
+      ],
+      "top100Player": false
+    },
     "jean-tigana": {
       "careerStats": {
         "clubAppearances": null,
@@ -21315,6 +23806,264 @@
         ]
       },
       "accolades": [],
+      "top100Player": false
+    },
+    "jerome-boateng": {
+      "careerStats": {
+        "clubAppearances": 378,
+        "clubGoals": 5,
+        "clubAssists": 19,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/2db2fd7b/Jerome-Boateng",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2006-2007-1-bundesliga-hertha-bsc",
+            "season": "2006-2007",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Hertha BSC",
+            "appearances": 10,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2007-2008-1-bundesliga-hamburger-sv",
+            "season": "2007-2008",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Hamburger SV",
+            "appearances": 27,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2008-2009-1-bundesliga-hamburger-sv",
+            "season": "2008-2009",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Hamburger SV",
+            "appearances": 21,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2009-2010-1-bundesliga-hamburger-sv",
+            "season": "2009-2010",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Hamburger SV",
+            "appearances": 27,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2010-2011-1-premier-league-manchester-city",
+            "season": "2010-2011",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester City",
+            "appearances": 16,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2011-2012-1-bundesliga-bayern-munich",
+            "season": "2011-2012",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 27,
+            "goals": 0,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2012-2013-1-bundesliga-bayern-munich",
+            "season": "2012-2013",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 26,
+            "goals": 2,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2013-2014-1-bundesliga-bayern-munich",
+            "season": "2013-2014",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 25,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2014-2015-1-bundesliga-bayern-munich",
+            "season": "2014-2015",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 27,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2015-2016-1-bundesliga-bayern-munich",
+            "season": "2015-2016",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 19,
+            "goals": 0,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2016-2017-1-bundesliga-bayern-munich",
+            "season": "2016-2017",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 13,
+            "goals": 0,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2017-2018-1-bundesliga-bayern-munich",
+            "season": "2017-2018",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 19,
+            "goals": 1,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2018-2019-1-bundesliga-bayern-munich",
+            "season": "2018-2019",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 20,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2019-2020-1-bundesliga-bayern-munich",
+            "season": "2019-2020",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 24,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2020-2021-1-bundesliga-bayern-munich",
+            "season": "2020-2021",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 29,
+            "goals": 1,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2021-2022-1-ligue-1-lyon",
+            "season": "2021-2022",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "Lyon",
+            "appearances": 24,
+            "goals": 0,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2022-2023-1-ligue-1-lyon",
+            "season": "2022-2023",
+            "competition": "1. Ligue 1",
+            "scope": "domestic-league",
+            "squad": "Lyon",
+            "appearances": 8,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2023-2024-1-serie-a-salernitana",
+            "season": "2023-2024",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Salernitana",
+            "appearances": 7,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2024-2025-1-bundesliga-lask",
+            "season": "2024-2025",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "LASK",
+            "appearances": 9,
+            "goals": 0,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "bundesliga-champion",
+          "label": "Bundesliga Champion",
+          "count": 9,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2db2fd7b/Jerome-Boateng",
+          "verified": true,
+          "description": "FBref profile honor: 9x Bundesliga Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 2,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2db2fd7b/Jerome-Boateng",
+          "verified": true,
+          "description": "FBref profile honor: 2x Champions League Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2db2fd7b/Jerome-Boateng",
+          "verified": true,
+          "description": "FBref profile honor: 2014 World Cup Champion."
+        },
+        {
+          "id": "uefa-team-of-the-year",
+          "label": "UEFA Team of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2db2fd7b/Jerome-Boateng",
+          "verified": true,
+          "description": "FBref profile honor: 2016 UEFA Team of the Year."
+        },
+        {
+          "id": "german-male-footballer-of-the-year",
+          "label": "German Male Footballer of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2db2fd7b/Jerome-Boateng",
+          "verified": true,
+          "description": "FBref profile honor: 2016 German Male Footballer of the Year."
+        }
+      ],
       "top100Player": false
     },
     "joel-campbell": {
@@ -22146,6 +24895,124 @@
       ],
       "top100Player": false
     },
+    "jorginho": {
+      "careerStats": {
+        "clubAppearances": 154,
+        "clubGoals": 15,
+        "clubAssists": null,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/9d4c380a/Jorginho",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1989-1990-1-bundesliga-leverkusen",
+            "season": "1989-1990",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Leverkusen",
+            "appearances": 20,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1990-1991-1-bundesliga-leverkusen",
+            "season": "1990-1991",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Leverkusen",
+            "appearances": 30,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1991-1992-1-bundesliga-leverkusen",
+            "season": "1991-1992",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Leverkusen",
+            "appearances": 37,
+            "goals": 5,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1992-1993-1-bundesliga-bayern-munich",
+            "season": "1992-1993",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 33,
+            "goals": 3,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1993-1994-1-bundesliga-bayern-munich",
+            "season": "1993-1994",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 24,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1994-1995-1-bundesliga-bayern-munich",
+            "season": "1994-1995",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 10,
+            "goals": 1,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "bundesliga-champion",
+          "label": "Bundesliga Champion",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/9d4c380a/Jorginho",
+          "verified": true,
+          "description": "FBref profile honor: 1993-94 Bundesliga Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/9d4c380a/Jorginho",
+          "verified": true,
+          "description": "FBref profile honor: 1994 World Cup Champion."
+        },
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/9d4c380a/Jorginho",
+          "verified": true,
+          "description": "FBref profile honor: 1994 FIFA World Cup All-Star Team."
+        },
+        {
+          "id": "japan-j-league-player-of-the-year",
+          "label": "Japan J.League Player of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/9d4c380a/Jorginho",
+          "verified": true,
+          "description": "FBref profile honor: 1996 Japan J.League Player of the Year."
+        }
+      ],
+      "top100Player": false
+    },
     "jose-luis-chilavert": {
       "careerStats": {
         "clubAppearances": 96,
@@ -22697,6 +25564,224 @@
       "accolades": [],
       "top100Player": false
     },
+    "juan-cuadrado": {
+      "careerStats": {
+        "clubAppearances": 427,
+        "clubGoals": 44,
+        "clubAssists": 60,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/0ab1f153/Juan-Cuadrado",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2009-2010-1-serie-a-udinese",
+            "season": "2009-2010",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Udinese",
+            "appearances": 11,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2010-2011-1-serie-a-udinese",
+            "season": "2010-2011",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Udinese",
+            "appearances": 9,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2011-2012-1-serie-a-lecce",
+            "season": "2011-2012",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Lecce",
+            "appearances": 33,
+            "goals": 3,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2012-2013-1-serie-a-fiorentina",
+            "season": "2012-2013",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Fiorentina",
+            "appearances": 36,
+            "goals": 5,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2013-2014-1-serie-a-fiorentina",
+            "season": "2013-2014",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Fiorentina",
+            "appearances": 32,
+            "goals": 11,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2014-2015-1-serie-a-fiorentina",
+            "season": "2014-2015",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Fiorentina",
+            "appearances": 17,
+            "goals": 4,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2014-2015-1-premier-league-chelsea",
+            "season": "2014-2015",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Chelsea",
+            "appearances": 12,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2015-2016-1-premier-league-chelsea",
+            "season": "2015-2016",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Chelsea",
+            "appearances": 1,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2015-2016-1-serie-a-juventus",
+            "season": "2015-2016",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 28,
+            "goals": 4,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2016-2017-1-serie-a-juventus",
+            "season": "2016-2017",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 30,
+            "goals": 2,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2017-2018-1-serie-a-juventus",
+            "season": "2017-2018",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 21,
+            "goals": 4,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2018-2019-1-serie-a-juventus",
+            "season": "2018-2019",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 18,
+            "goals": 1,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2019-2020-1-serie-a-juventus",
+            "season": "2019-2020",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 33,
+            "goals": 2,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2020-2021-1-serie-a-juventus",
+            "season": "2020-2021",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 30,
+            "goals": 2,
+            "assists": 10
+          },
+          {
+            "id": "domestic-league-2021-2022-1-serie-a-juventus",
+            "season": "2021-2022",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 33,
+            "goals": 4,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2022-2023-1-serie-a-juventus",
+            "season": "2022-2023",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 31,
+            "goals": 1,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2023-2024-1-serie-a-inter",
+            "season": "2023-2024",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 10,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2024-2025-1-serie-a-atalanta",
+            "season": "2024-2025",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Atalanta",
+            "appearances": 23,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2025-2026-1-serie-a-pisa",
+            "season": "2025-2026",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Pisa",
+            "appearances": 19,
+            "goals": 1,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "domestic-league-champion",
+          "label": "Domestic League Champion",
+          "count": 7,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/0ab1f153/Juan-Cuadrado",
+          "verified": true,
+          "description": "FBref profile honor: 7x Domestic League Champion."
+        }
+      ],
+      "top100Player": false
+    },
     "juan-roman-riquelme": {
       "careerStats": {
         "clubAppearances": 136,
@@ -22781,6 +25866,154 @@
           "sourceUrl": "https://fbref.com/en/players/04381207/Juan-Roman-Riquelme",
           "verified": true,
           "description": "FBref profile honor: 4x Argentina Footballer of the Year."
+        }
+      ],
+      "top100Player": false
+    },
+    "juan-sebastian-veron": {
+      "careerStats": {
+        "clubAppearances": 247,
+        "clubGoals": 31,
+        "clubAssists": 34,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/f11a57c1/Juan-Sebastian-Veron",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1996-1997-1-serie-a-sampdoria",
+            "season": "1996-1997",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Sampdoria",
+            "appearances": 32,
+            "goals": 5,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1997-1998-1-serie-a-sampdoria",
+            "season": "1997-1998",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Sampdoria",
+            "appearances": 29,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1998-1999-1-serie-a-parma",
+            "season": "1998-1999",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Parma",
+            "appearances": 26,
+            "goals": 1,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-1999-2000-1-serie-a-lazio",
+            "season": "1999-2000",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Lazio",
+            "appearances": 31,
+            "goals": 8,
+            "assists": 11
+          },
+          {
+            "id": "domestic-league-2000-2001-1-serie-a-lazio",
+            "season": "2000-2001",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Lazio",
+            "appearances": 22,
+            "goals": 3,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2001-2002-1-premier-league-manchester-utd",
+            "season": "2001-2002",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 26,
+            "goals": 5,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2002-2003-1-premier-league-manchester-utd",
+            "season": "2002-2003",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester Utd",
+            "appearances": 25,
+            "goals": 3,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2003-2004-1-premier-league-chelsea",
+            "season": "2003-2004",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Chelsea",
+            "appearances": 7,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2004-2005-1-serie-a-inter",
+            "season": "2004-2005",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 24,
+            "goals": 3,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2005-2006-1-serie-a-inter",
+            "season": "2005-2006",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 25,
+            "goals": 0,
+            "assists": 3
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "south-american-footballer-of-the-year",
+          "label": "South American Footballer of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f11a57c1/Juan-Sebastian-Veron",
+          "verified": true,
+          "description": "FBref profile honor: 2x South American Footballer of the Year."
+        },
+        {
+          "id": "domestic-league-champion",
+          "label": "Domestic League Champion",
+          "count": 3,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f11a57c1/Juan-Sebastian-Veron",
+          "verified": true,
+          "description": "FBref profile honor: 3x Domestic League Champion."
+        },
+        {
+          "id": "argentina-footballer-of-the-year",
+          "label": "Argentina Footballer of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f11a57c1/Juan-Sebastian-Veron",
+          "verified": true,
+          "description": "FBref profile honor: 2x Argentina Footballer of the Year."
         }
       ],
       "top100Player": false
@@ -23774,6 +27007,94 @@
           "sourceUrl": "https://fbref.com/en/players/da974c7b/Kalidou-Koulibaly",
           "verified": true,
           "description": "FBref profile honor: 2023-24 Saudi Pro League Champion."
+        }
+      ],
+      "top100Player": false
+    },
+    "karl-heinz-rummenigge": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 19,
+        "nationalTeamGoals": 9,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/53b3b85c/Karl-Heinz-Rummenigge",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1978-1-world-cup-de-west-germany",
+            "season": "1978",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "de West Germany",
+            "appearances": 5,
+            "goals": 3,
+            "assists": null
+          },
+          {
+            "id": "international-1982-1-world-cup-de-west-germany",
+            "season": "1982",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "de West Germany",
+            "appearances": 7,
+            "goals": 5,
+            "assists": null
+          },
+          {
+            "id": "international-1986-1-world-cup-de-west-germany",
+            "season": "1986",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "de West Germany",
+            "appearances": 7,
+            "goals": 1,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "ballon-d-or",
+          "label": "Ballon d'Or",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/53b3b85c/Karl-Heinz-Rummenigge",
+          "verified": true,
+          "description": "FBref profile honor: 2x Ballon d'Or."
+        },
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/53b3b85c/Karl-Heinz-Rummenigge",
+          "verified": true,
+          "description": "FBref profile honor: 1982 FIFA World Cup All-Star Team."
+        },
+        {
+          "id": "german-male-footballer-of-the-year",
+          "label": "German Male Footballer of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/53b3b85c/Karl-Heinz-Rummenigge",
+          "verified": true,
+          "description": "FBref profile honor: 1980 German Male Footballer of the Year."
+        },
+        {
+          "id": "fifa-world-cup-bronze-ball",
+          "label": "FIFA World Cup Bronze Ball",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/53b3b85c/Karl-Heinz-Rummenigge",
+          "verified": true,
+          "description": "FBref profile honor: 1982 FIFA World Cup Bronze Ball."
         }
       ],
       "top100Player": false
@@ -25479,6 +28800,64 @@
         "year": 2026,
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
+    },
+    "ladislao-mazurkiewicz": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 13,
+        "nationalTeamGoals": 0,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/803a033e/Ladislao-Mazurkiewicz",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1966-1-world-cup-uy-uruguay",
+            "season": "1966",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "uy Uruguay",
+            "appearances": 4,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1970-1-world-cup-uy-uruguay",
+            "season": "1970",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "uy Uruguay",
+            "appearances": 6,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1974-1-world-cup-uy-uruguay",
+            "season": "1974",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "uy Uruguay",
+            "appearances": 3,
+            "goals": 0,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/803a033e/Ladislao-Mazurkiewicz",
+          "verified": true,
+          "description": "FBref profile honor: 1970 FIFA World Cup All-Star Team."
+        }
+      ],
+      "top100Player": false
     },
     "landon-donovan": {
       "careerStats": {
@@ -29784,6 +33163,64 @@
       ],
       "top100Player": false
     },
+    "marco-tardelli": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 13,
+        "nationalTeamGoals": 2,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/8e63b4a1/Marco-Tardelli",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1978-1-world-cup-it-italy",
+            "season": "1978",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "it Italy",
+            "appearances": 6,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1982-1-world-cup-it-italy",
+            "season": "1982",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "it Italy",
+            "appearances": 7,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "international-1986-1-world-cup-it-italy",
+            "season": "1986",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "it Italy",
+            "appearances": 0,
+            "goals": null,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/8e63b4a1/Marco-Tardelli",
+          "verified": true,
+          "description": "FBref profile honor: 1982 World Cup Champion."
+        }
+      ],
+      "top100Player": false
+    },
     "marcos": {
       "careerStats": {
         "clubAppearances": null,
@@ -30148,6 +33585,214 @@
       ],
       "top100Player": false
     },
+    "mario-gotze": {
+      "careerStats": {
+        "clubAppearances": 385,
+        "clubGoals": 75,
+        "clubAssists": 65,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/9efa1d25/Mario-Gotze",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2009-2010-1-bundesliga-dortmund",
+            "season": "2009-2010",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Dortmund",
+            "appearances": 5,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2010-2011-1-bundesliga-dortmund",
+            "season": "2010-2011",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Dortmund",
+            "appearances": 33,
+            "goals": 6,
+            "assists": 11
+          },
+          {
+            "id": "domestic-league-2011-2012-1-bundesliga-dortmund",
+            "season": "2011-2012",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Dortmund",
+            "appearances": 17,
+            "goals": 6,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2012-2013-1-bundesliga-dortmund",
+            "season": "2012-2013",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Dortmund",
+            "appearances": 28,
+            "goals": 10,
+            "assists": 10
+          },
+          {
+            "id": "domestic-league-2013-2014-1-bundesliga-bayern-munich",
+            "season": "2013-2014",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 27,
+            "goals": 10,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2014-2015-1-bundesliga-bayern-munich",
+            "season": "2014-2015",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 32,
+            "goals": 9,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2015-2016-1-bundesliga-bayern-munich",
+            "season": "2015-2016",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 14,
+            "goals": 3,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2016-2017-1-bundesliga-dortmund",
+            "season": "2016-2017",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Dortmund",
+            "appearances": 11,
+            "goals": 1,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2017-2018-1-bundesliga-dortmund",
+            "season": "2017-2018",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Dortmund",
+            "appearances": 23,
+            "goals": 2,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2018-2019-1-bundesliga-dortmund",
+            "season": "2018-2019",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Dortmund",
+            "appearances": 26,
+            "goals": 7,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2019-2020-1-bundesliga-dortmund",
+            "season": "2019-2020",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Dortmund",
+            "appearances": 15,
+            "goals": 3,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2020-2021-1-eredivisie-psv",
+            "season": "2020-2021",
+            "competition": "1. Eredivisie",
+            "scope": "domestic-league",
+            "squad": "PSV",
+            "appearances": 18,
+            "goals": 5,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2021-2022-1-eredivisie-psv",
+            "season": "2021-2022",
+            "competition": "1. Eredivisie",
+            "scope": "domestic-league",
+            "squad": "PSV",
+            "appearances": 29,
+            "goals": 4,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2022-2023-1-bundesliga-frankfurt",
+            "season": "2022-2023",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Frankfurt",
+            "appearances": 32,
+            "goals": 3,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2023-2024-1-bundesliga-frankfurt",
+            "season": "2023-2024",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Frankfurt",
+            "appearances": 30,
+            "goals": 3,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2024-2025-1-bundesliga-frankfurt",
+            "season": "2024-2025",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Frankfurt",
+            "appearances": 24,
+            "goals": 3,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2025-2026-1-bundesliga-frankfurt",
+            "season": "2025-2026",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Frankfurt",
+            "appearances": 21,
+            "goals": 0,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "bundesliga-champion",
+          "label": "Bundesliga Champion",
+          "count": 5,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/9efa1d25/Mario-Gotze",
+          "verified": true,
+          "description": "FBref profile honor: 5x Bundesliga Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/9efa1d25/Mario-Gotze",
+          "verified": true,
+          "description": "FBref profile honor: 2014 World Cup Champion."
+        }
+      ],
+      "top100Player": false
+    },
     "mario-kempes": {
       "careerStats": {
         "clubAppearances": null,
@@ -30242,6 +33887,194 @@
           "sourceUrl": "https://fbref.com/en/players/42fe1917/Mario-Kempes",
           "verified": true,
           "description": "FBref profile honor: 1978 FIFA World Cup Golden Ball."
+        }
+      ],
+      "top100Player": false
+    },
+    "mario-mandzukic": {
+      "careerStats": {
+        "clubAppearances": 347,
+        "clubGoals": 138,
+        "clubAssists": 58,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/afa0d4e0/Mario-Mandzukic",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2007-2008-1-1-hnl-dinamo-zagreb",
+            "season": "2007-2008",
+            "competition": "1. 1. HNL",
+            "scope": "domestic-league",
+            "squad": "Dinamo Zagreb",
+            "appearances": 29,
+            "goals": 12,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2008-2009-1-1-hnl-dinamo-zagreb",
+            "season": "2008-2009",
+            "competition": "1. 1. HNL",
+            "scope": "domestic-league",
+            "squad": "Dinamo Zagreb",
+            "appearances": 28,
+            "goals": 16,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2009-2010-1-1-hnl-dinamo-zagreb",
+            "season": "2009-2010",
+            "competition": "1. 1. HNL",
+            "scope": "domestic-league",
+            "squad": "Dinamo Zagreb",
+            "appearances": 24,
+            "goals": 14,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2010-2011-1-bundesliga-wolfsburg",
+            "season": "2010-2011",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Wolfsburg",
+            "appearances": 24,
+            "goals": 8,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2011-2012-1-bundesliga-wolfsburg",
+            "season": "2011-2012",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Wolfsburg",
+            "appearances": 32,
+            "goals": 12,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2012-2013-1-bundesliga-bayern-munich",
+            "season": "2012-2013",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 24,
+            "goals": 15,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2013-2014-1-bundesliga-bayern-munich",
+            "season": "2013-2014",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 30,
+            "goals": 18,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2014-2015-1-la-liga-atletico-madrid",
+            "season": "2014-2015",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Atlético Madrid",
+            "appearances": 28,
+            "goals": 12,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2015-2016-1-serie-a-juventus",
+            "season": "2015-2016",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 27,
+            "goals": 10,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2016-2017-1-serie-a-juventus",
+            "season": "2016-2017",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 34,
+            "goals": 7,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2017-2018-1-serie-a-juventus",
+            "season": "2017-2018",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 32,
+            "goals": 5,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2018-2019-1-serie-a-juventus",
+            "season": "2018-2019",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 25,
+            "goals": 9,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2019-2020-1-serie-a-juventus",
+            "season": "2019-2020",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 0,
+            "goals": null,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-2020-2021-1-serie-a-milan",
+            "season": "2020-2021",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 10,
+            "goals": 0,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "domestic-league-champion",
+          "label": "Domestic League Champion",
+          "count": 9,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/afa0d4e0/Mario-Mandzukic",
+          "verified": true,
+          "description": "FBref profile honor: 9x Domestic League Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 1,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/afa0d4e0/Mario-Mandzukic",
+          "verified": true,
+          "description": "FBref profile honor: 2012-13 Champions League Champion."
+        },
+        {
+          "id": "croatian-footballer-of-the-year",
+          "label": "Croatian Footballer of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/afa0d4e0/Mario-Mandzukic",
+          "verified": true,
+          "description": "FBref profile honor: 2x Croatian Footballer of the Year."
         }
       ],
       "top100Player": false
@@ -34635,6 +38468,54 @@
       ],
       "top100Player": false
     },
+    "osvaldo-ardiles": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 11,
+        "nationalTeamGoals": 1,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/6a32e74b/Osvaldo-Ardiles",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1978-1-world-cup-ar-argentina",
+            "season": "1978",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "ar Argentina",
+            "appearances": 6,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1982-1-world-cup-ar-argentina",
+            "season": "1982",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "ar Argentina",
+            "appearances": 5,
+            "goals": 1,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/6a32e74b/Osvaldo-Ardiles",
+          "verified": true,
+          "description": "FBref profile honor: 1978 World Cup Champion."
+        }
+      ],
+      "top100Player": false
+    },
     "pablo-zabaleta": {
       "careerStats": {
         "clubAppearances": 383,
@@ -35357,6 +39238,264 @@
       ],
       "top100Player": false
     },
+    "patrick-vieira": {
+      "careerStats": {
+        "clubAppearances": 420,
+        "clubGoals": 42,
+        "clubAssists": 45,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1995-1996-1-division-1-cannes",
+            "season": "1995-1996",
+            "competition": "1. Division 1",
+            "scope": "domestic-league",
+            "squad": "Cannes",
+            "appearances": 13,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1995-1996-1-serie-a-milan",
+            "season": "1995-1996",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 2,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1996-1997-1-premier-league-arsenal",
+            "season": "1996-1997",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 31,
+            "goals": 2,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-1997-1998-1-premier-league-arsenal",
+            "season": "1997-1998",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 33,
+            "goals": 2,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-1998-1999-1-premier-league-arsenal",
+            "season": "1998-1999",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 34,
+            "goals": 3,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-1999-2000-1-premier-league-arsenal",
+            "season": "1999-2000",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 30,
+            "goals": 2,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2000-2001-1-premier-league-arsenal",
+            "season": "2000-2001",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 30,
+            "goals": 5,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2001-2002-1-premier-league-arsenal",
+            "season": "2001-2002",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 36,
+            "goals": 2,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2002-2003-1-premier-league-arsenal",
+            "season": "2002-2003",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 24,
+            "goals": 3,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2003-2004-1-premier-league-arsenal",
+            "season": "2003-2004",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 29,
+            "goals": 3,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2004-2005-1-premier-league-arsenal",
+            "season": "2004-2005",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Arsenal",
+            "appearances": 32,
+            "goals": 6,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2005-2006-1-serie-a-juventus",
+            "season": "2005-2006",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Juventus",
+            "appearances": 31,
+            "goals": 5,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2006-2007-1-serie-a-inter",
+            "season": "2006-2007",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 20,
+            "goals": 1,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2007-2008-1-serie-a-inter",
+            "season": "2007-2008",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 16,
+            "goals": 3,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2008-2009-1-serie-a-inter",
+            "season": "2008-2009",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 19,
+            "goals": 1,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2009-2010-1-serie-a-inter",
+            "season": "2009-2010",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 12,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2009-2010-1-premier-league-manchester-city",
+            "season": "2009-2010",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester City",
+            "appearances": 13,
+            "goals": 1,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2010-2011-1-premier-league-manchester-city",
+            "season": "2010-2011",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Manchester City",
+            "appearances": 15,
+            "goals": 2,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "premier-league-player-of-the-season",
+          "label": "Premier League Player of the Season",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+          "verified": true,
+          "description": "FBref profile honor: 2000-01 Premier League Player of the Season."
+        },
+        {
+          "id": "domestic-league-champion",
+          "label": "Domestic League Champion",
+          "count": 7,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+          "verified": true,
+          "description": "FBref profile honor: 7x Domestic League Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+          "verified": true,
+          "description": "FBref profile honor: 1998 World Cup Champion."
+        },
+        {
+          "id": "uefa-team-of-the-year",
+          "label": "UEFA Team of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+          "verified": true,
+          "description": "FBref profile honor: 2001 UEFA Team of the Year."
+        },
+        {
+          "id": "fifa-world-cup-all-star-team",
+          "label": "FIFA World Cup All-Star Team",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+          "verified": true,
+          "description": "FBref profile honor: 2006 FIFA World Cup All-Star Team."
+        },
+        {
+          "id": "french-player-of-the-year",
+          "label": "French Player of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/f90f1086/Patrick-Vieira",
+          "verified": true,
+          "description": "FBref profile honor: 2001 French Player of the Year."
+        }
+      ],
+      "top100Player": false
+    },
     "paul-breitner": {
       "careerStats": {
         "clubAppearances": null,
@@ -36062,6 +40201,284 @@
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
     },
+    "pepe": {
+      "careerStats": {
+        "clubAppearances": 521,
+        "clubGoals": 34,
+        "clubAssists": 17,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/c906ce0f/Pepe",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2001-2002-1-primeira-liga-maritimo",
+            "season": "2001-2002",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Marítimo",
+            "appearances": 4,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-2002-2003-1-primeira-liga-maritimo",
+            "season": "2002-2003",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Marítimo",
+            "appearances": 29,
+            "goals": 2,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2003-2004-1-primeira-liga-maritimo",
+            "season": "2003-2004",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Marítimo",
+            "appearances": 30,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2004-2005-1-primeira-liga-porto",
+            "season": "2004-2005",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 15,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2005-2006-1-primeira-liga-porto",
+            "season": "2005-2006",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 24,
+            "goals": 1,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2006-2007-1-primeira-liga-porto",
+            "season": "2006-2007",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 25,
+            "goals": 4,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2007-2008-1-la-liga-real-madrid",
+            "season": "2007-2008",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 19,
+            "goals": 0,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2008-2009-1-la-liga-real-madrid",
+            "season": "2008-2009",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 26,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2009-2010-1-la-liga-real-madrid",
+            "season": "2009-2010",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 10,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2010-2011-1-la-liga-real-madrid",
+            "season": "2010-2011",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 26,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2011-2012-1-la-liga-real-madrid",
+            "season": "2011-2012",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 29,
+            "goals": 1,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2012-2013-1-la-liga-real-madrid",
+            "season": "2012-2013",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 28,
+            "goals": 1,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2013-2014-1-la-liga-real-madrid",
+            "season": "2013-2014",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 30,
+            "goals": 4,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2014-2015-1-la-liga-real-madrid",
+            "season": "2014-2015",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 27,
+            "goals": 2,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2015-2016-1-la-liga-real-madrid",
+            "season": "2015-2016",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 21,
+            "goals": 1,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2016-2017-1-la-liga-real-madrid",
+            "season": "2016-2017",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 13,
+            "goals": 2,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2017-2018-1-super-lig-besiktas",
+            "season": "2017-2018",
+            "competition": "1. Süper Lig",
+            "scope": "domestic-league",
+            "squad": "Beşiktaş",
+            "appearances": 23,
+            "goals": 2,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2018-2019-1-super-lig-besiktas",
+            "season": "2018-2019",
+            "competition": "1. Süper Lig",
+            "scope": "domestic-league",
+            "squad": "Beşiktaş",
+            "appearances": 10,
+            "goals": 3,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2018-2019-1-primeira-liga-porto",
+            "season": "2018-2019",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 13,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2019-2020-1-primeira-liga-porto",
+            "season": "2019-2020",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 25,
+            "goals": 1,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2020-2021-1-primeira-liga-porto",
+            "season": "2020-2021",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 27,
+            "goals": 2,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2021-2022-1-primeira-liga-porto",
+            "season": "2021-2022",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 21,
+            "goals": 1,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2022-2023-1-primeira-liga-porto",
+            "season": "2022-2023",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 24,
+            "goals": 0,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2023-2024-1-primeira-liga-porto",
+            "season": "2023-2024",
+            "competition": "1. Primeira Liga",
+            "scope": "domestic-league",
+            "squad": "Porto",
+            "appearances": 22,
+            "goals": 1,
+            "assists": 1
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "domestic-league-champion",
+          "label": "Domestic League Champion",
+          "count": 7,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/c906ce0f/Pepe",
+          "verified": true,
+          "description": "FBref profile honor: 7x Domestic League Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 3,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/c906ce0f/Pepe",
+          "verified": true,
+          "description": "FBref profile honor: 3x Champions League Champion."
+        }
+      ],
+      "top100Player": false
+    },
     "peter-schmeichel": {
       "careerStats": {
         "clubAppearances": 332,
@@ -36216,6 +40633,64 @@
           "sourceUrl": "https://fbref.com/en/players/f1fe7ffe/Peter-Schmeichel",
           "verified": true,
           "description": "FBref profile honor: 3x Danish Male Footballer of the Year."
+        }
+      ],
+      "top100Player": false
+    },
+    "peter-shilton": {
+      "careerStats": {
+        "clubAppearances": null,
+        "clubGoals": null,
+        "clubAssists": null,
+        "nationalTeamAppearances": 17,
+        "nationalTeamGoals": 0,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/9ee3b365/Peter-Shilton",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "international-1982-1-world-cup-eng-england",
+            "season": "1982",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "eng England",
+            "appearances": 5,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1986-1-world-cup-eng-england",
+            "season": "1986",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "eng England",
+            "appearances": 5,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "international-1990-1-world-cup-eng-england",
+            "season": "1990",
+            "competition": "1. World Cup",
+            "scope": "international",
+            "squad": "eng England",
+            "appearances": 7,
+            "goals": 0,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "pfa-players-player-of-the-year",
+          "label": "PFA Players' Player of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/9ee3b365/Peter-Shilton",
+          "verified": true,
+          "description": "FBref profile honor: 1977-78 PFA Players' Player of the Year."
         }
       ],
       "top100Player": false
@@ -37309,6 +41784,271 @@
           "description": "FBref profile honor: 2018 UEFA Team of the Year."
         }
       ],
+      "top100Player": false
+    },
+    "raul": {
+      "careerStats": {
+        "clubAppearances": 644,
+        "clubGoals": 266,
+        "clubAssists": 59,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/2b81295d/Raul",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1994-1995-1-la-liga-real-madrid",
+            "season": "1994-1995",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 28,
+            "goals": 9,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1995-1996-1-la-liga-real-madrid",
+            "season": "1995-1996",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 40,
+            "goals": 19,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1996-1997-1-la-liga-real-madrid",
+            "season": "1996-1997",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 42,
+            "goals": 21,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1997-1998-1-la-liga-real-madrid",
+            "season": "1997-1998",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 35,
+            "goals": 10,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1998-1999-1-la-liga-real-madrid",
+            "season": "1998-1999",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 37,
+            "goals": 25,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1999-2000-1-la-liga-real-madrid",
+            "season": "1999-2000",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 34,
+            "goals": 17,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2000-2001-1-la-liga-real-madrid",
+            "season": "2000-2001",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 36,
+            "goals": 24,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2001-2002-1-la-liga-real-madrid",
+            "season": "2001-2002",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 35,
+            "goals": 15,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2002-2003-1-la-liga-real-madrid",
+            "season": "2002-2003",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 31,
+            "goals": 16,
+            "assists": 10
+          },
+          {
+            "id": "domestic-league-2003-2004-1-la-liga-real-madrid",
+            "season": "2003-2004",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 35,
+            "goals": 11,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2004-2005-1-la-liga-real-madrid",
+            "season": "2004-2005",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 32,
+            "goals": 9,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2005-2006-1-la-liga-real-madrid",
+            "season": "2005-2006",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 26,
+            "goals": 5,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2006-2007-1-la-liga-real-madrid",
+            "season": "2006-2007",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 35,
+            "goals": 8,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2007-2008-1-la-liga-real-madrid",
+            "season": "2007-2008",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 37,
+            "goals": 18,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2008-2009-1-la-liga-real-madrid",
+            "season": "2008-2009",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 37,
+            "goals": 18,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2009-2010-1-la-liga-real-madrid",
+            "season": "2009-2010",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 30,
+            "goals": 5,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2010-2011-1-bundesliga-schalke-04",
+            "season": "2010-2011",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Schalke 04",
+            "appearances": 34,
+            "goals": 13,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2011-2012-1-bundesliga-schalke-04",
+            "season": "2011-2012",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Schalke 04",
+            "appearances": 32,
+            "goals": 15,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2015-2-nasl-ny-cosmos",
+            "season": "2015",
+            "competition": "2. NASL",
+            "scope": "domestic-league",
+            "squad": "NY Cosmos",
+            "appearances": 28,
+            "goals": 8,
+            "assists": 2
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "la-liga-champion",
+          "label": "La Liga Champion",
+          "count": 6,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2b81295d/Raul",
+          "verified": true,
+          "description": "FBref profile honor: 6x La Liga Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 3,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2b81295d/Raul",
+          "verified": true,
+          "description": "FBref profile honor: 3x Champions League Champion."
+        },
+        {
+          "id": "trofeo-alfredo-di-stefano",
+          "label": "Trofeo Alfredo Di Stéfano",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/2b81295d/Raul",
+          "verified": true,
+          "description": "FBref profile honor: 2007-08 Trofeo Alfredo Di Stéfano."
+        }
+      ],
+      "top100Player": false
+    },
+    "rene-higuita": {
+      "careerStats": {
+        "clubAppearances": 15,
+        "clubGoals": 0,
+        "clubAssists": null,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/a45cdb7e/Rene-Higuita",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1991-1992-1-la-liga-valladolid",
+            "season": "1991-1992",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Valladolid",
+            "appearances": 15,
+            "goals": 0,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [],
       "top100Player": false
     },
     "rene-houseman": {
@@ -40224,6 +44964,114 @@
         "year": 2026,
         "note": "Explicit archive curation representing players in a broad all-time Top 100 conversation; it is independent of tournament-card rating and is not presented as an external published ranking."
       }
+    },
+    "rudi-voller": {
+      "careerStats": {
+        "clubAppearances": 183,
+        "clubGoals": 68,
+        "clubAssists": null,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/cbcf1eee/Rudi-Voller",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1988-1989-1-serie-a-roma",
+            "season": "1988-1989",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 29,
+            "goals": 10,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1989-1990-1-serie-a-roma",
+            "season": "1989-1990",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 32,
+            "goals": 14,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1990-1991-1-serie-a-roma",
+            "season": "1990-1991",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 30,
+            "goals": 11,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1991-1992-1-serie-a-roma",
+            "season": "1991-1992",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Roma",
+            "appearances": 30,
+            "goals": 7,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1994-1995-1-bundesliga-leverkusen",
+            "season": "1994-1995",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Leverkusen",
+            "appearances": 30,
+            "goals": 16,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1995-1996-1-bundesliga-leverkusen",
+            "season": "1995-1996",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Leverkusen",
+            "appearances": 32,
+            "goals": 10,
+            "assists": null
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 1,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/cbcf1eee/Rudi-Voller",
+          "verified": true,
+          "description": "FBref profile honor: 1992-93 Champions League Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/cbcf1eee/Rudi-Voller",
+          "verified": true,
+          "description": "FBref profile honor: 1990 World Cup Champion."
+        },
+        {
+          "id": "german-male-footballer-of-the-year",
+          "label": "German Male Footballer of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/cbcf1eee/Rudi-Voller",
+          "verified": true,
+          "description": "FBref profile honor: 1983 German Male Footballer of the Year."
+        }
+      ],
+      "top100Player": false
     },
     "rustu-recber": {
       "careerStats": {
@@ -47112,6 +51960,164 @@
       ],
       "top100Player": false
     },
+    "vinicius-junior": {
+      "careerStats": {
+        "clubAppearances": 279,
+        "clubGoals": 84,
+        "clubAssists": 45,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/7111d552/Vinicius-Junior",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2017-1-serie-a-flamengo",
+            "season": "2017",
+            "competition": "1. Série A",
+            "scope": "domestic-league",
+            "squad": "Flamengo",
+            "appearances": 25,
+            "goals": 3,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2018-1-serie-a-flamengo",
+            "season": "2018",
+            "competition": "1. Série A",
+            "scope": "domestic-league",
+            "squad": "Flamengo",
+            "appearances": 12,
+            "goals": 4,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2018-2019-1-la-liga-real-madrid",
+            "season": "2018-2019",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 18,
+            "goals": 2,
+            "assists": 0
+          },
+          {
+            "id": "domestic-league-2019-2020-1-la-liga-real-madrid",
+            "season": "2019-2020",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 29,
+            "goals": 3,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2020-2021-1-la-liga-real-madrid",
+            "season": "2020-2021",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 35,
+            "goals": 3,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2021-2022-1-la-liga-real-madrid",
+            "season": "2021-2022",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 35,
+            "goals": 17,
+            "assists": 10
+          },
+          {
+            "id": "domestic-league-2022-2023-1-la-liga-real-madrid",
+            "season": "2022-2023",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 33,
+            "goals": 10,
+            "assists": 9
+          },
+          {
+            "id": "domestic-league-2023-2024-1-la-liga-real-madrid",
+            "season": "2023-2024",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 26,
+            "goals": 15,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2024-2025-1-la-liga-real-madrid",
+            "season": "2024-2025",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 30,
+            "goals": 11,
+            "assists": 8
+          },
+          {
+            "id": "domestic-league-2025-2026-1-la-liga-real-madrid",
+            "season": "2025-2026",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 36,
+            "goals": 16,
+            "assists": 5
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "the-best-fifa-men-s-player",
+          "label": "The Best FIFA Men's Player",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/7111d552/Vinicius-Junior",
+          "verified": true,
+          "description": "FBref profile honor: 2024 The Best FIFA Men's Player."
+        },
+        {
+          "id": "la-liga-champion",
+          "label": "La Liga Champion",
+          "count": 3,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/7111d552/Vinicius-Junior",
+          "verified": true,
+          "description": "FBref profile honor: 3x La Liga Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 2,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/7111d552/Vinicius-Junior",
+          "verified": true,
+          "description": "FBref profile honor: 2x Champions League Champion."
+        },
+        {
+          "id": "fifa-fifpro-world-xi",
+          "label": "FIFA FIFPro World XI",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/7111d552/Vinicius-Junior",
+          "verified": true,
+          "description": "FBref profile honor: 2x FIFA FIFPro World XI."
+        }
+      ],
+      "top100Player": false
+    },
     "wahbi-khazri": {
       "careerStats": {
         "clubAppearances": 421,
@@ -47966,6 +52972,244 @@
           "sourceUrl": "https://fbref.com/en/players/456470e3/Wolfgang-Overath",
           "verified": true,
           "description": "FBref profile honor: 1974 FIFA World Cup All-Star Team."
+        }
+      ],
+      "top100Player": false
+    },
+    "xabi-alonso": {
+      "careerStats": {
+        "clubAppearances": 496,
+        "clubGoals": 32,
+        "clubAssists": 52,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/dc001a06/Xabi-Alonso",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-2000-2001-1-la-liga-real-sociedad",
+            "season": "2000-2001",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Sociedad",
+            "appearances": 18,
+            "goals": 0,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2001-2002-1-la-liga-real-sociedad",
+            "season": "2001-2002",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Sociedad",
+            "appearances": 30,
+            "goals": 3,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2002-2003-1-la-liga-real-sociedad",
+            "season": "2002-2003",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Sociedad",
+            "appearances": 33,
+            "goals": 3,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2003-2004-1-la-liga-real-sociedad",
+            "season": "2003-2004",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Sociedad",
+            "appearances": 35,
+            "goals": 3,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2004-2005-1-premier-league-liverpool",
+            "season": "2004-2005",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Liverpool",
+            "appearances": 24,
+            "goals": 2,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2005-2006-1-premier-league-liverpool",
+            "season": "2005-2006",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Liverpool",
+            "appearances": 35,
+            "goals": 3,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2006-2007-1-premier-league-liverpool",
+            "season": "2006-2007",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Liverpool",
+            "appearances": 32,
+            "goals": 4,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2007-2008-1-premier-league-liverpool",
+            "season": "2007-2008",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Liverpool",
+            "appearances": 19,
+            "goals": 2,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2008-2009-1-premier-league-liverpool",
+            "season": "2008-2009",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Liverpool",
+            "appearances": 33,
+            "goals": 3,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2009-2010-1-la-liga-real-madrid",
+            "season": "2009-2010",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 34,
+            "goals": 3,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2010-2011-1-la-liga-real-madrid",
+            "season": "2010-2011",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 34,
+            "goals": 0,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2011-2012-1-la-liga-real-madrid",
+            "season": "2011-2012",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 36,
+            "goals": 1,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2012-2013-1-la-liga-real-madrid",
+            "season": "2012-2013",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 28,
+            "goals": 0,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2013-2014-1-la-liga-real-madrid",
+            "season": "2013-2014",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 26,
+            "goals": 0,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2014-2015-1-la-liga-real-madrid",
+            "season": "2014-2015",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Real Madrid",
+            "appearances": 0,
+            "goals": null,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-2014-2015-1-bundesliga-bayern-munich",
+            "season": "2014-2015",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 26,
+            "goals": 2,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2015-2016-1-bundesliga-bayern-munich",
+            "season": "2015-2016",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 26,
+            "goals": 0,
+            "assists": 2
+          },
+          {
+            "id": "domestic-league-2016-2017-1-bundesliga-bayern-munich",
+            "season": "2016-2017",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Bayern Munich",
+            "appearances": 27,
+            "goals": 3,
+            "assists": 2
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "domestic-league-champion",
+          "label": "Domestic League Champion",
+          "count": 4,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/dc001a06/Xabi-Alonso",
+          "verified": true,
+          "description": "FBref profile honor: 4x Domestic League Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 2,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/dc001a06/Xabi-Alonso",
+          "verified": true,
+          "description": "FBref profile honor: 2x Champions League Champion."
+        },
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/dc001a06/Xabi-Alonso",
+          "verified": true,
+          "description": "FBref profile honor: 2010 World Cup Champion."
+        },
+        {
+          "id": "fifa-fifpro-world-xi",
+          "label": "FIFA FIFPro World XI",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/dc001a06/Xabi-Alonso",
+          "verified": true,
+          "description": "FBref profile honor: 2x FIFA FIFPro World XI."
         }
       ],
       "top100Player": false
@@ -48865,6 +54109,164 @@
       ],
       "top100Player": false
     },
+    "youri-djorkaeff": {
+      "careerStats": {
+        "clubAppearances": 300,
+        "clubGoals": 88,
+        "clubAssists": 35,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/e9f1bedd/Youri-Djorkaeff",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1995-1996-1-division-1-psg",
+            "season": "1995-1996",
+            "competition": "1. Division 1",
+            "scope": "domestic-league",
+            "squad": "PSG",
+            "appearances": 35,
+            "goals": 13,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1996-1997-1-serie-a-inter",
+            "season": "1996-1997",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 33,
+            "goals": 14,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1997-1998-1-serie-a-inter",
+            "season": "1997-1998",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 29,
+            "goals": 8,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1998-1999-1-serie-a-inter",
+            "season": "1998-1999",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Inter",
+            "appearances": 25,
+            "goals": 8,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-1999-2000-1-bundesliga-kaiserslautern",
+            "season": "1999-2000",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Kaiserslautern",
+            "appearances": 25,
+            "goals": 11,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2000-2001-1-bundesliga-kaiserslautern",
+            "season": "2000-2001",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Kaiserslautern",
+            "appearances": 26,
+            "goals": 3,
+            "assists": 6
+          },
+          {
+            "id": "domestic-league-2001-2002-1-bundesliga-kaiserslautern",
+            "season": "2001-2002",
+            "competition": "1. Bundesliga",
+            "scope": "domestic-league",
+            "squad": "Kaiserslautern",
+            "appearances": 4,
+            "goals": 0,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2001-2002-1-premier-league-bolton",
+            "season": "2001-2002",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Bolton",
+            "appearances": 12,
+            "goals": 4,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2002-2003-1-premier-league-bolton",
+            "season": "2002-2003",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Bolton",
+            "appearances": 36,
+            "goals": 7,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-2003-2004-1-premier-league-bolton",
+            "season": "2003-2004",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Bolton",
+            "appearances": 27,
+            "goals": 8,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2004-2005-1-premier-league-blackburn",
+            "season": "2004-2005",
+            "competition": "1. Premier League",
+            "scope": "domestic-league",
+            "squad": "Blackburn",
+            "appearances": 3,
+            "goals": 0,
+            "assists": 1
+          },
+          {
+            "id": "domestic-league-2005-1-mls-metrostars",
+            "season": "2005",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "MetroStars",
+            "appearances": 24,
+            "goals": 10,
+            "assists": 5
+          },
+          {
+            "id": "domestic-league-2006-1-mls-ny-red-bulls",
+            "season": "2006",
+            "competition": "1. MLS",
+            "scope": "domestic-league",
+            "squad": "NY Red Bulls",
+            "appearances": 21,
+            "goals": 2,
+            "assists": 4
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "world-cup-champion",
+          "label": "World Cup Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/e9f1bedd/Youri-Djorkaeff",
+          "verified": true,
+          "description": "FBref profile honor: 1998 World Cup Champion."
+        }
+      ],
+      "top100Player": false
+    },
     "yuji-nakazawa": {
       "careerStats": {
         "clubAppearances": 158,
@@ -49641,6 +55043,164 @@
           "sourceUrl": "https://fbref.com/en/players/4cde5509/Zlatan-Ibrahimovic",
           "verified": true,
           "description": "FBref profile honor: 12x Swedish Golden Ball."
+        }
+      ],
+      "top100Player": false
+    },
+    "zvonimir-boban": {
+      "careerStats": {
+        "clubAppearances": 199,
+        "clubGoals": 22,
+        "clubAssists": 14,
+        "nationalTeamAppearances": null,
+        "nationalTeamGoals": null,
+        "sourceName": "FBref",
+        "sourceUrl": "https://fbref.com/en/players/d588d6d5/Zvonimir-Boban",
+        "retrievedOn": "2026-07-19",
+        "coverageNote": "FBref coverage varies by competition and era; null values remain unknown.",
+        "competitionStats": [
+          {
+            "id": "domestic-league-1991-1992-1-serie-a-bari",
+            "season": "1991-1992",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Bari",
+            "appearances": 17,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1992-1993-1-serie-a-milan",
+            "season": "1992-1993",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 13,
+            "goals": 0,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1993-1994-1-serie-a-milan",
+            "season": "1993-1994",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 20,
+            "goals": 4,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1994-1995-1-serie-a-milan",
+            "season": "1994-1995",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 21,
+            "goals": 1,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1995-1996-1-serie-a-milan",
+            "season": "1995-1996",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 13,
+            "goals": 3,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1996-1997-1-serie-a-milan",
+            "season": "1996-1997",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 28,
+            "goals": 1,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1997-1998-1-serie-a-milan",
+            "season": "1997-1998",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 23,
+            "goals": 2,
+            "assists": null
+          },
+          {
+            "id": "domestic-league-1998-1999-1-serie-a-milan",
+            "season": "1998-1999",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 27,
+            "goals": 2,
+            "assists": 4
+          },
+          {
+            "id": "domestic-league-1999-2000-1-serie-a-milan",
+            "season": "1999-2000",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 17,
+            "goals": 6,
+            "assists": 7
+          },
+          {
+            "id": "domestic-league-2000-2001-1-serie-a-milan",
+            "season": "2000-2001",
+            "competition": "1. Serie A",
+            "scope": "domestic-league",
+            "squad": "Milan",
+            "appearances": 16,
+            "goals": 1,
+            "assists": 3
+          },
+          {
+            "id": "domestic-league-2001-2002-1-la-liga-celta-vigo",
+            "season": "2001-2002",
+            "competition": "1. La Liga",
+            "scope": "domestic-league",
+            "squad": "Celta Vigo",
+            "appearances": 4,
+            "goals": 0,
+            "assists": 0
+          }
+        ]
+      },
+      "accolades": [
+        {
+          "id": "serie-a-champion",
+          "label": "Serie A Champion",
+          "count": 4,
+          "category": "domestic-league",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/d588d6d5/Zvonimir-Boban",
+          "verified": true,
+          "description": "FBref profile honor: 4x Serie A Champion."
+        },
+        {
+          "id": "uefa-champions-league-champion",
+          "label": "UEFA Champions League Champion",
+          "count": 1,
+          "category": "continental",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/d588d6d5/Zvonimir-Boban",
+          "verified": true,
+          "description": "FBref profile honor: 1993-94 Champions League Champion."
+        },
+        {
+          "id": "croatian-footballer-of-the-year",
+          "label": "Croatian Footballer of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "FBref",
+          "sourceUrl": "https://fbref.com/en/players/d588d6d5/Zvonimir-Boban",
+          "verified": true,
+          "description": "FBref profile honor: 2x Croatian Footballer of the Year."
         }
       ],
       "top100Player": false

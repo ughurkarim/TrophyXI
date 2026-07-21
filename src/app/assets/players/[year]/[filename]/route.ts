@@ -3,7 +3,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 
 const safeYear = /^\d{4}$/;
-const safeFilename = /^[\p{L}\p{M}0-9-]+\.(?:png|webp)$/u;
+const safeFilename = /^[\p{L}\p{M}0-9-]+\.(?:png|webp|jpe?g)$/u;
 
 export async function GET(
   _request: Request,
@@ -21,7 +21,9 @@ export async function GET(
     );
     const contentType = filename.endsWith(".webp")
       ? "image/webp"
-      : "image/png";
+      : /\.jpe?g$/i.test(filename)
+        ? "image/jpeg"
+        : "image/png";
     return new NextResponse(new Uint8Array(image), {
       headers: {
         "Content-Type": contentType,
