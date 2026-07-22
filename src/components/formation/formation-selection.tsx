@@ -106,6 +106,7 @@ export function FormationSelection({
             onSelect={() => setSelected(formation.id)}
             managerFit={managerFit}
             eraFit={eraFit}
+            showEraFit={eraId !== "all"}
           />
         ))}
       </div>

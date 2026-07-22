@@ -28,7 +28,7 @@ function PickerHarness({
 }
 
 describe("FreeManagerPicker", () => {
-  it("keeps the active archive in a compact searchable picker", async () => {
+  it("keeps the manager pool ranked, filtered, and searchable", async () => {
     const user = userEvent.setup();
     render(
       <PickerHarness onContinue={vi.fn()} onInspect={vi.fn()} />,
@@ -36,13 +36,17 @@ describe("FreeManagerPicker", () => {
 
     expect(screen.getByTestId("free-manager-picker")).toBeVisible();
     expect(
-      screen.getAllByRole("button", { name: /^choose .*era fit/i }),
+      screen.getAllByRole("button", { name: /^choose /i }),
     ).toHaveLength(managers.length);
     expect(
-      screen.getByText(
-        `${managers.length} of ${managers.length} managers · Neutral / All Eras`,
-      ),
+      screen.getByText(new RegExp(`${managers.length} of ${managers.length} managers`, "i")),
     ).toBeVisible();
+    expect(screen.getByLabelText("Manager nation")).toBeVisible();
+    expect(screen.getByLabelText("Manager era")).toBeVisible();
+    expect(screen.getByLabelText("Tactical style")).toBeVisible();
+    expect(screen.getByLabelText("Preferred formation")).toBeVisible();
+    expect(screen.getByLabelText("Sort managers")).toHaveValue("quality");
+    expect(screen.queryByText("ERA FIT")).not.toBeInTheDocument();
 
     const search = screen.getByRole("searchbox", {
       name: "Search managers",
@@ -50,7 +54,7 @@ describe("FreeManagerPicker", () => {
     await user.type(search, managers[0].managerName);
 
     expect(
-      screen.getAllByRole("button", { name: /^choose .*era fit/i }),
+      screen.getAllByRole("button", { name: /^choose /i }),
     ).toHaveLength(1);
     expect(
       screen.getByRole("button", {
@@ -72,11 +76,12 @@ describe("FreeManagerPicker", () => {
     });
     expect(confirm).toBeDisabled();
 
-    const choices = screen.getAllByRole("button", {
-      name: /^choose .*era fit/i,
+    const firstChoice = screen.getByRole("button", {
+      name: new RegExp(`choose ${managers[0].managerName}.*${managers[0].tournamentYear}`, "i"),
     });
-    const firstChoice = choices[0];
-    const secondChoice = choices[1];
+    const secondChoice = screen.getByRole("button", {
+      name: new RegExp(`choose ${managers[1].managerName}.*${managers[1].tournamentYear}`, "i"),
+    });
     await user.click(firstChoice);
     expect(firstChoice).toHaveAttribute("aria-pressed", "true");
     expect(confirm).toBeEnabled();
@@ -89,7 +94,7 @@ describe("FreeManagerPicker", () => {
     await user.click(
       screen.getByRole("button", {
         name: new RegExp(
-          `view manager record for ${managers[1].managerName}, ${managers[1].teamName} ${managers[1].tournamentYear}`,
+          `view profile for ${managers[1].managerName}, ${managers[1].teamName} ${managers[1].tournamentYear}`,
           "i",
         ),
       }),
@@ -103,7 +108,7 @@ describe("FreeManagerPicker", () => {
     expect(onContinue).toHaveBeenCalledOnce();
   });
 
-  it("exposes the confirmed manager as locked when returning to the picker", () => {
+  it("keeps a previously confirmed manager editable when returning", () => {
     render(
       <FreeManagerPicker
         managers={managers}
@@ -116,14 +121,13 @@ describe("FreeManagerPicker", () => {
       />,
     );
 
-    expect(screen.getAllByText(/selection locked/i)).toHaveLength(2);
     expect(
       screen
-        .getAllByRole("button", { name: /^choose .*era fit/i })
-        .every((choice) => choice.hasAttribute("disabled")),
+        .getAllByRole("button", { name: /^choose /i })
+        .every((choice) => !choice.hasAttribute("disabled")),
     ).toBe(true);
     expect(
-      screen.getByRole("button", { name: /continue to formation/i }),
+      screen.getByRole("button", { name: /confirm manager/i }),
     ).toBeEnabled();
   });
 });

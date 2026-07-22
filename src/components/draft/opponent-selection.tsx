@@ -1,11 +1,11 @@
 "use client";
 
-import { Check, Crown, Shield, Sparkles, Swords } from "lucide-react";
+import Image from "next/image";
+import { Check, Crown, Eye, Sparkles, Swords, X } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { managerGradeLabel } from "@/data/managers";
 import { historicalOpponents, worldCupAllStars } from "@/data/opponents";
-import { playersById } from "@/data/players";
-import { calculateOpponentEraFit } from "@/engine/era-translation";
 import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
@@ -25,22 +25,10 @@ export function OpponentSelection({
   onContinue: () => void;
   onEditSquad?: () => void;
 }) {
+  const [viewingSquad, setViewingSquad] =
+    useState<HistoricalWorldCupTeam | null>(null);
   const selectedOpponentId = useGameStore((state) => state.selectedOpponentId);
-  const picks = useGameStore((state) => state.picks);
-  const benchPicks = useGameStore((state) => state.benchPicks);
   const selectOpponent = useGameStore((state) => state.selectOpponent);
-  const usedIdentityIds = new Set(
-    [...picks, ...benchPicks]
-      .map((pick) => playersById.get(pick.cardId)?.playerIdentityId)
-      .filter((id): id is string => Boolean(id)),
-  );
-  const conflictNamesFor = (opponent: HistoricalWorldCupTeam) =>
-    [...opponent.startingLineup, ...opponent.substitutes]
-      .filter((player) => usedIdentityIds.has(player.playerIdentityId))
-      .map((player) => player.name);
-  const conflictingChampions = historicalOpponents.filter(
-    (opponent) => conflictNamesFor(opponent).length > 0,
-  );
   const selected =
     selectedOpponentId === worldCupAllStars.id
       ? worldCupAllStars
@@ -51,17 +39,20 @@ export function OpponentSelection({
   const managerEraFit = calculateManagerEraFit(allStarsManager, eraId).score;
 
   return (
-    <section className="opponent-selection" aria-labelledby="opponent-heading">
+    <section
+      className={`opponent-selection ${styles.selection}`}
+      aria-labelledby="opponent-heading"
+    >
       <div className="opponent-selection__heading">
         <div>
           <span className="eyebrow eyebrow--gold">WORLD CUP GAUNTLET</span>
           <h2 id="opponent-heading">Choose your opponent.</h2>
           <p>
-            Face one of fourteen World Cup champions or the ultimate All-Stars
+            Face one of fifteen World Cup champions or the ultimate All-Stars
             challenge.
           </p>
         </div>
-        <strong>14 CHAMPIONS</strong>
+        <strong>{historicalOpponents.length} CHAMPIONS</strong>
       </div>
 
       <section className="opponent-featured" aria-labelledby="featured-heading">
@@ -85,9 +76,6 @@ export function OpponentSelection({
           aria-pressed={selectedOpponentId === worldCupAllStars.id}
           aria-label="Select World Cup All-Stars, Mythic difficulty"
         >
-          <div className="all-stars-seal" aria-hidden>
-            XI
-          </div>
           <div className={styles.featuredBody}>
             <div className={`opponent-card__title ${styles.featuredTitle}`}>
               <span>WORLD CUP ALL-STARS</span>
@@ -124,7 +112,9 @@ export function OpponentSelection({
                     label: "Game Management",
                     value: allStarsManager.gameManagement,
                   },
-                  { label: "Era Fit", value: managerEraFit },
+                  ...(eraId === "all"
+                    ? []
+                    : [{ label: "Era Fit", value: managerEraFit }]),
                 ].map((metric) => (
                   <div key={metric.label}>
                     <dt>{metric.label}</dt>
@@ -161,38 +151,29 @@ export function OpponentSelection({
           <div>
             <span className="eyebrow">CHAMPIONS</span>
             <h3 id="historical-opponents-heading">
-              World Cup winners, newest first
+              Fifteen champions. One knockout match.
             </h3>
           </div>
           <b>{historicalOpponents.length} teams</b>
         </div>
-        <div className="opponent-grid">
-          {historicalOpponents.map((opponent) => (
+        <div className={`opponent-grid ${styles.championGrid}`}>
+          {[...historicalOpponents]
+            .sort(
+              (first, second) =>
+                (second.tournamentYear ?? 0) -
+                (first.tournamentYear ?? 0),
+            )
+            .map((opponent) => (
             <OpponentCard
               key={opponent.id}
               opponent={opponent}
-              eraId={eraId}
               selected={opponent.id === selectedOpponentId}
-              conflictNames={conflictNamesFor(opponent)}
               onSelect={() => selectOpponent(opponent.id)}
+              onViewSquad={() => setViewingSquad(opponent)}
             />
           ))}
         </div>
-        {conflictingChampions.length > 0 && (
-          <p className={styles.conflictNotice} role="status">
-            {conflictingChampions.length}{" "}
-            {conflictingChampions.length === 1 ? "champion shares" : "champions share"}{" "}
-            a player with your squad.{" "}
-            {onEditSquad
-              ? "Edit the squad to make that opponent available."
-              : "Choose another champion or World Cup All-Stars."}
-          </p>
-        )}
       </section>
-
-      {selected?.kind !== "all-stars" && (
-        <ChampionDossier opponent={selected} eraId={eraId} />
-      )}
 
       <div className={`opponent-selection__continue ${styles.footer}`}>
         <div className={styles.footerCopy} aria-live="polite">
@@ -206,6 +187,14 @@ export function OpponentSelection({
           </b>
         </div>
         <div className={styles.footerActions}>
+          {selected && (
+            <Button
+              variant="secondary"
+              onClick={() => setViewingSquad(selected)}
+            >
+              <Eye size={15} aria-hidden /> View XI
+            </Button>
+          )}
           {onEditSquad && (
             <Button variant="secondary" onClick={onEditSquad}>
               Edit squad
@@ -220,6 +209,12 @@ export function OpponentSelection({
           </Button>
         </div>
       </div>
+      {viewingSquad && (
+        <OpponentSquadDrawer
+          opponent={viewingSquad}
+          onClose={() => setViewingSquad(null)}
+        />
+      )}
     </section>
   );
 }
@@ -272,66 +267,79 @@ function SelectedMark({
 
 function OpponentCard({
   opponent,
-  eraId,
   selected,
-  conflictNames,
   onSelect,
+  onViewSquad,
 }: {
   opponent: HistoricalWorldCupTeam;
-  eraId: DraftEraId;
   selected: boolean;
-  conflictNames: string[];
   onSelect: () => void;
+  onViewSquad: () => void;
 }) {
-  const unavailable = conflictNames.length > 0;
+  const presentation = championPresentationFor(opponent);
   return (
-    <button
-      type="button"
+    <article
       className={`opponent-card opponent-card--champion ${
         styles.historicalCard
       } ${selected ? "opponent-card--selected" : ""}`}
-      onClick={onSelect}
-      disabled={unavailable}
-      aria-pressed={selected}
-      aria-controls={selected ? "selected-champion-dossier" : undefined}
-      aria-label={
-        unavailable
-          ? `${opponent.nationName} ${opponent.tournamentYear} unavailable: ${conflictNames.join(", ")} already represents your squad`
-          : `Select ${opponent.nationName} ${opponent.tournamentYear}, ${opponent.difficulty} difficulty`
-      }
     >
-      <div className="opponent-card__title">
-        <span>
-          {opponent.nationCode}{" "}
-          <i aria-hidden>{flagForCountry(opponent.nationCode)}</i>
+      <button
+        type="button"
+        className={styles.cardPick}
+        onClick={onSelect}
+        aria-pressed={selected}
+        aria-label={`Select ${opponent.nationName} ${opponent.tournamentYear}, ${opponent.difficulty} difficulty`}
+      />
+      <div className={styles.championImage} aria-hidden>
+        {presentation?.image ? (
+          <Image
+            src={presentation.image}
+            alt=""
+            fill
+            sizes="(max-width: 720px) 94vw, (max-width: 1100px) 48vw, 300px"
+            className={styles.championPlayer}
+          />
+        ) : (
+          <span>PHOTO PENDING</span>
+        )}
+      </div>
+      <div className={styles.cardContent}>
+        <div className="opponent-card__title">
+          <span>
+            {opponent.nationCode}{" "}
+            <i aria-hidden>{flagForCountry(opponent.nationCode)}</i>
+          </span>
+          <b>{opponent.tournamentYear}</b>
+        </div>
+        <span className={styles.championLabel}>
+          <Crown size={12} aria-hidden /> WORLD CHAMPION
         </span>
-        <b>{opponent.tournamentYear}</b>
+        <h3>{opponent.nationName}</h3>
+        <strong className={styles.playerName}>
+          {presentation?.player ?? "Representative player pending"}
+        </strong>
+        <p className={styles.championBlurb}>
+          {presentation?.blurb ?? opponent.championFact}
+        </p>
+        <dl className={styles.cardTactics}>
+          <div><dt>Manager</dt><dd>{opponent.managerName}</dd></div>
+          <div><dt>Shape</dt><dd>{opponent.formationLabel ?? opponent.formation}</dd></div>
+        </dl>
+        <Ratings opponent={opponent} />
       </div>
-      <h3>
-        <Crown size={14} aria-label="Champion" />
-        {opponent.nationName}
-      </h3>
-      <p>World Cup Champion</p>
-      <Ratings opponent={opponent} />
-      <div className={`opponent-card__dossier ${styles.tacticalLabel}`}>
-        <span>{opponent.tacticalProfile}</span>
-      </div>
-      <div className="opponent-card__meta">
-        <span>
-          <Shield size={12} aria-hidden />{" "}
-          {opponent.formationLabel ?? opponent.formation}
-        </span>
-        <span>ERA {calculateOpponentEraFit(opponent, eraId)}</span>
-        <span>{opponent.difficulty}</span>
-      </div>
-      {unavailable && (
-        <span className={styles.conflictLabel}>SQUAD CONFLICT</span>
-      )}
       <SelectedMark
         selected={selected}
         className={styles.cardSelectionMark}
       />
-    </button>
+      <button
+        type="button"
+        className={styles.viewXi}
+        onClick={onViewSquad}
+        aria-label={`View ${opponent.nationName} ${opponent.tournamentYear} lineup`}
+      >
+        View XI
+      </button>
+    </article>
   );
 }
 
@@ -346,7 +354,7 @@ function PlayerList({
     <ol className={styles.squadList} aria-label={label}>
       {players.map((player) => (
         <li key={`${player.playerIdentityId}-${player.position}`}>
-          <span>{player.position}</span>
+          <span>{player.position === "LCB" || player.position === "RCB" ? "CB" : player.position}</span>
           <b>{player.name}</b>
           {player.rating !== undefined && <small>{player.rating}</small>}
         </li>
@@ -355,21 +363,24 @@ function PlayerList({
   );
 }
 
-function ChampionDossier({
+function OpponentSquadDrawer({
   opponent,
-  eraId,
+  onClose,
 }: {
-  opponent?: HistoricalWorldCupTeam;
-  eraId: DraftEraId;
+  opponent: HistoricalWorldCupTeam;
+  onClose: () => void;
 }) {
-  if (!opponent) return null;
-
   return (
-    <section
-      id="selected-champion-dossier"
-      className={styles.championDossier}
+    <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
+      <aside
+      className={styles.squadDrawer}
+      role="dialog"
+      aria-modal="true"
       aria-labelledby="selected-champion-heading"
-      aria-live="polite"
+      onMouseDown={(event) => event.stopPropagation()}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") onClose();
+      }}
     >
       <header className={styles.dossierHeader}>
         <div>
@@ -379,10 +390,9 @@ function ChampionDossier({
             {opponent.tournamentYear}
           </h3>
         </div>
-        <span className={styles.dossierDifficulty}>
-          {opponent.difficulty} · ERA{" "}
-          {calculateOpponentEraFit(opponent, eraId)}
-        </span>
+        <button className="icon-button" onClick={onClose} aria-label="Close opponent lineup" autoFocus>
+          <X size={17} aria-hidden />
+        </button>
       </header>
 
       <div className={styles.dossierSummary}>
@@ -397,9 +407,6 @@ function ChampionDossier({
           </div>
         </dl>
         <p>{opponent.tacticalProfile}</p>
-        {opponent.championFact && (
-          <blockquote>{opponent.championFact}</blockquote>
-        )}
         <Ratings opponent={opponent} className={styles.dossierRatings} />
       </div>
 
@@ -423,6 +430,33 @@ function ChampionDossier({
           />
         </section>
       </div>
-    </section>
+      </aside>
+    </div>
   );
 }
+
+const championPresentations: Record<
+  number,
+  { player: string; image: string; blurb: string }
+> = {
+  2026: { player: "Lamine Yamal", image: "/assets/opponent/lamine2026.png", blurb: "Yamal's fearless right-wing creativity drove Spain through seven straight wins and to a second world title." },
+  2022: { player: "Lionel Messi", image: "/assets/opponent/messi2022.png", blurb: "Messi led Argentina through an opening shock and lifted the trophy after a final for the ages." },
+  2018: { player: "Paul Pogba", image: "/assets/opponent/pogba2018.png", blurb: "Pogba commanded the final and crowned France's devastating transition game with the decisive third goal." },
+  2014: { player: "Mario Götze", image: "/assets/opponent/gotze2014.png", blurb: "Götze's extra-time finish sealed Germany's fourth title at the end of a relentless campaign." },
+  2010: { player: "Andrés Iniesta", image: "/assets/opponent/iniesta2010.png", blurb: "Iniesta's extra-time strike completed Spain's control-heavy recovery from defeat in their opening match." },
+  2006: { player: "Andrea Pirlo", image: "/assets/opponent/pirlo2006.png", blurb: "Pirlo orchestrated Italy's unbeaten run and set the tempo for a side that conceded only twice." },
+  2002: { player: "Ronaldo Nazário", image: "/assets/winners/2002.webp?opponent-gallery=v2", blurb: "Ronaldo scored eight as Brazil won seven straight matches and secured a fifth star." },
+  1998: { player: "Zinedine Zidane", image: "/assets/winners/1998.jpeg?opponent-gallery=v2", blurb: "Zidane's two final headers turned France's home tournament into a first world title." },
+  1994: { player: "Romário", image: "/assets/winners/1994.webp?opponent-gallery=v2", blurb: "Romário's movement and finishing ended Brazil's 24-year wait for the trophy." },
+  1990: { player: "Lothar Matthäus", image: "/assets/winners/1990.jpg?opponent-gallery=v2", blurb: "Matthäus drove West Germany's structured control on the road to a third title." },
+  1986: { player: "Diego Maradona", image: "/assets/winners/1986.jpeg?opponent-gallery=v2", blurb: "Maradona delivered one of football's defining individual tournament campaigns." },
+  1982: { player: "Paolo Rossi", image: "/assets/winners/1982.jpg?opponent-gallery=v2", blurb: "Rossi's six goals powered Italy's knockout surge and earned him the Golden Boot." },
+  1978: { player: "Daniel Passarella", image: "/assets/winners/1978.jpeg?opponent-gallery=v2", blurb: "Passarella captained Argentina's intense home triumph and first world championship." },
+  1974: { player: "Franz Beckenbauer", image: "/assets/winners/1974.jpeg?opponent-gallery=v2", blurb: "Beckenbauer's sweeper authority guided West Germany through a comeback in the final." },
+  1970: { player: "Pelé", image: "/assets/winners/1970.png?opponent-gallery=v2", blurb: "Pelé completed his third triumph as Brazil won every match with fluid attacking brilliance." },
+};
+
+const championPresentationFor = (opponent: HistoricalWorldCupTeam) =>
+  opponent.tournamentYear
+    ? championPresentations[opponent.tournamentYear]
+    : undefined;

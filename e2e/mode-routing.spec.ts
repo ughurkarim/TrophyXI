@@ -4,11 +4,25 @@ test("Free Selection keeps the full manager archive searchable and locks on Cont
   page,
 }) => {
   await page.goto("/play");
-  await page.getByRole("button", { name: /free selection/i }).click();
+  const freeSelection = page.getByRole("button", { name: /free selection/i });
+  await freeSelection.click();
   await expect(page).toHaveURL(/\/play$/);
-  await page
-    .getByRole("button", { name: "CONFIRM FREE SELECTION" })
-    .click();
+  await expect(freeSelection).toHaveAttribute("aria-pressed", "true");
+  await expect(freeSelection.locator("svg")).toHaveCount(2);
+  await expect(page.getByText(/saved run/i)).toHaveCount(0);
+  await expect(page.getByText(/archive xi/i)).toHaveCount(0);
+  const modeCardHeights = await page
+    .locator("button[aria-describedby]")
+    .evaluateAll((cards) =>
+      cards.map((card) => Math.round(card.getBoundingClientRect().height)),
+    );
+  expect(new Set(modeCardHeights).size).toBe(1);
+  const continueButton = page.getByRole("button", { name: "CONTINUE" });
+  const continueBeforeHover = await continueButton.boundingBox();
+  await continueButton.hover();
+  const continueAfterHover = await continueButton.boundingBox();
+  expect(continueAfterHover).toEqual(continueBeforeHover);
+  await continueButton.click();
   await page.getByRole("button", { name: /choose neutral/i }).click();
 
   const search = page.getByPlaceholder(
@@ -119,9 +133,7 @@ test("World Cup Run enters the standard draft after formation selection", async 
   await page.goto("/play");
   await page.getByRole("button", { name: /world cup run/i }).click();
   await expect(page).toHaveURL(/\/play$/);
-  await page
-    .getByRole("button", { name: "CONFIRM WORLD CUP RUN" })
-    .click();
+  await page.getByRole("button", { name: "CONTINUE" }).click();
   await page.getByRole("button", { name: /choose neutral/i }).click();
   await expect(
     page.getByRole("heading", { name: /choose your manager/i }),

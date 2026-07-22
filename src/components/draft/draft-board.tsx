@@ -12,8 +12,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
-  useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -41,9 +39,7 @@ import {
 } from "@/engine/draft";
 import {
   calculateChemistry,
-  chemistryLabel,
   explainChemistryChange,
-  type ChemistryBreakdown,
   type ChemistryReason,
 } from "@/engine/chemistry";
 import { calculateTeamRatings } from "@/engine/ratings";
@@ -63,134 +59,19 @@ const benchSlots: BenchSlotId[] = ["bench-1", "bench-2", "bench-3"];
 const respinLabel = (remaining: number) =>
   remaining === 0 ? "PLAYER RESPINS USED" : `PLAYER RESPINS ×${remaining}`;
 
-const chemistryFactors = [
-  {
-    title: "POSITION FIT",
-    copy: "Players perform better in roles that suit them.",
-  },
-  {
-    title: "MANAGER FIT",
-    copy: "Your manager’s approach should complement the squad.",
-  },
-  {
-    title: "ERA FIT",
-    copy: "Players and managers adapt differently to each match environment.",
-  },
-  {
-    title: "TACTICAL BALANCE",
-    copy: "Complementary roles create a more complete team.",
-  },
-  {
-    title: "SQUAD LINKS",
-    copy: "Shared football backgrounds and compatible playing styles improve cohesion.",
-  },
-  {
-    title: "LEADERSHIP & ACCOLADES",
-    copy: "Experienced winners can add small, capped squad benefits.",
-  },
-] as const;
-
-const chemistryScale = [
-  ["0–39", "DISCONNECTED"],
-  ["40–59", "DEVELOPING"],
-  ["60–74", "BALANCED"],
-  ["75–89", "STRONG"],
-  ["90–100", "ELITE"],
-] as const;
-
 export function DraftBoard() {
   const router = useRouter();
   const reduceMotion = useReducedMotion();
   const [showReset, setShowReset] = useState(false);
   const [showRespin, setShowRespin] = useState(false);
   const [showSquad, setShowSquad] = useState(false);
-  const [showChemistryInfo, setShowChemistryInfo] = useState(false);
+  const [isEnteringWorldCup, setIsEnteringWorldCup] = useState(false);
   const [inspected, setInspected] = useState<PlayerTournamentCard | null>(null);
   const [showManagerDetails, setShowManagerDetails] = useState(false);
   const [previewSlotId, setPreviewSlotId] = useState<string | null>(null);
   const [detailReturnFocus, setDetailReturnFocus] =
     useState<HTMLElement | null>(null);
   const squadControlRef = useRef<HTMLButtonElement | null>(null);
-  const chemistryTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const chemistryDialogRef = useRef<HTMLDivElement | null>(null);
-  const closeChemistryInfo = useCallback(() => {
-    setShowChemistryInfo(false);
-    window.requestAnimationFrame(() => chemistryTriggerRef.current?.focus());
-  }, []);
-
-  useEffect(() => {
-    if (!showChemistryInfo) return;
-
-    const body = document.body;
-    const scrollY = window.scrollY;
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-    const previousStyles = {
-      overflow: body.style.overflow,
-      position: body.style.position,
-      top: body.style.top,
-      left: body.style.left,
-      right: body.style.right,
-      width: body.style.width,
-      paddingRight: body.style.paddingRight,
-    };
-    const currentPaddingRight =
-      Number.parseFloat(window.getComputedStyle(body).paddingRight) || 0;
-
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
-    if (scrollbarWidth > 0) {
-      body.style.paddingRight = `${currentPaddingRight + scrollbarWidth}px`;
-    }
-
-    const focusFrame = window.requestAnimationFrame(() => {
-      chemistryDialogRef.current
-        ?.querySelector<HTMLButtonElement>("[data-chemistry-close]")
-        ?.focus();
-    });
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeChemistryInfo();
-        return;
-      }
-      if (event.key !== "Tab") return;
-
-      const focusable = Array.from(
-        chemistryDialogRef.current?.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])',
-        ) ?? [],
-      );
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable.at(-1)!;
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.cancelAnimationFrame(focusFrame);
-      document.removeEventListener("keydown", handleKeyDown);
-      body.style.overflow = previousStyles.overflow;
-      body.style.position = previousStyles.position;
-      body.style.top = previousStyles.top;
-      body.style.left = previousStyles.left;
-      body.style.right = previousStyles.right;
-      body.style.width = previousStyles.width;
-      body.style.paddingRight = previousStyles.paddingRight;
-      window.scrollTo(0, scrollY);
-    };
-  }, [closeChemistryInfo, showChemistryInfo]);
 
   const formationId = useGameStore((state) => state.formationId)!;
   const gameMode = useGameStore((state) => state.gameMode);
@@ -323,10 +204,13 @@ export function DraftBoard() {
           bench,
         })
       : null;
-    const eraDetails = calculateEraFitDetails(player, eraId, {
-      manager,
-      formation,
-    });
+    const eraDetails =
+      eraId === "all"
+        ? null
+        : calculateEraFitDetails(player, eraId, {
+            manager,
+            formation,
+          });
     return {
       assignedSlot: slot
         ? slot.label
@@ -336,8 +220,8 @@ export function DraftBoard() {
       positionFit,
       placementPenalty:
         positionFit === null ? null : getPlacementPenaltyPercent(positionFit),
-      eraTranslation: eraDetails.fit,
-      eraImpact: eraDetails.impactPercent,
+      eraTranslation: eraDetails?.fit ?? null,
+      eraImpact: eraDetails?.impactPercent,
       managerFit: ratings.managerFit,
       chemistryContribution: withoutRatings
         ? ratings.chemistry - withoutRatings.chemistry
@@ -393,7 +277,7 @@ export function DraftBoard() {
           bench,
         })
       : chemistry;
-  const selectedEraDetails = selectedPlayer
+  const selectedEraDetails = selectedPlayer && eraId !== "all"
     ? calculateEraFitDetails(selectedPlayer, eraId, {
         manager,
         formation,
@@ -407,6 +291,15 @@ export function DraftBoard() {
           eraFit: selectedEraDetails.fit,
         })
       : [];
+
+  if (isEnteringWorldCup) {
+    return (
+      <section className="loading-state" aria-live="polite">
+        <div className="loading-emblem" />
+        <p className="eyebrow">OPENING THE WORLD CUP</p>
+      </section>
+    );
+  }
 
   if (draftPhase === "opponent") {
     return (
@@ -523,20 +416,6 @@ export function DraftBoard() {
                   ? "SELECT POSITION"
                   : "SELECT PLAYER"}
             </span>
-            <ChemistryPreviewHud
-              slotLabel={
-                selectedPlayer
-                  ? formation.slots.find(
-                      (slot) => slot.id === activePreview?.slotId,
-                    )?.label
-                  : undefined
-              }
-              current={chemistry}
-              projected={selectedPlayer ? projectedChemistry : undefined}
-              reasons={chemistryReasons}
-              explainButtonRef={chemistryTriggerRef}
-              onExplain={() => setShowChemistryInfo(true)}
-            />
           </div>
           <TacticalPitch
             formation={formation}
@@ -544,6 +423,7 @@ export function DraftBoard() {
             picks={picks}
             fitPreviews={selectedPlayer ? projectedPositionFits : []}
             activeSlotId={selectedPlayer ? activePreview?.slotId : undefined}
+            selectedSlotId={lastPlacementFeedback?.slotId}
             onSelectSlot={selectedPlayer ? placeSelectedPlayer : undefined}
             onInspectPlayer={openPlayer}
             onPreviewSlot={selectedPlayer ? setPreviewSlotId : undefined}
@@ -562,11 +442,12 @@ export function DraftBoard() {
               eraFit={selectedEraDetails?.fit}
               eraImpact={selectedEraDetails?.impactPercent}
               managerFit={projectedRatings.managerFit}
+              chemistryReasons={chemistryReasons}
               onCancel={cancelPlayerSelection}
               onOpenRecord={() => openPlayer(selectedPlayer)}
             />
           )}
-          <TeamRatings ratings={ratings} expanded />
+          {lineup.length > 0 && <TeamRatings ratings={ratings} expanded />}
           {lastPlacementFeedback && draftPhase === "starters" && (
             <motion.div
               className="placement-feedback"
@@ -586,8 +467,10 @@ export function DraftBoard() {
                   Placement Penalty −{lastPlacementFeedback.penaltyPercent}%
                 </span>
               )}
-              <span>Era Fit {lastPlacementFeedback.eraFit}</span>
-              {(() => {
+              {eraId !== "all" && (
+                <span>Era Fit {lastPlacementFeedback.eraFit}</span>
+              )}
+              {eraId !== "all" && (() => {
                 const placedPlayer = playersById.get(
                   lastPlacementFeedback.cardId,
                 );
@@ -640,6 +523,9 @@ export function DraftBoard() {
                   : "Choose opponent"
               }
               onContinue={() => {
+                if (gameMode === "world-cup-run") {
+                  setIsEnteringWorldCup(true);
+                }
                 finalizeBench();
                 if (gameMode === "world-cup-run") {
                   router.push("/play/world-cup-run");
@@ -843,70 +729,6 @@ export function DraftBoard() {
         />
       )}
 
-      {showChemistryInfo && (
-        <div
-          className={`dialog-backdrop ${styles.chemistryBackdrop}`}
-          role="presentation"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) closeChemistryInfo();
-          }}
-        >
-          <div
-            className={`dialog ${styles.chemistryDialog}`}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="chemistry-info-title"
-            aria-describedby="chemistry-info-subtitle"
-            ref={chemistryDialogRef}
-            onMouseDown={(event) => event.stopPropagation()}
-          >
-            <header className={styles.chemistryDialogHeader}>
-              <div>
-                <h2 id="chemistry-info-title">CHEMISTRY</h2>
-                <p id="chemistry-info-subtitle">
-                  How naturally your squad works together.
-                </p>
-              </div>
-              <button
-                type="button"
-                className="icon-button"
-                aria-label="Close Chemistry information"
-                data-chemistry-close
-                onClick={closeChemistryInfo}
-              >
-                <X size={18} aria-hidden />
-              </button>
-            </header>
-            <div className={styles.chemistryDialogScroll}>
-              <div
-                className={styles.chemistryFactorGrid}
-                aria-label="Chemistry factors"
-              >
-                {chemistryFactors.map((factor) => (
-                  <article key={factor.title}>
-                    <h3>{factor.title}</h3>
-                    <p>{factor.copy}</p>
-                  </article>
-                ))}
-              </div>
-              <section
-                className={styles.chemistryScale}
-                aria-labelledby="chemistry-scale-title"
-              >
-                <h3 id="chemistry-scale-title">CHEMISTRY SCALE</h3>
-                <ol>
-                  {chemistryScale.map(([range, label]) => (
-                    <li key={range}>
-                      <b>{range}</b>
-                      <span>{label}</span>
-                    </li>
-                  ))}
-                </ol>
-              </section>
-            </div>
-          </div>
-        </div>
-      )}
 
       {inspected && (
         <PlayerDetails
@@ -944,7 +766,11 @@ function SquadDrawer({
   onInspectManager: () => void;
 }) {
   return (
-    <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
+    <div
+      className={`drawer-backdrop ${styles.squadBackdrop}`}
+      role="presentation"
+      onMouseDown={onClose}
+    >
       <aside
         className={styles.squadDrawer}
         id="draft-squad-drawer"
@@ -959,7 +785,9 @@ function SquadDrawer({
         <div className={styles.squadDrawerHeader}>
           <div>
             <span className="eyebrow eyebrow--gold">YOUR FOURTEEN</span>
-            <h2 id="squad-drawer-title">Squad</h2>
+            <h2 id="squad-drawer-title">
+              SQUAD {picks.length + benchPicks.length}/14
+            </h2>
           </div>
           <button
             type="button"
@@ -1090,97 +918,6 @@ function SquadDrawer({
   );
 }
 
-function ChemistryPreviewHud({
-  slotLabel,
-  current,
-  projected,
-  reasons,
-  explainButtonRef,
-  onExplain,
-}: {
-  slotLabel?: string;
-  current: ChemistryBreakdown;
-  projected?: ChemistryBreakdown;
-  reasons: ChemistryReason[];
-  explainButtonRef: React.RefObject<HTMLButtonElement | null>;
-  onExplain: () => void;
-}) {
-  const chemistryDelta = projected
-    ? projected.score - current.score
-    : 0;
-  return (
-    <div
-      className={`chemistry-preview-hud ${styles.chemistryHud}`}
-      role="status"
-      aria-live="polite"
-      aria-label={
-        projected
-          ? `${slotLabel ?? "Best available placement"}. Projected Chemistry ${projected.score}, ${chemistryDelta >= 0 ? "increase" : "decrease"} of ${Math.abs(chemistryDelta)}.`
-          : `Current Chemistry ${current.score}, ${chemistryLabel(current.score)}.`
-      }
-    >
-      <div className={styles.chemistryHeading}>
-        <button type="button" ref={explainButtonRef} onClick={onExplain}>
-          CHEMISTRY <span aria-hidden>ⓘ</span>
-          <span className="sr-only"> information</span>
-        </button>
-        {projected && (
-          <span>
-            {slotLabel
-              ? `${slotLabel} EXACT PLACEMENT`
-              : "BEST AVAILABLE PLACEMENT"}
-          </span>
-        )}
-      </div>
-      <dl>
-        <div>
-          <dt>Current Chemistry</dt>
-          <dd>
-            {current.score} <small>{chemistryLabel(current.score)}</small>
-          </dd>
-        </div>
-        {projected && (
-          <>
-            <div>
-              <dt>Projected Chemistry</dt>
-              <dd>
-                {projected.score}{" "}
-                <small>{chemistryLabel(projected.score)}</small>
-              </dd>
-            </div>
-            <div>
-              <dt>Change</dt>
-              <dd>
-                <i data-positive={chemistryDelta >= 0}>
-                  {chemistryDelta > 0
-                    ? "↑ +"
-                    : chemistryDelta < 0
-                      ? "↓ "
-                      : "±"}
-                  {chemistryDelta}
-                </i>
-              </dd>
-            </div>
-          </>
-        )}
-      </dl>
-      {projected && reasons.length > 0 && (
-        <ul className={styles.chemistryReasons}>
-          {reasons.map((reason) => (
-            <li key={reason.key} data-positive={reason.value > 0}>
-              <b>
-                {reason.value > 0 ? "+" : ""}
-                {reason.value}
-              </b>
-              <span>{reason.label}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
 function PlayerChoices({
   options,
   eraId,
@@ -1238,10 +975,12 @@ function PlayerChoices({
               showFit
               positionFit={positionFit}
               eraFit={
-                calculateEraFitDetails(player, eraId, {
-                  manager,
-                  formation,
-                }).fit
+                eraId === "all"
+                  ? undefined
+                  : calculateEraFitDetails(player, eraId, {
+                      manager,
+                      formation,
+                    }).fit
               }
               actionLabel={
                 selected
@@ -1266,6 +1005,7 @@ function SelectedPlayerSummary({
   eraFit,
   eraImpact,
   managerFit,
+  chemistryReasons,
   onCancel,
   onOpenRecord,
 }: {
@@ -1278,6 +1018,7 @@ function SelectedPlayerSummary({
   eraFit?: number;
   eraImpact?: number;
   managerFit: number;
+  chemistryReasons: ChemistryReason[];
   onCancel: () => void;
   onOpenRecord: () => void;
 }) {
@@ -1335,9 +1076,13 @@ function SelectedPlayerSummary({
           )}
         </div>
         <div>
-          <dt>Era Fit</dt>
-          <dd>{eraFit ?? "—"}</dd>
-          {Boolean(eraImpact) && <small>Era Impact −{eraImpact}%</small>}
+          <dt>{eraFit === undefined ? "Match Era" : "Era Fit"}</dt>
+          <dd>{eraFit === undefined ? "Neutral" : eraFit}</dd>
+          {eraFit === undefined ? (
+            <small>No era modifier</small>
+          ) : Boolean(eraImpact) ? (
+            <small>Era Impact −{eraImpact}%</small>
+          ) : null}
         </div>
         <div>
           <dt>Manager Fit</dt>
@@ -1364,6 +1109,26 @@ function SelectedPlayerSummary({
           </dd>
         </div>
       </dl>
+      <div className={styles.integratedChemistry}>
+        <span>
+          Current <b>{currentRatings.chemistry}</b>
+        </span>
+        <span>
+          Projected <b>{projectedRatings.chemistry}</b>
+        </span>
+        <span data-positive={chemistryChange >= 0}>
+          Exact delta <b>{chemistryChange > 0 ? "+" : ""}{chemistryChange}</b>
+        </span>
+        {chemistryReasons.length > 0 && (
+          <ul>
+            {chemistryReasons.map((reason) => (
+              <li key={reason.key}>
+                {reason.label} <b>{reason.value > 0 ? "+" : ""}{reason.value}</b>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <PlayerAccolades
         player={player}
         compact
@@ -1481,6 +1246,8 @@ function BenchReview({
   continueLabel: string;
   onContinue: () => void;
 }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className="bench-review">
       <span className="eyebrow eyebrow--gold">ORDERED BENCH</span>
@@ -1496,7 +1263,22 @@ function BenchReview({
           );
           if (!player) return null;
           return (
-            <li key={slotId}>
+            <motion.li
+              key={player.id}
+              layout="position"
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : {
+                      layout: {
+                        type: "spring",
+                        stiffness: 430,
+                        damping: 34,
+                        mass: 0.78,
+                      },
+                    }
+              }
+            >
               <span className="bench-priority">{index + 1}</span>
               <CircularPortrait
                 imageId={player.imageId}
@@ -1538,7 +1320,7 @@ function BenchReview({
                   <ArrowDown size={16} aria-hidden />
                 </button>
               </div>
-            </li>
+            </motion.li>
           );
         })}
       </ol>

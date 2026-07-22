@@ -8,6 +8,7 @@ import { getPositionFit } from "@/engine/draft";
 import {
   generateFreeSelectionSquad,
   MIN_RANDOM_POSITION_FIT,
+  scoreFreeSelectionRosterImpact,
 } from "@/engine/free-selection";
 import type { PlayerTournamentCard } from "@/types/game";
 
@@ -19,6 +20,46 @@ const cardsFor = (
   );
 
 describe("Free Selection random squad generation", () => {
+  it("ranks actual roster improvement above a perfect-fit label", () => {
+    const perfectFit = scoreFreeSelectionRosterImpact({
+      playerOverall: 88,
+      positionFit: 100,
+      overallGain: 0,
+      chemistryGain: 0,
+      managerFitGain: 0,
+      eraFit: 85,
+      versatility: 2,
+      isBench: false,
+    });
+    const strongerRoster = scoreFreeSelectionRosterImpact({
+      playerOverall: 91,
+      positionFit: 88,
+      overallGain: 1,
+      chemistryGain: 1,
+      managerFitGain: 1,
+      eraFit: 85,
+      versatility: 2,
+      isBench: false,
+    });
+
+    expect(strongerRoster).toBeGreaterThan(perfectFit);
+  });
+
+  it("does not use positional fit when ranking bench impact", () => {
+    const input = {
+      playerOverall: 90,
+      overallGain: 0,
+      chemistryGain: 2,
+      managerFitGain: 1,
+      eraFit: 82,
+      versatility: 4,
+      isBench: true,
+    };
+    expect(
+      scoreFreeSelectionRosterImpact({ ...input, positionFit: 100 }),
+    ).toBe(scoreFreeSelectionRosterImpact({ ...input, positionFit: 48 }));
+  });
+
   it("is deterministic and varies with the supplied seed", () => {
     const formation = getFormation("4-3-3");
     const first = generateFreeSelectionSquad({

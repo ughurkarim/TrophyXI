@@ -3,23 +3,28 @@ import { hashString } from "@/engine/random";
 import {
   calculateWorldCupRunStandings,
   createWorldCupRun,
+  enterWorldCupRunKnockouts,
   getCurrentWorldCupRunFixtures,
   getPendingWorldCupRunUserFixture,
   recordWorldCupRunFixtureResult,
   recordWorldCupRunUserResult,
   resolvePendingWorldCupRunCpuFixtures,
+  simulateNextWorldCupRunUserFixture,
+  simulateRemainingWorldCupRunGroup,
+  simulateRemainingWorldCupRunRound,
   simulateWorldCupRunCpuFixture,
-  WORLD_CUP_RUN_GROUP_IDS,
   type WorldCupRunState,
   type WorldCupRunTeam,
 } from "@/engine/world-cup-run";
 
 const userTeamId = "trophy-xi";
-const teams: WorldCupRunTeam[] = Array.from({ length: 32 }, (_, index) => ({
+const teams: WorldCupRunTeam[] = Array.from({ length: 48 }, (_, index) => ({
   id: index === 0 ? userTeamId : `champion-${index}`,
   name: index === 0 ? "Trophy XI" : `Champion ${index}`,
+  countryCode: index === 0 ? "TXI" : `T${index}`,
   rating: 96 - (index % 17),
   seedRank: index + 1,
+  isChampion: index === 1,
 }));
 
 const createRun = (seed = 2026) =>
@@ -29,24 +34,26 @@ const resolveGroupWithUserResults = (
   result: { userGoals: number; opponentGoals: number },
 ) => {
   let state = resolvePendingWorldCupRunCpuFixtures(createRun());
-  while (state.currentStage === "group") {
+  while (state.qualificationStatus === "pending") {
     const fixture = getPendingWorldCupRunUserFixture(state);
     expect(fixture).not.toBeNull();
     state = recordWorldCupRunUserResult(state, fixture!.id, result);
     state = resolvePendingWorldCupRunCpuFixtures(state);
   }
-  return state;
+  return state.qualificationStatus === "qualified"
+    ? enterWorldCupRunKnockouts(state)
+    : state;
 };
 
 describe("World Cup Run domain", () => {
-  it("creates eight deterministic four-team groups and a complete round robin", () => {
+  it("creates twelve deterministic four-team groups and a complete round robin", () => {
     const state = createRun();
     expect(createRun()).toEqual(state);
     expect(createRun(2027).groups).not.toEqual(state.groups);
-    expect(state.groups).toHaveLength(8);
-    expect(state.fixtures).toHaveLength(48);
+    expect(state.groups).toHaveLength(12);
+    expect(state.fixtures).toHaveLength(72);
     expect(new Set(state.groups.flatMap((group) => group.teamIds)).size).toBe(
-      32,
+      48,
     );
 
     for (const group of state.groups) {
@@ -77,38 +84,42 @@ describe("World Cup Run domain", () => {
     }
   });
 
-  it("resolves CPU group fixtures one matchday at a time around the user", () => {
-    let state = resolvePendingWorldCupRunCpuFixtures(createRun());
-    const firstUserFixture = getPendingWorldCupRunUserFixture(state)!;
-
-    expect(firstUserFixture.matchday).toBe(1);
-    expect(state.history).toHaveLength(15);
+  it("quick-simulates a complete matchday or the whole group", () => {
+    const initial = createRun();
+    const afterMatch = simulateNextWorldCupRunUserFixture(initial);
+    expect(afterMatch.history).toHaveLength(24);
+    expect(afterMatch.history.every((entry) => {
+      const playedFixture = afterMatch.fixtures.find(
+        (fixture) => fixture.id === entry.fixtureId,
+      );
+      return playedFixture?.matchday === 1;
+    })).toBe(true);
     expect(
-      state.history.every(
-        (entry) =>
-          entry.stage === "group" &&
-          state.fixtures.find(
-            (fixture) => fixture.id === entry.fixtureId,
-          )?.matchday === 1,
-      ),
+      Object.values(afterMatch.standings)
+        .flat()
+        .every((standing) => standing.played === 1),
     ).toBe(true);
+    expect(afterMatch.currentStage).toBe("group");
 
-    state = recordWorldCupRunUserResult(state, firstUserFixture.id, {
-      userGoals: 1,
-      opponentGoals: 0,
-    });
-    state = resolvePendingWorldCupRunCpuFixtures(state);
+    const completed = simulateRemainingWorldCupRunGroup(afterMatch);
+    expect(completed.history).toHaveLength(72);
+    expect(completed.qualificationStatus).not.toBe("pending");
+    expect(completed.currentStage).toBe("group");
+  });
 
-    expect(getPendingWorldCupRunUserFixture(state)?.matchday).toBe(2);
-    expect(state.history).toHaveLength(31);
+  it("finishes three balanced group matchdays through the match button", () => {
+    let state = createRun();
+    state = simulateNextWorldCupRunUserFixture(state);
+    state = simulateNextWorldCupRunUserFixture(state);
+    state = simulateNextWorldCupRunUserFixture(state);
+
+    expect(state.history).toHaveLength(72);
     expect(
-      state.history.filter(
-        (entry) =>
-          state.fixtures.find(
-            (fixture) => fixture.id === entry.fixtureId,
-          )?.matchday === 2,
-      ),
-    ).toHaveLength(15);
+      Object.values(state.standings)
+        .flat()
+        .every((standing) => standing.played === 3),
+    ).toBe(true);
+    expect(state.qualificationStatus).not.toBe("pending");
   });
 
   it("ranks by points, goal difference, goals scored, then deterministic tiebreak", () => {
@@ -171,45 +182,31 @@ describe("World Cup Run domain", () => {
     );
   });
 
-  it("qualifies two per group into a seeded R16 without group rematches", () => {
+  it("qualifies 32 teams into a seeded Round of 32 without group rematches", () => {
     const state = resolveGroupWithUserResults({
       userGoals: 3,
       opponentGoals: 0,
     });
-    expect(state.currentStage).toBe("round-of-16");
+    expect(state.currentStage).toBe("round-of-32");
     expect(state.qualificationStatus).toBe("qualified");
     expect(state.status).toBe("active");
-    const roundOf16 = state.fixtures.filter(
-      (fixture) => fixture.stage === "round-of-16",
+    const roundOf32 = state.fixtures.filter(
+      (fixture) => fixture.stage === "round-of-32",
     );
-    expect(roundOf16).toHaveLength(8);
+    expect(roundOf32).toHaveLength(16);
     const qualified = new Set(
-      WORLD_CUP_RUN_GROUP_IDS.flatMap((groupId) =>
-        state.standings[groupId].slice(0, 2).map((standing) => standing.teamId),
-      ),
+      roundOf32.flatMap((fixture) => [fixture.homeTeamId, fixture.awayTeamId]),
     );
-    expect(
-      roundOf16.every(
-        (fixture) =>
-          qualified.has(fixture.homeTeamId) &&
-          qualified.has(fixture.awayTeamId),
-      ),
-    ).toBe(true);
+    expect(qualified.size).toBe(32);
     const groupByTeam = new Map(
       state.groups.flatMap((group) =>
         group.teamIds.map((teamId) => [teamId, group.id] as const),
       ),
     );
-    for (const fixture of roundOf16) {
+    for (const fixture of roundOf32) {
       expect(groupByTeam.get(fixture.homeTeamId)).not.toBe(
         groupByTeam.get(fixture.awayTeamId),
       );
-      expect(
-        WORLD_CUP_RUN_GROUP_IDS.some(
-          (groupId) =>
-            state.standings[groupId][0].teamId === fixture.homeTeamId,
-        ),
-      ).toBe(true);
     }
   });
 
@@ -221,6 +218,16 @@ describe("World Cup Run domain", () => {
     while (state.currentStage !== "complete") {
       const fixture = getPendingWorldCupRunUserFixture(state);
       expect(fixture).not.toBeNull();
+      if (state.currentStage === "final") {
+        const finalOpponentId =
+          fixture!.homeTeamId === userTeamId
+            ? fixture!.awayTeamId
+            : fixture!.homeTeamId;
+        expect(finalOpponentId).toBe(state.finalBossTeamId);
+        expect(
+          state.teams.find((team) => team.id === finalOpponentId)?.isChampion,
+        ).toBe(true);
+      }
       state =
         state.currentStage === "final"
           ? recordWorldCupRunUserResult(state, fixture!.id, {
@@ -238,10 +245,13 @@ describe("World Cup Run domain", () => {
 
     expect(state.status).toBe("champion");
     expect(state.championTeamId).toBe(userTeamId);
-    expect(state.history).toHaveLength(63);
+    expect(state.history).toHaveLength(103);
     expect(new Set(state.history.map((entry) => entry.fixtureId)).size).toBe(
-      63,
+      103,
     );
+    expect(
+      state.fixtures.filter((fixture) => fixture.stage === "round-of-32"),
+    ).toHaveLength(16);
     expect(
       state.fixtures.filter((fixture) => fixture.stage === "round-of-16"),
     ).toHaveLength(8);
@@ -302,7 +312,7 @@ describe("World Cup Run domain", () => {
 
   it("tracks group and knockout elimination without blocking CPU completion", () => {
     let groupExit = resolvePendingWorldCupRunCpuFixtures(createRun());
-    while (groupExit.currentStage === "group") {
+    while (groupExit.qualificationStatus === "pending") {
       const fixture = getPendingWorldCupRunUserFixture(groupExit)!;
       groupExit = recordWorldCupRunUserResult(groupExit, fixture.id, {
         userGoals: 0,
@@ -323,23 +333,21 @@ describe("World Cup Run domain", () => {
       opponentGoals: 1,
     });
     expect(knockoutExit.status).toBe("eliminated");
-    knockoutExit = resolvePendingWorldCupRunCpuFixtures(knockoutExit);
-    expect(knockoutExit.currentStage).toBe("complete");
-    expect(knockoutExit.championTeamId).not.toBe(userTeamId);
+    expect(knockoutExit.eliminatedStage).toBe("round-of-32");
   });
 
-  it("validates the 32-team tournament boundary", () => {
+  it("validates the 48-team tournament boundary", () => {
     expect(() =>
       createWorldCupRun({
-        teams: teams.slice(0, 31),
+        teams: teams.slice(0, 47),
         userTeamId,
         seed: 1,
       }),
-    ).toThrow(/exactly 32/i);
+    ).toThrow(/exactly 48/i);
     expect(() =>
       createWorldCupRun({
         teams: teams.map((team, index) =>
-          index === 31 ? { ...team, id: teams[1].id } : team,
+          index === 47 ? { ...team, id: teams[1].id } : team,
         ),
         userTeamId,
         seed: 1,
@@ -353,5 +361,16 @@ describe("World Cup Run domain", () => {
       opponentGoals: 0,
     });
     expect(JSON.parse(JSON.stringify(state))).toEqual(state);
+  });
+
+  it("resolves a complete early knockout round without opening a full match", () => {
+    const roundOf32 = resolveGroupWithUserResults({ userGoals: 3, opponentGoals: 0 });
+    const resolved = simulateRemainingWorldCupRunRound(roundOf32);
+    expect(resolved.currentStage).toBe("round-of-16");
+    expect(
+      resolved.fixtures.filter((fixture) => fixture.stage === "round-of-32"),
+    ).toSatisfy((fixtures: WorldCupRunState["fixtures"]) =>
+      fixtures.every((fixture) => fixture.result),
+    );
   });
 });

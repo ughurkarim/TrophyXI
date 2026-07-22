@@ -19,6 +19,7 @@ export function TacticalPitch({
   fitPreviews = [],
   onSelectSlot,
   onInspectPlayer,
+  onSelectFilledSlot,
   onPreviewSlot,
 }: {
   formation: Formation;
@@ -31,6 +32,7 @@ export function TacticalPitch({
   fitPreviews?: PositionFitPreview[];
   onSelectSlot?: (slotId: string) => void;
   onInspectPlayer?: (player: PlayerTournamentCard) => void;
+  onSelectFilledSlot?: (slotId: string, player: PlayerTournamentCard) => void;
   onPreviewSlot?: (slotId: string | null) => void;
 }) {
   return (
@@ -60,7 +62,7 @@ export function TacticalPitch({
             : lineup[index];
         const opponentName = opponentNames?.[index];
         const interactive = Boolean(
-          (player && onInspectPlayer) ||
+          (player && (onSelectFilledSlot || onInspectPlayer)) ||
             (!player && !opponentName && onSelectSlot),
         );
         const isSelected =
@@ -69,6 +71,7 @@ export function TacticalPitch({
           "pitch-node",
           player && "pitch-node--filled",
           isSelected && "pitch-node--active",
+          activeSlotId === slot.id && fitPreview && "pitch-node--best-fit",
           interactive && "pitch-node--interactive",
           fitPreview && `pitch-node--fit-${fitPreview.state}`,
           fitPreview && slot.x <= 15 && "pitch-node--near-left",
@@ -77,9 +80,7 @@ export function TacticalPitch({
           isGoalkeeper && "pitch-node--goalkeeper",
           isLowCenterBack && "pitch-node--low-center-back",
           slot.y >= 80 && "pitch-node--near-bottom",
-          fitPreview &&
-            (isGoalkeeper || isLowCenterBack) &&
-            "pitch-node--fit-label-above",
+          fitPreview && isGoalkeeper && "pitch-node--fit-label-above",
           fitPreview?.feasibilityBlocked && "pitch-node--feasibility-blocked",
         );
         const ariaLabel = player
@@ -122,20 +123,16 @@ export function TacticalPitch({
             </span>
             {(player || opponentName) && (
               <span className="pitch-node__name">
-                {player
-                  ? player.playerName.split(" ").at(-1)
-                  : opponentName?.split(" ").at(-1)}
+                <b>{player
+                    ? player.playerName.split(" ").at(-1)
+                    : opponentName?.split(" ").at(-1)}</b>
+                {player && <small>{player.overall} · {player.tournamentYear}</small>}
               </span>
             )}
             {!player && !opponentName && fitPreview && (
               <span className="pitch-node__fit">
-                <small>POSITION FIT</small>
-                <b>{fitPreview.fit}%</b>
-                <em>{fitPreview.label}</em>
-                {fitPreview.state !== "incompatible" &&
-                  fitPreview.penaltyPercent > 0 && (
-                    <i>−{fitPreview.penaltyPercent}%</i>
-                  )}
+                <b>{slot.label}</b>
+                <em>{fitPreview.fit}%</em>
               </span>
             )}
           </>
@@ -150,12 +147,14 @@ export function TacticalPitch({
             data-slot-y={slot.y}
             data-slot-position={slot.position}
             aria-label={ariaLabel}
+            title={fitPreview ? ariaLabel : undefined}
             aria-pressed={!player && onSelectSlot ? isSelected : undefined}
             aria-disabled={
               !player && fitPreview ? !fitPreview.canPlace : undefined
             }
             onClick={() => {
-              if (player && onInspectPlayer) onInspectPlayer(player);
+              if (player && onSelectFilledSlot) onSelectFilledSlot(slot.id, player);
+              else if (player && onInspectPlayer) onInspectPlayer(player);
               else if (
                 !player &&
                 onSelectSlot &&
@@ -188,6 +187,7 @@ export function TacticalPitch({
             data-slot-y={slot.y}
             data-slot-position={slot.position}
             aria-label={ariaLabel}
+            title={fitPreview ? ariaLabel : undefined}
           >
             {content}
           </div>

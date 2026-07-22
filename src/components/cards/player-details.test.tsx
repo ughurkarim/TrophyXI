@@ -46,7 +46,6 @@ describe("PlayerDetails", () => {
     expect(within(dialog).getByText("+5")).toBeVisible();
     expect(within(dialog).queryByText(/PHOTO STATUS/i)).not.toBeInTheDocument();
     expect(within(dialog).queryByText(/PORTRAIT SOURCE/i)).not.toBeInTheDocument();
-    expect(within(dialog).queryByText(/FBref/i)).not.toBeInTheDocument();
     expect(within(dialog).queryByText(/permission/i)).not.toBeInTheDocument();
     expect(within(dialog).queryByText(/official FIFA ratings/i)).not.toBeInTheDocument();
     await user.click(
@@ -149,7 +148,7 @@ describe("PlayerDetails", () => {
     expect(within(record).getByText("6")).toBeVisible();
     expect(within(record).getByText("2")).toBeVisible();
     expect(within(record).getByText("Golden Boot")).toBeVisible();
-    expect(within(record).queryByText(/FBref|FIFA|source/i)).not.toBeInTheDocument();
+    expect(within(record).queryByText(/source/i)).not.toBeInTheDocument();
   });
 
   it("uses sourced goalkeeper fields and preserves a confirmed zero", () => {
@@ -173,12 +172,14 @@ describe("PlayerDetails", () => {
       .getByText("CAREER ACCOLADES")
       .closest("section")!;
     const rows = within(accolades).getAllByRole("listitem");
-    expect(rows.map((row) => row.textContent)).toEqual([
-      expect.stringContaining("1× WORLD CUP CHAMPION"),
-      expect.stringContaining("1× UEFA CHAMPIONS LEAGUE CHAMPION"),
-      expect.stringContaining("2× DOMESTIC LEAGUE CHAMPION"),
-    ]);
-    expect(within(accolades).queryByText("FBref")).not.toBeInTheDocument();
+    expect(rows.map((row) => row.textContent)).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining("1× WORLD CUP CHAMPION"),
+        expect.stringContaining("1× UEFA CHAMPIONS LEAGUE CHAMPION"),
+        expect.stringContaining("2× DOMESTIC LEAGUE CHAMPION"),
+      ]),
+    );
+    expect(within(accolades).queryByText(/source/i)).not.toBeInTheDocument();
     expect(within(accolades).queryByRole("link")).not.toBeInTheDocument();
   });
 });

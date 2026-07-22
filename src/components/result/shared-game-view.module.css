@@ -1,0 +1,40 @@
+.main { padding-top: 34px; padding-bottom: 90px; }
+.hero { position: relative; overflow: hidden; padding: clamp(32px,5vw,64px); border: 1px solid rgba(226,190,86,.3); border-radius: 24px; background: radial-gradient(circle at 50% 55%,rgba(44,127,79,.22),transparent 34%),linear-gradient(135deg,rgba(225,188,83,.1),transparent 42%),rgba(6,9,7,.94); box-shadow: 0 34px 100px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.05); }
+.heroCopy { text-align: center; }
+.heroCopy h1 { margin: 13px 0 8px; font-size: clamp(2.6rem,5vw,5rem); letter-spacing: -.065em; }
+.heroCopy p { margin: 0; color: #8f9a93; }
+.scoreboard { display: grid; width: min(100%,900px); grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: clamp(18px,4vw,52px); margin: 48px auto 34px; }
+.scoreboard > div:first-child { text-align: right; }
+.scoreboard div span { display: block; margin-bottom: 7px; color: #78827b; font: .48rem var(--font-mono),monospace; letter-spacing: .12em; }
+.scoreboard div b { display: block; overflow-wrap: anywhere; font-size: clamp(.85rem,1.5vw,1.1rem); }
+.scoreboard > strong { display: flex; align-items: center; gap: 18px; font: 650 clamp(4.8rem,9vw,8rem)/.75 var(--font-display),sans-serif; letter-spacing: -.09em; }
+.scoreboard strong i { color: #68716a; font-size: 1rem; font-style: normal; }
+.scoreboard > small { grid-column: 1/-1; color: var(--gold-bright); font: .55rem var(--font-mono),monospace; letter-spacing: .1em; text-align: center; }
+.recordMeta { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+.recordMeta span { display: flex; align-items: center; gap: 7px; padding: 8px 11px; color: #b7bcb8; border: 1px solid rgba(214,180,92,.14); border-radius: 999px; background: rgba(0,0,0,.18); font-size: .64rem; }
+.summaryGrid { display: grid; grid-template-columns: minmax(0,.82fr) minmax(420px,1.18fr); gap: 18px; margin-top: 18px; }
+.panel,.teamCard,.cta { min-width: 0; padding: 25px; border: 1px solid rgba(211,176,81,.17); border-radius: 16px; background: linear-gradient(145deg,rgba(30,27,18,.82),rgba(7,9,7,.97)); box-shadow: inset 0 1px rgba(255,255,255,.03); }
+.panel h2,.sectionHeading h2 { margin: 7px 0 20px; font-size: 1.35rem; }
+.timeline { display: grid; max-height: 440px; gap: 0; padding: 0; margin: 0; overflow-y: auto; list-style: none; }
+.timeline li { display: grid; grid-template-columns: 50px minmax(0,1fr) auto; align-items: start; gap: 12px; padding: 11px 7px; border-bottom: 1px solid rgba(255,255,255,.055); }
+.timeline li[data-goal="true"] { background: linear-gradient(90deg,rgba(218,181,80,.09),transparent); }
+.timeline time,.timeline > li > span { color: var(--gold-bright); font: .53rem var(--font-mono),monospace; }
+.timeline b { font-size: .68rem; }
+.timeline p { margin: 3px 0 0; color: #7f8982; font-size: .57rem; line-height: 1.45; }
+.teams { margin-top: 54px; }
+.sectionHeading { text-align: center; }
+.sectionHeading h2 { font-size: clamp(2rem,3.5vw,3.2rem); }
+.teamGrid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+.teamCard header { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+.teamCard header span,.bench > span { color: #818a83; font: .46rem var(--font-mono),monospace; letter-spacing: .1em; }
+.teamCard h3 { margin: 4px 0 0; font-size: 1.25rem; }
+.teamCard header > strong { display: flex; align-items: baseline; gap: 5px; color: var(--gold-bright); font-size: 1.65rem; }
+.teamCard header small { color: #7a837c; font: .42rem var(--font-mono),monospace; }
+.teamCard :global(.pitch) { width: min(100%,350px); margin: 0 auto; }
+.teamCard > p { color: #929b94; font-size: .64rem; text-align: center; }
+.bench { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 7px 12px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.06); }
+.bench b { color: #c7cbc7; font-size: .57rem; }
+.cta { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 18px; padding: 30px 34px; }
+.cta h2 { margin: 7px 0 0; font-size: clamp(1.45rem,2.5vw,2.4rem); }
+@media (max-width:900px) { .summaryGrid,.teamGrid { grid-template-columns: 1fr; } .summaryGrid { grid-template-columns: 1fr; } }
+@media (max-width:620px) { .main { padding-top: 18px; } .hero { padding: 30px 18px; } .scoreboard { grid-template-columns: 1fr; gap: 12px; margin-top: 38px; text-align: center; } .scoreboard > div:first-child { text-align: center; } .scoreboard > strong { grid-row: 2; justify-content: center; } .scoreboard > small { grid-column: 1; } .panel,.teamCard { padding: 18px; } .cta { align-items: stretch; flex-direction: column; } }

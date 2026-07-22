@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { players } from "../src/data/players";
+import requestedIdentityJson from "../src/data/requested-player-identities.generated.json";
 import type { Position } from "../src/types/game";
 
 const ROOT = process.cwd();
@@ -57,6 +58,28 @@ type GeneratedArchive = {
   identities: Record<string, GeneratedTournament[]>;
   unresolvedIdentityIds: string[];
 };
+
+type RequestedIdentityArchive = {
+  identities: {
+    identityId: string;
+    playerId: string;
+    playerName: string;
+    countryCode: string;
+    referenceYear: number;
+    primaryPosition: Position;
+  }[];
+};
+
+type IdentityVersion = {
+  playerName: string;
+  tournamentYear: number;
+  countryCode: string;
+  primaryPosition: Position;
+};
+
+const requestedIdentities = (
+  requestedIdentityJson as unknown as RequestedIdentityArchive
+).identities;
 
 const parseCsv = (value: string): CsvRow[] => {
   const rows: string[][] = [];
@@ -202,7 +225,7 @@ const main = async () => {
     existing.push(row);
     appearancesByPlayer.set(row.player_id, existing);
   }
-  const identities = new Map(
+  const identities = new Map<string, IdentityVersion[]>(
     [
       ...new Set(
         players
@@ -216,6 +239,28 @@ const main = async () => {
           player.playerIdentityId === identityId &&
           SUPPORTED_YEARS.has(player.tournamentYear),
       ),
+    ]),
+  );
+  for (const requested of requestedIdentities) {
+    const versions = identities.get(requested.identityId) ?? [];
+    if (
+      !versions.some(
+        (version) => version.tournamentYear === requested.referenceYear,
+      )
+    ) {
+      versions.push({
+        playerName: requested.playerName,
+        tournamentYear: requested.referenceYear,
+        countryCode: requested.countryCode,
+        primaryPosition: requested.primaryPosition,
+      });
+    }
+    identities.set(requested.identityId, versions);
+  }
+  const requestedPlayerIdByIdentityId = new Map(
+    requestedIdentities.map((identity) => [
+      identity.identityId,
+      identity.playerId,
     ]),
   );
   const output: GeneratedArchive["identities"] = {};
@@ -267,7 +312,9 @@ const main = async () => {
         }
       }
     }
-    const reviewedPlayerId = reviewedPlayerIdByIdentityId[identityId];
+    const reviewedPlayerId =
+      requestedPlayerIdByIdentityId.get(identityId) ??
+      reviewedPlayerIdByIdentityId[identityId];
     if (reviewedPlayerId) {
       candidatePlayerIds.clear();
       candidatePlayerIds.set(reviewedPlayerId, 1);
@@ -282,18 +329,28 @@ const main = async () => {
     }
 
     const playerAppearances = appearancesByPlayer.get(playerId) ?? [];
+    const playerSquads = squads.filter((row) => row.player_id === playerId);
     const years = [
       ...new Set(
-        playerAppearances.map((row) =>
+        playerSquads.map((row) =>
           Number(row.tournament_id.replace("WC-", "")),
         ),
       ),
-    ].sort((first, second) => first - second);
+    ]
+      .filter((year) => SUPPORTED_YEARS.has(year))
+      .sort((first, second) => first - second);
     output[identityId] = years.map((tournamentYear) => {
       const rows = playerAppearances.filter(
         (row) =>
           Number(row.tournament_id.replace("WC-", "")) === tournamentYear,
       );
+      const squadRow = playerSquads.find(
+        (row) =>
+          Number(row.tournament_id.replace("WC-", "")) === tournamentYear,
+      );
+      if (!squadRow) {
+        throw new Error(`${identityId}: missing ${tournamentYear} squad row`);
+      }
       const reference =
         versions.find((version) => version.tournamentYear === tournamentYear) ??
         [...versions].sort(
@@ -313,7 +370,8 @@ const main = async () => {
         (first, second) => second[1] - first[1],
       );
       const primaryPosition =
-        rankedPositions[0]?.[0] ?? reference.primaryPosition;
+        rankedPositions[0]?.[0] ??
+        mappedPosition(squadRow.position_code, reference.primaryPosition);
       const eligiblePositions = [
         primaryPosition,
         ...rankedPositions.slice(1).map(([position]) => position),
@@ -327,13 +385,13 @@ const main = async () => {
       return {
         playerId,
         tournamentYear,
-        teamCode: projectCodeFor(rows[0].team_code),
-        teamName: rows[0].team_name,
+        teamCode: projectCodeFor(squadRow.team_code),
+        teamName: squadRow.team_name,
         teamPerformance:
           qualifiedTeams.find(
             (row) =>
               Number(row.tournament_id.replace("WC-", "")) ===
-                tournamentYear && row.team_id === rows[0].team_id,
+                tournamentYear && row.team_id === squadRow.team_id,
           )?.performance ?? "not sourced",
         appearances: new Set(rows.map((row) => row.match_id)).size,
         starts: rows.filter((row) => row.starter === "1").length,

@@ -25,7 +25,7 @@ describe("PlayPage", () => {
     render(<PlayPage />);
 
     const confirm = screen.getByRole("button", {
-      name: "CONFIRM SELECTION",
+      name: "CONTINUE",
     });
     const freeSelection = screen.getByRole("button", {
       name: /free selection/i,
@@ -44,9 +44,7 @@ describe("PlayPage", () => {
       persistedBeforeSelection,
     );
 
-    await user.click(
-      screen.getByRole("button", { name: "CONFIRM FREE SELECTION" }),
-    );
+    await user.click(screen.getByRole("button", { name: "CONTINUE" }));
 
     expect(useGameStore.getState().gameMode).toBe("free-selection");
     expect(router.push).toHaveBeenCalledWith("/play/era");
@@ -56,7 +54,7 @@ describe("PlayPage", () => {
     ).toBe("free-selection");
   });
 
-  it("supports keyboard selection without replacing a saved run", async () => {
+  it("supports keyboard selection without exposing saved-run UI", async () => {
     const user = userEvent.setup();
     useGameStore.setState({
       gameMode: "world-cup-run",
@@ -73,9 +71,11 @@ describe("PlayPage", () => {
     expect(classicDraft).toHaveAttribute("aria-pressed", "true");
     expect(useGameStore.getState().gameMode).toBe("world-cup-run");
     expect(useGameStore.getState().eraId).toBe("all");
+    expect(screen.queryByText(/saved run/i)).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "RESUME WORLD CUP RUN" }),
-    ).toBeEnabled();
+      screen.queryByRole("button", { name: /resume/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/archive xi/i)).not.toBeInTheDocument();
     expect(router.push).not.toHaveBeenCalled();
   });
 });

@@ -39,6 +39,7 @@ const targetProfileFor = (eraId: DraftEraId): ManagerEraFitProfile => {
 };
 
 export type ManagerEraFitBreakdown = {
+  applicable: boolean;
   score: number;
   tacticalTranslation: number;
   yearTranslation: number;
@@ -58,26 +59,11 @@ export const calculateManagerEraFit = (
   );
 
   if (eraId === "all") {
-    const score = Math.round(
-      clamp(
-        profile.adaptability * 0.42 +
-          average([manager.leadership, manager.gameManagement]) * 0.28 +
-          formationBreadth * 0.15 +
-          average([
-            profile.positionalFlexibility,
-            profile.substitutionApproach,
-          ]) *
-            0.15,
-        50,
-        99,
-      ),
-    );
     return {
-      score,
-      tacticalTranslation: Math.round(
-        average(Object.values(profile).slice(0, 7)),
-      ),
-      yearTranslation: 96,
+      applicable: false,
+      score: 0,
+      tacticalTranslation: 0,
+      yearTranslation: 0,
       adaptability: profile.adaptability,
       formationBreadth: Math.round(formationBreadth),
     };
@@ -99,25 +85,37 @@ export const calculateManagerEraFit = (
       clamp(100 - Math.abs(profile[metric] - target[metric]) * 0.62, 40, 100),
     ),
   );
-  const distanceInDecades =
-    Math.abs(manager.tournamentYear - era.midpointYear) / 10;
-  const distancePenalty =
-    distanceInDecades * (1 - profile.adaptability / 100) * 12;
-  const yearTranslation = clamp(100 - distancePenalty, 50, 100);
-  const score = Math.round(
-    clamp(
-      tacticalTranslation * 0.48 +
-        profile.adaptability * 0.24 +
-        manager.gameManagement * 0.1 +
-        manager.leadership * 0.08 +
-        formationBreadth * 0.1 -
-        distancePenalty * 0.35,
-      40,
-      99,
-    ),
-  );
+  const sameEra = manager.era === eraId;
+  const yearTranslation = sameEra
+    ? 100
+    : clamp(
+        100 -
+          (Math.abs(manager.tournamentYear - era.midpointYear) / 10) *
+            (1 - profile.adaptability / 100) *
+            6,
+        72,
+        100,
+      );
+  // Era Fit is a tactical translation score. A manager working in their own
+  // tournament-era bucket is canonical (100); cross-era managers are judged
+  // primarily by the demands of their style profile, not their birth year,
+  // nationality, or the date on the card.
+  const score = sameEra
+    ? 100
+    : Math.round(
+        clamp(
+          tacticalTranslation * 0.62 +
+            profile.adaptability * 0.2 +
+            manager.gameManagement * 0.08 +
+            manager.leadership * 0.05 +
+            formationBreadth * 0.05,
+          45,
+          100,
+        ),
+      );
 
   return {
+    applicable: true,
     score,
     tacticalTranslation: Math.round(tacticalTranslation),
     yearTranslation: Math.round(yearTranslation),
@@ -131,6 +129,14 @@ export const managerEraEffectiveness = (
   eraId: DraftEraId,
 ) => {
   if (!manager) return 0;
+  if (eraId === "all") {
+    return clamp(
+      0.84 +
+        (average([manager.leadership, manager.gameManagement]) - 75) * 0.003,
+      0.78,
+      0.94,
+    );
+  }
   const fit = calculateManagerEraFit(manager, eraId).score;
   return clamp(0.82 + (fit - 75) * 0.006, 0.64, 0.98);
 };

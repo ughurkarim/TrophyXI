@@ -6,7 +6,7 @@
   min-height: 0;
   overflow: hidden;
   flex-direction: column;
-  border: 1px solid color-mix(in srgb, var(--manager-accent) 44%, #343633);
+  border: 1px solid color-mix(in srgb, var(--manager-accent) 36%, var(--border-gold-low));
   border-radius: 17px;
   background:
     radial-gradient(
@@ -14,15 +14,17 @@
       color-mix(in srgb, var(--manager-accent) 13%, transparent),
       transparent 36%
     ),
-    linear-gradient(155deg, #1b1912, #070908 62%);
+    linear-gradient(155deg, rgba(27, 25, 18, 0.96), var(--surface-black) 62%);
   box-shadow:
-    inset 0 1px rgba(255, 248, 213, 0.08),
-    0 18px 44px rgba(0, 0, 0, 0.36);
+    inset 0 1px var(--inner-highlight-medium),
+    0 18px 44px rgba(0, 0, 0, 0.4),
+    var(--aura-gold-low);
   transform: none;
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
+    border-color var(--duration-micro) var(--ease-premium),
+    box-shadow var(--duration-standard) var(--ease-premium),
+    background var(--duration-standard) var(--ease-premium),
+    filter var(--duration-micro) var(--ease-premium);
 }
 
 .card.card::before {
@@ -57,8 +59,17 @@
   transform: none;
 }
 
+.card.card:hover,
+.card.card:focus-within {
+  filter: brightness(var(--hover-brightness));
+}
+
 .card.selected {
   border-width: 2px;
+  box-shadow:
+    inset 0 1px var(--inner-highlight-high),
+    0 20px 48px rgba(0, 0, 0, 0.46),
+    0 0 34px color-mix(in srgb, var(--manager-accent) 24%, transparent);
 }
 
 .attacking {

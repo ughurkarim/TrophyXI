@@ -49,13 +49,26 @@ describe("MatchTimeline", () => {
         onSkip={onSkip}
       />,
     );
+    const futureEvent = result.events[1]!;
+    expect(screen.queryByText("EVENT PULSE")).not.toBeInTheDocument();
+    expect(screen.queryByText(futureEvent.title)).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /match log/i }));
+    const matchLog = screen.getByRole("dialog", {
+      name: /full match timeline/i,
+    });
+    expect(within(matchLog).getAllByRole("listitem")).toHaveLength(1);
+    expect(within(matchLog).queryByText(futureEvent.title)).not.toBeInTheDocument();
+    await user.click(
+      screen.getByRole("button", { name: /close full match timeline/i }),
+    );
     expect(screen.getByRole("button", { name: "Pause match" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Fast forward" })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /skip to result/i }));
     expect(onSkip).toHaveBeenCalledOnce();
   });
 
-  it("shows both real team sheets, coaches, formations, stats, and scoreboard", () => {
+  it("opens both real team sheets and keeps stats and scoreboard centered", async () => {
+    const user = userEvent.setup();
     const opponent = resolveWorldCupAllStars(
       [...testLineup, ...testBench].map((player) => player.playerIdentityId),
     );
@@ -73,13 +86,16 @@ describe("MatchTimeline", () => {
       <MatchTimeline result={result} opponent={opponent} onSkip={vi.fn()} />,
     );
 
+    await user.click(screen.getByRole("button", { name: /view trophy xi/i }));
     const userTeam = screen.getByTestId("user-lineup");
-    const opponentTeam = screen.getByTestId("opponent-lineup");
     expect(within(userTeam).getAllByRole("listitem")).toHaveLength(11);
-    expect(within(opponentTeam).getAllByRole("listitem")).toHaveLength(11);
     expect(within(userTeam).getByText("Joachim Löw")).toBeVisible();
-    expect(within(opponentTeam).getByText("Mário Zagallo")).toBeVisible();
     expect(within(userTeam).getByText("4-3-3")).toBeVisible();
+    await user.click(screen.getByRole("button", { name: /close trophy xi/i }));
+    await user.click(screen.getByRole("button", { name: /view opponent xi/i }));
+    const opponentTeam = screen.getByTestId("opponent-lineup");
+    expect(within(opponentTeam).getAllByRole("listitem")).toHaveLength(11);
+    expect(within(opponentTeam).getByText("Mário Zagallo")).toBeVisible();
     expect(within(opponentTeam).getByText("4-3-3")).toBeVisible();
     expect(screen.getByTestId("live-scoreboard")).toHaveAccessibleName(
       /Trophy XI 0, World Cup All-Stars 0, KO/i,

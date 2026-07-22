@@ -59,7 +59,7 @@ describe("draft engine", () => {
     const fullback = players.find(
       (player) => player.id === "roberto-carlos-1998",
     )!;
-    expect(getPositionFit(centerBack, formation.slots[2])).toBe(94);
+    expect(getPositionFit(centerBack, formation.slots[2])).toBe(100);
     expect(getPositionFit(fullback, formation.slots[1])).toBe(100);
     expect(getPositionFit(fullback, formation.slots[8])).toBeGreaterThanOrEqual(
       45,
@@ -127,10 +127,17 @@ describe("draft engine", () => {
       ),
     );
     expect(
-      starterOffers.filter((offer) =>
-        offer.every((player) => player.overall < 90),
-      ).length,
-    ).toBeGreaterThan(50);
+      starterOffers.every((offer) =>
+        offer.some((player) => player.overall >= 88),
+      ),
+    ).toBe(true);
+    expect(
+      new Set(
+        starterOffers.map((offer) =>
+          offer.map((player) => player.playerIdentityId).sort().join("|"),
+        ),
+      ).size,
+    ).toBeGreaterThan(90);
     for (const offer of starterOffers) {
       expect(offer).toHaveLength(5);
       expect(new Set(offer.map((player) => player.playerIdentityId)).size).toBe(
@@ -151,11 +158,8 @@ describe("draft engine", () => {
       ).toBeLessThanOrEqual(1);
       expect(
         offer.filter((player) => player.overall >= 86).length,
-      ).toBeLessThanOrEqual(2);
-      expect(
-        offer.filter((player) => player.overall < 82).length,
-      ).toBeGreaterThanOrEqual(2);
-      expect(offer.some((player) => player.overall < 78)).toBe(true);
+      ).toBeLessThanOrEqual(3);
+      expect(offer.some((player) => player.overall >= 85)).toBe(true);
     }
     const average = (offers: typeof starterOffers) =>
       offers

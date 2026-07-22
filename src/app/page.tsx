@@ -1,7 +1,5 @@
-import {
-  ArrowRight,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
+import { ChampionHistoryShowcase } from "@/components/landing/champion-history-showcase";
 import { HeroShowcase } from "@/components/landing/hero-showcase";
 import {
   HowItWorksStepCard,
@@ -10,9 +8,11 @@ import {
 import { Footer } from "@/components/navigation/footer";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ButtonLink } from "@/components/ui/button";
-import { landingChampions } from "@/data/landing-champions";
+import {
+  confirmedLandingChampions,
+  landingChampions,
+} from "@/data/landing-champions";
 import { players } from "@/data/players";
-import { flagForCountry } from "@/lib/utils";
 import styles from "./landing-page.module.css";
 
 const steps = [
@@ -62,27 +62,29 @@ export default function LandingPage() {
                 <span>BEAT HISTORY.</span>
               </h1>
               <p className="hero__lede">
-                Draft legendary tournament performances and test your team against
-                the greatest champions in World Cup history.
+                Draft tournament-specific legends, build a balanced XI, and test
+                it against every World Cup champion since 1970.
               </p>
               <div className="hero__actions">
-                <ButtonLink href="/play">
+                <ButtonLink href="/play" className={styles.heroPrimaryCta}>
                   Build your XI <ArrowRight size={17} aria-hidden />
                 </ButtonLink>
-                <ButtonLink href="/#how-it-works" variant="secondary">
-                  See how it works <ChevronRight size={16} aria-hidden />
+                <ButtonLink
+                  href="/#how-it-works"
+                  variant="secondary"
+                  className={styles.heroSecondaryCta}
+                >
+                  See how it works <ArrowRight size={16} aria-hidden />
                 </ButtonLink>
               </div>
               <div className="hero__proof" aria-label="Game highlights">
                 <span>
-                  <b>{players.length}</b> tournament cards
+                  <b>{players.length}</b> TOURNAMENT CARDS
                 </span>
                 <span>
-                  <b>14</b> World Cup champions
+                  <b>15</b> WORLD CUP CHAMPIONS
                 </span>
-                <span>
-                  <b>2</b> player respins
-                </span>
+                <span>DETERMINISTIC MATCH ENGINE</span>
               </div>
             </div>
           </HeroShowcase>
@@ -108,43 +110,17 @@ export default function LandingPage() {
 
         <section className="section champions-section" id="champions">
           <div className="container">
-            <div className="section-heading">
+            <div className={`section-heading ${styles.championsHeading}`}>
               <div>
-                <p className="eyebrow eyebrow--gold">CHAMPION GAUNTLET</p>
-                <h2>Fourteen tournament champions.</h2>
+                <p className="eyebrow eyebrow--gold">THE WINNERS’ ARCHIVE</p>
+                <h2>World champions, framed in gold.</h2>
               </div>
-              <p>Every participant is playable; the champions mark each archive wing.</p>
+              <p>
+                A complete tournament timeline from 2026 back to the team that
+                made football look like art in 1970.
+              </p>
             </div>
-            <div className={styles.championGrid}>
-              {landingChampions.map((champion, index) => (
-                <article
-                  className={`champion-tile champion-tile--active ${styles.championCard}`}
-                  key={champion.id}
-                  tabIndex={0}
-                  aria-label={`${champion.nationName} ${champion.tournamentYear}, playable champion`}
-                >
-                  <div className="champion-tile__top">
-                    <span className="champion-index">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="status-live">Playable</span>
-                  </div>
-                  <div className={`champion-country ${styles.championCountry}`}>
-                    <strong>
-                      {champion.nationCode}{" "}
-                      <i aria-hidden>
-                        {flagForCountry(champion.nationCode)}
-                      </i>
-                    </strong>
-                    <h3>{champion.nationName}</h3>
-                  </div>
-                  <p className={styles.championYear}>
-                    {champion.tournamentYear}
-                  </p>
-                  <p className={styles.championFact}>
-                    {champion.championFact}
-                  </p>
-                </article>
-              ))}
-            </div>
+            <ChampionHistoryShowcase champions={landingChampions} />
           </div>
         </section>
 
@@ -191,7 +167,7 @@ export default function LandingPage() {
               <p className="eyebrow">THE CHAMPIONS AHEAD</p>
               <div className={styles.markerScroller}>
                 <div className={styles.markerGrid}>
-                  {landingChampions.map((champion) => (
+                  {confirmedLandingChampions.map((champion) => (
                     <button
                       className={styles.championMarker}
                       type="button"

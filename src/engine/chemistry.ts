@@ -1,10 +1,10 @@
-import { calculateEraFit, getDraftEra } from "@/data/eras";
+import { calculateEraFit } from "@/data/eras";
+import { formations } from "@/data/formations";
 import { getPositionFit } from "@/engine/draft";
 import {
   calculatePlayerLeadership,
   calculateSquadAccoladeEffect,
 } from "@/engine/accolade-effects";
-import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import type {
   DraftEraId,
   DraftPick,
@@ -73,34 +73,46 @@ const emptyContributions = (): ChemistryBreakdown["contributions"] => ({
   weakLinks: 0,
 });
 
+const formationsForFit = new Map(
+  formations.map((formation) => [formation.id, formation]),
+);
+
 export const calculateManagerFit = (
   manager: ManagerTournamentCard | undefined,
   formation: Formation,
-  eraId: DraftEraId,
+  _eraId: DraftEraId,
 ) => {
+  void _eraId;
   if (!manager) return 75;
   const formationMatch = manager.preferredFormations.includes(formation.id);
+  if (formationMatch) return 100;
+  const acceptableMatch = manager.acceptableFormations.includes(formation.id);
   const styleMatch = formation.managerStyles.includes(manager.style);
-  const era = getDraftEra(eraId);
-  const eraMatch =
-    eraId === "all" ||
-    Math.abs(manager.tournamentYear - era.midpointYear) <= 8;
-  const structuralFit =
-    formationMatch && styleMatch && eraMatch
-      ? 100
-      : formationMatch && styleMatch
-        ? 96
-        : formationMatch || styleMatch
-          ? eraMatch
-            ? 91
-            : 86
-          : eraMatch
-            ? 82
-            : 75;
-  const eraFit = calculateManagerEraFit(manager, eraId).score;
-  return Math.round(
-    Math.max(45, Math.min(100, structuralFit * 0.74 + eraFit * 0.26)),
-  );
+  const preferred = manager.preferredFormations
+    .map((id) => formationsForFit.get(id))
+    .filter((item): item is Formation => Boolean(item));
+  const relatedShape = preferred.some((candidate) => {
+    const defenderDelta = Math.abs(
+      candidate.slots.filter((slot) =>
+        ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB"].includes(
+          slot.position,
+        ),
+      ).length -
+        formation.slots.filter((slot) =>
+          ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB"].includes(
+            slot.position,
+          ),
+        ).length,
+    );
+    return defenderDelta <= 1 && Math.abs(candidate.width - formation.width) <= 18;
+  });
+
+  if (acceptableMatch && styleMatch) return 94;
+  if (acceptableMatch) return 91;
+  if (styleMatch && relatedShape) return 87;
+  if (styleMatch) return 83;
+  if (relatedShape) return 78;
+  return 68;
 };
 
 export const calculateChemistry = (
@@ -164,13 +176,20 @@ export const calculateChemistry = (
   const averagePositionFit = Math.round(
     fits.reduce<number>((sum, fit) => sum + fit, 0) / lineup.length,
   );
-  const averageEraFit = Math.round(
-    lineup.reduce(
-      (sum, player) =>
-        sum + calculateEraFit(player, eraId, { manager: context.manager, formation }),
-      0,
-    ) / lineup.length,
-  );
+  const averageEraFit =
+    eraId === "all"
+      ? 0
+      : Math.round(
+          lineup.reduce(
+            (sum, player) =>
+              sum +
+              calculateEraFit(player, eraId, {
+                manager: context.manager,
+                formation,
+              }),
+            0,
+          ) / lineup.length,
+        );
 
   const possibleLinks = Math.max(1, (lineup.length * (lineup.length - 1)) / 2);
   const weightedLinks =
@@ -208,7 +227,7 @@ export const calculateChemistry = (
       : 0;
   const rawContributions = {
     position: averagePositionFit * 0.21,
-    era: averageEraFit * 0.08,
+    era: eraId === "all" ? 0 : averageEraFit * 0.08,
     manager: managerFit * 0.11,
     links: weightedLinks * 30,
     leadership: Math.max(0, Math.min(2.4, (leadership - 70) * 0.08)),

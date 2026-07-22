@@ -152,9 +152,13 @@ describe("DraftBoard", () => {
       name: new RegExp(`^${slot.label}\\.`, "i"),
     });
     await user.hover(slotButton);
-    const hud = container.querySelector(".chemistry-preview-hud")!;
-    expect(hud).toHaveTextContent(`${slot.label} EXACT PLACEMENT`);
-    const chemistryText = hud.querySelectorAll("dl div dd")[1].textContent!;
+    const summary = screen.getByLabelText("Selected player preview");
+    expect(summary).toHaveTextContent(slot.label);
+    const chemistryText = within(
+      within(summary)
+        .getByText("Projected Chemistry", { selector: "dt" })
+        .closest("div")!,
+    ).getByRole("definition").textContent!;
     const projectedChemistry = Number(chemistryText.match(/\d+/)?.[0]);
     await user.click(slotButton);
     const state = useGameStore.getState();
@@ -168,12 +172,7 @@ describe("DraftBoard", () => {
       bench: [],
     });
     expect(committed.chemistry).toBe(projectedChemistry);
-    expect(container.querySelector(".chemistry-preview-hud")).toHaveTextContent(
-      `Current Chemistry${committed.chemistry}`,
-    );
-    expect(container.querySelector(".chemistry-preview-hud")).not.toHaveTextContent(
-      "Projected",
-    );
+    expect(container.querySelector(".chemistry-preview-hud")).toBeNull();
   });
 
   it("cancels selection without consuming or changing the five-card spin", async () => {
@@ -233,61 +232,20 @@ describe("DraftBoard", () => {
     expect(useGameStore.getState().managerOptionIds).toHaveLength(3);
   });
 
-  it("keeps the Chemistry dialog concise, scroll-locked, repeatable, and focus-safe", async () => {
+  it("integrates Chemistry details in the selected-player panel", async () => {
     const user = userEvent.setup();
-    render(<DraftBoard />);
+    const { container } = render(<DraftBoard />);
     expect(
       screen.queryByText(/Five unique identities|completion path guaranteed/i),
     ).not.toBeInTheDocument();
-    const trigger = screen.getByRole("button", {
-      name: /chemistry information/i,
-    });
-    await user.click(trigger);
-    const dialog = screen.getByRole("dialog", {
-      name: "CHEMISTRY",
-    });
-    expect(dialog).toHaveTextContent("How naturally your squad works together.");
-    expect(within(dialog).getByLabelText("Chemistry factors").children).toHaveLength(
-      6,
-    );
-    expect(dialog).toHaveTextContent(
-      "Players perform better in roles that suit them.",
-    );
-    expect(dialog).toHaveTextContent(
-      "90–100ELITE",
-    );
-    expect(document.body.style.overflow).toBe("hidden");
-    expect(document.body.style.position).toBe("fixed");
-    await waitFor(() =>
-      expect(
-        within(dialog).getByRole("button", {
-          name: /close chemistry information/i,
-        }),
-      ).toHaveFocus(),
-    );
-
-    await user.keyboard("{Escape}");
+    await user.click(screen.getAllByRole("button", {
+      name: /select .* for placement, rated/i,
+    })[0]);
+    const panel = screen.getByLabelText("Selected player preview");
+    expect(panel).toHaveTextContent(/Current.*Projected.*Exact delta/i);
+    expect(panel).toHaveTextContent(/Position|Manager|Leadership|Accolade|connections/i);
+    expect(container.querySelector(".chemistry-preview-hud")).toBeNull();
     expect(screen.queryByRole("dialog", { name: "CHEMISTRY" })).not.toBeInTheDocument();
-    await waitFor(() => expect(trigger).toHaveFocus());
-    expect(document.body.style.overflow).toBe("");
-    expect(document.body.style.position).toBe("");
-
-    await user.keyboard(" ");
-    expect(screen.getByRole("dialog", { name: "CHEMISTRY" })).toBeInTheDocument();
-    const backdrop = document.querySelector(".dialog-backdrop");
-    expect(backdrop).not.toBeNull();
-    await user.click(backdrop!);
-    expect(screen.queryByRole("dialog", { name: "CHEMISTRY" })).not.toBeInTheDocument();
-    await waitFor(() => expect(trigger).toHaveFocus());
-
-    await user.keyboard("{Enter}");
-    expect(screen.getByRole("dialog", { name: "CHEMISTRY" })).toBeInTheDocument();
-    await user.click(
-      screen.getByRole("button", {
-        name: /close chemistry information/i,
-      }),
-    );
-    await waitFor(() => expect(trigger).toHaveFocus());
   });
 
   it("shows a positive placement penalty for the exact awkward slot", async () => {
@@ -345,6 +303,8 @@ describe("DraftBoard", () => {
       screen.getByRole("button", { name: /enter world cup/i }),
     );
     expect(useGameStore.getState().draftPhase).toBe("opponent");
+    expect(screen.queryByRole("heading", { name: /choose your opponent/i })).not.toBeInTheDocument();
+    expect(screen.getByText(/opening the world cup/i)).toBeInTheDocument();
     expect(navigation.push).toHaveBeenCalledWith("/play/world-cup-run");
   });
 });

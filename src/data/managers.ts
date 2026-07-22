@@ -72,7 +72,41 @@ const seeds: ManagerSeed[] = [
   { id: "tite-2022", managerIdentityId: "tite", managerName: "Tite", countryCode: "BRA", countryName: "Brazil", tournamentYear: 2022, teamName: "Brazil", style: "possession", preferredFormations: ["4-3-3", "4-2-3-1"], qualityBand: "standout", tacticalIdentity: "Positional attack anchored by transition security" },
   { id: "lionel-scaloni-2022", managerIdentityId: "lionel-scaloni", managerName: "Lionel Scaloni", countryCode: "ARG", countryName: "Argentina", tournamentYear: 2022, teamName: "Argentina", style: "fluid", preferredFormations: ["4-3-3", "4-4-2"], qualityBand: "iconic", tacticalIdentity: "Collective intensity and flexible support for genius" },
   { id: "walid-regragui-2022", managerIdentityId: "walid-regragui", managerName: "Walid Regragui", countryCode: "MAR", countryName: "Morocco", tournamentYear: 2022, teamName: "Morocco", style: "defensive", preferredFormations: ["4-3-3", "4-2-3-1"], qualityBand: "standout", tacticalIdentity: "Compact courage and explosive wide transitions" },
+  { id: "jupp-derwall-1982", managerIdentityId: "jupp-derwall", managerName: "Jupp Derwall", countryCode: "GER", countryName: "Germany", tournamentYear: 1982, teamName: "West Germany", style: "balanced", preferredFormations: ["4-3-3", "4-4-2"], qualityBand: "elite", tacticalIdentity: "Calm tournament control and structured attacking balance" },
+  { id: "senol-gunes-2002", managerIdentityId: "senol-gunes", managerName: "Şenol Güneş", countryCode: "TUR", countryName: "Türkiye", tournamentYear: 2002, teamName: "Turkey", style: "counter", preferredFormations: ["3-5-2", "4-4-2"], qualityBand: "elite", tacticalIdentity: "Compact resilience and fearless vertical transition play" },
+  { id: "bert-van-marwijk-2010", managerIdentityId: "bert-van-marwijk", managerName: "Bert van Marwijk", countryCode: "NED", countryName: "Netherlands", tournamentYear: 2010, teamName: "Netherlands", style: "balanced", preferredFormations: ["4-2-3-1", "4-3-3"], qualityBand: "elite", tacticalIdentity: "Tournament pragmatism protecting an elite creative front" },
+  { id: "roberto-martinez-2018", managerIdentityId: "roberto-martinez", managerName: "Roberto Martínez", countryCode: "ESP", countryName: "Spain", tournamentYear: 2018, teamName: "Belgium", style: "fluid", preferredFormations: ["3-4-2-1", "3-4-3"], qualityBand: "elite", tacticalIdentity: "Fluid attacking rotations built around a golden generation" },
+  { id: "gareth-southgate-2018", managerIdentityId: "gareth-southgate", managerName: "Gareth Southgate", countryCode: "ENG", countryName: "England", tournamentYear: 2018, teamName: "England", style: "counter", preferredFormations: ["3-5-2", "3-4-2-1"], qualityBand: "standout", tacticalIdentity: "Set-piece precision and clear knockout structure" },
+  { id: "luis-de-la-fuente-2026", managerIdentityId: "luis-de-la-fuente", managerName: "Luis de la Fuente", countryCode: "ESP", countryName: "Spain", tournamentYear: 2026, teamName: "Spain", style: "possession", preferredFormations: ["4-3-3", "4-2-3-1"], qualityBand: "iconic", tacticalIdentity: "Technically dominant control crowned by a world championship" },
+  { id: "carlo-ancelotti-2026", managerIdentityId: "carlo-ancelotti", managerName: "Carlo Ancelotti", countryCode: "ITA", countryName: "Italy", tournamentYear: 2026, teamName: "Brazil", style: "balanced", preferredFormations: ["4-3-3", "4-2-3-1"], qualityBand: "elite", tacticalIdentity: "Elite man-management with adaptable tournament control" },
+  { id: "thomas-tuchel-2026", managerIdentityId: "thomas-tuchel", managerName: "Thomas Tuchel", countryCode: "GER", countryName: "Germany", tournamentYear: 2026, teamName: "England", style: "pressing", preferredFormations: ["4-2-3-1", "3-4-2-1"], qualityBand: "elite", tacticalIdentity: "Opponent-specific pressure and flexible knockout structures" },
 ];
+
+export const legacyManagerIdAliases: Record<string, string> = {
+  "helmut-schon-1970": "helmut-schon-1974",
+  "mario-zagallo-1998": "mario-zagallo-1970",
+  "enzo-bearzot-1978": "enzo-bearzot-1982",
+  "franz-beckenbauer-1986": "franz-beckenbauer-1990",
+  "guus-hiddink-1998": "guus-hiddink-2002",
+  "luiz-felipe-scolari-2006": "luiz-felipe-scolari-2002",
+  "vicente-del-bosque-2014": "vicente-del-bosque-2010",
+  "joachim-low-2010": "joachim-low-2014",
+  "didier-deschamps-2022": "didier-deschamps-2018",
+  "zlatko-dalic-2022": "zlatko-dalic-2018",
+};
+
+export const canonicalManagerIdFor = (managerId: string) =>
+  legacyManagerIdAliases[managerId] ?? managerId;
+
+const canonicalSeeds = seeds.filter(
+  (seed) => !Object.hasOwn(legacyManagerIdAliases, seed.id),
+);
+if (
+  new Set(canonicalSeeds.map((seed) => seed.managerIdentityId)).size !==
+  canonicalSeeds.length
+) {
+  throw new Error("Manager archive must contain one card per manager identity");
+}
 
 const modifierFor = (style: ManagerStyle) => {
   switch (style) {
@@ -423,7 +457,7 @@ const eraFitProfileFor = (
   };
 };
 
-export const managers: ManagerTournamentCard[] = seeds.map((seed) => {
+export const managers: ManagerTournamentCard[] = canonicalSeeds.map((seed) => {
   const override = activeGradeOverrides[seed.id];
   const acceptableFormations = [
     ...new Set([...seed.preferredFormations, ...styleFormations[seed.style]]),
@@ -452,7 +486,7 @@ export const managers: ManagerTournamentCard[] = seeds.map((seed) => {
       leadership,
       gameManagement,
     ),
-    imageId: seed.id,
+    imageId: seed.managerIdentityId,
     achievements: [],
     isDraftEligible: draftEligibleManagerIdSet.has(seed.id),
     draftIneligibilityReason: draftEligibleManagerIdSet.has(seed.id)

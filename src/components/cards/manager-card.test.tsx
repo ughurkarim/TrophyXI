@@ -5,7 +5,7 @@ import { ManagerCard } from "@/components/cards/manager-card";
 import { managersById } from "@/data/managers";
 
 describe("ManagerCard", () => {
-  it("shows five manager metrics, a card-specific portrait, and no player rarity", async () => {
+  it("shows five manager metrics, an identity portrait, and no player rarity", async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();
     const onInspect = vi.fn();
@@ -30,7 +30,7 @@ describe("ManagerCard", () => {
     expect(card).not.toHaveTextContent(/tournament versions/i);
     expect(card.querySelector("img")).toHaveAttribute(
       "src",
-      expect.stringContaining("/assets/managers/lionel-scaloni-2022.png"),
+      expect.stringContaining("/assets/managers/lionel-scaloni.png"),
     );
 
     await user.click(

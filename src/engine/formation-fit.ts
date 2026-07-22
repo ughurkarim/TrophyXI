@@ -18,6 +18,7 @@ export const calculateFormationEraFit = (
   formation: Formation,
   eraId: DraftEraId,
 ) => {
+  if (eraId === "all") return 0;
   const { environment } = getDraftEra(eraId);
   const targetWidth = clamp(
     62 + environment.pitchSpeed * 0.28 + environment.transitionSpeed * 0.08,
@@ -31,19 +32,7 @@ export const calculateFormationEraFit = (
     68,
     94,
   );
-  const eraStrengthBonus =
-    eraId !== "all" && formation.eraStrengths.includes(eraId) ? 3 : 0;
-  const neutralBalanceBonus =
-    eraId === "all"
-      ? Math.max(
-          0,
-          1.5 -
-            Math.abs(
-              formation.tendencies.attack - formation.tendencies.defense,
-            ) *
-              0.03,
-        )
-      : 0;
+  const eraStrengthBonus = formation.eraStrengths.includes(eraId) ? 3 : 0;
 
   const score =
     99 -
@@ -66,8 +55,7 @@ export const calculateFormationEraFit = (
       0.08 -
     Math.abs(difficultyScore[formation.tacticalDifficulty] - targetComplexity) *
       0.06 +
-    eraStrengthBonus +
-    neutralBalanceBonus;
+    eraStrengthBonus;
 
-  return Math.round(clamp(score, 60, 99));
+  return Math.round(clamp(score, 60, 100));
 };

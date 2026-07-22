@@ -1,0 +1,5347 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-22T04:14:32.109Z",
+  "identities": [
+    {
+      "identityId": "achraf-hakimi",
+      "playerId": "P-45288",
+      "playerName": "Achraf Hakimi",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "adriano",
+      "playerId": "P-20372",
+      "playerName": "Adriano",
+      "countryCode": "BRA",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "adrien-rabiot",
+      "playerId": "P-57401",
+      "playerName": "Adrien Rabiot",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ahmed-musa",
+      "playerId": "P-19591",
+      "playerName": "Ahmed Musa",
+      "countryCode": "NGA",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "alberto-gilardino",
+      "playerId": "P-48645",
+      "playerName": "Alberto Gilardino",
+      "countryCode": "ITA",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "aleksandar-kolarov",
+      "playerId": "P-33059",
+      "playerName": "Aleksandar Kolarov",
+      "countryCode": "SRB",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "aleksandar-mitrovic",
+      "playerId": "P-85696",
+      "playerName": "Aleksandar Mitrović",
+      "countryCode": "SRB",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "aleksandr-golovin",
+      "playerId": "P-22778",
+      "playerName": "Aleksandr Golovin",
+      "countryCode": "RUS",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "aleksandr-samedov",
+      "playerId": "P-06356",
+      "playerName": "Aleksandr Samedov",
+      "countryCode": "RUS",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "alessandro-del-piero",
+      "playerId": "P-83836",
+      "playerName": "Alessandro Del Piero",
+      "countryCode": "ITA",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "alexander-frei",
+      "playerId": "P-61684",
+      "playerName": "Alexander Frei",
+      "countryCode": "SUI",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "alexis-mac-allister",
+      "playerId": "P-71343",
+      "playerName": "Alexis Mac Allister",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "alexis-sanchez",
+      "playerId": "P-30014",
+      "playerName": "Alexis Sánchez",
+      "countryCode": "CHI",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "alireza-beiranvand",
+      "playerId": "P-20998",
+      "playerName": "Alireza Beiranvand",
+      "countryCode": "IRN",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "alisson",
+      "playerId": "P-21531",
+      "playerName": "Alisson",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "alphonso-davies",
+      "playerId": "P-46358",
+      "playerName": "Alphonso Davies",
+      "countryCode": "CAN",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "alvaro-morata",
+      "playerId": "P-29274",
+      "playerName": "Álvaro Morata",
+      "countryCode": "ESP",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "anatoliy-tymoshchuk",
+      "playerId": "P-60675",
+      "playerName": "Anatoliy Tymoshchuk",
+      "countryCode": "UKR",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "andre-ayew",
+      "playerId": "P-01945",
+      "playerName": "André Ayew",
+      "countryCode": "GHA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014,
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "andre-carrillo",
+      "playerId": "P-39610",
+      "playerName": "André Carrillo",
+      "countryCode": "PER",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "andre-schurrle",
+      "playerId": "P-46979",
+      "playerName": "André Schürrle",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "andres-guardado",
+      "playerId": "P-40312",
+      "playerName": "Andrés Guardado",
+      "countryCode": "MEX",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "andres-iniesta",
+      "playerId": "P-56330",
+      "playerName": "Andrés Iniesta",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "andriy-shevchenko",
+      "playerId": "P-86650",
+      "playerName": "Andriy Shevchenko",
+      "countryCode": "UKR",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "angel-di-maria",
+      "playerId": "P-42113",
+      "playerName": "Ángel Di María",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "antoine-griezmann",
+      "playerId": "P-90908",
+      "playerName": "Antoine Griezmann",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "antolin-alcaraz",
+      "playerId": "P-87859",
+      "playerName": "Antolín Alcaraz",
+      "countryCode": "PAR",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "antonio-rudiger",
+      "playerId": "P-51201",
+      "playerName": "Antonio Rüdiger",
+      "countryCode": "GER",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "antonio-valencia",
+      "playerId": "P-49265",
+      "playerName": "Antonio Valencia",
+      "countryCode": "ECU",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "ao-tanaka",
+      "playerId": "P-82447",
+      "playerName": "Ao Tanaka",
+      "countryCode": "JPN",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "arjen-robben",
+      "playerId": "P-23705",
+      "playerName": "Arjen Robben",
+      "countryCode": "NED",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006,
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "arne-friedrich",
+      "playerId": "P-43481",
+      "playerName": "Arne Friedrich",
+      "countryCode": "GER",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "artem-dzyuba",
+      "playerId": "P-37840",
+      "playerName": "Artem Dzyuba",
+      "countryCode": "RUS",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "artur-boruc",
+      "playerId": "P-32695",
+      "playerName": "Artur Boruc",
+      "countryCode": "POL",
+      "referenceYear": 2006,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "arturo-vidal",
+      "playerId": "P-41001",
+      "playerName": "Arturo Vidal",
+      "countryCode": "CHI",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "aruna-dindane",
+      "playerId": "P-93241",
+      "playerName": "Aruna Dindane",
+      "countryCode": "CIV",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "asamoah-gyan",
+      "playerId": "P-38556",
+      "playerName": "Asamoah Gyan",
+      "countryCode": "GHA",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ashley-cole",
+      "playerId": "P-16557",
+      "playerName": "Ashley Cole",
+      "countryCode": "ENG",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "aurelien-tchouameni",
+      "playerId": "P-54517",
+      "playerName": "Aurélien Tchouaméni",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "axel-witsel",
+      "playerId": "P-53048",
+      "playerName": "Axel Witsel",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "aziz-behich",
+      "playerId": "P-51118",
+      "playerName": "Aziz Behich",
+      "countryCode": "AUS",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "azzedine-ounahi",
+      "playerId": "P-40619",
+      "playerName": "Azzedine Ounahi",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "bastian-schweinsteiger",
+      "playerId": "P-43400",
+      "playerName": "Bastian Schweinsteiger",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "benedikt-howedes",
+      "playerId": "P-54036",
+      "playerName": "Benedikt Höwedes",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "benjamin-pavard",
+      "playerId": "P-60652",
+      "playerName": "Benjamin Pavard",
+      "countryCode": "FRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "bernardo-silva",
+      "playerId": "P-34205",
+      "playerName": "Bernardo Silva",
+      "countryCode": "POR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "blaise-matuidi",
+      "playerId": "P-04964",
+      "playerName": "Blaise Matuidi",
+      "countryCode": "FRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "breel-embolo",
+      "playerId": "P-19075",
+      "playerName": "Breel Embolo",
+      "countryCode": "SUI",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "brett-emerton",
+      "playerId": "P-83566",
+      "playerName": "Brett Emerton",
+      "countryCode": "AUS",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "brett-holman",
+      "playerId": "P-96211",
+      "playerName": "Brett Holman",
+      "countryCode": "AUS",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "bruno-fernandes",
+      "playerId": "P-39584",
+      "playerName": "Bruno Fernandes",
+      "countryCode": "POR",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "bruno-guimaraes",
+      "playerId": "P-74688",
+      "playerName": "Bruno Guimarães",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "bruno-petkovic",
+      "playerId": "P-46461",
+      "playerName": "Bruno Petković",
+      "countryCode": "CRO",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "bryan-ruiz",
+      "playerId": "P-99590",
+      "playerName": "Bryan Ruiz",
+      "countryCode": "CRC",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "bukayo-saka",
+      "playerId": "P-76842",
+      "playerName": "Bukayo Saka",
+      "countryCode": "ENG",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "carles-puyol",
+      "playerId": "P-51089",
+      "playerName": "Carles Puyol",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "carlos-bocanegra",
+      "playerId": "P-12548",
+      "playerName": "Carlos Bocanegra",
+      "countryCode": "USA",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "carlos-tevez",
+      "playerId": "P-29080",
+      "playerName": "Carlos Tevez",
+      "countryCode": "ARG",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "carlos-vela",
+      "playerId": "P-68042",
+      "playerName": "Carlos Vela",
+      "countryCode": "MEX",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "casemiro",
+      "playerId": "P-02305",
+      "playerName": "Casemiro",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "celso-borges",
+      "playerId": "P-11767",
+      "playerName": "Celso Borges",
+      "countryCode": "CRC",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "cesc-fabregas",
+      "playerId": "P-81297",
+      "playerName": "Cesc Fàbregas",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "charles-aranguiz",
+      "playerId": "P-22391",
+      "playerName": "Charles Aránguiz",
+      "countryCode": "CHI",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "cho-gue-sung",
+      "playerId": "P-87169",
+      "playerName": "Cho Gue-sung",
+      "countryCode": "KOR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "chris-wood",
+      "playerId": "P-17136",
+      "playerName": "Chris Wood",
+      "countryCode": "NZL",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "christian-cueva",
+      "playerId": "P-04154",
+      "playerName": "Christian Cueva",
+      "countryCode": "PER",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "christian-pulisic",
+      "playerId": "P-11737",
+      "playerName": "Christian Pulisic",
+      "countryCode": "USA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "claudio-bravo",
+      "playerId": "P-89601",
+      "playerName": "Claudio Bravo",
+      "countryCode": "CHI",
+      "referenceYear": 2014,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "clint-dempsey",
+      "playerId": "P-18672",
+      "playerName": "Clint Dempsey",
+      "countryCode": "USA",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "cody-gakpo",
+      "playerId": "P-28911",
+      "playerName": "Cody Gakpo",
+      "countryCode": "NED",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "costinha",
+      "playerId": "P-80908",
+      "playerName": "Costinha",
+      "countryCode": "POR",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "craig-goodwin",
+      "playerId": "P-82010",
+      "playerName": "Craig Goodwin",
+      "countryCode": "AUS",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "cristian-romero",
+      "playerId": "P-79650",
+      "playerName": "Cristian Romero",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "cristiano-ronaldo",
+      "playerId": "P-70442",
+      "playerName": "Cristiano Ronaldo",
+      "countryCode": "POR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "cuauhtemoc-blanco",
+      "playerId": "P-88428",
+      "playerName": "Cuauhtémoc Blanco",
+      "countryCode": "MEX",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "daichi-kamada",
+      "playerId": "P-62952",
+      "playerName": "Daichi Kamada",
+      "countryCode": "JPN",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "daley-blind",
+      "playerId": "P-39861",
+      "playerName": "Daley Blind",
+      "countryCode": "NED",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dani-alves",
+      "playerId": "P-09441",
+      "playerName": "Dani Alves",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dani-olmo",
+      "playerId": "P-40007",
+      "playerName": "Dani Olmo",
+      "countryCode": "ESP",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "daniele-de-rossi",
+      "playerId": "P-65802",
+      "playerName": "Daniele De Rossi",
+      "countryCode": "ITA",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "danijel-subasic",
+      "playerId": "P-25428",
+      "playerName": "Danijel Subašić",
+      "countryCode": "CRO",
+      "referenceYear": 2018,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "darijo-srna",
+      "playerId": "P-97008",
+      "playerName": "Darijo Srna",
+      "countryCode": "CRO",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "darwin-nunez",
+      "playerId": "P-18885",
+      "playerName": "Darwin Núñez",
+      "countryCode": "URU",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "david-beckham",
+      "playerId": "P-81049",
+      "playerName": "David Beckham",
+      "countryCode": "ENG",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "david-luiz",
+      "playerId": "P-87449",
+      "playerName": "David Luiz",
+      "countryCode": "BRA",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "david-odonkor",
+      "playerId": "P-24324",
+      "playerName": "David Odonkor",
+      "countryCode": "GER",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "david-ospina",
+      "playerId": "P-94838",
+      "playerName": "David Ospina",
+      "countryCode": "COL",
+      "referenceYear": 2018,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "david-villa",
+      "playerId": "P-49097",
+      "playerName": "David Villa",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dayot-upamecano",
+      "playerId": "P-03945",
+      "playerName": "Dayot Upamecano",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "declan-rice",
+      "playerId": "P-84787",
+      "playerName": "Declan Rice",
+      "countryCode": "ENG",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dejan-lovren",
+      "playerId": "P-56297",
+      "playerName": "Dejan Lovren",
+      "countryCode": "CRO",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dejan-stankovic",
+      "playerId": "P-22793",
+      "playerName": "Dejan Stanković",
+      "countryCode": "SRB",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "dele-alli",
+      "playerId": "P-83363",
+      "playerName": "Dele Alli",
+      "countryCode": "ENG",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "denis-cheryshev",
+      "playerId": "P-43675",
+      "playerName": "Denis Cheryshev",
+      "countryCode": "RUS",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "denzel-dumfries",
+      "playerId": "P-97615",
+      "playerName": "Denzel Dumfries",
+      "countryCode": "NED",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "didier-drogba",
+      "playerId": "P-99466",
+      "playerName": "Didier Drogba",
+      "countryCode": "CIV",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "didier-zokora",
+      "playerId": "P-48968",
+      "playerName": "Didier Zokora",
+      "countryCode": "CIV",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "diego-forlan",
+      "playerId": "P-86087",
+      "playerName": "Diego Forlán",
+      "countryCode": "URU",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "diego-godin",
+      "playerId": "P-78440",
+      "playerName": "Diego Godín",
+      "countryCode": "URU",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010,
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "diogo-costa",
+      "playerId": "P-54827",
+      "playerName": "Diogo Costa",
+      "countryCode": "POR",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dirk-kuyt",
+      "playerId": "P-33312",
+      "playerName": "Dirk Kuyt",
+      "countryCode": "NED",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dominik-livakovic",
+      "playerId": "P-99988",
+      "playerName": "Dominik Livaković",
+      "countryCode": "CRO",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dries-mertens",
+      "playerId": "P-84852",
+      "playerName": "Dries Mertens",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "dusan-vlahovic",
+      "playerId": "P-63293",
+      "playerName": "Dušan Vlahović",
+      "countryCode": "SRB",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "eden-hazard",
+      "playerId": "P-72011",
+      "playerName": "Eden Hazard",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "edinson-cavani",
+      "playerId": "P-59138",
+      "playerName": "Edinson Cavani",
+      "countryCode": "URU",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "eduardo-vargas",
+      "playerId": "P-36808",
+      "playerName": "Eduardo Vargas",
+      "countryCode": "CHI",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "elano",
+      "playerId": "P-78264",
+      "playerName": "Elano",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "emiliano-martinez",
+      "playerId": "P-13162",
+      "playerName": "Emiliano Martínez",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "emmanuel-emenike",
+      "playerId": "P-95567",
+      "playerName": "Emmanuel Emenike",
+      "countryCode": "NGA",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "enner-valencia",
+      "playerId": "P-75912",
+      "playerName": "Enner Valencia",
+      "countryCode": "ECU",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "enzo-fernandez",
+      "playerId": "P-10739",
+      "playerName": "Enzo Fernández",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "eric-maxim-choupo-moting",
+      "playerId": "P-06117",
+      "playerName": "Eric Maxim Choupo-Moting",
+      "countryCode": "CMR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "esteban-cambiasso",
+      "playerId": "P-66229",
+      "playerName": "Esteban Cambiasso",
+      "countryCode": "ARG",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ezequiel-garay",
+      "playerId": "P-61051",
+      "playerName": "Ezequiel Garay",
+      "countryCode": "ARG",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ezequiel-lavezzi",
+      "playerId": "P-69953",
+      "playerName": "Ezequiel Lavezzi",
+      "countryCode": "ARG",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "fabian-johnson",
+      "playerId": "P-71933",
+      "playerName": "Fabian Johnson",
+      "countryCode": "USA",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "fabio-grosso",
+      "playerId": "P-99473",
+      "playerName": "Fabio Grosso",
+      "countryCode": "ITA",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "federico-valverde",
+      "playerId": "P-05174",
+      "playerName": "Federico Valverde",
+      "countryCode": "URU",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "felipe-melo",
+      "playerId": "P-58840",
+      "playerName": "Felipe Melo",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "fernandinho",
+      "playerId": "P-41758",
+      "playerName": "Fernandinho",
+      "countryCode": "BRA",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "fernando-muslera",
+      "playerId": "P-10014",
+      "playerName": "Fernando Muslera",
+      "countryCode": "URU",
+      "referenceYear": 2018,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "fernando-torres",
+      "playerId": "P-71661",
+      "playerName": "Fernando Torres",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "filippo-inzaghi",
+      "playerId": "P-29172",
+      "playerName": "Filippo Inzaghi",
+      "countryCode": "ITA",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "florent-malouda",
+      "playerId": "P-18830",
+      "playerName": "Florent Malouda",
+      "countryCode": "FRA",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "franck-ribery",
+      "playerId": "P-55659",
+      "playerName": "Franck Ribéry",
+      "countryCode": "FRA",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "frank-lampard",
+      "playerId": "P-65534",
+      "playerName": "Frank Lampard",
+      "countryCode": "ENG",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "frenkie-de-jong",
+      "playerId": "P-17688",
+      "playerName": "Frenkie de Jong",
+      "countryCode": "NED",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "gabriel-heinze",
+      "playerId": "P-64352",
+      "playerName": "Gabriel Heinze",
+      "countryCode": "ARG",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "gary-medel",
+      "playerId": "P-49014",
+      "playerName": "Gary Medel",
+      "countryCode": "CHI",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "gavi",
+      "playerId": "P-88433",
+      "playerName": "Gavi",
+      "countryCode": "ESP",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "genki-haraguchi",
+      "playerId": "P-54138",
+      "playerName": "Genki Haraguchi",
+      "countryCode": "JPN",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "gerard-pique",
+      "playerId": "P-64348",
+      "playerName": "Gerard Piqué",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "gervinho",
+      "playerId": "P-33586",
+      "playerName": "Gervinho",
+      "countryCode": "CIV",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "giorgian-de-arrascaeta",
+      "playerId": "P-62594",
+      "playerName": "Giorgian de Arrascaeta",
+      "countryCode": "URU",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "giorgos-samaras",
+      "playerId": "P-58348",
+      "playerName": "Giorgos Samaras",
+      "countryCode": "GRC",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "giovani-dos-santos",
+      "playerId": "P-77047",
+      "playerName": "Giovani dos Santos",
+      "countryCode": "MEX",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "giovanni-van-bronckhorst",
+      "playerId": "P-21832",
+      "playerName": "Giovanni van Bronckhorst",
+      "countryCode": "NED",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "goncalo-ramos",
+      "playerId": "P-41647",
+      "playerName": "Gonçalo Ramos",
+      "countryCode": "POR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "gonzalo-higuain",
+      "playerId": "P-29398",
+      "playerName": "Gonzalo Higuaín",
+      "countryCode": "ARG",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "gonzalo-montiel",
+      "playerId": "P-91431",
+      "playerName": "Gonzalo Montiel",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "granit-xhaka",
+      "playerId": "P-77224",
+      "playerName": "Granit Xhaka",
+      "countryCode": "SUI",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "guillermo-ochoa",
+      "playerId": "P-80826",
+      "playerName": "Guillermo Ochoa",
+      "countryCode": "MEX",
+      "referenceYear": 2018,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "gylfi-sigur-sson",
+      "playerId": "P-83367",
+      "playerName": "Gylfi Sigurðsson",
+      "countryCode": "ISL",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "hakim-ziyech",
+      "playerId": "P-70715",
+      "playerName": "Hakim Ziyech",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "hannes-or-halldorsson",
+      "playerId": "P-37032",
+      "playerName": "Hannes Þór Halldórsson",
+      "countryCode": "ISL",
+      "referenceYear": 2018,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "harry-kane",
+      "playerId": "P-58924",
+      "playerName": "Harry Kane",
+      "countryCode": "ENG",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "harry-kewell",
+      "playerId": "P-14290",
+      "playerName": "Harry Kewell",
+      "countryCode": "AUS",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "harry-maguire",
+      "playerId": "P-02465",
+      "playerName": "Harry Maguire",
+      "countryCode": "ENG",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "harry-souttar",
+      "playerId": "P-89217",
+      "playerName": "Harry Souttar",
+      "countryCode": "AUS",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "hector-herrera",
+      "playerId": "P-42911",
+      "playerName": "Héctor Herrera",
+      "countryCode": "MEX",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "hernan-crespo",
+      "playerId": "P-19888",
+      "playerName": "Hernán Crespo",
+      "countryCode": "ARG",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "hidetoshi-nakata",
+      "playerId": "P-09349",
+      "playerName": "Hidetoshi Nakata",
+      "countryCode": "JPN",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "hirving-lozano",
+      "playerId": "P-24705",
+      "playerName": "Hirving Lozano",
+      "countryCode": "MEX",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "hugo-lloris",
+      "playerId": "P-30711",
+      "playerName": "Hugo Lloris",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "hulk",
+      "playerId": "P-86524",
+      "playerName": "Hulk",
+      "countryCode": "BRA",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "hwang-hee-chan",
+      "playerId": "P-58692",
+      "playerName": "Hwang Hee-chan",
+      "countryCode": "KOR",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "idrissa-gueye",
+      "playerId": "P-40621",
+      "playerName": "Idrissa Gueye",
+      "countryCode": "SEN",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "igor-akinfeev",
+      "playerId": "P-95453",
+      "playerName": "Igor Akinfeev",
+      "countryCode": "RUS",
+      "referenceYear": 2018,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "iker-casillas",
+      "playerId": "P-61793",
+      "playerName": "Iker Casillas",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ilkay-gundogan",
+      "playerId": "P-08896",
+      "playerName": "İlkay Gündoğan",
+      "countryCode": "GER",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "inaki-williams",
+      "playerId": "P-53967",
+      "playerName": "Iñaki Williams",
+      "countryCode": "GHA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "islam-slimani",
+      "playerId": "P-59199",
+      "playerName": "Islam Slimani",
+      "countryCode": "ALG",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "ismaila-sarr",
+      "playerId": "P-37935",
+      "playerName": "Ismaïla Sarr",
+      "countryCode": "SEN",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ivan-perisic",
+      "playerId": "P-93884",
+      "playerName": "Ivan Perišić",
+      "countryCode": "CRO",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ivan-rakitic",
+      "playerId": "P-65979",
+      "playerName": "Ivan Rakitić",
+      "countryCode": "CRO",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jackson-irvine",
+      "playerId": "P-34822",
+      "playerName": "Jackson Irvine",
+      "countryCode": "AUS",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "jackson-martinez",
+      "playerId": "P-01068",
+      "playerName": "Jackson Martínez",
+      "countryCode": "COL",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jamal-musiala",
+      "playerId": "P-47182",
+      "playerName": "Jamal Musiala",
+      "countryCode": "GER",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "james-rodriguez",
+      "playerId": "P-89392",
+      "playerName": "James Rodríguez",
+      "countryCode": "COL",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jan-koller",
+      "playerId": "P-81477",
+      "playerName": "Jan Koller",
+      "countryCode": "CZE",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "jan-vertonghen",
+      "playerId": "P-64049",
+      "playerName": "Jan Vertonghen",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "javier-hernandez",
+      "playerId": "P-36515",
+      "playerName": "Javier Hernández",
+      "countryCode": "MEX",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "javier-mascherano",
+      "playerId": "P-77063",
+      "playerName": "Javier Mascherano",
+      "countryCode": "ARG",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "javier-saviola",
+      "playerId": "P-38901",
+      "playerName": "Javier Saviola",
+      "countryCode": "ARG",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "jefferson-montero",
+      "playerId": "P-55935",
+      "playerName": "Jefferson Montero",
+      "countryCode": "ECU",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "jermaine-jones",
+      "playerId": "P-10072",
+      "playerName": "Jermaine Jones",
+      "countryCode": "USA",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "jerome-boateng",
+      "playerId": "P-04224",
+      "playerName": "Jérôme Boateng",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jesse-lingard",
+      "playerId": "P-63620",
+      "playerName": "Jesse Lingard",
+      "countryCode": "ENG",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "joao-felix",
+      "playerId": "P-17931",
+      "playerName": "João Félix",
+      "countryCode": "POR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "joe-cole",
+      "playerId": "P-37933",
+      "playerName": "Joe Cole",
+      "countryCode": "ENG",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "joel-campbell",
+      "playerId": "P-70812",
+      "playerName": "Joel Campbell",
+      "countryCode": "CRC",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "john-brooks",
+      "playerId": "P-41262",
+      "playerName": "John Brooks",
+      "countryCode": "USA",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "john-mensah",
+      "playerId": "P-29967",
+      "playerName": "John Mensah",
+      "countryCode": "GHA",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "john-stones",
+      "playerId": "P-92628",
+      "playerName": "John Stones",
+      "countryCode": "ENG",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "john-terry",
+      "playerId": "P-71420",
+      "playerName": "John Terry",
+      "countryCode": "ENG",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jonathan-david",
+      "playerId": "P-48340",
+      "playerName": "Jonathan David",
+      "countryCode": "CAN",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jordan-henderson",
+      "playerId": "P-08169",
+      "playerName": "Jordan Henderson",
+      "countryCode": "ENG",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jordan-pickford",
+      "playerId": "P-70618",
+      "playerName": "Jordan Pickford",
+      "countryCode": "ENG",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jordi-alba",
+      "playerId": "P-01416",
+      "playerName": "Jordi Alba",
+      "countryCode": "ESP",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jose-maria-gimenez",
+      "playerId": "P-65659",
+      "playerName": "José María Giménez",
+      "countryCode": "URU",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "joshua-kimmich",
+      "playerId": "P-30316",
+      "playerName": "Joshua Kimmich",
+      "countryCode": "GER",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "josko-gvardiol",
+      "playerId": "P-58420",
+      "playerName": "Joško Gvardiol",
+      "countryCode": "CRO",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "juan-cuadrado",
+      "playerId": "P-83216",
+      "playerName": "Juan Cuadrado",
+      "countryCode": "COL",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "juan-fernando-quintero",
+      "playerId": "P-14499",
+      "playerName": "Juan Fernando Quintero",
+      "countryCode": "COL",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "juan-pablo-sorin",
+      "playerId": "P-60914",
+      "playerName": "Juan Pablo Sorín",
+      "countryCode": "ARG",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "juan-sebastian-veron",
+      "playerId": "P-62209",
+      "playerName": "Juan Sebastián Verón",
+      "countryCode": "ARG",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "jude-bellingham",
+      "playerId": "P-15674",
+      "playerName": "Jude Bellingham",
+      "countryCode": "ENG",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "julian-alvarez",
+      "playerId": "P-19776",
+      "playerName": "Julián Álvarez",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "julian-green",
+      "playerId": "P-91438",
+      "playerName": "Julian Green",
+      "countryCode": "USA",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "julio-cesar",
+      "playerId": "P-11275",
+      "playerName": "Júlio César",
+      "countryCode": "BRA",
+      "referenceYear": 2014,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "julio-cruz",
+      "playerId": "P-38198",
+      "playerName": "Julio Cruz",
+      "countryCode": "ARG",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "junichi-inamoto",
+      "playerId": "P-46807",
+      "playerName": "Junichi Inamoto",
+      "countryCode": "JPN",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "justo-villar",
+      "playerId": "P-94060",
+      "playerName": "Justo Villar",
+      "countryCode": "PAR",
+      "referenceYear": 2010,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "kai-havertz",
+      "playerId": "P-77743",
+      "playerName": "Kai Havertz",
+      "countryCode": "GER",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kaka",
+      "playerId": "P-58388",
+      "playerName": "Kaká",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kalidou-koulibaly",
+      "playerId": "P-47321",
+      "playerName": "Kalidou Koulibaly",
+      "countryCode": "SEN",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kaoru-mitoma",
+      "playerId": "P-22633",
+      "playerName": "Kaoru Mitoma",
+      "countryCode": "JPN",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "karim-benzema",
+      "playerId": "P-35408",
+      "playerName": "Karim Benzema",
+      "countryCode": "FRA",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "katlego-mphela",
+      "playerId": "P-39078",
+      "playerName": "Katlego Mphela",
+      "countryCode": "RSA",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "keisuke-honda",
+      "playerId": "P-33175",
+      "playerName": "Keisuke Honda",
+      "countryCode": "JPN",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kevin-de-bruyne",
+      "playerId": "P-48955",
+      "playerName": "Kevin De Bruyne",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kevin-prince-boateng",
+      "playerId": "P-66316",
+      "playerName": "Kevin-Prince Boateng",
+      "countryCode": "GHA",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "keylor-navas",
+      "playerId": "P-81392",
+      "playerName": "Keylor Navas",
+      "countryCode": "CRC",
+      "referenceYear": 2014,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ki-sung-yueng",
+      "playerId": "P-48433",
+      "playerName": "Ki Sung-yueng",
+      "countryCode": "KOR",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kieran-trippier",
+      "playerId": "P-25937",
+      "playerName": "Kieran Trippier",
+      "countryCode": "ENG",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kim-min-jae",
+      "playerId": "P-14360",
+      "playerName": "Kim Min-jae",
+      "countryCode": "KOR",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kingsley-coman",
+      "playerId": "P-06614",
+      "playerName": "Kingsley Coman",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kostas-manolas",
+      "playerId": "P-23816",
+      "playerName": "Kostas Manolas",
+      "countryCode": "GRC",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "kwadwo-asamoah",
+      "playerId": "P-39956",
+      "playerName": "Kwadwo Asamoah",
+      "countryCode": "GHA",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "kyle-walker",
+      "playerId": "P-74071",
+      "playerName": "Kyle Walker",
+      "countryCode": "ENG",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "kylian-mbappe",
+      "playerId": "P-64077",
+      "playerName": "Kylian Mbappé",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "landon-donovan",
+      "playerId": "P-05728",
+      "playerName": "Landon Donovan",
+      "countryCode": "USA",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "lautaro-martinez",
+      "playerId": "P-81505",
+      "playerName": "Lautaro Martínez",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "lee-chung-yong",
+      "playerId": "P-40927",
+      "playerName": "Lee Chung-yong",
+      "countryCode": "KOR",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "lee-kang-in",
+      "playerId": "P-87514",
+      "playerName": "Lee Kang-in",
+      "countryCode": "KOR",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "lee-young-pyo",
+      "playerId": "P-46519",
+      "playerName": "Lee Young-pyo",
+      "countryCode": "KOR",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "lionel-messi",
+      "playerId": "P-14758",
+      "playerName": "Lionel Messi",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "lisandro-martinez",
+      "playerId": "P-23070",
+      "playerName": "Lisandro Martínez",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "luca-toni",
+      "playerId": "P-96512",
+      "playerName": "Luca Toni",
+      "countryCode": "ITA",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "lucas-hernandez",
+      "playerId": "P-84424",
+      "playerName": "Lucas Hernández",
+      "countryCode": "FRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "lucas-neill",
+      "playerId": "P-91832",
+      "playerName": "Lucas Neill",
+      "countryCode": "AUS",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "lucas-torreira",
+      "playerId": "P-47386",
+      "playerName": "Lucas Torreira",
+      "countryCode": "URU",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "lucio",
+      "playerId": "P-42918",
+      "playerName": "Lúcio",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "luis-fabiano",
+      "playerId": "P-98528",
+      "playerName": "Luís Fabiano",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "luis-suarez",
+      "playerId": "P-30486",
+      "playerName": "Luis Suárez",
+      "countryCode": "URU",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "luiz-gustavo",
+      "playerId": "P-43410",
+      "playerName": "Luiz Gustavo",
+      "countryCode": "BRA",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "luka-modric",
+      "playerId": "P-29491",
+      "playerName": "Luka Modrić",
+      "countryCode": "CRO",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "lukas-podolski",
+      "playerId": "P-36287",
+      "playerName": "Lukas Podolski",
+      "countryCode": "GER",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "maarten-stekelenburg",
+      "playerId": "P-36850",
+      "playerName": "Maarten Stekelenburg",
+      "countryCode": "NED",
+      "referenceYear": 2010,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "maicon",
+      "playerId": "P-94551",
+      "playerName": "Maicon",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "makoto-hasebe",
+      "playerId": "P-91793",
+      "playerName": "Makoto Hasebe",
+      "countryCode": "JPN",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "manuel-neuer",
+      "playerId": "P-19408",
+      "playerName": "Manuel Neuer",
+      "countryCode": "GER",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010,
+        2014,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "marcelo",
+      "playerId": "P-70650",
+      "playerName": "Marcelo",
+      "countryCode": "BRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "marcelo-brozovic",
+      "playerId": "P-79215",
+      "playerName": "Marcelo Brozović",
+      "countryCode": "CRO",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "marco-materazzi",
+      "playerId": "P-37126",
+      "playerName": "Marco Materazzi",
+      "countryCode": "ITA",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "marcos-rojo",
+      "playerId": "P-18222",
+      "playerName": "Marcos Rojo",
+      "countryCode": "ARG",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "marcus-rashford",
+      "playerId": "P-59837",
+      "playerName": "Marcus Rashford",
+      "countryCode": "ENG",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "marek-hamsik",
+      "playerId": "P-73975",
+      "playerName": "Marek Hamšík",
+      "countryCode": "SVK",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mario-fernandes",
+      "playerId": "P-17872",
+      "playerName": "Mário Fernandes",
+      "countryCode": "RUS",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mario-gotze",
+      "playerId": "P-63673",
+      "playerName": "Mario Götze",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mario-mandzukic",
+      "playerId": "P-25745",
+      "playerName": "Mario Mandžukić",
+      "countryCode": "CRO",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mark-paston",
+      "playerId": "P-60304",
+      "playerName": "Mark Paston",
+      "countryCode": "NZL",
+      "referenceYear": 2010,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mark-van-bommel",
+      "playerId": "P-69700",
+      "playerName": "Mark van Bommel",
+      "countryCode": "NED",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mark-viduka",
+      "playerId": "P-78071",
+      "playerName": "Mark Viduka",
+      "countryCode": "AUS",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "marouane-fellaini",
+      "playerId": "P-63363",
+      "playerName": "Marouane Fellaini",
+      "countryCode": "BEL",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "marquinhos",
+      "playerId": "P-76060",
+      "playerName": "Marquinhos",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "martin-skrtel",
+      "playerId": "P-57606",
+      "playerName": "Martin Škrtel",
+      "countryCode": "SVK",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mateo-kovacic",
+      "playerId": "P-07670",
+      "playerName": "Mateo Kovačić",
+      "countryCode": "CRO",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mathew-leckie",
+      "playerId": "P-35837",
+      "playerName": "Mathew Leckie",
+      "countryCode": "AUS",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mathieu-valbuena",
+      "playerId": "P-84312",
+      "playerName": "Mathieu Valbuena",
+      "countryCode": "FRA",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mats-hummels",
+      "playerId": "P-81447",
+      "playerName": "Mats Hummels",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "matt-turner",
+      "playerId": "P-48903",
+      "playerName": "Matt Turner",
+      "countryCode": "USA",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mauro-camoranesi",
+      "playerId": "P-22378",
+      "playerName": "Mauro Camoranesi",
+      "countryCode": "ITA",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "maxi-rodriguez",
+      "playerId": "P-33570",
+      "playerName": "Maxi Rodríguez",
+      "countryCode": "ARG",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mbaye-niang",
+      "playerId": "P-23774",
+      "playerName": "M’Baye Niang",
+      "countryCode": "SEN",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mehdi-benatia",
+      "playerId": "P-53270",
+      "playerName": "Mehdi Benatia",
+      "countryCode": "MAR",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mehdi-taremi",
+      "playerId": "P-85860",
+      "playerName": "Mehdi Taremi",
+      "countryCode": "IRN",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "memphis-depay",
+      "playerId": "P-27540",
+      "playerName": "Memphis Depay",
+      "countryCode": "NED",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mesut-ozil",
+      "playerId": "P-12818",
+      "playerName": "Mesut Özil",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "michael-bradley",
+      "playerId": "P-97258",
+      "playerName": "Michael Bradley",
+      "countryCode": "USA",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "michael-essien",
+      "playerId": "P-12805",
+      "playerName": "Michael Essien",
+      "countryCode": "GHA",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "michel-bastos",
+      "playerId": "P-86163",
+      "playerName": "Michel Bastos",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "miguel-layun",
+      "playerId": "P-10063",
+      "playerName": "Miguel Layún",
+      "countryCode": "MEX",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "miguel-monteiro",
+      "playerId": "P-28497",
+      "playerName": "Miguel Monteiro",
+      "countryCode": "POR",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "milan-baros",
+      "playerId": "P-14907",
+      "playerName": "Milan Baroš",
+      "countryCode": "CZE",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mile-jedinak",
+      "playerId": "P-37275",
+      "playerName": "Mile Jedinak",
+      "countryCode": "AUS",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "milos-krasic",
+      "playerId": "P-23735",
+      "playerName": "Milos Krasić",
+      "countryCode": "SRB",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "miroslav-klose",
+      "playerId": "P-27787",
+      "playerName": "Miroslav Klose",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mohamed-salah",
+      "playerId": "P-75890",
+      "playerName": "Mohamed Salah",
+      "countryCode": "EGY",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "mohammed-al-owais",
+      "playerId": "P-85438",
+      "playerName": "Mohammed Al-Owais",
+      "countryCode": "KSA",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "mohammed-kudus",
+      "playerId": "P-23821",
+      "playerName": "Mohammed Kudus",
+      "countryCode": "GHA",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "moises-caicedo",
+      "playerId": "P-82216",
+      "playerName": "Moisés Caicedo",
+      "countryCode": "ECU",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "morteza-pouraliganji",
+      "playerId": "P-29864",
+      "playerName": "Morteza Pouraliganji",
+      "countryCode": "IRN",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "moussa-wague",
+      "playerId": "P-57411",
+      "playerName": "Moussa Wagué",
+      "countryCode": "SEN",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "nahuel-molina",
+      "playerId": "P-84430",
+      "playerName": "Nahuel Molina",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "nayef-aguerd",
+      "playerId": "P-47490",
+      "playerName": "Nayef Aguerd",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "nelson-valdez",
+      "playerId": "P-50699",
+      "playerName": "Nelson Valdez",
+      "countryCode": "PAR",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "nemanja-matic",
+      "playerId": "P-66184",
+      "playerName": "Nemanja Matić",
+      "countryCode": "SRB",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "neymar",
+      "playerId": "P-87008",
+      "playerName": "Neymar",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ngolo-kante",
+      "playerId": "P-98287",
+      "playerName": "N’Golo Kanté",
+      "countryCode": "FRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "nicolas-otamendi",
+      "playerId": "P-49114",
+      "playerName": "Nicolás Otamendi",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "niko-kovac",
+      "playerId": "P-84378",
+      "playerName": "Niko Kovač",
+      "countryCode": "CRO",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "nordin-amrabat",
+      "playerId": "P-37696",
+      "playerName": "Nordin Amrabat",
+      "countryCode": "MAR",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "noussair-mazraoui",
+      "playerId": "P-09614",
+      "playerName": "Noussair Mazraoui",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "nuno-gomes",
+      "playerId": "P-57631",
+      "playerName": "Nuno Gomes",
+      "countryCode": "POR",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "oliver-kahn",
+      "playerId": "P-33751",
+      "playerName": "Oliver Kahn",
+      "countryCode": "GER",
+      "referenceYear": 2006,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "olivier-giroud",
+      "playerId": "P-89750",
+      "playerName": "Olivier Giroud",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "oribe-peralta",
+      "playerId": "P-83642",
+      "playerName": "Oribe Peralta",
+      "countryCode": "MEX",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "oscar",
+      "playerId": "P-37239",
+      "playerName": "Oscar",
+      "countryCode": "BRA",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ousmane-dembele",
+      "playerId": "P-97778",
+      "playerName": "Ousmane Dembélé",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "pablo-zabaleta",
+      "playerId": "P-96639",
+      "playerName": "Pablo Zabaleta",
+      "countryCode": "ARG",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "paolo-guerrero",
+      "playerId": "P-29117",
+      "playerName": "Paolo Guerrero",
+      "countryCode": "PER",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "park-ji-sung",
+      "playerId": "P-25724",
+      "playerName": "Park Ji-sung",
+      "countryCode": "KOR",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "paul-pogba",
+      "playerId": "P-17509",
+      "playerName": "Paul Pogba",
+      "countryCode": "FRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "pauleta",
+      "playerId": "P-57982",
+      "playerName": "Pauleta",
+      "countryCode": "POR",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "paulinho",
+      "playerId": "P-54013",
+      "playerName": "Paulinho",
+      "countryCode": "BRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "pavel-nedved",
+      "playerId": "P-64760",
+      "playerName": "Pavel Nedvěd",
+      "countryCode": "CZE",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "pedri",
+      "playerId": "P-24897",
+      "playerName": "Pedri",
+      "countryCode": "ESP",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "pepe",
+      "playerId": "P-81972",
+      "playerName": "Pepe",
+      "countryCode": "POR",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "per-mertesacker",
+      "playerId": "P-02328",
+      "playerName": "Per Mertesacker",
+      "countryCode": "GER",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "pervis-estupinan",
+      "playerId": "P-52697",
+      "playerName": "Pervis Estupiñán",
+      "countryCode": "ECU",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "petr-cech",
+      "playerId": "P-53062",
+      "playerName": "Petr Čech",
+      "countryCode": "CZE",
+      "referenceYear": 2006,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "phil-foden",
+      "playerId": "P-10501",
+      "playerName": "Phil Foden",
+      "countryCode": "ENG",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "philipp-lahm",
+      "playerId": "P-18599",
+      "playerName": "Philipp Lahm",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "philippe-coutinho",
+      "playerId": "P-37171",
+      "playerName": "Philippe Coutinho",
+      "countryCode": "BRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "piotr-zielinski",
+      "playerId": "P-32165",
+      "playerName": "Piotr Zieliński",
+      "countryCode": "POL",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "radamel-falcao",
+      "playerId": "P-74655",
+      "playerName": "Radamel Falcao",
+      "countryCode": "COL",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "rafael-leao",
+      "playerId": "P-27349",
+      "playerName": "Rafael Leão",
+      "countryCode": "POR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "rafael-marquez",
+      "playerId": "P-44763",
+      "playerName": "Rafael Márquez",
+      "countryCode": "MEX",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "rafael-van-der-vaart",
+      "playerId": "P-68125",
+      "playerName": "Rafael van der Vaart",
+      "countryCode": "NED",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "rafik-halliche",
+      "playerId": "P-19453",
+      "playerName": "Rafik Halliche",
+      "countryCode": "ALG",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "raheem-sterling",
+      "playerId": "P-21553",
+      "playerName": "Raheem Sterling",
+      "countryCode": "ENG",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "rais-mbolhi",
+      "playerId": "P-00596",
+      "playerName": "Rais M’Bolhi",
+      "countryCode": "ALG",
+      "referenceYear": 2014,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "ramin-rezaeian",
+      "playerId": "P-47137",
+      "playerName": "Ramin Rezaeian",
+      "countryCode": "IRN",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "randal-kolo-muani",
+      "playerId": "P-92987",
+      "playerName": "Randal Kolo Muani",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "raphael-varane",
+      "playerId": "P-42326",
+      "playerName": "Raphaël Varane",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "raphinha",
+      "playerId": "P-83169",
+      "playerName": "Raphinha",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ricardo-quaresma",
+      "playerId": "P-95670",
+      "playerName": "Ricardo Quaresma",
+      "countryCode": "POR",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ricardo-rodriguez",
+      "playerId": "P-43367",
+      "playerName": "Ricardo Rodríguez",
+      "countryCode": "SUI",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "richard-kingson",
+      "playerId": "P-81778",
+      "playerName": "Richard Kingson",
+      "countryCode": "GHA",
+      "referenceYear": 2010,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "richarlison",
+      "playerId": "P-68016",
+      "playerName": "Richarlison",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "rio-ferdinand",
+      "playerId": "P-01249",
+      "playerName": "Rio Ferdinand",
+      "countryCode": "ENG",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ritsu-doan",
+      "playerId": "P-58907",
+      "playerName": "Ritsu Dōan",
+      "countryCode": "JPN",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "robert-lewandowski",
+      "playerId": "P-00549",
+      "playerName": "Robert Lewandowski",
+      "countryCode": "POL",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "robert-vittek",
+      "playerId": "P-14764",
+      "playerName": "Robert Vittek",
+      "countryCode": "SVK",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "roberto-ayala",
+      "playerId": "P-83403",
+      "playerName": "Roberto Ayala",
+      "countryCode": "ARG",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "roberto-firmino",
+      "playerId": "P-37877",
+      "playerName": "Roberto Firmino",
+      "countryCode": "BRA",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "robin-van-persie",
+      "playerId": "P-99934",
+      "playerName": "Robin van Persie",
+      "countryCode": "NED",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006,
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "robinho",
+      "playerId": "P-13354",
+      "playerName": "Robinho",
+      "countryCode": "BRA",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "rodri",
+      "playerId": "P-62341",
+      "playerName": "Rodri",
+      "countryCode": "ESP",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "rodrigo-de-paul",
+      "playerId": "P-37314",
+      "playerName": "Rodrigo De Paul",
+      "countryCode": "ARG",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "rodrygo",
+      "playerId": "P-06446",
+      "playerName": "Rodrygo",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "romain-saiss",
+      "playerId": "P-26068",
+      "playerName": "Romain Saïss",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "romelu-lukaku",
+      "playerId": "P-72637",
+      "playerName": "Romelu Lukaku",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ron-vlaar",
+      "playerId": "P-21798",
+      "playerName": "Ron Vlaar",
+      "countryCode": "NED",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ronaldinho",
+      "playerId": "P-57361",
+      "playerName": "Ronaldinho",
+      "countryCode": "BRA",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "roque-santa-cruz",
+      "playerId": "P-34530",
+      "playerName": "Roque Santa Cruz",
+      "countryCode": "PAR",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "ruud-van-nistelrooy",
+      "playerId": "P-03013",
+      "playerName": "Ruud van Nistelrooy",
+      "countryCode": "NED",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "ryan-nelsen",
+      "playerId": "P-81126",
+      "playerName": "Ryan Nelsen",
+      "countryCode": "NZL",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "sadio-mane",
+      "playerId": "P-79299",
+      "playerName": "Sadio Mané",
+      "countryCode": "SEN",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "saleh-al-shehri",
+      "playerId": "P-37308",
+      "playerName": "Saleh Al-Shehri",
+      "countryCode": "KSA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "salem-al-dawsari",
+      "playerId": "P-70583",
+      "playerName": "Salem Al-Dawsari",
+      "countryCode": "KSA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "salomon-kalou",
+      "playerId": "P-31976",
+      "playerName": "Salomon Kalou",
+      "countryCode": "CIV",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "sami-khedira",
+      "playerId": "P-13029",
+      "playerName": "Sami Khedira",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "samuel-etoo",
+      "playerId": "P-61703",
+      "playerName": "Samuel Eto’o",
+      "countryCode": "CMR",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "samuel-umtiti",
+      "playerId": "P-67297",
+      "playerName": "Samuel Umtiti",
+      "countryCode": "FRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "serge-gnabry",
+      "playerId": "P-75989",
+      "playerName": "Serge Gnabry",
+      "countryCode": "GER",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "sergej-milinkovic-savic",
+      "playerId": "P-27744",
+      "playerName": "Sergej Milinković-Savić",
+      "countryCode": "SRB",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "sergio-aguero",
+      "playerId": "P-36870",
+      "playerName": "Sergio Agüero",
+      "countryCode": "ARG",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "sergio-busquets",
+      "playerId": "P-28010",
+      "playerName": "Sergio Busquets",
+      "countryCode": "ESP",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "sergio-ramos",
+      "playerId": "P-89177",
+      "playerName": "Sergio Ramos",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "sergio-romero",
+      "playerId": "P-60541",
+      "playerName": "Sergio Romero",
+      "countryCode": "ARG",
+      "referenceYear": 2014,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "shane-smeltz",
+      "playerId": "P-90145",
+      "playerName": "Shane Smeltz",
+      "countryCode": "NZL",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "shinji-kagawa",
+      "playerId": "P-36964",
+      "playerName": "Shinji Kagawa",
+      "countryCode": "JPN",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "shinji-okazaki",
+      "playerId": "P-84807",
+      "playerName": "Shinji Okazaki",
+      "countryCode": "JPN",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "shunsuke-nakamura",
+      "playerId": "P-77277",
+      "playerName": "Shunsuke Nakamura",
+      "countryCode": "JPN",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "simao-sabrosa",
+      "playerId": "P-32279",
+      "playerName": "Simão Sabrosa",
+      "countryCode": "POR",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "sime-vrsaljko",
+      "playerId": "P-65425",
+      "playerName": "Šime Vrsaljko",
+      "countryCode": "CRO",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "siphiwe-tshabalala",
+      "playerId": "P-31160",
+      "playerName": "Siphiwe Tshabalala",
+      "countryCode": "RSA",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "sofiane-feghouli",
+      "playerId": "P-12165",
+      "playerName": "Sofiane Feghouli",
+      "countryCode": "ALG",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "sofyan-amrabat",
+      "playerId": "P-71023",
+      "playerName": "Sofyan Amrabat",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "sokratis-papastathopoulos",
+      "playerId": "P-11436",
+      "playerName": "Sokratis Papastathopoulos",
+      "countryCode": "GRC",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "son-heung-min",
+      "playerId": "P-77335",
+      "playerName": "Son Heung-min",
+      "countryCode": "KOR",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "stefan-de-vrij",
+      "playerId": "P-70280",
+      "playerName": "Stefan de Vrij",
+      "countryCode": "NED",
+      "referenceYear": 2014,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "stephen-appiah",
+      "playerId": "P-09728",
+      "playerName": "Stephen Appiah",
+      "countryCode": "GHA",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "stephen-eustaquio",
+      "playerId": "P-28794",
+      "playerName": "Stephen Eustáquio",
+      "countryCode": "CAN",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "steven-gerrard",
+      "playerId": "P-62157",
+      "playerName": "Steven Gerrard",
+      "countryCode": "ENG",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "steven-pienaar",
+      "playerId": "P-38095",
+      "playerName": "Steven Pienaar",
+      "countryCode": "RSA",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "sulley-muntari",
+      "playerId": "P-50641",
+      "playerName": "Sulley Muntari",
+      "countryCode": "GHA",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "takashi-inui",
+      "playerId": "P-89984",
+      "playerName": "Takashi Inui",
+      "countryCode": "JPN",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "takehiro-tomiyasu",
+      "playerId": "P-68429",
+      "playerName": "Takehiro Tomiyasu",
+      "countryCode": "JPN",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "takumi-minamino",
+      "playerId": "P-05559",
+      "playerName": "Takumi Minamino",
+      "countryCode": "JPN",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "teofilo-gutierrez",
+      "playerId": "P-77705",
+      "playerName": "Teófilo Gutiérrez",
+      "countryCode": "COL",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "theo-hernandez",
+      "playerId": "P-09867",
+      "playerName": "Theo Hernández",
+      "countryCode": "FRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "thiago-silva",
+      "playerId": "P-32798",
+      "playerName": "Thiago Silva",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "thibaut-courtois",
+      "playerId": "P-09658",
+      "playerName": "Thibaut Courtois",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "thomas-meunier",
+      "playerId": "P-22930",
+      "playerName": "Thomas Meunier",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "thomas-muller",
+      "playerId": "P-28154",
+      "playerName": "Thomas Müller",
+      "countryCode": "GER",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010,
+        2014,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "tim-borowski",
+      "playerId": "P-08154",
+      "playerName": "Tim Borowski",
+      "countryCode": "GER",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "tim-cahill",
+      "playerId": "P-44926",
+      "playerName": "Tim Cahill",
+      "countryCode": "AUS",
+      "referenceYear": 2014,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006,
+        2010,
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "tim-howard",
+      "playerId": "P-50522",
+      "playerName": "Tim Howard",
+      "countryCode": "USA",
+      "referenceYear": 2014,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010,
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "timothy-weah",
+      "playerId": "P-30252",
+      "playerName": "Timothy Weah",
+      "countryCode": "USA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "toby-alderweireld",
+      "playerId": "P-70547",
+      "playerName": "Toby Alderweireld",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "tomas-rosicky",
+      "playerId": "P-29090",
+      "playerName": "Tomáš Rosický",
+      "countryCode": "CZE",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "toni-kroos",
+      "playerId": "P-39356",
+      "playerName": "Toni Kroos",
+      "countryCode": "GER",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "torsten-frings",
+      "playerId": "P-35264",
+      "playerName": "Torsten Frings",
+      "countryCode": "GER",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "tranquillo-barnetta",
+      "playerId": "P-97143",
+      "playerName": "Tranquillo Barnetta",
+      "countryCode": "SUI",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "tyler-adams",
+      "playerId": "P-14151",
+      "playerName": "Tyler Adams",
+      "countryCode": "USA",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "unai-simon",
+      "playerId": "P-94271",
+      "playerName": "Unai Simón",
+      "countryCode": "ESP",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "victor-moses",
+      "playerId": "P-26900",
+      "playerName": "Victor Moses",
+      "countryCode": "NGA",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "vincent-aboubakar",
+      "playerId": "P-53452",
+      "playerName": "Vincent Aboubakar",
+      "countryCode": "CMR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "vincent-enyeama",
+      "playerId": "P-39249",
+      "playerName": "Vincent Enyeama",
+      "countryCode": "NGA",
+      "referenceYear": 2014,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "vincent-kompany",
+      "playerId": "P-95269",
+      "playerName": "Vincent Kompany",
+      "countryCode": "BEL",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2014,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "vinicius-junior",
+      "playerId": "P-92812",
+      "playerName": "Vinícius Júnior",
+      "countryCode": "BRA",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "virgil-van-dijk",
+      "playerId": "P-56029",
+      "playerName": "Virgil van Dijk",
+      "countryCode": "NED",
+      "referenceYear": 2022,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "vladimir-stojkovic",
+      "playerId": "P-46403",
+      "playerName": "Vladimir Stojković",
+      "countryCode": "SRB",
+      "referenceYear": 2010,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "wahbi-khazri",
+      "playerId": "P-42223",
+      "playerName": "Wahbi Khazri",
+      "countryCode": "TUN",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "wataru-endo",
+      "playerId": "P-53282",
+      "playerName": "Wataru Endō",
+      "countryCode": "JPN",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "wayne-rooney",
+      "playerId": "P-99967",
+      "playerName": "Wayne Rooney",
+      "countryCode": "ENG",
+      "referenceYear": 2010,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "wesley-sneijder",
+      "playerId": "P-51336",
+      "playerName": "Wesley Sneijder",
+      "countryCode": "NED",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006,
+        2010,
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "weston-mckennie",
+      "playerId": "P-68952",
+      "playerName": "Weston McKennie",
+      "countryCode": "USA",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "william-gallas",
+      "playerId": "P-68803",
+      "playerName": "William Gallas",
+      "countryCode": "FRA",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "willian",
+      "playerId": "P-62621",
+      "playerName": "Willian",
+      "countryCode": "BRA",
+      "referenceYear": 2018,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "willy-sagnol",
+      "playerId": "P-23315",
+      "playerName": "Willy Sagnol",
+      "countryCode": "FRA",
+      "referenceYear": 2006,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "winston-reid",
+      "playerId": "P-57058",
+      "playerName": "Winston Reid",
+      "countryCode": "NZL",
+      "referenceYear": 2010,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "wojciech-szczesny",
+      "playerId": "P-31606",
+      "playerName": "Wojciech Szczęsny",
+      "countryCode": "POL",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "xabi-alonso",
+      "playerId": "P-73924",
+      "playerName": "Xabi Alonso",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "xavi",
+      "playerId": "P-29415",
+      "playerName": "Xavi",
+      "countryCode": "ESP",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006,
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "xherdan-shaqiri",
+      "playerId": "P-39460",
+      "playerName": "Xherdan Shaqiri",
+      "countryCode": "SUI",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014,
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "yacine-brahimi",
+      "playerId": "P-24983",
+      "playerName": "Yacine Brahimi",
+      "countryCode": "ALG",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "yann-sommer",
+      "playerId": "P-63312",
+      "playerName": "Yann Sommer",
+      "countryCode": "SUI",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2018,
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "yassine-bounou",
+      "playerId": "P-50688",
+      "playerName": "Yassine Bounou",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "GK",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "yasuhito-endo",
+      "playerId": "P-61292",
+      "playerName": "Yasuhito Endō",
+      "countryCode": "JPN",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "yaya-toure",
+      "playerId": "P-44934",
+      "playerName": "Yaya Touré",
+      "countryCode": "CIV",
+      "referenceYear": 2010,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2010
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "yeltsin-tejeda",
+      "playerId": "P-24978",
+      "playerName": "Yeltsin Tejeda",
+      "countryCode": "CRC",
+      "referenceYear": 2014,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2014
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "yerry-mina",
+      "playerId": "P-43196",
+      "playerName": "Yerry Mina",
+      "countryCode": "COL",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "youssef-en-nesyri",
+      "playerId": "P-42517",
+      "playerName": "Youssef En-Nesyri",
+      "countryCode": "MAR",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "youssef-msakni",
+      "playerId": "P-25741",
+      "playerName": "Youssef Msakni",
+      "countryCode": "TUN",
+      "referenceYear": 2022,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "yunus-musah",
+      "playerId": "P-59571",
+      "playerName": "Yunus Musah",
+      "countryCode": "USA",
+      "referenceYear": 2022,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2022
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "yuto-nagatomo",
+      "playerId": "P-26303",
+      "playerName": "Yūto Nagatomo",
+      "countryCode": "JPN",
+      "referenceYear": 2018,
+      "primaryPosition": "CB",
+      "featuredYears": [
+        2010,
+        2018
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "yuya-osako",
+      "playerId": "P-23371",
+      "playerName": "Yuya Osako",
+      "countryCode": "JPN",
+      "referenceYear": 2018,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2018
+      ],
+      "priority": "cult"
+    },
+    {
+      "identityId": "ze-roberto",
+      "playerId": "P-39545",
+      "playerName": "Zé Roberto",
+      "countryCode": "BRA",
+      "referenceYear": 2006,
+      "primaryPosition": "CM",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    },
+    {
+      "identityId": "zlatan-ibrahimovic",
+      "playerId": "P-80105",
+      "playerName": "Zlatan Ibrahimović",
+      "countryCode": "SWE",
+      "referenceYear": 2006,
+      "primaryPosition": "ST",
+      "featuredYears": [
+        2006
+      ],
+      "priority": "essential"
+    }
+  ],
+  "excludedNonParticipants": [
+    "samuel-etoo:2006",
+    "youssef-msakni:2018"
+  ]
+}

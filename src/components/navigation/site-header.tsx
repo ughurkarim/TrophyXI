@@ -31,7 +31,7 @@ export function SiteHeader({ fixed = false }: { fixed?: boolean }) {
         </nav>
         <div className="site-header__actions">
           <ButtonLink href="/play" className="header-cta">
-            Play now
+            START DRAFT
           </ButtonLink>
           <button
             className="icon-button mobile-menu-button"
@@ -50,7 +50,7 @@ export function SiteHeader({ fixed = false }: { fixed?: boolean }) {
               {link.label}
             </Link>
           ))}
-          <ButtonLink href="/play">Build your XI</ButtonLink>
+          <ButtonLink href="/play">START DRAFT</ButtonLink>
         </nav>
       )}
     </header>

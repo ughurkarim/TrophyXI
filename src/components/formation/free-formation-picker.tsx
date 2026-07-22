@@ -37,7 +37,14 @@ export function FreeFormationPicker({
       formation,
       managerFit: calculateManagerFit(manager, formation, eraId),
       eraFit: calculateFormationEraFit(formation, eraId),
-    }));
+      preferred: manager.preferredFormations.includes(formation.id),
+    }))
+    .sort((first, second) =>
+      Number(second.preferred) - Number(first.preferred) ||
+      second.managerFit - first.managerFit ||
+      (eraId === "all" ? 0 : second.eraFit - first.eraFit) ||
+      first.formation.name.localeCompare(second.formation.name),
+    );
   const selected = options.find(
     ({ formation }) => formation.id === selectedId,
   );
@@ -70,10 +77,10 @@ export function FreeFormationPicker({
           Style
           <strong>{manager.style}</strong>
         </span>
-        <span>
+        {eraId !== "all" && <span>
           Match Era
           <strong>{era.label}</strong>
-        </span>
+        </span>}
         <small>{options.length} formations available</small>
       </div>
 
@@ -82,7 +89,7 @@ export function FreeFormationPicker({
         aria-label="Available formations"
         data-testid="free-formation-archive"
       >
-        {options.map(({ formation, managerFit, eraFit }) => {
+        {options.map(({ formation, managerFit, eraFit }, index) => {
           const selectedOption = formation.id === selectedId;
           return (
             <button
@@ -92,16 +99,18 @@ export function FreeFormationPicker({
                 selectedOption ? ` ${styles.selected}` : ""
               }`}
               aria-pressed={selectedOption}
-              aria-label={`Choose ${formation.name} formation, Manager Fit ${managerFit}, Era Fit ${eraFit}`}
+              aria-label={`Choose ${formation.name} formation, Manager Fit ${managerFit}${eraId === "all" ? "" : `, Era Fit ${eraFit}`}`}
               data-formation-id={formation.id}
               data-manager-fit={managerFit}
-              data-era-fit={eraFit}
+              data-era-fit={eraId === "all" ? undefined : eraFit}
+              data-recommended={index === 0 ? "true" : undefined}
               onClick={() => setSelectedId(formation.id)}
             >
               <span className={styles.pitch}>
                 <TacticalPitch formation={formation} compact />
               </span>
               <span className={styles.copy}>
+                {index === 0 && <span className={styles.recommended}>RECOMMENDED</span>}
                 <span className={styles.title}>
                   <strong>{formation.name}</strong>
                   {selectedOption && (
@@ -110,14 +119,16 @@ export function FreeFormationPicker({
                     </i>
                   )}
                 </span>
-                <small>{formation.tacticalDifficulty}</small>
+                <small>{formation.managerStyles[0]} · {formation.tacticalDifficulty}</small>
                 <span className={styles.fits}>
                   <span>
                     MGR <b>{managerFit}</b>
                   </span>
-                  <span>
-                    ERA <b>{eraFit}</b>
-                  </span>
+                  {eraId !== "all" && (
+                    <span>
+                      ERA <b>{eraFit}</b>
+                    </span>
+                  )}
                 </span>
                 <span className={styles.tendencies}>
                   A {formation.tendencies.attack} · C{" "}
@@ -136,7 +147,9 @@ export function FreeFormationPicker({
           <strong>{selected?.formation.name ?? "Choose a formation"}</strong>
           <small>
             {selected
-              ? `Manager Fit ${selected.managerFit} · Era Fit ${selected.eraFit}`
+              ? eraId === "all"
+                ? `Manager Fit ${selected.managerFit} · Neutral era — no era modifier.`
+                : `Manager Fit ${selected.managerFit} · Era Fit ${selected.eraFit}`
               : "Nothing is preselected."}
           </small>
         </div>

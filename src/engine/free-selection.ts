@@ -11,6 +11,39 @@ import type {
 
 export const MIN_RANDOM_POSITION_FIT = 80;
 
+export type FreeSelectionRosterImpactInput = {
+  playerOverall: number;
+  positionFit: number;
+  overallGain: number;
+  chemistryGain: number;
+  managerFitGain: number;
+  eraFit: number | null;
+  versatility: number;
+  isBench: boolean;
+};
+
+/**
+ * Ranks a card by what it does for the current squad. A real team-overall
+ * improvement decisively outweighs a small fit difference; bench candidates
+ * are judged without positional fit and get a modest versatility bonus.
+ */
+export const scoreFreeSelectionRosterImpact = ({
+  playerOverall,
+  positionFit,
+  overallGain,
+  chemistryGain,
+  managerFitGain,
+  eraFit,
+  versatility,
+  isBench,
+}: FreeSelectionRosterImpactInput) =>
+  overallGain * 140 +
+  chemistryGain * 7 +
+  managerFitGain * 2 +
+  playerOverall +
+  (isBench ? versatility * 0.8 : positionFit * 0.12) +
+  (eraFit ?? 0) * 0.06;
+
 export type FreeSelectionSquad = {
   picks: DraftPick[];
   benchPicks: [BenchPick, BenchPick, BenchPick];

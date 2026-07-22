@@ -8,8 +8,9 @@ describe("formation Era Fit", () => {
     for (const formation of formations) {
       for (const era of draftEras) {
         const fit = calculateFormationEraFit(formation, era.id);
-        expect(fit).toBeGreaterThanOrEqual(60);
-        expect(fit).toBeLessThanOrEqual(99);
+        expect(fit).toBeGreaterThanOrEqual(era.id === "all" ? 0 : 60);
+        expect(fit).toBeLessThanOrEqual(100);
+        if (era.id === "all") expect(fit).toBe(0);
       }
     }
   });

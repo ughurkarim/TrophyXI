@@ -33,6 +33,13 @@ describe("chemistry", () => {
     expect(calculateChemistry([], formation).score).toBe(0);
   });
 
+  it("omits Era Fit entirely in the Neutral environment", () => {
+    const lineup = [playersById.get("lionel-messi-2022")!];
+    const neutral = calculateChemistry(lineup, formation, { eraId: "all" });
+    expect(neutral.averageEraFit).toBe(0);
+    expect(neutral.contributions.era).toBe(0);
+  });
+
   it("uses the five published Chemistry bands", () => {
     expect(
       [0, 39, 40, 59, 60, 74, 75, 89, 90, 100].map(chemistryLabel),

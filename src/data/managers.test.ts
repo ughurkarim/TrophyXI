@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { managerGradeLabel, managers } from "@/data/managers";
 import { historicalOpponentArchive } from "@/data/opponents";
@@ -49,31 +47,11 @@ describe("manager grades", () => {
     ).toBe(true);
   });
 
-  it("keeps both manager image checklists synchronized with every card", () => {
-    const csv = readFileSync(
-      path.join(process.cwd(), "manager-image-checklist.csv"),
-      "utf8",
-    )
-      .trim()
-      .split("\n");
-    const markdown = readFileSync(
-      path.join(process.cwd(), "MANAGER_IMAGE_CHECKLIST.md"),
-      "utf8",
-    );
-    expect(csv).toHaveLength(managers.length + 1);
-    expect(csv[0]).toBe(
-      "managerCardId,managerIdentityId,managerName,country,team,tournamentYear,expectedImagePath,imagePresent,photoStatus",
-    );
-    for (const manager of managers) {
-      expect(
-        csv.some((row) =>
-          row.startsWith(`${manager.id},${manager.managerIdentityId},`),
-        ),
-      ).toBe(true);
-      expect(markdown).toContain(
-        `assets/managers/${manager.tournamentYear}/${manager.id}.png`,
-      );
-    }
+  it("keeps exactly one tournament card for every manager identity", () => {
+    expect(managers).toHaveLength(47);
+    expect(
+      new Set(managers.map((manager) => manager.managerIdentityId)).size,
+    ).toBe(47);
   });
 
   it("resolves every manager card to a sourced tournament finish", () => {
@@ -83,7 +61,10 @@ describe("manager grades", () => {
           opponent.tournamentYear === manager.tournamentYear &&
           opponent.nationName === manager.teamName,
       );
-      expect(tournamentRecord?.tournamentFinish, manager.id).toBeTruthy();
+      expect(tournamentRecord, manager.id).toBeDefined();
+      if (manager.tournamentYear !== 2026) {
+        expect(tournamentRecord?.tournamentFinish, manager.id).toBeTruthy();
+      }
     }
   });
 });

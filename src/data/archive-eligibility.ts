@@ -58,6 +58,14 @@ export const draftEligibleManagerCardIds = [
   "tite-2022",
   "lionel-scaloni-2022",
   "walid-regragui-2022",
+  "jupp-derwall-1982",
+  "senol-gunes-2002",
+  "bert-van-marwijk-2010",
+  "roberto-martinez-2018",
+  "gareth-southgate-2018",
+  "luis-de-la-fuente-2026",
+  "carlo-ancelotti-2026",
+  "thomas-tuchel-2026",
 ] as const;
 
 export const draftEligibleManagerIdSet = new Set<string>(

@@ -36,7 +36,8 @@ export default function MatchPage() {
     (state) => state.worldCupRunOpponents,
   );
   const simulate = useGameStore((state) => state.simulate);
-  const [broadcasting, setBroadcasting] = useState(Boolean(storedResult));
+  const [broadcasting, setBroadcasting] = useState(false);
+  const broadcastActive = broadcasting || Boolean(storedResult);
 
   const formation = formationId ? getFormation(formationId) : null;
   const lineup = useMemo(
@@ -141,9 +142,9 @@ export default function MatchPage() {
 
   return (
     <div className="game-page game-page--match">
-      <GameHeader step={broadcasting ? "MATCH LIVE" : "OPPONENT REVEAL"} />
+      <GameHeader step={broadcastActive ? "MATCH LIVE" : "OPPONENT REVEAL"} />
       <main className="container game-main">
-        {broadcasting && result ? (
+        {broadcastActive && result ? (
           <MatchTimeline
             result={result}
             opponent={opponent}

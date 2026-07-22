@@ -9,8 +9,7 @@ Cup champions or the featured World Cup All-Stars.
 
 ```bash
 npm install
-npm run images:import
-npm run players:import:fbref
+npm run players:normalize:careers
 npm run opponents:import
 npm run dev
 ```
@@ -59,16 +58,15 @@ result must equal the final preview.
 
 The current archive contains:
 
-- 629 tournament cards across 287 stable player identities
-- all 629 player cards are draft eligible; artwork availability never changes
+- 1,376 tournament cards across 676 stable player identities
+- all player cards are draft eligible; artwork availability never changes
   card eligibility, and neutral identity markers cover cards without portraits
-- identity-level historical and user-supplied portraits fill 38 missing card
-  views from the earliest safe portrait; tournament-edition faces stay
-  card-locked and never cross years
-- every men’s World Cup from 1970 through the verified live 2026 cards
-- 49 manager cards across 39 identities with OFF, DEF, Leadership, Game
+- identity-level historical and user-supplied portraits fill missing card
+  views from the closest available portrait
+- every men’s World Cup from 1970 through the completed 2026 archive
+- 47 manager cards across 47 identities with OFF, DEF, Leadership, Game
   Management, and selected-era Manager Era Fit
-- all 49 audited manager cards are draft eligible
+- all audited manager cards are draft eligible
 - three deterministic, identity-safe manager choices per offer
 - 12 formations, with four deterministic manager/era-aware offers per run
 - one separate, deterministic, permanent Manager Respin
@@ -97,16 +95,12 @@ to the historical opponent.
 - `src/store`: versioned Zustand persistence, migration, and hydration repair
 - `src/components`: accessible feature-oriented presentation
 - `src/app`: Next.js App Router pages
-- `src/data/game-face-manifest.generated.json`: importer-owned tournament-edition image manifest
-- `src/data/fbref-portrait-manifest.generated.json`: importer-owned historical identity-portrait manifest
+- `src/data/local-portrait-manifest.generated.json`: source-neutral local portrait manifest
 - `src/data/player-tournaments.generated.json`: verified tournament-appearance archive
-- `src/data/player-world-cup-fbref.generated.json`: nullable FBref World Cup stat enrichment
 - `src/data/player-career.generated.json`: normalized career-data output
 - `scripts/generate-player-tournament-data.ts`: World Cup appearance-card generator
-- `scripts/import-player-images.ts`: controlled tournament-edition PNG importer
-- `scripts/import-fbref-player-images.ts`: controlled historical portrait importer
-- `scripts/import-fbref-player-data.ts`: cached, rate-limited FBref normalizer
-- `scripts/import-fbref-world-cup-stats.ts`: cached, rate-limited World Cup table normalizer
+- `scripts/normalize-local-career-archive.ts`: career and tournament-accolade normalizer
+- `scripts/import-player-identity-portraits.ts`: source-neutral missing-portrait importer
 - `scripts/import-world-cup-teams.ts`: vendored participant ingestion
 - `scripts/validate-data.ts`: executable content and feasibility contract
 - `scripts/validate-world-cup-teams.ts`: opponent-count/evidence validator

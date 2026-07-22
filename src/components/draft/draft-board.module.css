@@ -292,7 +292,7 @@
   z-index: 120;
   top: 0;
   right: 0;
-  width: min(100%, 460px);
+  width: min(100%, 430px);
   max-width: 100vw;
   height: 100dvh;
   padding: 22px 18px 34px;
@@ -307,6 +307,59 @@
   box-shadow: -24px 0 70px rgba(0, 0, 0, 0.55);
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
+}
+
+.squadBackdrop {
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(3px);
+}
+
+.integratedChemistry {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  padding-top: 7px;
+  border-top: 1px solid color-mix(in srgb, var(--summary-accent) 18%, transparent);
+}
+
+.integratedChemistry > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 5px 7px;
+  color: #929a94;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.4rem;
+}
+
+.integratedChemistry > span b {
+  color: #e4d28b;
+  font-size: 0.65rem;
+}
+
+.integratedChemistry > span[data-positive="true"] b {
+  color: #62dca6;
+}
+
+.integratedChemistry ul {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding: 0;
+  margin: 0;
+  color: #9ba39d;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.38rem;
+  list-style: none;
+}
+
+.integratedChemistry li b {
+  color: #d8c77e;
 }
 
 .squadDrawerHeader {
@@ -343,8 +396,8 @@
   display: grid;
   width: 100%;
   min-width: 0;
-  min-height: 52px;
-  grid-template-columns: 38px minmax(0, 1fr) auto auto;
+  min-height: 64px;
+  grid-template-columns: 50px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 8px;
   padding: 6px 8px;
@@ -355,6 +408,12 @@
   border-radius: 7px;
   background: rgba(255, 255, 255, 0.025);
   text-align: left;
+}
+
+.squadRow > :global(.circular-portrait) {
+  --portrait-size: 50px;
+  min-width: 0;
+  border-width: 3px;
 }
 
 button.squadRow {
@@ -384,7 +443,7 @@ button.squadRow:focus-visible {
 }
 
 .squadRow b {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
 }
 
 .squadRow small,
@@ -697,12 +756,14 @@ button.squadRow:focus-visible {
   top: calc(100% + 4px);
   left: 50%;
   display: grid;
-  width: 72px;
-  min-height: 34px;
-  max-width: 72px;
+  width: auto;
+  min-width: 54px;
+  min-height: 21px;
+  max-width: 70px;
+  grid-template-columns: auto auto;
   place-items: center;
-  gap: 1px;
-  padding: 3px 4px;
+  gap: 4px;
+  padding: 3px 6px;
   overflow: hidden;
   box-sizing: border-box;
   border-radius: 6px;
@@ -711,33 +772,22 @@ button.squadRow:focus-visible {
   transform: translateX(-50%);
 }
 
-.board :global(.pitch-node__fit small),
 .board :global(.pitch-node__fit b),
-.board :global(.pitch-node__fit em),
-.board :global(.pitch-node__fit i) {
+.board :global(.pitch-node__fit em) {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.board :global(.pitch-node__fit small) {
-  font-size: 0.3rem;
-  letter-spacing: 0.02em;
-}
-
 .board :global(.pitch-node__fit b) {
-  font-size: 0.49rem;
+  font-size: 0.4rem;
 }
 
 .board :global(.pitch-node__fit em) {
-  font-size: 0.31rem;
+  font-size: 0.43rem;
   font-style: normal;
   font-weight: 760;
-}
-
-.board :global(.pitch-node__fit i) {
-  font-size: 0.33rem;
 }
 
 .board :global(.pitch-node--fit-label-above .pitch-node__fit) {
@@ -752,24 +802,14 @@ button.squadRow:focus-visible {
     .pitch-node__fit) {
   bottom: calc(100% + 1px);
   display: flex;
-  width: 112px;
-  height: 14px;
-  min-height: 14px;
+  width: auto;
+  height: 21px;
+  min-height: 21px;
   align-items: center;
   justify-content: center;
   gap: 3px;
   padding: 0 3px;
   line-height: 1;
-}
-
-.board
-  :global(.pitch-node--goalkeeper.pitch-node--fit-label-above
-    .pitch-node__fit small) {
-  flex: 0 0 auto;
-  max-width: none;
-  overflow: visible;
-  font-size: 0.22rem;
-  text-overflow: clip;
 }
 
 .board
@@ -784,15 +824,32 @@ button.squadRow:focus-visible {
 
 .board
   :global(.pitch-node--goalkeeper.pitch-node--fit-label-above
-    .pitch-node__fit em),
-.board
-  :global(.pitch-node--goalkeeper.pitch-node--fit-label-above
-    .pitch-node__fit i) {
+    .pitch-node__fit em) {
   flex: 0 0 auto;
   max-width: none;
   overflow: visible;
   font-size: 0.31rem;
   text-overflow: clip;
+}
+
+.board :global(.pitch-node--best-fit .pitch-node__disc) {
+  border-color: #f0d878 !important;
+  box-shadow:
+    0 0 0 4px rgba(240, 216, 120, 0.24),
+    0 0 30px rgba(240, 216, 120, 0.6) !important;
+  animation: best-fit-pulse 720ms ease-out 1;
+}
+
+.board :global(.pitch-node--filled.pitch-node--active .pitch-node__disc) {
+  box-shadow:
+    0 0 0 3px rgba(240, 216, 120, 0.32),
+    0 0 18px rgba(240, 216, 120, 0.28);
+}
+
+@keyframes best-fit-pulse {
+  0% { filter: brightness(1); }
+  45% { filter: brightness(1.45); }
+  100% { filter: brightness(1); }
 }
 
 .board :global(.pitch-node--near-left .pitch-node__fit) {
@@ -1062,5 +1119,9 @@ button.squadRow:focus-visible {
   .board :global(.pitch-node),
   .board :global(.pitch-node__disc) {
     transition: none;
+  }
+
+  .board :global(.pitch-node--best-fit .pitch-node__disc) {
+    animation: none;
   }
 }

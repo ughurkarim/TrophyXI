@@ -122,8 +122,8 @@ export const playerCardSchema = z.object({
       clubAssists: nullableCount,
       nationalTeamAppearances: nullableCount,
       nationalTeamGoals: nullableCount,
-      sourceName: z.literal("FBref"),
-      sourceUrl: z.string().url().startsWith("https://fbref.com/"),
+      sourceName: z.string().min(2),
+      sourceUrl: z.string().url().optional(),
       retrievedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
       coverageNote: z.string().min(2),
       competitionStats: z.array(
@@ -236,13 +236,6 @@ export const playerSeedSchema = z.array(playerCardSchema).superRefine((cards, co
           code: "custom",
           message: "Stored career accolades must be verified",
           path: [index, "careerAccolades", accoladeIndex, "verified"],
-        });
-      }
-      if (accolade.category !== "curated" && !accolade.sourceUrl) {
-        context.addIssue({
-          code: "custom",
-          message: "Factual accolades require a source URL",
-          path: [index, "careerAccolades", accoladeIndex, "sourceUrl"],
         });
       }
     });

@@ -352,13 +352,16 @@ export const simulateMatch = ({
           ),
         );
   const opponentManager = opponent.allStars?.manager;
-  const managerEraFit = manager
-    ? calculateManagerEraFit(manager, eraId).score
-    : 75;
+  const eraFitApplies = eraId !== "all";
+  const managerEraFit =
+    manager && eraFitApplies
+      ? calculateManagerEraFit(manager, eraId).score
+      : 0;
   const managerEffectiveness = managerEraEffectiveness(manager, eraId);
-  const opponentManagerEraFit = opponentManager
-    ? calculateManagerEraFit(opponentManager, eraId).score
-    : opponentEraFit;
+  const opponentManagerEraFit =
+    opponentManager && eraFitApplies
+      ? calculateManagerEraFit(opponentManager, eraId).score
+      : opponentEraFit;
   const avgClutch =
     lineup.reduce((sum, player) => sum + player.attributes.clutch, 0) /
       lineup.length +
@@ -375,8 +378,8 @@ export const simulateMatch = ({
       ((manager?.grades.offense ?? 78) - 78) *
         0.006 *
         managerEffectiveness +
-      (managerEraFit - 75) * 0.003 +
-      (userRatings.eraFit - opponentEraFit) * 0.005 +
+      (eraFitApplies ? (managerEraFit - 75) * 0.003 : 0) +
+      (eraFitApplies ? (userRatings.eraFit - opponentEraFit) * 0.005 : 0) +
       (random() - 0.5) * 0.42,
     0.35,
     3.15,
@@ -389,8 +392,8 @@ export const simulateMatch = ({
       ((manager?.grades.defense ?? 78) - 78) *
         -0.005 *
         managerEffectiveness -
-      (managerEraFit - 75) * 0.0025 +
-      (opponentEraFit - userRatings.eraFit) * 0.005 +
+      (eraFitApplies ? -(managerEraFit - 75) * 0.0025 : 0) +
+      (eraFitApplies ? (opponentEraFit - userRatings.eraFit) * 0.005 : 0) +
       (random() - 0.5) * 0.42,
     0.35,
     3.15,
@@ -790,8 +793,10 @@ export const simulateMatch = ({
       expectedGoals: [Number(userXg.toFixed(2)), Number(opponentXg.toFixed(2))],
       yellowCards: [userYellows, opponentYellows],
       tacticalImpact: [
-        Math.round((userRatings.managerFit + managerEraFit) / 2),
-        opponentEraFit,
+        eraFitApplies
+          ? Math.round((userRatings.managerFit + managerEraFit) / 2)
+          : userRatings.managerFit,
+        eraFitApplies ? opponentManagerEraFit : opponentRatings.chemistry,
       ],
     },
     events,
@@ -801,7 +806,9 @@ export const simulateMatch = ({
         : `${opponent.nationName} ${opponent.tournamentYear}`,
     userRatings,
     managerImpact: manager
-      ? `${manager.managerName} delivered ${userRatings.managerFit}% tactical fit and ${managerEraFit}% Era Fit with OFF ${manager.grades.offense}, DEF ${manager.grades.defense}, and ${substitutions.length} substitutions.`
+      ? eraFitApplies
+        ? `${manager.managerName} delivered ${userRatings.managerFit}% tactical fit and ${managerEraFit}% Era Fit with OFF ${manager.grades.offense}, DEF ${manager.grades.defense}, and ${substitutions.length} substitutions.`
+        : `${manager.managerName} delivered ${userRatings.managerFit}% formation fit with OFF ${manager.grades.offense}, DEF ${manager.grades.defense}, and ${substitutions.length} substitutions. Neutral era applied no era modifier.`
       : "No tournament manager impact was applied.",
     opponentEraFit,
     substitutions,

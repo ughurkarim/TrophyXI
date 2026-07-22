@@ -151,7 +151,8 @@ describe("ResultPage", () => {
     ).toBeVisible();
     expect(screen.getByTestId("share-card-preview")).toBeVisible();
     expect(
-      screen.getByRole("button", { name: "Copy result summary" }),
+      screen.getByRole("button", { name: "Copy game link" }),
     ).toBeVisible();
+    expect(screen.getAllByRole("button", { name: /share (this )?game/i })).toHaveLength(2);
   });
 });

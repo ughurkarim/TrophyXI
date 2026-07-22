@@ -1,15 +1,16 @@
 import {
-  gameFaceManifestGeneratedAt,
-  managerGameFaceRecords,
-  playerGameFaceRecords,
-} from "@/data/game-face-manifest";
-import { fbrefPortraitRecords } from "@/data/fbref-portrait-manifest";
+  managerLocalPortraitRecords,
+  playerLocalPortraitRecords,
+  type LocalPortraitManifestRecord,
+} from "@/data/local-portrait-manifest";
 import { managersById } from "@/data/managers";
 import { licensedManagerPortraitImages } from "@/data/manager-images";
+import {
+  importedPlayerIdentityPortraitRecords,
+  type PlayerIdentityPortraitRecord,
+} from "@/data/player-identity-portraits";
 import { players, playersById } from "@/data/players";
 import { userSuppliedPlayerImages } from "@/data/user-player-portraits";
-import type { FbrefPortraitManifestRecord } from "@/lib/importers/fbref-portrait";
-import type { GameFaceManifestRecord } from "@/lib/importers/game-face";
 import type { ImageAttribution } from "@/types/game";
 
 type GameFaceKind = ImageAttribution["kind"];
@@ -22,14 +23,14 @@ export const gameFacePathFor = (
   `/assets/${kind === "player" ? "players" : "managers"}/${tournamentYear}/${cardId}.png`;
 
 const buildAttribution = (
-  record: GameFaceManifestRecord,
+  record: LocalPortraitManifestRecord | PlayerIdentityPortraitRecord,
 ): ImageAttribution => {
   const { id, kind } = record;
   const player = kind === "player" ? playersById.get(id) : undefined;
   const manager = kind === "manager" ? managersById.get(id) : undefined;
   if (!player && !manager) {
     throw new Error(
-      `${id}: tournament-edition game face requires a matching tournament card`,
+      `${id}: local portrait requires a matching tournament card`,
     );
   }
   const subjectName = player?.playerName ?? manager!.managerName;
@@ -38,7 +39,13 @@ const buildAttribution = (
     tournamentYear !== record.tournamentYear ||
     record.localPath !== gameFacePathFor(kind, id, tournamentYear)
   ) {
-    throw new Error(`${id}: tournament-edition game-face manifest mismatch`);
+    throw new Error(`${id}: local portrait manifest mismatch`);
+  }
+  if (
+    record.playerIdentityId &&
+    player?.playerIdentityId !== record.playerIdentityId
+  ) {
+    throw new Error(`${id}: local portrait identity mismatch`);
   }
   return {
     id,
@@ -46,60 +53,15 @@ const buildAttribution = (
     subjectName,
     tournamentYear,
     file: record.localPath,
-    cacheVersion: `${gameFaceManifestGeneratedAt}-${record.id}`,
+    cacheVersion: record.cacheVersion,
     sourceFile: record.sourceFile,
-    sourcePage: record.sourceUrl,
-    author: record.author,
-    license: record.license,
-    licenseUrl: record.licenseUrl,
-    changes: record.changes,
-    fallback: false,
-    representedTeam: player?.countryName ?? manager!.teamName,
-    photographedYear: null,
-    exactTournamentImage: false,
-    isNationalTeamKit: false,
-    photoContext: "tournament-edition-game-face",
-    cropFocus: { x: 50, y: 20 },
-    gameEdition: record.gameEdition,
-    gameEditionLaunchYear: record.gameEditionLaunchYear,
-    sourceWebsite: record.sourceWebsite,
-    retrievedOn: record.retrievedOn,
-    matchQuality: record.matchQuality,
-    requiredAttribution: record.requiredAttribution,
-  };
-};
-
-const buildFbrefAttribution = (
-  record: FbrefPortraitManifestRecord,
-): ImageAttribution => {
-  const player = playersById.get(record.id);
-  if (!player) {
-    throw new Error(`${record.id}: FBref portrait requires a matching card`);
-  }
-  if (
-    player.tournamentYear > 2002 ||
-    player.playerIdentityId !== record.playerIdentityId ||
-    player.tournamentYear !== record.tournamentYear ||
-    record.localPath !==
-      gameFacePathFor("player", record.id, record.tournamentYear)
-  ) {
-    throw new Error(`${record.id}: historical FBref portrait manifest mismatch`);
-  }
-  return {
-    id: record.id,
-    kind: "player",
-    subjectName: player.playerName,
-    tournamentYear: player.tournamentYear,
-    file: record.localPath,
-    cacheVersion: record.runtimeSha256.slice(0, 16),
-    sourceFile: record.sourceFile,
-    sourcePage: record.sourcePage,
-    author: "FBref / Sports Reference (photographer not stated)",
-    license: record.license,
+    sourcePage: "sourcePage" in record ? record.sourcePage : null,
+    author: "Local project asset",
+    license: "Project asset",
     licenseUrl: null,
     changes: record.changes,
     fallback: false,
-    representedTeam: null,
+    representedTeam: player?.countryName ?? manager!.teamName,
     photographedYear: null,
     exactTournamentImage: false,
     isNationalTeamKit: false,
@@ -107,62 +69,61 @@ const buildFbrefAttribution = (
     cropFocus: { x: 50, y: 20 },
     gameEdition: null,
     gameEditionLaunchYear: null,
-    sourceWebsite: record.sourceWebsite,
-    retrievedOn: record.retrievedOn,
-    matchQuality: record.matchQuality,
-    requiredAttribution: record.requiredAttribution,
+    sourceWebsite: "Local portrait archive",
+    retrievedOn: "2026-07-21",
+    matchQuality:
+      record.portraitScope === "card-specific"
+        ? "manually-reviewed-edition"
+        : "identity-only-permissioned",
+    requiredAttribution: "Local portrait from the Trophy XI project archive.",
   };
 };
 
 export const tournamentEditionPlayerImages =
-  playerGameFaceRecords.map(buildAttribution);
-export const historicalPlayerImages =
-  fbrefPortraitRecords.map(buildFbrefAttribution);
-const directPlayerImages = [
+  playerLocalPortraitRecords
+    .filter((record) => record.portraitScope === "card-specific")
+    .map(buildAttribution);
+export const historicalPlayerImages = playerLocalPortraitRecords
+  .filter((record) => record.portraitScope === "identity-only")
+  .map(buildAttribution);
+export const importedPlayerIdentityImages =
+  importedPlayerIdentityPortraitRecords.map(buildAttribution);
+const directPlayerImageById = new Map(
+  [
   ...tournamentEditionPlayerImages,
   ...historicalPlayerImages,
+  ...importedPlayerIdentityImages,
   ...userSuppliedPlayerImages,
-];
-
-const directPlayerImageIds = new Set(
-  directPlayerImages.map((image) => image.id),
+  ].map((image) => [image.id, image]),
 );
+const directPlayerImages = [...directPlayerImageById.values()];
 
 /**
- * Identity-only historical and user-supplied portraits may represent another
- * card for the same person. Tournament-edition game faces are deliberately
- * absent from this pool: those remain locked to their licensed game edition
- * and tournament card.
+ * Every locally verified face can represent another tournament card for the
+ * same person. The closest available tournament year wins; ties prefer the
+ * newer portrait and then a stable card id. Reused images are explicitly
+ * labeled as identity-only fallbacks rather than exact-tournament photos.
  */
-const youngestIdentityPortraits = new Map<
-  string,
-  { image: ImageAttribution; tournamentYear: number }
->();
-for (const image of [
-  ...historicalPlayerImages,
-  ...userSuppliedPlayerImages,
-]) {
+const directPortraitsByIdentity = new Map<string, ImageAttribution[]>();
+for (const image of directPlayerImages) {
   const sourceCard = playersById.get(image.id);
   if (!sourceCard) continue;
-  const current = youngestIdentityPortraits.get(
-    sourceCard.playerIdentityId,
-  );
-  if (
-    !current ||
-    sourceCard.tournamentYear < current.tournamentYear ||
-    (sourceCard.tournamentYear === current.tournamentYear &&
-      image.id.localeCompare(current.image.id) < 0)
-  ) {
-    youngestIdentityPortraits.set(sourceCard.playerIdentityId, {
-      image,
-      tournamentYear: sourceCard.tournamentYear,
-    });
-  }
+  directPortraitsByIdentity.set(sourceCard.playerIdentityId, [
+    ...(directPortraitsByIdentity.get(sourceCard.playerIdentityId) ?? []),
+    image,
+  ]);
 }
 
 export const identityFallbackPlayerImages = players.flatMap((player) => {
-  if (directPlayerImageIds.has(player.imageId)) return [];
-  const source = youngestIdentityPortraits.get(player.playerIdentityId)?.image;
+  if (directPlayerImageById.has(player.imageId)) return [];
+  const source = [...(directPortraitsByIdentity.get(player.playerIdentityId) ?? [])]
+    .sort(
+      (first, second) =>
+        Math.abs(first.tournamentYear - player.tournamentYear) -
+          Math.abs(second.tournamentYear - player.tournamentYear) ||
+        second.tournamentYear - first.tournamentYear ||
+        first.id.localeCompare(second.id),
+    )[0];
   if (!source) return [];
   return [
     {
@@ -177,6 +138,9 @@ export const identityFallbackPlayerImages = players.flatMap((player) => {
       photographedYear: null,
       exactTournamentImage: false,
       photoContext: "other-licensed-face" as const,
+      gameEdition: null,
+      gameEditionLaunchYear: null,
+      matchQuality: "identity-only-permissioned",
     },
   ];
 });
@@ -187,7 +151,7 @@ export const playerImages = [
 ];
 
 export const managerImages = [
-  ...managerGameFaceRecords.map(buildAttribution),
+  ...managerLocalPortraitRecords.map(buildAttribution),
   ...licensedManagerPortraitImages,
 ];
 

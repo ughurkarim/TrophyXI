@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ChampionReveal } from "@/components/match/champion-reveal";
 import { getFormation } from "@/data/formations";
@@ -77,8 +78,9 @@ describe("ChampionReveal match transition", () => {
     );
   });
 
-  it("shows a champion's manager, exact shape, available squad, tactics, and fact", () => {
+  it("shows a compact dossier and opens the opponent squad drawer", async () => {
     motionPreference.reduced = true;
+    const user = userEvent.setup();
     const champion = historicalOpponents[0]!;
     renderReveal(vi.fn(), champion);
 
@@ -91,16 +93,15 @@ describe("ChampionReveal match transition", () => {
     ).toBeVisible();
     expect(within(dossier).getByText(champion.tacticalProfile)).toBeVisible();
     expect(within(dossier).getByText(champion.championFact!)).toBeVisible();
-    expect(
-      within(dossier).getByRole("list", { name: "Starting XI" }).children,
-    ).toHaveLength(11);
-    expect(
-      within(dossier).getByRole("list", {
-        name: "Available substitutes",
-      }).children,
-    ).toHaveLength(champion.substitutes.length);
     expect(within(dossier).getByText(`${champion.ratings.overall} OVR`)).toBeVisible();
     expect(within(dossier).queryByText(/not sourced/i)).not.toBeInTheDocument();
     expect(within(dossier).queryByText(/trophy xi tactical model/i)).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /view opponent xi/i }));
+    const drawer = screen.getByRole("dialog", {
+      name: new RegExp(`${champion.nationName} ${champion.tournamentYear} lineup`, "i"),
+    });
+    expect(within(drawer).getByRole("list", { name: "Starting XI" }).children).toHaveLength(11);
+    expect(within(drawer).getByRole("list", { name: "Available substitutes" }).children).toHaveLength(champion.substitutes.length);
   });
 });

@@ -57,23 +57,23 @@ const positionBand = (position: Position) => {
 };
 
 export const starterTierWeights: Record<PlayerStatusTier, number> = {
-  legend: 0.02,
-  icon: 0.065,
-  elite: 0.145,
-  standout: 0.255,
-  reliable: 0.27,
-  "role-player": 0.185,
-  limited: 0.06,
+  legend: 0.055,
+  icon: 0.12,
+  elite: 0.225,
+  standout: 0.27,
+  reliable: 0.215,
+  "role-player": 0.09,
+  limited: 0.025,
 };
 
 export const benchTierWeights: Record<PlayerStatusTier, number> = {
-  legend: 0.0025,
-  icon: 0.0175,
-  elite: 0.075,
-  standout: 0.2,
-  reliable: 0.335,
-  "role-player": 0.28,
-  limited: 0.09,
+  legend: 0.02,
+  icon: 0.06,
+  elite: 0.15,
+  standout: 0.28,
+  reliable: 0.29,
+  "role-player": 0.16,
+  limited: 0.04,
 };
 
 const weightedTier = (
@@ -98,11 +98,19 @@ export const getPositionFit = (
   player: PlayerTournamentCard,
   slot: FormationSlot,
 ) => {
+  const playerPosition =
+    player.primaryPosition === "LCB" || player.primaryPosition === "RCB"
+      ? "CB"
+      : player.primaryPosition;
+  const slotPosition =
+    slot.position === "LCB" || slot.position === "RCB"
+      ? "CB"
+      : slot.position;
   if (player.primaryPosition === "GK" || slot.position === "GK") {
     return player.primaryPosition === "GK" && slot.position === "GK" ? 100 : 0;
   }
-  if (player.primaryPosition === slot.position) return 100;
-  if (shareStrongFamily(player.primaryPosition, slot.position)) return 94;
+  if (playerPosition === slotPosition) return 100;
+  if (shareStrongFamily(playerPosition, slotPosition)) return 94;
   if (player.eligiblePositions.includes(slot.position)) return 88;
   if (slot.accepts.includes(player.primaryPosition)) return 80;
   if (
@@ -323,7 +331,7 @@ export const generateDraftOptions = (
     (Math.abs(hashString(`starter-tier-budget:${seed}:${formation.id}`)) %
       10_000) /
     10_000;
-  const highBudget = budgetRoll < 0.5 ? 0 : budgetRoll < 0.89 ? 1 : 2;
+  const highBudget = budgetRoll < 0.2 ? 2 : budgetRoll < 0.75 ? 3 : 4;
   const identitySafe = cards.filter(
     (card) =>
       !used.has(card.playerIdentityId) &&
@@ -438,8 +446,8 @@ export const generateDraftOptions = (
       Number(recent.has(first.playerIdentityId)) -
         Number(recent.has(second.playerIdentityId)) ||
       secondRank.need - firstRank.need ||
+      second.overall - first.overall ||
       secondRank.best - firstRank.best ||
-      Math.abs(80 - first.overall) - Math.abs(80 - second.overall) ||
       second.eligiblePositions.length - first.eligiblePositions.length
     );
   });
@@ -456,6 +464,10 @@ export const generateDraftOptions = (
       selected.push(card);
     }
   };
+  const randomFromLeadingPool = (pool: PlayerTournamentCard[]) => {
+    const leadingPool = pool.slice(0, 14);
+    return leadingPool[Math.floor(random() * leadingPool.length)];
+  };
   for (let index = 0; index < 5; index += 1) {
     const targetTier = weightedTier(random, starterTierWeights);
     const premierCount = selected.filter((card) =>
@@ -469,11 +481,11 @@ export const generateDraftOptions = (
       ) &&
       (card.overall < 90 || highCount < 2) &&
       (!["legend", "icon"].includes(card.statusTier) || premierCount < 2);
-    add(
-      ranked.find(
-        (card) => card.statusTier === targetTier && available(card),
-      ) ?? ranked.find(available),
+    const tierPool = ranked.filter(
+      (card) => card.statusTier === targetTier && available(card),
     );
+    const fallbackPool = ranked.filter(available);
+    add(randomFromLeadingPool(tierPool.length ? tierPool : fallbackPool));
   }
   if (
     new Set(
@@ -504,6 +516,25 @@ export const generateDraftOptions = (
         ),
     );
     if (replacement) selected[selected.length - 1] = replacement;
+  }
+  if (!selected.some((card) => card.overall >= 88)) {
+    const replacement = randomFromLeadingPool(
+      ranked.filter(
+        (card) =>
+          card.overall >= 88 &&
+          !selected.some(
+            (candidate) =>
+              candidate.playerIdentityId === card.playerIdentityId,
+          ),
+      ),
+    );
+    const replaceIndex = selected
+      .map((card, index) => ({ card, index }))
+      .sort((first, second) => first.card.overall - second.card.overall)[0]
+      ?.index;
+    if (replacement && replaceIndex !== undefined) {
+      selected[replaceIndex] = replacement;
+    }
   }
   if (selected.length !== 5) {
     throw new Error("Player-first draft generation did not return five cards");
@@ -551,7 +582,7 @@ export const generateFormationOffer = (
   count = 4,
   rules: FormationOfferRules = {},
 ): FormationId[] => {
-  const managerEraFit = calculateManagerEraFit(manager, eraId).score;
+  const managerEraFit = calculateManagerEraFit(manager, eraId);
   const excluded = new Set(rules.excludedFormationIds ?? []);
   const available =
     formations.filter((formation) => !excluded.has(formation.id)).length >= count
@@ -599,7 +630,7 @@ export const generateFormationOffer = (
       selected.push(formation.id);
     }
   };
-  if (managerEraFit >= 84) {
+  if (!managerEraFit.applicable || managerEraFit.score >= 84) {
     add(preferred[0]);
   } else {
     add(eraStrong.find((formation) => !selected.includes(formation.id)));
@@ -649,19 +680,12 @@ export const generateBenchOptions = (
     .filter((card): card is PlayerTournamentCard => Boolean(card));
   const highCount = draftedBench.filter((card) => card.overall >= 90).length;
   const eliteCount = draftedBench.filter((card) => card.overall >= 86).length;
-  const below82Count = draftedBench.filter((card) => card.overall < 82).length;
-  const below78Count = draftedBench.filter((card) => card.overall < 78).length;
-  const roundsRemaining = 3 - bench.length;
-  const mustChooseBelow82 = 2 - below82Count >= roundsRemaining;
-  const mustChooseBelow78 = 1 - below78Count >= roundsRemaining;
   const identitySafe = cards.filter(
     (card) =>
       !used.has(card.playerIdentityId) &&
       !excluded.has(card.playerIdentityId) &&
       (card.overall < 90 || highCount < 1) &&
-      (card.overall < 86 || eliteCount < 2) &&
-      (!mustChooseBelow82 || card.overall < 82) &&
-      (!mustChooseBelow78 || card.overall < 78),
+      (card.overall < 86 || eliteCount < 3),
   );
   const withoutRejected = identitySafe.filter(
     (card) => !rejected.has(card.playerIdentityId),
@@ -701,9 +725,7 @@ export const generateBenchOptions = (
         seenCount(second.playerIdentityId) ||
       Number(recent.has(first.playerIdentityId)) -
         Number(recent.has(second.playerIdentityId)) ||
-      Math.abs(78 - first.overall) - Math.abs(78 - second.overall) ||
-      Math.abs(2 - first.eligiblePositions.length) -
-        Math.abs(2 - second.eligiblePositions.length),
+      second.overall - first.overall,
   );
   const selected: PlayerTournamentCard[] = [];
   const add = (card: PlayerTournamentCard | undefined) => {
@@ -717,6 +739,10 @@ export const generateBenchOptions = (
       selected.push(card);
     }
   };
+  const randomFromLeadingPool = (pool: PlayerTournamentCard[]) => {
+    const leadingPool = pool.slice(0, 16);
+    return leadingPool[Math.floor(random() * leadingPool.length)];
+  };
   for (let index = 0; index < 5; index += 1) {
     const targetTier = weightedTier(random, benchTierWeights);
     const selectedHigh = selected.filter((card) => card.overall >= 90).length;
@@ -727,53 +753,31 @@ export const generateBenchOptions = (
           candidate.playerIdentityId === card.playerIdentityId,
       ) &&
       (card.overall < 90 || selectedHigh < 1) &&
-      (card.overall < 86 || selectedElite < 2);
-    add(
-      ranked.find(
-        (card) => card.statusTier === targetTier && available(card),
-      ) ?? ranked.find(available),
+      (card.overall < 86 || selectedElite < 3);
+    const tierPool = ranked.filter(
+      (card) => card.statusTier === targetTier && available(card),
     );
+    const fallbackPool = ranked.filter(available);
+    add(randomFromLeadingPool(tierPool.length ? tierPool : fallbackPool));
   }
-  const replaceHighestWith = (
-    predicate: (card: PlayerTournamentCard) => boolean,
-  ) => {
-    const replacement = ranked.find(
-      (card) =>
-        predicate(card) &&
-        !selected.some(
-          (candidate) =>
-            candidate.playerIdentityId === card.playerIdentityId,
-        ),
+  if (!selected.some((card) => card.overall >= 85)) {
+    const replacement = randomFromLeadingPool(
+      ranked.filter(
+        (card) =>
+          card.overall >= 85 &&
+          !selected.some(
+            (candidate) =>
+              candidate.playerIdentityId === card.playerIdentityId,
+          ),
+      ),
     );
-    if (!replacement) return;
     const replaceIndex = selected
       .map((card, index) => ({ card, index }))
-      .filter(({ card }) => !predicate(card))
-      .sort((first, second) => second.card.overall - first.card.overall)[0]
+      .sort((first, second) => first.card.overall - second.card.overall)[0]
       ?.index;
-    if (replaceIndex !== undefined) selected[replaceIndex] = replacement;
-  };
-  while (selected.filter((card) => card.overall < 82).length < 2) {
-    const previous = selected.map((card) => card.id).join("|");
-    replaceHighestWith((card) => card.overall < 82);
-    if (previous === selected.map((card) => card.id).join("|")) break;
-  }
-  if (!selected.some((card) => card.overall < 78)) {
-    replaceHighestWith((card) => card.overall < 78);
-  }
-  if (
-    !selected.some(
-      (card) =>
-        card.eligiblePositions.length <= 2 ||
-        card.eligiblePositions.length >= 4,
-    )
-  ) {
-    replaceHighestWith(
-      (card) =>
-        card.overall < 86 &&
-        (card.eligiblePositions.length <= 2 ||
-          card.eligiblePositions.length >= 4),
-    );
+    if (replacement && replaceIndex !== undefined) {
+      selected[replaceIndex] = replacement;
+    }
   }
   if (selected.length !== 5) {
     throw new Error("Not enough identity-safe bench options");

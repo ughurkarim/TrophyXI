@@ -31,6 +31,7 @@ import {
 } from "@/engine/draft";
 import { assignHistoricalLineupToFormation } from "@/engine/historical-lineup";
 import { cn } from "@/lib/utils";
+import { encodeSharedGame } from "@/lib/shared-game";
 import { useGameStore } from "@/store/game-store";
 import type {
   PlayerMinutes,
@@ -59,7 +60,7 @@ const ratingRows: Array<{
 export default function ResultPage() {
   const router = useRouter();
   const [copiedAction, setCopiedAction] = useState<
-    "hero" | "text" | "summary" | null
+    "hero" | "share" | "link" | null
   >(null);
   const hydrated = useGameStore((state) => state.hasHydrated);
   const formationId = useGameStore((state) => state.formationId);
@@ -72,6 +73,7 @@ export default function ResultPage() {
   );
   const result = useGameStore((state) => state.matchResult);
   const gameMode = useGameStore((state) => state.gameMode);
+  const draftSeed = useGameStore((state) => state.draftSeed);
   const restartFromManager = useGameStore(
     (state) => state.restartFromManager,
   );
@@ -183,21 +185,52 @@ export default function ResultPage() {
   const stars = [...lineup, ...bench]
     .sort((first, second) => second.overall - first.overall)
     .slice(0, 3);
-  const summaryText = `Trophy XI ${result.score.user}–${result.score.opponent} ${opponentLabel} — History renders its verdict.`;
-  const resultText = `${summaryText}\nBuilt with ${stars
-    .map((player) => `${player.playerName} ${player.tournamentYear}`)
-    .join(", ")
-    .replace(/, ([^,]*)$/, " and $1")}.\nCan your squad beat history?`;
+  const summaryText = `Trophy XI ${result.score.user}–${result.score.opponent} ${opponentLabel} — view the teams and relive the match.`;
+
+  const sharedGameUrl = () => {
+    const token = encodeSharedGame({
+      v: 1,
+      e: eraId ?? "all",
+      f: formation.id,
+      m: manager.id,
+      l: lineup.map((player) => player.id),
+      b: bench.map((player) => player.id),
+      o: opponent.id,
+      s: result.seed,
+      d: draftSeed,
+    });
+    return `${window.location.origin}/replay/${token}`;
+  };
 
   const copyToClipboard = async (
     value: string,
-    action: "hero" | "text" | "summary",
+    action: "hero" | "share" | "link",
   ) => {
     await navigator.clipboard.writeText(value);
     setCopiedAction(action);
     window.setTimeout(() => {
       setCopiedAction((current) => (current === action ? null : current));
     }, 1800);
+  };
+
+  const shareGame = async (action: "hero" | "share") => {
+    const url = sharedGameUrl();
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Trophy XI ${result.score.user}–${result.score.opponent} ${opponentLabel}`,
+          text: summaryText,
+          url,
+        });
+        setCopiedAction(action);
+        window.setTimeout(() => setCopiedAction(null), 1800);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        await copyToClipboard(url, action);
+      }
+      return;
+    }
+    await copyToClipboard(url, action);
   };
 
   const contributionDetails = (player: PlayerMinutes) => {
@@ -324,14 +357,14 @@ export default function ResultPage() {
             <Button
               className={cn(styles.actionButton, styles.tertiaryAction)}
               variant="ghost"
-              onClick={() => copyToClipboard(summaryText, "hero")}
+              onClick={() => shareGame("hero")}
             >
               {copiedAction === "hero" ? (
                 <Check size={16} aria-hidden />
               ) : (
-                <Copy size={16} aria-hidden />
+                <Share2 size={16} aria-hidden />
               )}
-              {copiedAction === "hero" ? "Copied" : "Copy result"}
+              {copiedAction === "hero" ? "Game link ready" : "Share game"}
             </Button>
           </div>
         </section>
@@ -386,19 +419,21 @@ export default function ResultPage() {
                 <dt>Position Fit</dt>
                 <dd>{result.userRatings.positionFit}</dd>
               </div>
-              <div>
-                <dt>Era Fit</dt>
-                <dd>{result.userRatings.eraFit}</dd>
-              </div>
+              {eraId !== "all" && (
+                <div>
+                  <dt>Era Fit</dt>
+                  <dd>{result.userRatings.eraFit}</dd>
+                </div>
+              )}
               <div>
                 <dt>Manager Fit</dt>
                 <dd>{result.userRatings.managerFit}</dd>
               </div>
             </dl>
             <p className={styles.translationNote}>
-              Era translation is reflected on both sides: Trophy XI{" "}
-              {result.userRatings.eraFit}, {opponent.nationName}{" "}
-              {result.opponentEraFit}.
+              {eraId === "all"
+                ? "Neutral era — no era modifier."
+                : `Era Fit is reflected on both sides: Trophy XI ${result.userRatings.eraFit}, ${opponent.nationName} ${result.opponentEraFit}.`}
             </p>
             <aside className={styles.managerInsight}>
               <span>MANAGER INSIGHT</span>
@@ -443,10 +478,12 @@ export default function ResultPage() {
                   <dt>Formation</dt>
                   <dd>{formation.name}</dd>
                 </div>
-                <div>
-                  <dt>Era Fit</dt>
-                  <dd>{result.userRatings.eraFit}</dd>
-                </div>
+                {eraId !== "all" && (
+                  <div>
+                    <dt>Era Fit</dt>
+                    <dd>{result.userRatings.eraFit}</dd>
+                  </div>
+                )}
               </dl>
               <div className={styles.pitchFrame}>
                 <TacticalPitch
@@ -486,10 +523,12 @@ export default function ResultPage() {
                   <dt>Formation</dt>
                   <dd>{opponentFormation.name}</dd>
                 </div>
-                <div>
-                  <dt>Era Fit</dt>
-                  <dd>{result.opponentEraFit}</dd>
-                </div>
+                {eraId !== "all" && (
+                  <div>
+                    <dt>Era Fit</dt>
+                    <dd>{result.opponentEraFit}</dd>
+                  </div>
+                )}
               </dl>
               {opponentNames.length === 11 && (
                 <div className={styles.pitchFrame}>
@@ -594,31 +633,26 @@ export default function ResultPage() {
             <div className={styles.shareActions}>
               <Button
                 className={styles.shareButton}
-                variant="secondary"
-                onClick={() => copyToClipboard(resultText, "text")}
+                onClick={() => shareGame("share")}
               >
-                {copiedAction === "text" ? (
+                {copiedAction === "share" ? (
                   <Check size={16} aria-hidden />
                 ) : (
-                  <Copy size={16} aria-hidden />
+                  <Share2 size={16} aria-hidden />
                 )}
-                {copiedAction === "text"
-                  ? "Result text copied"
-                  : "Copy result text"}
+                {copiedAction === "share" ? "Game link ready" : "Share this game"}
               </Button>
               <Button
                 className={styles.shareButton}
-                variant="ghost"
-                onClick={() => copyToClipboard(summaryText, "summary")}
+                variant="secondary"
+                onClick={() => copyToClipboard(sharedGameUrl(), "link")}
               >
-                {copiedAction === "summary" ? (
+                {copiedAction === "link" ? (
                   <Check size={16} aria-hidden />
                 ) : (
                   <Copy size={16} aria-hidden />
                 )}
-                {copiedAction === "summary"
-                  ? "Summary copied"
-                  : "Copy result summary"}
+                {copiedAction === "link" ? "Game link copied" : "Copy game link"}
               </Button>
             </div>
           </section>

@@ -29,7 +29,13 @@ describe("FreeFormationPicker", () => {
     expect(
       screen.queryByRole("button", { name: /formation respin/i }),
     ).not.toBeInTheDocument();
-    expect(screen.queryByText(/recommended/i)).not.toBeInTheDocument();
+    expect(screen.getByText("RECOMMENDED")).toBeVisible();
+    expect(
+      within(archive).getAllByRole("button", {
+        name: /^choose .*formation, manager fit/i,
+      })[0],
+    ).toHaveAttribute("data-recommended", "true");
+    expect(screen.queryByText("Match Era")).not.toBeInTheDocument();
     expect(
       screen
         .getAllByRole("button", {

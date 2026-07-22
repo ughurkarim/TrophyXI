@@ -19,20 +19,20 @@ const slot = (
 const goalkeeper = () => slot("gk", "GK", "GK", ["GK"], 50, 91);
 const backFour = () => [
   slot("lb", "LB", "LB", ["LB", "LWB", "LCB", "CB"], 14, 71),
-  slot("lcb", "LCB", "LCB", ["LCB", "CB"], 38, 76),
-  slot("rcb", "RCB", "RCB", ["RCB", "CB"], 62, 76),
+  slot("lcb", "CB", "CB", ["CB", "LCB", "RCB"], 38, 76),
+  slot("rcb", "CB", "CB", ["CB", "LCB", "RCB"], 62, 76),
   slot("rb", "RB", "RB", ["RB", "RWB", "RCB", "CB"], 86, 71),
 ];
 const backThree = () => [
-  slot("lcb", "LCB", "LCB", ["LCB", "CB", "LB"], 27, 75),
+  slot("lcb", "CB", "CB", ["CB", "LCB", "RCB", "LB"], 27, 75),
   slot("cb", "CB", "CB", ["CB", "LCB", "RCB"], 50, 79),
-  slot("rcb", "RCB", "RCB", ["RCB", "CB", "RB"], 73, 75),
+  slot("rcb", "CB", "CB", ["CB", "LCB", "RCB", "RB"], 73, 75),
 ];
 const backFive = () => [
   slot("lwb", "LWB", "LWB", ["LWB", "LB", "LM"], 10, 62),
-  slot("lcb", "LCB", "LCB", ["LCB", "CB", "LB"], 29, 75),
+  slot("lcb", "CB", "CB", ["CB", "LCB", "RCB", "LB"], 29, 75),
   slot("cb", "CB", "CB", ["CB", "LCB", "RCB"], 50, 79),
-  slot("rcb", "RCB", "RCB", ["RCB", "CB", "RB"], 71, 75),
+  slot("rcb", "CB", "CB", ["CB", "LCB", "RCB", "RB"], 71, 75),
   slot("rwb", "RWB", "RWB", ["RWB", "RB", "RM"], 90, 62),
 ];
 

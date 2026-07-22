@@ -3,6 +3,10 @@ import {
   historicalOpponentSource,
   historicalOpponents as historicalArchive,
 } from "@/data/opponents/generated";
+import {
+  worldCup2026Participants,
+  worldCup2026ParticipantSource,
+} from "@/data/opponents/participants-2026";
 import type {
   FormationId,
   HistoricalLineupPlayer,
@@ -304,8 +308,81 @@ const champions: readonly ChampionDefinition[] = [
 
 const archiveById = new Map(historicalArchive.map((team) => [team.id, team]));
 
-export const championOpponents: HistoricalWorldCupTeam[] = champions
-  .map((definition) => {
+const spain2026Participant = worldCup2026Participants.find(
+  (team) => team.id === "spain-2026",
+);
+
+if (!spain2026Participant) {
+  throw new Error("Spain 2026 participant record is unavailable");
+}
+
+const spain2026Champion: HistoricalWorldCupTeam = {
+  ...spain2026Participant,
+  tournamentFinish: "champion",
+  tournamentStatus: "complete",
+  dataStatus: "modeled-lineup",
+  managerName: "Luis de la Fuente",
+  managerIdentityId: "luis-de-la-fuente",
+  formation: "4-3-3",
+  formationLabel: "4–3–3",
+  alternateFormations: ["4-2-3-1"],
+  startingLineup: roster(
+    [
+      "ESP26-01|Unai Simón|GK",
+      "ESP26-02|Pedro Porro|RB",
+      "ESP26-03|Robin Le Normand|CB",
+      "ESP26-04|Pau Cubarsí|CB",
+      "ESP26-05|Marc Cucurella|LB",
+      "ESP26-06|Rodri|DM",
+      "ESP26-07|Pedri|CM",
+      "ESP26-08|Dani Olmo|AM",
+      "ESP26-09|Lamine Yamal|RW",
+      "ESP26-10|Mikel Oyarzabal|CF",
+      "ESP26-11|Nico Williams|LW",
+    ],
+    93,
+  ),
+  substitutes: roster(
+    [
+      "ESP26-12|Fabián Ruiz|CM",
+      "ESP26-13|Gavi|CM",
+      "ESP26-14|Ferran Torres|FW",
+    ],
+    93,
+    true,
+  ),
+  tacticalProfile:
+    "Relentless positional control, fearless wing isolation, and coordinated pressure led by Yamal's right-sided creativity.",
+  ratings: {
+    attack: 94,
+    midfield: 95,
+    defense: 91,
+    goalkeeper: 88,
+    depth: 92,
+    overall: 93,
+  },
+  tournamentStats: {
+    matches: 7,
+    wins: 7,
+    draws: 0,
+    losses: 0,
+    goalsFor: null,
+    goalsAgainst: null,
+    cleanSheets: null,
+  },
+  sources: [worldCup2026ParticipantSource],
+  championFact:
+    "Lamine Yamal helped Spain win seven straight matches as La Roja claimed its second men's World Cup.",
+  championFactSource: worldCup2026ParticipantSource,
+  era: "2020s",
+  originalRatings: true,
+  formationIsModel: true,
+  difficulty: "Legendary",
+};
+
+export const championOpponents: HistoricalWorldCupTeam[] = [
+  spain2026Champion,
+  ...champions.map((definition) => {
     const archiveTeam = archiveById.get(definition.id);
     const manager = managersById.get(definition.managerCardId);
     if (!archiveTeam || !manager) {
@@ -340,9 +417,10 @@ export const championOpponents: HistoricalWorldCupTeam[] = champions
       era: definition.era,
       formationIsModel: definition.engineFormationIsApproximation,
     };
-  })
+  }),
+]
   .sort((first, second) => (second.tournamentYear ?? 0) - (first.tournamentYear ?? 0));
 
-if (championOpponents.length !== 14) {
-  throw new Error("Champion roster layer must contain exactly 14 teams");
+if (championOpponents.length !== 15) {
+  throw new Error("Champion roster layer must contain exactly 15 teams");
 }

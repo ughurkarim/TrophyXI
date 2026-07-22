@@ -40,6 +40,11 @@ export const metadata: Metadata = {
       "Draft fourteen tournament performances. Choose a historical World Cup opponent. Rewrite history.",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Trophy XI",
+    description: "Build the XI. Beat history.",
+  },
 };
 
 export const viewport: Viewport = {

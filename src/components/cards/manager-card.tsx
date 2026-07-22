@@ -55,11 +55,15 @@ export function ManagerCard({
       value: manager.gameManagement,
       grade: managerGradeLabel(manager.gameManagement),
     },
-    {
-      label: "ERA FIT",
-      value: eraFit,
-      grade: managerGradeLabel(eraFit),
-    },
+    ...(eraId === "all"
+      ? []
+      : [
+          {
+            label: "ERA FIT",
+            value: eraFit,
+            grade: managerGradeLabel(eraFit),
+          },
+        ]),
   ];
 
   return (
@@ -68,7 +72,7 @@ export function ManagerCard({
         "manager-card",
         styles.card,
         styleClasses[manager.style],
-        eraFit >= 92 && styles.highEraFit,
+        eraId !== "all" && eraFit >= 92 && styles.highEraFit,
         selected && "manager-card--selected",
         selected && styles.selected,
       )}
@@ -113,7 +117,7 @@ export function ManagerCard({
         </p>
         <div
           className={cn("manager-card__grades", styles.metrics)}
-          aria-label={`${manager.managerName} metrics: offense ${managerGradeLabel(manager.grades.offense)}, defense ${managerGradeLabel(manager.grades.defense)}, leadership ${managerGradeLabel(manager.leadership)}, game management ${managerGradeLabel(manager.gameManagement)}, Era Fit ${managerGradeLabel(eraFit)} ${eraFit}`}
+          aria-label={`${manager.managerName} metrics: offense ${managerGradeLabel(manager.grades.offense)}, defense ${managerGradeLabel(manager.grades.defense)}, leadership ${managerGradeLabel(manager.leadership)}, game management ${managerGradeLabel(manager.gameManagement)}${eraId === "all" ? "" : `, Era Fit ${managerGradeLabel(eraFit)} ${eraFit}`}`}
         >
           {metricValues.map((metric) => (
             <span key={metric.label}>
@@ -128,6 +132,9 @@ export function ManagerCard({
           <ShieldCheck size={13} aria-hidden />
           {manager.preferredFormations.join(" · ")}
         </small>
+        {eraId === "all" && (
+          <small className={styles.formations}>Neutral era — no era modifier.</small>
+        )}
       </div>
       {onInspect && (
         <button

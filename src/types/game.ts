@@ -147,8 +147,8 @@ export type PlayerCareerStats = {
   clubAssists: number | null;
   nationalTeamAppearances: number | null;
   nationalTeamGoals: number | null;
-  sourceName: "FBref";
-  sourceUrl: string;
+  sourceName: string;
+  sourceUrl?: string;
   retrievedOn: string;
   coverageNote: string;
   competitionStats: PlayerCompetitionStat[];

@@ -1,7 +1,8 @@
 import { playerSeedSchema } from "@/lib/validation";
 import { playerCareerDataByIdentityId } from "@/data/player-career-data";
 import tournamentArchiveJson from "@/data/player-tournaments.generated.json";
-import fbrefWorldCupArchiveJson from "@/data/player-world-cup-fbref.generated.json";
+import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
+import { completed2026PlayerSeeds } from "@/data/player-tournaments-2026";
 import type {
   Confederation,
   DataCitation,
@@ -36,18 +37,25 @@ const nations: Record<string, Nation> = {
   BUL: { code: "BUL", name: "Bulgaria", confederation: "UEFA" },
   CHI: { code: "CHI", name: "Chile", confederation: "CONMEBOL" },
   CMR: { code: "CMR", name: "Cameroon", confederation: "CAF" },
+  CAN: { code: "CAN", name: "Canada", confederation: "CONCACAF" },
+  CPV: { code: "CPV", name: "Cabo Verde", confederation: "CAF" },
   COL: { code: "COL", name: "Colombia", confederation: "CONMEBOL" },
   CRC: { code: "CRC", name: "Costa Rica", confederation: "CONCACAF" },
   CRO: { code: "CRO", name: "Croatia", confederation: "UEFA" },
   CZE: { code: "CZE", name: "Czech Republic", confederation: "UEFA" },
+  CUW: { code: "CUW", name: "Curaçao", confederation: "CONCACAF" },
   CSK: { code: "CSK", name: "Czechoslovakia", confederation: "UEFA" },
   DEN: { code: "DEN", name: "Denmark", confederation: "UEFA" },
   ECU: { code: "ECU", name: "Ecuador", confederation: "CONMEBOL" },
+  EGY: { code: "EGY", name: "Egypt", confederation: "CAF" },
   ENG: { code: "ENG", name: "England", confederation: "UEFA" },
   ESP: { code: "ESP", name: "Spain", confederation: "UEFA" },
   FRA: { code: "FRA", name: "France", confederation: "UEFA" },
   GER: { code: "GER", name: "Germany", confederation: "UEFA" },
   GHA: { code: "GHA", name: "Ghana", confederation: "CAF" },
+  GRC: { code: "GRC", name: "Greece", confederation: "UEFA" },
+  HAI: { code: "HAI", name: "Haiti", confederation: "CONCACAF" },
+  ISL: { code: "ISL", name: "Iceland", confederation: "UEFA" },
   ITA: { code: "ITA", name: "Italy", confederation: "UEFA" },
   CIV: { code: "CIV", name: "Côte d’Ivoire", confederation: "CAF" },
   JPN: { code: "JPN", name: "Japan", confederation: "AFC" },
@@ -68,7 +76,13 @@ const nations: Record<string, Nation> = {
   RSA: { code: "RSA", name: "South Africa", confederation: "CAF" },
   KSA: { code: "KSA", name: "Saudi Arabia", confederation: "AFC" },
   SEN: { code: "SEN", name: "Senegal", confederation: "CAF" },
+  SCG: {
+    code: "SCG",
+    name: "Serbia and Montenegro",
+    confederation: "UEFA",
+  },
   SRB: { code: "SRB", name: "Serbia", confederation: "UEFA" },
+  SVK: { code: "SVK", name: "Slovakia", confederation: "UEFA" },
   SUI: { code: "SUI", name: "Switzerland", confederation: "UEFA" },
   SWE: { code: "SWE", name: "Sweden", confederation: "UEFA" },
   SUN: { code: "SUN", name: "Soviet Union", confederation: "UEFA" },
@@ -77,6 +91,8 @@ const nations: Record<string, Nation> = {
   UKR: { code: "UKR", name: "Ukraine", confederation: "UEFA" },
   USA: { code: "USA", name: "United States", confederation: "CONCACAF" },
   URU: { code: "URU", name: "Uruguay", confederation: "CONMEBOL" },
+  UZB: { code: "UZB", name: "Uzbekistan", confederation: "AFC" },
+  YUG: { code: "YUG", name: "Yugoslavia", confederation: "UEFA" },
 };
 
 const defaultsFor = (position: Position, overall: number): PlayerAttributes => {
@@ -301,24 +317,10 @@ const fifa2018StatsSource: DataCitation = {
   accessedOn: "2026-07-18",
 };
 
-const fbref2018GoalkeeperSource: DataCitation = {
-  label: "2018 World Cup goalkeeper statistics",
-  url: "https://fbref.com/en/comps/1/2018/keepers/2018-World-Cup-Stats",
-  publisher: "Sports Reference",
-  accessedOn: "2026-07-18",
-};
-
 const fifa2014JamesSource: DataCitation = {
   label: "Germans reign as Brazil thrills the world",
   url: "https://inside.fifa.com/tournaments/mens/worldcup/2014brazil/news/germans-reign-as-brazil-thrills-the-world-2404806",
   publisher: "FIFA",
-  accessedOn: "2026-07-18",
-};
-
-const fbrefJamesNationalTeamSource: DataCitation = {
-  label: "James Rodríguez national-team statistics",
-  url: "https://fbref.com/en/players/715bf047/nat_tm/James-Rodriguez-National-Team-Stats",
-  publisher: "Sports Reference",
   accessedOn: "2026-07-18",
 };
 
@@ -348,6 +350,13 @@ const fifa2026RonaldoRecordSource: DataCitation = {
   url: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cristiano-ronaldo-portugal-goal-record",
   publisher: "FIFA",
   accessedOn: "2026-07-18",
+};
+
+const fifa2026AwardsSource: DataCitation = {
+  label: "World Cup 2026 award winners",
+  url: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/award-winners",
+  publisher: "FIFA",
+  accessedOn: "2026-07-21",
 };
 
 const achievement = (
@@ -402,26 +411,6 @@ type GeneratedTournamentArchive = {
 const tournamentArchive =
   tournamentArchiveJson as unknown as GeneratedTournamentArchive;
 
-type GeneratedFbrefWorldCupArchive = {
-  accessedOn: string;
-  records: Record<
-    string,
-    {
-      tournamentYear: number;
-      playerIdentityId: string;
-      playerName: string;
-      fbrefId: string | null;
-      stats: TournamentStatLine;
-      sourceUrl: string;
-      overviewUrl: string;
-      sourceKind: "competition-table" | "cached-player-profile";
-    }
-  >;
-};
-
-const fbrefWorldCupArchive =
-  fbrefWorldCupArchiveJson as unknown as GeneratedFbrefWorldCupArchive;
-
 const fjelstulTournamentSource: DataCitation = {
   label: `${tournamentArchive.source.name} v${tournamentArchive.source.version} — player appearances, goals, and awards`,
   url: tournamentArchive.source.url,
@@ -457,27 +446,6 @@ for (const [identityId, tournaments] of Object.entries(
   }
 }
 
-const fbrefEvidenceByCardId = new Map<string, Evidence>();
-for (const [cardId, record] of Object.entries(
-  fbrefWorldCupArchive.records,
-)) {
-  const sourcedStats = Object.fromEntries(
-    Object.entries(record.stats).filter(([, value]) => value !== null),
-  ) as Partial<TournamentStatLine>;
-  if (Object.keys(sourcedStats).length === 0) continue;
-  fbrefEvidenceByCardId.set(cardId, {
-    stats: sourcedStats,
-    sources: [
-      {
-        label: `FBref ${record.tournamentYear} World Cup player statistics`,
-        url: record.sourceUrl,
-        publisher: "Sports Reference",
-        accessedOn: fbrefWorldCupArchive.accessedOn,
-      },
-    ],
-  });
-}
-
 const curatedEvidenceByCardId: Record<string, Evidence> = {
   "james-rodriguez-2014": {
     stats: {
@@ -487,7 +455,7 @@ const curatedEvidenceByCardId: Record<string, Evidence> = {
       goals: 6,
       assists: 2,
     },
-    sources: [fbrefJamesNationalTeamSource, fifa2014JamesSource],
+    sources: [fifa2014JamesSource],
     achievements: [
       achievement(
         "golden-boot-2014",
@@ -521,7 +489,7 @@ const curatedEvidenceByCardId: Record<string, Evidence> = {
       goalsConceded: 6,
       penaltiesSaved: 0,
     },
-    sources: [fbref2018GoalkeeperSource, fifa2018StatsSource],
+    sources: [fifa2018StatsSource],
     achievements: [
       achievement(
         "golden-glove-2018",
@@ -646,6 +614,69 @@ const curatedEvidenceByCardId: Record<string, Evidence> = {
       ),
     ],
   },
+  "rodri-2026": {
+    stats: { appearances: 8 },
+    sources: [fifa2026AwardsSource],
+    achievements: [
+      achievement(
+        "golden-ball-2026",
+        "Golden Ball",
+        "Named the outstanding player of the completed 2026 tournament.",
+        0.45,
+        fifa2026AwardsSource,
+      ),
+    ],
+  },
+  "kylian-mbappe-2026": {
+    stats: { appearances: 8, goals: 10 },
+    sources: [fifa2026AwardsSource],
+    achievements: [
+      achievement(
+        "golden-boot-2026",
+        "Golden Boot",
+        "Finished as the completed tournament’s leading scorer with ten goals.",
+        0.4,
+        fifa2026AwardsSource,
+      ),
+    ],
+  },
+  "unai-simon-2026": {
+    stats: { appearances: 8, cleanSheets: 7, goalsConceded: 1 },
+    sources: [fifa2026AwardsSource],
+    achievements: [
+      achievement(
+        "golden-glove-2026",
+        "Golden Glove",
+        "Recorded seven clean sheets and received the Golden Glove.",
+        0.4,
+        fifa2026AwardsSource,
+      ),
+    ],
+  },
+  "pau-cubarsi-2026": {
+    sources: [fifa2026AwardsSource],
+    achievements: [
+      achievement(
+        "young-player-2026",
+        "Young Player Award",
+        "Received the tournament’s Young Player Award.",
+        0.35,
+        fifa2026AwardsSource,
+      ),
+    ],
+  },
+  "jude-bellingham-2026": {
+    sources: [fifa2026AwardsSource],
+    achievements: [
+      achievement(
+        "bronze-boot-2026",
+        "Bronze Boot",
+        "Finished third in the tournament scoring award ranking.",
+        0.25,
+        fifa2026AwardsSource,
+      ),
+    ],
+  },
 };
 
 const championTournamentKeys = new Set([
@@ -663,7 +694,17 @@ const championTournamentKeys = new Set([
   "GER-2014",
   "FRA-2018",
   "ARG-2022",
+  "ESP-2026",
 ]);
+
+const completed2026FinishByNation: Partial<
+  Record<string, TournamentFinish>
+> = {
+  ESP: "champion",
+  ARG: "runner-up",
+  ENG: "third place",
+  FRA: "fourth place",
+};
 
 const tournamentFinishFor = (
   performance: string,
@@ -693,19 +734,16 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     rebalanceRating(seed.overall);
   const base = defaultsFor(seed.primaryPosition, overall);
   const generatedEvidence = generatedEvidenceByCardId.get(seed.id) ?? {};
-  const fbrefEvidence = fbrefEvidenceByCardId.get(seed.id) ?? {};
   const curatedEvidence = curatedEvidenceByCardId[seed.id] ?? {};
   const evidence: Evidence = {
     stats: {
       ...generatedEvidence.stats,
-      ...fbrefEvidence.stats,
       ...curatedEvidence.stats,
     },
     sources: [
       ...new Map(
         [
           ...(generatedEvidence.sources ?? []),
-          ...(fbrefEvidence.sources ?? []),
           ...(curatedEvidence.sources ?? []),
         ].map((source) => [source.url, source]),
       ).values(),
@@ -743,9 +781,6 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
           (hasEvidenceField(curatedEvidence, key)
             ? curatedEvidence.sources?.[0]
             : undefined) ??
-          (hasEvidenceField(fbrefEvidence, key)
-            ? fbrefEvidence.sources?.[0]
-            : undefined) ??
           generatedEvidence.sources?.[0];
         return source ? [key, source] : null;
       })
@@ -759,13 +794,16 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const generatedTournament = tournamentArchive.identities[
     playerIdentityId
   ]?.find((item) => item.tournamentYear === seed.tournamentYear);
-  const tournamentFinish = generatedTournament
-    ? tournamentFinishFor(
-        generatedTournament.teamPerformance,
-        generatedTournament.teamCode,
-        generatedTournament.tournamentYear,
-      )
-    : null;
+  const tournamentFinish =
+    seed.tournamentYear === 2026
+      ? (completed2026FinishByNation[seed.nation] ?? null)
+      : generatedTournament
+        ? tournamentFinishFor(
+            generatedTournament.teamPerformance,
+            generatedTournament.teamCode,
+            generatedTournament.tournamentYear,
+          )
+        : null;
   const rebalancedOverrides = Object.fromEntries(
     Object.entries(seed.attributes ?? {}).map(([key, value]) => [
       key,
@@ -873,7 +911,9 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
     statSourcesByField,
     tournamentFinish,
     tournamentFinishSource: tournamentFinish
-      ? fjelstulTournamentSource
+      ? seed.tournamentYear === 2026
+        ? fifa2026AwardsSource
+        : fjelstulTournamentSource
       : null,
     achievements: evidence.achievements ?? [],
     careerStats: careerData?.careerStats ?? null,
@@ -1326,11 +1366,60 @@ const supplementalCards = supplementalSeeds.map(
 );
 
 const priorityExpansionSeeds = getPriorityExpansionSeeds();
-const archiveSeeds = [
+type RequestedIdentityArchive = {
+  identities: {
+    identityId: string;
+    playerName: string;
+    countryCode: string;
+    referenceYear: number;
+    primaryPosition: Position;
+    featuredYears: number[];
+    priority: "essential" | "cult";
+  }[];
+};
+
+const requestedIdentities = (
+  requestedIdentityJson as unknown as RequestedIdentityArchive
+).identities;
+const existingArchiveSeeds = [
   ...historicalCards,
   ...curatedSeeds,
   ...supplementalCards,
   ...priorityExpansionSeeds,
+];
+const existingArchiveSeedIds = new Set(
+  existingArchiveSeeds.map((seed) => seed.id),
+);
+const requestedExpansionSeeds: CardSeed[] = requestedIdentities.flatMap(
+  (identity, identityIndex) =>
+    identity.featuredYears.flatMap((tournamentYear, yearIndex) => {
+      const id = `${identity.identityId}-${tournamentYear}`;
+      if (existingArchiveSeedIds.has(id)) return [];
+      const rawOverall =
+        identity.priority === "essential"
+          ? 94 + ((identityIndex + yearIndex) % 2)
+          : 91 + ((identityIndex + yearIndex) % 2);
+      return [
+        {
+          id,
+          playerName: identity.playerName,
+          nation: identity.countryCode,
+          tournamentYear,
+          primaryPosition: identity.primaryPosition,
+          eligiblePositions: eligibleFor(identity.primaryPosition),
+          overall: rawOverall,
+          archetype:
+            identity.priority === "essential"
+              ? "Essential tournament performer"
+              : "Cult tournament standout",
+          rarity: rawOverall >= 94 ? "legendary" : "classic",
+        },
+      ];
+    }),
+);
+const archiveSeeds = [
+  ...existingArchiveSeeds,
+  ...requestedExpansionSeeds,
 ];
 
 const performanceRatingBonus: Record<string, number> = {
@@ -1429,7 +1518,7 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
           tournamentYear: tournament.tournamentYear,
           primaryPosition: tournament.primaryPosition,
           eligiblePositions: tournament.eligiblePositions,
-          overall: exactSeed?.overall ?? finalOverall,
+          overall: finalOverall,
           finalOverall,
           archetype:
             exactSeed?.archetype ??
@@ -1839,45 +1928,45 @@ function getPriorityExpansionSeeds(): CardSeed[] {
   ];
 }
 
-// The 2026 tournament is still in progress. These two cards are activated from
-// current FIFA appearance/stat evidence without inferring unfinished totals,
-// awards, or a champion. Update the nullable fields when FIFA publishes the
-// completed tournament record.
-const live2026Seeds: CardSeed[] = [
-  {
-    id: "lionel-messi-2026",
-    playerName: "Lionel Messi",
-    nation: "ARG",
+const completed2026Seeds: CardSeed[] = completed2026PlayerSeeds.map(
+  ([playerName, nation, primaryPosition, overall]) => ({
+    id: `${slugify(playerName)}-2026`,
+    playerName,
+    nation,
     tournamentYear: 2026,
-    primaryPosition: "RW",
-    eligiblePositions: ["RW", "CF", "AM", "ST"],
-    overall: 97,
-    finalOverall: 97,
-    archetype: "Record-breaking final-third conductor",
-    rarity: "iconic",
-  },
-  {
-    id: "cristiano-ronaldo-2026",
-    playerName: "Cristiano Ronaldo",
-    nation: "POR",
-    tournamentYear: 2026,
-    primaryPosition: "ST",
-    eligiblePositions: ["ST", "CF"],
-    overall: 85,
-    finalOverall: 85,
-    archetype: "Veteran penalty-box reference",
-    rarity: "classic",
-  },
-];
+    primaryPosition,
+    eligiblePositions: eligibleFor(primaryPosition),
+    overall,
+    finalOverall: overall,
+    archetype:
+      primaryPosition === "GK"
+        ? "2026 tournament goalkeeper"
+        : overall >= 94
+          ? "Tournament-defining 2026 performer"
+          : overall >= 90
+            ? "Elite 2026 tournament performer"
+            : "2026 tournament standout",
+    rarity: overall >= 96 ? "iconic" : overall >= 90 ? "legendary" : "classic",
+  }),
+);
 
 const seeds = [
   ...sourcedTournamentSeeds,
-  ...live2026Seeds,
+  ...completed2026Seeds,
 ];
 
-export const players: PlayerTournamentCard[] = playerSeedSchema.parse(
-  seeds.map(makeCard),
-);
+const normalizeCenterBackPosition = (position: Position): Position =>
+  position === "LCB" || position === "RCB" ? "CB" : position;
+
+export const players: PlayerTournamentCard[] = playerSeedSchema
+  .parse(seeds.map(makeCard))
+  .map((player) => ({
+    ...player,
+    primaryPosition: normalizeCenterBackPosition(player.primaryPosition),
+    eligiblePositions: [
+      ...new Set(player.eligiblePositions.map(normalizeCenterBackPosition)),
+    ],
+  }));
 
 export const playersById = new Map(players.map((player) => [player.id, player]));
 export const draftEligiblePlayers = players.filter(

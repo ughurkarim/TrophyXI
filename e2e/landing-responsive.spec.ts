@@ -5,6 +5,33 @@ test("landing sections remain readable, focusable, and overflow-safe", async ({
 }) => {
   await page.goto("/");
 
+  await expect(
+    page.getByText(
+      "Draft tournament-specific legends, build a balanced XI, and test it against every World Cup champion since 1970.",
+    ),
+  ).toBeAttached();
+  await expect(page.locator(".site-header .header-cta")).toHaveText(
+    "START DRAFT",
+  );
+  await expect(page.locator(".hero__proof")).toContainText(
+    "719 TOURNAMENT CARDS",
+  );
+  await expect(page.locator(".hero__proof")).toContainText(
+    "15 WORLD CUP CHAMPIONS",
+  );
+  await expect(page.locator(".hero__proof")).toContainText(
+    "DETERMINISTIC MATCH ENGINE",
+  );
+
+  const heroButtons = page.locator(".hero__actions a");
+  await expect(heroButtons).toHaveCount(2);
+  await expect(heroButtons.nth(0).locator(".lucide-arrow-right")).toHaveCount(1);
+  await expect(heroButtons.nth(1).locator(".lucide-arrow-right")).toHaveCount(1);
+  const primaryBeforeHover = await heroButtons.first().boundingBox();
+  await heroButtons.first().hover();
+  const primaryAfterHover = await heroButtons.first().boundingBox();
+  expect(primaryAfterHover).toEqual(primaryBeforeHover);
+
   const pageOverflow = async () =>
     page.evaluate(() => ({
       viewport: document.documentElement.clientWidth,
@@ -96,19 +123,51 @@ test("landing sections remain readable, focusable, and overflow-safe", async ({
 
   const championsSection = page.locator("#champions");
   await championsSection.scrollIntoViewIfNeeded();
-  const championCards = championsSection.getByRole("article");
-  await expect(championCards).toHaveCount(14);
-  await expect(championCards.first()).toContainText("ARG 🇦🇷");
-  await expect(championCards.first()).toContainText("Argentina");
-  await expect(championCards.first()).toContainText("2022");
-  await expect(championCards.first()).toContainText(
-    "Recovered from an opening defeat to become world champions.",
+  const championCards = championsSection.locator(
+    '[data-testid="champion-mobile-gallery"] article',
   );
+  await expect(championCards).toHaveCount(15);
+  await expect(championCards.first()).toContainText("🇪🇸ESP");
+  await expect(championCards.first()).toContainText("Spain");
+  await expect(championCards.first()).toContainText("2026");
+  await expect(championCards.first()).toContainText("WORLD CHAMPION");
+  await expect(championCards.first()).toContainText("Lamine Yamal");
   await expect(championCards.last()).toContainText(
-    "Won every match and permanently claimed the Jules Rimet Trophy.",
+    "Pelé completed his third triumph as Brazil won every match and permanently claimed the Jules Rimet Trophy.",
   );
-  await championCards.first().focus();
-  await expect(championCards.first()).toBeFocused();
+  await expect(championCards.first()).not.toHaveAttribute("tabindex");
+  await expect(championsSection.getByText("Playable", { exact: true })).toHaveCount(0);
+  await expect(championCards.first().locator("img")).toHaveAttribute(
+    "src",
+    /\/assets\/winners\/2026\.jpeg\?v=.+$/,
+  );
+
+  if ((page.viewportSize()?.width ?? 0) > 900) {
+    const championScene = page.getByTestId("champion-scroll-scene");
+    await expect(championScene).toHaveAttribute("data-active-year", "2026");
+    const yearControls = championsSection.getByRole("navigation", {
+      name: "Champion years",
+    }).getByRole("button");
+    await expect(yearControls).toHaveCount(15);
+    await yearControls.nth(1).focus();
+    await page.keyboard.press("Enter");
+    await expect(championScene).toHaveAttribute("data-active-year", "2022");
+    await expect(
+      championsSection.getByRole("article", {
+        name: "Argentina 2022 world champion showcase",
+      }),
+    ).toContainText("Lionel Messi");
+    await expect(
+      championsSection.getByRole("img", {
+        name: "Lionel Messi celebrates Argentina’s 2022 World Cup victory",
+      }),
+    ).toHaveAttribute("src", /\/assets\/winners\/2022\.webp\?v=.+$/);
+  } else {
+    await expect(championCards.nth(1).getByRole("img")).toHaveAttribute(
+      "src",
+      /\/assets\/winners\/2022\.webp\?v=.+$/,
+    );
+  }
 
   const finalCta = page.getByRole("region", {
     name: "BUILD THE TEAM THAT COULD BEAT THEM ALL.",
@@ -129,9 +188,9 @@ test("landing sections remain readable, focusable, and overflow-safe", async ({
   await expect(primary).toBeFocused();
 
   const markers = finalCta.getByRole("button");
-  await expect(markers).toHaveCount(14);
+  await expect(markers).toHaveCount(15);
   await expect(markers.first()).toHaveAccessibleName(
-    "Argentina 2022, Collective recovery",
+    "Spain 2026, Relentless control",
   );
   await markers.first().focus();
   await expect(markers.first()).toBeFocused();

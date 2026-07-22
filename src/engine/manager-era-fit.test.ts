@@ -42,15 +42,16 @@ describe("manager Era Fit", () => {
         expect(fit.score).toBeGreaterThanOrEqual(0);
         expect(fit.score).toBeLessThanOrEqual(100);
       }
-      expect(calculateManagerEraFit(manager, "all").score).toBeLessThan(100);
+      expect(calculateManagerEraFit(manager, "all")).toMatchObject({
+        applicable: false,
+        score: 0,
+      });
     }
   });
 
   it("changes with the selected match environment and permits uncommon S fits", () => {
     const michels = managersById.get("rinus-michels-1974")!;
-    expect(calculateManagerEraFit(michels, "2020s").score).toBeGreaterThan(
-      calculateManagerEraFit(michels, "1970s").score,
-    );
+    expect(calculateManagerEraFit(michels, "1970s").score).toBe(100);
     expect(calculateManagerEraFit(michels, "2020s").score).toBeGreaterThanOrEqual(
       95,
     );
@@ -61,7 +62,13 @@ describe("manager Era Fit", () => {
     ).toBeGreaterThan(5);
   });
 
-  it("feeds formation offers, tactical compatibility, and team chemistry", () => {
+  it("gives an exact preferred formation canonical 100 Manager Fit", () => {
+    const manager = managersById.get("joachim-low-2014")!;
+    const preferred = getFormation(manager.preferredFormations[0]);
+    expect(calculateManagerFit(manager, preferred, "1970s")).toBe(100);
+  });
+
+  it("keeps formation compatibility separate from manager Era Fit", () => {
     const manager = managersById.get("louis-van-gaal-2014")!;
     const lowProfile = {
       ...manager,
@@ -76,9 +83,8 @@ describe("manager Era Fit", () => {
       ) as typeof manager.eraFitProfile,
     };
 
-    expect(calculateManagerFit(highProfile, formation, "2020s")).toBeGreaterThan(
-      calculateManagerFit(lowProfile, formation, "2020s"),
-    );
+    expect(calculateManagerFit(highProfile, formation, "2020s")).toBe(100);
+    expect(calculateManagerFit(lowProfile, formation, "2020s")).toBe(100);
     expect(generateFormationOffer(highProfile, "2020s", 7719)).not.toEqual(
       generateFormationOffer(lowProfile, "2020s", 7719),
     );
@@ -91,8 +97,8 @@ describe("manager Era Fit", () => {
       manager: lowProfile,
       eraId: "2020s",
     });
-    expect(highRatings.managerFit).toBeGreaterThan(lowRatings.managerFit);
-    expect(highRatings.chemistry).toBeGreaterThan(lowRatings.chemistry);
+    expect(highRatings.managerFit).toBe(lowRatings.managerFit);
+    expect(highRatings.chemistry).toBe(lowRatings.chemistry);
   });
 
   it("changes production match effectiveness without overpowering the lineup", () => {

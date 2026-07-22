@@ -34,7 +34,7 @@ export function ManagerDetails({
     manager.acceptableFormations.length <= 4
       ? "Works best within a narrower range of formations."
       : null,
-    eraFit.score < 75
+    eraFit.applicable && eraFit.score < 75
       ? "The selected match environment asks for significant tactical adaptation."
       : null,
   ].filter((item): item is string => Boolean(item));
@@ -110,12 +110,14 @@ export function ManagerDetails({
                 <small>{manager.gameManagement}</small>
               </dd>
             </div>
-            <div>
-              <dt>Era Fit</dt>
-              <dd>
-                {managerGradeLabel(eraFit.score)} <small>{eraFit.score}</small>
-              </dd>
-            </div>
+            {eraFit.applicable && (
+              <div>
+                <dt>Era Fit</dt>
+                <dd>
+                  {managerGradeLabel(eraFit.score)} <small>{eraFit.score}</small>
+                </dd>
+              </div>
+            )}
           </dl>
         </section>
         <section>
@@ -128,8 +130,9 @@ export function ManagerDetails({
             {manager.tournamentYear}
           </p>
           <p className="data-disclosure">
-            Era Fit: {eraFit.score} · Manager tactics adapt to the selected
-            match environment.
+            {eraFit.applicable
+              ? `Era Fit: ${eraFit.score} · Manager tactics adapt to the selected match environment.`
+              : "Neutral era — no era modifier."}
           </p>
           <div className="manager-strength-grid">
             <article>

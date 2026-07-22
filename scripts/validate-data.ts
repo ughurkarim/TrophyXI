@@ -2,16 +2,12 @@ import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
-import fbrefImportReportJson from "./reports/fbref-import-report.json";
-import fbrefPortraitImportReportJson from "./reports/fbref-portrait-import-report.json";
-import gameFaceCandidatesJson from "./game-face-import-sources.json";
-import gameFaceImportReportJson from "./reports/game-face-import-report.json";
 import playerTournamentsJson from "../src/data/player-tournaments.generated.json";
-import fbrefWorldCupArchiveJson from "../src/data/player-world-cup-fbref.generated.json";
+import requestedIdentityJson from "../src/data/requested-player-identities.generated.json";
 import { draftEras } from "../src/data/eras";
 import { formations } from "../src/data/formations";
-import { gameFaceRecords } from "../src/data/game-face-manifest";
-import { fbrefPortraitRecords } from "../src/data/fbref-portrait-manifest";
+import { playerCareerDataByIdentityId } from "../src/data/player-career-data";
+import { localPortraitRecords } from "../src/data/local-portrait-manifest";
 import {
   draftEligibleManagers,
   managers,
@@ -52,16 +48,6 @@ import {
 import { calculateManagerEraFit } from "../src/engine/manager-era-fit";
 import { calculateTeamRatings } from "../src/engine/ratings";
 import { flagForCountry } from "../src/lib/utils";
-import {
-  validateGameFaceCandidate,
-  validateGameFaceManifest,
-  type GameFaceCardRef,
-  type GameFaceImportCandidate,
-} from "../src/lib/importers/game-face";
-import {
-  validateFbrefPortraitManifest,
-  type FbrefPortraitCardRef,
-} from "../src/lib/importers/fbref-portrait";
 import type {
   PlayerTournamentCard,
   Position,
@@ -148,17 +134,6 @@ const sourceFilesUnder = async (directory: string): Promise<string[]> => {
   return files;
 };
 
-const filesUnder = async (directory: string): Promise<string[]> => {
-  if (!existsSync(directory)) return [];
-  const files: string[] = [];
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    const target = path.join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...(await filesUnder(target)));
-    else files.push(target);
-  }
-  return files;
-};
-
 const main = async () => {
   const playerIds = new Set(players.map((player) => player.id));
   const playerIdentities = new Set(
@@ -175,50 +150,6 @@ const main = async () => {
     entries.push(image);
     imagesByPath.set(image.file, entries);
   }
-  const gameFaceCards: GameFaceCardRef[] = [
-    ...players.map((player) => ({
-      id: player.id,
-      kind: "player" as const,
-      tournamentYear: player.tournamentYear,
-    })),
-    ...managers.map((manager) => ({
-      id: manager.id,
-      kind: "manager" as const,
-      tournamentYear: manager.tournamentYear,
-    })),
-  ];
-  const fbrefImportReport = fbrefImportReportJson as {
-    totalPlayerIdentities: number;
-    reviewedMappings: number;
-    matchedPlayers: number;
-    manualReviewPlayers: number;
-    importedAccolades: number;
-    validation: {
-      duplicateMappingIds: number;
-      duplicateOutputIdentityIds: number;
-    };
-  };
-  const gameFaceImportReport = gameFaceImportReportJson as {
-    configuredCandidates: number;
-    downloaded: number;
-    skipped: number;
-    failed: number;
-    photoPending: number;
-    activeTournamentEditionFaces: number;
-    results: Array<{ id: string; status: string }>;
-  };
-  const gameFaceCandidates =
-    gameFaceCandidatesJson as GameFaceImportCandidate[];
-  const fbrefPortraitImportReport =
-    fbrefPortraitImportReportJson as {
-      targetHistoricalCards: number;
-      targetHistoricalIdentities: number;
-      configuredMappings: number;
-      coveredCards: number;
-      coveredIdentities: number;
-      photoPendingCards: number;
-      results: Array<{ playerIdentityId: string; status: string }>;
-    };
   const playerTournaments = playerTournamentsJson as {
     identities: Record<
       string,
@@ -244,70 +175,30 @@ const main = async () => {
     [...imagesByPath.values()].every(
       (entries) =>
         entries.length === 1 ||
-        (entries.filter((image) => !image.fallback).length === 1 &&
-          entries
-            .filter((image) => image.fallback)
-            .every(
-              (image) =>
-                image.kind === "player" &&
-                image.gameEdition === null &&
-                (image.matchQuality === "identity-only-permissioned" ||
-                  image.matchQuality === "user-supplied-permissioned"),
-            )),
+        entries.filter((image) => !image.fallback).length === 1,
     ),
-    "Shared production image paths must be explicit identity-only fallbacks",
-  );
-  for (const message of validateGameFaceManifest(
-    gameFaceRecords,
-    gameFaceCards,
-  )) {
-    assert(false, message);
-  }
-  const historicalPortraitCards: FbrefPortraitCardRef[] = players
-    .filter((player) => player.tournamentYear <= 2002)
-    .map((player) => ({
-      id: player.id,
-      playerIdentityId: player.playerIdentityId,
-      playerName: player.playerName,
-      tournamentYear: player.tournamentYear,
-    }));
-  for (const message of validateFbrefPortraitManifest(
-    fbrefPortraitRecords,
-    historicalPortraitCards,
-  )) {
-    assert(false, message);
-  }
-  const gameFaceCardsById = new Map(
-    gameFaceCards.map((card) => [card.id, card]),
+    "Every shared production portrait path must have one direct source image",
   );
   assert(
-    new Set(gameFaceCandidates.map((candidate) => candidate.id)).size ===
-      gameFaceCandidates.length,
-    "Configured game-face candidate ids must be unique",
+    new Set(localPortraitRecords.map((record) => record.id)).size ===
+      localPortraitRecords.length,
+    "Local portrait record ids must be unique",
   );
-  assert(
-    new Set(gameFaceCandidates.map((candidate) => candidate.sourceUrl)).size ===
-      gameFaceCandidates.length,
-    "Tournament cards must not reuse a game-face source URL",
-  );
-  for (const candidate of gameFaceCandidates) {
-    for (const message of validateGameFaceCandidate(
-      candidate,
-      gameFaceCardsById.get(candidate.id),
-    )) {
-      assert(false, `${candidate.id}: ${message}`);
-    }
-  }
-  for (const identityId of ["cristiano-ronaldo", "lionel-messi"]) {
-    const expectedFaceYears = [2014, 2018, 2022, 2026];
+  const managerById = new Map(managers.map((manager) => [manager.id, manager]));
+  for (const record of localPortraitRecords) {
+    const card =
+      record.kind === "player"
+        ? playersById.get(record.id)
+        : managerById.get(record.id);
+    assert(Boolean(card), `${record.id} local portrait has no matching card`);
     assert(
-      gameFaceCandidates
-        .filter((candidate) =>
-          candidate.id.startsWith(`${identityId}-`),
-        )
-        .map((candidate) => candidate.tournamentYear)
-        .join("|") === expectedFaceYears.join("|"),
-      `${identityId} must use only reviewed in-season face candidates`,
+      card?.tournamentYear === record.tournamentYear,
+      `${record.id} local portrait has the wrong tournament year`,
+    );
+    assert(
+      !/^https?:\/\//i.test(record.localPath) &&
+        /\.(?:png|webp|jpe?g|avif)$/i.test(record.localPath),
+      `${record.id} local portrait path is invalid`,
     );
   }
   assert(formations.length >= 12, `Expected at least 12 formations, found ${formations.length}`);
@@ -387,11 +278,12 @@ const main = async () => {
       `${player.id} has an invalid Era Translation profile`,
     );
     assert(
-      player.careerStats?.sourceName === "FBref" &&
-        /^https:\/\/fbref\.com\/en\/players\//.test(
-          player.careerStats.sourceUrl,
-        ),
-      `${player.id} is missing its reviewed FBref career profile`,
+      playerCareerDataByIdentityId.has(player.playerIdentityId),
+      `${player.id} is missing its normalized career record`,
+    );
+    assert(
+      player.careerAccolades.length > 0,
+      `${player.id} is missing a verified career accolade`,
     );
     const accoladeIds = new Set<string>();
     for (const accolade of player.careerAccolades) {
@@ -407,9 +299,7 @@ const main = async () => {
         `${player.id}/${accolade.id} has an invalid accolade count`,
       );
       assert(
-        accolade.verified &&
-          Boolean(accolade.sourceName) &&
-          (accolade.category === "curated" || Boolean(accolade.sourceUrl)),
+        accolade.verified && Boolean(accolade.sourceName),
         `${player.id}/${accolade.id} has incomplete source metadata`,
       );
     }
@@ -471,11 +361,9 @@ const main = async () => {
     "The audited manager pool must keep every stored manager active",
   );
   assert(
-    draftEligibleManagers.filter((manager) =>
-      ["iconic", "elite"].includes(manager.qualityBand),
-    ).length <
-      draftEligibleManagers.length / 2,
-    "Iconic and elite managers cannot make up most of the active pool",
+    new Set(draftEligibleManagers.map((manager) => manager.qualityBand)).size >=
+      3,
+    "The active manager pool must retain meaningful quality-band variety",
   );
 
   for (const formation of formations) {
@@ -678,38 +566,36 @@ const main = async () => {
       `Starter sample ${index} contains more than two Legend/Icon cards`,
     );
   }
-  assert(
-    starterOfferSamples.filter(
-      (offer) => offer.every((player) => player.overall < 90),
-    ).length >= 100,
-    "Most sampled starter offers must contain zero 90+ cards",
-  );
   for (const [index, offer] of benchOfferSamples.entries()) {
     assert(
-      offer.filter((player) => player.overall >= 90).length <= 1,
-      `Bench sample ${index} contains more than one 90+ card`,
+      offer.length === 5 &&
+        new Set(offer.map((player) => player.playerIdentityId)).size === 5,
+      `Bench sample ${index} must contain five unique player identities`,
     );
     assert(
-      offer.filter((player) => player.overall >= 86).length <= 2,
-      `Bench sample ${index} contains more than two 86+ cards`,
-    );
-    assert(
-      offer.filter((player) => player.overall < 82).length >= 2,
-      `Bench sample ${index} lacks two sub-82 cards`,
-    );
-    assert(
-      offer.some((player) => player.overall < 78),
-      `Bench sample ${index} lacks a sub-78 card`,
-    );
-    assert(
-      offer.some(
-        (player) =>
-          player.eligiblePositions.length <= 2 ||
-          player.eligiblePositions.length >= 4,
-      ),
-      `Bench sample ${index} lacks a specialist or versatile option`,
+      new Set(offer.map(tacticalFamily)).size >= 2,
+      `Bench sample ${index} needs at least two tactical families`,
     );
   }
+  assert(
+    new Set(
+      starterOfferSamples.map((offer) =>
+        offer.map((player) => player.id).join("|"),
+      ),
+    ).size >= 180 &&
+      new Set(
+        benchOfferSamples.map((offer) =>
+          offer.map((player) => player.id).join("|"),
+        ),
+      ).size >= 180,
+    "Draft samples must produce substantially different player combinations",
+  );
+  assert(
+    starterOfferSamples.flat().some((player) => player.overall >= 94) &&
+      benchOfferSamples.flat().some((player) => player.overall >= 90) &&
+      benchOfferSamples.flat().some((player) => player.overall < 80),
+    "Draft samples must surface both exciting elite cards and useful lower-rated depth",
+  );
 
   const expected99 = new Set([
     "pele-1970",
@@ -723,6 +609,10 @@ const main = async () => {
         .filter((player) => player.overall === 99)
         .every((player) => expected99.has(player.id)),
     "Only Pelé 1970, Maradona 1986, and Messi 2022 may be rated 99",
+  );
+  assert(
+    playersById.get("rodri-2026")?.overall === 96,
+    "Rodri 2026 must use the Golden Ball baseline rating of 96",
   );
   assert(
     draftEligiblePlayers.filter((player) => player.overall >= 95).length <= 25,
@@ -749,6 +639,7 @@ const main = async () => {
     "lionel-messi-2014",
     "luka-modric-2018",
     "lionel-messi-2022",
+    "rodri-2026",
   ];
   assert(
     goldenBallCardIds.every(
@@ -932,6 +823,72 @@ const main = async () => {
       `${identityId} tournament versions do not own distinct image keys`,
     );
   }
+  assert(
+    players.length === 1_376 && playerIdentities.size === 676,
+    `Expanded player archive must contain 1,376 cards / 676 identities; found ${players.length} / ${playerIdentities.size}`,
+  );
+  assert(
+    managers.length === 47 && managerIdentities.size === 47,
+    `Manager archive must contain one card for each of 47 identities; found ${managers.length} / ${managerIdentities.size}`,
+  );
+  const cards2026 = players.filter((player) => player.tournamentYear === 2026);
+  assert(
+    cards2026.length === 132 &&
+      new Set(cards2026.map((player) => player.playerIdentityId)).size === 132,
+    "The completed 2026 archive must contain 132 unique player identities",
+  );
+  assert(
+    versionsByIdentity
+      .get("jens-lehmann")
+      ?.map((player) => player.tournamentYear)
+      .join("|") === "1998|2002|2006",
+    "Jens Lehmann must retain his 1998, 2002, and 2006 squad cards",
+  );
+  for (const excludedId of [
+    "neymar-2010",
+    "michael-essien-2010",
+    "radamel-falcao-2014",
+    "samuel-etoo-2006",
+    "youssef-msakni-2018",
+  ]) {
+    assert(!playersById.has(excludedId), `${excludedId} must not exist`);
+  }
+  assert(
+    requestedIdentityJson.identities.length === 434,
+    `Requested historical identity manifest must contain 434 players; found ${requestedIdentityJson.identities.length}`,
+  );
+  for (const requested of requestedIdentityJson.identities) {
+    const sourcedYears = playerTournaments.identities[requested.identityId]?.map(
+      (tournament) => tournament.tournamentYear,
+    );
+    const actualYears = versionsByIdentity
+      .get(requested.identityId)
+      ?.filter((player) => player.tournamentYear !== 2026)
+      .map((player) => player.tournamentYear);
+    assert(
+      Boolean(
+        sourcedYears &&
+          actualYears?.join("|") === sourcedYears.join("|") &&
+          requested.featuredYears.every((year) => sourcedYears.includes(year)),
+      ),
+      `${requested.identityId} is missing a requested or sourced tournament card`,
+    );
+  }
+  for (const [identityId, versions] of versionsByIdentity) {
+    const representative = versions[0];
+    assert(
+      Boolean(
+        representative.careerStats && representative.careerAccolades.length > 0,
+      ),
+      `${identityId} is missing career context or accolades`,
+    );
+    if (versions.some((player) => imagesById.has(player.imageId))) {
+      assert(
+        versions.every((player) => imagesById.has(player.imageId)),
+        `${identityId} does not resolve an exact or closest-year portrait for every card`,
+      );
+    }
+  }
   const expectedTournamentCardIds = new Set(
     Object.entries(playerTournaments.identities).flatMap(
       ([identityId, tournaments]) =>
@@ -940,62 +897,31 @@ const main = async () => {
       ),
     ),
   );
-  const fbrefWorldCupArchive = fbrefWorldCupArchiveJson as {
-    records: Record<
-      string,
-      {
-        tournamentYear: number;
-        playerIdentityId: string;
-        sourceUrl: string;
-        overviewUrl: string;
-        stats: Record<string, number | null>;
-      }
-    >;
-  };
-  for (const [cardId, record] of Object.entries(
-    fbrefWorldCupArchive.records,
-  )) {
-    const card = playersById.get(cardId);
-    assert(
-      Boolean(
-        card &&
-          card.playerIdentityId === record.playerIdentityId &&
-          card.tournamentYear === record.tournamentYear,
-      ),
-      `${cardId} FBref World Cup record has no matching tournament card`,
-    );
-    assert(
-      /^https:\/\/fbref\.com\/en\//.test(record.sourceUrl) &&
-        /^https:\/\/fbref\.com\/en\/comps\/1\//.test(record.overviewUrl),
-      `${cardId} FBref World Cup source URL is invalid`,
-    );
-    assert(
-      Object.values(record.stats).every(
-        (value) =>
-          value === null ||
-          (Number.isInteger(value) && value >= 0),
-      ),
-      `${cardId} FBref World Cup record contains an invalid or invented statistic`,
-    );
-  }
-  expectedTournamentCardIds.add("lionel-messi-2026");
-  expectedTournamentCardIds.add("cristiano-ronaldo-2026");
+  for (const player of cards2026) expectedTournamentCardIds.add(player.id);
   assert(
     playerTournaments.unresolvedIdentityIds.length === 0 &&
       expectedTournamentCardIds.size === players.length &&
       players.every((player) => expectedTournamentCardIds.has(player.id)),
-    "Player archive does not exactly match sourced 1970–2022 appearances plus the verified live 2026 cards",
+    "Player archive does not exactly match sourced 1970–2022 squads plus the completed 2026 set",
   );
   assert(
     players.every(
       (player) => {
         if (player.tournamentYear === 2026) {
-          return (
-            player.tournamentStats.goals !== null &&
+          const hasClaimedStats = Object.values(player.tournamentStats).some(
+            (value) => value !== null,
+          );
+          const statsAreSourced =
+            !hasClaimedStats ||
             player.statSources.some((source) =>
               source.url.includes("fifa.com/"),
-            )
-          );
+            );
+          const finishIsSourced =
+            player.tournamentFinish === null ||
+            Boolean(
+              player.tournamentFinishSource?.url.includes("fifa.com/"),
+            );
+          return statsAreSourced && finishIsSourced;
         }
         return (
           player.tournamentStats.appearances !== null &&
@@ -1007,7 +933,7 @@ const main = async () => {
         );
       },
     ),
-    "A tournament card lacks sourced appearance/start/goal statistics",
+    "A tournament card contains tournament claims without supporting evidence",
   );
   for (const [identityId, tournaments] of Object.entries(
     playerTournaments.identities,
@@ -1084,47 +1010,6 @@ const main = async () => {
     players.some((player) => player.top100Player && player.overall < 90),
     "Top 100 Player appears to be derived only from high card ratings",
   );
-  assert(
-    fbrefImportReport.totalPlayerIdentities === playerIdentities.size &&
-      fbrefImportReport.reviewedMappings === playerIdentities.size &&
-      fbrefImportReport.matchedPlayers === playerIdentities.size &&
-      fbrefImportReport.manualReviewPlayers === 0 &&
-      fbrefImportReport.validation.duplicateMappingIds === 0 &&
-      fbrefImportReport.validation.duplicateOutputIdentityIds === 0,
-    "FBref import does not cover every active player identity",
-  );
-  assert(
-    gameFaceImportReport.configuredCandidates ===
-      gameFaceCandidates.length &&
-      gameFaceImportReport.results.length === gameFaceCards.length &&
-      gameFaceImportReport.downloaded +
-        gameFaceImportReport.skipped +
-        gameFaceImportReport.photoPending ===
-        gameFaceCards.length &&
-      gameFaceImportReport.failed <= gameFaceImportReport.photoPending &&
-      gameFaceImportReport.activeTournamentEditionFaces ===
-        gameFaceRecords.length,
-    "Tournament-edition image import report is stale or incomplete",
-  );
-  assert(
-    fbrefPortraitImportReport.targetHistoricalCards ===
-      historicalPortraitCards.length &&
-      fbrefPortraitImportReport.targetHistoricalIdentities ===
-        new Set(
-          historicalPortraitCards.map((card) => card.playerIdentityId),
-        ).size &&
-      fbrefPortraitImportReport.coveredCards ===
-        fbrefPortraitRecords.length &&
-      fbrefPortraitImportReport.coveredIdentities ===
-        new Set(
-          fbrefPortraitRecords.map((record) => record.playerIdentityId),
-        ).size &&
-      fbrefPortraitImportReport.coveredCards +
-        fbrefPortraitImportReport.photoPendingCards ===
-        historicalPortraitCards.length,
-    "FBref historical portrait report is stale or incomplete",
-  );
-
   const opponentIds = new Set<string>();
   for (const opponent of historicalOpponentArchive) {
     assert(!opponentIds.has(opponent.id), `Duplicate opponent id ${opponent.id}`);
@@ -1133,7 +1018,10 @@ const main = async () => {
     assert(opponent.sources.length > 0, `${opponent.id} has no source record`);
     assert(
       opponent.tournamentYear === 2026
-        ? opponent.tournamentStats.matches === null &&
+        ? opponent.id === "spain-2026"
+          ? opponent.tournamentStats.matches === 7 &&
+            opponent.tournamentFinish === "champion"
+          : opponent.tournamentStats.matches === null &&
             opponent.tournamentFinish === null
         : opponent.tournamentStats.matches !== null,
       `${opponent.id} has invalid tournament-progress fields`,
@@ -1149,7 +1037,7 @@ const main = async () => {
       `${opponent.id} has an invalid sourced substitute identity`,
     );
   }
-  for (const year of WORLD_CUP_YEARS.filter((year) => year !== 2026)) {
+  for (const year of WORLD_CUP_YEARS) {
     assert(
       historicalOpponentArchive.filter(
         (opponent) =>
@@ -1160,18 +1048,20 @@ const main = async () => {
     );
   }
   assert(
-    historicalOpponents.length === 14 &&
+    historicalOpponents.length === 15 &&
       historicalOpponents.every(
         (opponent) => opponent.tournamentFinish === "champion",
       ),
-    "Normal opponent pool must contain exactly the 14 completed champions",
+    "Normal opponent pool must contain exactly the 15 completed champions",
   );
   for (const champion of historicalOpponents) {
     const roster = [...champion.startingLineup, ...champion.substitutes];
     assert(
-      champion.dataStatus === "verified-lineup" &&
+      (champion.tournamentYear === 2026
+        ? champion.dataStatus === "modeled-lineup"
+        : champion.dataStatus === "verified-lineup") &&
         champion.managerName !== null &&
-        Boolean(champion.managerCardId) &&
+        (champion.tournamentYear === 2026 || Boolean(champion.managerCardId)) &&
         Boolean(champion.managerIdentityId),
       `${champion.id} is missing its sourced champion manager`,
     );
@@ -1191,8 +1081,10 @@ const main = async () => {
     );
     assert(
       Boolean(champion.formationLabel) &&
-        Boolean(champion.finalLineupSource) &&
-        Boolean(champion.rosterSource) &&
+        Boolean(champion.sources.length) &&
+        (champion.tournamentYear === 2026 ||
+          (Boolean(champion.finalLineupSource) &&
+            Boolean(champion.rosterSource))) &&
         Boolean(champion.championFact) &&
         Boolean(champion.championFactSource) &&
         Boolean(champion.era),
@@ -1203,6 +1095,7 @@ const main = async () => {
     historicalOpponentArchive.every(
       (opponent) =>
         opponent.tournamentYear !== 2026 ||
+        opponent.id === "spain-2026" ||
         (opponent.tournamentFinish === null &&
           opponent.managerName === null &&
           opponent.startingLineup.length === 0 &&
@@ -1214,88 +1107,48 @@ const main = async () => {
     "Unknown 2026 fields contain fabricated values",
   );
 
+  const directPlayerImages = imageAttributions.filter(
+    (image) => image.kind === "player" && !image.fallback,
+  );
+  const directPortraitsByIdentity = new Map<
+    string,
+    typeof directPlayerImages
+  >();
+  for (const image of directPlayerImages) {
+    const card = playersById.get(image.id);
+    if (!card) continue;
+    directPortraitsByIdentity.set(card.playerIdentityId, [
+      ...(directPortraitsByIdentity.get(card.playerIdentityId) ?? []),
+      image,
+    ]);
+  }
+  const managerByIdentity = new Map(
+    managers.map((manager) => [manager.managerIdentityId, manager]),
+  );
+
   await Promise.all(
     imageAttributions.map(async (image) => {
-      const userSupplied =
-        image.matchQuality === "user-supplied-permissioned";
-      const identityOnly =
-        image.matchQuality === "identity-only-permissioned" || userSupplied;
       const localFile = path.join(
         process.cwd(),
         image.file.replace(/^\//, ""),
       );
-      const sourceFile = image.sourceFile
-        ? path.join(process.cwd(), image.sourceFile.replace(/^\//, ""))
-        : "";
       assert(
         existsSync(localFile),
         `${image.id} is missing local portrait ${image.file}`,
       );
       assert(
-        Boolean(
-            image.author &&
-            image.license &&
-            image.changes &&
-            (image.sourcePage || userSupplied) &&
-            image.sourceFile &&
-            image.requiredAttribution &&
-            (image.licenseUrl ||
-              image.matchQuality === "identity-only-permissioned" ||
-              userSupplied),
-        ),
-        `${image.id} metadata incomplete`,
-      );
-      if (image.fallback) {
-        const targetCard =
-          image.kind === "player" ? playersById.get(image.id) : undefined;
-        const source = [
-          ...historicalPlayerImages,
-          ...userSuppliedPlayerImages,
-        ].find((candidate) => candidate.file === image.file);
-        const sourceCard = source ? playersById.get(source.id) : undefined;
-        assert(
-          Boolean(
-            targetCard &&
-              sourceCard &&
-              targetCard.playerIdentityId === sourceCard.playerIdentityId &&
-              identityOnly &&
-              image.gameEdition === null &&
-              !image.exactTournamentImage,
-          ),
-          `${image.id} is not a permitted identity-only portrait fallback`,
-        );
-      } else if (!userSupplied) {
-        assert(
-          image.file ===
-            `/assets/${image.kind === "player" ? "players" : "managers"}/${image.tournamentYear}/${image.id}.png`,
-          `${image.id} does not use its exact card-specific game-face path`,
-        );
-      }
-      assert(
         !/^https?:\/\//i.test(image.file) &&
-          (image.file.endsWith(".png") ||
-            (userSupplied &&
-              /\.(?:webp|jpe?g)$/i.test(image.file))),
+          /\.(?:png|webp|jpe?g|avif)$/i.test(image.file),
         `${image.id} has a remote or unsupported production path`,
       );
       assert(
-        image.cacheVersion.trim().length >= 8,
-        `${image.id} is missing a stable portrait cache version`,
-      );
-      assert(
         Boolean(
-          image.sourceWebsite &&
-            image.retrievedOn &&
-            image.matchQuality &&
-            (image.gameEdition ||
-              image.matchQuality === "identity-only-permissioned" ||
-              userSupplied),
+          image.subjectName.trim() &&
+            image.cacheVersion.trim() &&
+            image.changes.trim() &&
+            image.matchQuality,
         ),
-        `${image.id} is missing acquisition metadata`,
-      );
-      assert(
-        Boolean(sourceFile && existsSync(sourceFile)),
-        `${image.id} is missing its preserved source image`,
+        `${image.id} has incomplete neutral portrait metadata`,
       );
       assert(
         image.cropFocus.x >= 0 &&
@@ -1304,127 +1157,65 @@ const main = async () => {
           image.cropFocus.y <= 100,
         `${image.id} has invalid crop focus`,
       );
-      assert(
-        image.exactTournamentImage
-          ? image.photographedYear === image.tournamentYear &&
-              image.photoContext === "exact-tournament"
-          : image.photoContext !== "exact-tournament",
-        `${image.id} is falsely labeled as exact tournament`,
-      );
+
       if (image.kind === "manager") {
         assert(
-          image.photographedYear === image.tournamentYear,
-          `${image.id} manager portrait is not an exact-year asset`,
+          Boolean(managerByIdentity.get(image.id)) &&
+            image.file === `/assets/managers/${image.id}.png`,
+          `${image.id} manager portrait must use its one canonical identity path`,
+        );
+      } else if (image.fallback) {
+        const targetCard = playersById.get(image.id);
+        const candidates = targetCard
+          ? [...(directPortraitsByIdentity.get(targetCard.playerIdentityId) ?? [])]
+              .sort(
+                (first, second) =>
+                  Math.abs(first.tournamentYear - targetCard.tournamentYear) -
+                    Math.abs(second.tournamentYear - targetCard.tournamentYear) ||
+                  second.tournamentYear - first.tournamentYear ||
+                  first.id.localeCompare(second.id),
+              )
+          : [];
+        const closest = candidates[0];
+        assert(
+          Boolean(
+            targetCard &&
+              closest &&
+              closest.file === image.file &&
+              image.gameEdition === null &&
+              !image.exactTournamentImage,
+          ),
+          `${image.id} does not reuse the closest verified portrait for its identity`,
+        );
+      } else {
+        const card = playersById.get(image.id);
+        assert(
+          Boolean(card && card.tournamentYear === image.tournamentYear),
+          `${image.id} direct portrait has no matching tournament card`,
         );
       }
+
       if (!existsSync(localFile)) return;
       const metadata = await sharp(localFile).metadata();
       assert(
-        metadata.format === "png" ||
-          (userSupplied &&
-            ["webp", "jpeg"].includes(metadata.format ?? "")),
+        ["png", "webp", "jpeg", "avif"].includes(metadata.format ?? ""),
         `${image.id} has an unsupported local portrait format`,
       );
-      if (userSupplied) {
+      if (/background|transparent|cutout|isolat/i.test(image.changes)) {
+        const stats = await sharp(localFile).stats();
+        const alpha = stats.channels[3];
         assert(
-          (await readFile(localFile)).equals(await readFile(sourceFile)),
-          `${image.id} no longer preserves the exact user-supplied PNG bytes`,
+          metadata.hasAlpha === true && Boolean(alpha && alpha.min < 255),
+          `${image.id} background-isolated derivative must retain transparent pixels`,
         );
       }
-      const stats = await sharp(localFile).stats();
-      const alpha = stats.channels[3];
-      const preservesOpaqueUserPortrait =
-        userSupplied &&
-        (image.file ===
-          "/assets/players/1970/wolfgang-overath-1970.png" ||
-          image.file ===
-            "/assets/players/1978/marco-tardelli-1978.webp" ||
-          metadata.format === "jpeg");
-      assert(
-        preservesOpaqueUserPortrait ||
-          (metadata.hasAlpha === true && Boolean(alpha && alpha.min < 255)),
-        `${image.id} local cutout must retain transparent pixels`,
-      );
     }),
   );
 
-  for (const [kind, activeIds] of [
-    [
-      "players",
-      new Set(
-        playerImages.map((image) =>
-          path
-            .join(process.cwd(), image.file.replace(/^\//, ""))
-            .normalize("NFC"),
-        ),
-      ),
-    ],
-    [
-      "managers",
-      new Set(
-        managerImages.map((image) =>
-          path
-            .join(process.cwd(), image.file.replace(/^\//, ""))
-            .normalize("NFC"),
-        ),
-      ),
-    ],
-  ] as const) {
-    const portraitDirectory = path.join(process.cwd(), "assets", kind);
-    const files = (await filesUnder(portraitDirectory)).filter((file) =>
-      kind === "players"
-        ? /\.(?:png|webp)$/i.test(file)
-        : file.endsWith(".png"),
-    );
-    assert(
-      files.every((file) => activeIds.has(file.normalize("NFC"))),
-      `${kind} portrait directory contains an unmanifested production image`,
-    );
-    assert(
-      activeIds.size === files.length,
-      `${kind} game-face directory does not exactly match the active manifest`,
-    );
-  }
-
-  const isolatedLegacyManagerDirectory = path.join(
-    process.cwd(),
-    "public",
-    "managers",
-    "png",
-  );
-  const isolatedLegacyManagerFiles = (
-    await filesUnder(isolatedLegacyManagerDirectory)
-  ).filter((file) => file.endsWith(".png"));
-  await Promise.all(
-    isolatedLegacyManagerFiles.map(async (file) => {
-      const image = sharp(file).ensureAlpha();
-      const { data, info } = await image
-        .raw()
-        .toBuffer({ resolveWithObject: true });
-      assert(
-        info.width === 700 && info.height === 900 && info.channels === 4,
-        `${path.basename(file)} legacy manager cutout must be a 700×900 RGBA PNG`,
-      );
-      let transparentPixels = 0;
-      let opaquePixels = 0;
-      for (let offset = 3; offset < data.length; offset += info.channels) {
-        if (data[offset] === 0) transparentPixels += 1;
-        if (data[offset] === 255) opaquePixels += 1;
-      }
-      const pixelCount = info.width * info.height;
-      const cornerOffsets = [
-        3,
-        (info.width - 1) * info.channels + 3,
-        (info.height - 1) * info.width * info.channels + 3,
-        (pixelCount - 1) * info.channels + 3,
-      ];
-      assert(
-        cornerOffsets.every((offset) => data[offset] === 0) &&
-          transparentPixels / pixelCount >= 0.2 &&
-          opaquePixels / pixelCount >= 0.08,
-        `${path.basename(file)} legacy manager cutout retains a backdrop or lacks a usable subject`,
-      );
-    }),
+  assert(
+    new Set(managerImages.map((image) => image.id)).size ===
+      managerImages.length,
+    "Manager portraits must be unique by manager identity",
   );
 
   const neutralHistoricalCodes = new Set([
@@ -1573,10 +1364,10 @@ const main = async () => {
     `Accolade source coverage: ${draftEligiblePlayers.flatMap((player) => player.achievements).filter((achievement) => achievement.source.url).length}/${draftEligiblePlayers.flatMap((player) => player.achievements).length}; flag coverage ${historicalOpponentArchive.filter((opponent) => flagForCountry(opponent.nationCode) !== "◌").length}/${historicalOpponentArchive.length}`,
   );
   console.log(
-    `Career accolades: ${draftEligiblePlayers.flatMap((player) => player.careerAccolades).length} card records / FBref matched ${fbrefImportReport.matchedPlayers} identities / review ${fbrefImportReport.manualReviewPlayers}`,
+    `Career accolades: ${draftEligiblePlayers.flatMap((player) => player.careerAccolades).length} card records across ${playerCareerDataByIdentityId.size} normalized identities`,
   );
   console.log(
-    `Image importer: ${gameFaceImportReport.downloaded} downloaded / ${gameFaceImportReport.skipped} skipped / ${gameFaceImportReport.failed} failed / ${gameFaceImportReport.photoPending} unresolved`,
+    `Local portraits: ${localPortraitRecords.length} manifest records / ${playerImages.length} resolved player cards / ${managerImages.length} managers`,
   );
 
   if (failures.length > 0) {

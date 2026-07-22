@@ -88,9 +88,11 @@ export function PlayerCard({
             <ShieldCheck size={12} aria-hidden /> Position Fit{" "}
             {positionFit ?? "—"}
           </span>
-          <span>
-            <TimerReset size={12} aria-hidden /> Era Fit {eraFit ?? "—"}
-          </span>
+          {eraFit !== undefined && (
+            <span>
+              <TimerReset size={12} aria-hidden /> Era Fit {eraFit}
+            </span>
+          )}
         </div>
       )}
       {onInspect && (

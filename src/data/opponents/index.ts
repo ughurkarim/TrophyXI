@@ -10,15 +10,25 @@ import { flagForCountry } from "@/lib/utils";
 
 export { historicalOpponentSource, worldCupAllStars };
 
+const confirmedSpain2026 = championOpponents.find(
+  (opponent) => opponent.id === "spain-2026",
+);
+
 /** Full research archive. It is intentionally not the normal match pool. */
 export const historicalOpponentArchive: HistoricalWorldCupTeam[] = [
   ...worldCup2026Participants,
   ...completedHistoricalOpponents,
-].sort(
+]
+  .map((opponent) =>
+    opponent.id === "spain-2026" && confirmedSpain2026
+      ? confirmedSpain2026
+      : opponent,
+  )
+  .sort(
   (first, second) =>
     (second.tournamentYear ?? 0) - (first.tournamentYear ?? 0) ||
     first.nationName.localeCompare(second.nationName),
-);
+  );
 
 /** The normal historical match pool: one complete roster per champion. */
 export const historicalOpponents: HistoricalWorldCupTeam[] = championOpponents;

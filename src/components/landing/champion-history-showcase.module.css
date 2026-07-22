@@ -1,0 +1,443 @@
+.desktopScene {
+  position: relative;
+  height: calc(var(--champion-count) * 62svh + 38svh);
+}
+
+.stickyFrame {
+  position: sticky;
+  top: 0;
+  display: grid;
+  height: 100svh;
+  min-height: 680px;
+  place-items: center;
+  padding-block: 72px 28px;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: min(76svh, 760px);
+  min-height: 570px;
+  overflow: hidden;
+  grid-template-columns: minmax(330px, 0.78fr) minmax(0, 1.22fr);
+  border: 1px solid rgba(231, 189, 77, 0.14);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 15% 14%, rgba(184, 148, 60, 0.04), transparent 30%),
+    linear-gradient(122deg, rgba(10, 12, 9, 0.995), rgba(2, 5, 4, 0.99) 62%),
+    #020403;
+  box-shadow:
+    inset 0 1px rgba(255, 241, 184, 0.045),
+    0 0 38px rgba(184, 148, 60, 0.035),
+    0 46px 110px rgba(0, 0, 0, 0.58);
+  isolation: isolate;
+}
+
+.stage::before {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 232, 143, 0.018),
+    inset 0 -110px 150px rgba(0, 0, 0, 0.38);
+}
+
+.stage::after {
+  position: absolute;
+  z-index: -1;
+  inset: 1px;
+  content: "";
+  background:
+    repeating-linear-gradient(112deg, transparent 0 54px, rgba(255, 255, 255, 0.006) 54px 55px),
+    radial-gradient(circle at 62% 118%, rgba(var(--country-accent) / 0.055), transparent 44%);
+}
+
+.edgeLight {
+  position: absolute;
+  z-index: 6;
+  top: 0;
+  left: 8%;
+  width: 36%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(218, 179, 77, 0.64), transparent);
+  box-shadow: 0 0 14px rgba(218, 179, 77, 0.16);
+}
+
+.countryAura {
+  position: absolute;
+  z-index: -1;
+  top: 5%;
+  right: 3%;
+  width: 60%;
+  height: 90%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(var(--country-accent) / 0.095), rgba(171, 133, 43, 0.02) 42%, transparent 69%);
+  filter: blur(24px);
+}
+
+.copySlot,
+.visualSlot {
+  position: relative;
+  min-width: 0;
+}
+
+.copySlot {
+  z-index: 3;
+  grid-column: 1;
+}
+
+.copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(38px, 4.5vw, 66px);
+}
+
+.worldChampionLabel,
+.countryCode,
+.playerName span,
+.tacticalLabel {
+  font-family: var(--font-mono), monospace;
+  text-transform: uppercase;
+}
+
+.worldChampionLabel {
+  margin: 0 0 27px;
+  color: var(--gold-primary);
+  font-size: 0.58rem;
+  font-weight: 720;
+  letter-spacing: 0.18em;
+}
+
+.countryCode {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 8px;
+  color: var(--gold-champagne);
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.countryCode span {
+  font-size: 1.05rem;
+  letter-spacing: 0;
+}
+
+.year {
+  width: max-content;
+  max-width: 100%;
+  padding: 0.06em 0.08em 0.08em 0;
+  margin: 0;
+  color: transparent;
+  background: linear-gradient(180deg, #dfc473 4%, #b18d3e 56%, #806126 100%);
+  background-clip: text;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(5rem, 7.4vw, 7.7rem);
+  font-weight: 790;
+  letter-spacing: -0.09em;
+  line-height: 0.88;
+  -webkit-background-clip: text;
+}
+
+.copy h3 {
+  max-width: 520px;
+  margin: 15px 0 0;
+  color: var(--ivory-primary);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.8rem, 3.2vw, 3rem);
+  font-weight: 680;
+  letter-spacing: -0.06em;
+  line-height: 0.96;
+}
+
+.playerName {
+  display: grid;
+  gap: 5px;
+  margin-top: 28px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(231, 189, 77, 0.2);
+  border-bottom: 1px solid rgba(231, 189, 77, 0.1);
+}
+
+.playerName span,
+.tacticalLabel {
+  color: rgba(244, 216, 107, 0.66);
+  font-size: 0.49rem;
+  letter-spacing: 0.15em;
+}
+
+.playerName strong {
+  color: var(--ivory-primary);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.03rem, 1.6vw, 1.35rem);
+  font-weight: 640;
+  letter-spacing: -0.03em;
+}
+
+.fact {
+  max-width: 44ch;
+  margin: 19px 0 0;
+  color: #aaa9a2;
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.tacticalLabel {
+  margin: 14px 0 0;
+}
+
+.visualSlot {
+  z-index: 1;
+  overflow: hidden;
+  grid-column: 2;
+  background: #020504;
+}
+
+.visualSlot::before,
+.visualSlot::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.visualSlot::before {
+  z-index: 3;
+  background:
+    linear-gradient(90deg, rgba(3, 6, 4, 0.98) 0%, rgba(3, 6, 4, 0.64) 12%, transparent 34%),
+    linear-gradient(180deg, rgba(1, 3, 2, 0.45) 0%, transparent 20%, transparent 68%, rgba(1, 3, 2, 0.82) 100%),
+    radial-gradient(ellipse at 52% 45%, transparent 28%, rgba(0, 2, 1, 0.55) 100%);
+}
+
+.visualSlot::after {
+  z-index: 2;
+  background:
+    radial-gradient(circle at 48% 30%, rgba(221, 178, 68, 0.11), transparent 19%),
+    linear-gradient(180deg, rgba(5, 15, 10, 0.12), rgba(1, 6, 3, 0.25));
+  mix-blend-mode: screen;
+}
+
+.backgroundYear {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 47%;
+  color: rgba(218, 190, 112, 0.022);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(10rem, 22vw, 23rem);
+  font-weight: 800;
+  letter-spacing: -0.12em;
+  line-height: 0.82;
+  transform: translate(-50%, -50%) rotate(-4deg);
+  white-space: nowrap;
+}
+
+.playerVisual {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+}
+
+.playerImage {
+  object-fit: cover;
+  filter: saturate(0.64) contrast(1.14) brightness(0.52) sepia(0.06);
+  image-rendering: auto;
+}
+
+.pendingPortrait {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  color: rgba(244, 241, 232, 0.58);
+  border: 0;
+  background:
+    radial-gradient(circle at 52% 44%, rgba(156, 122, 40, 0.055), transparent 27%),
+    repeating-linear-gradient(125deg, rgba(255, 255, 255, 0.006) 0 1px, transparent 1px 22px),
+    rgba(2, 5, 3, 0.94);
+  font-family: var(--font-mono), monospace;
+  text-align: center;
+}
+
+.pendingYear {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: rgba(202, 171, 91, 0.025);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(7rem, 16vw, 15rem);
+  font-weight: 800;
+  letter-spacing: -0.1em;
+  transform: translate(-50%, -50%);
+}
+
+.pendingInitials {
+  position: relative;
+  display: grid;
+  width: 104px;
+  height: 104px;
+  place-items: center;
+  color: rgba(228, 205, 143, 0.72);
+  border: 1px solid rgba(218, 179, 77, 0.16);
+  border-radius: 50%;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  background: rgba(129, 101, 33, 0.035);
+  box-shadow: 0 0 34px rgba(176, 137, 40, 0.04);
+}
+
+.pendingPortrait strong,
+.pendingPortrait small {
+  position: relative;
+}
+
+.pendingPortrait strong {
+  color: rgba(228, 205, 143, 0.68);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+}
+
+.pendingPortrait small {
+  max-width: 34ch;
+  font-size: 0.52rem;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+}
+
+.timeline {
+  position: absolute;
+  z-index: 8;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  padding: 7px;
+  border: 1px solid rgba(231, 189, 77, 0.14);
+  border-radius: 12px;
+  background: rgba(5, 8, 6, 0.74);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(12px);
+}
+
+.yearButton {
+  position: relative;
+  min-width: 48px;
+  min-height: 27px;
+  padding: 5px 7px;
+  color: rgba(244, 241, 232, 0.45);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.5rem;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.yearButton:hover,
+.yearButton:focus-visible {
+  color: var(--ivory-primary);
+  border-color: rgba(244, 216, 107, 0.28);
+  outline: none;
+}
+
+.yearButton[aria-pressed="true"] {
+  color: #e1c875;
+  border-color: rgba(218, 179, 77, 0.48);
+  background: rgba(151, 116, 31, 0.14);
+  box-shadow: inset 0 0 12px rgba(218, 179, 77, 0.055);
+}
+
+.scrollCue {
+  position: absolute;
+  z-index: 7;
+  bottom: 31px;
+  left: clamp(38px, 4.5vw, 66px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(244, 241, 232, 0.34);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+}
+
+.scrollCue i {
+  width: 42px;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(244, 241, 232, 0.14);
+}
+
+.scrollCue i::before {
+  display: block;
+  width: var(--champion-progress);
+  height: 100%;
+  content: "";
+  background: var(--gold-primary);
+  box-shadow: 0 0 8px rgba(231, 189, 77, 0.45);
+  transition: width 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mobileGallery {
+  display: none;
+}
+
+@media (max-width: 1050px) {
+  .stage {
+    grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
+  }
+
+  .copy {
+    padding-inline: 36px;
+  }
+
+  .timeline {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .yearButton {
+    min-width: 42px;
+  }
+}
+
+@media (max-width: 900px) {
+  .desktopScene {
+    display: none;
+  }
+
+  .mobileGallery {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yearButton,
+  .scrollCue i::before {
+    transition: none;
+  }
+}

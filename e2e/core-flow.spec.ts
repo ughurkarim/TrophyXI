@@ -291,9 +291,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   ).toBeVisible();
   await page.getByRole("button", { name: /classic draft/i }).click();
   await expect(page).toHaveURL(/\/play$/);
-  await page
-    .getByRole("button", { name: "CONFIRM CLASSIC DRAFT" })
-    .click();
+  await page.getByRole("button", { name: "CONTINUE" }).click();
   await expect(
     page.getByRole("heading", { name: /choose your era/i }),
   ).toBeVisible();
@@ -410,7 +408,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await page.getByRole("button", { name: /^Choose /i }).first().click();
   await expect(page).toHaveURL(/\/play\/manager$/);
   await expect(
-    page.getByRole("button", { name: "MANAGER LOCKED" }),
+    page.getByRole("button", { name: "MANAGER RESPIN USED" }),
   ).toBeDisabled();
   await expect(
     page.getByRole("button", {
@@ -538,70 +536,8 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   await expect(
     page.getByRole("button", { name: "SQUAD 0 / 14" }),
   ).toBeVisible();
-  const chemistryHud = page.locator(".chemistry-preview-hud");
-  await expect(chemistryHud).toHaveAttribute(
-    "aria-label",
-    /current chemistry \d+/i,
-  );
-  const chemistryInfoButton = page.getByRole("button", {
-    name: /chemistry information/i,
-  });
-  const chemistryScrollBefore = await page.evaluate(() => window.scrollY);
-  const chemistryWidthBefore = await page.evaluate(
-    () => document.documentElement.clientWidth,
-  );
-  await chemistryInfoButton.click();
-  const chemistryDialog = page.getByRole("dialog", { name: "CHEMISTRY" });
-  await expect(chemistryDialog).toContainText(
-    "How naturally your squad works together.",
-  );
-  await expect(
-    chemistryDialog.locator('[aria-label="Chemistry factors"] article'),
-  ).toHaveCount(6);
-  await expect(chemistryDialog).toContainText("0–39DISCONNECTED");
-  await expect(chemistryDialog).toContainText("90–100ELITE");
-  await expect(
-    chemistryDialog.getByRole("button", {
-      name: /close chemistry information/i,
-    }),
-  ).toBeFocused();
-  expect(
-    await page.evaluate(() => ({
-      overflow: document.body.style.overflow,
-      position: document.body.style.position,
-      width: document.documentElement.clientWidth,
-    })),
-  ).toEqual({
-    overflow: "hidden",
-    position: "fixed",
-    width: chemistryWidthBefore,
-  });
-  expect(
-    await chemistryDialog.locator("div").evaluateAll((elements) =>
-      elements.some(
-        (element) =>
-          ["auto", "scroll"].includes(
-            window.getComputedStyle(element).overflowY,
-          ),
-      ),
-    ),
-  ).toBe(true);
-  await page.keyboard.press("Escape");
-  await expect(chemistryDialog).toHaveCount(0);
-  await expect(chemistryInfoButton).toBeFocused();
-  expect(await page.evaluate(() => window.scrollY)).toBe(chemistryScrollBefore);
-  expect(
-    await page.evaluate(() => ({
-      overflow: document.body.style.overflow,
-      position: document.body.style.position,
-    })),
-  ).toEqual({ overflow: "", position: "" });
-
-  await page.keyboard.press("Space");
-  await expect(page.getByRole("dialog", { name: "CHEMISTRY" })).toBeVisible();
-  await page.locator(".dialog-backdrop").click({ position: { x: 2, y: 2 } });
+  await expect(page.locator(".chemistry-preview-hud")).toHaveCount(0);
   await expect(page.getByRole("dialog", { name: "CHEMISTRY" })).toHaveCount(0);
-  await expect(chemistryInfoButton).toBeFocused();
 
   await expect(playerChoices()).toHaveCount(5);
   await expect(
@@ -809,15 +745,16 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     initiallySelectedName ?? "",
   );
   await expect(page.getByLabel("0 of 14 players drafted")).toBeVisible();
-  await expect(chemistryHud).toContainText("Projected");
-  await expect(chemistryHud).toContainText("Change");
+  await expect(page.locator(".selected-player-summary")).toContainText(
+    "Projected Chemistry",
+  );
+  await expect(page.locator(".selected-player-summary")).toContainText(
+    "Exact delta",
+  );
   await expect(page.locator(".pitch-node--fit-green").first()).toBeVisible();
   await expect(page.locator(".pitch-node--fit-red").first()).toBeVisible();
   await expect(
     page.locator(".pitch-node--fit-incompatible").first(),
-  ).toBeVisible();
-  await expect(
-    page.locator(".pitch-node__fit i").filter({ hasText: "−" }).first(),
   ).toBeVisible();
   await expect(page.getByText("−0%", { exact: true })).toHaveCount(0);
   const fitLabelContainment = await page
@@ -866,8 +803,13 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     '.draft-pitch-panel .pitch-node[aria-disabled="false"]',
   ).first();
   await exactPreviewSlot.focus();
-  await expect(chemistryHud).toContainText("EXACT PLACEMENT");
-  const projectedChemistry = await chemistryHud.locator("dd").nth(1).textContent();
+  const selectedSummary = page.locator(".selected-player-summary");
+  await expect(selectedSummary).toContainText("Projected Chemistry");
+  await expect(selectedSummary).toContainText("Exact delta");
+  const projectedChemistry = await selectedSummary
+    .locator("dt", { hasText: "Projected Chemistry" })
+    .locator("xpath=..").locator("dd").textContent();
+  const projectedChemistryScore = Number(projectedChemistry?.match(/\d+/)?.[0]);
   await captureState("02-player-selected.png", {
     focusDraftChoices: true,
   });
@@ -904,13 +846,13 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
   }
   await exactPreviewSlot.click();
   await expect(page.getByLabel("1 of 14 players drafted")).toBeVisible();
-  await expect(chemistryHud.locator("dd")).toHaveCount(1);
-  await expect(chemistryHud.locator("dd").first()).toHaveText(
-    projectedChemistry ?? "",
+  await expect(selectedSummary).toHaveCount(0);
+  await expect(page.locator(".placement-feedback")).toContainText(
+    `Chemistry +${projectedChemistryScore}`,
   );
   const squadControl = page.getByRole("button", { name: "SQUAD 1 / 14" });
   await squadControl.click();
-  const squadDrawer = page.getByRole("dialog", { name: "Squad" });
+  const squadDrawer = page.getByRole("dialog", { name: /squad 1\/14/i });
   await expect(squadDrawer.getByText("STARTING XI")).toBeVisible();
   await expect(squadDrawer.getByText("BENCH 1–3")).toBeVisible();
   const firstSquadPlayer = squadDrawer
@@ -1015,7 +957,7 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     .locator(".historical-opponents .opponent-card__title b")
     .allTextContents();
   expect(championYears.map(Number)).toEqual(
-    [2022, 2018, 2014, 2010, 2006, 2002, 1998, 1994, 1990, 1986, 1982, 1978, 1974, 1970],
+    [2026, 2022, 2018, 2014, 2010, 2006, 2002, 1998, 1994, 1990, 1986, 1982, 1978, 1974, 1970],
   );
   await expect(page.getByText(/tournament in progress/i)).toHaveCount(0);
   const worldCupXi = page.getByRole("button", {
@@ -1092,28 +1034,34 @@ test("completes the player-first World Cup gauntlet with separate respins", asyn
     timeout: 2_000,
   });
   const liveBroadcast = page.getByTestId("match-broadcast");
+  await page.getByRole("button", { name: /view trophy xi/i }).click();
   const userTeamSheet = page.getByTestId("user-lineup");
-  const opponentTeamSheet = page.getByTestId("opponent-lineup");
   await expect(userTeamSheet.getByRole("listitem")).toHaveCount(11);
-  await expect(opponentTeamSheet.getByRole("listitem")).toHaveCount(11);
   await expect(userTeamSheet.getByText(managerName, { exact: true })).toBeVisible();
-  await expect(
-    opponentTeamSheet.getByText("Mário Zagallo", { exact: true }),
-  ).toBeVisible();
   await expect(
     userTeamSheet.getByText(selectedFormationName!.replaceAll("–", "-"), {
       exact: true,
     }),
   ).toBeVisible();
+  await userTeamSheet.getByRole("button", { name: /close trophy xi/i }).click();
+  await page.getByRole("button", { name: /view opponent xi/i }).click();
+  const opponentTeamSheet = page.getByTestId("opponent-lineup");
+  await expect(opponentTeamSheet.getByRole("listitem")).toHaveCount(11);
+  await expect(
+    opponentTeamSheet.getByText("Mário Zagallo", { exact: true }),
+  ).toBeVisible();
   await expect(
     opponentTeamSheet.getByText("4-3-3", { exact: true }),
   ).toBeVisible();
+  await opponentTeamSheet
+    .getByRole("button", { name: /close world cup all-stars/i })
+    .click();
   await expect(
     page.getByRole("heading", { name: "Live match stats" }),
   ).toBeVisible();
   await expect(page.getByTestId("live-scoreboard")).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Match timeline" }),
+    page.getByRole("button", { name: /view full timeline/i }),
   ).toBeVisible();
   const liveClipping = await liveBroadcast.evaluate((broadcast) => ({
     horizontal: broadcast.scrollWidth > broadcast.clientWidth + 1,

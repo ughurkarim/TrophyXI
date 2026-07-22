@@ -83,14 +83,13 @@ export const calculateTeamRatings = (
   );
   const eraMultiplier = new Map(
     lineup.map((player) => {
-      const details = calculateEraFitDetails(
-        player,
-        context.eraId ?? "all",
-        {
-          manager,
-          formation,
-        },
-      );
+      if ((context.eraId ?? "all") === "all") {
+        return [player.id, 1] as const;
+      }
+      const details = calculateEraFitDetails(player, context.eraId!, {
+        manager,
+        formation,
+      });
       return [
         player.id,
         Math.max(0, (100 - details.impactPercent) / 100),

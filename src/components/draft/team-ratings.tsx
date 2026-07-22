@@ -29,7 +29,9 @@ export function TeamRatings({
         ratings.managerFit !== undefined && (
           <div className="fit-summary" aria-label="Team fit summary">
             <span>Position fit <b>{ratings.positionFit}</b></span>
-            <span>Era fit <b>{ratings.eraFit}</b></span>
+            {ratings.eraFit > 0 && (
+              <span>Era fit <b>{ratings.eraFit}</b></span>
+            )}
             <span>Manager fit <b>{ratings.managerFit}</b></span>
           </div>
         )}

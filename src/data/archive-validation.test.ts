@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { draftEras } from "@/data/eras";
 import { draftEligibleManagers, managers } from "@/data/managers";
+import playerTournamentsJson from "@/data/player-tournaments.generated.json";
+import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
 import {
   gameFacePathFor,
   historicalPlayerImages,
@@ -20,9 +22,9 @@ describe("expanded archive contracts", () => {
     const defenders = ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB"];
     const midfielders = ["DM", "CM", "AM", "LM", "RM"];
     const attackers = ["LW", "RW", "CF", "ST"];
-    expect(players).toHaveLength(719);
+    expect(players).toHaveLength(1_376);
     expect(new Set(players.map((player) => player.playerIdentityId)).size).toBe(
-      326,
+      676,
     );
     expect(
       [
@@ -71,16 +73,64 @@ describe("expanded archive contracts", () => {
     ).toBe(true);
     expect(
       players.filter((player) => player.primaryPosition === "GK"),
-    ).toHaveLength(73);
+    ).toHaveLength(161);
     expect(
       players.filter((player) => defenders.includes(player.primaryPosition)),
-    ).toHaveLength(155);
+    ).toHaveLength(307);
     expect(
       players.filter((player) => midfielders.includes(player.primaryPosition)),
-    ).toHaveLength(185);
+    ).toHaveLength(449);
     expect(
       players.filter((player) => attackers.includes(player.primaryPosition)),
-    ).toHaveLength(216);
+    ).toHaveLength(459);
+  });
+
+  it("covers every requested historical identity and each sourced tournament", () => {
+    const actualYearsByIdentity = new Map<string, number[]>();
+    for (const player of players) {
+      if (player.tournamentYear === 2026) continue;
+      const years = actualYearsByIdentity.get(player.playerIdentityId) ?? [];
+      years.push(player.tournamentYear);
+      actualYearsByIdentity.set(player.playerIdentityId, years);
+    }
+
+    expect(requestedIdentityJson.identities).toHaveLength(434);
+    for (const requested of requestedIdentityJson.identities) {
+      const sourcedYears = playerTournamentsJson.identities[
+        requested.identityId as keyof typeof playerTournamentsJson.identities
+      ]?.map((tournament) => tournament.tournamentYear);
+      expect(sourcedYears, requested.identityId).toBeDefined();
+      expect(actualYearsByIdentity.get(requested.identityId), requested.identityId)
+        .toEqual(sourcedYears);
+      expect(
+        requested.featuredYears.every((year) => sourcedYears?.includes(year)),
+        `${requested.identityId} is missing a requested tournament`,
+      ).toBe(true);
+    }
+  });
+
+  it("keeps the complete 2026 set and rejects explicitly invalid editions", () => {
+    const cards2026 = players.filter((player) => player.tournamentYear === 2026);
+    expect(cards2026).toHaveLength(132);
+    expect(
+      new Set(cards2026.map((player) => player.playerIdentityId)).size,
+    ).toBe(132);
+    expect(
+      players
+        .filter((player) => player.playerIdentityId === "jens-lehmann")
+        .map((player) => player.tournamentYear),
+    ).toEqual([1998, 2002, 2006]);
+    expect(
+      players.some((player) =>
+        [
+          "neymar-2010",
+          "michael-essien-2010",
+          "radamel-falcao-2014",
+          "samuel-etoo-2006",
+          "youssef-msakni-2018",
+        ].includes(player.id),
+      ),
+    ).toBe(false);
   });
 
   it("covers every tournament, confederation, and quality band", () => {
@@ -106,12 +156,12 @@ describe("expanded archive contracts", () => {
   });
 
   it("keeps every valid player draftable with real or pending photo status", () => {
-    expect(managers).toHaveLength(49);
+    expect(managers).toHaveLength(47);
     expect(new Set(managers.map((manager) => manager.managerIdentityId)).size).toBe(
-      39,
+      47,
     );
-    expect(draftEligiblePlayers).toHaveLength(719);
-    expect(draftEligibleManagers).toHaveLength(49);
+    expect(draftEligiblePlayers).toHaveLength(1_376);
+    expect(draftEligibleManagers).toHaveLength(47);
     expect(imageAttributions).toHaveLength(
       playerImages.length + managerImages.length,
     );
@@ -121,7 +171,7 @@ describe("expanded archive contracts", () => {
     ).toBe(true);
     expect(
       players.filter((player) => !imagesById.has(player.imageId)),
-    ).toHaveLength(719 - playerImages.length);
+    ).toHaveLength(players.length - playerImages.length);
     expect(
       historicalPlayerImages,
     ).toHaveLength(56);
@@ -134,7 +184,7 @@ describe("expanded archive contracts", () => {
             image.exactTournamentImage === false,
         ),
     ).toBe(true);
-    expect(userSuppliedPlayerImages).toHaveLength(53);
+    expect(userSuppliedPlayerImages).toHaveLength(55);
     expect(
       userSuppliedPlayerImages.every(
         (image) =>
@@ -143,7 +193,6 @@ describe("expanded archive contracts", () => {
           image.matchQuality === "user-supplied-permissioned",
       ),
     ).toBe(true);
-    expect(identityFallbackPlayerImages).toHaveLength(92);
     expect(
       identityFallbackPlayerImages.every(
         (image) =>
@@ -185,16 +234,20 @@ describe("expanded archive contracts", () => {
       exactTournamentImage: false,
     });
     expect(imagesById.get("gianluigi-buffon-2010")).toMatchObject({
-      file: "/assets/players/2002/gianluigi-buffon-2002.png",
+      file: "/assets/players/2014/gianluigi-buffon-2014.png",
       fallback: true,
       exactTournamentImage: false,
     });
-    expect(imagesById.has("sergio-ramos-2010")).toBe(false);
+    expect(imagesById.get("sergio-ramos-2010")).toMatchObject({
+      file: "/assets/players/2014/sergio-ramos-2014.png",
+      fallback: true,
+      exactTournamentImage: false,
+    });
     const messi2006 = imagesById.get("lionel-messi-2006");
     expect(messi2006?.file).toBe(
       "/assets/players/2006/lionel-messi-2006.png",
     );
-    expect(messi2006?.cacheVersion).toBe("1f22e4d1c9abdbeb");
+    expect(messi2006?.cacheVersion).toBe("ce83969b96dab437");
   });
 
   it("enforces the 99 cap and broad tournament-card rating distribution", () => {
@@ -205,12 +258,13 @@ describe("expanded archive contracts", () => {
       draftEligiblePlayers
         .filter((player) => player.overall === 99)
         .map((player) => player.id),
-    ).toEqual(
-      expect.arrayContaining([
-        "pele-1970",
-        "diego-maradona-1986",
-        "lionel-messi-2022",
-      ]),
+    ).toEqual([
+      "diego-maradona-1986",
+      "lionel-messi-2022",
+      "pele-1970",
+    ]);
+    expect(players.find((player) => player.id === "rodri-2026")?.overall).toBe(
+      96,
     );
     expect(
       draftEligiblePlayers.filter((player) => player.overall >= 95).length,
@@ -247,6 +301,25 @@ describe("expanded archive contracts", () => {
       .toBeGreaterThanOrEqual(92);
     expect(players.find((player) => player.id === "gary-lineker-1990")?.overall)
       .toBe(91);
+    expect(players.find((player) => player.id === "kylian-mbappe-2026"))
+      .toMatchObject({
+        overall: 98,
+        tournamentStats: { appearances: 8, goals: 10 },
+      });
+    expect(
+      players
+        .find((player) => player.id === "kylian-mbappe-2026")
+        ?.achievements.map((achievement) => achievement.label),
+    ).toContain("Golden Boot");
+    expect(players.find((player) => player.id === "unai-simon-2026"))
+      .toMatchObject({
+        overall: 93,
+        tournamentStats: {
+          appearances: 8,
+          cleanSheets: 7,
+          goalsConceded: 1,
+        },
+      });
   });
 
   it("keeps the audited 2014 James Rodríguez card elite and fully evidenced", () => {
@@ -294,6 +367,7 @@ describe("expanded archive contracts", () => {
       "lionel-messi-2026",
     ]);
     expect(ronaldo.map((player) => player.imageId)).toEqual([
+      "ronaldo-1994",
       "ronaldo-1998",
       "ronaldo-2002",
       "ronaldo-2006",
@@ -356,20 +430,17 @@ describe("expanded archive contracts", () => {
     ).toBe(true);
   });
 
-  it("attaches a reviewed FBref profile to every identity and Giroud's honors", () => {
+  it("attaches career context and at least one accolade to every identity", () => {
     const identityRepresentatives = [
       ...new Map(
         players.map((player) => [player.playerIdentityId, player]),
       ).values(),
     ];
-    expect(identityRepresentatives).toHaveLength(326);
+    expect(identityRepresentatives).toHaveLength(676);
     expect(
       identityRepresentatives.every(
         (player) =>
-          player.careerStats?.sourceName === "FBref" &&
-          player.careerStats.sourceUrl.startsWith(
-            "https://fbref.com/en/players/",
-          ),
+          player.careerStats !== null && player.careerAccolades.length > 0,
       ),
     ).toBe(true);
 
@@ -392,14 +463,26 @@ describe("expanded archive contracts", () => {
         }),
       ]),
     );
-    expect(
-      giroud.careerAccolades.every(
-        (accolade) =>
-          accolade.sourceName === "FBref" &&
-          accolade.sourceUrl ===
-            "https://fbref.com/en/players/16ceb862/Olivier-Giroud",
-      ),
-    ).toBe(true);
+    expect(giroud.careerAccolades.every((accolade) => accolade.verified)).toBe(
+      true,
+    );
+  });
+
+  it("resolves every card once an identity has any local portrait", () => {
+    const cardsByIdentity = new Map<string, typeof players>();
+    for (const player of players) {
+      const cards = cardsByIdentity.get(player.playerIdentityId) ?? [];
+      cards.push(player);
+      cardsByIdentity.set(player.playerIdentityId, cards);
+    }
+
+    for (const [identityId, cards] of cardsByIdentity) {
+      if (!cards.some((player) => imagesById.has(player.imageId))) continue;
+      expect(
+        cards.every((player) => imagesById.has(player.imageId)),
+        `${identityId} does not resolve an exact or closest-year portrait for every card`,
+      ).toBe(true);
+    }
   });
 
   it("produces three deterministic manager identities in every environment", () => {

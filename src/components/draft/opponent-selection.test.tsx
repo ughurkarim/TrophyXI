@@ -25,7 +25,7 @@ describe("OpponentSelection", () => {
     });
   });
 
-  it("shows the featured All-Stars and exactly fourteen champions newest first", () => {
+  it("shows the featured All-Stars and exactly fifteen champions newest first", () => {
     render(<OpponentSelection eraId="1970s" onContinue={vi.fn()} />);
 
     expect(
@@ -33,7 +33,7 @@ describe("OpponentSelection", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: /world cup winners, newest first/i,
+        name: /fifteen champions.*knockout match/i,
       }),
     ).toBeInTheDocument();
 
@@ -45,7 +45,7 @@ describe("OpponentSelection", () => {
         ),
       }),
     );
-    expect(championButtons).toHaveLength(14);
+    expect(championButtons).toHaveLength(15);
     expect(
       historicalOpponents.map((opponent) => opponent.tournamentYear),
     ).toEqual(
@@ -87,53 +87,42 @@ describe("OpponentSelection", () => {
     }
   });
 
-  it("reveals the selected champion manager, shape, squad, ratings, tactics, and fact", async () => {
+  it("shows the champion lockup and opens its optional XI drawer", async () => {
     const user = userEvent.setup();
     const champion = historicalOpponents[0]!;
     render(<OpponentSelection eraId="2020s" onContinue={vi.fn()} />);
 
-    await user.click(
-      screen.getByRole("button", {
+    const selectButton = screen.getByRole("button", {
         name: new RegExp(
           `select ${champion.nationName} ${champion.tournamentYear}`,
           "i",
         ),
-      }),
-    );
-
-    const dossier = screen.getByRole("region", {
-      name: new RegExp(
-        `${champion.nationName} ${champion.tournamentYear}`,
-        "i",
-      ),
     });
-    expect(within(dossier).getByText(champion.managerName!)).toBeVisible();
+    await user.click(selectButton);
+    const card = selectButton.closest("article")!;
+    expect(within(card).getByText(champion.managerName!)).toBeVisible();
     expect(
-      within(dossier).getByText(
+      within(card).getByText(
         champion.formationLabel ?? champion.formation,
       ),
     ).toBeVisible();
-    expect(within(dossier).getByText(champion.tacticalProfile)).toBeVisible();
-    expect(within(dossier).getByText(champion.championFact!)).toBeVisible();
+    expect(within(card).getByText(/world champion/i)).toBeVisible();
     expect(
-      within(dossier).getByRole("list", {
-        name: new RegExp(
-          `${champion.nationName} ${champion.tournamentYear} starting eleven`,
-          "i",
-        ),
-      }).children,
-    ).toHaveLength(11);
-    expect(
-      within(dossier).getByRole("list", {
-        name: new RegExp(
-          `${champion.nationName} ${champion.tournamentYear} available substitutes`,
-          "i",
-        ),
-      }).children,
-    ).toHaveLength(champion.substitutes.length);
-    expect(
-      within(dossier).getByLabelText(`${champion.nationName} ratings`),
+      within(card).getByLabelText(`${champion.nationName} ratings`),
     ).toHaveTextContent(String(champion.ratings.overall));
+
+    await user.click(
+      within(card).getByRole("button", { name: /view .* lineup/i }),
+    );
+    const drawer = screen.getByRole("dialog", {
+      name: new RegExp(`${champion.nationName} ${champion.tournamentYear}`, "i"),
+    });
+    expect(within(drawer).getByRole("list", {
+      name: new RegExp(`${champion.nationName}.*starting eleven`, "i"),
+    }).children).toHaveLength(11);
+    expect(within(drawer).getByRole("list", {
+      name: new RegExp(`${champion.nationName}.*available substitutes`, "i"),
+    }).children).toHaveLength(champion.substitutes.length);
   });
 
   it("uses stable footer labels and keeps selection keyboard accessible", async () => {
@@ -161,7 +150,7 @@ describe("OpponentSelection", () => {
     ).toBeEnabled();
   });
 
-  it("disables squad conflicts and lets Free Selection return to editing", async () => {
+  it("keeps champions selectable when their lineup shares a squad identity", async () => {
     const user = userEvent.setup();
     const onEditSquad = vi.fn();
     useGameStore.setState({
@@ -182,11 +171,9 @@ describe("OpponentSelection", () => {
     );
 
     expect(
-      screen.getByRole("button", {
-        name: /argentina 2022 unavailable.*lionel messi/i,
-      }),
-    ).toBeDisabled();
-    expect(screen.getByText("SQUAD CONFLICT")).toBeVisible();
+      screen.getByRole("button", { name: /select argentina 2022/i }),
+    ).toBeEnabled();
+    expect(screen.queryByText("SQUAD CONFLICT")).not.toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /select world cup all-stars/i }),
     ).toBeEnabled();
@@ -196,7 +183,7 @@ describe("OpponentSelection", () => {
     expect(onEditSquad).toHaveBeenCalledOnce();
   });
 
-  it("does not expose archive controls, implementation labels, sources, or 2026", () => {
+  it("does not expose archive controls, implementation labels, or sources", () => {
     render(<OpponentSelection eraId="2020s" onContinue={vi.fn()} />);
 
     for (const controlName of [
@@ -223,9 +210,11 @@ describe("OpponentSelection", () => {
       /research/i,
       /provenance/i,
       /source:/i,
-      /2026/i,
     ]) {
       expect(screen.queryByText(hiddenCopy)).not.toBeInTheDocument();
     }
+    expect(
+      screen.getByRole("button", { name: /select spain 2026/i }),
+    ).toBeEnabled();
   });
 });

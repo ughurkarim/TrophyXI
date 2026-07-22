@@ -300,7 +300,7 @@ const itemFromTournamentAchievement = (
 
 export const getPlayerAccoladeItems = (player: PlayerTournamentCard) => {
   const career = player.careerAccolades
-    .filter((accolade) => accolade.verified && Boolean(accolade.sourceUrl))
+    .filter((accolade) => accolade.verified)
     .map(itemFromCareerAccolade);
   const tournament = player.achievements
     .filter((achievement) => Boolean(achievement.source.url))

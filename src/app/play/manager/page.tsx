@@ -21,9 +21,7 @@ export default function ManagerPage() {
   const gameMode = useGameStore((state) => state.gameMode);
   const optionIds = useGameStore((state) => state.managerOptionIds);
   const managerId = useGameStore((state) => state.managerId);
-  const managerLocked = useGameStore((state) => state.managerLocked);
   const selectManager = useGameStore((state) => state.selectManager);
-  const lockManager = useGameStore((state) => state.lockManager);
   const managerRespinRemaining = useGameStore(
     (state) => state.managerRespinRemaining,
   );
@@ -61,7 +59,9 @@ export default function ManagerPage() {
   });
   const selectedManager = managerId ? managersById.get(managerId) : undefined;
   const managerRespinLabel = managerId
-    ? "MANAGER LOCKED"
+    ? managerRespinRemaining
+      ? "RESPIN VISIBLE MANAGERS ×1"
+      : "MANAGER RESPIN USED"
     : managerRespinRemaining
       ? "MANAGER RESPIN ×1"
       : "MANAGER RESPIN USED";
@@ -76,14 +76,13 @@ export default function ManagerPage() {
             managers={options}
             eraId={eraId}
             selectedManagerId={managerId}
-            managerLocked={managerLocked}
+            managerLocked={false}
             onSelect={selectManager}
             onInspect={(id, returnFocus) => {
               setDetailReturnFocus(returnFocus);
               setInspectedManagerId(id);
             }}
             onContinue={() => {
-              lockManager();
               router.push("/play/formation");
             }}
           />
@@ -137,7 +136,7 @@ export default function ManagerPage() {
                 <Button
                   variant="secondary"
                   onClick={() => setShowRespin(true)}
-                  disabled={managerRespinRemaining === 0 || Boolean(managerId)}
+                  disabled={managerRespinRemaining === 0}
                   aria-label={managerRespinLabel}
                 >
                   <RefreshCw size={15} aria-hidden />
@@ -161,7 +160,6 @@ export default function ManagerPage() {
                 className={styles.continueButton}
                 disabled={!selectedManager}
                 onClick={() => {
-                  lockManager();
                   router.push("/play/formation");
                 }}
               >

@@ -14,9 +14,14 @@ export const WORLD_CUP_RUN_GROUP_IDS = [
   "F",
   "G",
   "H",
+  "I",
+  "J",
+  "K",
+  "L",
 ] as const;
 
 export const WORLD_CUP_RUN_KNOCKOUT_STAGES = [
+  "round-of-32",
   "round-of-16",
   "quarter-final",
   "semi-final",
@@ -39,8 +44,10 @@ export type WorldCupRunQualificationStatus =
 export type WorldCupRunTeam = {
   id: string;
   name: string;
+  countryCode: string;
   rating: number;
   seedRank?: number;
+  isChampion?: boolean;
 };
 
 export type WorldCupRunResult = {
@@ -103,7 +110,7 @@ export type WorldCupRunHistoryEntry = {
 };
 
 export type WorldCupRunState = {
-  version: 1;
+  version: 2;
   seed: number;
   userTeamId: string;
   teams: WorldCupRunTeam[];
@@ -115,6 +122,8 @@ export type WorldCupRunState = {
   qualificationStatus: WorldCupRunQualificationStatus;
   history: WorldCupRunHistoryEntry[];
   championTeamId: string | null;
+  finalBossTeamId: string;
+  eliminatedStage: Exclude<WorldCupRunStage, "complete"> | null;
 };
 
 export type CreateWorldCupRunInput = {
@@ -156,7 +165,7 @@ const buildGroups = (
   );
   const pots = Array.from({ length: 4 }, (_, potIndex) =>
     shuffle(
-      seeded.slice(potIndex * 8, potIndex * 8 + 8),
+      seeded.slice(potIndex * 12, potIndex * 12 + 12),
       createSeededRandom(seed ^ hashString(`world-cup-run-pot:${potIndex}`)),
     ),
   );
@@ -182,13 +191,11 @@ const groupSchedule: Array<
   [3, 2, 3],
 ];
 
-const buildGroupFixtures = (
-  groups: WorldCupRunGroup[],
-): WorldCupRunFixture[] =>
+const buildGroupFixtures = (groups: WorldCupRunGroup[]) =>
   groups.flatMap((group) =>
     groupSchedule.map(([matchday, first, second], fixtureIndex) => ({
       id: `group-${group.id}-md${matchday}-${(fixtureIndex % 2) + 1}`,
-      stage: "group",
+      stage: "group" as const,
       groupId: group.id,
       matchday,
       homeTeamId: group.teamIds[first],
@@ -229,19 +236,23 @@ const emptyStandings = (
   ) as Record<WorldCupRunGroupId, WorldCupRunStanding[]>;
 
 const validateTeams = (teams: WorldCupRunTeam[], userTeamId: string) => {
-  if (teams.length !== 32) {
-    throw new Error("World Cup Run requires exactly 32 teams");
+  if (teams.length !== 48) {
+    throw new Error("World Cup Run requires exactly 48 teams");
   }
-  if (new Set(teams.map((team) => team.id)).size !== 32) {
+  if (new Set(teams.map((team) => team.id)).size !== 48) {
     throw new Error("World Cup Run team ids must be unique");
   }
   if (!teams.some((team) => team.id === userTeamId)) {
-    throw new Error("The user team must be present in the 32-team field");
+    throw new Error("The user team must be present in the 48-team field");
+  }
+  if (!teams.some((team) => team.id !== userTeamId && team.isChampion)) {
+    throw new Error("World Cup Run requires a champion final opponent");
   }
   for (const team of teams) {
     if (
       !team.id ||
       !team.name ||
+      !team.countryCode ||
       !Number.isFinite(team.rating) ||
       team.rating < 0 ||
       team.rating > 100
@@ -258,8 +269,16 @@ export const createWorldCupRun = ({
 }: CreateWorldCupRunInput): WorldCupRunState => {
   validateTeams(teams, userTeamId);
   const groups = buildGroups(teams, seed);
+  const finalBossTeamId = [...teams]
+    .filter((team) => team.id !== userTeamId && team.isChampion)
+    .sort(
+      (first, second) =>
+        second.rating - first.rating ||
+        hashString(`${seed}:final-boss:${first.id}`) -
+          hashString(`${seed}:final-boss:${second.id}`),
+    )[0].id;
   return {
-    version: 1,
+    version: 2,
     seed,
     userTeamId,
     teams: teams.map((team) => ({ ...team })),
@@ -271,6 +290,8 @@ export const createWorldCupRun = ({
     qualificationStatus: "pending",
     history: [],
     championTeamId: null,
+    finalBossTeamId,
+    eliminatedStage: null,
   };
 };
 
@@ -343,7 +364,7 @@ export const calculateWorldCupRunStandings = (
     .map((standing, index) => ({ ...standing, rank: index + 1 }));
 };
 
-const refreshStandings = (state: WorldCupRunState) => ({
+const refreshStandings = (state: WorldCupRunState): WorldCupRunState => ({
   ...state,
   standings: Object.fromEntries(
     WORLD_CUP_RUN_GROUP_IDS.map((groupId) => [
@@ -353,19 +374,14 @@ const refreshStandings = (state: WorldCupRunState) => ({
   ) as Record<WorldCupRunGroupId, WorldCupRunStanding[]>,
 });
 
-const normalizeResult = (
-  result: WorldCupRunResultInput,
-): WorldCupRunResult => ({
+const normalizeResult = (result: WorldCupRunResultInput): WorldCupRunResult => ({
   homeGoals: result.homeGoals,
   awayGoals: result.awayGoals,
   afterExtraTime: Boolean(result.afterExtraTime),
-  ...(result.penalties ? { penalties: [...result.penalties] } : {}),
+  ...(result.penalties ? { penalties: [...result.penalties] as [number, number] } : {}),
 });
 
-const validateResult = (
-  fixture: WorldCupRunFixture,
-  result: WorldCupRunResult,
-) => {
+const validateResult = (fixture: WorldCupRunFixture, result: WorldCupRunResult) => {
   for (const value of [result.homeGoals, result.awayGoals]) {
     if (!Number.isInteger(value) || value < 0) {
       throw new Error("Fixture goals must be non-negative integers");
@@ -381,9 +397,7 @@ const validateResult = (
     if (
       !result.penalties ||
       result.penalties[0] === result.penalties[1] ||
-      result.penalties.some(
-        (value) => !Number.isInteger(value) || value < 0,
-      )
+      result.penalties.some((value) => !Number.isInteger(value) || value < 0)
     ) {
       throw new Error("A tied knockout fixture requires a decided shootout");
     }
@@ -392,10 +406,7 @@ const validateResult = (
   }
 };
 
-const sameResult = (
-  first: WorldCupRunResult,
-  second: WorldCupRunResult,
-) =>
+const sameResult = (first: WorldCupRunResult, second: WorldCupRunResult) =>
   first.homeGoals === second.homeGoals &&
   first.awayGoals === second.awayGoals &&
   first.afterExtraTime === second.afterExtraTime &&
@@ -406,49 +417,94 @@ const winnerIdFor = (fixture: WorldCupRunFixture) => {
   if (!fixture.result || fixture.stage === "group") {
     throw new Error(`Fixture ${fixture.id} has no knockout winner`);
   }
-  if (fixture.result.homeGoals > fixture.result.awayGoals) {
-    return fixture.homeTeamId;
-  }
-  if (fixture.result.awayGoals > fixture.result.homeGoals) {
-    return fixture.awayTeamId;
-  }
+  if (fixture.result.homeGoals > fixture.result.awayGoals) return fixture.homeTeamId;
+  if (fixture.result.awayGoals > fixture.result.homeGoals) return fixture.awayTeamId;
   return fixture.result.penalties![0] > fixture.result.penalties![1]
     ? fixture.homeTeamId
     : fixture.awayTeamId;
 };
 
-const r16Pairings: Array<
-  [
-    winnerGroup: WorldCupRunGroupId,
-    runnerUpGroup: WorldCupRunGroupId,
-  ]
-> = [
-  ["A", "B"],
-  ["C", "D"],
-  ["E", "F"],
-  ["G", "H"],
-  ["B", "A"],
-  ["D", "C"],
-  ["F", "E"],
-  ["H", "G"],
-];
+const groupIdByTeam = (state: WorldCupRunState) =>
+  new Map(
+    state.groups.flatMap((group) =>
+      group.teamIds.map((teamId) => [teamId, group.id] as const),
+    ),
+  );
 
-const createRoundOf16 = (
-  standings: Record<WorldCupRunGroupId, WorldCupRunStanding[]>,
-): WorldCupRunFixture[] =>
-  r16Pairings.map(([winnerGroup, runnerUpGroup], index) => ({
-    id: `round-of-16-${index + 1}`,
-    stage: "round-of-16",
+const qualifiedTeamIds = (state: WorldCupRunState) => {
+  const automatic = WORLD_CUP_RUN_GROUP_IDS.flatMap((groupId) =>
+    state.standings[groupId].slice(0, 2).map((standing) => standing.teamId),
+  );
+  const bestThirds = WORLD_CUP_RUN_GROUP_IDS.map(
+    (groupId) => state.standings[groupId][2],
+  )
+    .sort(
+      (first, second) =>
+        second.points - first.points ||
+        second.goalDifference - first.goalDifference ||
+        second.goalsFor - first.goalsFor ||
+        first.deterministicTiebreak - second.deterministicTiebreak,
+    )
+    .slice(0, 8)
+    .map((standing) => standing.teamId);
+  const qualified = [...automatic, ...bestThirds];
+  if (!qualified.includes(state.finalBossTeamId)) {
+    const replacementIndex = qualified.findLastIndex(
+      (teamId) => teamId !== state.userTeamId,
+    );
+    qualified[replacementIndex] = state.finalBossTeamId;
+  }
+  return qualified;
+};
+
+const createRoundOf32 = (state: WorldCupRunState): WorldCupRunFixture[] => {
+  const qualified = qualifiedTeamIds(state);
+  const groupFor = groupIdByTeam(state);
+  const rankFor = new Map(
+    WORLD_CUP_RUN_GROUP_IDS.flatMap((groupId) =>
+      state.standings[groupId].map((standing) => [standing.teamId, standing.rank] as const),
+    ),
+  );
+  const ordered = [...qualified].sort(
+    (first, second) =>
+      (rankFor.get(first) ?? 4) - (rankFor.get(second) ?? 4) ||
+      teamById(state, second).rating - teamById(state, first).rating ||
+      hashString(`${state.seed}:r32:${first}`) - hashString(`${state.seed}:r32:${second}`),
+  );
+  const home = ordered.slice(0, 16);
+  let away = ordered.slice(16).reverse();
+  for (let rotation = 0; rotation < away.length; rotation += 1) {
+    if (home.every((teamId, index) => groupFor.get(teamId) !== groupFor.get(away[index]))) break;
+    away = [...away.slice(1), away[0]];
+  }
+
+  const userSide = home.includes(state.userTeamId) ? home : away;
+  const userIndex = userSide.indexOf(state.userTeamId);
+  const bossSide = home.includes(state.finalBossTeamId) ? home : away;
+  const bossIndex = bossSide.indexOf(state.finalBossTeamId);
+  if (userIndex >= 0 && bossIndex >= 0 && (userIndex < 8) === (bossIndex < 8)) {
+    const swapIndex = userIndex < 8 ? 8 : 0;
+    [bossSide[bossIndex], bossSide[swapIndex]] = [
+      bossSide[swapIndex],
+      bossSide[bossIndex],
+    ];
+  }
+
+  return home.map((homeTeamId, index) => ({
+    id: `round-of-32-${index + 1}`,
+    stage: "round-of-32",
     groupId: null,
     matchday: null,
-    homeTeamId: standings[winnerGroup][0].teamId,
-    awayTeamId: standings[runnerUpGroup][1].teamId,
+    homeTeamId,
+    awayTeamId: away[index],
     result: null,
   }));
+};
 
 const nextStageFor = (
   stage: WorldCupRunKnockoutStage,
 ): WorldCupRunKnockoutStage | "complete" => {
+  if (stage === "round-of-32") return "round-of-16";
   if (stage === "round-of-16") return "quarter-final";
   if (stage === "quarter-final") return "semi-final";
   if (stage === "semi-final") return "final";
@@ -469,126 +525,109 @@ const createNextKnockoutRound = (
     result: null,
   })) satisfies WorldCupRunFixture[];
 
-const advanceCompletedStage = (
-  state: WorldCupRunState,
-): WorldCupRunState => {
+const finishGroupStage = (state: WorldCupRunState): WorldCupRunState => {
+  const groupFixtures = state.fixtures.filter((fixture) => fixture.stage === "group");
+  if (groupFixtures.some((fixture) => !fixture.result)) return state;
+  const refreshed = refreshStandings(state);
+  const qualified = new Set(qualifiedTeamIds(refreshed));
+  const userQualified = qualified.has(state.userTeamId);
+  return {
+    ...refreshed,
+    status: userQualified ? "active" : "eliminated",
+    qualificationStatus: userQualified ? "qualified" : "eliminated",
+    eliminatedStage: userQualified ? null : "group",
+  };
+};
+
+const advanceCompletedStage = (state: WorldCupRunState): WorldCupRunState => {
   if (state.currentStage === "complete") return state;
-  const stageFixtures = state.fixtures.filter(
-    (fixture) => fixture.stage === state.currentStage,
-  );
-  if (
-    stageFixtures.length === 0 ||
-    stageFixtures.some((fixture) => !fixture.result)
-  ) {
-    return state;
-  }
-
-  if (state.currentStage === "group") {
-    const refreshed = refreshStandings(state);
-    const qualifiedTeamIds = new Set(
-      WORLD_CUP_RUN_GROUP_IDS.flatMap((groupId) =>
-        refreshed.standings[groupId]
-          .slice(0, 2)
-          .map((standing) => standing.teamId),
-      ),
-    );
-    const userQualified = qualifiedTeamIds.has(state.userTeamId);
-    return {
-      ...refreshed,
-      fixtures: [
-        ...refreshed.fixtures,
-        ...createRoundOf16(refreshed.standings),
-      ],
-      currentStage: "round-of-16",
-      status: userQualified ? refreshed.status : "eliminated",
-      qualificationStatus: userQualified ? "qualified" : "eliminated",
-    };
-  }
-
-  const currentStage = state.currentStage;
-  const nextStage = nextStageFor(currentStage);
+  if (state.currentStage === "group") return finishGroupStage(state);
+  const stageFixtures = state.fixtures.filter((fixture) => fixture.stage === state.currentStage);
+  if (!stageFixtures.length || stageFixtures.some((fixture) => !fixture.result)) return state;
+  const nextStage = nextStageFor(state.currentStage);
   if (nextStage === "complete") {
     const championTeamId = winnerIdFor(stageFixtures[0]);
     return {
       ...state,
       currentStage: "complete",
       championTeamId,
-      status:
-        championTeamId === state.userTeamId ? "champion" : "eliminated",
+      status: championTeamId === state.userTeamId ? "champion" : "eliminated",
+      eliminatedStage:
+        championTeamId === state.userTeamId ? state.eliminatedStage : state.eliminatedStage ?? "final",
     };
   }
   return {
     ...state,
-    fixtures: [
-      ...state.fixtures,
-      ...createNextKnockoutRound(stageFixtures, nextStage),
-    ],
+    fixtures: [...state.fixtures, ...createNextKnockoutRound(stageFixtures, nextStage)],
     currentStage: nextStage,
   };
 };
 
-export const getWorldCupRunFixture = (
-  state: WorldCupRunState,
-  fixtureId: string,
-) => state.fixtures.find((fixture) => fixture.id === fixtureId);
+export const enterWorldCupRunKnockouts = (state: WorldCupRunState): WorldCupRunState => {
+  if (
+    state.currentStage !== "group" ||
+    state.qualificationStatus !== "qualified" ||
+    state.fixtures.some((fixture) => fixture.stage === "group" && !fixture.result)
+  ) {
+    return state;
+  }
+  return {
+    ...state,
+    fixtures: [...state.fixtures, ...createRoundOf32(state)],
+    currentStage: "round-of-32",
+  };
+};
+
+export const getWorldCupRunFixture = (state: WorldCupRunState, fixtureId: string) =>
+  state.fixtures.find((fixture) => fixture.id === fixtureId);
 
 export const getCurrentWorldCupRunFixtures = (state: WorldCupRunState) =>
   state.currentStage === "complete"
     ? []
-    : state.fixtures.filter(
-        (fixture) => fixture.stage === state.currentStage,
-      );
+    : state.fixtures.filter((fixture) => fixture.stage === state.currentStage);
 
-export const getPendingWorldCupRunUserFixture = (
-  state: WorldCupRunState,
-) =>
+export const getPendingWorldCupRunUserFixture = (state: WorldCupRunState) =>
   getCurrentWorldCupRunFixtures(state).find(
     (fixture) =>
       !fixture.result &&
       [fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId),
   ) ?? null;
 
-export const simulateWorldCupRunCpuFixture = (
+const simulateTeamLevelFixture = (
   state: WorldCupRunState,
   fixture: WorldCupRunFixture,
 ): WorldCupRunResult => {
-  if (
-    [fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId)
-  ) {
-    throw new Error("User fixtures require a recorded user result");
-  }
   const home = teamById(state, fixture.homeTeamId);
   const away = teamById(state, fixture.awayTeamId);
   const random = createSeededRandom(
-    state.seed ^
-      hashString(
-        `world-cup-run-fixture:${fixture.id}:${home.id}:${away.id}`,
-      ),
+    state.seed ^ hashString(`world-cup-run-fixture:${fixture.id}:${home.id}:${away.id}`),
   );
   const ratingEdge = home.rating - away.rating;
   const homeLambda = clamp(1.25 + ratingEdge * 0.025, 0.25, 3.2);
   const awayLambda = clamp(1.2 - ratingEdge * 0.025, 0.25, 3.2);
   let homeGoals = poisson(homeLambda, random);
   let awayGoals = poisson(awayLambda, random);
-  if (fixture.stage === "group" || homeGoals !== awayGoals) {
-    return {
-      homeGoals,
-      awayGoals,
-      afterExtraTime: false,
-    };
+
+  if (fixture.stage === "group") {
+    return { homeGoals, awayGoals, afterExtraTime: false };
   }
 
-  const extraHome = poisson(homeLambda * 0.25, random, 2);
-  const extraAway = poisson(awayLambda * 0.25, random, 2);
-  homeGoals += extraHome;
-  awayGoals += extraAway;
-  if (homeGoals !== awayGoals) {
-    return {
-      homeGoals,
-      awayGoals,
-      afterExtraTime: true,
-    };
+  if (
+    ![fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId) &&
+    [fixture.homeTeamId, fixture.awayTeamId].includes(state.finalBossTeamId)
+  ) {
+    const bossAtHome = fixture.homeTeamId === state.finalBossTeamId;
+    if ((bossAtHome && homeGoals <= awayGoals) || (!bossAtHome && awayGoals <= homeGoals)) {
+      if (bossAtHome) homeGoals = awayGoals + 1;
+      else awayGoals = homeGoals + 1;
+    }
+    return { homeGoals, awayGoals, afterExtraTime: false };
   }
+
+  if (homeGoals !== awayGoals) return { homeGoals, awayGoals, afterExtraTime: false };
+  homeGoals += poisson(homeLambda * 0.25, random, 2);
+  awayGoals += poisson(awayLambda * 0.25, random, 2);
+  if (homeGoals !== awayGoals) return { homeGoals, awayGoals, afterExtraTime: true };
 
   let homePenalties = 0;
   let awayPenalties = 0;
@@ -598,25 +637,15 @@ export const simulateWorldCupRunCpuFixture = (
     if (random() < homeChance) homePenalties += 1;
     if (random() < awayChance) awayPenalties += 1;
   }
-  for (
-    let suddenDeath = 0;
-    homePenalties === awayPenalties && suddenDeath < 20;
-    suddenDeath += 1
-  ) {
+  for (let suddenDeath = 0; homePenalties === awayPenalties && suddenDeath < 20; suddenDeath += 1) {
     const homeScores = random() < homeChance;
     const awayScores = random() < awayChance;
     if (homeScores && !awayScores) homePenalties += 1;
     if (!homeScores && awayScores) awayPenalties += 1;
   }
   if (homePenalties === awayPenalties) {
-    if (
-      hashString(`${state.seed}:shootout-fallback:${fixture.id}`) % 2 ===
-      0
-    ) {
-      homePenalties += 1;
-    } else {
-      awayPenalties += 1;
-    }
+    if (hashString(`${state.seed}:shootout-fallback:${fixture.id}`) % 2 === 0) homePenalties += 1;
+    else awayPenalties += 1;
   }
   return {
     homeGoals,
@@ -624,6 +653,16 @@ export const simulateWorldCupRunCpuFixture = (
     afterExtraTime: true,
     penalties: [homePenalties, awayPenalties],
   };
+};
+
+export const simulateWorldCupRunCpuFixture = (
+  state: WorldCupRunState,
+  fixture: WorldCupRunFixture,
+) => {
+  if ([fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId)) {
+    throw new Error("User fixtures require a recorded user result");
+  }
+  return simulateTeamLevelFixture(state, fixture);
 };
 
 export const recordWorldCupRunFixtureResult = (
@@ -640,13 +679,9 @@ export const recordWorldCupRunFixtureResult = (
     throw new Error(`Fixture ${fixtureId} already has a different result`);
   }
   if (fixture.stage !== state.currentStage) {
-    throw new Error(
-      `Fixture ${fixtureId} cannot be played during ${state.currentStage}`,
-    );
+    throw new Error(`Fixture ${fixtureId} cannot be played during ${state.currentStage}`);
   }
-  const involvesUser = [fixture.homeTeamId, fixture.awayTeamId].includes(
-    state.userTeamId,
-  );
+  const involvesUser = [fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId);
   if (involvesUser && !suppliedResult) {
     throw new Error("User fixtures require a recorded user result");
   }
@@ -656,15 +691,18 @@ export const recordWorldCupRunFixtureResult = (
   validateResult(fixture, result);
 
   let status = state.status;
+  let eliminatedStage = state.eliminatedStage;
   if (fixture.stage !== "group" && involvesUser) {
     const fixtureWithResult = { ...fixture, result };
     if (winnerIdFor(fixtureWithResult) !== state.userTeamId) {
       status = "eliminated";
+      eliminatedStage = fixture.stage;
     }
   }
   const updated: WorldCupRunState = {
     ...state,
     status,
+    eliminatedStage,
     fixtures: state.fixtures.map((candidate) =>
       candidate.id === fixtureId ? { ...candidate, result } : candidate,
     ),
@@ -680,9 +718,7 @@ export const recordWorldCupRunFixtureResult = (
       },
     ],
   };
-  const withStandings =
-    fixture.stage === "group" ? refreshStandings(updated) : updated;
-  return advanceCompletedStage(withStandings);
+  return advanceCompletedStage(fixture.stage === "group" ? refreshStandings(updated) : updated);
 };
 
 export const recordWorldCupRunUserResult = (
@@ -692,9 +728,7 @@ export const recordWorldCupRunUserResult = (
 ) => {
   const fixture = getWorldCupRunFixture(state, fixtureId);
   if (!fixture) throw new Error(`Unknown World Cup Run fixture ${fixtureId}`);
-  if (
-    ![fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId)
-  ) {
+  if (![fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId)) {
     throw new Error(`Fixture ${fixtureId} does not involve the user team`);
   }
   const userAtHome = fixture.homeTeamId === state.userTeamId;
@@ -703,43 +737,72 @@ export const recordWorldCupRunUserResult = (
     awayGoals: userAtHome ? result.opponentGoals : result.userGoals,
     afterExtraTime: result.afterExtraTime,
     ...(result.penalties
-      ? {
-          penalties: userAtHome
-            ? result.penalties
-            : [result.penalties[1], result.penalties[0]],
-        }
+      ? { penalties: userAtHome ? result.penalties : [result.penalties[1], result.penalties[0]] }
       : {}),
   });
 };
 
-export const resolvePendingWorldCupRunCpuFixtures = (
-  state: WorldCupRunState,
-) => {
+const recordQuickFixture = (state: WorldCupRunState, fixture: WorldCupRunFixture) => {
+  const result = simulateTeamLevelFixture(state, fixture);
+  return [fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId)
+    ? recordWorldCupRunFixtureResult(state, fixture.id, result)
+    : recordWorldCupRunFixtureResult(state, fixture.id);
+};
+
+export const simulateNextWorldCupRunUserFixture = (state: WorldCupRunState) => {
+  const fixture = getPendingWorldCupRunUserFixture(state);
+  if (!fixture || fixture.stage === "final" || state.status !== "active") return state;
+  if (fixture.stage !== "group") return recordQuickFixture(state, fixture);
+
+  // A group-stage click represents a tournament matchday, not an isolated
+  // Trophy XI game. Resolving all 24 fixtures keeps every table in lockstep
+  // and guarantees every nation has played three times when Matchday 3 ends.
+  let resolved = state;
+  const matchdayFixtures = state.fixtures.filter(
+    (candidate) =>
+      candidate.stage === "group" &&
+      candidate.matchday === fixture.matchday &&
+      !candidate.result,
+  );
+  for (const matchdayFixture of matchdayFixtures) {
+    resolved = recordQuickFixture(resolved, matchdayFixture);
+  }
+  return resolved;
+};
+
+export const simulateRemainingWorldCupRunGroup = (state: WorldCupRunState) => {
+  if (state.currentStage !== "group" || state.qualificationStatus !== "pending") return state;
+  let resolved = state;
+  for (const fixture of state.fixtures.filter((candidate) => candidate.stage === "group" && !candidate.result)) {
+    resolved = recordQuickFixture(resolved, fixture);
+  }
+  return resolved;
+};
+
+export const simulateRemainingWorldCupRunRound = (state: WorldCupRunState) => {
+  if (
+    state.currentStage === "group" ||
+    state.currentStage === "final" ||
+    state.currentStage === "complete" ||
+    state.status !== "active"
+  ) return state;
+  let resolved = state;
+  for (const fixture of getCurrentWorldCupRunFixtures(state).filter((candidate) => !candidate.result)) {
+    resolved = recordQuickFixture(resolved, fixture);
+  }
+  return resolved;
+};
+
+/** Compatibility helper for result recording and deterministic domain tests. */
+export const resolvePendingWorldCupRunCpuFixtures = (state: WorldCupRunState) => {
   let resolved = state;
   while (resolved.currentStage !== "complete") {
-    const currentFixtures = getCurrentWorldCupRunFixtures(resolved);
-    const pendingUserFixture = getPendingWorldCupRunUserFixture(resolved);
-    const pendingCpuFixtures = currentFixtures.filter((fixture) => {
-      if (
-        fixture.result ||
-        [fixture.homeTeamId, fixture.awayTeamId].includes(
-          resolved.userTeamId,
-        )
-      ) {
-        return false;
-      }
-      if (
-        resolved.currentStage === "group" &&
-        pendingUserFixture?.matchday
-      ) {
-        return (
-          (fixture.matchday ?? Number.MAX_SAFE_INTEGER) <=
-          pendingUserFixture.matchday
-        );
-      }
-      return true;
-    });
-    if (pendingCpuFixtures.length === 0) break;
+    const pendingCpuFixtures = getCurrentWorldCupRunFixtures(resolved).filter(
+      (fixture) =>
+        !fixture.result &&
+        ![fixture.homeTeamId, fixture.awayTeamId].includes(resolved.userTeamId),
+    );
+    if (!pendingCpuFixtures.length) break;
     for (const fixture of pendingCpuFixtures) {
       resolved = recordWorldCupRunFixtureResult(resolved, fixture.id);
     }

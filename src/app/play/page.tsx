@@ -39,12 +39,6 @@ export default function PlayPage() {
   const router = useRouter();
   const [pendingModeId, setPendingModeId] = useState<GameMode | null>(null);
   const hydrated = useGameStore((state) => state.hasHydrated);
-  const gameMode = useGameStore((state) => state.gameMode);
-  const eraId = useGameStore((state) => state.eraId);
-  const managerId = useGameStore((state) => state.managerId);
-  const formationId = useGameStore((state) => state.formationId);
-  const matchResult = useGameStore((state) => state.matchResult);
-  const worldCupRun = useGameStore((state) => state.worldCupRun);
   const selectGameMode = useGameStore((state) => state.selectGameMode);
 
   if (!hydrated) {
@@ -56,32 +50,22 @@ export default function PlayPage() {
     );
   }
 
-  const resumeRoute = matchResult
-    ? "/result"
-    : gameMode === "world-cup-run" && worldCupRun
-      ? "/play/world-cup-run"
-    : !eraId
-      ? "/play/era"
-      : !managerId
-        ? "/play/manager"
-        : !formationId
-          ? "/play/formation"
-          : gameMode === "free-selection"
-            ? "/play/free-selection"
-            : "/play/draft";
-  const savedMode = modes.find((mode) => mode.id === gameMode);
+  const selectedMode = modes.find((mode) => mode.id === pendingModeId);
 
   return (
     <div className="game-page game-page--stadium">
       <GameHeader step="MODE / 00" />
       <main className={`container game-main ${styles.main}`}>
-        <section className={styles.screen} aria-labelledby="mode-title">
+        <section
+          className={styles.screen}
+          aria-labelledby="mode-title"
+        >
           <div className={styles.intro}>
-            <p className="eyebrow eyebrow--gold">THE TROPHY ROOM</p>
-            <h1 id="mode-title">Choose your challenge.</h1>
+            <p className="eyebrow eyebrow--gold">CHOOSE YOUR MODE</p>
+            <h1 id="mode-title">How will you build your XI?</h1>
             <p>
-              Draft under pressure, assemble your own archive XI, or chase the
-              trophy across a complete tournament.
+              Draft under pressure, select your team freely, or take your XI
+              through a complete World Cup run.
             </p>
           </div>
 
@@ -107,27 +91,24 @@ export default function PlayPage() {
                   <span className={styles.icon} aria-hidden>
                     <Icon size={25} />
                   </span>
-                  <span>
+                  <span className={styles.cardCopy}>
                     <strong>{mode.title}</strong>
                     <small id={`${mode.id}-description`}>{mode.subtitle}</small>
                   </span>
-                  <span className={styles.cardState} aria-hidden>
-                    {isSelected ? <Check size={18} /> : null}
-                  </span>
+                  {isSelected && (
+                    <span className={styles.selectedBadge} aria-hidden>
+                      <Check size={13} strokeWidth={2.6} />
+                    </span>
+                  )}
                 </button>
               );
             })}
           </div>
 
-          <div className={styles.confirm}>
-            <span aria-live="polite">
-              <small>SELECTED MODE</small>
-              <strong>
-                {pendingModeId
-                  ? modes.find((mode) => mode.id === pendingModeId)?.title
-                  : "CHOOSE A MODE ABOVE"}
-              </strong>
-            </span>
+          <div className={styles.actionRow}>
+            <strong aria-live="polite">
+              {selectedMode?.title ?? "Choose a mode"}
+            </strong>
             <Button
               disabled={!pendingModeId}
               onClick={() => {
@@ -136,27 +117,10 @@ export default function PlayPage() {
                 router.push("/play/era");
               }}
             >
-              {pendingModeId
-                ? `CONFIRM ${
-                    modes.find((mode) => mode.id === pendingModeId)?.title
-                  }`
-                : "CONFIRM SELECTION"}
+              CONTINUE
               <ArrowRight size={16} aria-hidden />
             </Button>
           </div>
-
-          {savedMode && (
-            <div className={styles.resume}>
-              <span>
-                <small>SAVED RUN</small>
-                <strong>{savedMode.title}</strong>
-              </span>
-              <Button onClick={() => router.push(resumeRoute)}>
-                RESUME {savedMode.title}
-                <ArrowRight size={16} aria-hidden />
-              </Button>
-            </div>
-          )}
         </section>
       </main>
     </div>

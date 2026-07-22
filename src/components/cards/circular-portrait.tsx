@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { UserRound } from "lucide-react";
 import { imagesById } from "@/data/player-images";
 import { assetUrl } from "@/lib/assets";
 import { flagForCountry } from "@/lib/utils";
@@ -62,7 +63,9 @@ export function CircularPortrait({
               tournamentYear ? ` ${tournamentYear}` : ""
             } portrait`}
           >
+            <UserRound aria-hidden />
             <b>{initials || "XI"}</b>
+            <small>IDENTITY</small>
             <i>
               {countryCode ? flagForCountry(countryCode) : "✦"}{" "}
               {tournamentYear ?? ""}

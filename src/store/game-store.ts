@@ -4,7 +4,11 @@ import { create } from "zustand";
 import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
 import { calculateEraFit } from "@/data/eras";
 import { formations, getFormation } from "@/data/formations";
-import { draftEligibleManagers, managersById } from "@/data/managers";
+import {
+  canonicalManagerIdFor,
+  draftEligibleManagers,
+  managersById,
+} from "@/data/managers";
 import { historicalOpponentsById } from "@/data/opponents";
 import { draftEligiblePlayers, players, playersById } from "@/data/players";
 import {
@@ -26,9 +30,13 @@ import { calculateTeamRatings } from "@/engine/ratings";
 import { simulateMatch } from "@/engine/simulation";
 import {
   createWorldCupRun,
+  enterWorldCupRunKnockouts,
   getPendingWorldCupRunUserFixture,
   recordWorldCupRunUserResult,
   resolvePendingWorldCupRunCpuFixtures,
+  simulateNextWorldCupRunUserFixture,
+  simulateRemainingWorldCupRunGroup,
+  simulateRemainingWorldCupRunRound,
   type WorldCupRunState,
 } from "@/engine/world-cup-run";
 import {
@@ -50,7 +58,7 @@ import type {
   PositionFitPreview,
 } from "@/types/game";
 
-const SAVE_VERSION = 8;
+const SAVE_VERSION = 9;
 
 export type OpponentFilters = {
   query: string;
@@ -142,6 +150,10 @@ type GameStore = {
   startWorldCupRun: () => void;
   restartWorldCupRun: () => void;
   continueWorldCupRun: () => void;
+  simulateWorldCupRunMatch: () => void;
+  simulateWorldCupRunGroup: () => void;
+  simulateWorldCupRunRound: () => void;
+  enterWorldCupRunKnockouts: () => void;
   setOpponentFilters: (filters: Partial<OpponentFilters>) => void;
   selectOpponent: (id: string) => void;
   resetDraft: () => void;
@@ -419,9 +431,9 @@ export const useGameStore = create<GameStore>()(
       },
       selectManager: (managerId) => {
         const state = get();
+        if (state.managerId === managerId) return;
         if (
           !state.eraId ||
-          state.managerLocked ||
           !state.managerOptionIds.includes(managerId) ||
           !managersById.has(managerId)
         ) {
@@ -437,6 +449,7 @@ export const useGameStore = create<GameStore>()(
               );
         set({
           managerId,
+          managerLocked: false,
           originalFormationOptionIds: formationOptionIds,
           formationOptionIds,
           formationRespinRemaining:
@@ -458,13 +471,12 @@ export const useGameStore = create<GameStore>()(
         });
       },
       lockManager: () => {
-        if (get().managerId) set({ managerLocked: true });
+        if (get().managerId) set({ managerLocked: false });
       },
       respinManagers: () => {
         const state = get();
         if (
           !state.eraId ||
-          state.managerId ||
           state.managerRespinRemaining !== 1 ||
           state.managerOptionIds.length !== 3
         ) {
@@ -482,6 +494,18 @@ export const useGameStore = create<GameStore>()(
           ),
           managerRespinRemaining: 0,
           managerRespinIndex: 1,
+          managerId: null,
+          managerLocked: false,
+          originalFormationOptionIds: [],
+          formationOptionIds: [],
+          formationId: null,
+          picks: [],
+          benchPicks: [],
+          optionIds: [],
+          selectedPlayerId: null,
+          selectedSlotId: null,
+          projectedPositionFits: [],
+          lastPlacementFeedback: null,
         });
       },
       respinFormations: () => {
@@ -540,7 +564,7 @@ export const useGameStore = create<GameStore>()(
         );
         set({
           formationId,
-          managerLocked: true,
+          managerLocked: false,
           picks: [],
           benchPicks: [],
           draftPhase: "starters",
@@ -654,10 +678,13 @@ export const useGameStore = create<GameStore>()(
           slotLabel: slot.label,
           fit: preview.fit,
           penaltyPercent: preview.penaltyPercent,
-          eraFit: calculateEraFit(player, state.eraId, {
-            manager,
-            formation,
-          }),
+          eraFit:
+            state.eraId === "all"
+              ? 0
+              : calculateEraFit(player, state.eraId, {
+                  manager,
+                  formation,
+                }),
           managerFit: projectedRatings.managerFit,
           chemistryChange:
             projectedRatings.chemistry - currentRatings.chemistry,
@@ -1037,31 +1064,30 @@ export const useGameStore = create<GameStore>()(
               .map((pick) => pick.cardId)
               .join("|")}`,
           );
-        let worldCupRun = createWorldCupRun({
+        const worldCupRun = createWorldCupRun({
           seed,
           userTeamId: "trophy-xi",
           teams: [
             {
               id: "trophy-xi",
               name: "Trophy XI",
+              countryCode: "TXI",
               rating: userRatings.overall,
             },
             ...selectedOpponents.map((opponent) => ({
               id: opponent.id,
-              name: opponent.tournamentYear
-                ? `${opponent.nationName} ${opponent.tournamentYear}`
-                : opponent.nationName,
+              name: opponent.nationName,
+              countryCode: opponent.nationCode,
               rating: opponent.ratings.overall,
+              isChampion: opponent.tournamentFinish === "champion",
             })),
           ],
         });
-        worldCupRun =
-          resolvePendingWorldCupRunCpuFixtures(worldCupRun);
         set({
           worldCupRun,
           worldCupRunOpponents: selectedOpponents,
           draftPhase: "opponent",
-          selectedOpponentId: pendingOpponentIdForRun(worldCupRun),
+          selectedOpponentId: null,
           matchResult: null,
         });
       },
@@ -1083,9 +1109,46 @@ export const useGameStore = create<GameStore>()(
           return;
         }
         set({
-          selectedOpponentId: pendingOpponentIdForRun(
-            state.worldCupRun,
-          ),
+          selectedOpponentId:
+            state.worldCupRun.currentStage === "final"
+              ? pendingOpponentIdForRun(state.worldCupRun)
+              : null,
+          matchResult: null,
+        });
+      },
+      simulateWorldCupRunMatch: () => {
+        const state = get();
+        if (state.gameMode !== "world-cup-run" || !state.worldCupRun) return;
+        set({
+          worldCupRun: simulateNextWorldCupRunUserFixture(state.worldCupRun),
+          selectedOpponentId: null,
+          matchResult: null,
+        });
+      },
+      simulateWorldCupRunGroup: () => {
+        const state = get();
+        if (state.gameMode !== "world-cup-run" || !state.worldCupRun) return;
+        set({
+          worldCupRun: simulateRemainingWorldCupRunGroup(state.worldCupRun),
+          selectedOpponentId: null,
+          matchResult: null,
+        });
+      },
+      simulateWorldCupRunRound: () => {
+        const state = get();
+        if (state.gameMode !== "world-cup-run" || !state.worldCupRun) return;
+        set({
+          worldCupRun: simulateRemainingWorldCupRunRound(state.worldCupRun),
+          selectedOpponentId: null,
+          matchResult: null,
+        });
+      },
+      enterWorldCupRunKnockouts: () => {
+        const state = get();
+        if (state.gameMode !== "world-cup-run" || !state.worldCupRun) return;
+        set({
+          worldCupRun: enterWorldCupRunKnockouts(state.worldCupRun),
+          selectedOpponentId: null,
           matchResult: null,
         });
       },
@@ -1104,12 +1167,6 @@ export const useGameStore = create<GameStore>()(
         }
         const opponent = opponentForState(selectedOpponentId, state);
         if (!opponent) return;
-        const draftedIdentities = usedIdentityIdsForState(state);
-        const opponentIdentities = [
-          ...opponent.startingLineup,
-          ...opponent.substitutes,
-        ].map((player) => player.playerIdentityId);
-        if (opponentIdentities.some((id) => draftedIdentities.has(id))) return;
         set({ selectedOpponentId, matchResult: null });
       },
       resetDraft: () => {
@@ -1218,14 +1275,6 @@ export const useGameStore = create<GameStore>()(
         const manager = managersById.get(state.managerId);
         const opponent = opponentForState(state.selectedOpponentId, state);
         if (!manager || !opponent) throw new Error("Match context is unavailable");
-        const opponentIdentities = new Set(
-          [...opponent.startingLineup, ...opponent.substitutes].map(
-            (player) => player.playerIdentityId,
-          ),
-        );
-        if (allIdentityIds.some((id) => opponentIdentities.has(id))) {
-          throw new Error("The saved squad conflicts with the opponent lineup");
-        }
         const simulationNonce = state.simulationNonce + 1;
         const seed = hashString(
           `${state.draftSeed}:${state.picks
@@ -1299,7 +1348,6 @@ export const useGameStore = create<GameStore>()(
           const persistedOpponentIds = new Set(
             opponents.map((opponent) => opponent.id),
           );
-          const squadIdentityIds = usedIdentityIdsForState(state);
           const invalidField =
             opponents.length !== WORLD_CUP_RUN_OPPONENT_COUNT ||
             persistedOpponentIds.size !==
@@ -1311,13 +1359,7 @@ export const useGameStore = create<GameStore>()(
             opponents.some(
               (opponent) =>
                 !runOpponentIds.has(opponent.id) ||
-                !isActiveWorldCupRunOpponent(opponent) ||
-                [
-                  ...opponent.startingLineup,
-                  ...opponent.substitutes,
-                ].some((player) =>
-                  squadIdentityIds.has(player.playerIdentityId),
-                ),
+                !isActiveWorldCupRunOpponent(opponent),
             );
           if (invalidField) {
             set({
@@ -1429,21 +1471,11 @@ export const useGameStore = create<GameStore>()(
         const opponent = state.selectedOpponentId
           ? opponentForState(state.selectedOpponentId, state)
           : undefined;
-        const squadIdentities = usedIdentityIdsForState(state);
-        const opponentConflict = opponent
-          ? [...opponent.startingLineup, ...opponent.substitutes].some((player) =>
-              squadIdentities.has(player.playerIdentityId),
-            )
-          : false;
-        if (
-          state.selectedOpponentId &&
-          (!opponent || opponentConflict)
-        ) {
+        if (state.selectedOpponentId && !opponent) {
           set({
             selectedOpponentId: null,
             matchResult: null,
-            saveNotice:
-              "The saved opponent was unavailable or shared a player identity with your squad and has been cleared.",
+            saveNotice: "The saved opponent was unavailable and has been cleared.",
           });
           return;
         }
@@ -1526,16 +1558,26 @@ export const useGameStore = create<GameStore>()(
               "Playable World Cup All-Stars was removed. Your era is preserved; choose one of three tournament managers to begin a normal draft.",
           };
         }
+        const migratedManagerId = previous.managerId
+          ? canonicalManagerIdFor(previous.managerId)
+          : null;
         const managerId =
-          previous.managerId && managersById.has(previous.managerId)
-            ? previous.managerId
+          migratedManagerId && managersById.has(migratedManagerId)
+            ? migratedManagerId
             : null;
+        const savedManagerOptionIds = [
+          ...new Set(
+            (previous.managerOptionIds ?? [])
+              .map(canonicalManagerIdFor)
+              .filter((id) => managersById.has(id)),
+          ),
+        ];
         const managerOptionIds =
           eraId && !managerId
             ? gameMode === "free-selection"
               ? draftEligibleManagers.map((manager) => manager.id)
               : managerOptionsFor(eraId, draftSeed)
-            : previous.managerOptionIds ?? [];
+            : savedManagerOptionIds;
         const originalFormationOptionIds =
           previous.originalFormationOptionIds?.length
             ? previous.originalFormationOptionIds
@@ -1550,12 +1592,17 @@ export const useGameStore = create<GameStore>()(
           gameMode,
           eraId,
           managerId,
-          managerLocked:
-            previous.managerLocked ?? Boolean(previous.formationId),
+          managerLocked: false,
           draftSeed,
           originalManagerOptionIds:
             previous.originalManagerOptionIds?.length
-              ? previous.originalManagerOptionIds
+              ? [
+                  ...new Set(
+                    previous.originalManagerOptionIds
+                      .map(canonicalManagerIdFor)
+                      .filter((id) => managersById.has(id)),
+                  ),
+                ]
               : managerOptionIds,
           managerOptionIds,
           managerRespinRemaining:

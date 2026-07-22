@@ -7,8 +7,8 @@ describe("PlayerDatabase", () => {
     render(<PlayerDatabase />);
 
     expect(screen.getByRole("heading", { name: "Player Database" })).toBeVisible();
-    expect(screen.getByText("Cards").parentElement).toHaveTextContent("629");
-    expect(screen.getByText("Identities").parentElement).toHaveTextContent("287");
+    expect(screen.getByText("Cards").parentElement).toHaveTextContent("1376");
+    expect(screen.getByText("Identities").parentElement).toHaveTextContent("676");
 
     fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
       target: { value: "Lionel Messi" },

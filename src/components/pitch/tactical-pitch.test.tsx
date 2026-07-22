@@ -158,12 +158,16 @@ describe("TacticalPitch", () => {
     expect(leftBack).toHaveClass("pitch-node--fit-green");
     expect(leftBack).toHaveClass("pitch-node--near-left");
     expect(leftBack).not.toHaveTextContent("−0%");
-    expect(
-      screen.getByRole("button", { name: /LCB\. Adaptable, 82 percent/i }),
-    ).toHaveClass("pitch-node--fit-yellow");
-    expect(
-      screen.getByRole("button", { name: /RCB\. Awkward Fit, 58 percent/i }),
-    ).toHaveClass("pitch-node--fit-red");
+    const leftCenterBack = screen.getByRole("button", {
+      name: /CB\. Adaptable, 82 percent/i,
+    });
+    expect(leftCenterBack).toHaveClass("pitch-node--fit-yellow");
+    expect(leftCenterBack).not.toHaveClass("pitch-node--fit-label-above");
+    const rightCenterBack = screen.getByRole("button", {
+      name: /CB\. Awkward Fit, 58 percent/i,
+    });
+    expect(rightCenterBack).toHaveClass("pitch-node--fit-red");
+    expect(rightCenterBack).not.toHaveClass("pitch-node--fit-label-above");
     const incompatibleGoalkeeperSlot = screen.getByRole("button", {
       name: /GK\. Incompatible, 0 percent/i,
     });
@@ -173,7 +177,11 @@ describe("TacticalPitch", () => {
     );
     expect(incompatibleGoalkeeperSlot).toHaveClass("pitch-node--near-bottom");
     expect(incompatibleGoalkeeperSlot.querySelector(".pitch-node__fit"))
-      .toHaveTextContent("POSITION FIT0%Incompatible");
+      .toHaveTextContent("GK0%");
+    expect(incompatibleGoalkeeperSlot).toHaveAttribute(
+      "title",
+      expect.stringMatching(/Incompatible, 0 percent/i),
+    );
   });
 
   it("previews exact slots on hover and keyboard focus without moving nodes", async () => {
@@ -249,12 +257,11 @@ describe("TacticalPitch", () => {
     expect(goalkeeperSlot).toHaveClass("pitch-node--near-bottom");
     expect(goalkeeperSlot).toHaveClass("pitch-node--goalkeeper");
     expect(goalkeeperSlot).toHaveAttribute("data-slot-position", "GK");
-    for (const centerBack of ["LCB", "CB", "RCB"]) {
-      const node = screen.getByRole("button", {
-        name: new RegExp(`^${centerBack}: empty`, "i"),
-      });
+    for (const node of screen.getAllByRole("button", {
+      name: /^CB: empty/i,
+    })) {
       expect(node).toHaveClass("pitch-node--low-center-back");
-      expect(node).toHaveAttribute("data-slot-position", centerBack);
+      expect(node).toHaveAttribute("data-slot-position", "CB");
     }
     expect(goalkeeperSlot).not.toHaveTextContent("−0%");
     const coordinates = {

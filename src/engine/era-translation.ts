@@ -12,10 +12,10 @@ export const calculateOpponentEraFit = (
   opponent: HistoricalWorldCupTeam,
   eraId: DraftEraId,
 ) => {
+  if (eraId === "all") return 0;
   if (opponent.kind === "all-stars") {
     return calculateWorldCupAllStarsEraFit(eraId, opponent);
   }
-  if (eraId === "all") return 98;
   const era = getDraftEra(eraId);
   const decadeDistance =
     Math.abs((opponent.tournamentYear ?? era.midpointYear) - era.midpointYear) /

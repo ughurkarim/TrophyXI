@@ -49,7 +49,7 @@ export type PlayerFitContext = {
   assignedSlot: string;
   positionFit: number | null;
   placementPenalty: number | null;
-  eraTranslation: number;
+  eraTranslation: number | null;
   eraImpact?: number;
   managerFit: number;
   chemistryContribution: number | null;
@@ -134,12 +134,8 @@ export function PlayerDetails({
       activePlayer.tournamentFinish &&
         activePlayer.tournamentFinishSource,
     );
-  const hasCareerSource = Boolean(
-    activePlayer.careerStats &&
-      /^https?:\/\//.test(activePlayer.careerStats.sourceUrl),
-  );
   const careerStats =
-    activePlayer.careerStats && hasCareerSource
+    activePlayer.careerStats
       ? careerStatLabels.filter(
           ([key]) =>
             typeof activePlayer.careerStats?.[key] === "number",
@@ -296,10 +292,18 @@ export function PlayerDetails({
                   <dd>−{activeFitContext.placementPenalty}%</dd>
                 </div>
               )}
-              <div>
-                <dt>Era Fit</dt>
-                <dd>{activeFitContext.eraTranslation}</dd>
-              </div>
+              {activeFitContext.eraTranslation !== null && (
+                <div>
+                  <dt>Era Fit</dt>
+                  <dd>{activeFitContext.eraTranslation}</dd>
+                </div>
+              )}
+              {activeFitContext.eraTranslation === null && (
+                <div>
+                  <dt>Match environment</dt>
+                  <dd>Neutral — no era modifier</dd>
+                </div>
+              )}
               {Boolean(activeFitContext.eraImpact) && (
                 <div>
                   <dt>Era Impact</dt>

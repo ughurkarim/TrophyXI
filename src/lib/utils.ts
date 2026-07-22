@@ -35,7 +35,7 @@ export const flagForCountry = (countryCode: string) => {
     DZA: "🇩🇿",
     DEN: "🇩🇰",
     DNK: "🇩🇰",
-    ENG: "🏴",
+    ENG: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
     ECU: "🇪🇨",
     EGY: "🇪🇬",
     ESP: "🇪🇸",

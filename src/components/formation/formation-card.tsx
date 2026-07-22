@@ -12,12 +12,14 @@ export function FormationCard({
   onSelect,
   managerFit,
   eraFit,
+  showEraFit = true,
 }: {
   formation: Formation;
   selected: boolean;
   onSelect: () => void;
   managerFit: number;
   eraFit: number;
+  showEraFit?: boolean;
 }) {
   return (
     <button
@@ -29,10 +31,10 @@ export function FormationCard({
       )}
       onClick={onSelect}
       aria-pressed={selected}
-      aria-label={`Choose ${formation.name} formation, Manager Fit ${managerFit}, Era Fit ${eraFit}`}
+      aria-label={`Choose ${formation.name} formation, Manager Fit ${managerFit}${showEraFit ? `, Era Fit ${eraFit}` : ""}`}
       data-formation-id={formation.id}
       data-manager-fit={managerFit}
-      data-era-fit={eraFit}
+      data-era-fit={showEraFit ? eraFit : undefined}
     >
       <div className={cn("formation-card__top", styles.top)}>
         <span className={styles.identity}>
@@ -62,17 +64,24 @@ export function FormationCard({
           </span>
         ))}
       </div>
-      <div className={styles.fitGrid}>
+      <div className={styles.fitGrid} data-single={!showEraFit}>
         <div className={styles.fitBlock} data-fit-kind="manager">
           <span>Manager Fit</span>
           <strong>{managerFit}</strong>
           <small>/100</small>
         </div>
-        <div className={styles.fitBlock} data-fit-kind="era">
-          <span>Era Fit</span>
-          <strong>{eraFit}</strong>
-          <small>/100</small>
-        </div>
+        {showEraFit && (
+          <div className={styles.fitBlock} data-fit-kind="era">
+            <span>Era Fit</span>
+            <strong>{eraFit}</strong>
+            <small>/100</small>
+          </div>
+        )}
+        {!showEraFit && (
+          <small className={styles.neutralNote}>
+            Neutral era — no era modifier.
+          </small>
+        )}
       </div>
     </button>
   );
