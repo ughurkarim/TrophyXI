@@ -9,6 +9,7 @@ import { historicalOpponents, worldCupAllStars } from "@/data/opponents";
 import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
+import { assetUrl } from "@/lib/assets";
 import type {
   DraftEraId,
   HistoricalLineupPlayer,
@@ -439,24 +440,39 @@ const championPresentations: Record<
   number,
   { player: string; image: string; blurb: string }
 > = {
-  2026: { player: "Lamine Yamal", image: "/assets/opponent/lamine2026.png", blurb: "Yamal's fearless right-wing creativity drove Spain through seven straight wins and to a second world title." },
-  2022: { player: "Lionel Messi", image: "/assets/opponent/messi2022.png", blurb: "Messi led Argentina through an opening shock and lifted the trophy after a final for the ages." },
-  2018: { player: "Paul Pogba", image: "/assets/opponent/pogba2018.png", blurb: "Pogba commanded the final and crowned France's devastating transition game with the decisive third goal." },
-  2014: { player: "Mario Götze", image: "/assets/opponent/gotze2014.png", blurb: "Götze's extra-time finish sealed Germany's fourth title at the end of a relentless campaign." },
-  2010: { player: "Andrés Iniesta", image: "/assets/opponent/iniesta2010.png", blurb: "Iniesta's extra-time strike completed Spain's control-heavy recovery from defeat in their opening match." },
-  2006: { player: "Andrea Pirlo", image: "/assets/opponent/pirlo2006.png", blurb: "Pirlo orchestrated Italy's unbeaten run and set the tempo for a side that conceded only twice." },
-  2002: { player: "Ronaldo Nazário", image: "/assets/winners/2002.webp?opponent-gallery=v2", blurb: "Ronaldo scored eight as Brazil won seven straight matches and secured a fifth star." },
-  1998: { player: "Zinedine Zidane", image: "/assets/winners/1998.jpeg?opponent-gallery=v2", blurb: "Zidane's two final headers turned France's home tournament into a first world title." },
-  1994: { player: "Romário", image: "/assets/winners/1994.webp?opponent-gallery=v2", blurb: "Romário's movement and finishing ended Brazil's 24-year wait for the trophy." },
-  1990: { player: "Lothar Matthäus", image: "/assets/winners/1990.jpg?opponent-gallery=v2", blurb: "Matthäus drove West Germany's structured control on the road to a third title." },
-  1986: { player: "Diego Maradona", image: "/assets/winners/1986.jpeg?opponent-gallery=v2", blurb: "Maradona delivered one of football's defining individual tournament campaigns." },
-  1982: { player: "Paolo Rossi", image: "/assets/winners/1982.jpg?opponent-gallery=v2", blurb: "Rossi's six goals powered Italy's knockout surge and earned him the Golden Boot." },
-  1978: { player: "Daniel Passarella", image: "/assets/winners/1978.jpeg?opponent-gallery=v2", blurb: "Passarella captained Argentina's intense home triumph and first world championship." },
-  1974: { player: "Franz Beckenbauer", image: "/assets/winners/1974.jpeg?opponent-gallery=v2", blurb: "Beckenbauer's sweeper authority guided West Germany through a comeback in the final." },
-  1970: { player: "Pelé", image: "/assets/winners/1970.png?opponent-gallery=v2", blurb: "Pelé completed his third triumph as Brazil won every match with fluid attacking brilliance." },
+  2026: { player: "Lamine Yamal", image: "/assets/players/opponent/yamal2026.png", blurb: "Yamal's fearless right-wing creativity drove Spain through seven straight wins and to a second world title." },
+  2022: { player: "Lionel Messi", image: "/assets/players/opponent/messi2022.png", blurb: "Messi led Argentina through an opening shock and lifted the trophy after a final for the ages." },
+  2018: { player: "Paul Pogba", image: "/assets/players/opponent/pogba2018.png", blurb: "Pogba commanded the final and crowned France's devastating transition game with the decisive third goal." },
+  2014: { player: "Mario Götze", image: "/assets/players/opponent/gotze2014.png", blurb: "Götze's extra-time finish sealed Germany's fourth title at the end of a relentless campaign." },
+  2010: { player: "Andrés Iniesta", image: "/assets/players/opponent/iniesta2010.png", blurb: "Iniesta's extra-time strike completed Spain's control-heavy recovery from defeat in their opening match." },
+  2006: { player: "Andrea Pirlo", image: "/assets/players/opponent/pirlo2006.png", blurb: "Pirlo orchestrated Italy's unbeaten run and set the tempo for a side that conceded only twice." },
+  2002: { player: "Ronaldo Nazário", image: "/assets/players/opponent/ronaldo2002.png", blurb: "Ronaldo scored eight as Brazil won seven straight matches and secured a fifth star." },
+  1998: { player: "Zinedine Zidane", image: "/assets/players/opponent/zidane1998.png", blurb: "Zidane's two final headers turned France's home tournament into a first world title." },
+  1994: { player: "Romário", image: "/assets/players/opponent/romario1994.png", blurb: "Romário's movement and finishing ended Brazil's 24-year wait for the trophy." },
+  1990: { player: "Lothar Matthäus", image: "/assets/players/opponent/matthaus1990.png", blurb: "Matthäus drove West Germany's structured control on the road to a third title." },
+  1986: { player: "Diego Maradona", image: "/assets/players/opponent/maradona1986.png", blurb: "Maradona delivered one of football's defining individual tournament campaigns." },
+  1982: { player: "Paolo Rossi", image: "/assets/players/opponent/rossi1982.png", blurb: "Rossi's six goals powered Italy's knockout surge and earned him the Golden Boot." },
+  1978: { player: "Daniel Passarella", image: "/assets/players/opponent/passarella1978.png", blurb: "Passarella captained Argentina's intense home triumph and first world championship." },
+  1974: { player: "Franz Beckenbauer", image: "/assets/players/opponent/beckenbauer1974.png", blurb: "Beckenbauer's sweeper authority guided West Germany through a comeback in the final." },
+  1970: { player: "Pelé", image: "/assets/players/opponent/pele1970.png", blurb: "Pelé completed his third triumph as Brazil won every match with fluid attacking brilliance." },
 };
 
-const championPresentationFor = (opponent: HistoricalWorldCupTeam) =>
-  opponent.tournamentYear
-    ? championPresentations[opponent.tournamentYear]
-    : undefined;
+const championPresentationFor = (
+  opponent: HistoricalWorldCupTeam
+) => {
+  if (!opponent.tournamentYear) {
+    return undefined;
+  }
+
+  const presentation =
+    championPresentations[opponent.tournamentYear];
+
+  if (!presentation) {
+    return undefined;
+  }
+
+  return {
+    ...presentation,
+    image: assetUrl(presentation.image),
+  };
+};
