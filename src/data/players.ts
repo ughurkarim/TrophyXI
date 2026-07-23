@@ -618,12 +618,199 @@ for (const [identityId, tournaments] of Object.entries(
   }
 }
 
+const worldCup2026PlayerStats: Record<
+  string,
+  {
+    appearances: number;
+    starts: number;
+    goals: number;
+    assists: number;
+  }
+> = {
+  "rodri-2026": { appearances: 8, starts: 8, goals: 0, assists: 0 },
+  "unai-simon-2026": { appearances: 8, starts: 8, goals: 0, assists: 0 },
+  "pau-cubarsi-2026": { appearances: 8, starts: 8, goals: 0, assists: 0 },
+  "lamine-yamal-2026": { appearances: 8, starts: 7, goals: 1, assists: 0 },
+  "mikel-oyarzabal-2026": { appearances: 8, starts: 8, goals: 5, assists: 1 },
+  "ferran-torres-2026": { appearances: 8, starts: 1, goals: 1, assists: 1 },
+  "aymeric-laporte-2026": { appearances: 8, starts: 8, goals: 0, assists: 1 },
+  "marc-cucurella-2026": { appearances: 8, starts: 8, goals: 0, assists: 2 },
+  "pedro-porro-2026": { appearances: 6, starts: 6, goals: 2, assists: 0 },
+  "fabian-ruiz-2026": { appearances: 8, starts: 4, goals: 1, assists: 0 },
+  "dani-olmo-2026": { appearances: 8, starts: 6, goals: 0, assists: 2 },
+  "nico-williams-2026": { appearances: 6, starts: 0, goals: 0, assists: 1 },
+
+  "lionel-messi-2026": { appearances: 8, starts: 7, goals: 8, assists: 4 },
+  "emiliano-martinez-2026": { appearances: 8, starts: 8, goals: 0, assists: 0 },
+  "enzo-fernandez-2026": { appearances: 7, starts: 7, goals: 2, assists: 0 },
+  "julian-alvarez-2026": { appearances: 8, starts: 5, goals: 1, assists: 0 },
+  "lautaro-martinez-2026": { appearances: 7, starts: 4, goals: 3, assists: 1 },
+  "alexis-mac-allister-2026": { appearances: 8, starts: 7, goals: 1, assists: 1 },
+  "rodrigo-de-paul-2026": { appearances: 7, starts: 6, goals: 0, assists: 1 },
+  "cristian-romero-2026": { appearances: 7, starts: 7, goals: 1, assists: 0 },
+  "nicolas-otamendi-2026": { appearances: 7, starts: 1, goals: 0, assists: 0 },
+  "nico-paz-2026": { appearances: 2, starts: 1, goals: 0, assists: 0 },
+
+  "kylian-mbappe-2026": { appearances: 8, starts: 8, goals: 10, assists: 4 },
+  "michael-olise-2026": { appearances: 8, starts: 8, goals: 0, assists: 7 },
+  "ousmane-dembele-2026": { appearances: 8, starts: 7, goals: 6, assists: 2 },
+  "desire-doue-2026": { appearances: 8, starts: 4, goals: 1, assists: 1 },
+  "aurelien-tchouameni-2026": { appearances: 4, starts: 4, goals: 0, assists: 1 },
+  "william-saliba-2026": { appearances: 6, starts: 6, goals: 0, assists: 0 },
+  "ibrahima-konate-2026": { appearances: 2, starts: 1, goals: 0, assists: 0 },
+  "theo-hernandez-2026": { appearances: 5, starts: 3, goals: 0, assists: 0 },
+
+  "jude-bellingham-2026": { appearances: 8, starts: 7, goals: 7, assists: 1 },
+  "harry-kane-2026": { appearances: 7, starts: 7, goals: 6, assists: 1 },
+  "bukayo-saka-2026": { appearances: 7, starts: 3, goals: 3, assists: 3 },
+  "declan-rice-2026": { appearances: 7, starts: 7, goals: 1, assists: 2 },
+  "anthony-gordon-2026": { appearances: 6, starts: 5, goals: 1, assists: 3 },
+  "nico-oreilly-2026": { appearances: 7, starts: 5, goals: 0, assists: 0 },
+  "jordan-pickford-2026": { appearances: 7, starts: 7, goals: 0, assists: 0 },
+  "marc-guehi-2026": { appearances: 8, starts: 7, goals: 0, assists: 0 },
+  "ezri-konsa-2026": { appearances: 8, starts: 7, goals: 1, assists: 0 },
+
+  "erling-haaland-2026": { appearances: 5, starts: 5, goals: 7, assists: 0 },
+  "martin-odegaard-2026": { appearances: 5, starts: 5, goals: 0, assists: 4 },
+  "antonio-nusa-2026": { appearances: 6, starts: 4, goals: 1, assists: 0 },
+  "oscar-bobb-2026": { appearances: 6, starts: 1, goals: 0, assists: 0 },
+  "alexander-sorloth-2026": { appearances: 5, starts: 5, goals: 0, assists: 0 },
+  "patrick-berg-2026": { appearances: 6, starts: 4, goals: 0, assists: 2 },
+
+  "achraf-hakimi-2026": { appearances: 6, starts: 6, goals: 1, assists: 2 },
+  "brahim-diaz-2026": { appearances: 6, starts: 6, goals: 0, assists: 4 },
+  "yassine-bounou-2026": { appearances: 6, starts: 6, goals: 0, assists: 0 },
+  "neil-el-aynaoui-2026": { appearances: 6, starts: 6, goals: 0, assists: 0 },
+  "ayyoub-bouaddi-2026": { appearances: 5, starts: 5, goals: 0, assists: 0 },
+  "azzedine-ounahi-2026": { appearances: 6, starts: 5, goals: 2, assists: 0 },
+
+  "ismaila-sarr-2026": { appearances: 4, starts: 4, goals: 4, assists: 1 },
+  "iliman-ndiaye-2026": { appearances: 4, starts: 1, goals: 1, assists: 2 },
+  "sadio-mane-2026": { appearances: 4, starts: 4, goals: 0, assists: 1 },
+
+  "kevin-de-bruyne-2026": { appearances: 5, starts: 5, goals: 1, assists: 0 },
+  "thibaut-courtois-2026": { appearances: 6, starts: 6, goals: 0, assists: 0 },
+  "jeremy-doku-2026": { appearances: 5, starts: 4, goals: 0, assists: 0 },
+  "romelu-lukaku-2026": { appearances: 6, starts: 1, goals: 3, assists: 1 },
+  "amadou-onana-2026": { appearances: 4, starts: 2, goals: 0, assists: 0 },
+  "youri-tielemans-2026": { appearances: 5, starts: 5, goals: 2, assists: 0 },
+  "brandon-mechele-2026": { appearances: 6, starts: 6, goals: 0, assists: 0 },
+
+  "neymar-2026": { appearances: 1, starts: 0, goals: 1, assists: 0 },
+  "vinicius-junior-2026": { appearances: 5, starts: 5, goals: 4, assists: 1 },
+  "rodrygo-2026": { appearances: 0, starts: 0, goals: 0, assists: 0 },
+  "bruno-guimaraes-2026": { appearances: 5, starts: 5, goals: 0, assists: 4 },
+  "gabriel-magalhaes-2026": { appearances: 5, starts: 5, goals: 0, assists: 1 },
+  "lucas-paqueta-2026": { appearances: 4, starts: 4, goals: 0, assists: 1 },
+  "raphinha-2026": { appearances: 2, starts: 2, goals: 0, assists: 0 },
+  "alisson-2026": { appearances: 5, starts: 5, goals: 0, assists: 0 },
+
+  "cristiano-ronaldo-2026": { appearances: 5, starts: 5, goals: 3, assists: 0 },
+  "bruno-fernandes-2026": { appearances: 5, starts: 5, goals: 0, assists: 1 },
+  "bernardo-silva-2026": { appearances: 4, starts: 1, goals: 0, assists: 0 },
+  "rafael-leao-2026": { appearances: 5, starts: 1, goals: 1, assists: 1 },
+  "joao-neves-2026": { appearances: 5, starts: 4, goals: 1, assists: 0 },
+  "vitinha-2026": { appearances: 5, starts: 5, goals: 0, assists: 0 },
+  "ruben-dias-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+  "diogo-costa-2026": { appearances: 5, starts: 5, goals: 0, assists: 0 },
+
+  "florian-wirtz-2026": { appearances: 4, starts: 4, goals: 0, assists: 3 },
+  "jamal-musiala-2026": { appearances: 4, starts: 3, goals: 1, assists: 0 },
+  "joshua-kimmich-2026": { appearances: 4, starts: 4, goals: 0, assists: 2 },
+  "kai-havertz-2026": { appearances: 4, starts: 4, goals: 3, assists: 0 },
+  "deniz-undav-2026": { appearances: 4, starts: 1, goals: 3, assists: 2 },
+  "antonio-rudiger-2026": { appearances: 4, starts: 2, goals: 0, assists: 0 },
+  "marc-andre-ter-stegen-2026": { appearances: 0, starts: 0, goals: 0, assists: 0 },
+
+  "virgil-van-dijk-2026": { appearances: 4, starts: 4, goals: 1, assists: 1 },
+  "ryan-gravenberch-2026": { appearances: 4, starts: 4, goals: 0, assists: 2 },
+  "xavi-simons-2026": { appearances: 0, starts: 0, goals: 0, assists: 0 },
+  "cody-gakpo-2026": { appearances: 4, starts: 4, goals: 3, assists: 1 },
+  "crysencio-summerville-2026": { appearances: 4, starts: 2, goals: 2, assists: 2 },
+  "denzel-dumfries-2026": { appearances: 4, starts: 4, goals: 0, assists: 2 },
+
+  "mohamed-salah-2026": { appearances: 5, starts: 5, goals: 1, assists: 2 },
+  "omar-marmoush-2026": { appearances: 5, starts: 3, goals: 0, assists: 0 },
+
+  "christian-pulisic-2026": { appearances: 4, starts: 3, goals: 0, assists: 1 },
+  "folarin-balogun-2026": { appearances: 4, starts: 4, goals: 3, assists: 0 },
+  "chris-richards-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+  "weston-mckennie-2026": { appearances: 5, starts: 5, goals: 0, assists: 0 },
+  "tyler-adams-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+
+  "alphonso-davies-2026": { appearances: 1, starts: 0, goals: 0, assists: 0 },
+  "jonathan-david-2026": { appearances: 5, starts: 5, goals: 3, assists: 0 },
+  "derek-cornelius-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+  "nathan-saliba-2026": { appearances: 3, starts: 2, goals: 1, assists: 2 },
+
+  "santiago-gimenez-2026": { appearances: 4, starts: 0, goals: 0, assists: 0 },
+  "edson-alvarez-2026": { appearances: 4, starts: 2, goals: 0, assists: 0 },
+  "roberto-alvarado-2026": { appearances: 5, starts: 5, goals: 0, assists: 3 },
+  "gilberto-mora-2026": { appearances: 4, starts: 3, goals: 0, assists: 0 },
+
+  "luis-diaz-2026": { appearances: 5, starts: 5, goals: 1, assists: 1 },
+  "james-rodriguez-2026": { appearances: 5, starts: 5, goals: 0, assists: 0 },
+  "jhon-arias-2026": { appearances: 5, starts: 5, goals: 1, assists: 0 },
+
+  "julio-enciso-2026": { appearances: 5, starts: 5, goals: 1, assists: 2 },
+  "miguel-almiron-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+
+  "breel-embolo-2026": { appearances: 6, starts: 6, goals: 2, assists: 2 },
+  "granit-xhaka-2026": { appearances: 6, starts: 6, goals: 1, assists: 0 },
+  "manuel-akanji-2026": { appearances: 6, starts: 6, goals: 0, assists: 0 },
+  "johan-manzambi-2026": { appearances: 4, starts: 2, goals: 3, assists: 2 },
+
+  "alexander-isak-2026": { appearances: 4, starts: 4, goals: 1, assists: 3 },
+  "viktor-gyokeres-2026": { appearances: 4, starts: 4, goals: 1, assists: 2 },
+
+  "ramin-rezaeian-2026": { appearances: 3, starts: 3, goals: 2, assists: 1 },
+
+  "houssem-aouar-2026": { appearances: 3, starts: 2, goals: 0, assists: 2 },
+  "ramy-bensebaini-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+  "aissa-mandi-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+  "ibrahim-maza-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+
+  "vozinha-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+  "patrick-beach-2026": { appearances: 4, starts: 4, goals: 0, assists: 0 },
+  "eloy-room-2026": { appearances: 3, starts: 3, goals: 0, assists: 0 },
+
+  "arda-guler-2026": { appearances: 3, starts: 3, goals: 1, assists: 0 },
+  "kenan-yildiz-2026": { appearances: 3, starts: 2, goals: 0, assists: 0 },
+
+  "yan-diomande-2026": { appearances: 4, starts: 4, goals: 0, assists: 1 },
+
+  "abdukodir-khusanov-2026": { appearances: 3, starts: 3, goals: 0, assists: 0 },
+  "abbosbek-fayzullaev-2026": { appearances: 3, starts: 3, goals: 1, assists: 0 },
+
+  "giuliano-simeone-2026": { appearances: 3, starts: 2, goals: 0, assists: 0 },
+
+  "hannibal-mejbri-2026": { appearances: 3, starts: 3, goals: 0, assists: 2 },
+  "chris-wood-2026": { appearances: 3, starts: 3, goals: 0, assists: 2 },
+};
+
+const worldCup2026EvidenceByCardId = new Map<string, Evidence>(
+  Object.entries(worldCup2026PlayerStats).map(([id, stats]) => [
+    id,
+    {
+      stats,
+    },
+  ]),
+);
+
 const curatedEvidenceByCardId: Record<string, Evidence> = {
+  ...Object.fromEntries(
+    Object.entries(worldCup2026PlayerStats).map(([id, stats]) => [
+      id,
+      {
+        stats,
+        sources: [fifa2026StatsSource],
+      },
+    ]),
+  ),
   "james-rodriguez-2014": {
     stats: {
       appearances: 5,
       starts: 4,
-      minutes: 399,
       goals: 6,
       assists: 2,
     },
@@ -639,216 +826,293 @@ const curatedEvidenceByCardId: Record<string, Evidence> = {
     ],
   },
   "luka-modric-2018": {
-    stats: { appearances: 7, minutes: 694, goals: 2, assists: 1 },
-    sources: [fifa2018StatsSource],
-    achievements: [
-      achievement(
-        "golden-ball-2018",
-        "Golden Ball",
-        "Named the tournament’s best player by the FIFA Technical Study Group.",
-        0.45,
-        fifa2018AwardsSource,
-      ),
-    ],
+  stats: {
+    appearances: 7,
+    starts: 7,
+    goals: 2,
+    assists: 1,
   },
-  "thibaut-courtois-2018": {
-    stats: {
-      appearances: 7,
-      starts: 7,
-      minutes: 630,
-      saves: 27,
-      cleanSheets: 3,
-      goalsConceded: 6,
-      penaltiesSaved: 0,
-    },
-    sources: [fifa2018StatsSource],
-    achievements: [
-      achievement(
-        "golden-glove-2018",
-        "Golden Glove",
-        "Named the tournament’s outstanding goalkeeper.",
-        0.35,
-        fifa2018AwardsSource,
-      ),
-    ],
+  sources: [fifa2018StatsSource],
+  achievements: [
+    achievement(
+      "golden-ball-2018",
+      "Golden Ball",
+      "Named the tournament’s best player by the FIFA Technical Study Group.",
+      0.45,
+      fifa2018AwardsSource,
+    ),
+  ],
+},
+"thibaut-courtois-2018": {
+stats: {
+  appearances: 7,
+  starts: 7,
+  saves: 27,
+  cleanSheets: 3,
+  goalsConceded: 6,
+  penaltiesSaved: 0,
+},
+  sources: [fifa2018StatsSource],
+  achievements: [
+    achievement(
+      "golden-glove-2018",
+      "Golden Glove",
+      "Named the tournament’s outstanding goalkeeper.",
+      0.35,
+      fifa2018AwardsSource,
+    ),
+  ],
+},
+"kylian-mbappe-2018": {
+  stats: {
+    appearances: 7,
+    starts: 6,
+    goals: 4,
+    assists: 0,
   },
-  "kylian-mbappe-2018": {
-    stats: { goals: 4 },
-    sources: [fifa2018StatsSource],
-    achievements: [
-      achievement(
-        "young-player-2018",
-        "Young Player Award",
-        "Received FIFA’s Young Player Award at Russia 2018.",
-        0.3,
-        fifa2018AwardsSource,
-      ),
-    ],
+  sources: [fifa2018StatsSource],
+  achievements: [
+    achievement(
+      "young-player-2018",
+      "Young Player Award",
+      "Received FIFA’s Young Player Award at Russia 2018.",
+      0.3,
+      fifa2018AwardsSource,
+    ),
+  ],
+},
+"antoine-griezmann-2018": {
+  stats: {
+    appearances: 7,
+    starts: 7,
+    goals: 4,
+    assists: 2,
   },
-  "antoine-griezmann-2018": {
-    stats: { goals: 4, assists: 2 },
-    sources: [fifa2018AwardsSource],
-    achievements: [
-      achievement(
-        "bronze-ball-2018",
-        "Bronze Ball",
-        "Placed third in the tournament’s best-player voting.",
-        0.25,
-        fifa2018AwardsSource,
-      ),
-    ],
+  sources: [fifa2018AwardsSource],
+  achievements: [
+    achievement(
+      "bronze-ball-2018",
+      "Bronze Ball",
+      "Placed third in the tournament’s best-player voting.",
+      0.25,
+      fifa2018AwardsSource,
+    ),
+  ],
+},
+"harry-kane-2018": {
+  stats: {
+    appearances: 6,
+    starts: 6,
+    goals: 6,
+    assists: 0,
   },
-  "harry-kane-2018": {
-    stats: { goals: 6 },
-    sources: [fifa2018AwardsSource],
-    achievements: [
-      achievement(
-        "golden-boot-2018",
-        "Golden Boot",
-        "Finished as the tournament’s top scorer with six goals.",
-        0.35,
-        fifa2018AwardsSource,
-      ),
-    ],
-  },
+  sources: [fifa2018AwardsSource],
+  achievements: [
+    achievement(
+      "golden-boot-2018",
+      "Golden Boot",
+      "Finished as the tournament’s top scorer with six goals.",
+      0.35,
+      fifa2018AwardsSource,
+    ),
+  ],
+},
   "lionel-messi-2022": {
-    achievements: [
-      achievement(
-        "golden-ball-2022",
-        "Golden Ball",
-        "Named the best player of the 2022 tournament.",
-        0.45,
-        fifa2022AwardsSource,
-      ),
-    ],
+  stats: {
+    appearances: 7,
+    starts: 7,
+    goals: 7,
+    assists: 3,
   },
-  "kylian-mbappe-2022": {
-    achievements: [
-      achievement(
-        "golden-boot-2022",
-        "Golden Boot",
-        "Named the 2022 tournament’s top scorer.",
-        0.35,
-        fifa2022AwardsSource,
-      ),
-    ],
+  achievements: [
+    achievement(
+      "golden-ball-2022",
+      "Golden Ball",
+      "Named the best player of the 2022 tournament.",
+      0.45,
+      fifa2022AwardsSource,
+    ),
+  ],
+},
+"kylian-mbappe-2022": {
+  stats: {
+    appearances: 7,
+    starts: 6,
+    goals: 8,
+    assists: 2,
   },
-  "emiliano-martinez-2022": {
-    achievements: [
-      achievement(
-        "golden-glove-2022",
-        "Golden Glove",
-        "Named the outstanding goalkeeper of the 2022 tournament.",
-        0.35,
-        fifa2022AwardsSource,
-      ),
-    ],
+  achievements: [
+    achievement(
+      "golden-boot-2022",
+      "Golden Boot",
+      "Named the 2022 tournament’s top scorer.",
+      0.35,
+      fifa2022AwardsSource,
+    ),
+  ],
+},
+"emiliano-martinez-2022": {
+  stats: {
+    appearances: 7,
+    starts: 7,
+    goals: 0,
+    assists: 0,
   },
-  "enzo-fernandez-2022": {
-    achievements: [
-      achievement(
-        "young-player-2022",
-        "Young Player Award",
-        "Received FIFA’s Young Player Award at Qatar 2022.",
-        0.3,
-        fifa2022AwardsSource,
-      ),
-    ],
+  achievements: [
+    achievement(
+      "golden-glove-2022",
+      "Golden Glove",
+      "Named the outstanding goalkeeper of the 2022 tournament.",
+      0.35,
+      fifa2022AwardsSource,
+    ),
+  ],
+},
+"enzo-fernandez-2022": {
+  stats: {
+    appearances: 7,
+    starts: 5,
+    goals: 1,
+    assists: 1,
   },
-  "lionel-messi-2026": {
-    stats: {
-      goals: 8,
-      assists: 4,
-    },
-    sources: [fifa2026StatsSource, fifa2026MessiRecordSource],
-    achievements: [
-      achievement(
-        "world-cup-scoring-record-2026",
-        "World Cup scoring record",
-        "Became the FIFA World Cup’s all-time leading scorer during the 2026 tournament.",
-        0.35,
-        fifa2026MessiRecordSource,
-      ),
-    ],
+  achievements: [
+    achievement(
+      "young-player-2022",
+      "Young Player Award",
+      "Received FIFA’s Young Player Award at Qatar 2022.",
+      0.3,
+      fifa2022AwardsSource,
+    ),
+  ],
+},
+"lionel-messi-2026": {
+  stats: {
+    appearances: 8,
+    starts: 7,
+    goals: 8,
+    assists: 4,
   },
-  "cristiano-ronaldo-2026": {
-    stats: {
-      goals: 3,
-    },
-    sources: [fifa2026StatsSource, fifa2026RonaldoRecordSource],
-    achievements: [
-      achievement(
-        "scored-in-six-world-cups-2026",
-        "Scored in six World Cups",
-        "Became the first man to score in six FIFA World Cup editions.",
-        0.3,
-        fifa2026RonaldoRecordSource,
-      ),
-    ],
+  sources: [fifa2026StatsSource, fifa2026MessiRecordSource],
+  achievements: [
+    achievement(
+      "world-cup-scoring-record-2026",
+      "World Cup scoring record",
+      "Became the FIFA World Cup’s all-time leading scorer during the 2026 tournament.",
+      0.35,
+      fifa2026MessiRecordSource,
+    ),
+  ],
+},
+"cristiano-ronaldo-2026": {
+  stats: {
+    appearances: 5,
+    starts: 5,
+    goals: 3,
+    assists: 0,
   },
-  "rodri-2026": {
-    stats: { appearances: 8 },
-    sources: [fifa2026AwardsSource],
-    achievements: [
-      achievement(
-        "golden-ball-2026",
-        "Golden Ball",
-        "Named the outstanding player of the completed 2026 tournament.",
-        0.45,
-        fifa2026AwardsSource,
-      ),
-    ],
+  sources: [fifa2026StatsSource, fifa2026RonaldoRecordSource],
+  achievements: [
+    achievement(
+      "scored-in-six-world-cups-2026",
+      "Scored in six World Cups",
+      "Became the first man to score in six FIFA World Cup editions.",
+      0.3,
+      fifa2026RonaldoRecordSource,
+    ),
+  ],
+},
+"rodri-2026": {
+  stats: {
+    appearances: 8,
+    starts: 8,
+    goals: 0,
+    assists: 0,
   },
-  "kylian-mbappe-2026": {
-    stats: { appearances: 8, goals: 10 },
-    sources: [fifa2026AwardsSource],
-    achievements: [
-      achievement(
-        "golden-boot-2026",
-        "Golden Boot",
-        "Finished as the completed tournament’s leading scorer with ten goals.",
-        0.4,
-        fifa2026AwardsSource,
-      ),
-    ],
+  sources: [fifa2026AwardsSource],
+  achievements: [
+    achievement(
+      "golden-ball-2026",
+      "Golden Ball",
+      "Named the outstanding player of the completed 2026 tournament.",
+      0.45,
+      fifa2026AwardsSource,
+    ),
+  ],
+},
+"kylian-mbappe-2026": {
+  stats: {
+    appearances: 8,
+    starts: 8,
+    goals: 10,
+    assists: 4,
   },
-  "unai-simon-2026": {
-    stats: { appearances: 8, cleanSheets: 7, goalsConceded: 1 },
-    sources: [fifa2026AwardsSource],
-    achievements: [
-      achievement(
-        "golden-glove-2026",
-        "Golden Glove",
-        "Recorded seven clean sheets and received the Golden Glove.",
-        0.4,
-        fifa2026AwardsSource,
-      ),
-    ],
+  sources: [fifa2026AwardsSource],
+  achievements: [
+    achievement(
+      "golden-boot-2026",
+      "Golden Boot",
+      "Finished as the completed tournament’s leading scorer with ten goals.",
+      0.4,
+      fifa2026AwardsSource,
+    ),
+  ],
+},
+"unai-simon-2026": {
+  stats: {
+    appearances: 8,
+    starts: 8,
+    saves: 12,
+    cleanSheets: 7,
+    goalsConceded: 1,
+    penaltiesSaved: 0,
   },
-  "pau-cubarsi-2026": {
-    sources: [fifa2026AwardsSource],
-    achievements: [
-      achievement(
-        "young-player-2026",
-        "Young Player Award",
-        "Received the tournament’s Young Player Award.",
-        0.35,
-        fifa2026AwardsSource,
-      ),
-    ],
+  sources: [fifa2026AwardsSource],
+  achievements: [
+    achievement(
+      "golden-glove-2026",
+      "Golden Glove",
+      "Recorded seven clean sheets and received the Golden Glove.",
+      0.4,
+      fifa2026AwardsSource,
+    ),
+  ],
+},
+"pau-cubarsi-2026": {
+  stats: {
+    appearances: 8,
+    starts: 8,
+    goals: 0,
+    assists: 0,
   },
-  "jude-bellingham-2026": {
-    sources: [fifa2026AwardsSource],
-    achievements: [
-      achievement(
-        "bronze-boot-2026",
-        "Bronze Boot",
-        "Finished third in the tournament scoring award ranking.",
-        0.25,
-        fifa2026AwardsSource,
-      ),
-    ],
+  sources: [fifa2026AwardsSource],
+  achievements: [
+    achievement(
+      "young-player-2026",
+      "Young Player Award",
+      "Received the tournament’s Young Player Award.",
+      0.35,
+      fifa2026AwardsSource,
+    ),
+  ],
+},
+"jude-bellingham-2026": {
+  stats: {
+    appearances: 8,
+    starts: 7,
+    goals: 7,
+    assists: 1,
   },
+  sources: [fifa2026AwardsSource],
+  achievements: [
+    achievement(
+      "bronze-boot-2026",
+      "Bronze Boot",
+      "Finished third in the tournament scoring award ranking.",
+      0.25,
+      fifa2026AwardsSource,
+    ),
+  ],
+},
 };
 
 const championTournamentKeys = new Set([
@@ -907,19 +1171,21 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const base = defaultsFor(seed.primaryPosition, overall);
   const generatedEvidence = generatedEvidenceByCardId.get(seed.id) ?? {};
   const curatedEvidence = curatedEvidenceByCardId[seed.id] ?? {};
+  const worldCup2026Evidence = worldCup2026EvidenceByCardId.get(seed.id) ?? {};
   const evidence: Evidence = {
-    stats: {
-      ...generatedEvidence.stats,
-      ...curatedEvidence.stats,
-    },
-    sources: [
-      ...new Map(
-        [
-          ...(generatedEvidence.sources ?? []),
-          ...(curatedEvidence.sources ?? []),
-        ].map((source) => [source.url, source]),
-      ).values(),
-    ],
+stats: {
+  ...generatedEvidence.stats,
+  ...curatedEvidence.stats,
+  ...worldCup2026Evidence.stats,
+},
+sources: [
+  ...new Map(
+    [
+      ...(generatedEvidence.sources ?? []),
+      ...(curatedEvidence.sources ?? []),
+    ].map((source) => [source.url, source]),
+  ).values(),
+],
     achievements: [
       ...new Map(
         [
@@ -929,18 +1195,18 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
       ).values(),
     ],
   };
-  const stats: TournamentStatLine = {
-    appearances: null,
-    starts: null,
-    minutes: null,
-    goals: null,
-    assists: null,
-    cleanSheets: null,
-    saves: null,
-    goalsConceded: null,
-    penaltiesSaved: null,
-    ...evidence.stats,
-  };
+const stats: TournamentStatLine = {
+  appearances: null,
+  starts: null,
+  minutes: null,
+  goals: null,
+  assists: null,
+  saves: null,
+  cleanSheets: null,
+  goalsConceded: null,
+  penaltiesSaved: null,
+  ...evidence.stats,
+};
   const hasEvidenceField = (
     candidate: Evidence,
     key: keyof TournamentStatLine,
