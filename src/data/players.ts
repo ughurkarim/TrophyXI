@@ -4,6 +4,7 @@ import tournamentArchiveJson from "@/data/player-tournaments.generated.json";
 import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
 import { completed2026PlayerSeeds } from "@/data/player-tournaments-2026";
 import { historicalWorldCupTournamentStatsByCard } from "@/data/historical-world-cup-tournament-stats.by-card.generated";
+import { worldCup2026GoalkeeperStats } from "@/data/world-cup-2026-goalkeeper-stats.generated";
 import type {
   Confederation,
   DataCitation,
@@ -790,6 +791,16 @@ const worldCup2026PlayerStats: Record<
   "chris-wood-2026": { appearances: 3, starts: 3, goals: 0, assists: 2 },
 };
 
+const worldCup2026GoalkeeperEvidenceByCardId = new Map<string, Evidence>(
+  Object.entries(worldCup2026GoalkeeperStats).map(([id, stats]) => [
+    id,
+    {
+      stats,
+      sources: [fifa2026StatsSource],
+    },
+  ]),
+);
+
 const worldCup2026EvidenceByCardId = new Map<string, Evidence>(
   Object.entries(worldCup2026PlayerStats).map(([id, stats]) => [
     id,
@@ -1174,6 +1185,7 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const generatedEvidence = generatedEvidenceByCardId.get(seed.id) ?? {};
   const curatedEvidence = curatedEvidenceByCardId[seed.id] ?? {};
   const worldCup2026Evidence = worldCup2026EvidenceByCardId.get(seed.id) ?? {};
+  const worldCup2026GoalkeeperEvidence = worldCup2026GoalkeeperEvidenceByCardId.get(seed.id) ?? {};
   const historicalStats =
   historicalWorldCupTournamentStatsByCard[
     seed.id as keyof typeof historicalWorldCupTournamentStatsByCard
@@ -1184,12 +1196,15 @@ stats: {
   ...historicalStats,
   ...curatedEvidence.stats,
   ...worldCup2026Evidence.stats,
+  ...worldCup2026GoalkeeperEvidence.stats,
 },
 sources: [
   ...new Map(
     [
       ...(generatedEvidence.sources ?? []),
       ...(curatedEvidence.sources ?? []),
+      ...(worldCup2026Evidence.sources ?? []),
+      ...(worldCup2026GoalkeeperEvidence.sources ?? []),
     ].map((source) => [source.url, source]),
   ).values(),
 ],
@@ -1219,23 +1234,30 @@ const stats: TournamentStatLine = {
     key: keyof TournamentStatLine,
   ) => Object.prototype.hasOwnProperty.call(candidate.stats ?? {}, key);
   const statSourcesByField = Object.fromEntries(
-    (Object.keys(stats) as Array<keyof TournamentStatLine>)
-      .filter((key) => stats[key] !== null)
-      .map((key) => {
-        const source =
-          (hasEvidenceField(curatedEvidence, key)
-            ? curatedEvidence.sources?.[0]
-            : undefined) ??
-          generatedEvidence.sources?.[0];
-        return source ? [key, source] : null;
-      })
-      .filter(
-        (
-          entry,
-        ): entry is [keyof TournamentStatLine, DataCitation] =>
-          entry !== null,
-      ),
-  );
+  (Object.keys(stats) as Array<keyof TournamentStatLine>)
+    .filter((key) => stats[key] !== null)
+    .map((key) => {
+      const source =
+        (hasEvidenceField(worldCup2026GoalkeeperEvidence, key)
+          ? worldCup2026GoalkeeperEvidence.sources?.[0]
+          : undefined) ??
+        (hasEvidenceField(worldCup2026Evidence, key)
+          ? worldCup2026Evidence.sources?.[0]
+          : undefined) ??
+        (hasEvidenceField(curatedEvidence, key)
+          ? curatedEvidence.sources?.[0]
+          : undefined) ??
+        generatedEvidence.sources?.[0];
+
+      return source ? [key, source] : null;
+    })
+    .filter(
+      (
+        entry,
+      ): entry is [keyof TournamentStatLine, DataCitation] =>
+        entry !== null,
+    ),
+);
   const generatedTournament = tournamentArchive.identities[
     playerIdentityId
   ]?.find((item) => item.tournamentYear === seed.tournamentYear);
