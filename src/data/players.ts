@@ -3,6 +3,7 @@ import { playerCareerDataByIdentityId } from "@/data/player-career-data";
 import tournamentArchiveJson from "@/data/player-tournaments.generated.json";
 import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
 import { completed2026PlayerSeeds } from "@/data/player-tournaments-2026";
+import { historicalWorldCupTournamentStatsByCard } from "@/data/historical-world-cup-tournament-stats.by-card.generated";
 import type {
   Confederation,
   DataCitation,
@@ -296,6 +297,7 @@ const tournamentRatingOverrides: Record<string, number> = {
 "cristiano-ronaldo-2010": 84,
 "edinson-cavani-2010": 83,
 
+"tim-howard-2014": 87,
 "lionel-messi-2014": 96,
 "manuel-neuer-2014": 95,
 "arjen-robben-2014": 94,
@@ -1172,9 +1174,14 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const generatedEvidence = generatedEvidenceByCardId.get(seed.id) ?? {};
   const curatedEvidence = curatedEvidenceByCardId[seed.id] ?? {};
   const worldCup2026Evidence = worldCup2026EvidenceByCardId.get(seed.id) ?? {};
+  const historicalStats =
+  historicalWorldCupTournamentStatsByCard[
+    seed.id as keyof typeof historicalWorldCupTournamentStatsByCard
+  ] as Partial<TournamentStatLine> | undefined;
   const evidence: Evidence = {
 stats: {
   ...generatedEvidence.stats,
+  ...historicalStats,
   ...curatedEvidence.stats,
   ...worldCup2026Evidence.stats,
 },
