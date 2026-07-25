@@ -3,6 +3,7 @@ import path from "node:path";
 import { historicalOpponents } from "@/data/opponents";
 import type { DataCitation, HistoricalWorldCupTeam } from "@/types/game";
 
+
 const winnerImageDirectory = path.join(
   process.cwd(),
   "assets",
