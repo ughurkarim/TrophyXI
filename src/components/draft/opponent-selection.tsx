@@ -443,7 +443,7 @@ const championPresentations: Record<
   2026: { player: "Lamine Yamal", image: "/assets/players/opponent/yamalwin1.png", blurb: "Yamal's fearless right-wing creativity drove Spain through seven straight wins and to a second world title." },
   2022: { player: "Lionel Messi", image: "/assets/players/opponent/messiwin1.png", blurb: "Messi led Argentina through an opening shock and lifted the trophy after a final for the ages." },
   2018: { player: "Kylian Mbappé", image: "/assets/players/opponent/mbappewin1.png", blurb: "Kylian Mbappé became the second teenager to score in a World Cup final as France claimed its second title." },
-  2014: { player: "Mario Götze", image: "/assets/players/opponent/gotzewin1.png", blurb: "Götze's extra-time finish sealed Germany's fourth title at the end of a relentless campaign." },
+  2014: { player: "Mario Götze", image: "/assets/players/opponent/gotzewin2.png", blurb: "Götze's extra-time finish sealed Germany's fourth title at the end of a relentless campaign." },
   2010: { player: "Andrés Iniesta", image: "/assets/players/opponent/iniestawin1.png", blurb: "Iniesta's extra-time strike completed Spain's control-heavy recovery from defeat in their opening match." },
   2006: { player: "Andrea Pirlo", image: "/assets/players/opponent/pirlowin1.png", blurb: "Pirlo orchestrated Italy's unbeaten run and set the tempo for a side that conceded only twice." },
   2002: { player: "Ronaldo Nazário", image: "/assets/players/opponent/ronaldowin1.png", blurb: "Ronaldo scored eight as Brazil won seven straight matches and secured a fifth star." },
