@@ -11908,10 +11908,10 @@
         "appearances": 7,
         "starts": 7,
         "goals": 2,
-        "primaryPosition": "AM",
+        "primaryPosition": "CM",
         "eligiblePositions": [
-          "AM",
-          "CM"
+          "CM",
+          "AM"
         ],
         "awards": [
           {

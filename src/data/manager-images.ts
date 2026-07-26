@@ -50,7 +50,7 @@ const portraitSeeds: ManagerPortraitSeed[] = [
 { identityId: "kazimierz-gorski", sourceFile: "kazimierz-gorski.png", cacheVersion: "4da170190b01bb39" },
 { identityId: "rinus-michels", sourceFile: "rinus-michels.png", cacheVersion: "ef65a2817d990b3f" },
 { identityId: "guy-thys", sourceFile: "guy-thys.png", cacheVersion: "301d7c4dc8fc99c0" },
-{ identityId: "oscar-tabarez", sourceFile: "oscar-tabarez.png", cacheVersion: "31476c72d1692fee" },
+{ identityId: "oscar-tabarez", sourceFile: "oscar-tabarez.png", cacheVersion: "5f0c64a9df326ac1" },
 { identityId: "michel-hidalgo", sourceFile: "michel-hidalgo.png", cacheVersion: "5a6a5ce1a5d9618d" },
 { identityId: "rudi-voller", sourceFile: "rudi-voller.png", cacheVersion: "609f65cbe3980f04" },
 { identityId: "herve-renard", sourceFile: "herve-renard.png", cacheVersion: "cca43bc4edd2486d" },
