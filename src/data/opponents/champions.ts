@@ -78,26 +78,20 @@ const playerIdentityIdFor = (name: string) =>
 
 const roster = (
   rows: readonly string[],
-  overall: number,
-  bench = false,
+  ratings: Readonly<Record<string, number>>,
 ): HistoricalLineupPlayer[] =>
-  rows.map((row, index) => {
+  rows.map((row) => {
     const [sourcePlayerId, name, positionCode] = row.split("|");
-    const positionalAdjustment: Partial<Record<Position, number>> = {
-      GK: 1,
-      CB: 1,
-      DM: 1,
-      CF: 2,
-      ST: 2,
-    };
     const position = positionFor(positionCode);
-    // Trophy XI's individual historical estimates are intentionally separate
-    // from the sourced final XI. They are deterministic, bounded, and keep
-    // champion squads legible to the simulation without claiming official data.
-    const rating = Math.max(
-      72,
-      Math.min(99, overall + (bench ? -5 : 0) + (positionalAdjustment[position] ?? 0) - (index % 4)),
-    );
+    const rating = ratings[sourcePlayerId];
+
+    if (rating === undefined) {
+      throw new Error(`Missing champion player rating for ${sourcePlayerId} (${name})`);
+    }
+    if (rating < 72 || rating > 99) {
+      throw new Error(`Champion player rating out of bounds for ${sourcePlayerId}: ${rating}`);
+    }
+
     return {
       playerIdentityId: playerIdentityIdFor(name),
       sourcePlayerId,
@@ -106,6 +100,261 @@ const roster = (
       rating,
     };
   });
+
+type ChampionPlayerRatings = Readonly<Record<string, Readonly<Record<string, number>>>>;
+
+/**
+ * Trophy XI gameplay ratings for champion squads.
+ *
+ * These are deliberately tournament-specific, squad-relative estimates rather
+ * than official ratings. Explicit per-player values avoid accidental ordering
+ * from array position (for example Messi 2022 being rated below teammates).
+ */
+const championPlayerRatings: ChampionPlayerRatings = {
+  "brazil-1970": {
+    "P-39749": 89, // Félix
+    "P-59934": 89, // Brito
+    "P-02965": 90, // Piazza
+    "P-25829": 95, // Carlos Alberto
+    "P-14923": 92, // Clodoaldo
+    "P-77430": 97, // Jairzinho
+    "P-04354": 95, // Gérson
+    "P-53202": 94, // Tostão
+    "P-38906": 99, // Pelé
+    "P-85778": 95, // Rivellino
+    "P-27277": 88, // Everaldo
+    "P-15663": 86, // Marco Antônio
+    "P-47010": 84, // Ado
+    "P-97113": 86, // Roberto
+  },
+  "west-germany-1974": {
+    "P-14080": 94, // Sepp Maier
+    "P-69695": 92, // Berti Vogts
+    "P-48686": 94, // Paul Breitner
+    "P-66174": 89, // Hans-Georg Schwarzenbeck
+    "P-72864": 98, // Franz Beckenbauer
+    "P-48733": 90, // Jürgen Grabowski
+    "P-60896": 93, // Wolfgang Overath
+    "P-72441": 96, // Gerd Müller
+    "P-92173": 91, // Uli Hoeneß
+    "P-41102": 91, // Rainer Bonhof
+    "P-35602": 89, // Bernd Hölzenbein
+    "P-28162": 86, // Horst-Dieter Höttges
+    "P-89257": 87, // Herbert Wimmer
+    "P-44313": 85, // Bernhard Cullmann
+  },
+  "argentina-1978": {
+    "P-66254": 93, // Osvaldo Ardiles
+    "P-61157": 91, // Daniel Bertoni
+    "P-25276": 94, // Ubaldo Fillol
+    "P-99593": 89, // Américo Gallego
+    "P-03905": 88, // Luis Galván
+    "P-35082": 97, // Mario Kempes
+    "P-26640": 91, // Leopoldo Luque
+    "P-06976": 88, // Jorge Olguín
+    "P-34830": 87, // Oscar Ortiz
+    "P-80376": 95, // Daniel Passarella
+    "P-54098": 90, // Alberto Tarantini
+    "P-04739": 87, // René Houseman
+    "P-23168": 85, // Omar Larrosa
+    "P-44317": 86, // Norberto Alonso
+  },
+  "italy-1982": {
+    "P-48831": 95, // Dino Zoff
+    "P-29143": 90, // Giuseppe Bergomi
+    "P-03775": 92, // Antonio Cabrini
+    "P-30672": 89, // Fulvio Collovati
+    "P-21248": 93, // Claudio Gentile
+    "P-99788": 95, // Gaetano Scirea
+    "P-75736": 89, // Gabriele Oriali
+    "P-93788": 94, // Marco Tardelli
+    "P-66365": 93, // Bruno Conti
+    "P-16875": 87, // Francesco Graziani
+    "P-91717": 97, // Paolo Rossi
+    "P-44349": 87, // Franco Causio
+    "P-46574": 89, // Alessandro Altobelli
+    "P-42920": 86, // Franco Baresi
+  },
+  "argentina-1986": {
+    "P-22408": 89, // Sergio Batista
+    "P-62815": 89, // José Luis Brown
+    "P-95267": 94, // Jorge Burruchaga
+    "P-22755": 87, // José Luis Cuciuffo
+    "P-80404": 99, // Diego Maradona
+    "P-02464": 93, // Jorge Valdano
+    "P-70033": 90, // Héctor Enrique
+    "P-49676": 89, // Ricardo Giusti
+    "P-46907": 88, // Julio Olarticoechea
+    "P-15637": 88, // Nery Pumpido
+    "P-79080": 92, // Oscar Ruggeri
+    "P-65092": 85, // Marcelo Trobbiani
+    "P-83449": 84, // Sergio Almirón
+    "P-60363": 86, // Ricardo Bochini
+  },
+  "west-germany-1990": {
+    "P-59164": 92, // Bodo Illgner
+    "P-67713": 95, // Andreas Brehme
+    "P-83968": 93, // Jürgen Kohler
+    "P-23204": 90, // Klaus Augenthaler
+    "P-51921": 91, // Guido Buchwald
+    "P-89975": 91, // Pierre Littbarski
+    "P-77552": 90, // Thomas Häßler
+    "P-04572": 93, // Rudi Völler
+    "P-49502": 98, // Lothar Matthäus
+    "P-59388": 88, // Thomas Berthold
+    "P-91373": 94, // Jürgen Klinsmann
+    "P-74629": 87, // Stefan Reuter
+    "P-03526": 84, // Frank Mill
+    "P-70770": 83, // Raimond Aumann
+  },
+  "brazil-1994": {
+    "P-31850": 93, // Cláudio Taffarel
+    "P-26340": 90, // Jorginho
+    "P-12551": 92, // Mauro Silva
+    "P-90842": 90, // Branco
+    "P-68671": 94, // Bebeto
+    "P-32466": 92, // Dunga
+    "P-12418": 87, // Zinho
+    "P-61251": 98, // Romário
+    "P-56505": 91, // Aldair
+    "P-07679": 89, // Márcio Santos
+    "P-78793": 88, // Mazinho
+    "P-91718": 88, // Cafu
+    "P-81097": 85, // Viola
+    "P-61247": 84, // Ricardo Rocha
+  },
+  "france-1998": {
+    "P-56735": 92, // Bixente Lizarazu
+    "P-80680": 91, // Youri Djorkaeff
+    "P-61954": 93, // Didier Deschamps
+    "P-79380": 94, // Marcel Desailly
+    "P-26820": 85, // Stéphane Guivarc'h
+    "P-56430": 97, // Zinedine Zidane
+    "P-56947": 96, // Lilian Thuram
+    "P-55991": 93, // Fabien Barthez
+    "P-40400": 92, // Emmanuel Petit
+    "P-19907": 88, // Frank Leboeuf
+    "P-28482": 89, // Christian Karembeu
+    "P-96540": 89, // Patrick Vieira
+    "P-10738": 86, // Alain Boghossian
+    "P-74065": 87, // Christophe Dugarry
+  },
+  "brazil-2002": {
+    "P-64377": 91, // Marcos
+    "P-91718": 94, // Cafu
+    "P-42918": 92, // Lúcio
+    "P-66308": 87, // Roque Júnior
+    "P-09270": 90, // Edmílson
+    "P-85176": 94, // Roberto Carlos
+    "P-45956": 91, // Gilberto Silva
+    "P-62722": 99, // Ronaldo
+    "P-74261": 97, // Rivaldo
+    "P-57361": 95, // Ronaldinho
+    "P-79283": 89, // Kléberson
+    "P-79146": 88, // Denílson
+    "P-20389": 87, // Juninho Paulista
+    "P-57975": 85, // Ricardinho
+  },
+  "italy-2006": {
+    "P-11392": 97, // Gianluigi Buffon
+    "P-99473": 92, // Fabio Grosso
+    "P-88863": 98, // Fabio Cannavaro
+    "P-18164": 92, // Gennaro Gattuso
+    "P-96512": 88, // Luca Toni
+    "P-42038": 92, // Francesco Totti
+    "P-22378": 89, // Mauro Camoranesi
+    "P-42227": 94, // Gianluca Zambrotta
+    "P-57529": 88, // Simone Perrotta
+    "P-99537": 95, // Andrea Pirlo
+    "P-37126": 91, // Marco Materazzi
+    "P-65802": 89, // Daniele De Rossi
+    "P-83836": 91, // Alessandro Del Piero
+    "P-38599": 86, // Vincenzo Iaquinta
+  },
+  "spain-2010": {
+    "P-61793": 96, // Iker Casillas
+    "P-64348": 92, // Gerard Piqué
+    "P-51089": 94, // Carles Puyol
+    "P-56330": 96, // Andrés Iniesta
+    "P-49097": 95, // David Villa
+    "P-29415": 97, // Xavi
+    "P-47753": 88, // Joan Capdevila
+    "P-73924": 92, // Xabi Alonso
+    "P-89177": 93, // Sergio Ramos
+    "P-28010": 93, // Sergio Busquets
+    "P-78418": 89, // Pedro
+    "P-71661": 88, // Fernando Torres
+    "P-81297": 91, // Cesc Fàbregas
+    "P-69284": 88, // Jesús Navas
+  },
+  "germany-2014": {
+    "P-19408": 97, // Manuel Neuer
+    "P-54036": 88, // Benedikt Höwedes
+    "P-81447": 93, // Mats Hummels
+    "P-43400": 94, // Bastian Schweinsteiger
+    "P-12818": 91, // Mesut Özil
+    "P-27787": 90, // Miroslav Klose
+    "P-28154": 95, // Thomas Müller
+    "P-18599": 95, // Philipp Lahm
+    "P-39356": 94, // Toni Kroos
+    "P-04224": 92, // Jérôme Boateng
+    "P-42177": 85, // Christoph Kramer
+    "P-46979": 92, // André Schürrle
+    "P-02328": 87, // Per Mertesacker
+    "P-63673": 91, // Mario Götze
+  },
+  "france-2018": {
+    "P-30711": 92, // Hugo Lloris
+    "P-60652": 90, // Benjamin Pavard
+    "P-42326": 94, // Raphaël Varane
+    "P-67297": 92, // Samuel Umtiti
+    "P-17509": 93, // Paul Pogba
+    "P-90908": 96, // Antoine Griezmann
+    "P-89750": 88, // Olivier Giroud
+    "P-64077": 95, // Kylian Mbappé
+    "P-98287": 95, // N'Golo Kanté
+    "P-04964": 89, // Blaise Matuidi
+    "P-84424": 91, // Lucas Hernandez
+    "P-54461": 88, // Corentin Tolisso
+    "P-69451": 87, // Steven Nzonzi
+    "P-20754": 86, // Nabil Fekir
+  },
+  "argentina-2022": {
+    "P-35173": 88, // Nicolás Tagliafico
+    "P-37314": 90, // Rodrigo De Paul
+    "P-19776": 93, // Julián Álvarez
+    "P-14758": 99, // Lionel Messi
+    "P-42113": 94, // Ángel Di María
+    "P-79650": 91, // Cristian Romero
+    "P-49114": 90, // Nicolás Otamendi
+    "P-71343": 91, // Alexis Mac Allister
+    "P-13162": 95, // Emiliano Martínez
+    "P-10739": 92, // Enzo Fernández
+    "P-84430": 89, // Nahuel Molina
+    "P-91431": 88, // Gonzalo Montiel
+    "P-27582": 88, // Leandro Paredes
+    "P-29298": 86, // Germán Pezzella
+    "P-73712": 89, // Marcos Acuña
+    "P-28151": 87, // Paulo Dybala
+    "P-81505": 87, // Lautaro Martínez
+  },
+  "spain-2026": {
+    "ESP26-01": 91, // Unai Simón
+    "ESP26-02": 89, // Pedro Porro
+    "ESP26-03": 89, // Robin Le Normand
+    "ESP26-04": 92, // Pau Cubarsí
+    "ESP26-05": 91, // Marc Cucurella
+    "ESP26-06": 96, // Rodri
+    "ESP26-07": 95, // Pedri
+    "ESP26-08": 93, // Dani Olmo
+    "ESP26-09": 98, // Lamine Yamal
+    "ESP26-10": 90, // Mikel Oyarzabal
+    "ESP26-11": 94, // Nico Williams
+    "ESP26-12": 93, // Fabián Ruiz
+    "ESP26-13": 92, // Gavi
+    "ESP26-14": 88, // Ferran Torres
+  },
+};
 
 type ChampionDefinition = {
   id: string;
@@ -340,7 +589,7 @@ const spain2026Champion: HistoricalWorldCupTeam = {
       "ESP26-10|Mikel Oyarzabal|CF",
       "ESP26-11|Nico Williams|LW",
     ],
-    93,
+    championPlayerRatings["spain-2026"],
   ),
   substitutes: roster(
     [
@@ -348,8 +597,7 @@ const spain2026Champion: HistoricalWorldCupTeam = {
       "ESP26-13|Gavi|CM",
       "ESP26-14|Ferran Torres|FW",
     ],
-    93,
-    true,
+    championPlayerRatings["spain-2026"],
   ),
   tacticalProfile:
     "Relentless positional control, fearless wing isolation, and coordinated pressure led by Yamal's right-sided creativity.",
@@ -388,6 +636,9 @@ export const championOpponents: HistoricalWorldCupTeam[] = [
     if (!archiveTeam || !manager) {
       throw new Error(`Incomplete champion definition: ${definition.id}`);
     }
+    if (!championPlayerRatings[definition.id]) {
+      throw new Error(`Missing champion player ratings: ${definition.id}`);
+    }
     return {
       ...archiveTeam,
       kind: "historical" as const,
@@ -401,8 +652,14 @@ export const championOpponents: HistoricalWorldCupTeam[] = [
       alternateFormations: manager.acceptableFormations.filter(
         (formation) => formation !== definition.formation,
       ),
-      startingLineup: roster(definition.starters, archiveTeam.ratings.overall),
-      substitutes: roster(definition.substitutes, archiveTeam.ratings.overall, true),
+      startingLineup: roster(
+        definition.starters,
+        championPlayerRatings[definition.id],
+      ),
+      substitutes: roster(
+        definition.substitutes,
+        championPlayerRatings[definition.id],
+      ),
       tacticalProfile: definition.tacticalProfile,
       sources: [historicalOpponentSource, finalLineupSource, rosterSource],
       finalLineupSource,
