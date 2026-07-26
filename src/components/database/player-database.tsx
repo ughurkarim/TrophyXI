@@ -19,6 +19,12 @@ const unique = (values: string[]) =>
     first.localeCompare(second),
   );
 
+const normalizeSearchText = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase();
+
 const ratingMatches = (rating: number, filter: string) => {
   if (!filter) return true;
   const [minimum, maximum] = filter.split("-").map(Number);
@@ -39,13 +45,14 @@ export function PlayerDatabase() {
     useState<PlayerTournamentCard | null>(null);
 
   const filtered = useMemo(() => {
-    const normalizedQuery = query.trim().toLocaleLowerCase();
+    const normalizedQuery = normalizeSearchText(query.trim());
     const matching = draftEligiblePlayers.filter((player) => {
+      const searchableText = normalizeSearchText(
+        `${player.playerName} ${player.countryName} ${player.countryCode}`,
+      );
+
       return (
-        (!normalizedQuery ||
-          `${player.playerName} ${player.countryName} ${player.countryCode}`
-            .toLocaleLowerCase()
-            .includes(normalizedQuery)) &&
+        (!normalizedQuery || searchableText.includes(normalizedQuery)) &&
         (!nation || player.countryCode === nation) &&
         (!year || String(player.tournamentYear) === year) &&
         (!position || player.primaryPosition === position) &&
