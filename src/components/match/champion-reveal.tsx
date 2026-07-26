@@ -242,7 +242,21 @@ function TeamIdentity({
       animate={{ opacity: launching ? 0.75 : ready ? 1 : 0.36, x: launching ? (side === "user" ? -24 : 24) : 0 }}
       transition={{ duration: reduceMotion ? 0 : 0.45 }}
     >
-      <span className={side === "user" ? "team-reveal__monogram" : "team-reveal__flag"}>{crest}</span>
+      <span
+  className={side === "user" ? "team-reveal__monogram" : "team-reveal__flag"}
+  style={
+    side === "opponent"
+      ? {
+          display: "grid",
+          placeItems: "center",
+          textAlign: "center",
+          lineHeight: 1,
+        }
+      : undefined
+  }
+>
+  {crest}
+</span>
       <p>{eyebrow}</p>
       {side === "user" ? <h1 id="reveal-title">{name}</h1> : <h2>{name}</h2>}
     </motion.article>
