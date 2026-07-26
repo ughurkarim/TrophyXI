@@ -160,18 +160,50 @@ export default function FreeSelectionPage() {
   const needs = formation.slots.filter((slot) => !picks.some((pick) => pick.slotId === slot.id)).map((slot) => slot.label);
   const nationOptions = [...new Map(draftEligiblePlayers.map((player) => [player.countryCode, player.countryName])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
 
-  const selectTarget = (nextTarget: string) => {
-    setTargetId(nextTarget);
-    setFilledTarget(null);
-    setQuery("");
-    setViewAll(false);
-  };
   const placePlayer = () => {
     if (!selectedPlayer) return;
     if (targetBench) assignFreeBenchPlayer(selectedPlayer.id, targetBench);
     else if (targetSlot && activePreview?.canPlace) placeSelectedPlayer(targetSlot.id);
     setTargetId(null);
     setFilledTarget(null);
+  };
+
+  const clearPickedPlayerForNewTarget = (nextTarget: string) => {
+    if (nextTarget !== targetId && selectedPlayerId) {
+      // selectPlayer toggles the currently selected card off.
+      selectPlayer(selectedPlayerId);
+    }
+  };
+
+  const selectTarget = (nextTarget: string) => {
+    const isCurrentTarget = nextTarget === targetId;
+
+    if (
+      isCurrentTarget &&
+      selectedPlayer &&
+      ((targetBench && nextTarget === targetBench) ||
+        (targetSlot?.id === nextTarget && activePreview?.canPlace))
+    ) {
+      placePlayer();
+      return;
+    }
+
+    clearPickedPlayerForNewTarget(nextTarget);
+    setTargetId(nextTarget);
+    setFilledTarget(null);
+    setQuery("");
+    setViewAll(false);
+  };
+
+  const selectFilledTarget = (
+    nextTarget: string,
+    player: PlayerTournamentCard,
+  ) => {
+    clearPickedPlayerForNewTarget(nextTarget);
+    setTargetId(nextTarget);
+    setFilledTarget({ targetId: nextTarget, player });
+    setQuery("");
+    setViewAll(false);
   };
 
   return (
@@ -191,13 +223,13 @@ export default function FreeSelectionPage() {
         <section className={styles.workspace} aria-label="Squad building workspace">
           <section className={styles.pitchPanel}>
             <div className={styles.pitchAura}>
-              <TacticalPitch formation={formation} lineup={lineup} picks={picks} fitPreviews={selectedPlayer ? fitPreviews : []} activeSlotId={targetSlot?.id} selectedSlotId={targetSlot?.id} onSelectSlot={selectTarget} onSelectFilledSlot={(slotId, player) => { setTargetId(slotId); setFilledTarget({ targetId: slotId, player }); }} />
+              <TacticalPitch formation={formation} lineup={lineup} picks={picks} fitPreviews={selectedPlayer ? fitPreviews : []} activeSlotId={targetSlot?.id} selectedSlotId={targetSlot?.id} goalkeeperYCap={86} onSelectSlot={selectTarget} onSelectFilledSlot={selectFilledTarget} />
             </div>
             <div className={styles.benchSlots} aria-label="Bench slots">
               {benchSlots.map((slotId, index) => {
                 const pick = benchPicks.find((candidate) => candidate.slotId === slotId);
                 const player = pick ? playersById.get(pick.cardId) : undefined;
-                return <button type="button" key={slotId} className={targetId === slotId ? styles.activeBench : ""} onClick={() => player ? (setTargetId(slotId), setFilledTarget({ targetId: slotId, player })) : selectTarget(slotId)}><span className={styles.benchNumber}>B{index + 1}</span>{player ? <><CircularPortrait imageId={player.imageId} subjectName={player.playerName} era={player.era} statusTier={player.statusTier} countryCode={player.countryCode} tournamentYear={player.tournamentYear} size="compact" /><span className={styles.benchIdentity} title={`${player.playerName} · ${player.overall} · ${player.tournamentYear}`}><b>{player.playerName.split(" ").at(-1)}</b><small>{player.primaryPosition} · {player.overall} OVR · {player.tournamentYear}</small></span></> : <span className={styles.benchIdentity}><b>OPEN BENCH</b><small>SELECT ANY PLAYER</small></span>}</button>;
+                return <button type="button" key={slotId} className={[targetId === slotId ? styles.activeBench : "", !player ? styles.emptyBench : ""].filter(Boolean).join(" ")} onClick={() => player ? selectFilledTarget(slotId, player) : selectTarget(slotId)}><span className={styles.benchNumber}>B{index + 1}</span>{player ? <><CircularPortrait imageId={player.imageId} subjectName={player.playerName} era={player.era} statusTier={player.statusTier} countryCode={player.countryCode} tournamentYear={player.tournamentYear} size="compact" /><span className={styles.benchIdentity} title={`${player.playerName} · ${player.overall} · ${player.tournamentYear}`}><b>{player.playerName.split(" ").at(-1)}</b><small>{player.primaryPosition} · {player.overall} OVR · {player.tournamentYear}</small></span></> : <span className={styles.benchIdentity}><b>OPEN BENCH</b><small>SELECT ANY PLAYER</small></span>}</button>;
               })}
             </div>
             {lineup.length >= 4 ? <TeamRatings ratings={ratings} /> : <p className={styles.ratingsPending}>TEAM RATINGS ACTIVATE AFTER FOUR STARTERS</p>}

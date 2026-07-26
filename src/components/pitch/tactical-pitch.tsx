@@ -21,6 +21,7 @@ export function TacticalPitch({
   onInspectPlayer,
   onSelectFilledSlot,
   onPreviewSlot,
+  goalkeeperYCap,
 }: {
   formation: Formation;
   lineup?: PlayerTournamentCard[];
@@ -34,6 +35,7 @@ export function TacticalPitch({
   onInspectPlayer?: (player: PlayerTournamentCard) => void;
   onSelectFilledSlot?: (slotId: string, player: PlayerTournamentCard) => void;
   onPreviewSlot?: (slotId: string | null) => void;
+  goalkeeperYCap?: number;
 }) {
   return (
     <div className={cn("pitch", compact && "pitch--compact")}>
@@ -46,6 +48,10 @@ export function TacticalPitch({
       </div>
       {formation.slots.map((slot, index) => {
         const isGoalkeeper = slot.position === "GK";
+        const visualY =
+          isGoalkeeper && goalkeeperYCap !== undefined
+            ? Math.min(slot.y, goalkeeperYCap)
+            : slot.y;
         const isLowCenterBack =
           slot.y >= 75 &&
           (slot.position === "CB" ||
@@ -80,7 +86,6 @@ export function TacticalPitch({
           isGoalkeeper && "pitch-node--goalkeeper",
           isLowCenterBack && "pitch-node--low-center-back",
           slot.y >= 80 && "pitch-node--near-bottom",
-          fitPreview && isGoalkeeper && "pitch-node--fit-label-above",
           fitPreview?.feasibilityBlocked && "pitch-node--feasibility-blocked",
         );
         const ariaLabel = player
@@ -121,18 +126,17 @@ export function TacticalPitch({
                 slot.label
               )}
             </span>
+            {!player && !opponentName && fitPreview && (
+              <span className="pitch-node__fit-percent">
+                {fitPreview.fit}%
+              </span>
+            )}
             {(player || opponentName) && (
               <span className="pitch-node__name">
                 <b>{player
                     ? player.playerName.split(" ").at(-1)
                     : opponentName?.split(" ").at(-1)}</b>
                 {player && <small>{player.overall} · {player.tournamentYear}</small>}
-              </span>
-            )}
-            {!player && !opponentName && fitPreview && (
-              <span className="pitch-node__fit">
-                <b>{slot.label}</b>
-                <em>{fitPreview.fit}%</em>
               </span>
             )}
           </>
@@ -142,7 +146,7 @@ export function TacticalPitch({
             type="button"
             key={slot.id}
             className={className}
-            style={{ left: `${slot.x}%`, top: `${slot.y}%` }}
+            style={{ left: `${slot.x}%`, top: `${visualY}%` }}
             data-slot-x={slot.x}
             data-slot-y={slot.y}
             data-slot-position={slot.position}
@@ -182,7 +186,7 @@ export function TacticalPitch({
           <div
             key={slot.id}
             className={className}
-            style={{ left: `${slot.x}%`, top: `${slot.y}%` }}
+            style={{ left: `${slot.x}%`, top: `${visualY}%` }}
             data-slot-x={slot.x}
             data-slot-y={slot.y}
             data-slot-position={slot.position}

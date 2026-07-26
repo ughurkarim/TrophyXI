@@ -23,6 +23,79 @@
 .benchIdentity { display:grid; min-width:0; gap:3px; }
 .benchIdentity b { overflow:hidden; font-size:.57rem; text-overflow:ellipsis; white-space:nowrap; }
 .benchIdentity small { overflow:hidden; color:#858e87; font:.35rem var(--font-mono),monospace; text-overflow:ellipsis; white-space:nowrap; }
+.emptyBench { grid-template-columns:24px minmax(0,1fr)!important; }
+.emptyBench .benchIdentity b,.emptyBench .benchIdentity small { overflow:visible; text-overflow:clip; white-space:normal; }
+.emptyBench .benchIdentity { align-content:center; }
+
+/* Free Selection pitch labels.
+   The formation position stays inside the circle. Only the fit percentage
+   sits beneath an empty position node. Filled-player name tags always sit
+   beneath the player card/portrait. */
+.pitchAura :global(.pitch-node__name) {
+  top:calc(100% + 7px);
+  bottom:auto;
+  left:50%;
+  z-index:8;
+  transform:translateX(-50%);
+}
+
+.pitchAura :global(.pitch-node__fit-percent) {
+  position:absolute;
+  top:calc(100% + 5px);
+  left:50%;
+  z-index:8;
+  width:max-content;
+  transform:translateX(-50%);
+  color:#f3f1e8;
+  font:700 .68rem/1 var(--font-mono),monospace;
+  font-style:normal;
+  letter-spacing:.01em;
+  text-shadow:0 1px 4px rgba(0,0,0,.7);
+  white-space:nowrap;
+}
+
+/* Keep the original full-size position circle and use its ring/glow to show
+   fit quality instead of adding another box around the percentage. */
+.pitchAura :global(.pitch-node--fit-green .pitch-node__disc) {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    0 0 0 3px rgba(120,230,173,.18),
+    0 0 18px rgba(82,211,145,.20);
+}
+.pitchAura :global(.pitch-node--fit-green .pitch-node__fit-percent) {
+  color:#bdf3d4;
+}
+
+.pitchAura :global(.pitch-node--fit-yellow .pitch-node__disc) {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    0 0 0 3px rgba(235,205,105,.17),
+    0 0 18px rgba(225,188,83,.18);
+}
+.pitchAura :global(.pitch-node--fit-yellow .pitch-node__fit-percent) {
+  color:#f0dc91;
+}
+
+.pitchAura :global(.pitch-node--fit-red .pitch-node__disc),
+.pitchAura :global(.pitch-node--fit-incompatible .pitch-node__disc) {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 0 0 3px rgba(232,124,111,.15),
+    0 0 17px rgba(224,103,91,.17);
+}
+.pitchAura :global(.pitch-node--fit-red .pitch-node__fit-percent),
+.pitchAura :global(.pitch-node--fit-incompatible .pitch-node__fit-percent) {
+  color:#f1b3aa;
+}
+
+/* Edge slots keep the percentage centered under their own node rather than
+   opening sideways into a neighboring position. */
+.pitchAura :global(.pitch-node--near-left .pitch-node__fit-percent),
+.pitchAura :global(.pitch-node--near-right .pitch-node__fit-percent) {
+  left:50%;
+  right:auto;
+  transform:translateX(-50%);
+}
 .ratingsPending { margin:0; color:#727b74; font:.38rem var(--font-mono),monospace; letter-spacing:.08em; text-align:center; }
 .pitchPanel :global(.team-ratings) { justify-content:center; grid-template-columns:repeat(5,52px); }
 .playerPanel { position:relative; display:grid; grid-template-rows:auto auto auto minmax(0,1fr) auto; padding:12px; }
@@ -64,7 +137,6 @@
 .compactCard :global(.player-card__identity) { padding:6px 9px; }
 .compactCard :global(.player-card__identity h3) { font-size:.68rem; }
 .compactCard :global(.player-card__identity p),.compactCard :global(.player-card__stats),.compactCard :global(.player-card__footer) { display:none; }
-.compactCard :global(.player-card__fit) { font-size:inherit; }
 .compactCard :global(.player-card__inspect) { font-size:.34rem; }
 .noResults { grid-column:1/-1; padding:35px; color:#8b958d; text-align:center; }
 .panelFooter { display:flex; justify-content:flex-end; padding-top:8px; border-top:1px solid rgba(255,255,255,.06); }
