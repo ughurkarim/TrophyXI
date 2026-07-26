@@ -99,12 +99,17 @@ export const getPositionFit = (
   slot: FormationSlot,
 ) => {
   const playerPosition =
-    player.primaryPosition === "LCB" || player.primaryPosition === "RCB"
-      ? "CB"
+  player.primaryPosition === "LCB" || player.primaryPosition === "RCB"
+    ? "CB"
+    : player.primaryPosition === "CF"
+      ? "ST"
       : player.primaryPosition;
-  const slotPosition =
-    slot.position === "LCB" || slot.position === "RCB"
-      ? "CB"
+
+const slotPosition =
+  slot.position === "LCB" || slot.position === "RCB"
+    ? "CB"
+    : slot.position === "CF"
+      ? "ST"
       : slot.position;
   if (player.primaryPosition === "GK" || slot.position === "GK") {
     return player.primaryPosition === "GK" && slot.position === "GK" ? 100 : 0;
