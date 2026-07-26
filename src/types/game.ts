@@ -386,6 +386,8 @@ export type TeamRatings = {
   positionFit: number;
   eraFit: number;
   managerFit: number;
+  /** Player-to-player cohesion component used for 55% of Chemistry. */
+  playerCohesion?: number;
   benchDepth: number;
   benchVersatility: number;
   tacticalBalance: number;

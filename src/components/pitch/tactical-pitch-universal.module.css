@@ -1,0 +1,53 @@
+.universalPitch :global(.pitch-node__fit-percent) {
+  position:absolute;
+  top:calc(100% + 5px);
+  left:50%;
+  z-index:9;
+  display:grid;
+  min-width:42px;
+  height:24px;
+  place-items:center;
+  transform:translateX(-50%);
+  padding:0 7px;
+  color:#e0c264 !important;
+  border:1px solid rgba(217,182,79,.22);
+  border-radius:5px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.025),transparent 45%),
+    rgba(2,5,3,.96);
+  box-shadow:
+    0 4px 10px rgba(0,0,0,.38),
+    inset 0 1px rgba(255,255,255,.025);
+  font:800 .48rem/1 var(--font-mono),monospace;
+  font-style:normal;
+  letter-spacing:.015em;
+  text-align:center;
+  text-shadow:0 0 7px rgba(218,183,80,.12);
+  white-space:nowrap;
+}
+
+.universalPitch :global(.pitch-node--fit-green .pitch-node__fit-percent),
+.universalPitch :global(.pitch-node--fit-yellow .pitch-node__fit-percent),
+.universalPitch :global(.pitch-node--fit-red .pitch-node__fit-percent),
+.universalPitch :global(.pitch-node--fit-incompatible .pitch-node__fit-percent) {
+  color:#e0c264 !important;
+}
+
+.universalPitch :global(.pitch-node--active .pitch-node__fit-percent),
+.universalPitch :global(.pitch-node--best-fit .pitch-node__fit-percent) {
+  border-color:rgba(238,207,110,.42);
+  color:#efd47a !important;
+  box-shadow:
+    0 4px 11px rgba(0,0,0,.42),
+    0 0 9px rgba(214,180,92,.08),
+    inset 0 1px rgba(255,255,255,.03);
+}
+
+@media(max-width:720px) {
+  .universalPitch :global(.pitch-node__fit-percent) {
+    min-width:39px;
+    height:22px;
+    padding-inline:6px;
+    font-size:.44rem;
+  }
+}

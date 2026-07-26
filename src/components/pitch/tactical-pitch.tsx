@@ -7,6 +7,7 @@ import type {
   PositionFitPreview,
 } from "@/types/game";
 import { cn } from "@/lib/utils";
+import fitStyles from "./tactical-pitch-universal.module.css";
 
 export function TacticalPitch({
   formation,
@@ -38,7 +39,7 @@ export function TacticalPitch({
   goalkeeperYCap?: number;
 }) {
   return (
-    <div className={cn("pitch", compact && "pitch--compact")}>
+    <div className={cn("pitch", fitStyles.universalPitch, compact && "pitch--compact")}>
       <div className="pitch__atmosphere" aria-hidden />
       <div className="pitch__lines" aria-hidden>
         <span className="pitch__center-line" />

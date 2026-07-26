@@ -10,8 +10,21 @@
 .statusBar b { overflow:hidden; color:#d4d8d3; font-size:.55rem; text-overflow:ellipsis; text-transform:capitalize; white-space:nowrap; }
 .workspace { display:grid; min-height:0; grid-template-columns:minmax(460px,.82fr) minmax(560px,1.18fr); gap:12px; }
 .pitchPanel,.playerPanel { min-width:0; min-height:0; overflow:hidden; border:1px solid rgba(214,180,92,.18); border-radius:15px; background:linear-gradient(145deg,rgba(19,25,19,.88),rgba(5,8,6,.96)); box-shadow:inset 0 1px rgba(255,255,255,.035),0 20px 50px rgba(0,0,0,.25); }
-.pitchPanel { display:grid; grid-template-rows:minmax(0,1fr) 70px auto; gap:7px; padding:10px; }
-.pitchAura { display:grid; min-height:0; place-items:center; overflow:hidden; border-radius:13px; background:radial-gradient(circle at 50% 48%,rgba(225,188,83,.15),transparent 52%); box-shadow:0 0 32px rgba(214,180,92,.07); }
+.pitchPanel {
+  display:grid;
+  grid-template-rows:minmax(280px,1fr) 70px auto;
+  gap:7px;
+  padding:10px;
+}
+.pitchAura {
+  display:grid;
+  min-height:280px;
+  place-items:center;
+  overflow:hidden;
+  border-radius:13px;
+  background:radial-gradient(circle at 50% 48%,rgba(225,188,83,.15),transparent 52%);
+  box-shadow:0 0 32px rgba(214,180,92,.07);
+}
 .pitchAura :global(.pitch) { width:min(100%,390px); height:100%; min-height:0; aspect-ratio:auto; border-color:rgba(137,225,174,.28); box-shadow:0 0 25px rgba(64,181,111,.15),inset 0 0 32px rgba(104,223,155,.05); }
 .benchSlots { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; }
 .benchSlots button { display:grid; min-width:0; min-height:64px; grid-template-columns:24px 36px minmax(0,1fr); align-items:center; gap:7px; padding:6px 8px; color:#cdd2ce; border:1px solid rgba(214,180,92,.14); border-radius:8px; cursor:pointer; text-align:left; background:rgba(255,255,255,.025); }
@@ -463,4 +476,18 @@
   .placeActions{grid-column:1/-1;grid-template-columns:minmax(0,1fr) auto;align-items:center}
   .placeActions small{text-align:left}
   .placePlaceholderRule{display:none}
+}
+
+
+@media (min-width:1051px) and (max-height:780px) {
+  .pitchPanel {
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(214,180,92,.28) transparent;
+  }
+
+  .pitchAura {
+    min-height:270px;
+  }
 }

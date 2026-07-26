@@ -369,10 +369,13 @@ export const calculatePlayerLegacyScore = (
 };
 
 const legacyBonusForScore = (score: number): 0 | 1 | 2 | 3 | 4 => {
-  if (score >= 92) return 4;
-  if (score >= 80) return 3;
-  if (score >= 65) return 2;
-  if (score >= 50) return 1;
+  // Legacy should reward a decorated squad without requiring fourteen
+  // near-perfect career resumes. +4 remains elite, but is realistically
+  // reachable by an all-time Trophy XI.
+  if (score >= 85) return 4;
+  if (score >= 73) return 3;
+  if (score >= 60) return 2;
+  if (score >= 45) return 1;
   return 0;
 };
 
