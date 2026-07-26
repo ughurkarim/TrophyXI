@@ -78,9 +78,7 @@ const opponentForPayload = (
   }
   if (archived) return archived;
   return createWorldCupRunOpponentField({
-    seed: payload.d,
-    eraId: payload.e,
-    excludedIdentityIds,
+  seed: payload.d,
   }).find((candidate) => candidate.id === payload.o);
 };
 
