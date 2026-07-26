@@ -328,18 +328,23 @@ function OpponentCard({
         </dl>
         <Ratings opponent={opponent} />
       </div>
-      <SelectedMark
-        selected={selected}
-        className={styles.cardSelectionMark}
-      />
-      <button
-        type="button"
-        className={styles.viewXi}
-        onClick={onViewSquad}
-        aria-label={`View ${opponent.nationName} ${opponent.tournamentYear} lineup`}
-      >
-        View XI
-      </button>
+      <div className={styles.cardActions}>
+<div className={styles.cardActions}>
+  <SelectedMark
+    selected={selected}
+    className={styles.cardSelectionMark}
+  />
+
+  <button
+    type="button"
+    className={styles.viewXi}
+    onClick={onViewSquad}
+    aria-label={`View ${opponent.nationName} ${opponent.tournamentYear} lineup`}
+  >
+    View XI
+  </button>
+</div>
+</div>
     </article>
   );
 }

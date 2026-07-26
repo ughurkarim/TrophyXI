@@ -436,10 +436,8 @@
 }
 
 .viewXi {
-  position: absolute;
-  z-index: 4;
-  right: 14px;
-  bottom: 12px;
+  position: static;
+  flex: 0 0 auto;
   min-height: 25px;
   padding: 0 7px;
   color: #c6b46e;
@@ -465,9 +463,9 @@
 }
 
 .cardSelectionMark {
-  position: absolute;
-  right: 16px;
-  bottom: 14px;
+  position: static;
+  flex: 0 0 auto;
+  margin: 0;
 }
 
 .footer.footer {
@@ -828,4 +826,19 @@
   .championPlayer {
     transition: none;
   }
+}
+
+.cardActions {
+  position: absolute;
+  z-index: 4;
+  right: 5px;
+  bottom: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+
+  width: max-content;
+  white-space: nowrap;
 }
