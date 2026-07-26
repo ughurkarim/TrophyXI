@@ -33,7 +33,7 @@ export function ManagerCard({
   onSelect: () => void;
   onInspect?: () => void;
 }) {
-  const eraFit = calculateManagerEraFit(manager, eraId).score;
+  const eraFit = eraId === "all" ? null : calculateManagerEraFit(manager, eraId).score;
   const metricValues = [
     {
       label: "OFF",
@@ -55,7 +55,7 @@ export function ManagerCard({
       value: manager.gameManagement,
       grade: managerGradeLabel(manager.gameManagement),
     },
-    ...(eraId === "all"
+    ...(eraFit === null
       ? []
       : [
           {
@@ -72,7 +72,7 @@ export function ManagerCard({
         "manager-card",
         styles.card,
         styleClasses[manager.style],
-        eraId !== "all" && eraFit >= 92 && styles.highEraFit,
+        eraFit !== null && eraFit >= 92 && styles.highEraFit,
         selected && "manager-card--selected",
         selected && styles.selected,
       )}
@@ -116,8 +116,8 @@ export function ManagerCard({
           {flagForTeamName(manager.teamName)} {manager.teamName}
         </p>
         <div
-          className={cn("manager-card__grades", styles.metrics)}
-          aria-label={`${manager.managerName} metrics: offense ${managerGradeLabel(manager.grades.offense)}, defense ${managerGradeLabel(manager.grades.defense)}, leadership ${managerGradeLabel(manager.leadership)}, game management ${managerGradeLabel(manager.gameManagement)}${eraId === "all" ? "" : `, Era Fit ${managerGradeLabel(eraFit)} ${eraFit}`}`}
+          className={cn("manager-card__grades", styles.metrics, eraId === "all" && styles.neutralMetrics)}
+          aria-label={`${manager.managerName} metrics: offense ${managerGradeLabel(manager.grades.offense)}, defense ${managerGradeLabel(manager.grades.defense)}, leadership ${managerGradeLabel(manager.leadership)}, game management ${managerGradeLabel(manager.gameManagement)}${eraFit === null ? "" : `, Era Fit ${managerGradeLabel(eraFit)} ${eraFit}`}`}
         >
           {metricValues.map((metric) => (
             <span key={metric.label}>

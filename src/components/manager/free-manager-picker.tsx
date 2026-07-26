@@ -48,6 +48,7 @@ export function FreeManagerPicker({
   const [preferredFormation, setPreferredFormation] = useState("");
   const [sort, setSort] = useState<SortMode>("quality");
   const era = getDraftEra(eraId);
+  const isNeutralEra = eraId === "all";
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const permanentRanking = useMemo(
     () => [...managers].sort(qualityOrder),
@@ -66,12 +67,12 @@ export function FreeManagerPicker({
       (!preferredFormation || manager.preferredFormations.includes(preferredFormation as never)),
     );
     return filtered.sort((first, second) => {
-      if (sort === "era-fit") return calculateManagerEraFit(second, eraId).score - calculateManagerEraFit(first, eraId).score || qualityOrder(first, second);
+      if (sort === "era-fit" && !isNeutralEra) return calculateManagerEraFit(second, eraId).score - calculateManagerEraFit(first, eraId).score || qualityOrder(first, second);
       if (sort === "name") return first.managerName.localeCompare(second.managerName) || second.tournamentYear - first.tournamentYear;
       if (sort === "year") return second.tournamentYear - first.tournamentYear || qualityOrder(first, second);
       return qualityOrder(first, second);
     });
-  }, [eraId, managerEra, managers, nation, normalizedQuery, preferredFormation, sort, style]);
+  }, [eraId, isNeutralEra, managerEra, managers, nation, normalizedQuery, preferredFormation, sort, style]);
   const selectedManager = selectedManagerId
     ? managers.find((manager) => manager.id === selectedManagerId)
     : undefined;
@@ -94,27 +95,54 @@ export function FreeManagerPicker({
         <select aria-label="Sort managers" value={sort} onChange={(event) => setSort(event.target.value as SortMode)}><option value="quality">Rank: best overall</option>{eraId !== "all" && <option value="era-fit">Era Fit</option>}<option value="name">Name</option><option value="year">Tournament year</option></select>
       </div>
 
-      {selectedManager && (
-        <aside className={styles.preview} aria-label={`Selected manager preview: ${selectedManager.managerName}`}>
-          <CircularPortrait imageId={selectedManager.imageId} subjectName={selectedManager.managerName} era={selectedManager.era} countryCode={selectedManager.countryCode} tournamentYear={selectedManager.tournamentYear} size="compact" />
-          <div className={styles.previewIdentity}><span>SELECTED MANAGER</span><strong>{selectedManager.managerName}</strong><small>{selectedManager.tacticalIdentity}</small></div>
-          <dl>{[["OFF",selectedManager.grades.offense],["DEF",selectedManager.grades.defense],["LEADERSHIP",selectedManager.leadership],["GAME MGMT",selectedManager.gameManagement]].map(([label,value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}{eraId !== "all" && <div><dt>ERA FIT</dt><dd>{calculateManagerEraFit(selectedManager, eraId).score}</dd></div>}</dl>
-          <p><span>Preferred</span>{selectedManager.preferredFormations.map((formation) => formation.replaceAll("-", "–")).join(" · ")}</p>
-        </aside>
-      )}
+      <aside
+        className={`${styles.preview}${selectedManager ? "" : ` ${styles.previewEmpty}`}`}
+        aria-label={selectedManager ? `Selected manager preview: ${selectedManager.managerName}` : "Selected manager preview"}
+      >
+        {selectedManager ? (
+          <>
+            <CircularPortrait imageId={selectedManager.imageId} subjectName={selectedManager.managerName} era={selectedManager.era} countryCode={selectedManager.countryCode} tournamentYear={selectedManager.tournamentYear} size="compact" />
+            <div className={styles.previewIdentity}><span>SELECTED MANAGER</span><strong>{selectedManager.managerName}</strong><small>{selectedManager.tacticalIdentity}</small></div>
+            <dl className={isNeutralEra ? styles.previewMetricsNeutral : undefined}>{[["OFF",selectedManager.grades.offense],["DEF",selectedManager.grades.defense],["LEADERSHIP",selectedManager.leadership],["GAME MGMT",selectedManager.gameManagement]].map(([label,value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}{!isNeutralEra && <div><dt>ERA FIT</dt><dd>{calculateManagerEraFit(selectedManager, eraId).score}</dd></div>}</dl>
+            <p><span>Preferred</span>{selectedManager.preferredFormations.map((formation) => formation.replaceAll("-", "–")).join(" · ")}</p>
+          </>
+        ) : (
+          <>
+            <div className={styles.previewPlaceholderPortrait} aria-hidden>
+              <span />
+            </div>
+            <div className={styles.previewIdentity}>
+              <span>SELECTED MANAGER</span>
+              <strong className={styles.emptyTitle}>No manager selected</strong>
+              <small>Choose a manager below to preview their tactical profile.</small>
+            </div>
+            <dl className={isNeutralEra ? styles.previewMetricsNeutral : undefined} aria-hidden>
+              {["OFF", "DEF", "LEADERSHIP", "GAME MGMT", ...(!isNeutralEra ? ["ERA FIT"] : [])].map((label) => (
+                <div key={label} className={styles.emptyMetric}>
+                  <dt>{label}</dt>
+                  <dd>—</dd>
+                </div>
+              ))}
+            </dl>
+            <p className={styles.emptyPreferred} aria-hidden>
+              <span>Preferred</span>—
+            </p>
+          </>
+        )}
+      </aside>
 
       <div className={styles.poolHeader}><span>{visibleManagers.length} OF {managers.length} MANAGERS · {era.label}</span><small>PERMANENT RANK USES OFF · DEF · LEADERSHIP · GAME MANAGEMENT</small></div>
       <div className={styles.pool} aria-label="Available managers" data-testid="free-manager-pool" data-legacy-testid="free-manager-archive">
         {visibleManagers.map((manager) => {
           const selected = manager.id === selectedManagerId;
-          const eraFit = calculateManagerEraFit(manager, eraId).score;
+          const eraFit = isNeutralEra ? null : calculateManagerEraFit(manager, eraId).score;
           return (
             <article key={manager.id} className={`${styles.managerOption} ${styles[`style_${manager.style}`]}${selected ? ` ${styles.selected}` : ""}`}>
-              <button type="button" className={styles.pick} aria-pressed={selected} aria-label={`Choose ${manager.managerName}, ${manager.teamName} ${manager.tournamentYear}${eraId === "all" ? "" : `, Era Fit ${eraFit}`}`} onClick={() => onSelect(manager.id)}>
+              <button type="button" className={`${styles.pick}${isNeutralEra ? ` ${styles.pickNeutral}` : ""}`} aria-pressed={selected} aria-label={`Choose ${manager.managerName}, ${manager.teamName} ${manager.tournamentYear}${eraFit === null ? "" : `, Era Fit ${eraFit}`}`} onClick={() => onSelect(manager.id)}>
                 <span className={styles.rank}>#{ranks.get(manager.id)}</span>
                 <CircularPortrait imageId={manager.imageId} subjectName={manager.managerName} era={manager.era} countryCode={manager.countryCode} tournamentYear={manager.tournamentYear} size="compact" />
                 <span className={styles.identity}><strong>{manager.managerName}</strong><small>{flagForCountry(manager.countryCode)} {manager.countryName} · {manager.tournamentYear}</small><i>{manager.style} tactics</i><em>{manager.preferredFormations.map((formation) => formation.replaceAll("-", "–")).join(" · ")}</em></span>
-                {eraId !== "all" && <span className={styles.eraFit}><small>ERA FIT</small><b>{eraFit}</b></span>}
+                {eraFit !== null && <span className={styles.eraFit}><small>ERA FIT</small><b>{eraFit}</b></span>}
                 {selected && <span className={styles.check} aria-hidden><Check size={13} /></span>}
               </button>
               <button type="button" className={styles.inspect} aria-label={`View profile for ${manager.managerName}, ${manager.teamName} ${manager.tournamentYear}`} onClick={(event) => onInspect(manager.id, event.currentTarget)}>VIEW PROFILE</button>
@@ -124,7 +152,25 @@ export function FreeManagerPicker({
         {visibleManagers.length === 0 && <div className={styles.empty} role="status">No managers match the current pool filters.</div>}
       </div>
 
-      <div className={styles.confirm} aria-live="polite"><div><span>Selected Manager</span><strong>{selectedManager?.managerName ?? "Choose from the manager pool"}</strong><small>{selectedManager ? `${selectedManager.teamName} ${selectedManager.tournamentYear} · ${selectedManager.style}` : "Your choice remains editable until you confirm."}</small></div><Button className={styles.continue} disabled={!selectedManager} onClick={onContinue}>CONFIRM MANAGER <ArrowRight size={16} aria-hidden /></Button></div>
+      <div className={`${styles.confirm}${selectedManager ? "" : ` ${styles.confirmEmpty}`}`} aria-live="polite">
+        <div>
+          <span>Selected Manager</span>
+          {selectedManager ? (
+            <>
+              <strong>{selectedManager.managerName}</strong>
+              <small>{selectedManager.teamName} {selectedManager.tournamentYear} · {selectedManager.style}</small>
+            </>
+          ) : (
+            <>
+              <strong className={styles.emptyConfirmTitle}>None selected</strong>
+              <small>Select a manager from the pool to continue.</small>
+            </>
+          )}
+        </div>
+        <Button className={styles.continue} disabled={!selectedManager} onClick={onContinue}>
+          CONFIRM MANAGER <ArrowRight size={16} aria-hidden />
+        </Button>
+      </div>
     </section>
   );
 }

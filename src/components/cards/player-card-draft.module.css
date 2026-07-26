@@ -1,0 +1,159 @@
+.draftCard {
+  --draft-gold: #ddbf63;
+  --draft-gold-bright: #efd77d;
+  --draft-ink: rgba(2, 5, 3, .94);
+}
+
+.positionBadge {
+  display:grid;
+  min-width:38px;
+  height:30px;
+  place-items:center;
+  padding-inline:7px;
+  color:var(--draft-gold-bright);
+  border:1px solid rgba(221,191,99,.3);
+  border-radius:7px;
+  background:rgba(3,6,4,.82);
+  box-shadow:inset 0 1px rgba(255,255,255,.025);
+  font:850 .48rem/1 var(--font-mono),monospace;
+  letter-spacing:.04em;
+}
+
+.draftProfile {
+  display:grid;
+  grid-template-columns:64px minmax(0,1fr) auto;
+  align-items:stretch;
+  gap:8px;
+  min-height:76px;
+  padding:7px;
+  margin:4px 0 7px;
+  border-top:1px solid rgba(255,255,255,.045);
+  border-bottom:1px solid rgba(255,255,255,.045);
+  background:
+    linear-gradient(90deg,rgba(214,180,92,.035),transparent 35%),
+    rgba(1,4,2,.26);
+}
+
+.overallBlock {
+  display:grid;
+  place-items:center;
+  align-content:center;
+  gap:2px;
+  border:1px solid rgba(221,191,99,.24);
+  border-radius:8px;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(224,194,96,.11),transparent 56%),
+    rgba(2,5,3,.88);
+  box-shadow:inset 0 1px rgba(255,255,255,.025);
+}
+
+.overallBlock strong {
+  color:var(--draft-gold-bright);
+  font:900 1.42rem/.9 var(--font-mono),monospace;
+  letter-spacing:-.065em;
+  text-shadow:0 0 10px rgba(226,194,91,.12);
+}
+
+.overallBlock span {
+  color:#8d7841;
+  font:800 .28rem/1 var(--font-mono),monospace;
+  letter-spacing:.11em;
+}
+
+.roleBlock {
+  display:grid;
+  min-width:0;
+  align-content:center;
+  gap:4px;
+}
+
+.roleLabel {
+  color:#716641;
+  font:800 .24rem/1 var(--font-mono),monospace;
+  letter-spacing:.1em;
+}
+
+.roleBlock>b {
+  overflow:hidden;
+  color:#daddd8;
+  font-size:.54rem;
+  font-weight:650;
+  line-height:1.15;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.positionRow {
+  display:flex;
+  min-width:0;
+  flex-wrap:wrap;
+  gap:3px;
+}
+
+.positionRow>span {
+  display:inline-grid;
+  min-width:25px;
+  height:18px;
+  place-items:center;
+  padding-inline:4px;
+  color:#768078;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:4px;
+  background:rgba(255,255,255,.022);
+  font:750 .25rem/1 var(--font-mono),monospace;
+}
+
+.positionRow>span[data-primary="true"] {
+  color:#d7bb62;
+  border-color:rgba(214,180,92,.22);
+  background:rgba(214,180,92,.045);
+}
+
+.fitPlate {
+  align-self:center;
+  display:grid;
+  min-width:48px;
+  height:31px;
+  place-items:center;
+  padding-inline:8px;
+  color:var(--draft-gold-bright);
+  border:1px solid rgba(221,191,99,.28);
+  border-radius:6px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.02),transparent),
+    var(--draft-ink);
+  box-shadow:
+    0 4px 10px rgba(0,0,0,.3),
+    inset 0 1px rgba(255,255,255,.025);
+  font:850 .5rem/1 var(--font-mono),monospace;
+  text-shadow:0 0 7px rgba(221,191,99,.12);
+  white-space:nowrap;
+}
+
+/* Draft cards should spend the freed space on identity/portrait, not a six-stat spreadsheet. */
+.draftCard :global(.player-card__identity) {
+  margin-top:2px;
+}
+
+.draftCard :global(.player-card__footer) {
+  display:none;
+}
+
+@media(max-width:720px) {
+  .draftProfile {
+    grid-template-columns:56px minmax(0,1fr) auto;
+    min-height:68px;
+    gap:6px;
+    padding:6px;
+  }
+
+  .overallBlock strong {
+    font-size:1.2rem;
+  }
+
+  .fitPlate {
+    min-width:44px;
+    height:28px;
+    padding-inline:6px;
+  }
+}

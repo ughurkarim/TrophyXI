@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Trophy XI",
     description:
-      "Draft fourteen tournament performances. Choose a historical World Cup opponent. Rewrite history.",
+      "Draft fourteen tournament players. Choose a historical World Cup opponent. Rewrite history.",
     type: "website",
   },
   twitter: {

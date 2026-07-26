@@ -49,10 +49,12 @@ export function TacticalPitch({
       </div>
       {formation.slots.map((slot, index) => {
         const isGoalkeeper = slot.position === "GK";
-        const visualY =
+        const freeSelectionYOffset = goalkeeperYCap !== undefined ? 3 : 0;
+        const cappedY =
           isGoalkeeper && goalkeeperYCap !== undefined
             ? Math.min(slot.y, goalkeeperYCap)
             : slot.y;
+        const visualY = Math.max(0, cappedY - freeSelectionYOffset);
         const isLowCenterBack =
           slot.y >= 75 &&
           (slot.position === "CB" ||

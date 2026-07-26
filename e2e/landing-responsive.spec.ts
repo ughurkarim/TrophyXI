@@ -175,7 +175,7 @@ test("landing sections remain readable, focusable, and overflow-safe", async ({
   await finalCta.scrollIntoViewIfNeeded();
   await expect(
     finalCta.getByText(
-      "Draft fourteen tournament versions, shape them into one balanced squad, and take on the champions who defined World Cup history.",
+      "Draft fourteen tournament players, shape them into one balanced squad, and take on the champions who defined World Cup history.",
     ),
   ).toBeVisible();
   const primary = finalCta.getByRole("link", { name: "BUILD MY XI" });

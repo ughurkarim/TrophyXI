@@ -1,5 +1,6 @@
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ChampionHistoryShowcase } from "@/components/landing/champion-history-showcase";
+import { FinalChallengeShowcase } from "../components/landing/final-challenge-showcase";
 import { HeroShowcase } from "@/components/landing/hero-showcase";
 import {
   HowItWorksStepCard,
@@ -8,10 +9,7 @@ import {
 import { Footer } from "@/components/navigation/footer";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ButtonLink } from "@/components/ui/button";
-import {
-  confirmedLandingChampions,
-  landingChampions,
-} from "@/data/landing-champions";
+import { landingChampions } from "@/data/landing-champions";
 import { players } from "@/data/players";
 import styles from "./landing-page.module.css";
 
@@ -110,83 +108,22 @@ export default function LandingPage() {
 
         <section className="section champions-section" id="champions">
           <div className="container">
-            <div className={`section-heading ${styles.championsHeading}`}>
+            <div
+              className={`section-heading ${styles.championsHeading}`}
+              style={{ marginBottom: "-40px" }}
+            >
               <div>
                 <p className="eyebrow eyebrow--gold">THE WINNERS’ ARCHIVE</p>
-                <h2>World champions, framed in gold.</h2>
+                <h2 style={{ maxWidth: "none", whiteSpace: "nowrap" }}>
+                  World champions, framed in gold.
+                </h2>
               </div>
-              <p>
-                A complete tournament timeline from 2026 back to the team that
-                made football look like art in 1970.
-              </p>
             </div>
             <ChampionHistoryShowcase champions={landingChampions} />
           </div>
         </section>
 
-        <section
-          className={styles.finalCta}
-          aria-labelledby="landing-final-cta-title"
-        >
-          <div className={`container ${styles.finalPanel}`}>
-            <div className={styles.tunnelLight} aria-hidden />
-            <div className={styles.finalCopy}>
-              <p className="eyebrow eyebrow--gold">THE CHALLENGE AWAITS</p>
-              <h2 id="landing-final-cta-title">
-                BUILD THE TEAM
-                <br />
-                THAT COULD <span>BEAT THEM ALL.</span>
-              </h2>
-              <p className={styles.finalSupport}>
-                Draft fourteen tournament versions, shape them into one balanced
-                squad, and take on the champions who defined World Cup history.
-              </p>
-              <div className={styles.finalActions}>
-                <ButtonLink
-                  href="/play"
-                  className={styles.primaryCta}
-                >
-                  BUILD MY XI <ArrowRight size={17} aria-hidden />
-                </ButtonLink>
-                <ButtonLink
-                  href="/#champions"
-                  variant="ghost"
-                  className={styles.secondaryCta}
-                >
-                  VIEW THE CHAMPIONS
-                  <ChevronRight size={16} aria-hidden />
-                </ButtonLink>
-              </div>
-            </div>
-            <div className={styles.opponentWall}>
-              <div className={styles.pitchGraphic} aria-hidden>
-                <span className={styles.pitchHalfway} />
-                <span className={styles.pitchCircle} />
-                <span className={styles.pitchPath} />
-              </div>
-              <p className="eyebrow">THE CHAMPIONS AHEAD</p>
-              <div className={styles.markerScroller}>
-                <div className={styles.markerGrid}>
-                  {confirmedLandingChampions.map((champion) => (
-                    <button
-                      className={styles.championMarker}
-                      type="button"
-                      key={`marker-${champion.id}`}
-                      aria-label={`${champion.nationName} ${champion.tournamentYear}, ${champion.tacticalLabel}`}
-                    >
-                      <b>{champion.nationCode}</b>
-                      <span>{champion.tournamentYear}</span>
-                      <i aria-hidden>
-                        <strong>{champion.nationName}</strong>
-                        {champion.tournamentYear} · {champion.tacticalLabel}
-                      </i>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <FinalChallengeShowcase />
       </main>
       <Footer />
     </>

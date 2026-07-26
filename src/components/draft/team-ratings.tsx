@@ -70,11 +70,20 @@ const ChemistryFactor = ({
   </div>
 );
 
+type TeamRatingsProps = {
+  ratings: TeamRatingsModel;
+  /**
+   * Kept for draft screens that explicitly request the full ratings presentation.
+   * The current component is already the full presentation, but accepting this
+   * prop preserves the shared API used by Classic Draft.
+   */
+  expanded?: boolean;
+};
+
 export function TeamRatings({
   ratings,
-}: {
-  ratings: TeamRatingsModel;
-}) {
+  expanded = false,
+}: TeamRatingsProps) {
   const legacyScore = clampPercent(ratings.legacyScore);
   const legacyBonus = Math.max(0, Math.min(4, ratings.legacyBonus ?? 0));
   const tier = legacyTier(legacyScore);
@@ -97,7 +106,11 @@ export function TeamRatings({
   ];
 
   return (
-    <section className={styles.shell} aria-label="Trophy XI squad rating">
+    <section
+      className={styles.shell}
+      data-expanded={expanded || undefined}
+      aria-label="Trophy XI squad rating"
+    >
       <div className={styles.orbRow}>
         <RatingOrb label="ATK" value={ratings.attack} />
         <RatingOrb label="MID" value={ratings.midfield} />

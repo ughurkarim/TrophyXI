@@ -199,6 +199,10 @@
   margin-top: 11px;
 }
 
+.card .metrics.neutralMetrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .card .metrics span {
   min-width: 0;
   min-height: 50px;
