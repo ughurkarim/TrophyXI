@@ -304,9 +304,6 @@ export const simulateMatch = ({
       (player) => player.playerIdentityId,
     ),
   );
-  if (userIdentityIds.some((identity) => opponentIdentityIds.has(identity))) {
-    throw new Error("Opponent identities cannot appear in the user squad");
-  }
 
   const random = createSeededRandom(seed);
   const userRatings = calculateTeamRatings(lineup, formation, {

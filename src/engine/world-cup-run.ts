@@ -46,6 +46,13 @@ export type WorldCupRunTeam = {
   name: string;
   countryCode: string;
   rating: number;
+  /**
+   * Phase ratings are optional for backwards compatibility with persisted
+   * World Cup Run saves. New runs should always provide them.
+   */
+  attack?: number;
+  midfield?: number;
+  defense?: number;
   seedRank?: number;
   isChampion?: boolean;
 };
@@ -110,7 +117,7 @@ export type WorldCupRunHistoryEntry = {
 };
 
 export type WorldCupRunState = {
-  version: 2;
+  version: 6;
   seed: number;
   userTeamId: string;
   teams: WorldCupRunTeam[];
@@ -249,13 +256,19 @@ const validateTeams = (teams: WorldCupRunTeam[], userTeamId: string) => {
     throw new Error("World Cup Run requires a champion final opponent");
   }
   for (const team of teams) {
+    const phaseRatings = [team.attack, team.midfield, team.defense].filter(
+      (value): value is number => value !== undefined,
+    );
     if (
       !team.id ||
       !team.name ||
       !team.countryCode ||
       !Number.isFinite(team.rating) ||
       team.rating < 0 ||
-      team.rating > 100
+      team.rating > 100 ||
+      phaseRatings.some(
+        (value) => !Number.isFinite(value) || value < 0 || value > 100,
+      )
     ) {
       throw new Error(`Invalid World Cup Run team ${team.id || "(missing id)"}`);
     }
@@ -278,7 +291,7 @@ export const createWorldCupRun = ({
           hashString(`${seed}:final-boss:${second.id}`),
     )[0].id;
   return {
-    version: 2,
+    version: 6,
     seed,
     userTeamId,
     teams: teams.map((team) => ({ ...team })),
@@ -602,9 +615,47 @@ const simulateTeamLevelFixture = (
   const random = createSeededRandom(
     state.seed ^ hashString(`world-cup-run-fixture:${fixture.id}:${home.id}:${away.id}`),
   );
+  const homeAttack = home.attack ?? home.rating;
+  const homeMidfield = home.midfield ?? home.rating;
+  const homeDefense = home.defense ?? home.rating;
+  const awayAttack = away.attack ?? away.rating;
+  const awayMidfield = away.midfield ?? away.rating;
+  const awayDefense = away.defense ?? away.rating;
+
   const ratingEdge = home.rating - away.rating;
-  const homeLambda = clamp(1.25 + ratingEdge * 0.025, 0.25, 3.2);
-  const awayLambda = clamp(1.2 - ratingEdge * 0.025, 0.25, 3.2);
+  const midfieldEdge = homeMidfield - awayMidfield;
+  const homeAttackEdge = homeAttack - awayDefense;
+  const awayAttackEdge = awayAttack - homeDefense;
+
+  // Large quality gaps need to feel like large quality gaps. The normal phase
+  // model handles competitive matches; once the overall gap exceeds 10 points,
+  // this bounded bonus slightly raises the favorite's scoring expectation and
+  // suppresses the underdog tail without ever making an upset impossible.
+  const mismatchMagnitude = Math.max(0, Math.abs(ratingEdge) - 10);
+  const mismatchAdjustment =
+    Math.sign(ratingEdge) * Math.min(0.24, mismatchMagnitude * 0.02);
+
+  // World Cup fixtures are neutral-site matches, so both teams share the same
+  // scoring baseline. Quality drives the expected goals; the seeded RNG only
+  // supplies bounded match-to-match variance through the Poisson sampler.
+  const homeLambda = clamp(
+    1.25 +
+      homeAttackEdge * 0.03 +
+      midfieldEdge * 0.008 +
+      ratingEdge * 0.012 +
+      mismatchAdjustment,
+    0.2,
+    3.8,
+  );
+  const awayLambda = clamp(
+    1.25 +
+      awayAttackEdge * 0.03 -
+      midfieldEdge * 0.008 -
+      ratingEdge * 0.012 -
+      mismatchAdjustment,
+    0.2,
+    3.8,
+  );
   let homeGoals = poisson(homeLambda, random);
   let awayGoals = poisson(awayLambda, random);
 

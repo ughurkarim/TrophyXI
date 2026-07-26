@@ -42,6 +42,7 @@ import {
 import {
   createWorldCupRunOpponentField,
   isActiveWorldCupRunOpponent,
+  isWorldCupRunFinalBoss,
   WORLD_CUP_RUN_OPPONENT_COUNT,
 } from "@/engine/world-cup-run-opponents";
 import type {
@@ -58,7 +59,7 @@ import type {
   PositionFitPreview,
 } from "@/types/game";
 
-const SAVE_VERSION = 9;
+const SAVE_VERSION = 13;
 
 export type OpponentFilters = {
   query: string;
@@ -1048,8 +1049,6 @@ export const useGameStore = create<GameStore>()(
         }
         const selectedOpponents = createWorldCupRunOpponentField({
           seed: state.draftSeed,
-          eraId: state.eraId,
-          excludedIdentityIds: squadIdentityIds,
         });
         const userRatings = calculateTeamRatings(lineup, formation, {
           picks: state.picks,
@@ -1073,16 +1072,34 @@ export const useGameStore = create<GameStore>()(
               name: "Trophy XI",
               countryCode: "TXI",
               rating: userRatings.overall,
+              attack: userRatings.attack,
+              midfield: userRatings.midfield,
+              defense: userRatings.defense,
             },
             ...selectedOpponents.map((opponent) => ({
               id: opponent.id,
               name: opponent.nationName,
               countryCode: opponent.nationCode,
               rating: opponent.ratings.overall,
-              isChampion: opponent.tournamentFinish === "champion",
+              attack: opponent.ratings.attack,
+              midfield: opponent.ratings.midfield,
+              defense: opponent.ratings.defense,
+              isChampion: isWorldCupRunFinalBoss(opponent),
             })),
           ],
         });
+        if (process.env.NODE_ENV !== "production") {
+          console.table(
+            worldCupRun.teams.map((team) => ({
+              team: team.name,
+              overall: team.rating,
+              attack: team.attack,
+              midfield: team.midfield,
+              defense: team.defense,
+              champion: Boolean(team.isChampion),
+            })),
+          );
+        }
         set({
           worldCupRun,
           worldCupRunOpponents: selectedOpponents,
@@ -1348,6 +1365,14 @@ export const useGameStore = create<GameStore>()(
           const persistedOpponentIds = new Set(
             opponents.map((opponent) => opponent.id),
           );
+          const invalidSimulationModel =
+            state.worldCupRun.version !== 6 ||
+            state.worldCupRun.teams.some(
+              (team) =>
+                !Number.isFinite(team.attack) ||
+                !Number.isFinite(team.midfield) ||
+                !Number.isFinite(team.defense),
+            );
           const invalidField =
             opponents.length !== WORLD_CUP_RUN_OPPONENT_COUNT ||
             persistedOpponentIds.size !==
@@ -1361,14 +1386,15 @@ export const useGameStore = create<GameStore>()(
                 !runOpponentIds.has(opponent.id) ||
                 !isActiveWorldCupRunOpponent(opponent),
             );
-          if (invalidField) {
+          if (invalidSimulationModel || invalidField) {
             set({
               worldCupRun: null,
               worldCupRunOpponents: [],
               selectedOpponentId: null,
               matchResult: null,
-              saveNotice:
-                "Your tournament field was rebuilt to preserve the active archive boundary. Generate a new World Cup Run to continue.",
+              saveNotice: invalidSimulationModel
+                ? "World Cup Run now uses completed 2026 tournament performance. Start a new run to use the updated opponent model."
+                : "Your tournament field was rebuilt to preserve the active archive boundary. Generate a new World Cup Run to continue.",
             });
             return;
           }
@@ -1528,7 +1554,7 @@ export const useGameStore = create<GameStore>()(
       version: SAVE_VERSION,
       storage: createJSONStorage(() => browserStorage),
       skipHydration: true,
-      migrate: (persisted) => {
+      migrate: (persisted, persistedVersion) => {
         const previous = (persisted ?? {}) as Partial<GameStore> & {
           eraId?: unknown;
           playMode?: unknown;
@@ -1542,6 +1568,8 @@ export const useGameStore = create<GameStore>()(
             ? previous.gameMode
             : "classic-draft";
         const draftSeed = previous.draftSeed ?? 2026;
+        const invalidatedLegacyWorldCupRun =
+          persistedVersion < SAVE_VERSION && Boolean(previous.worldCupRun);
         const removedPlayableAllStars =
           previous.playMode === "all-stars" ||
           previous.managerId === "world-cup-all-stars-coach";
@@ -1640,12 +1668,18 @@ export const useGameStore = create<GameStore>()(
           benchPicks: previous.benchPicks ?? [],
           seenIdentityCounts: previous.seenIdentityCounts ?? {},
           recentIdentityIds: previous.recentIdentityIds ?? [],
-          worldCupRunOpponents: previous.worldCupRunOpponents ?? [],
+          worldCupRun: invalidatedLegacyWorldCupRun
+            ? null
+            : (previous.worldCupRun ?? null),
+          worldCupRunOpponents: invalidatedLegacyWorldCupRun
+            ? []
+            : (previous.worldCupRunOpponents ?? []),
           opponentFilters: {
             ...defaultOpponentFilters,
             ...(previous.opponentFilters ?? {}),
           },
           selectedOpponentId:
+            !invalidatedLegacyWorldCupRun &&
             previous.selectedOpponentId &&
             (historicalOpponentsById.has(previous.selectedOpponentId) ||
               previous.worldCupRunOpponents?.some(
@@ -1655,12 +1689,14 @@ export const useGameStore = create<GameStore>()(
               ? previous.selectedOpponentId
               : null,
           matchResult:
+            !invalidatedLegacyWorldCupRun &&
             previous.matchResult &&
             Array.isArray(previous.matchResult.opponentSubstitutions)
               ? previous.matchResult
               : null,
-          saveNotice:
-            "Trophy XI upgraded your save to the expanded tournament-manager archive and card-specific face system.",
+          saveNotice: invalidatedLegacyWorldCupRun
+            ? "World Cup Run v6 now rotates exact historical champion Final bosses and preserves their archive ratings. Your draft is preserved; start a new run."
+            : "Trophy XI upgraded your save to the expanded tournament-manager archive and card-specific face system.",
         };
       },
       partialize: (state) => ({
