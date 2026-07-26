@@ -637,12 +637,16 @@
   animation: scoreReveal 1.15s ease both;
 }
 
+
 .knockoutDashboard {
   display: grid;
-  gap: 0.72rem;
+  gap: 0.4rem;
   grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
   min-height: 0;
+  overflow: hidden;
 }
+
 
 .routePanel {
   align-items: center;
@@ -651,20 +655,28 @@
     radial-gradient(circle at 80% 50%, rgba(24, 117, 92, 0.09), transparent 32%),
     rgba(3, 8, 7, 0.88);
   display: grid;
-  gap: 1rem;
-  grid-template-columns: minmax(230px, 0.7fr) minmax(340px, 1fr) auto;
-  min-height: 106px;
-  padding: 0.9rem 1rem;
+  gap: 0.7rem;
+  grid-template-columns: minmax(210px, 0.7fr) minmax(300px, 1fr) auto;
+  min-height: 72px;
+  padding: 0.45rem 0.8rem;
 }
 
+
 .routePanel h2 {
-  font-size: clamp(1.15rem, 2vw, 1.75rem);
-  margin-top: 0.24rem;
+  font-size: clamp(0.95rem, 1.6vw, 1.35rem);
+  margin: 0.1rem 0 0;
 }
+
 
 .routePanel .quickActions {
   border: 0;
+  gap: 0.4rem;
   padding: 0;
+}
+
+.routePanel .quickActions > button {
+  min-height: 32px;
+  padding-block: 0.35rem;
 }
 
 .routeFixture {
@@ -687,9 +699,13 @@
   text-shadow: 0 0 18px rgba(226, 180, 62, 0.28);
 }
 
+
 .bracketPanel {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .roundNav {
@@ -751,17 +767,19 @@
   right: 15%;
 }
 
+
 .bracketHeading {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  min-height: 55px;
-  padding: 0.55rem 1rem;
+  min-height: 38px;
+  padding: 0.25rem 0.7rem;
 }
 
+
 .bracketHeading h3 {
-  font-size: 1.05rem;
-  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  margin-top: 0.05rem;
 }
 
 .bracketHeading > span {
@@ -782,23 +800,34 @@
   width: 6px;
 }
 
+
 .fullBracketScroll {
+  height: 100%;
   min-height: 0;
-  overflow: auto;
-  padding: 0 0.75rem 0.75rem;
-  scrollbar-color: rgba(222, 180, 70, 0.32) transparent;
+  overflow: hidden;
+  padding: 0 0.4rem 0.4rem;
 }
+
 
 .fullBracket {
   display: grid;
-  gap: 0.72rem;
+  gap: clamp(3px, 0.35vw, 6px);
   grid-template-columns:
-    repeat(4, minmax(142px, 1fr))
-    minmax(170px, 1.14fr)
-    repeat(4, minmax(142px, 1fr));
-  min-height: 530px;
-  min-width: 1450px;
+    1.22fr
+    1.08fr
+    0.96fr
+    0.86fr
+    1fr
+    0.86fr
+    0.96fr
+    1.08fr
+    1.22fr;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .fullBracket::before {
@@ -811,10 +840,12 @@
   position: absolute;
 }
 
+
 .bracketRound,
 .finalColumn {
   display: grid;
-  grid-template-rows: 35px minmax(0, 1fr);
+  grid-template-rows: 24px minmax(0, 1fr);
+  min-height: 0;
   min-width: 0;
   position: relative;
 }
@@ -830,24 +861,29 @@
   padding-inline: 0.3rem;
 }
 
+
 .bracketRound > header b,
 .finalColumn > header b {
   color: #d4ad4b;
-  font-size: 0.56rem;
+  font-size: 0.48rem;
 }
+
 
 .bracketRound > header span,
 .finalColumn > header span {
-  font-size: 0.42rem;
+  font-size: 0.34rem;
 }
 
 .bracketRound[data-side="right"] > header {
   flex-direction: row-reverse;
 }
 
+
 .bracketRoundMatches {
   display: flex;
   flex-direction: column;
+  gap: 1px;
+  height: 100%;
   justify-content: space-around;
   min-height: 0;
 }
@@ -856,18 +892,17 @@
   position: relative;
 }
 
+
 .bracketSlot[data-side="left"]::after,
+
 .bracketSlot[data-side="right"]::before {
-  background: linear-gradient(90deg, rgba(209, 169, 67, 0.18), rgba(224, 185, 79, 0.56));
-  content: "";
-  height: 1px;
-  position: absolute;
-  top: 50%;
-  width: 0.75rem;
+  background: linear-gradient(90deg, rgba(224, 185, 79, 0.56), rgba(209, 169, 67, 0.18));
+  left: -6px;
 }
 
+
 .bracketSlot[data-side="left"]::after {
-  right: -0.75rem;
+  right: -6px;
 }
 
 .bracketSlot[data-side="right"]::before {
@@ -875,34 +910,32 @@
   left: -0.75rem;
 }
 
+
 .bracketRound[data-stage="round-of-16"] {
-  --branch-height: 62px;
+  --branch-height: clamp(30px, 5.5vh, 48px);
 }
+
 
 .bracketRound[data-stage="quarter-final"] {
-  --branch-height: 124px;
+  --branch-height: clamp(60px, 11vh, 96px);
 }
 
+
 .bracketRound[data-stage="semi-final"] {
-  --branch-height: 248px;
+  --branch-height: clamp(120px, 22vh, 192px);
 }
 
 .bracketRound[data-side="left"]:not([data-stage="round-of-32"]) .bracketSlot::before,
+
 .bracketRound[data-side="right"]:not([data-stage="round-of-32"]) .bracketSlot::after {
-  border-bottom: 1px solid rgba(224, 185, 79, 0.42);
-  border-top: 1px solid rgba(224, 185, 79, 0.42);
-  content: "";
-  height: var(--branch-height);
-  pointer-events: none;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0.38rem;
+  border-right: 1px solid rgba(224, 185, 79, 0.42);
+  right: -6px;
 }
+
 
 .bracketRound[data-side="left"]:not([data-stage="round-of-32"]) .bracketSlot::before {
   border-left: 1px solid rgba(224, 185, 79, 0.42);
-  left: -0.75rem;
+  left: -6px;
 }
 
 .bracketRound[data-side="right"]:not([data-stage="round-of-32"]) .bracketSlot::after {
@@ -910,41 +943,47 @@
   right: -0.75rem;
 }
 
+
 .bracketPlaceholder {
   background:
     linear-gradient(115deg, rgba(225, 183, 75, 0.025), transparent 45%),
     rgba(255, 255, 255, 0.012);
   border: 1px dashed rgba(222, 183, 84, 0.14);
-  border-radius: 8px;
+  border-radius: 6px;
   color: #53605d;
   display: grid;
-  gap: 0.18rem;
+  gap: 1px;
   min-width: 0;
-  padding: 0.38rem 0.5rem 0.46rem;
+  padding: 2px 4px;
 }
+
 
 .bracketPlaceholder > small {
   font-family: var(--font-mono);
-  font-size: 0.44rem;
-  letter-spacing: 0.08em;
+  font-size: 0.35rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
 }
+
 
 .bracketPlaceholder > div {
   align-items: center;
   display: grid;
-  gap: 0.34rem;
-  grid-template-columns: 18px minmax(0, 1fr) auto;
-  min-height: 24px;
+  gap: 2px;
+  grid-template-columns: 13px minmax(0, 1fr) 12px;
+  min-height: 14px;
 }
+
 
 .bracketPlaceholder > div span {
   color: #786c46;
-  font-size: 0.72rem;
+  font-size: 0.6rem;
 }
+
 
 .bracketPlaceholder > div strong {
   font-family: var(--font-mono);
-  font-size: 0.51rem;
+  font-size: clamp(0.35rem, 0.46vw, 0.5rem);
   font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -965,40 +1004,48 @@
   position: relative;
 }
 
+
 .finalStage::before {
   background: radial-gradient(circle, rgba(230, 183, 58, 0.17), transparent 68%);
   content: "";
-  height: 240px;
+  height: 150px;
   pointer-events: none;
   position: absolute;
-  width: 240px;
+  width: 150px;
 }
 
 .finalStage > .bracketSlot {
   width: 100%;
 }
 
+
 .finalStage > small {
   color: #85713d;
   font-family: var(--font-mono);
-  font-size: 0.43rem;
-  letter-spacing: 0.11em;
-  margin-top: 0.65rem;
+  font-size: 0.34rem;
+  letter-spacing: 0.09em;
+  margin-top: 0.3rem;
 }
+
 
 .finalTrophy {
   align-items: center;
   background: rgba(225, 179, 54, 0.08);
   border: 1px solid rgba(236, 197, 89, 0.3);
   border-radius: 50%;
-  box-shadow: 0 0 30px rgba(223, 174, 43, 0.13);
+  box-shadow: 0 0 20px rgba(223, 174, 43, 0.13);
   color: #efc85e;
   display: flex;
-  height: 50px;
+  height: 32px;
   justify-content: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.35rem;
   position: relative;
-  width: 50px;
+  width: 32px;
+}
+
+.finalTrophy svg {
+  height: 17px;
+  width: 17px;
 }
 
 .finalColumn .bracketFixture,
@@ -1029,51 +1076,62 @@
   grid-template-columns: minmax(320px, 520px);
 }
 
+
 .bracketFixture {
   background:
-    linear-gradient(110deg, color-mix(in srgb, var(--nation-accent) 4%, transparent), transparent 45%),
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--nation-accent) 4%, transparent),
+      transparent 45%
+    ),
     rgba(255, 255, 255, 0.022);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
+  border-radius: 6px;
   display: grid;
-  gap: 0.18rem;
+  gap: 1px;
   min-width: 0;
-  padding: 0.38rem 0.5rem 0.46rem;
+  padding: 2px 4px;
   position: relative;
 }
+
 
 .bracketFixture > small {
   color: #53605d;
   font-family: var(--font-mono);
-  font-size: 0.46rem;
-  letter-spacing: 0.09em;
-  margin-bottom: 0.05rem;
+  font-size: 0.35rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  margin: 0;
 }
+
 
 .bracketFixture > div {
   align-items: center;
   display: grid;
-  gap: 0.35rem;
-  grid-template-columns: 20px minmax(0, 1fr) auto;
-  min-height: 24px;
+  gap: 2px;
+  grid-template-columns: 13px minmax(0, 1fr) 12px;
+  min-height: 14px;
   transition: opacity 450ms ease;
 }
 
+
 .bracketFixture > div span {
-  font-size: 0.92rem;
+  font-size: 0.65rem;
 }
 
+
 .bracketFixture > div strong {
-  font-size: 0.68rem;
+  font-size: clamp(0.4rem, 0.52vw, 0.58rem);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+
 .bracketFixture > div b {
   color: #aab2b0;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.56rem;
 }
 
 .bracketFixture > div[data-winner="true"] strong,
@@ -1085,15 +1143,16 @@
   opacity: 0.38;
 }
 
+
 .bracketFixture > em {
   color: #b39752;
   font-family: var(--font-mono);
-  font-size: 0.47rem;
+  font-size: 0.36rem;
   font-style: normal;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
   position: absolute;
-  right: 0.5rem;
-  top: 0.4rem;
+  right: 4px;
+  top: 2px;
 }
 
 .bracketFixture[data-user="true"] {
@@ -1201,6 +1260,137 @@
   0% { box-shadow: 0 0 0 rgba(229, 183, 63, 0); transform: scale(0.98); }
   28% { box-shadow: 0 0 34px rgba(229, 183, 63, 0.24); transform: scale(1.015); }
   100% { transform: scale(1); }
+}
+
+
+@media (max-height: 850px) and (min-width: 821px) {
+  .main {
+    gap: 0.4rem;
+    padding-block: 0.45rem 0.55rem;
+  }
+
+  .header {
+    min-height: 46px;
+  }
+
+  .cupMark {
+    height: 36px;
+    width: 36px;
+  }
+
+  .titleLockup h1 {
+    font-size: clamp(1.25rem, 2vw, 1.85rem);
+  }
+
+  .progress {
+    min-height: 42px;
+  }
+
+  .progress > div {
+    min-height: 42px;
+  }
+
+  .routePanel {
+    min-height: 58px;
+    padding-block: 0.3rem;
+  }
+
+  .routePanel h2 {
+    font-size: 0.95rem;
+  }
+
+  .routeFixture span {
+    font-size: 0.7rem;
+  }
+
+  .routeFixture b {
+    font-size: 1rem;
+  }
+
+  .routePanel .quickActions > button {
+    min-height: 29px;
+  }
+
+  .bracketHeading {
+    min-height: 31px;
+    padding-block: 0.15rem;
+  }
+
+  .bracketHeading h3 {
+    font-size: 0.75rem;
+  }
+
+  .bracketRound,
+  .finalColumn {
+    grid-template-rows: 20px minmax(0, 1fr);
+  }
+
+  .bracketFixture,
+  .bracketPlaceholder {
+    padding-block: 1px;
+  }
+
+  .bracketFixture > div,
+  .bracketPlaceholder > div {
+    min-height: 12px;
+  }
+
+  .finalTrophy {
+    height: 28px;
+    margin-bottom: 0.2rem;
+    width: 28px;
+  }
+
+  .finalTrophy svg {
+    height: 15px;
+    width: 15px;
+  }
+}
+
+@media (max-height: 720px) and (min-width: 821px) {
+  .headerStatus {
+    display: none;
+  }
+
+  .header {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .routePanel {
+    grid-template-columns: minmax(180px, 0.65fr) minmax(260px, 1fr) auto;
+    min-height: 50px;
+  }
+
+  .routePanel .eyebrow {
+    display: none;
+  }
+
+  .bracketHeading h3 {
+    display: none;
+  }
+
+  .bracketHeading {
+    min-height: 25px;
+  }
+
+  .bracketHeading > span {
+    font-size: 0.46rem;
+  }
+
+  .bracketRound > header span,
+  .finalColumn > header span {
+    display: none;
+  }
+
+  .bracketFixture > small,
+  .bracketPlaceholder > small {
+    font-size: 0.3rem;
+  }
+
+  .bracketFixture > div,
+  .bracketPlaceholder > div {
+    min-height: 10px;
+  }
 }
 
 @media (max-width: 1180px) {

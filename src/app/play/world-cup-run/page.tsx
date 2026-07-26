@@ -531,7 +531,7 @@ export default function WorldCupRunPage() {
                   <p className="eyebrow">FULL KNOCKOUT BRACKET</p>
                   <h3>The road to the World Cup Final</h3>
                 </div>
-                <span><i /> TROPHY XI PATH · SCROLL TO EXPLORE</span>
+                <span><i /> TROPHY XI PATH · FULL BRACKET</span>
               </div>
               <FullBracket
                 fixtures={run.fixtures}
@@ -652,39 +652,52 @@ function FullBracket({
 
   const finalFixture = fixtureFor("final", 0);
   return (
-    <div className={styles.fullBracketScroll}>
-      <div className={styles.fullBracket} aria-label="Full World Cup knockout bracket">
-        {renderRound("round-of-32", [0, 1, 2, 3, 4, 5, 6, 7], "left")}
-        {renderRound("round-of-16", [0, 1, 2, 3], "left")}
-        {renderRound("quarter-final", [0, 1], "left")}
-        {renderRound("semi-final", [0], "left")}
+  <div
+    className={styles.fullBracket}
+    aria-label="Full World Cup knockout bracket"
+  >
+    {renderRound("round-of-32", [0, 1, 2, 3, 4, 5, 6, 7], "left")}
+    {renderRound("round-of-16", [0, 1, 2, 3], "left")}
+    {renderRound("quarter-final", [0, 1], "left")}
+    {renderRound("semi-final", [0], "left")}
 
-        <section className={styles.finalColumn}>
-          <header><b>FINAL</b><span>THE DECIDER</span></header>
-          <div className={styles.finalStage}>
-            <span className={styles.finalTrophy} aria-hidden><Trophy size={25} /></span>
-            <BracketSlot
-              stage="final"
-              index={0}
-              fixture={finalFixture}
-              teams={teams}
-              userTeamId={userTeamId}
-              side="center"
-              revealed={Boolean(
-                finalFixture && revealedFixtures.includes(finalFixture.id),
-              )}
-            />
-            <small>WINNER LIFTS THE WORLD CUP</small>
-          </div>
-        </section>
+    <section className={styles.finalColumn}>
+      <header>
+        <b>FINAL</b>
+        <span>THE DECIDER</span>
+      </header>
 
-        {renderRound("semi-final", [1], "right")}
-        {renderRound("quarter-final", [2, 3], "right")}
-        {renderRound("round-of-16", [4, 5, 6, 7], "right")}
-        {renderRound("round-of-32", [8, 9, 10, 11, 12, 13, 14, 15], "right")}
+      <div className={styles.finalStage}>
+        <span className={styles.finalTrophy} aria-hidden>
+          <Trophy size={25} />
+        </span>
+
+        <BracketSlot
+          stage="final"
+          index={0}
+          fixture={finalFixture}
+          teams={teams}
+          userTeamId={userTeamId}
+          side="center"
+          revealed={Boolean(
+            finalFixture && revealedFixtures.includes(finalFixture.id),
+          )}
+        />
+
+        <small>WINNER LIFTS THE WORLD CUP</small>
       </div>
-    </div>
-  );
+    </section>
+
+    {renderRound("semi-final", [1], "right")}
+    {renderRound("quarter-final", [2, 3], "right")}
+    {renderRound("round-of-16", [4, 5, 6, 7], "right")}
+    {renderRound(
+      "round-of-32",
+      [8, 9, 10, 11, 12, 13, 14, 15],
+      "right",
+    )}
+  </div>
+);
 }
 
 function BracketSlot({
