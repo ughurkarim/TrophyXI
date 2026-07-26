@@ -392,6 +392,14 @@ export type TeamRatings = {
   timelessness: number;
   managerOffense: number;
   managerDefense: number;
+  /** Average card quality: starters 92%, bench 8% when a bench is present. */
+  playerQuality?: number;
+  /** 50% player quality + 30% position fit + 20% chemistry. */
+  coreOverall?: number;
+  /** Identity-level career accolade score for the full squad. */
+  legacyScore?: number;
+  /** Team-wide accolade bonus added once to coreOverall. */
+  legacyBonus?: 0 | 1 | 2 | 3 | 4;
   overall: number;
 };
 

@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { getFormation } from "@/data/formations";
 import { playersById } from "@/data/players";
+import {
+  calculatePlayerLegacyScore,
+  calculateSquadLegacy,
+} from "@/engine/accolade-effects";
 import { calculateTeamRatings } from "@/engine/ratings";
 import {
   getPlacementPenaltyPercent,
@@ -37,6 +41,14 @@ describe("team ratings", () => {
     expect(ratings.positionFit).toBeLessThanOrEqual(100);
     expect(ratings.eraFit).toBeLessThanOrEqual(100);
     expect(ratings.managerFit).toBeLessThanOrEqual(100);
+    expect(ratings.playerQuality).toBeGreaterThan(0);
+    expect(ratings.coreOverall).toBeGreaterThan(0);
+    expect(ratings.legacyScore).toBeGreaterThanOrEqual(0);
+    expect(ratings.legacyBonus).toBeGreaterThanOrEqual(0);
+    expect(ratings.legacyBonus).toBeLessThanOrEqual(4);
+    expect(ratings.overall).toBe(
+      Math.min(99, Math.round((ratings.coreOverall ?? 0) + (ratings.legacyBonus ?? 0))),
+    );
     expect(ratings.overall).toBeGreaterThan(80);
     expect(ratings.attack).toBeGreaterThan(80);
   });
@@ -86,4 +98,18 @@ describe("team ratings", () => {
     expect(natural.positionFit).toBeGreaterThan(awkward.positionFit);
     expect(natural.overall).toBeGreaterThan(awkward.overall);
   });
+  it("uses identity-level career legacy across tournament card versions", () => {
+    const messi2014 = playersById.get("lionel-messi-2014")!;
+    const messi2022 = playersById.get("lionel-messi-2022")!;
+
+    expect(calculatePlayerLegacyScore(messi2014)).toBe(
+      calculatePlayerLegacyScore(messi2022),
+    );
+
+    const legacy = calculateSquadLegacy([messi2014, messi2022]);
+    expect(legacy.contributors).toHaveLength(1);
+    expect(legacy.bonus).toBeGreaterThanOrEqual(0);
+    expect(legacy.bonus).toBeLessThanOrEqual(4);
+  });
+
 });

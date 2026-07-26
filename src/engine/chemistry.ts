@@ -1,10 +1,7 @@
 import { calculateEraFit } from "@/data/eras";
 import { formations } from "@/data/formations";
 import { getPositionFit } from "@/engine/draft";
-import {
-  calculatePlayerLeadership,
-  calculateSquadAccoladeEffect,
-} from "@/engine/accolade-effects";
+import { calculatePlayerLeadership } from "@/engine/accolade-effects";
 import type {
   DraftEraId,
   DraftPick,
@@ -25,6 +22,8 @@ export type ChemistryBreakdown = {
   averagePositionFit: number;
   averageEraFit: number;
   managerFit: number;
+  formationBalance: number;
+  playerCohesion: number;
   leadership: number;
   accoladeBoost: number;
   benchCoverage: number;
@@ -115,6 +114,62 @@ export const calculateManagerFit = (
   return 68;
 };
 
+const clamp100 = (value: number) =>
+  Math.max(0, Math.min(100, value));
+
+const average = (values: number[]) =>
+  values.length
+    ? values.reduce((sum, value) => sum + value, 0) / values.length
+    : 0;
+
+const calculateFormationBalance = (
+  lineup: PlayerTournamentCard[],
+): number => {
+  if (lineup.length === 0) return 0;
+
+  const goalkeeper = lineup.filter(
+    (player) => player.primaryPosition === "GK",
+  );
+  const outfield = lineup.filter(
+    (player) => player.primaryPosition !== "GK",
+  );
+  const topAverage = (values: number[], count: number) =>
+    average([...values].sort((a, b) => b - a).slice(0, count));
+
+  const attack = topAverage(
+    outfield.map(
+      (player) =>
+        player.attributes.attack * 0.62 +
+        player.attributes.creativity * 0.38,
+    ),
+    4,
+  );
+  const midfield = topAverage(
+    outfield.map(
+      (player) =>
+        player.attributes.control * 0.52 +
+        player.attributes.creativity * 0.32 +
+        player.attributes.physical * 0.16,
+    ),
+    5,
+  );
+  const outfieldDefense = topAverage(
+    outfield.map(
+      (player) =>
+        player.attributes.defense * 0.65 +
+        player.attributes.physical * 0.35,
+    ),
+    4,
+  );
+  const keeper = average(
+    goalkeeper.map((player) => player.attributes.goalkeeping),
+  );
+  const defense = outfieldDefense * 0.78 + (keeper || outfieldDefense) * 0.22;
+  const spread = Math.max(attack, midfield, defense) - Math.min(attack, midfield, defense);
+
+  return Math.round(clamp100(100 - spread * 1.45));
+};
+
 export const calculateChemistry = (
   lineup: PlayerTournamentCard[],
   formation: Formation,
@@ -138,8 +193,10 @@ export const calculateChemistry = (
       archetypeLinks: 0,
       positionFits: 0,
       averagePositionFit: 0,
-      averageEraFit: 0,
+      averageEraFit: eraId === "all" ? 100 : 0,
       managerFit,
+      formationBalance: 0,
+      playerCohesion: 0,
       leadership: 0,
       accoladeBoost: 0,
       benchCoverage: 0,
@@ -166,32 +223,35 @@ export const calculateChemistry = (
   }
 
   const fits = lineup.map((player, index) => {
-    const pick = context.picks?.find((candidate) => candidate.cardId === player.id);
+    const pick = context.picks?.find(
+      (candidate) => candidate.cardId === player.id,
+    );
     const slot = pick
       ? formation.slots.find((candidate) => candidate.id === pick.slotId)
       : formation.slots[index];
     return slot ? getPositionFit(player, slot) : 0;
   });
   const positionFits = fits.filter((fit) => fit >= 88).length;
-  const averagePositionFit = Math.round(
-    fits.reduce<number>((sum, fit) => sum + fit, 0) / lineup.length,
-  );
+  const averagePositionFit = Math.round(average(fits));
+
   const averageEraFit =
     eraId === "all"
-      ? 0
+      ? 100
       : Math.round(
-          lineup.reduce(
-            (sum, player) =>
-              sum +
+          average(
+            lineup.map((player) =>
               calculateEraFit(player, eraId, {
                 manager: context.manager,
                 formation,
               }),
-            0,
-          ) / lineup.length,
+            ),
+          ),
         );
 
-  const possibleLinks = Math.max(1, (lineup.length * (lineup.length - 1)) / 2);
+  const possibleLinks = Math.max(
+    1,
+    (lineup.length * (lineup.length - 1)) / 2,
+  );
   const weightedLinks =
     (countryLinks * 4 +
       yearLinks * 2.5 +
@@ -199,59 +259,42 @@ export const calculateChemistry = (
       confederationLinks * 0.75 +
       archetypeLinks * 0.5) /
     (possibleLinks * 9);
-  const completion = lineup.length / formation.slots.length;
+
   const leadership = Math.round(
-    lineup.reduce(
-      (sum, player) => sum + calculatePlayerLeadership(player),
-      0,
-    ) / lineup.length,
+    average(lineup.map((player) => calculatePlayerLeadership(player))),
   );
-  const bench = context.bench ?? [];
-  const accoladeBoost = calculateSquadAccoladeEffect([
-    ...lineup,
-    ...bench,
-  ]).chemistry;
-  const benchCoverage = bench.length
-    ? Math.min(
-        2,
-        bench.length * 0.4 +
-          bench.reduce(
-            (sum, player) => sum + Math.min(0.24, player.eligiblePositions.length * 0.04),
-            0,
-          ),
-      )
-    : 0;
-  const weakLinkPenalty =
-    lineup.length > 1
-      ? (1 - weightedLinks) * Math.min(4, lineup.length * 0.35)
-      : 0;
-  const rawContributions = {
-    position: averagePositionFit * 0.21,
-    era: eraId === "all" ? 0 : averageEraFit * 0.08,
-    manager: managerFit * 0.11,
-    links: weightedLinks * 30,
-    leadership: Math.max(0, Math.min(2.4, (leadership - 70) * 0.08)),
-    accolades: accoladeBoost,
-    bench: benchCoverage,
-    weakLinks: -weakLinkPenalty,
-  };
-  const contributions = Object.fromEntries(
-    Object.entries(rawContributions).map(([key, value]) => [
-      key,
-      Math.round(value * completion),
-    ]),
-  ) as ChemistryBreakdown["contributions"];
-  const score = Math.round(
-    Math.min(
-      100,
-      (27 +
-        Object.values(rawContributions).reduce(
-          (sum, contribution) => sum + contribution,
-          0,
-        )) *
-        completion,
-    ),
+
+  // Cohesion has a healthy fantasy-squad baseline. Genuine country/year/era
+  // connections raise it, while player composure/leadership stabilizes it.
+  const linkCohesion = clamp100(60 + weightedLinks * 40);
+  const playerCohesion = Math.round(
+    clamp100(linkCohesion * 0.8 + leadership * 0.2),
   );
+  const formationBalance = calculateFormationBalance(lineup);
+  const completion = Math.min(1, lineup.length / formation.slots.length);
+
+  // New Trophy XI chemistry model:
+  // 55% player cohesion, 25% manager fit, 15% formation balance, 5% era fit.
+  // Position fit is deliberately NOT included here; it owns 30% of core OVR.
+  // Accolades are deliberately NOT included here; they only create Legacy.
+  const fullSquadScore =
+    playerCohesion * 0.55 +
+    managerFit * 0.25 +
+    formationBalance * 0.15 +
+    averageEraFit * 0.05;
+  const score = Math.round(clamp100(fullSquadScore * completion));
+
+  const contributions = {
+    // Kept under the existing `position` key for API compatibility.
+    position: Math.round(formationBalance * 0.15 * completion),
+    era: Math.round(averageEraFit * 0.05 * completion),
+    manager: Math.round(managerFit * 0.25 * completion),
+    links: Math.round(playerCohesion * 0.55 * completion),
+    leadership: 0,
+    accolades: 0,
+    bench: 0,
+    weakLinks: 0,
+  } satisfies ChemistryBreakdown["contributions"];
 
   return {
     score,
@@ -265,9 +308,11 @@ export const calculateChemistry = (
     averagePositionFit,
     averageEraFit,
     managerFit,
+    formationBalance,
+    playerCohesion,
     leadership,
-    accoladeBoost,
-    benchCoverage,
+    accoladeBoost: 0,
+    benchCoverage: 0,
     contributions,
   };
 };
@@ -289,14 +334,7 @@ export const explainChemistryChange = (
   if (position !== 0) {
     reasons.push({
       key: "position",
-      label:
-        context.positionFit >= 96
-          ? "Perfect position"
-          : context.positionFit >= 88
-            ? "Strong position"
-            : context.positionFit >= 72
-              ? "Adaptable position"
-              : "Awkward position",
+      label: "Formation balance",
       value: position,
     });
   }

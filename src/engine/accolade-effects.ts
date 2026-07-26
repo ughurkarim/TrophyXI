@@ -1,7 +1,6 @@
 import type {
   PlayerAccolade,
   PlayerTournamentCard,
-  TournamentAchievement,
 } from "@/types/game";
 
 export type AccoladeKind =
@@ -172,19 +171,19 @@ const priorityByKind: Record<AccoladeKind, number> = {
 };
 
 const effectLabelByKind: Record<AccoladeKind, string> = {
-  "world-cup-champion": "Composure · leadership · chemistry",
-  "ballon-dor": "Creative influence · leadership",
-  "world-cup-golden-ball": "Tournament influence · consistency",
-  "world-cup-golden-boot": "Finishing · attacking threat",
-  "world-cup-golden-glove": "Goalkeeping · defensive organization",
-  "continental-international": "International experience · leadership",
-  "continental-club": "High-pressure experience",
-  "international-individual": "Influence · consistency",
-  "domestic-league": "Consistency · tactical discipline",
-  "domestic-cup": "Knockout experience",
-  "league-individual": "League influence",
-  "other-individual": "Individual influence",
-  "top-100": "Prestige · leadership",
+  "world-cup-champion": "Career legacy",
+  "ballon-dor": "Career legacy",
+  "world-cup-golden-ball": "Career legacy",
+  "world-cup-golden-boot": "Career legacy",
+  "world-cup-golden-glove": "Career legacy",
+  "continental-international": "Career legacy",
+  "continental-club": "Career legacy",
+  "international-individual": "Career legacy",
+  "domestic-league": "Career legacy",
+  "domestic-cup": "Career legacy",
+  "league-individual": "Career legacy",
+  "other-individual": "Career legacy",
+  "top-100": "Career legacy",
 };
 
 const normalize = (label: string) =>
@@ -275,36 +274,15 @@ const itemFromCareerAccolade = (
   };
 };
 
-const itemFromTournamentAchievement = (
-  achievement: TournamentAchievement,
-): PlayerAccoladeItem => {
-  const value = normalize(achievement.label);
-  const kind =
-    value === "golden ball"
-      ? "world-cup-golden-ball"
-      : value === "golden boot"
-        ? "world-cup-golden-boot"
-        : value === "golden glove"
-          ? "world-cup-golden-glove"
-          : classifyAccolade(achievement.label);
-  return {
-    id: achievement.id,
-    label: displayLabel(achievement.label, kind),
-    kind,
-    priority: priorityByKind[kind],
-    effectLabel: effectLabelByKind[kind],
-    sourceUrl: achievement.source.url,
-    tournament: true,
-  };
-};
-
+/**
+ * Career accolades belong to the player identity, not to a tournament card.
+ * Tournament-specific `achievements` are intentionally excluded here so every
+ * card version of the same player carries the same legacy profile.
+ */
 export const getPlayerAccoladeItems = (player: PlayerTournamentCard) => {
   const career = player.careerAccolades
     .filter((accolade) => accolade.verified)
     .map(itemFromCareerAccolade);
-  const tournament = player.achievements
-    .filter((achievement) => Boolean(achievement.source.url))
-    .map(itemFromTournamentAchievement);
   const top100: PlayerAccoladeItem[] = player.top100Player
     ? [
         {
@@ -320,13 +298,10 @@ export const getPlayerAccoladeItems = (player: PlayerTournamentCard) => {
     : [];
 
   const unique = new Map<string, PlayerAccoladeItem>();
-  for (const item of [...career, ...tournament, ...top100]) {
+  for (const item of [...career, ...top100]) {
     const key = `${item.kind}:${item.label}`;
     const existing = unique.get(key);
-    if (
-      !existing ||
-      (item.count ?? 1) > (existing.count ?? 1)
-    ) {
+    if (!existing || (item.count ?? 1) > (existing.count ?? 1)) {
       unique.set(key, item);
     }
   }
@@ -342,66 +317,143 @@ export const getPlayerAccoladeItems = (player: PlayerTournamentCard) => {
 const diminishingCount = (count: number) =>
   Math.min(2.65, 1 + Math.log2(Math.max(1, count)) * 0.55);
 
-export const calculatePlayerAccoladeEffect = (
+/**
+ * Legacy is intentionally separate from attack/midfield/defense/chemistry.
+ * These weights only determine how prestigious a verified career accolade is.
+ */
+const legacyPointsByKind: Record<AccoladeKind, number> = {
+  "world-cup-champion": 22,
+  "ballon-dor": 18,
+  "world-cup-golden-ball": 14,
+  "world-cup-golden-boot": 11,
+  "world-cup-golden-glove": 11,
+  "continental-international": 10,
+  "continental-club": 7,
+  "international-individual": 5,
+  "domestic-league": 3,
+  "domestic-cup": 2,
+  "league-individual": 3,
+  "other-individual": 2,
+  "top-100": 6,
+};
+
+export type SquadLegacy = {
+  score: number;
+  bonus: 0 | 1 | 2 | 3 | 4;
+  contributors: Array<{
+    playerIdentityId: string;
+    playerName: string;
+    score: number;
+  }>;
+};
+
+export const calculatePlayerLegacyScore = (
   player: PlayerTournamentCard,
-): AccoladeEffect => {
-  const effect = emptyEffect();
-  const seen = new Set<string>();
-  for (const item of getPlayerAccoladeItems(player)) {
-    const key = `${item.kind}:${item.label}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    const base = effectByKind[item.kind];
-    const countFactor = diminishingCount(item.count ?? 1);
-    effect.attack += base.attack * countFactor;
-    effect.midfield += base.midfield * countFactor;
-    effect.defense += base.defense * countFactor;
-    effect.chemistry += base.chemistry * countFactor;
-    effect.leadership += base.leadership * countFactor;
-    effect.quality += base.quality * countFactor;
-  }
-  return {
-    attack: Math.min(1.4, effect.attack),
-    midfield: Math.min(1.4, effect.midfield),
-    defense: Math.min(1.4, effect.defense),
-    chemistry: Math.min(1.6, effect.chemistry),
-    leadership: Math.min(2, effect.leadership),
-    quality: Math.min(1.6, effect.quality),
-  };
-};
+): number => {
+  const items = getPlayerAccoladeItems(player);
+  if (items.length === 0) return 0;
 
-export const calculateSquadAccoladeEffect = (
-  players: PlayerTournamentCard[],
-): AccoladeEffect => {
-  const total = players.reduce((sum, player) => {
-    const effect = calculatePlayerAccoladeEffect(player);
-    for (const key of Object.keys(sum) as Array<keyof AccoladeEffect>) {
-      sum[key] += effect[key];
-    }
-    return sum;
-  }, emptyEffect());
-  return {
-    attack: Math.min(1.8, total.attack * 0.3),
-    midfield: Math.min(1.8, total.midfield * 0.3),
-    defense: Math.min(1.8, total.defense * 0.3),
-    chemistry: Math.min(3, total.chemistry * 0.34),
-    leadership: Math.min(3, total.leadership * 0.35),
-    quality: Math.min(1.8, total.quality * 0.3),
-  };
-};
+  const points = items.reduce(
+    (sum, item) =>
+      sum +
+      legacyPointsByKind[item.kind] *
+        diminishingCount(item.count ?? 1),
+    0,
+  );
 
-export const calculatePlayerLeadership = (player: PlayerTournamentCard) => {
-  const accoladeEffect = calculatePlayerAccoladeEffect(player);
+  // Smooth diminishing returns: established greats separate clearly, while
+  // enormous trophy counts cannot make the score exceed 100.
   return Math.round(
+    Math.min(100, 100 * (1 - Math.exp(-points / 45))),
+  );
+};
+
+const legacyBonusForScore = (score: number): 0 | 1 | 2 | 3 | 4 => {
+  if (score >= 92) return 4;
+  if (score >= 80) return 3;
+  if (score >= 65) return 2;
+  if (score >= 50) return 1;
+  return 0;
+};
+
+export const calculateSquadLegacy = (
+  players: PlayerTournamentCard[],
+): SquadLegacy => {
+  // Defensive dedupe makes legacy identity-safe even if a caller accidentally
+  // provides two tournament cards for the same player.
+  const byIdentity = new Map<string, PlayerTournamentCard>();
+  for (const player of players) {
+    if (!byIdentity.has(player.playerIdentityId)) {
+      byIdentity.set(player.playerIdentityId, player);
+    }
+  }
+
+  const contributors = [...byIdentity.values()]
+    .map((player) => ({
+      playerIdentityId: player.playerIdentityId,
+      playerName: player.playerName,
+      score: calculatePlayerLegacyScore(player),
+    }))
+    .sort(
+      (first, second) =>
+        second.score - first.score ||
+        first.playerName.localeCompare(second.playerName),
+    );
+
+  if (contributors.length === 0) {
+    return { score: 0, bonus: 0, contributors: [] };
+  }
+
+  const groups = [
+    { values: contributors.slice(0, 3), weight: 0.45 },
+    { values: contributors.slice(3, 7), weight: 0.35 },
+    { values: contributors.slice(7, 14), weight: 0.2 },
+  ].filter((group) => group.values.length > 0);
+
+  const usedWeight = groups.reduce((sum, group) => sum + group.weight, 0);
+  const score = Math.round(
+    groups.reduce(
+      (sum, group) =>
+        sum +
+        (group.values.reduce((groupSum, item) => groupSum + item.score, 0) /
+          group.values.length) *
+          group.weight,
+      0,
+    ) / usedWeight,
+  );
+
+  return {
+    score,
+    bonus: legacyBonusForScore(score),
+    contributors,
+  };
+};
+
+/**
+ * @deprecated Legacy no longer directly boosts phases or chemistry.
+ * Kept as a compatibility shim for callers that have not migrated yet.
+ */
+export const calculatePlayerAccoladeEffect = (
+  _player: PlayerTournamentCard,
+): AccoladeEffect => emptyEffect();
+
+/**
+ * @deprecated Legacy no longer directly boosts phases or chemistry.
+ * Use `calculateSquadLegacy` for the single team-wide +0..+4 bonus.
+ */
+export const calculateSquadAccoladeEffect = (
+  _players: PlayerTournamentCard[],
+): AccoladeEffect => emptyEffect();
+
+export const calculatePlayerLeadership = (player: PlayerTournamentCard) =>
+  Math.round(
     Math.min(
       99,
       Math.max(
         55,
-        player.attributes.clutch * 0.55 +
-          player.overall * 0.25 +
-          15 +
-          accoladeEffect.leadership * 4,
+        player.attributes.clutch * 0.6 +
+          player.overall * 0.3 +
+          10,
       ),
     ),
   );
-};

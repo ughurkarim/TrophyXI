@@ -23,26 +23,31 @@ export type FreeSelectionRosterImpactInput = {
 };
 
 /**
- * Ranks a card by what it does for the current squad. A real team-overall
- * improvement decisively outweighs a small fit difference; bench candidates
- * are judged without positional fit and get a modest versatility bonus.
+ * @deprecated UI ranking should compare the projected `calculateTeamRatings`
+ * result directly. Kept for compatibility with older callers/tests.
+ *
+ * Manager fit and era fit are intentionally not scored independently here:
+ * both already flow through the game-wide Chemistry -> Squad OVR pipeline.
  */
 export const scoreFreeSelectionRosterImpact = ({
   playerOverall,
   positionFit,
   overallGain,
   chemistryGain,
-  managerFitGain,
-  eraFit,
+  managerFitGain: _managerFitGain,
+  eraFit: _eraFit,
   versatility,
   isBench,
-}: FreeSelectionRosterImpactInput) =>
-  overallGain * 140 +
-  chemistryGain * 7 +
-  managerFitGain * 2 +
-  playerOverall +
-  (isBench ? versatility * 0.8 : positionFit * 0.12) +
-  (eraFit ?? 0) * 0.06;
+}: FreeSelectionRosterImpactInput) => {
+  void _managerFitGain;
+  void _eraFit;
+  return (
+    overallGain * 1_000 +
+    chemistryGain * 5 +
+    playerOverall +
+    (isBench ? versatility * 0.8 : positionFit * 0.08)
+  );
+};
 
 export type FreeSelectionSquad = {
   picks: DraftPick[];

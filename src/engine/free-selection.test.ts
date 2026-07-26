@@ -20,7 +20,7 @@ const cardsFor = (
   );
 
 describe("Free Selection random squad generation", () => {
-  it("ranks actual roster improvement above a perfect-fit label", () => {
+  it("keeps projected squad OVR gain as the dominant compatibility score", () => {
     const perfectFit = scoreFreeSelectionRosterImpact({
       playerOverall: 88,
       positionFit: 100,

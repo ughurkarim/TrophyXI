@@ -1,5 +1,5 @@
 import { calculateEraFitDetails } from "@/data/eras";
-import { calculateSquadAccoladeEffect } from "@/engine/accolade-effects";
+import { calculateSquadLegacy } from "@/engine/accolade-effects";
 import { calculateChemistry } from "@/engine/chemistry";
 import {
   getPlacementPenaltyPercent,
@@ -53,6 +53,10 @@ export const calculateTeamRatings = (
       timelessness: 0,
       managerOffense: context.manager?.grades.offense ?? 0,
       managerDefense: context.manager?.grades.defense ?? 0,
+      playerQuality: 0,
+      coreOverall: 0,
+      legacyScore: 0,
+      legacyBonus: 0,
       overall: 0,
     };
   }
@@ -101,10 +105,6 @@ export const calculateTeamRatings = (
     (placementMultiplier.get(player.id) ?? 1) *
     (eraMultiplier.get(player.id) ?? 1);
   const bench = context.bench ?? [];
-  const accoladeEffect = calculateSquadAccoladeEffect([
-    ...lineup,
-    ...bench,
-  ]);
   const attack =
     topAverage(
       outfield.map(
@@ -119,8 +119,7 @@ export const calculateTeamRatings = (
     (manager?.simulationModifier.attack ?? 0) * managerEffectiveness +
     ((manager?.grades.offense ?? 78) - 78) *
       0.045 *
-      managerEffectiveness +
-    accoladeEffect.attack;
+      managerEffectiveness;
   const midfield =
     topAverage(
       outfield.map(
@@ -132,8 +131,7 @@ export const calculateTeamRatings = (
       5,
     ) +
     formation.modifiers.midfield +
-    (manager?.simulationModifier.midfield ?? 0) * managerEffectiveness +
-    accoladeEffect.midfield;
+    (manager?.simulationModifier.midfield ?? 0) * managerEffectiveness;
   const outfieldDefense = topAverage(
     outfield.map(
       (player) =>
@@ -155,18 +153,48 @@ export const calculateTeamRatings = (
     (manager?.simulationModifier.defense ?? 0) * managerEffectiveness +
     ((manager?.grades.defense ?? 78) - 78) *
       0.045 *
-      managerEffectiveness +
-    accoladeEffect.defense;
+      managerEffectiveness;
   const chemistry = calculateChemistry(lineup, formation, context);
-  const quality =
-    attack * 0.34 +
-    midfield * 0.33 +
-    defense * 0.33 +
-    accoladeEffect.quality * 0.35;
-  const chemistryAdjustment = ((chemistry.score - 75) / 25) * 2;
-  const fitAdjustment =
-    ((chemistry.averagePositionFit - 88) / 12) * 1.4 +
-    ((chemistry.managerFit - 82) / 18) * 0.8;
+
+  const starterQuality = average(lineup.map((player) => player.overall));
+  const benchQuality = average(bench.map((player) => player.overall));
+  const playerQuality =
+    bench.length > 0
+      ? starterQuality * 0.92 + benchQuality * 0.08
+      : starterQuality;
+
+  const placementFits = lineup.map((player, index) => {
+    const pick = context.picks?.find(
+      (candidate) => candidate.cardId === player.id,
+    );
+    const slot = pick
+      ? formation.slots.find((candidate) => candidate.id === pick.slotId)
+      : formation.slots[index];
+    return slot ? getPositionFit(player, slot) : 0;
+  });
+  const severePlacementPenalty = average(
+    placementFits.map((fit) => {
+      if (fit < 50) return 8;
+      if (fit < 70) return 4;
+      if (fit < 80) return 1.5;
+      return 0;
+    }),
+  );
+  const squadPositionFit = Math.max(
+    0,
+    Math.min(100, average(placementFits) - severePlacementPenalty),
+  );
+
+  // One game-wide source of truth for squad strength.
+  // Manager and era influence OVR only through Chemistry.
+  const coreOverall =
+    playerQuality * 0.5 +
+    squadPositionFit * 0.3 +
+    chemistry.score * 0.2;
+
+  // Accolades are identity-level career legacy and only affect the team here.
+  const legacy = calculateSquadLegacy([...lineup, ...bench]);
+
   const benchWeights = [0.4, 0.25, 0.15];
   const benchDepth = bench.length
     ? roundRating(
@@ -186,23 +214,17 @@ export const calculateTeamRatings = (
         ),
       )
     : 0;
-  const phaseRatings = [attack, midfield, defense];
-  const tacticalBalance = roundRating(
-    100 - (Math.max(...phaseRatings) - Math.min(...phaseRatings)) * 1.8,
-  );
+  const tacticalBalance = chemistry.formationBalance;
   const timelessness = roundRating(
     average(lineup.map((player) => player.eraTranslation.timelessness)),
   );
-  const benchAdjustment = bench.length
-    ? ((benchDepth - 82) / 17) * 0.8 + ((benchVersatility - 82) / 17) * 0.35
-    : 0;
 
   return {
     attack: roundRating(attack),
     midfield: roundRating(midfield),
     defense: roundRating(defense),
     chemistry: chemistry.score,
-    positionFit: chemistry.averagePositionFit,
+    positionFit: roundRating(squadPositionFit),
     eraFit: chemistry.averageEraFit,
     managerFit: chemistry.managerFit,
     benchDepth,
@@ -211,8 +233,10 @@ export const calculateTeamRatings = (
     timelessness,
     managerOffense: manager?.grades.offense ?? 0,
     managerDefense: manager?.grades.defense ?? 0,
-    overall: roundRating(
-      quality + chemistryAdjustment + fitAdjustment + benchAdjustment,
-    ),
+    playerQuality: roundRating(playerQuality),
+    coreOverall: roundRating(coreOverall),
+    legacyScore: legacy.score,
+    legacyBonus: legacy.bonus,
+    overall: roundRating(coreOverall + legacy.bonus),
   };
 };

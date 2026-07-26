@@ -4,7 +4,6 @@ import { Dices, Eye, Move, Search, Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
-import { PlayerCard } from "@/components/cards/player-card";
 import { PlayerDetails } from "@/components/cards/player-details";
 import { OpponentSelection } from "@/components/draft/opponent-selection";
 import { TeamRatings } from "@/components/draft/team-ratings";
@@ -17,7 +16,6 @@ import { getFormation } from "@/data/formations";
 import { managersById } from "@/data/managers";
 import { draftEligiblePlayers, playersById } from "@/data/players";
 import { getPositionFit } from "@/engine/draft";
-import { scoreFreeSelectionRosterImpact } from "@/engine/free-selection";
 import { calculateTeamRatings } from "@/engine/ratings";
 import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
@@ -26,6 +24,12 @@ import styles from "./free-selection.module.css";
 
 const benchSlots: BenchSlotId[] = ["bench-1", "bench-2", "bench-3"];
 const tierOptions: PlayerStatusTier[] = ["legend", "icon", "elite", "standout", "reliable", "role-player", "limited"];
+
+const normalizeSearchText = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase();
 
 export default function FreeSelectionPage() {
   const router = useRouter();
@@ -87,11 +91,14 @@ export default function FreeSelectionPage() {
 
   const candidates = useMemo(() => {
     if (!formation || !manager || !eraId || !ratings || (!targetSlot && !targetBench)) return [];
-    const normalizedQuery = query.trim().toLocaleLowerCase();
+    const normalizedQuery = normalizeSearchText(query.trim());
     const eligible = draftEligiblePlayers
       .filter((player) =>
         !usedIdentityIds.has(player.playerIdentityId) &&
-        (!normalizedQuery || `${player.playerName} ${player.countryName} ${player.tournamentYear}`.toLocaleLowerCase().includes(normalizedQuery)) &&
+        (!normalizedQuery ||
+          normalizeSearchText(
+            `${player.playerName} ${player.countryName} ${player.countryCode} ${player.tournamentYear}`,
+          ).includes(normalizedQuery)) &&
         (!year || player.tournamentYear === year) &&
         (!nation || player.countryCode === nation) &&
         (!tier || player.statusTier === tier) &&
@@ -103,7 +110,7 @@ export default function FreeSelectionPage() {
           : 0;
         return { player, positionFit };
       })
-      .filter((candidate) => viewAll || targetBench || candidate.positionFit >= 70);
+      .filter((candidate) => targetBench || candidate.positionFit >= 70);
     const impactPool = targetBench && !viewAll
       ? [...eligible]
           .sort(
@@ -123,25 +130,28 @@ export default function FreeSelectionPage() {
         const chemistryGain = projected.chemistry - ratings.chemistry;
         const overallGain = projected.overall - ratings.overall;
         const managerFitGain = projected.managerFit - ratings.managerFit;
-        const rosterImpact = scoreFreeSelectionRosterImpact({
-          playerOverall: player.overall,
+        return {
+          player,
           positionFit,
-          overallGain,
-          chemistryGain,
-          managerFitGain,
           eraFit,
-          versatility: new Set([player.primaryPosition, ...player.eligiblePositions]).size,
-          isBench: Boolean(targetBench),
-        });
-        return { player, positionFit, eraFit, chemistryGain, overallGain, managerFitGain, rosterImpact, projected };
+          chemistryGain,
+          overallGain,
+          managerFitGain,
+          projected,
+        };
       })
       .sort((first, second) =>
-        second.rosterImpact - first.rosterImpact ||
-        second.overallGain - first.overallGain ||
-        second.chemistryGain - first.chemistryGain ||
-        second.player.overall - first.player.overall ||
-        second.positionFit - first.positionFit ||
-        first.player.playerName.localeCompare(second.player.playerName),
+        viewAll
+          ? second.player.overall - first.player.overall ||
+            second.positionFit - first.positionFit ||
+            first.player.playerName.localeCompare(second.player.playerName)
+          : second.projected.overall - first.projected.overall ||
+            (second.projected.coreOverall ?? 0) - (first.projected.coreOverall ?? 0) ||
+            (second.projected.legacyScore ?? 0) - (first.projected.legacyScore ?? 0) ||
+            second.chemistryGain - first.chemistryGain ||
+            second.positionFit - first.positionFit ||
+            second.player.overall - first.player.overall ||
+            first.player.playerName.localeCompare(second.player.playerName),
       );
   }, [bench, eraId, formation, lineup, manager, minimumRating, nation, picks, query, ratings, targetBench, targetSlot, tier, usedIdentityIds, viewAll, year]);
 
@@ -154,8 +164,14 @@ export default function FreeSelectionPage() {
   }
 
   const activePreview = targetSlot ? fitPreviews.find((preview) => preview.slotId === targetSlot.id) : undefined;
-  const selectedCandidate = selectedPlayer ? candidates.find((candidate) => candidate.player.id === selectedPlayer.id) : undefined;
-  const canPlaceSelected = Boolean(selectedPlayer && (targetBench || activePreview?.canPlace));
+  const selectedCandidate = selectedPlayer
+    ? candidates.find((candidate) => candidate.player.id === selectedPlayer.id)
+    : undefined;
+  const canPlaceSelected = Boolean(
+    selectedPlayer &&
+      selectedCandidate &&
+      (targetBench || activePreview?.canPlace),
+  );
   const canContinue = lineup.length === 11 && bench.length === 3;
   const needs = formation.slots.filter((slot) => !picks.some((pick) => pick.slotId === slot.id)).map((slot) => slot.label);
   const nationOptions = [...new Map(draftEligiblePlayers.map((player) => [player.countryCode, player.countryName])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
@@ -242,19 +258,185 @@ export default function FreeSelectionPage() {
               <div className={styles.filledActions}><span className="eyebrow eyebrow--gold">FILLED POSITION · {targetSlot?.label ?? targetBench?.toLocaleUpperCase()}</span><CircularPortrait imageId={filledTarget.player.imageId} subjectName={filledTarget.player.playerName} era={filledTarget.player.era} statusTier={filledTarget.player.statusTier} countryCode={filledTarget.player.countryCode} tournamentYear={filledTarget.player.tournamentYear} size="standard" /><h2>{filledTarget.player.playerName}</h2><p>{flagForCountry(filledTarget.player.countryCode)} {filledTarget.player.countryName} · {filledTarget.player.tournamentYear} · {filledTarget.player.overall} OVR</p><div><Button variant="secondary" onClick={() => setInspected(filledTarget.player)}><Eye size={14} aria-hidden /> INSPECT</Button><Button variant="secondary" onClick={() => { removeFreePlayer(filledTarget.player.id); setFilledTarget(null); }}>REPLACE</Button><Button variant="secondary" onClick={() => { const player = filledTarget.player; removeFreePlayer(player.id); selectPlayer(player.id); setTargetId(null); setFilledTarget(null); }}><Move size={14} aria-hidden /> MOVE</Button><Button variant="ghost" onClick={() => { removeFreePlayer(filledTarget.player.id); setTargetId(null); setFilledTarget(null); }}><Trash2 size={14} aria-hidden /> REMOVE</Button></div></div>
             ) : (
               <>
-                <div className={styles.panelHeading}><div><span className="eyebrow eyebrow--gold">SELECTED POSITION</span><h2>{targetSlot?.label ?? targetBench?.toLocaleUpperCase()}</h2><p>{targetSlot ? `${targetSlot.position} role · ${targetSlot.accepts.map((position) => position === "LCB" || position === "RCB" ? "CB" : position).filter((value, index, values) => values.indexOf(value) === index).join(" / ")}` : "Choose any eligible tournament card for the bench."}</p></div><button type="button" onClick={() => setTargetId(null)} aria-label="Clear selected position"><X size={16} aria-hidden /></button></div>
-                <div className={styles.filters}>
-                  <label className={styles.search}><Search size={14} aria-hidden /><span className="sr-only">Search players</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search player or nation" /></label>
-                  <select aria-label="Tournament year" value={year} onChange={(event) => setYear(event.target.value ? Number(event.target.value) : "")}><option value="">All years</option>{[...new Set(draftEligiblePlayers.map((player) => player.tournamentYear))].sort((a,b) => b-a).map((value) => <option key={value}>{value}</option>)}</select>
-                  <select aria-label="Player nation" value={nation} onChange={(event) => setNation(event.target.value)}><option value="">All nations</option>{nationOptions.map(([code,name]) => <option key={code} value={code}>{name}</option>)}</select>
-                  <select aria-label="Card rarity" value={tier} onChange={(event) => setTier(event.target.value as PlayerStatusTier | "")}><option value="">All rarities</option>{tierOptions.map((value) => <option key={value}>{value.replace("-", " ")}</option>)}</select>
-                  <select aria-label="Minimum rating" value={minimumRating} onChange={(event) => setMinimumRating(event.target.value ? Number(event.target.value) : "")}><option value="">Any rating</option><option value="85">85+</option><option value="90">90+</option><option value="95">95+</option></select>
-                  <label className={styles.viewAll}><input type="checkbox" checked={viewAll} onChange={(event) => setViewAll(event.target.checked)} /> VIEW ALL PLAYERS</label>
+                <div className={styles.panelHeading}>
+                  <div className={styles.positionLockup}>
+                    <span className={styles.positionBadge}>{targetSlot?.label ?? targetBench?.toLocaleUpperCase()}</span>
+                    <div>
+                      <span className="eyebrow eyebrow--gold">{targetBench ? "BENCH SEARCH" : "SELECTED POSITION"}</span>
+                      <h2>{targetSlot?.label ?? "Any player"}</h2>
+                      <p>{targetSlot ? `${targetSlot.position} · ${targetSlot.accepts.map((position) => position === "LCB" || position === "RCB" ? "CB" : position).filter((value, index, values) => values.indexOf(value) === index).join(" / ")}` : "No position restriction · ranked by bench impact"}</p>
+                    </div>
+                  </div>
+                  <button type="button" onClick={() => setTargetId(null)} aria-label="Clear selected position"><X size={16} aria-hidden /></button>
                 </div>
-                {selectedPlayer && selectedCandidate && <div className={styles.selectedPreview}><div><span>SELECTED CARD</span><b>{selectedPlayer.playerName} {selectedPlayer.tournamentYear}</b></div><dl>{targetSlot && <div><dt>POSITION FIT</dt><dd>{selectedCandidate.positionFit}%</dd></div>}<div><dt>MANAGER FIT</dt><dd>{selectedCandidate.projected.managerFit} <small>{selectedCandidate.managerFitGain >= 0 ? "+" : ""}{selectedCandidate.managerFitGain}</small></dd></div>{eraId !== "all" && <div><dt>ERA FIT</dt><dd>{selectedCandidate.eraFit}</dd></div>}<div><dt>CHEMISTRY</dt><dd>{selectedCandidate.projected.chemistry} <small>{selectedCandidate.chemistryGain >= 0 ? "+" : ""}{selectedCandidate.chemistryGain}</small></dd></div><div><dt>OVERALL</dt><dd>{selectedCandidate.projected.overall} <small>{selectedCandidate.overallGain >= 0 ? "+" : ""}{selectedCandidate.overallGain}</small></dd></div></dl><Button disabled={!canPlaceSelected} onClick={placePlayer}>PLACE PLAYER</Button></div>}
-                <div className={styles.resultsHeader}><span>{candidates.length} AVAILABLE CARDS</span><small>{viewAll ? "UNCONVENTIONAL CHOICES INCLUDED" : targetBench ? "RANKED BY BENCH IMPACT" : "RANKED BY SQUAD IMPACT"}</small></div>
+
+                <div className={styles.filters}>
+                  <label className={styles.search}>
+                    <Search size={14} aria-hidden />
+                    <span className="sr-only">Search players</span>
+                    <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search player or nation" />
+                  </label>
+                  <select aria-label="Tournament year" value={year} onChange={(event) => setYear(event.target.value ? Number(event.target.value) : "")}>
+                    <option value="">All years</option>
+                    {[...new Set(draftEligiblePlayers.map((player) => player.tournamentYear))].sort((a,b) => b-a).map((value) => <option key={value}>{value}</option>)}
+                  </select>
+                  <select aria-label="Player nation" value={nation} onChange={(event) => setNation(event.target.value)}>
+                    <option value="">All nations</option>
+                    {nationOptions.map(([code,name]) => <option key={code} value={code}>{name}</option>)}
+                  </select>
+                  <select aria-label="Card rarity" value={tier} onChange={(event) => setTier(event.target.value as PlayerStatusTier | "")}>
+                    <option value="">All rarities</option>
+                    {tierOptions.map((value) => <option key={value}>{value.replace("-", " ")}</option>)}
+                  </select>
+                  <select aria-label="Minimum rating" value={minimumRating} onChange={(event) => setMinimumRating(event.target.value ? Number(event.target.value) : "")}>
+                    <option value="">Any rating</option><option value="85">85+</option><option value="90">90+</option><option value="95">95+</option>
+                  </select>
+                  <label className={styles.viewAll} title="Sort the current eligible players by overall rating">
+                    <input type="checkbox" checked={viewAll} onChange={(event) => setViewAll(event.target.checked)} />
+                    <span>BY OVR</span>
+                  </label>
+                </div>
+
+                <div
+                  className={styles.placeBar}
+                  data-ready={Boolean(selectedPlayer && selectedCandidate)}
+                  aria-live="polite"
+                >
+                  {selectedPlayer && selectedCandidate ? (
+                    <>
+                      <CircularPortrait
+                        imageId={selectedPlayer.imageId}
+                        subjectName={selectedPlayer.playerName}
+                        era={selectedPlayer.era}
+                        statusTier={selectedPlayer.statusTier}
+                        countryCode={selectedPlayer.countryCode}
+                        tournamentYear={selectedPlayer.tournamentYear}
+                        size="compact"
+                      />
+                      <div className={styles.placeIdentity}>
+                        <span>READY TO PLACE</span>
+                        <b>{selectedPlayer.playerName}</b>
+                        <small>
+                          {flagForCountry(selectedPlayer.countryCode)} {selectedPlayer.countryCode}
+                          {" · "}{selectedPlayer.tournamentYear}
+                          {" · "}{selectedPlayer.overall} OVR
+                        </small>
+                      </div>
+                      <dl className={styles.placeMetrics}>
+                        {targetSlot && (
+                          <div>
+                            <dt>FIT</dt>
+                            <dd>{selectedCandidate.positionFit}%</dd>
+                          </div>
+                        )}
+                        <div>
+                          <dt>TEAM</dt>
+                          <dd>{selectedCandidate.overallGain >= 0 ? "+" : ""}{selectedCandidate.overallGain}</dd>
+                        </div>
+                        <div>
+                          <dt>CHEM</dt>
+                          <dd>{selectedCandidate.chemistryGain >= 0 ? "+" : ""}{selectedCandidate.chemistryGain}</dd>
+                        </div>
+                        <div>
+                          <dt>MGR</dt>
+                          <dd>{selectedCandidate.managerFitGain >= 0 ? "+" : ""}{selectedCandidate.managerFitGain}</dd>
+                        </div>
+                      </dl>
+                      <div className={styles.placeActions}>
+                        <small>Click {targetSlot?.label ?? targetBench?.toLocaleUpperCase()} or press Place</small>
+                        <Button disabled={!canPlaceSelected} onClick={placePlayer}>PLACE</Button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className={styles.placePlaceholderIcon}>+</div>
+                      <div className={styles.placeIdentity}>
+                        <span>PLAYER SLOT</span>
+                        <b>Select a player</b>
+                        <small>
+                          Choose a card below, then click {targetSlot?.label ?? targetBench?.toLocaleUpperCase()} or press Place.
+                        </small>
+                      </div>
+                      <div className={styles.placePlaceholderRule} aria-hidden />
+                      <div className={styles.placeActions}>
+                        <small>No player selected</small>
+                        <Button disabled>PLACE</Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div className={styles.resultsHeader}>
+                  <span><b>{candidates.length}</b> cards</span>
+                  <small>{viewAll ? "HIGHEST OVR FIRST" : targetBench ? "BEST BENCH IMPACT FIRST" : "BEST SQUAD IMPACT FIRST"}</small>
+                </div>
+
                 <div className={styles.playerResults} aria-live="polite">
-                  {candidates.map((candidate, index) => <div className={styles.recommendation} data-best={index === 0} key={candidate.player.id}>{index === 0 && <span className={styles.best}>BEST FOR SQUAD</span>}<PlayerCard className={styles.compactCard} player={candidate.player} selected={selectedPlayerId === candidate.player.id} showFit={Boolean(targetSlot)} positionFit={targetSlot ? candidate.positionFit : undefined} eraFit={targetSlot ? candidate.eraFit ?? undefined : undefined} actionLabel={`Select ${candidate.player.playerName} ${candidate.player.tournamentYear} for ${targetSlot?.label ?? "bench"}`} onSelect={() => selectPlayer(candidate.player.id)} onInspect={() => setInspected(candidate.player)} /><p>{targetBench ? `${candidate.player.overall} OVR · ${new Set([candidate.player.primaryPosition, ...candidate.player.eligiblePositions]).size} POSITION DEPTH` : candidate.overallGain > 0 ? `+${candidate.overallGain} TEAM OVR · ${candidate.positionFit}% FIT` : candidate.chemistryGain > 0 ? `+${candidate.chemistryGain} CHEMISTRY · ${candidate.positionFit}% FIT` : `${candidate.positionFit}% FIT · ${candidate.player.overall} OVR`}</p></div>)}
+                  {candidates.map((candidate, index) => {
+                    const isSelectedCard = selectedPlayerId === candidate.player.id;
+                    const positionDepth = new Set([candidate.player.primaryPosition, ...candidate.player.eligiblePositions]).size;
+                    return (
+                      <article
+                        className={styles.recommendation}
+                        data-best={index === 0}
+                        data-selected={isSelectedCard}
+                        key={candidate.player.id}
+                      >
+                        <button
+                          type="button"
+                          className={styles.candidateHitArea}
+                          onClick={() => selectPlayer(candidate.player.id)}
+                          aria-label={`Select ${candidate.player.playerName} ${candidate.player.tournamentYear} for ${targetSlot?.label ?? "bench"}`}
+                          aria-pressed={isSelectedCard}
+                        />
+                        <div className={styles.candidateMain}>
+                          <span className={styles.rank}>{String(index + 1).padStart(2, "0")}</span>
+                          <CircularPortrait
+                            imageId={candidate.player.imageId}
+                            subjectName={candidate.player.playerName}
+                            era={candidate.player.era}
+                            statusTier={candidate.player.statusTier}
+                            countryCode={candidate.player.countryCode}
+                            tournamentYear={candidate.player.tournamentYear}
+                            size="compact"
+                          />
+                          <span className={styles.candidateIdentity}>
+                            <span>{flagForCountry(candidate.player.countryCode)} {candidate.player.countryCode} · {candidate.player.tournamentYear}</span>
+                            <b>{candidate.player.playerName}</b>
+                            <small>{candidate.player.primaryPosition} · {candidate.player.statusTier.replace("-", " ")}</small>
+                          </span>
+                          <span className={styles.candidateRating}>
+                            <strong>{candidate.player.overall}</strong>
+                            <small>OVR</small>
+                          </span>
+                        </div>
+                        <div className={styles.candidateImpact}>
+                          {targetSlot ? (
+                            <span data-tone={candidate.positionFit >= 90 ? "great" : candidate.positionFit >= 70 ? "good" : "risk"}>
+                              {candidate.positionFit}% FIT
+                            </span>
+                          ) : (
+                            <span>{positionDepth} POS</span>
+                          )}
+                          <span data-positive={candidate.overallGain > 0}>
+                            {candidate.overallGain >= 0 ? "+" : ""}{candidate.overallGain} OVR
+                          </span>
+                          <span data-positive={candidate.chemistryGain > 0}>
+                            {candidate.chemistryGain >= 0 ? "+" : ""}{candidate.chemistryGain} CHEM
+                          </span>
+                          {index === 0 && <span className={styles.best}>{viewAll ? "TOP OVR" : "BEST"}</span>}
+                          <button
+                            type="button"
+                            className={styles.inspectCandidate}
+                            onClick={() => setInspected(candidate.player)}
+                            aria-label={`Inspect ${candidate.player.playerName} ${candidate.player.tournamentYear}`}
+                          >
+                            <Eye size={12} aria-hidden />
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
                   {candidates.length === 0 && <p className={styles.noResults}>No eligible tournament cards match these filters.</p>}
                 </div>
               </>
