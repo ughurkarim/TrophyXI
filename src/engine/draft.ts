@@ -189,11 +189,24 @@ export type DraftGenerationRules = {
   respinIndex?: number;
 };
 
+const playerCardByIdCache = new WeakMap<
+  PlayerTournamentCard[],
+  Map<string, PlayerTournamentCard>
+>();
+
+const playerCardByIdFor = (cards: PlayerTournamentCard[]) => {
+  const cached = playerCardByIdCache.get(cards);
+  if (cached) return cached;
+  const byId = new Map(cards.map((card) => [card.id, card]));
+  playerCardByIdCache.set(cards, byId);
+  return byId;
+};
+
 const usedIdentityIdsFor = (
   cards: PlayerTournamentCard[],
   picks: Array<DraftPick | BenchPick>,
 ) => {
-  const byId = new Map(cards.map((card) => [card.id, card]));
+  const byId = playerCardByIdFor(cards);
   return new Set(
     picks
       .map((pick) => byId.get(pick.cardId)?.playerIdentityId)
@@ -238,14 +251,16 @@ export const hasDraftCompletionPath = ({
   if (openSlots.length === 0) return true;
   const used = usedIdentityIdsFor(cards, picks);
   const excluded = new Set(excludedIdentityIds);
-  const versionsByIdentity = new Map<string, PlayerTournamentCard[]>();
+  const availableIdentities = new Set<string>();
+  const goalkeeperIdentities = new Set<string>();
   for (const card of cards) {
     if (used.has(card.playerIdentityId) || excluded.has(card.playerIdentityId)) {
       continue;
     }
-    const versions = versionsByIdentity.get(card.playerIdentityId) ?? [];
-    versions.push(card);
-    versionsByIdentity.set(card.playerIdentityId, versions);
+    availableIdentities.add(card.playerIdentityId);
+    if (card.primaryPosition === "GK") {
+      goalkeeperIdentities.add(card.playerIdentityId);
+    }
   }
   // The current fit graph has two disconnected components: goalkeeper and
   // outfield. Every outfield identity has a legal (possibly red) edge to every
@@ -255,16 +270,11 @@ export const hasDraftCompletionPath = ({
     (slot) => slot.position === "GK",
   ).length;
   const outfieldSlots = openSlots.length - goalkeeperSlots;
-  const goalkeeperIdentities = new Set(
-    [...versionsByIdentity.entries()]
-      .filter(([, versions]) =>
-        versions.some((player) => player.primaryPosition === "GK"),
-      )
-      .map(([identity]) => identity),
-  ).size;
-  const outfieldIdentities = versionsByIdentity.size - goalkeeperIdentities;
+  const goalkeeperIdentityCount = goalkeeperIdentities.size;
+  const outfieldIdentities =
+    availableIdentities.size - goalkeeperIdentityCount;
   return (
-    goalkeeperIdentities >= goalkeeperSlots &&
+    goalkeeperIdentityCount >= goalkeeperSlots &&
     outfieldIdentities >= outfieldSlots
   );
 };
@@ -325,8 +335,9 @@ export const generateDraftOptions = (
           .join("|")}`,
       ),
   );
+  const cardsById = playerCardByIdFor(cards);
   const draftedCards = picks
-    .map((pick) => cards.find((card) => card.id === pick.cardId))
+    .map((pick) => cardsById.get(pick.cardId))
     .filter((card): card is PlayerTournamentCard => Boolean(card));
   const draftedHigh = draftedCards.filter((card) => card.overall >= 90).length;
   const draftedPremier = draftedCards.filter((card) =>
@@ -375,15 +386,40 @@ export const generateDraftOptions = (
           ? withoutRejected
           : identitySafe;
   const uniqueCards = uniqueIdentityCards(preferredPool, random);
+  // The archive contains thousands of identities. A deterministic, seed-based
+  // sample keeps offer ranking responsive while preserving the full pool for
+  // identity exclusion, completion checks, and long-run offer variety.
+  const shuffledUniqueCards = shuffle(uniqueCards, random);
+  const priorityRankingCards = shuffledUniqueCards.filter(
+    (card) =>
+      card.overall >= 88 || ["legend", "icon"].includes(card.statusTier),
+  );
+  const priorityRankingIds = new Set(
+    priorityRankingCards.map((card) => card.id),
+  );
+  const supplementalRankingCards = (
+    Object.keys(starterTierWeights) as PlayerStatusTier[]
+  ).flatMap((tier) =>
+    shuffledUniqueCards
+      .filter(
+        (card) =>
+          card.statusTier === tier && !priorityRankingIds.has(card.id),
+      )
+      .slice(0, 8),
+  );
+  const rankingCards =
+    uniqueCards.length > 240
+      ? [...priorityRankingCards, ...supplementalRankingCards]
+      : shuffledUniqueCards;
   const openGoalkeeperSlots = openSlots.filter(
     (slot) => slot.position === "GK",
   ).length;
   const openOutfieldSlots = openSlots.length - openGoalkeeperSlots;
-  const remainingGoalkeeperIdentities = uniqueCards.filter(
+  const remainingGoalkeeperIdentities = rankingCards.filter(
     (player) => player.primaryPosition === "GK",
   ).length;
   const remainingOutfieldIdentities =
-    uniqueCards.length - remainingGoalkeeperIdentities;
+    rankingCards.length - remainingGoalkeeperIdentities;
   const placementPreservesMatching = (
     player: PlayerTournamentCard,
     slot: FormationSlot,
@@ -397,7 +433,7 @@ export const generateDraftOptions = (
         openOutfieldSlots - (slot.position === "GK" ? 0 : 1)
     );
   };
-  const viable = uniqueCards.filter((player) =>
+  const viable = rankingCards.filter((player) =>
     openSlots.some((slot) => placementPreservesMatching(player, slot)),
   );
   if (viable.length < 5) {
@@ -410,7 +446,7 @@ export const generateDraftOptions = (
     openSlots.map((slot) => [
       slot.id,
       new Set(
-        uniqueCards
+        rankingCards
           .filter((candidate) => isEligibleForSlot(candidate, slot))
           .map((candidate) => candidate.playerIdentityId),
       ).size,
@@ -679,7 +715,7 @@ export const generateBenchOptions = (
   const recent = new Set(rules.recentIdentityIds ?? []);
   const seenCount = (identityId: string) =>
     rules.seenIdentityCounts?.[identityId] ?? 0;
-  const byId = new Map(cards.map((card) => [card.id, card]));
+  const byId = playerCardByIdFor(cards);
   const draftedBench = bench
     .map((pick) => byId.get(pick.cardId))
     .filter((card): card is PlayerTournamentCard => Boolean(card));
@@ -745,7 +781,7 @@ export const generateBenchOptions = (
     }
   };
   const randomFromLeadingPool = (pool: PlayerTournamentCard[]) => {
-    const leadingPool = pool.slice(0, 16);
+    const leadingPool = pool.slice(0, 160);
     return leadingPool[Math.floor(random() * leadingPool.length)];
   };
   for (let index = 0; index < 5; index += 1) {
@@ -784,6 +820,33 @@ export const generateBenchOptions = (
       selected[replaceIndex] = replacement;
     }
   }
+  if (
+    new Set(
+      selected.map((card) => tacticalFamilyForPosition(card.primaryPosition)),
+    ).size < 2
+  ) {
+    const currentFamily = tacticalFamilyForPosition(
+      selected[0].primaryPosition,
+    );
+    const outgoing = selected.at(-1);
+    const replacement = ranked.find(
+      (card) =>
+        tacticalFamilyForPosition(card.primaryPosition) !== currentFamily &&
+        !selected.some(
+          (candidate) =>
+            candidate.playerIdentityId === card.playerIdentityId,
+        ) &&
+        (card.overall < 90 ||
+          selected.filter((candidate) => candidate.overall >= 90).length -
+            (outgoing && outgoing.overall >= 90 ? 1 : 0) <
+            1) &&
+        (card.overall < 86 ||
+          selected.filter((candidate) => candidate.overall >= 86).length -
+            (outgoing && outgoing.overall >= 86 ? 1 : 0) <
+            3),
+    );
+    if (replacement) selected[selected.length - 1] = replacement;
+  }
   if (selected.length !== 5) {
     throw new Error("Not enough identity-safe bench options");
   }
@@ -805,7 +868,7 @@ export const hasDuplicatePlayers = (
   picks: DraftPick[],
   cards: PlayerTournamentCard[],
 ) => {
-  const byId = new Map(cards.map((card) => [card.id, card]));
+  const byId = playerCardByIdFor(cards);
   const identities = picks
     .map((pick) => byId.get(pick.cardId)?.playerIdentityId)
     .filter((identity): identity is string => Boolean(identity));
@@ -823,7 +886,7 @@ export const validateDraftPicks = ({
   cards: PlayerTournamentCard[];
   excludedIdentityIds?: Iterable<string>;
 }) => {
-  const byId = new Map(cards.map((card) => [card.id, card]));
+  const byId = playerCardByIdFor(cards);
   const slotsById = new Map(formation.slots.map((slot) => [slot.id, slot]));
   const excluded = new Set(excludedIdentityIds);
   const cardIds = new Set<string>();

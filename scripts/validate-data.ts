@@ -3,6 +3,7 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import playerTournamentsJson from "../src/data/player-tournaments.generated.json";
+import completed2026RosterJson from "../src/data/player-tournaments-2026.generated.json";
 import requestedIdentityJson from "../src/data/requested-player-identities.generated.json";
 import { draftEras } from "../src/data/eras";
 import { formations } from "../src/data/formations";
@@ -165,6 +166,10 @@ const main = async () => {
     >;
     unresolvedIdentityIds: string[];
   };
+  const completed2026Roster = completed2026RosterJson as {
+    players: Array<{ identityId: string; teamCode: string }>;
+    teams: Array<{ teamCode: string; playerCount: number }>;
+  };
 
   assert(playerIds.size === players.length, "Player card ids must be unique");
   assert(
@@ -280,10 +285,6 @@ const main = async () => {
     assert(
       playerCareerDataByIdentityId.has(player.playerIdentityId),
       `${player.id} is missing its normalized career record`,
-    );
-    assert(
-      player.careerAccolades.length > 0,
-      `${player.id} is missing a verified career accolade`,
     );
     const accoladeIds = new Set<string>();
     for (const accolade of player.careerAccolades) {
@@ -823,9 +824,18 @@ const main = async () => {
       `${identityId} tournament versions do not own distinct image keys`,
     );
   }
+  const expectedHistoricalCardCount = Object.values(
+    playerTournaments.identities,
+  ).reduce((total, tournaments) => total + tournaments.length, 0);
+  const expectedPlayerIdentityCount = new Set([
+    ...Object.keys(playerTournaments.identities),
+    ...completed2026Roster.players.map((player) => player.identityId),
+  ]).size;
   assert(
-    players.length === 1_376 && playerIdentities.size === 676,
-    `Expanded player archive must contain 1,376 cards / 676 identities; found ${players.length} / ${playerIdentities.size}`,
+    players.length ===
+      expectedHistoricalCardCount + completed2026Roster.players.length &&
+      playerIdentities.size === expectedPlayerIdentityCount,
+    `Player archive must exactly match sourced rosters; expected ${expectedHistoricalCardCount + completed2026Roster.players.length} cards / ${expectedPlayerIdentityCount} identities, found ${players.length} / ${playerIdentities.size}`,
   );
   assert(
     managers.length === 47 && managerIdentities.size === 47,
@@ -833,9 +843,12 @@ const main = async () => {
   );
   const cards2026 = players.filter((player) => player.tournamentYear === 2026);
   assert(
-    cards2026.length === 132 &&
-      new Set(cards2026.map((player) => player.playerIdentityId)).size === 132,
-    "The completed 2026 archive must contain 132 unique player identities",
+    cards2026.length === completed2026Roster.players.length &&
+      new Set(cards2026.map((player) => player.playerIdentityId)).size ===
+        completed2026Roster.players.length &&
+      completed2026Roster.teams.length === 48 &&
+      completed2026Roster.teams.every((team) => team.playerCount === 26),
+    "The completed 2026 archive must contain all 1,248 unique players across 48 complete squads",
   );
   assert(
     versionsByIdentity
@@ -877,10 +890,8 @@ const main = async () => {
   for (const [identityId, versions] of versionsByIdentity) {
     const representative = versions[0];
     assert(
-      Boolean(
-        representative.careerStats && representative.careerAccolades.length > 0,
-      ),
-      `${identityId} is missing career context or accolades`,
+      Boolean(representative.careerStats),
+      `${identityId} is missing career context`,
     );
     if (versions.some((player) => imagesById.has(player.imageId))) {
       assert(
@@ -1018,11 +1029,14 @@ const main = async () => {
     assert(opponent.sources.length > 0, `${opponent.id} has no source record`);
     assert(
       opponent.tournamentYear === 2026
-        ? opponent.id === "spain-2026"
-          ? opponent.tournamentStats.matches === 7 &&
-            opponent.tournamentFinish === "champion"
-          : opponent.tournamentStats.matches === null &&
-            opponent.tournamentFinish === null
+        ? opponent.tournamentStatus === "complete" &&
+          Object.values(opponent.tournamentStats).every(
+            (value) => value !== null,
+          ) &&
+          opponent.tournamentStats.matches ===
+            (opponent.tournamentStats.wins ?? 0) +
+              (opponent.tournamentStats.draws ?? 0) +
+              (opponent.tournamentStats.losses ?? 0)
         : opponent.tournamentStats.matches !== null,
       `${opponent.id} has invalid tournament-progress fields`,
     );
@@ -1057,11 +1071,9 @@ const main = async () => {
   for (const champion of historicalOpponents) {
     const roster = [...champion.startingLineup, ...champion.substitutes];
     assert(
-      (champion.tournamentYear === 2026
-        ? champion.dataStatus === "modeled-lineup"
-        : champion.dataStatus === "verified-lineup") &&
+      champion.dataStatus === "verified-lineup" &&
         champion.managerName !== null &&
-        (champion.tournamentYear === 2026 || Boolean(champion.managerCardId)) &&
+        Boolean(champion.managerCardId) &&
         Boolean(champion.managerIdentityId),
       `${champion.id} is missing its sourced champion manager`,
     );
@@ -1092,19 +1104,19 @@ const main = async () => {
     );
   }
   assert(
-    historicalOpponentArchive.every(
-      (opponent) =>
-        opponent.tournamentYear !== 2026 ||
-        opponent.id === "spain-2026" ||
-        (opponent.tournamentFinish === null &&
-          opponent.managerName === null &&
-          opponent.startingLineup.length === 0 &&
-          opponent.substitutes.length === 0 &&
+    historicalOpponentArchive
+      .filter((opponent) => opponent.tournamentYear === 2026)
+      .every(
+        (opponent) =>
+          opponent.tournamentStatus === "complete" &&
+          opponent.sources.some((source) =>
+            source.url.includes("fifa.com/"),
+          ) &&
           Object.values(opponent.tournamentStats).every(
-            (value) => value === null,
-          )),
-    ),
-    "Unknown 2026 fields contain fabricated values",
+            (value) => value !== null,
+          ),
+      ),
+    "Completed 2026 team records must retain FIFA source coverage and complete result fields",
   );
 
   const directPlayerImages = imageAttributions.filter(

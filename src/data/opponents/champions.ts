@@ -38,6 +38,20 @@ const rosterSource = {
     "The Fjelstul World Cup Database v1.2.0 — final appearances and tournament squads",
 };
 
+const spain2026FinalLineupSource = {
+  label: "Spain 1–0 Argentina — FIFA World Cup 2026 final report",
+  url: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-argentina-final-report-highlights",
+  publisher: "FIFA",
+  accessedOn: "2026-07-26",
+};
+
+const spain2026RosterSource = {
+  label: "Spain squad announcement — FIFA World Cup 2026",
+  url: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-squad-announcement-luis-de-la-fuente",
+  publisher: "FIFA",
+  accessedOn: "2026-07-26",
+};
+
 const positionFor = (code: string): Position => {
   const positions: Record<string, Position> = {
     GK: "GK",
@@ -569,9 +583,10 @@ const spain2026Champion: HistoricalWorldCupTeam = {
   ...spain2026Participant,
   tournamentFinish: "champion",
   tournamentStatus: "complete",
-  dataStatus: "modeled-lineup",
+  dataStatus: "verified-lineup",
   managerName: "Luis de la Fuente",
   managerIdentityId: "luis-de-la-fuente",
+  managerCardId: "luis-de-la-fuente-2026",
   formation: "4-3-3",
   formationLabel: "4–3–3",
   alternateFormations: ["4-2-3-1"],
@@ -609,19 +624,16 @@ const spain2026Champion: HistoricalWorldCupTeam = {
     depth: 92,
     overall: 93,
   },
-  tournamentStats: {
-    matches: 7,
-    wins: 7,
-    draws: 0,
-    losses: 0,
-    goalsFor: null,
-    goalsAgainst: null,
-    cleanSheets: null,
-  },
-  sources: [worldCup2026ParticipantSource],
   championFact:
     "Lamine Yamal helped Spain win seven straight matches as La Roja claimed its second men's World Cup.",
-  championFactSource: worldCup2026ParticipantSource,
+  championFactSource: spain2026FinalLineupSource,
+  sources: [
+    worldCup2026ParticipantSource,
+    spain2026FinalLineupSource,
+    spain2026RosterSource,
+  ],
+  finalLineupSource: spain2026FinalLineupSource,
+  rosterSource: spain2026RosterSource,
   era: "2020s",
   originalRatings: true,
   formationIsModel: true,

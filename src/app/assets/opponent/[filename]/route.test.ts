@@ -6,7 +6,7 @@ const request = new Request("http://localhost/assets/opponent");
 describe("opponent cutout image route", () => {
   it("serves an opponent-folder cutout", async () => {
     const response = await GET(request, {
-      params: Promise.resolve({ filename: "messi2022.png" }),
+      params: Promise.resolve({ filename: "messiwin1.png" }),
     });
 
     expect(response.status).toBe(200);

@@ -56,11 +56,19 @@ for (const year of WORLD_CUP_YEARS) {
   }
 }
 
-if (historicalOpponents.length !== 14) {
-  failures.push(`normal opponent pool: expected 14 champions, found ${historicalOpponents.length}`);
+const expectedChampionCount = WORLD_CUP_YEARS.length;
+if (historicalOpponents.length !== expectedChampionCount) {
+  failures.push(
+    `normal opponent pool: expected ${expectedChampionCount} champions, found ${historicalOpponents.length}`,
+  );
 }
-if (matchOpponents.length !== 15 || matchOpponents[0]?.id !== worldCupAllStars.id) {
-  failures.push("normal match pool must be World Cup All-Stars plus 14 champions");
+if (
+  matchOpponents.length !== expectedChampionCount + 1 ||
+  matchOpponents[0]?.id !== worldCupAllStars.id
+) {
+  failures.push(
+    `normal match pool must be World Cup All-Stars plus ${expectedChampionCount} champions`,
+  );
 }
 if (
   new Set(historicalOpponents.map((opponent) => opponent.id)).size !==
@@ -73,9 +81,6 @@ for (const opponent of historicalOpponents) {
   const prefix = `${opponent.nationName} ${opponent.tournamentYear}`;
   if (opponent.tournamentFinish !== "champion") {
     failures.push(`${prefix}: normal pool entry is not a champion`);
-  }
-  if (opponent.tournamentYear === 2026) {
-    failures.push(`${prefix}: 2026 cannot be a verified champion`);
   }
   if (opponent.dataStatus !== "verified-lineup") {
     failures.push(`${prefix}: lineup is not marked verified`);

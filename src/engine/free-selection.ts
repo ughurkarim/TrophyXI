@@ -62,6 +62,7 @@ export type FreeSelectionSquadInput = {
 };
 
 type CoverageFamily = "defensive" | "midfield" | "attacking";
+const BENCH_PAIR_CANDIDATE_LIMIT = 240;
 
 const defensivePositions: Position[] = [
   "LB",
@@ -79,7 +80,14 @@ const attackingPositions: Position[] = ["AM", "LM", "RM", "LW", "RW", "CF", "ST"
 const deterministicRank = (seed: number, context: string, cardId: string) =>
   hashString(`${seed}:${context}:${cardId}`);
 
+const coverageFamiliesByCard = new WeakMap<
+  PlayerTournamentCard,
+  Set<CoverageFamily>
+>();
+
 const coverageFamiliesFor = (player: PlayerTournamentCard) => {
+  const cached = coverageFamiliesByCard.get(player);
+  if (cached) return cached;
   const positions = new Set([
     player.primaryPosition,
     ...player.eligiblePositions,
@@ -94,6 +102,7 @@ const coverageFamiliesFor = (player: PlayerTournamentCard) => {
   if ([...positions].some((position) => attackingPositions.includes(position))) {
     families.add("attacking");
   }
+  coverageFamiliesByCard.set(player, families);
   return families;
 };
 
@@ -219,7 +228,18 @@ const chooseOutfieldBenchPair = (
   usedIdentityIds: Set<string>,
   seed: number,
 ) => {
-  const candidates = bestVersionByIdentity(cards, usedIdentityIds, seed);
+  const candidates = bestVersionByIdentity(cards, usedIdentityIds, seed)
+    .sort(
+      (first, second) =>
+        coverageFamiliesFor(second).size -
+          coverageFamiliesFor(first).size ||
+        second.eligiblePositions.length - first.eligiblePositions.length ||
+        second.overall - first.overall ||
+        deterministicRank(seed, "bench-candidate", second.id) -
+          deterministicRank(seed, "bench-candidate", first.id) ||
+        first.id.localeCompare(second.id),
+    )
+    .slice(0, BENCH_PAIR_CANDIDATE_LIMIT);
   let best:
     | {
         first: PlayerTournamentCard;

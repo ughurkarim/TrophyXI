@@ -2,7 +2,9 @@ import { writeFile } from "node:fs/promises";
 import careerArchiveJson from "../src/data/player-career.generated.json";
 import tournamentArchiveJson from "../src/data/player-tournaments.generated.json";
 import requestedIdentityJson from "../src/data/requested-player-identities.generated.json";
-import { completed2026PlayerSeeds } from "../src/data/player-tournaments-2026";
+import completed2026RosterJson from "../src/data/player-tournaments-2026.generated.json";
+import fbrefPlayerMapJson from "../data/sources/fbref/player-map.json";
+import careerCurationJson from "./player-career-curation.json";
 
 type CareerEntry = {
   careerStats: null | (Record<string, unknown> & {
@@ -39,12 +41,34 @@ type TournamentRecord = {
   awards: Array<{ id: string; label: string; shared: boolean }>;
 };
 const tournamentArchive = tournamentArchiveJson as {
-  source: { accessedOn: string };
+  source: { accessedOn: string; url: string };
   identities: Record<string, TournamentRecord[]>;
 };
 const requestedIdentities = requestedIdentityJson as {
   identities: Array<{ identityId: string }>;
 };
+const completed2026Roster = completed2026RosterJson as {
+  source: { name: string; url: string };
+  players: Array<{
+    identityId: string;
+    playerName: string;
+    teamCode: string;
+    teamName: string;
+  }>;
+};
+const fbrefPlayerMap = fbrefPlayerMapJson as Array<{
+  playerIdentityId: string;
+  sourceUrl: string;
+}>;
+const careerCuration = careerCurationJson as {
+  supplementaryAccolades: Record<string, CareerEntry["accolades"]>;
+};
+const fbrefSourceByIdentity = new Map(
+  fbrefPlayerMap.map((mapping) => [
+    mapping.playerIdentityId,
+    mapping.sourceUrl,
+  ]),
+);
 const slugify = (value: string) =>
   value
     .normalize("NFD")
@@ -55,17 +79,20 @@ const slugify = (value: string) =>
     .replace(/^-|-$/g, "");
 
 const completed2026ByIdentity = new Map(
-  completed2026PlayerSeeds.map(([playerName, nation]) => [
-    slugify(playerName),
-    { playerName, nation },
+  completed2026Roster.players.map((player) => [
+    player.identityId,
+    {
+      playerName: player.playerName,
+      nation: player.teamCode,
+      teamName: player.teamName,
+    },
   ]),
 );
 
 const allIdentityIds = new Set([
-  ...Object.keys(archive.players),
   ...Object.keys(tournamentArchive.identities),
   ...requestedIdentities.identities.map((identity) => identity.identityId),
-  ...completed2026PlayerSeeds.map(([playerName]) => slugify(playerName)),
+  ...completed2026Roster.players.map((player) => player.identityId),
 ]);
 
 const completed2026AwardByIdentity: Record<
@@ -86,11 +113,22 @@ const completed2026AwardByIdentity: Record<
     { label: "World Cup Bronze Boot", category: "individual" },
   ],
 };
-
-const withoutSourceUrl = <T extends object>(value: T) => {
-  const normalized = { ...value } as T & { sourceUrl?: string };
-  delete normalized.sourceUrl;
-  return normalized;
+const worldCupChampionByYear: Record<number, string> = {
+  1970: "BRA",
+  1974: "GER",
+  1978: "ARG",
+  1982: "ITA",
+  1986: "ARG",
+  1990: "GER",
+  1994: "BRA",
+  1998: "FRA",
+  2002: "BRA",
+  2006: "ITA",
+  2010: "ESP",
+  2014: "GER",
+  2018: "FRA",
+  2022: "ARG",
+  2026: "ESP",
 };
 
 const players = Object.fromEntries(
@@ -98,7 +136,7 @@ const players = Object.fromEntries(
     const current = archive.players[identityId];
     const tournaments = tournamentArchive.identities[identityId] ?? [];
     const completed2026 = completed2026ByIdentity.get(identityId);
-    const worldCupEditions = tournaments.length + (completed2026 ? 1 : 0);
+    const fbrefSourceUrl = fbrefSourceByIdentity.get(identityId);
     const worldCupAppearances = tournaments.reduce(
       (total, tournament) => total + tournament.appearances,
       0,
@@ -108,11 +146,15 @@ const players = Object.fromEntries(
       0,
     );
 
-    const careerStats = withoutSourceUrl(
+    const careerStats =
       current?.careerStats
         ? {
             ...current.careerStats,
-            sourceName: "Historical archive",
+            sourceName:
+              current.careerStats.sourceName ?? "Historical archive",
+            ...(current.careerStats.sourceName === "FBref" && fbrefSourceUrl
+              ? { sourceUrl: fbrefSourceUrl }
+              : {}),
             coverageNote:
               "Coverage varies by competition and era; null values remain unknown.",
           }
@@ -145,7 +187,7 @@ const players = Object.fromEntries(
                       season: "2026",
                       competition: "World Cup",
                       scope: "international",
-                      squad: completed2026.nation,
+                      squad: completed2026.teamName,
                       appearances: null,
                       goals: null,
                       assists: null,
@@ -153,25 +195,49 @@ const players = Object.fromEntries(
                   ]
                 : []),
             ],
-          },
-    );
+          };
 
-    const normalizedExisting = (current?.accolades ?? []).map((accolade) =>
-      withoutSourceUrl({
-        ...accolade,
-        sourceName: "Historical archive",
-        description: accolade.description?.replace(
-          /^.*? profile honor:\s*/i,
-          "Historical record: ",
-        ),
-      }),
-    );
+    const normalizedExisting = (current?.accolades ?? [])
+      .filter(
+        (accolade) =>
+          accolade.id !== "world-cup-participant" &&
+          accolade.label !== "World Cup Participant" &&
+          !accolade.id?.startsWith("world-cup-squad-") &&
+          !accolade.label?.startsWith("World Cup Squad — "),
+      )
+      .map((accolade) => {
+        const datedFbrefHonor =
+          accolade.sourceName === "FBref"
+            ? accolade.description?.match(
+                /(?:FBref profile honor:|Historical record:)\s*(\d{4}(?:-\d{2,4})?)\s+/i,
+              )
+            : undefined;
+        const season = datedFbrefHonor?.[1];
+        return {
+          ...accolade,
+          ...(season && !accolade.label?.includes(`— ${season}`)
+            ? {
+                id: `${accolade.id}-${slugify(season)}`,
+                label: `${accolade.label} — ${season}`,
+              }
+            : {}),
+          ...(accolade.sourceName === "FBref" && fbrefSourceUrl
+            ? { sourceUrl: fbrefSourceUrl }
+            : {}),
+          sourceName: accolade.sourceName ?? "Historical archive",
+          description: accolade.description?.replace(
+            /^.*? profile honor:\s*/i,
+            "FBref profile honor: ",
+          ),
+        };
+      });
     const tournamentAwards = tournaments.flatMap((tournament) =>
       tournament.awards.map((award) => ({
-        id: `world-cup-${slugify(award.label)}`,
-        label: award.label,
+        id: `world-cup-${tournament.tournamentYear}-${slugify(award.label)}`,
+        label: `${award.label} — ${tournament.tournamentYear}`,
         category: "individual",
         sourceName: "World Cup archive",
+        sourceUrl: tournamentArchive.source.url,
         verified: true,
         description: `${award.shared ? "Shared " : ""}${award.label} at the ${tournament.tournamentYear} World Cup.`,
       })),
@@ -179,21 +245,40 @@ const players = Object.fromEntries(
     const completedAwards = (completed2026AwardByIdentity[identityId] ?? []).map(
       (award) => ({
         id: `world-cup-2026-${slugify(award.label)}`,
-        label: award.label,
+        label: `${award.label} — 2026`,
         category: award.category,
-        sourceName: "Completed 2026 archive",
+          sourceName: "Completed 2026 archive",
+          sourceUrl: completed2026Roster.source.url,
         verified: true,
         description: `${award.label} at the 2026 World Cup.`,
       }),
     );
-    const finishAccolades = completed2026
+    const historicalFinishAccolades = tournaments.flatMap((tournament) => {
+      if (tournament.teamPerformance !== "final") return [];
+      const champion =
+        worldCupChampionByYear[tournament.tournamentYear] ===
+        tournament.teamCode;
+      return [
+        {
+          id: `world-cup-${champion ? "winner" : "runner-up"}-${tournament.tournamentYear}`,
+          label: `World Cup ${champion ? "Winner" : "Runner-up"} — ${tournament.tournamentYear}`,
+          category: "international",
+          sourceName: "The Fjelstul World Cup Database",
+          sourceUrl: tournamentArchive.source.url,
+          verified: true,
+          description: `Member of ${tournament.teamName}'s ${tournament.tournamentYear} World Cup ${champion ? "winning" : "runner-up"} squad.`,
+        },
+      ];
+    });
+    const completedFinishAccolades = completed2026
       ? completed2026.nation === "ESP"
         ? [
             {
               id: "world-cup-champion-2026",
-              label: "World Cup Champion",
+              label: "World Cup Winner — 2026",
               category: "international",
               sourceName: "Completed 2026 archive",
+              sourceUrl: completed2026Roster.source.url,
               verified: true,
               description: "Member of Spain's 2026 World Cup-winning squad.",
             },
@@ -202,31 +287,24 @@ const players = Object.fromEntries(
           ? [
               {
                 id: "world-cup-runner-up-2026",
-                label: "World Cup Runner-up",
+                label: "World Cup Runner-up — 2026",
                 category: "international",
                 sourceName: "Completed 2026 archive",
+                sourceUrl: completed2026Roster.source.url,
                 verified: true,
                 description: "Member of Argentina's 2026 runner-up squad.",
               },
             ]
           : []
       : [];
-    const participant = {
-      id: "world-cup-participant",
-      label: "World Cup Participant",
-      count: worldCupEditions,
-      category: "international",
-      sourceName: "World Cup archive",
-      verified: true,
-      description: `Named in ${worldCupEditions} World Cup squad${worldCupEditions === 1 ? "" : "s"}.`,
-    };
     const accoladesById = new Map(
       [
-        ...tournamentAwards,
-        ...finishAccolades,
-        ...completedAwards,
         ...normalizedExisting,
-        participant,
+        ...tournamentAwards,
+        ...historicalFinishAccolades,
+        ...completedFinishAccolades,
+        ...completedAwards,
+        ...(careerCuration.supplementaryAccolades[identityId] ?? []),
       ].map((accolade) => [accolade.id, accolade]),
     );
 

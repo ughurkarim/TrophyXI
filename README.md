@@ -2,13 +2,14 @@
 
 Trophy XI is a browser-based historical football squad builder with deterministic
 single-match and tournament simulation. Build a team from tournament-specific
-players spanning 1970–2026, order a three-player bench, and face one of 14 World
+players spanning 1970–2026, order a three-player bench, and face one of 15 World
 Cup champions or the featured World Cup All-Stars.
 
 ## Run locally
 
 ```bash
 npm install
+npm run players:generate:fbref-map
 npm run players:normalize:careers
 npm run opponents:import
 npm run dev
@@ -20,6 +21,8 @@ Open `http://localhost:3000`.
 
 ```bash
 npm run validate:data
+npm run players:validate:2026
+npm run players:validate:archive
 npm run opponents:validate
 npm run typecheck
 npm run lint
@@ -32,6 +35,8 @@ npm run build
 `validate:data` reports archive, identity, role, tournament, image,
 status-tier, rating-cap, weighted-offer, Era Translation, manager-grade,
 formation-offer, bench, flag, chemistry-preview, and historical-opponent coverage.
+`players:validate:archive` writes the detailed player, roster, accolade, identity,
+and portrait audit to `reports/player-archive-validation.json`.
 `opponents:validate` independently checks champion roster completeness and the
 research archive.
 
@@ -44,7 +49,7 @@ Classic Draft retains the five-card player-first flow, independent manager,
 formation, and player respins, 11 starters, and three ordered substitutes. Free
 Selection opens the full searchable card archive and supports a deterministic
 valid-squad randomizer. World Cup Run uses the Classic Draft squad inside a
-persistent 32-team group and knockout tournament.
+persistent 48-team group and knockout tournament.
 
 Every player round presents five unique identities. Selecting a card only opens
 the Position Fit preview; a second click on an eligible pitch slot commits the
@@ -58,7 +63,7 @@ result must equal the final preview.
 
 The current archive contains:
 
-- 1,376 tournament cards across 676 stable player identities
+- 9,627 tournament cards across 7,255 stable player identities
 - all player cards are draft eligible; artwork availability never changes
   card eligibility, and neutral identity markers cover cards without portraits
 - identity-level historical and user-supplied portraits fill missing card
@@ -74,7 +79,7 @@ The current archive contains:
 - five-card, player-first drafting with two-click placement
 - two permanent, deterministic, player-only respins
 - three ordered bench places drafted from five-card options
-- 14 complete champion opponents from 1970–2022 in normal selection
+- 15 complete champion opponents from 1970–2026 in normal selection
 - identity-safe active champions and explicit Trophy XI models fill World Cup
   Run; the separate 416-team research archive never enters generation or play
 - World Cup All-Stars: a deterministic, beatable Mythic opponent
@@ -97,10 +102,15 @@ to the historical opponent.
 - `src/app`: Next.js App Router pages
 - `src/data/local-portrait-manifest.generated.json`: source-neutral local portrait manifest
 - `src/data/player-tournaments.generated.json`: verified tournament-appearance archive
+- `src/data/player-tournaments-2026.generated.json`: official 48-team, 1,248-player 2026 squad archive
 - `src/data/player-career.generated.json`: normalized career-data output
 - `scripts/generate-player-tournament-data.ts`: World Cup appearance-card generator
+- `scripts/generate-2026-player-roster.ts`: deterministic official 2026 squad importer
+- `scripts/generate-fbref-player-map.ts`: cached Wikipedia/Wikidata-to-FBref identity resolver
+- `scripts/generate-sofifa-player-map.ts`: birth-date/name/nation-safe SoFIFA identity resolver
 - `scripts/normalize-local-career-archive.ts`: career and tournament-accolade normalizer
-- `scripts/import-player-identity-portraits.ts`: source-neutral missing-portrait importer
+- `scripts/import-player-identity-portraits.ts`: cached, source-prioritized, paced, resumable missing-portrait importer
+- `scripts/validate-player-archive.ts`: per-tournament roster, identity, accolade, and image audit
 - `scripts/import-world-cup-teams.ts`: vendored participant ingestion
 - `scripts/validate-data.ts`: executable content and feasibility contract
 - `scripts/validate-world-cup-teams.ts`: opponent-count/evidence validator

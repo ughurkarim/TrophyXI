@@ -193,7 +193,7 @@ export const calculateChemistry = (
       archetypeLinks: 0,
       positionFits: 0,
       averagePositionFit: 0,
-      averageEraFit: eraId === "all" ? 100 : 0,
+      averageEraFit: 0,
       managerFit,
       formationBalance: 0,
       playerCohesion: 0,
@@ -236,7 +236,7 @@ export const calculateChemistry = (
 
   const averageEraFit =
     eraId === "all"
-      ? 100
+      ? 0
       : Math.round(
           average(
             lineup.map((player) =>
@@ -281,13 +281,16 @@ export const calculateChemistry = (
     playerCohesion * 0.55 +
     managerFit * 0.25 +
     formationBalance * 0.15 +
-    averageEraFit * 0.05;
+    (eraId === "all" ? 0 : averageEraFit * 0.05);
   const score = Math.round(clamp100(fullSquadScore * completion));
 
   const contributions = {
     // Kept under the existing `position` key for API compatibility.
     position: Math.round(formationBalance * 0.15 * completion),
-    era: Math.round(averageEraFit * 0.05 * completion),
+    era:
+      eraId === "all"
+        ? 0
+        : Math.round(averageEraFit * 0.05 * completion),
     manager: Math.round(managerFit * 0.25 * completion),
     links: Math.round(playerCohesion * 0.55 * completion),
     leadership: 0,

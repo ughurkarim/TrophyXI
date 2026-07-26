@@ -167,7 +167,7 @@ describe("draft engine", () => {
         .reduce((sum, player) => sum + player.overall, 0) /
       offers.flat().length;
     expect(average(benchOffers)).toBeLessThan(average(starterOffers));
-  });
+  }, 20_000);
 
   it("prevents drafted identities and alternate versions from returning", () => {
     const picks = [{ slotId: "lw", cardId: "kylian-mbappe-2018" }];

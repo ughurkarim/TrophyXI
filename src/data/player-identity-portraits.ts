@@ -25,6 +25,7 @@ export type CanonicalPlayerIdentityPortrait = {
   sourceImageUrl: string | null;
   sourceKind:
     | "existing-local"
+    | "sofifa-game-face"
     | "linked-encyclopedia-page"
     | "reviewed-name-search"
     | "reviewed-media-search"

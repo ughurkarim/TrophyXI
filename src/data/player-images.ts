@@ -86,8 +86,23 @@ export const tournamentEditionPlayerImages =
 export const historicalPlayerImages = playerLocalPortraitRecords
   .filter((record) => record.portraitScope === "identity-only")
   .map(buildAttribution);
+const fc25ImportedSourceCardIds = new Set(
+  importedPlayerIdentityPortraitRecords
+    .filter((record) => record.sourceImageUrl.endsWith("/25_120.png"))
+    .map((record) => record.id),
+);
 export const importedPlayerIdentityImages =
-  importedPlayerIdentityPortraitRecords.map(buildAttribution);
+  importedPlayerIdentityPortraitRecords
+    .filter(
+      (record) =>
+        playersById.has(record.id) &&
+        !(
+          record.tournamentYear === 2026 &&
+          record.sourceImageUrl.includes("cdn.sofifa.net/players/") &&
+          !record.sourceImageUrl.endsWith("/26_120.png")
+        ),
+    )
+    .map(buildAttribution);
 const directPlayerImageById = new Map(
   [
   ...tournamentEditionPlayerImages,
@@ -116,7 +131,14 @@ for (const image of directPlayerImages) {
 
 export const identityFallbackPlayerImages = players.flatMap((player) => {
   if (directPlayerImageById.has(player.imageId)) return [];
-  const source = [...(directPortraitsByIdentity.get(player.playerIdentityId) ?? [])]
+  const source = [
+    ...(directPortraitsByIdentity.get(player.playerIdentityId) ?? []),
+  ]
+    .filter(
+      (candidate) =>
+        player.tournamentYear !== 2026 ||
+        !fc25ImportedSourceCardIds.has(candidate.id),
+    )
     .sort(
       (first, second) =>
         Math.abs(first.tournamentYear - player.tournamentYear) -

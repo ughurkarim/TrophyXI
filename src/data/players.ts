@@ -3,6 +3,7 @@ import { playerCareerDataByIdentityId } from "@/data/player-career-data";
 import tournamentArchiveJson from "@/data/player-tournaments.generated.json";
 import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
 import { completed2026PlayerSeeds } from "@/data/player-tournaments-2026";
+import completed2026RosterJson from "@/data/player-tournaments-2026.generated.json";
 import { historicalWorldCupTournamentStatsByCard } from "@/data/historical-world-cup-tournament-stats.by-card.generated";
 import { worldCup2026GoalkeeperStats } from "@/data/world-cup-2026-goalkeeper-stats.generated";
 import type {
@@ -31,22 +32,30 @@ type Nation = {
 };
 
 const nations: Record<string, Nation> = {
+  AGO: { code: "AGO", name: "Angola", confederation: "CAF" },
+  ARE: { code: "ARE", name: "United Arab Emirates", confederation: "AFC" },
   ARG: { code: "ARG", name: "Argentina", confederation: "CONMEBOL" },
   ALG: { code: "ALG", name: "Algeria", confederation: "CAF" },
   AUS: { code: "AUS", name: "Australia", confederation: "AFC" },
+  AUT: { code: "AUT", name: "Austria", confederation: "UEFA" },
   BEL: { code: "BEL", name: "Belgium", confederation: "UEFA" },
+  BIH: { code: "BIH", name: "Bosnia and Herzegovina", confederation: "UEFA" },
+  BOL: { code: "BOL", name: "Bolivia", confederation: "CONMEBOL" },
   BRA: { code: "BRA", name: "Brazil", confederation: "CONMEBOL" },
   BUL: { code: "BUL", name: "Bulgaria", confederation: "UEFA" },
   CHI: { code: "CHI", name: "Chile", confederation: "CONMEBOL" },
   CMR: { code: "CMR", name: "Cameroon", confederation: "CAF" },
   CAN: { code: "CAN", name: "Canada", confederation: "CONCACAF" },
+  CHN: { code: "CHN", name: "China", confederation: "AFC" },
   CPV: { code: "CPV", name: "Cabo Verde", confederation: "CAF" },
   COL: { code: "COL", name: "Colombia", confederation: "CONMEBOL" },
   CRC: { code: "CRC", name: "Costa Rica", confederation: "CONCACAF" },
   CRO: { code: "CRO", name: "Croatia", confederation: "UEFA" },
+  COD: { code: "COD", name: "Congo DR", confederation: "CAF" },
   CZE: { code: "CZE", name: "Czech Republic", confederation: "UEFA" },
   CUW: { code: "CUW", name: "Curaçao", confederation: "CONCACAF" },
   CSK: { code: "CSK", name: "Czechoslovakia", confederation: "UEFA" },
+  DDR: { code: "DDR", name: "East Germany", confederation: "UEFA" },
   DEN: { code: "DEN", name: "Denmark", confederation: "UEFA" },
   ECU: { code: "ECU", name: "Ecuador", confederation: "CONMEBOL" },
   EGY: { code: "EGY", name: "Egypt", confederation: "CAF" },
@@ -57,27 +66,41 @@ const nations: Record<string, Nation> = {
   GHA: { code: "GHA", name: "Ghana", confederation: "CAF" },
   GRC: { code: "GRC", name: "Greece", confederation: "UEFA" },
   HAI: { code: "HAI", name: "Haiti", confederation: "CONCACAF" },
+  HND: { code: "HND", name: "Honduras", confederation: "CONCACAF" },
+  HUN: { code: "HUN", name: "Hungary", confederation: "UEFA" },
   ISL: { code: "ISL", name: "Iceland", confederation: "UEFA" },
+  IRL: { code: "IRL", name: "Republic of Ireland", confederation: "UEFA" },
+  IRQ: { code: "IRQ", name: "Iraq", confederation: "AFC" },
+  ISR: { code: "ISR", name: "Israel", confederation: "UEFA" },
   ITA: { code: "ITA", name: "Italy", confederation: "UEFA" },
   CIV: { code: "CIV", name: "Côte d’Ivoire", confederation: "CAF" },
+  JAM: { code: "JAM", name: "Jamaica", confederation: "CONCACAF" },
+  JOR: { code: "JOR", name: "Jordan", confederation: "AFC" },
   JPN: { code: "JPN", name: "Japan", confederation: "AFC" },
   KOR: { code: "KOR", name: "South Korea", confederation: "AFC" },
+  KWT: { code: "KWT", name: "Kuwait", confederation: "AFC" },
   MAR: { code: "MAR", name: "Morocco", confederation: "CAF" },
   MEX: { code: "MEX", name: "Mexico", confederation: "CONCACAF" },
   NED: { code: "NED", name: "Netherlands", confederation: "UEFA" },
   NGA: { code: "NGA", name: "Nigeria", confederation: "CAF" },
+  NIR: { code: "NIR", name: "Northern Ireland", confederation: "UEFA" },
   NOR: { code: "NOR", name: "Norway", confederation: "UEFA" },
   NZL: { code: "NZL", name: "New Zealand", confederation: "OFC" },
+  PAN: { code: "PAN", name: "Panama", confederation: "CONCACAF" },
   PAR: { code: "PAR", name: "Paraguay", confederation: "CONMEBOL" },
   PER: { code: "PER", name: "Peru", confederation: "CONMEBOL" },
   POL: { code: "POL", name: "Poland", confederation: "UEFA" },
   POR: { code: "POR", name: "Portugal", confederation: "UEFA" },
+  PRK: { code: "PRK", name: "North Korea", confederation: "AFC" },
+  QAT: { code: "QAT", name: "Qatar", confederation: "AFC" },
   IRN: { code: "IRN", name: "Iran", confederation: "AFC" },
   ROU: { code: "ROU", name: "Romania", confederation: "UEFA" },
   RUS: { code: "RUS", name: "Russia", confederation: "UEFA" },
   RSA: { code: "RSA", name: "South Africa", confederation: "CAF" },
   KSA: { code: "KSA", name: "Saudi Arabia", confederation: "AFC" },
   SEN: { code: "SEN", name: "Senegal", confederation: "CAF" },
+  SCO: { code: "SCO", name: "Scotland", confederation: "UEFA" },
+  SLV: { code: "SLV", name: "El Salvador", confederation: "CONCACAF" },
   SCG: {
     code: "SCG",
     name: "Serbia and Montenegro",
@@ -85,15 +108,19 @@ const nations: Record<string, Nation> = {
   },
   SRB: { code: "SRB", name: "Serbia", confederation: "UEFA" },
   SVK: { code: "SVK", name: "Slovakia", confederation: "UEFA" },
+  SVN: { code: "SVN", name: "Slovenia", confederation: "UEFA" },
   SUI: { code: "SUI", name: "Switzerland", confederation: "UEFA" },
   SWE: { code: "SWE", name: "Sweden", confederation: "UEFA" },
   SUN: { code: "SUN", name: "Soviet Union", confederation: "UEFA" },
+  TGO: { code: "TGO", name: "Togo", confederation: "CAF" },
+  TTO: { code: "TTO", name: "Trinidad and Tobago", confederation: "CONCACAF" },
   TUN: { code: "TUN", name: "Tunisia", confederation: "CAF" },
   TUR: { code: "TUR", name: "Türkiye", confederation: "UEFA" },
   UKR: { code: "UKR", name: "Ukraine", confederation: "UEFA" },
   USA: { code: "USA", name: "United States", confederation: "CONCACAF" },
   URU: { code: "URU", name: "Uruguay", confederation: "CONMEBOL" },
   UZB: { code: "UZB", name: "Uzbekistan", confederation: "AFC" },
+  WAL: { code: "WAL", name: "Wales", confederation: "UEFA" },
   YUG: { code: "YUG", name: "Yugoslavia", confederation: "UEFA" },
 };
 
@@ -318,7 +345,7 @@ const tournamentRatingOverrides: Record<string, number> = {
 "antoine-griezmann-2018": 93,
 "kylian-mbappe-2018": 93,
 "thibaut-courtois-2018": 92,
-"harry-kane-2018": 91,
+"harry-kane-2018": 92,
 "ngolo-kante-2018": 91,
 "ivan-perisic-2018": 90,
 "paul-pogba-2018": 90,
@@ -556,6 +583,7 @@ type Evidence = {
 
 type GeneratedTournamentAppearance = {
   playerId: string;
+  playerName: string;
   tournamentYear: number;
   teamCode: string;
   teamName: string;
@@ -583,8 +611,25 @@ type GeneratedTournamentArchive = {
   unresolvedIdentityIds: string[];
 };
 
+type Completed2026RosterArchive = {
+  source: {
+    name: string;
+    url: string;
+    accessedOn: string;
+  };
+  players: {
+    identityId: string;
+    playerName: string;
+    teamCode: string;
+    primaryPosition: Position;
+    eligiblePositions: Position[];
+  }[];
+};
+
 const tournamentArchive =
   tournamentArchiveJson as unknown as GeneratedTournamentArchive;
+const completed2026Roster =
+  completed2026RosterJson as unknown as Completed2026RosterArchive;
 
 const fjelstulTournamentSource: DataCitation = {
   label: `${tournamentArchive.source.name} v${tournamentArchive.source.version} — player appearances, goals, and awards`,
@@ -824,6 +869,7 @@ const curatedEvidenceByCardId: Record<string, Evidence> = {
     stats: {
       appearances: 5,
       starts: 4,
+      minutes: 399,
       goals: 6,
       assists: 2,
     },
@@ -1947,10 +1993,9 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
 ).flatMap(
   ([identityId, tournaments]) => {
     const identitySeeds = seedsByIdentityId.get(identityId);
-    if (!identitySeeds?.length) {
-      throw new Error(`${identityId}: tournament archive has no card seed`);
-    }
-    const seedById = new Map(identitySeeds.map((seed) => [seed.id, seed]));
+    const seedById = new Map(
+      (identitySeeds ?? []).map((seed) => [seed.id, seed]),
+    );
     return [...tournaments]
       .sort(
         (first, second) => first.tournamentYear - second.tournamentYear,
@@ -1960,11 +2005,23 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
         const exactSeed = seedById.get(id);
         const reference =
           exactSeed ??
-          [...identitySeeds].sort(
-            (first, second) =>
-              Math.abs(first.tournamentYear - tournament.tournamentYear) -
-              Math.abs(second.tournamentYear - tournament.tournamentYear),
-          )[0];
+          (identitySeeds?.length
+            ? [...identitySeeds].sort(
+                (first, second) =>
+                  Math.abs(first.tournamentYear - tournament.tournamentYear) -
+                  Math.abs(second.tournamentYear - tournament.tournamentYear),
+              )[0]
+            : {
+                id,
+                playerName: tournament.playerName,
+                nation: tournament.teamCode,
+                tournamentYear: tournament.tournamentYear,
+                primaryPosition: tournament.primaryPosition,
+                eligiblePositions: tournament.eligiblePositions,
+                overall: estimatedTournamentRating(tournament),
+                archetype: "World Cup squad player",
+                rarity: "classic" as const,
+              });
         const awardFloor = enforcedTournamentAwardRatingFloor(tournament);
         const desiredRating = Math.max(
           awardFloor,
@@ -2417,9 +2474,45 @@ const completed2026Seeds: CardSeed[] = completed2026PlayerSeeds.map(
   }),
 );
 
+const curated2026SeedById = new Map(
+  completed2026Seeds.map((seed) => [seed.id, seed]),
+);
+const complete2026RosterSeeds: CardSeed[] = completed2026Roster.players.map(
+  (player) => {
+    const id = `${player.identityId}-2026`;
+    const curated = curated2026SeedById.get(id);
+    const historicalAppearances =
+      tournamentArchive.identities[player.identityId]?.reduce(
+        (total, tournament) => total + tournament.appearances,
+        0,
+      ) ?? 0;
+    const rosterOverall = Math.min(
+      80,
+      70 + Math.floor(Math.min(30, historicalAppearances) / 4),
+    );
+    return {
+      id,
+      playerName: curated?.playerName ?? player.playerName,
+      nation: player.teamCode,
+      tournamentYear: 2026,
+      primaryPosition: curated?.primaryPosition ?? player.primaryPosition,
+      eligiblePositions:
+        curated?.eligiblePositions ?? player.eligiblePositions,
+      overall: curated?.overall ?? rosterOverall,
+      finalOverall: curated?.finalOverall ?? rosterOverall,
+      archetype:
+        curated?.archetype ??
+        (player.primaryPosition === "GK"
+          ? "2026 tournament goalkeeper"
+          : "2026 World Cup squad player"),
+      rarity: curated?.rarity ?? "classic",
+    };
+  },
+);
+
 const seeds = [
   ...sourcedTournamentSeeds,
-  ...completed2026Seeds,
+  ...complete2026RosterSeeds,
 ];
 
 const normalizeCenterBackPosition = (position: Position): Position =>

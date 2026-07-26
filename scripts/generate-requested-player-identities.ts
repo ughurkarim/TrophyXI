@@ -129,6 +129,10 @@ const canonicalIdentityByPlayerId: Record<
     identityId: "juan-fernando-quintero",
     playerName: "Juan Fernando Quintero",
   },
+  "P-50699": {
+    identityId: "nelson-haedo-valdez",
+    playerName: "Nelson Haedo Valdez",
+  },
 };
 
 const excludedNonParticipants = new Set([

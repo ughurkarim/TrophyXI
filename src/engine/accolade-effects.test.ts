@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { playersById } from "@/data/players";
 import {
   calculatePlayerAccoladeEffect,
+  calculatePlayerLegacyScore,
   calculateSquadAccoladeEffect,
   classifyAccolade,
   getPlayerAccoladeItems,
@@ -10,7 +11,9 @@ import {
 const playerWithChampionCount = (count: number) => {
   const base = playersById.get("olivier-giroud-2018")!;
   const source = base.careerAccolades.find(
-    (accolade) => accolade.label === "World Cup Champion",
+    (accolade) =>
+      accolade.label === "World Cup Winner — 2018" ||
+      accolade.label === "World Cup Champion",
   )!;
   return {
     ...base,
@@ -48,20 +51,13 @@ describe("accolade effects", () => {
   });
 
   it("is deterministic and gives repeated trophies diminishing returns", () => {
-    const one = calculatePlayerAccoladeEffect(
-      playerWithChampionCount(1),
-    );
-    const two = calculatePlayerAccoladeEffect(
-      playerWithChampionCount(2),
-    );
-    const three = calculatePlayerAccoladeEffect(
-      playerWithChampionCount(3),
-    );
-    expect(calculatePlayerAccoladeEffect(playerWithChampionCount(3)))
-      .toEqual(three);
-    expect(two.chemistry - one.chemistry).toBeGreaterThan(
-      three.chemistry - two.chemistry,
-    );
+    const one = calculatePlayerLegacyScore(playerWithChampionCount(1));
+    const two = calculatePlayerLegacyScore(playerWithChampionCount(2));
+    const three = calculatePlayerLegacyScore(playerWithChampionCount(3));
+    expect(calculatePlayerLegacyScore(playerWithChampionCount(3))).toBe(three);
+    expect(two).toBeGreaterThan(one);
+    expect(three).toBeGreaterThan(two);
+    expect(two - one).toBeGreaterThanOrEqual(three - two);
   });
 
   it("caps both player and total squad effects", () => {

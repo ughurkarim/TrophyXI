@@ -1,7 +1,6 @@
 import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { players } from "../src/data/players";
 import requestedIdentityJson from "../src/data/requested-player-identities.generated.json";
 import type { Position } from "../src/types/game";
 
@@ -27,6 +26,7 @@ type CsvRow = Record<string, string>;
 
 type GeneratedTournament = {
   playerId: string;
+  playerName: string;
   tournamentYear: number;
   teamCode: string;
   teamName: string;
@@ -44,7 +44,7 @@ type GeneratedTournament = {
 };
 
 type GeneratedArchive = {
-  version: 1;
+  version: 2;
   generatedAt: string;
   source: {
     name: string;
@@ -68,13 +68,6 @@ type RequestedIdentityArchive = {
     referenceYear: number;
     primaryPosition: Position;
   }[];
-};
-
-type IdentityVersion = {
-  playerName: string;
-  tournamentYear: number;
-  countryCode: string;
-  primaryPosition: Position;
 };
 
 const requestedIdentities = (
@@ -134,14 +127,6 @@ const playerNameFor = (row: CsvRow) =>
     ? row.family_name
     : `${row.given_name} ${row.family_name}`;
 
-const nameTokenSignature = (value: string) =>
-  normalizeName(value).split("-").filter(Boolean).sort().join("-");
-
-const reviewedPlayerIdByIdentityId: Record<string, string> = {
-  "igor-belanov": "P-10855",
-  rivelino: "P-85778",
-};
-
 const projectCodeFor = (code: string) =>
   (
     {
@@ -152,6 +137,7 @@ const projectCodeFor = (code: string) =>
       DNK: "DEN",
       DZA: "ALG",
       HRV: "CRO",
+      HTI: "HAI",
       NLD: "NED",
       PRY: "PAR",
       PRT: "POR",
@@ -166,7 +152,7 @@ const projectCodeFor = (code: string) =>
 
 const mappedPosition = (
   rawCode: string,
-  fallback: Position,
+  fallback: Position = "CM",
 ): Position => {
   const position = (
     {
@@ -209,6 +195,17 @@ const readRows = async (name: string) =>
     await readFile(path.join(SOURCE_DIRECTORY, `${name}.csv`), "utf8"),
   );
 
+// Reviewed source-row aliases where Fjelstul split one real player across
+// different player IDs/name forms. The FBref identifier independently confirms
+// each pair as one person; keeping the preferred public identity prevents
+// duplicate draft identities without merging name-only collisions.
+const reviewedIdentityAliases = new Map([
+  ["P-73110", "hussein-abdulghani"],
+  ["P-77199", "hussein-abdulghani"],
+  ["P-71995", "nelson-haedo-valdez"],
+  ["P-50699", "nelson-haedo-valdez"],
+]);
+
 const main = async () => {
   const [squads, appearances, goals, awards, qualifiedTeams] = await Promise.all([
     readRows("squads"),
@@ -225,111 +222,59 @@ const main = async () => {
     existing.push(row);
     appearancesByPlayer.set(row.player_id, existing);
   }
-  const identities = new Map<string, IdentityVersion[]>(
-    [
-      ...new Set(
-        players
-          .filter((player) => SUPPORTED_YEARS.has(player.tournamentYear))
-          .map((player) => player.playerIdentityId),
-      ),
-    ].map((identityId) => [
-      identityId,
-      players.filter(
-        (player) =>
-          player.playerIdentityId === identityId &&
-          SUPPORTED_YEARS.has(player.tournamentYear),
-      ),
-    ]),
+  const supportedSquads = squads.filter((row) =>
+    SUPPORTED_YEARS.has(Number(row.tournament_id.replace("WC-", ""))),
   );
-  for (const requested of requestedIdentities) {
-    const versions = identities.get(requested.identityId) ?? [];
-    if (
-      !versions.some(
-        (version) => version.tournamentYear === requested.referenceYear,
-      )
-    ) {
-      versions.push({
-        playerName: requested.playerName,
-        tournamentYear: requested.referenceYear,
-        countryCode: requested.countryCode,
-        primaryPosition: requested.primaryPosition,
-      });
+  const existingArchive = existsSync(OUTPUT_FILE)
+    ? (JSON.parse(await readFile(OUTPUT_FILE, "utf8")) as GeneratedArchive)
+    : undefined;
+  const identityByPlayerId = new Map<string, string>();
+  for (const [identityId, tournaments] of Object.entries(
+    existingArchive?.identities ?? {},
+  )) {
+    for (const tournament of tournaments) {
+      identityByPlayerId.set(tournament.playerId, identityId);
     }
-    identities.set(requested.identityId, versions);
   }
-  const requestedPlayerIdByIdentityId = new Map(
-    requestedIdentities.map((identity) => [
-      identity.identityId,
-      identity.playerId,
+  for (const requested of requestedIdentities) {
+    identityByPlayerId.set(requested.playerId, requested.identityId);
+  }
+  for (const [playerId, identityId] of reviewedIdentityAliases) {
+    identityByPlayerId.set(playerId, identityId);
+  }
+  const squadRowsByPlayerId = new Map<string, CsvRow[]>();
+  for (const row of supportedSquads) {
+    squadRowsByPlayerId.set(row.player_id, [
+      ...(squadRowsByPlayerId.get(row.player_id) ?? []),
+      row,
+    ]);
+  }
+  const claimedIdentityIds = new Map(
+    [...identityByPlayerId].map(([playerId, identityId]) => [
+      identityId,
+      playerId,
     ]),
   );
+  for (const [playerId, playerSquads] of [...squadRowsByPlayerId].sort(
+    ([first], [second]) => first.localeCompare(second),
+  )) {
+    if (identityByPlayerId.has(playerId)) continue;
+    const baseIdentityId = normalizeName(playerNameFor(playerSquads[0]));
+    const claimedBy = claimedIdentityIds.get(baseIdentityId);
+    const identityId =
+      claimedBy && claimedBy !== playerId
+        ? `${baseIdentityId}-${playerId.toLocaleLowerCase()}`
+        : baseIdentityId;
+    identityByPlayerId.set(playerId, identityId);
+    claimedIdentityIds.set(identityId, playerId);
+  }
   const output: GeneratedArchive["identities"] = {};
-  const unresolvedIdentityIds: string[] = [];
-
-  for (const [identityId, versions] of identities) {
-    const candidatePlayerIds = new Map<string, number>();
-    for (const version of versions) {
-      const matches = squads.filter(
-        (row) =>
-          Number(row.tournament_id.replace("WC-", "")) ===
-            version.tournamentYear &&
-          (
-            normalizeName(playerNameFor(row)) ===
-              normalizeName(version.playerName) ||
-            normalizeName(row.family_name) ===
-              normalizeName(version.playerName) ||
-            nameTokenSignature(playerNameFor(row)) ===
-              nameTokenSignature(version.playerName)
-          ) &&
-          projectCodeFor(row.team_code) === version.countryCode,
-      );
-      for (const match of matches) {
-        candidatePlayerIds.set(
-          match.player_id,
-          (candidatePlayerIds.get(match.player_id) ?? 0) + 1,
-        );
-      }
-    }
-    if (candidatePlayerIds.size === 0) {
-      for (const version of versions) {
-        const matches = squads.filter(
-          (row) =>
-            (
-              normalizeName(playerNameFor(row)) ===
-                normalizeName(version.playerName) ||
-              normalizeName(row.family_name) ===
-                normalizeName(version.playerName) ||
-              nameTokenSignature(playerNameFor(row)) ===
-                nameTokenSignature(version.playerName)
-            ) &&
-            projectCodeFor(row.team_code) === version.countryCode,
-        );
-        for (const match of matches) {
-          candidatePlayerIds.set(
-            match.player_id,
-            (candidatePlayerIds.get(match.player_id) ?? 0) + 1,
-          );
-        }
-      }
-    }
-    const reviewedPlayerId =
-      requestedPlayerIdByIdentityId.get(identityId) ??
-      reviewedPlayerIdByIdentityId[identityId];
-    if (reviewedPlayerId) {
-      candidatePlayerIds.clear();
-      candidatePlayerIds.set(reviewedPlayerId, 1);
-    }
-    const rankedPlayerIds = [...candidatePlayerIds.entries()].sort(
-      (first, second) => second[1] - first[1],
-    );
-    const playerId = rankedPlayerIds[0]?.[0];
-    if (!playerId || rankedPlayerIds.length > 1 && rankedPlayerIds[0][1] === rankedPlayerIds[1][1]) {
-      unresolvedIdentityIds.push(identityId);
-      continue;
-    }
-
+  for (const [playerId, playerSquads] of [...squadRowsByPlayerId].sort(
+    ([first], [second]) => first.localeCompare(second),
+  )) {
+    const identityId = identityByPlayerId.get(playerId);
+    if (!identityId) throw new Error(`${playerId}: identity was not assigned`);
     const playerAppearances = appearancesByPlayer.get(playerId) ?? [];
-    const playerSquads = squads.filter((row) => row.player_id === playerId);
     const years = [
       ...new Set(
         playerSquads.map((row) =>
@@ -339,7 +284,7 @@ const main = async () => {
     ]
       .filter((year) => SUPPORTED_YEARS.has(year))
       .sort((first, second) => first - second);
-    output[identityId] = years.map((tournamentYear) => {
+    const tournamentRecords = years.map((tournamentYear) => {
       const rows = playerAppearances.filter(
         (row) =>
           Number(row.tournament_id.replace("WC-", "")) === tournamentYear,
@@ -351,18 +296,12 @@ const main = async () => {
       if (!squadRow) {
         throw new Error(`${identityId}: missing ${tournamentYear} squad row`);
       }
-      const reference =
-        versions.find((version) => version.tournamentYear === tournamentYear) ??
-        [...versions].sort(
-          (first, second) =>
-            Math.abs(first.tournamentYear - tournamentYear) -
-            Math.abs(second.tournamentYear - tournamentYear),
-        )[0];
+      const fallbackPosition = mappedPosition(squadRow.position_code);
       const positionCounts = new Map<Position, number>();
       for (const row of rows) {
         const position = mappedPosition(
           row.position_code,
-          reference.primaryPosition,
+          fallbackPosition,
         );
         positionCounts.set(position, (positionCounts.get(position) ?? 0) + 1);
       }
@@ -371,7 +310,7 @@ const main = async () => {
       );
       const primaryPosition =
         rankedPositions[0]?.[0] ??
-        mappedPosition(squadRow.position_code, reference.primaryPosition);
+        fallbackPosition;
       const eligiblePositions = [
         primaryPosition,
         ...rankedPositions.slice(1).map(([position]) => position),
@@ -384,6 +323,7 @@ const main = async () => {
       );
       return {
         playerId,
+        playerName: playerNameFor(squadRow),
         tournamentYear,
         teamCode: projectCodeFor(squadRow.team_code),
         teamName: squadRow.team_name,
@@ -417,10 +357,18 @@ const main = async () => {
           })),
       };
     });
+    output[identityId] = [
+      ...(output[identityId] ?? []),
+      ...tournamentRecords,
+    ].sort(
+      (first, second) =>
+        first.tournamentYear - second.tournamentYear ||
+        first.playerId.localeCompare(second.playerId),
+    );
   }
 
   const generated: GeneratedArchive = {
-    version: 1,
+    version: 2,
     generatedAt: new Date().toISOString(),
     source: {
       name: "The Fjelstul World Cup Database",
@@ -431,14 +379,14 @@ const main = async () => {
         "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
       accessedOn: "2026-07-18",
       modifications:
-        "Filtered to men's tournaments from 1970–2022 and Trophy XI identities; aggregated match appearances, starts, non-own goals, tactical position codes, and published tournament awards.",
+        "Filtered to every men's World Cup squad from 1970–2022; preserved stable player identities across editions and aggregated match appearances, starts, non-own goals, tactical position codes, and published tournament awards.",
     },
     identities: Object.fromEntries(
       Object.entries(output).sort(([first], [second]) =>
         first.localeCompare(second),
       ),
     ),
-    unresolvedIdentityIds: unresolvedIdentityIds.sort(),
+    unresolvedIdentityIds: [],
   };
 
   if (process.argv.includes("--check")) {
@@ -466,11 +414,7 @@ const main = async () => {
   console.log(
     `Tournament appearance archive: ${cardCount} cards across ${Object.keys(output).length} identities.`,
   );
-  console.log(
-    unresolvedIdentityIds.length > 0
-      ? `Unresolved identities: ${unresolvedIdentityIds.join(", ")}`
-      : "All Trophy XI identities resolved to a unique Fjelstul player id.",
-  );
+  console.log("All sourced squad players resolved to one stable identity.");
 };
 
 void main();

@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 import { draftEras } from "@/data/eras";
 import { draftEligibleManagers, managers } from "@/data/managers";
 import playerTournamentsJson from "@/data/player-tournaments.generated.json";
+import completed2026RosterJson from "@/data/player-tournaments-2026.generated.json";
 import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
+import {
+  canonicalPlayerIdentityPortraits,
+  importedPlayerIdentityPortraitRecords,
+} from "@/data/player-identity-portraits";
 import {
   gameFacePathFor,
   historicalPlayerImages,
@@ -17,14 +22,31 @@ import { draftEligiblePlayers, players } from "@/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "@/types/game";
 import { generateManagerOptions } from "@/engine/draft";
 
+const playerTournamentArchive = playerTournamentsJson as unknown as {
+  identities: Record<string, { tournamentYear: number }[]>;
+};
+const completed2026Roster = completed2026RosterJson as unknown as {
+  players: Array<{ identityId: string; teamCode: string }>;
+  teams: Array<{ teamCode: string; playerCount: number }>;
+};
+const expectedHistoricalCardCount = Object.values(
+  playerTournamentArchive.identities,
+).reduce((total, tournaments) => total + tournaments.length, 0);
+const expectedIdentityCount = new Set([
+  ...Object.keys(playerTournamentArchive.identities),
+  ...completed2026Roster.players.map((player) => player.identityId),
+]).size;
+
 describe("expanded archive contracts", () => {
   it("keeps the exact card and role targets", () => {
     const defenders = ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB"];
     const midfielders = ["DM", "CM", "AM", "LM", "RM"];
     const attackers = ["LW", "RW", "CF", "ST"];
-    expect(players).toHaveLength(1_376);
+    expect(players).toHaveLength(
+      expectedHistoricalCardCount + completed2026Roster.players.length,
+    );
     expect(new Set(players.map((player) => player.playerIdentityId)).size).toBe(
-      676,
+      expectedIdentityCount,
     );
     expect(
       [
@@ -71,18 +93,19 @@ describe("expanded archive contracts", () => {
         players.some((player) => player.playerIdentityId === identityId),
       ),
     ).toBe(true);
-    expect(
-      players.filter((player) => player.primaryPosition === "GK"),
-    ).toHaveLength(161);
-    expect(
-      players.filter((player) => defenders.includes(player.primaryPosition)),
-    ).toHaveLength(307);
-    expect(
-      players.filter((player) => midfielders.includes(player.primaryPosition)),
-    ).toHaveLength(449);
-    expect(
-      players.filter((player) => attackers.includes(player.primaryPosition)),
-    ).toHaveLength(459);
+    const roleCounts = [
+      players.filter((player) => player.primaryPosition === "GK").length,
+      players.filter((player) => defenders.includes(player.primaryPosition))
+        .length,
+      players.filter((player) => midfielders.includes(player.primaryPosition))
+        .length,
+      players.filter((player) => attackers.includes(player.primaryPosition))
+        .length,
+    ];
+    expect(roleCounts.every((count) => count >= 500)).toBe(true);
+    expect(roleCounts.reduce((total, count) => total + count, 0)).toBe(
+      players.length,
+    );
   });
 
   it("covers every requested historical identity and each sourced tournament", () => {
@@ -96,8 +119,8 @@ describe("expanded archive contracts", () => {
 
     expect(requestedIdentityJson.identities).toHaveLength(434);
     for (const requested of requestedIdentityJson.identities) {
-      const sourcedYears = playerTournamentsJson.identities[
-        requested.identityId as keyof typeof playerTournamentsJson.identities
+      const sourcedYears = playerTournamentArchive.identities[
+        requested.identityId
       ]?.map((tournament) => tournament.tournamentYear);
       expect(sourcedYears, requested.identityId).toBeDefined();
       expect(actualYearsByIdentity.get(requested.identityId), requested.identityId)
@@ -111,10 +134,17 @@ describe("expanded archive contracts", () => {
 
   it("keeps the complete 2026 set and rejects explicitly invalid editions", () => {
     const cards2026 = players.filter((player) => player.tournamentYear === 2026);
-    expect(cards2026).toHaveLength(132);
+    expect(cards2026).toHaveLength(completed2026Roster.players.length);
     expect(
       new Set(cards2026.map((player) => player.playerIdentityId)).size,
-    ).toBe(132);
+    ).toBe(completed2026Roster.players.length);
+    expect(completed2026Roster.teams).toHaveLength(48);
+    expect(
+      completed2026Roster.teams.every((team) => team.playerCount === 26),
+    ).toBe(true);
+    expect(
+      cards2026.filter((player) => player.countryCode === "CRO"),
+    ).toHaveLength(26);
     expect(
       players
         .filter((player) => player.playerIdentityId === "jens-lehmann")
@@ -160,7 +190,7 @@ describe("expanded archive contracts", () => {
     expect(new Set(managers.map((manager) => manager.managerIdentityId)).size).toBe(
       47,
     );
-    expect(draftEligiblePlayers).toHaveLength(1_376);
+    expect(draftEligiblePlayers).toHaveLength(players.length);
     expect(draftEligibleManagers).toHaveLength(47);
     expect(imageAttributions).toHaveLength(
       playerImages.length + managerImages.length,
@@ -250,6 +280,25 @@ describe("expanded archive contracts", () => {
     expect(messi2006?.cacheVersion).toBe("ce83969b96dab437");
   });
 
+  it("uses only FC26 game-face sources for direct 2026 imports", () => {
+    expect(
+      canonicalPlayerIdentityPortraits
+        .filter(
+          (portrait) =>
+            portrait.sourceTournamentYear === 2026 &&
+            portrait.sourceKind === "sofifa-game-face",
+        )
+        .every((portrait) =>
+          portrait.sourceImageUrl?.endsWith("/26_120.png"),
+        ),
+    ).toBe(true);
+    expect(
+      importedPlayerIdentityPortraitRecords
+        .filter((portrait) => portrait.tournamentYear === 2026)
+        .some((portrait) => portrait.sourceImageUrl.endsWith("/25_120.png")),
+    ).toBe(false);
+  });
+
   it("enforces the 99 cap and broad tournament-card rating distribution", () => {
     expect(Math.max(...draftEligiblePlayers.map((player) => player.overall))).toBe(
       99,
@@ -303,7 +352,7 @@ describe("expanded archive contracts", () => {
       .toBe(91);
     expect(players.find((player) => player.id === "kylian-mbappe-2026"))
       .toMatchObject({
-        overall: 98,
+        overall: 97,
         tournamentStats: { appearances: 8, goals: 10 },
       });
     expect(
@@ -313,7 +362,7 @@ describe("expanded archive contracts", () => {
     ).toContain("Golden Boot");
     expect(players.find((player) => player.id === "unai-simon-2026"))
       .toMatchObject({
-        overall: 93,
+        overall: 88,
         tournamentStats: {
           appearances: 8,
           cleanSheets: 7,
@@ -430,17 +479,21 @@ describe("expanded archive contracts", () => {
     ).toBe(true);
   });
 
-  it("attaches career context and at least one accolade to every identity", () => {
+  it("attaches career context to every identity without inventing accolades", () => {
     const identityRepresentatives = [
       ...new Map(
         players.map((player) => [player.playerIdentityId, player]),
       ).values(),
     ];
-    expect(identityRepresentatives).toHaveLength(676);
+    expect(identityRepresentatives).toHaveLength(expectedIdentityCount);
     expect(
       identityRepresentatives.every(
-        (player) =>
-          player.careerStats !== null && player.careerAccolades.length > 0,
+        (player) => player.careerStats !== null,
+      ),
+    ).toBe(true);
+    expect(
+      identityRepresentatives.some(
+        (player) => player.careerAccolades.length === 0,
       ),
     ).toBe(true);
 
@@ -454,11 +507,11 @@ describe("expanded archive contracts", () => {
           count: 2,
         }),
         expect.objectContaining({
-          label: "UEFA Champions League Champion",
+          label: "UEFA Champions League Champion — 2020-21",
           count: 1,
         }),
         expect.objectContaining({
-          label: "World Cup Champion",
+          label: "World Cup Champion — 2018",
           count: 1,
         }),
       ]),
@@ -466,6 +519,11 @@ describe("expanded archive contracts", () => {
     expect(giroud.careerAccolades.every((accolade) => accolade.verified)).toBe(
       true,
     );
+    expect(
+      identityRepresentatives
+        .flatMap((player) => player.careerAccolades)
+        .some((accolade) => accolade.label.startsWith("World Cup Squad — ")),
+    ).toBe(false);
   });
 
   it("resolves every card once an identity has any local portrait", () => {

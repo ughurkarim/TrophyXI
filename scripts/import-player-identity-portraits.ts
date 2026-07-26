@@ -1,8 +1,15 @@
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import {
+  appendFile,
+  mkdir,
+  readFile,
+  readdir,
+  writeFile,
+} from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
+import soFifaPlayerMapJson from "../data/sources/sofifa/player-map.json";
 import { players } from "../src/data/players";
 import tournamentArchiveJson from "../src/data/player-tournaments.generated.json";
 
@@ -57,7 +64,9 @@ type ResolvedRemotePortrait = {
   pageTitle: string;
   sourcePage: string;
   imageUrl: string;
+  fallbackImageUrls?: string[];
   resolutionMethod:
+    | "sofifa-game-face"
     | "linked-encyclopedia-page"
     | "reviewed-name-search"
     | "reviewed-media-search"
@@ -116,6 +125,34 @@ type GeneratedPortraitArchive = {
   }[];
 };
 
+type ImportProgress = {
+  version: 1;
+  updatedAt: string;
+  importedByIdentity: Record<string, IdentityCoverage>;
+};
+
+type FailedDownloadCache = Record<
+  string,
+  { checkedAt: string; imageUrl: string; reason: string }
+>;
+
+type SoFifaCacheEntry = {
+  status: "success" | "skipped" | "failed";
+  sourceUrl?: string;
+};
+
+type SoFifaPlayerMap = {
+  mappings: Array<{
+    playerIdentityId: string;
+    sofifaPlayerId: string;
+    sourcePage: string;
+    canonicalFaceUrl: string;
+    canonicalFifaVersion: number;
+    tournamentYears: number[];
+    versions: Array<{ sourceUrl: string }>;
+  }>;
+};
+
 const ROOT = process.cwd();
 const PLAYER_DIRECTORY = path.join(ROOT, "assets", "players");
 const SOURCE_DIRECTORY = path.join(
@@ -142,20 +179,115 @@ const OVERRIDES_FILE = path.join(
   "scripts",
   "player-identity-portrait-overrides.json",
 );
+const CACHE_DIRECTORY = path.join(
+  ROOT,
+  "scripts",
+  "cache",
+  "player-identity-portraits",
+);
+const HTTP_CACHE_DIRECTORY = path.join(CACHE_DIRECTORY, "http-json");
+const PROGRESS_FILE = path.join(CACHE_DIRECTORY, "progress.json");
+const RESOLUTION_CACHE_FILE = path.join(CACHE_DIRECTORY, "resolutions.json");
+const REQUEST_LOG_FILE = path.join(CACHE_DIRECTORY, "requests.jsonl");
+const FAILED_DOWNLOAD_FILE = path.join(
+  CACHE_DIRECTORY,
+  "failed-downloads.json",
+);
+const SOFIFA_CACHE_FILE = path.join(
+  ROOT,
+  "scripts",
+  "cache",
+  "game-faces",
+  "import-cache.json",
+);
 const ARCHIVE = tournamentArchiveJson as TournamentArchive;
+const SOFIFA_PLAYER_MAP = soFifaPlayerMapJson as SoFifaPlayerMap;
+const SOFIFA_MAPPING_BY_IDENTITY = new Map(
+  SOFIFA_PLAYER_MAP.mappings.map((mapping) => [
+    mapping.playerIdentityId,
+    mapping,
+  ]),
+);
 const CHECK_ONLY = process.argv.includes("--check");
 const ALLOW_PARTIAL = process.argv.includes("--allow-partial");
+const SOFIFA_ONLY = process.argv.includes("--source=sofifa");
+const ALLOW_MEDIA_SEARCH = process.argv.includes("--media-search");
+const CACHE_ONLY_SEARCH = process.argv.includes("--cache-only-search");
+const minimumYearArgument = process.argv.find((argument) =>
+  argument.startsWith("--min-year="),
+);
+const MINIMUM_YEAR = minimumYearArgument
+  ? Number(minimumYearArgument.slice("--min-year=".length))
+  : Number.NEGATIVE_INFINITY;
 const limitArgument = process.argv.find((argument) =>
   argument.startsWith("--limit="),
 );
 const IMPORT_LIMIT = limitArgument
   ? Number(limitArgument.slice("--limit=".length))
   : Number.POSITIVE_INFINITY;
+const searchLimitArgument = process.argv.find((argument) =>
+  argument.startsWith("--search-limit="),
+);
+const SEARCH_LIMIT = searchLimitArgument
+  ? Number(searchLimitArgument.slice("--search-limit=".length))
+  : Number.POSITIVE_INFINITY;
 const USER_AGENT =
   "TrophyXI-portrait-archive/1.0 (local educational project; portrait metadata import)";
 const IMAGE_EXTENSIONS = ["png", "webp", "jpg", "jpeg", "avif"] as const;
-const API_CONCURRENCY = 4;
-const DOWNLOAD_CONCURRENCY = 6;
+const PRESCRIBED_GAME_EDITION_BY_YEAR = new Map([
+  [2010, 10],
+  [2014, 14],
+  [2018, 18],
+  [2022, 23],
+  [2026, 26],
+]);
+const API_CONCURRENCY = 3;
+const DOWNLOAD_CONCURRENCY = 1;
+const API_REQUEST_INTERVAL_MS = 10_000;
+const DOWNLOAD_REQUEST_INTERVAL_MS = 1_100;
+const WIKIMEDIA_DOWNLOAD_INTERVAL_MS = 5_000;
+const availablePortraitFilesByYear = new Map<number, Promise<Set<string>>>();
+const apiRequestSchedule = { nextAt: 0, gate: Promise.resolve() };
+const downloadRequestSchedule = { nextAt: 0, gate: Promise.resolve() };
+const wikimediaDownloadSchedule = { nextAt: 0, gate: Promise.resolve() };
+
+class CacheMissError extends Error {}
+
+const logRequest = async (entry: Record<string, unknown>) => {
+  await appendFile(
+    REQUEST_LOG_FILE,
+    `${JSON.stringify({ at: new Date().toISOString(), ...entry })}\n`,
+  );
+};
+
+const waitForRequestSlot = async (url: string | URL) => {
+  const parsedUrl = new URL(String(url));
+  const isApiRequest = parsedUrl.pathname.endsWith("/w/api.php");
+  const isWikimediaDownload =
+    !isApiRequest && parsedUrl.hostname.endsWith("wikimedia.org");
+  const schedule = isApiRequest
+    ? apiRequestSchedule
+    : isWikimediaDownload
+      ? wikimediaDownloadSchedule
+      : downloadRequestSchedule;
+  const interval = isApiRequest
+    ? API_REQUEST_INTERVAL_MS
+    : isWikimediaDownload
+      ? WIKIMEDIA_DOWNLOAD_INTERVAL_MS
+      : DOWNLOAD_REQUEST_INTERVAL_MS;
+  const previous = schedule.gate;
+  let release = () => {};
+  schedule.gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await previous;
+  const waitMs = Math.max(0, schedule.nextAt - Date.now());
+  if (waitMs > 0) {
+    await new Promise((resolve) => setTimeout(resolve, waitMs));
+  }
+  schedule.nextAt = Date.now() + interval;
+  release();
+};
 
 const parseCsv = (value: string): CsvRow[] => {
   const rows: string[][] = [];
@@ -243,6 +375,7 @@ const fetchWithRetry = async (url: string | URL, attempts = 4) => {
   let lastError: unknown;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
+      await waitForRequestSlot(url);
       const response = await fetch(url, {
         headers: {
           Accept: "application/json,image/*;q=0.9,*/*;q=0.8",
@@ -252,11 +385,35 @@ const fetchWithRetry = async (url: string | URL, attempts = 4) => {
         signal: AbortSignal.timeout(30_000),
       });
       if (!response.ok) {
+        const retryAfter = Number(response.headers.get("retry-after") ?? "0");
+        await logRequest({
+          url: String(url),
+          attempt,
+          status: response.status,
+          result: "retryable-error",
+        });
+        if (retryAfter > 0 && attempt < attempts) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, Math.min(60_000, retryAfter * 1_000)),
+          );
+        }
         throw new Error(`${response.status} ${response.statusText}`);
       }
+      await logRequest({
+        url: String(url),
+        attempt,
+        status: response.status,
+        result: "success",
+      });
       return response;
     } catch (error) {
       lastError = error;
+      await logRequest({
+        url: String(url),
+        attempt,
+        result: "failure",
+        error: error instanceof Error ? error.message : String(error),
+      });
       if (attempt < attempts) {
         await new Promise((resolve) =>
           setTimeout(resolve, 400 * 2 ** (attempt - 1)),
@@ -267,8 +424,21 @@ const fetchWithRetry = async (url: string | URL, attempts = 4) => {
   throw lastError;
 };
 
-const fetchJson = async <T>(url: URL) =>
-  (await (await fetchWithRetry(url)).json()) as T;
+const fetchJson = async <T>(url: URL) => {
+  const cacheKey = createHash("sha256").update(url.toString()).digest("hex");
+  const cacheFile = path.join(HTTP_CACHE_DIRECTORY, `${cacheKey}.json`);
+  if (existsSync(cacheFile)) {
+    return JSON.parse(await readFile(cacheFile, "utf8")) as T;
+  }
+  if (CACHE_ONLY_SEARCH) {
+    throw new CacheMissError(`No cached API response for ${url.pathname}`);
+  }
+  const response = await fetchWithRetry(url);
+  const body = await response.text();
+  const parsed = JSON.parse(body) as T;
+  await writeFile(cacheFile, `${JSON.stringify(parsed)}\n`);
+  return parsed;
+};
 
 const sha256 = (value: Buffer) =>
   createHash("sha256").update(value).digest("hex");
@@ -277,8 +447,10 @@ const fileSha256 = async (filename: string) =>
   sha256(await readFile(filename));
 
 const sourceTitleFor = (url: string) => {
-  const parsed = new URL(url);
-  return decodeURIComponent(parsed.pathname.replace(/^\/wiki\//, ""));
+  const pathname = URL.canParse(url)
+    ? new URL(url).pathname
+    : url.replace(/^https?:\/\/[^/]+/i, "");
+  return decodeURIComponent(pathname.replace(/^\/?wiki\//, ""));
 };
 
 const resolveAliases = (
@@ -477,15 +649,15 @@ const findExistingCandidates = async (cards: PlayerCard[]) => {
   for (const card of cards) {
     const directory = path.join(PLAYER_DIRECTORY, String(card.tournamentYear));
     if (!existsSync(directory)) continue;
-    const available = new Set(await readdir(directory));
+    const availablePromise =
+      availablePortraitFilesByYear.get(card.tournamentYear) ??
+      readdir(directory).then((files) => new Set(files));
+    availablePortraitFilesByYear.set(card.tournamentYear, availablePromise);
+    const available = await availablePromise;
     for (const extension of IMAGE_EXTENSIONS) {
       const filename = `${card.id}.${extension}`;
       if (!available.has(filename)) continue;
       const absolutePath = path.join(directory, filename);
-      const metadata = await sharp(absolutePath, { animated: false }).metadata();
-      if (!metadata.width || !metadata.height || metadata.width < 80 || metadata.height < 80) {
-        continue;
-      }
       candidates.push({
         cardId: card.id,
         tournamentYear: card.tournamentYear,
@@ -537,16 +709,38 @@ const importRemotePortrait = async ({
   player: PlayerCard;
   remote: ResolvedRemotePortrait;
 }) => {
-  const response = await fetchWithRetry(remote.imageUrl);
+  let response: Response | undefined;
+  let buffer: Buffer | undefined;
+  let metadata: Awaited<ReturnType<typeof sharp.prototype.metadata>> | undefined;
+  let sourceImageUrl = remote.imageUrl;
+  let lastError: unknown;
+  for (const imageUrl of [
+    remote.imageUrl,
+    ...(remote.fallbackImageUrls ?? []),
+  ]) {
+    try {
+      response = await fetchWithRetry(imageUrl);
+      const candidateBuffer = Buffer.from(await response.arrayBuffer());
+      const candidateMetadata = await sharp(candidateBuffer, {
+        animated: false,
+      }).metadata();
+      buffer = candidateBuffer;
+      metadata = candidateMetadata;
+      sourceImageUrl = imageUrl;
+      break;
+    } catch (error) {
+      lastError = error;
+      response = undefined;
+    }
+  }
+  if (!response || !buffer || !metadata) throw lastError;
   const contentLength = Number(response.headers.get("content-length") ?? "0");
   if (contentLength > 20_000_000) {
     throw new Error(`remote image is too large (${contentLength} bytes)`);
   }
-  const buffer = Buffer.from(await response.arrayBuffer());
   if (buffer.byteLength < 4_000 || buffer.byteLength > 20_000_000) {
     throw new Error(`unexpected image size (${buffer.byteLength} bytes)`);
   }
-  const metadata = await sharp(buffer, { animated: false }).metadata();
   if (!metadata.width || !metadata.height || metadata.width < 120 || metadata.height < 120) {
     throw new Error(
       `image dimensions are too small (${metadata.width ?? 0}x${metadata.height ?? 0})`,
@@ -582,6 +776,7 @@ const importRemotePortrait = async ({
     sourceFile,
     runtimeAbsolutePath,
     localPath: `/assets/players/${player.tournamentYear}/${runtimeFilename}`,
+    sourceImageUrl,
   };
 };
 
@@ -593,16 +788,61 @@ const main = async () => {
   if (!Number.isFinite(IMPORT_LIMIT) && limitArgument) {
     throw new Error("--limit must be a positive integer");
   }
+  if (
+    searchLimitArgument &&
+    (!Number.isInteger(SEARCH_LIMIT) || SEARCH_LIMIT < 0)
+  ) {
+    throw new Error("--search-limit must be a non-negative integer");
+  }
+  if (
+    minimumYearArgument &&
+    (!Number.isInteger(MINIMUM_YEAR) || MINIMUM_YEAR < 1900)
+  ) {
+    throw new Error("--min-year must be a four-digit tournament year");
+  }
   await mkdir(SOURCE_DIRECTORY, { recursive: true });
+  await mkdir(HTTP_CACHE_DIRECTORY, { recursive: true });
   const previousArchive = existsSync(OUTPUT_FILE)
     ? (JSON.parse(
         await readFile(OUTPUT_FILE, "utf8"),
       ) as GeneratedPortraitArchive)
     : undefined;
+  const progress = existsSync(PROGRESS_FILE)
+    ? (JSON.parse(await readFile(PROGRESS_FILE, "utf8")) as ImportProgress)
+    : {
+        version: 1 as const,
+        updatedAt: new Date(0).toISOString(),
+        importedByIdentity: {},
+      };
+  const failedDownloads = existsSync(FAILED_DOWNLOAD_FILE)
+    ? (JSON.parse(
+        await readFile(FAILED_DOWNLOAD_FILE, "utf8"),
+      ) as FailedDownloadCache)
+    : {};
+  let progressWriteGate = Promise.resolve();
+  const writeProgress = async () => {
+    progressWriteGate = progressWriteGate.then(() =>
+      writeFile(PROGRESS_FILE, `${JSON.stringify(progress, null, 2)}\n`),
+    );
+    await progressWriteGate;
+  };
+  let failedDownloadWriteGate = Promise.resolve();
+  const writeFailedDownloads = async () => {
+    failedDownloadWriteGate = failedDownloadWriteGate.then(() =>
+      writeFile(
+        FAILED_DOWNLOAD_FILE,
+        `${JSON.stringify(failedDownloads, null, 2)}\n`,
+      ),
+    );
+    await failedDownloadWriteGate;
+  };
   const previousImportedByIdentity = new Map(
-    (previousArchive?.identityPortraits ?? [])
-      .filter((portrait) => portrait.sourceKind !== "existing-local")
-      .map((portrait) => [portrait.playerIdentityId, portrait]),
+    [
+      ...(previousArchive?.identityPortraits ?? []).filter(
+        (portrait) => portrait.sourceKind !== "existing-local",
+      ),
+      ...Object.values(progress.importedByIdentity),
+    ].map((portrait) => [portrait.playerIdentityId, portrait]),
   );
   const cardsByIdentity = new Map<string, PlayerCard[]>();
   for (const player of players) {
@@ -620,18 +860,47 @@ const main = async () => {
   for (const [identityId, cards] of identities) {
     const candidates = await findExistingCandidates(cards);
     const canonical = canonicalExistingCandidate(cards, candidates);
+    const previousImported = previousImportedByIdentity.get(identityId);
     if (!canonical) {
       missing.push({ identityId, cards });
       continue;
     }
-    const previousImported = previousImportedByIdentity.get(identityId);
+    const soFifaMapping = SOFIFA_MAPPING_BY_IDENTITY.get(identityId);
+    const latestTournamentYear = Math.max(
+      ...cards.map((card) => card.tournamentYear),
+    );
+    const prescribedEdition =
+      PRESCRIBED_GAME_EDITION_BY_YEAR.get(latestTournamentYear);
+    const hasExactEditionUpgrade =
+      previousImported?.sourceKind === "sofifa-game-face" &&
+      soFifaMapping !== undefined &&
+      soFifaMapping.canonicalFifaVersion === prescribedEdition &&
+      previousImported.sourceImageUrl !== soFifaMapping.canonicalFaceUrl;
+    const isForbiddenNonFc26Direct2026 =
+      previousImported?.sourceKind === "sofifa-game-face" &&
+      previousImported.sourceTournamentYear === 2026 &&
+      !previousImported.sourceImageUrl?.endsWith("/26_120.png");
+    if (isForbiddenNonFc26Direct2026) {
+      missing.push({ identityId, cards });
+      continue;
+    }
+    if (
+      soFifaMapping &&
+      previousImported &&
+      (previousImported.sourceKind !== "sofifa-game-face" ||
+        hasExactEditionUpgrade)
+    ) {
+      retainedImportedCoverage.push(previousImported);
+      missing.push({ identityId, cards });
+      continue;
+    }
     if (
       previousImported?.localPath === canonical.localPath &&
       existsSync(path.join(ROOT, previousImported.sourceFile.replace(/^\//, "")))
     ) {
       retainedImportedCoverage.push({
         ...previousImported,
-        cacheVersion: (await fileSha256(canonical.absolutePath)).slice(0, 16),
+        cacheVersion: previousImported.cacheVersion,
       });
       continue;
     }
@@ -684,9 +953,95 @@ const main = async () => {
       resolutionMethod: "reviewed-override",
     });
   }
+  const soFifaCache = existsSync(SOFIFA_CACHE_FILE)
+    ? (JSON.parse(
+        await readFile(SOFIFA_CACHE_FILE, "utf8"),
+      ) as Record<string, SoFifaCacheEntry>)
+    : {};
+  const soFifaPortraits = new Map<string, ResolvedRemotePortrait>();
+  for (const [cardId, cached] of Object.entries(soFifaCache)) {
+    if (
+      (cached.status !== "success" && cached.status !== "skipped") ||
+      !cached.sourceUrl
+    ) {
+      continue;
+    }
+    const identityId = cardId.replace(/-\d{4}$/, "");
+    if (!cardsByIdentity.has(identityId)) continue;
+    const latestTournamentYear = Math.max(
+      ...(cardsByIdentity.get(identityId) ?? []).map(
+        (card) => card.tournamentYear,
+      ),
+    );
+    if (
+      latestTournamentYear === 2026 &&
+      !cached.sourceUrl.endsWith("/26_120.png")
+    ) {
+      continue;
+    }
+    const playerIdParts =
+      new URL(cached.sourceUrl).pathname.match(/\/players\/(\d+)\/(\d+)\//);
+    const playerId = playerIdParts
+      ? Number(`${playerIdParts[1]}${playerIdParts[2]}`)
+      : undefined;
+    soFifaPortraits.set(identityId, {
+      pageTitle: identityId,
+      sourcePage: playerId
+        ? `https://sofifa.com/player/${playerId}`
+        : "https://sofifa.com/",
+      imageUrl: cached.sourceUrl,
+      resolutionMethod: "sofifa-game-face",
+    });
+  }
+  for (const mapping of SOFIFA_PLAYER_MAP.mappings) {
+    if (!cardsByIdentity.has(mapping.playerIdentityId)) continue;
+    soFifaPortraits.set(mapping.playerIdentityId, {
+      pageTitle: mapping.playerIdentityId,
+      sourcePage: mapping.sourcePage,
+      imageUrl: mapping.canonicalFaceUrl,
+      fallbackImageUrls:
+        Math.max(...mapping.tournamentYears) === 2026
+          ? []
+          : mapping.versions
+              .map((version) => version.sourceUrl)
+              .filter((sourceUrl) => sourceUrl !== mapping.canonicalFaceUrl)
+              .reverse(),
+      resolutionMethod: "sofifa-game-face",
+    });
+  }
+  const hasRecentTerminalSoFifaFailure = (identityId: string) => {
+    const portrait = soFifaPortraits.get(identityId);
+    const failed = failedDownloads[identityId];
+    return Boolean(
+      portrait &&
+        failed &&
+        failed.imageUrl === portrait.imageUrl &&
+        Date.now() - Date.parse(failed.checkedAt) <
+          7 * 24 * 60 * 60 * 1_000 &&
+        !portrait.fallbackImageUrls?.length,
+    );
+  };
+  const usableSoFifaPortraits = new Map(
+    [...soFifaPortraits].filter(
+      ([identityId]) => !hasRecentTerminalSoFifaFailure(identityId),
+    ),
+  );
   const sourcePlayerById = new Map(csvRows.map((row) => [row.player_id, row]));
+  const cachedResolutions = existsSync(RESOLUTION_CACHE_FILE)
+    ? (JSON.parse(
+        await readFile(RESOLUTION_CACHE_FILE, "utf8"),
+      ) as Record<string, ResolvedRemotePortrait>)
+    : {};
+  const cachedPortraits = new Map(
+    Object.entries(cachedResolutions).filter(([identityId]) =>
+      cardsByIdentity.has(identityId),
+    ),
+  );
   const linkedTitleByIdentity = new Map<string, string>();
-  for (const { identityId } of missing) {
+  for (const { identityId, cards } of missing) {
+    if (!cards.some((card) => card.tournamentYear >= MINIMUM_YEAR)) continue;
+    if (SOFIFA_ONLY || usableSoFifaPortraits.has(identityId)) continue;
+    if (cachedPortraits.has(identityId)) continue;
     const playerId = ARCHIVE.identities[identityId]?.[0]?.playerId;
     const page = playerId
       ? sourcePlayerById.get(playerId)?.player_wikipedia_link
@@ -697,7 +1052,13 @@ const main = async () => {
   const linkedPortraits = new Map<string, ResolvedRemotePortrait>();
   const linkedEntries = [...linkedTitleByIdentity.entries()];
   for (const chunk of chunksOf(linkedEntries, 35)) {
-    const pages = await queryPageImages(chunk.map(([, title]) => title));
+    let pages: Map<string, PageImage>;
+    try {
+      pages = await queryPageImages(chunk.map(([, title]) => title));
+    } catch (error) {
+      if (error instanceof CacheMissError) continue;
+      throw error;
+    }
     for (const [identityId, title] of chunk) {
       const portrait = remotePortraitFromPage(
         pages.get(title),
@@ -706,26 +1067,41 @@ const main = async () => {
       if (portrait) linkedPortraits.set(identityId, portrait);
     }
   }
+  for (const [identityId, portrait] of linkedPortraits) {
+    cachedResolutions[identityId] = portrait;
+  }
+  await writeFile(
+    RESOLUTION_CACHE_FILE,
+    `${JSON.stringify(cachedResolutions, null, 2)}\n`,
+  );
 
   const unresolvedAfterLinks = missing.filter(
-    ({ identityId }) => !linkedPortraits.has(identityId),
+    ({ identityId, cards }) =>
+      cards.some((card) => card.tournamentYear >= MINIMUM_YEAR) &&
+      !SOFIFA_ONLY &&
+      !cachedPortraits.has(identityId) &&
+      !linkedPortraits.has(identityId) &&
+      !usableSoFifaPortraits.has(identityId),
   );
   console.log(
     `Existing identities: ${existingCoverage.length}. Missing identities: ${missing.length}. ` +
+      `SoFIFA portraits resolved: ${soFifaPortraits.size}. ` +
       `Linked-page portraits resolved: ${linkedPortraits.size}. ` +
       `Careful name searches needed: ${unresolvedAfterLinks.length}.`,
   );
   const searchedPortraitPairs = await mapLimit(
-    unresolvedAfterLinks,
+    unresolvedAfterLinks.slice(0, SEARCH_LIMIT),
     API_CONCURRENCY,
     async ({ identityId, cards }) => {
       try {
         const player = canonicalCardForImport(cards);
         const pagePortrait = await searchPageForPlayer(player);
         if (pagePortrait) return [identityId, pagePortrait] as const;
+        if (!ALLOW_MEDIA_SEARCH) return undefined;
         const mediaPortrait = await searchMediaForPlayer(player);
         return mediaPortrait ? ([identityId, mediaPortrait] as const) : undefined;
       } catch (error) {
+        if (error instanceof CacheMissError) return undefined;
         console.warn(
           `${identityId}: search failed: ${error instanceof Error ? error.message : String(error)}`,
         );
@@ -738,13 +1114,39 @@ const main = async () => {
       (pair): pair is readonly [string, ResolvedRemotePortrait] => Boolean(pair),
     ),
   );
+  for (const [identityId, portrait] of searchedPortraits) {
+    cachedResolutions[identityId] = portrait;
+  }
+  await writeFile(
+    RESOLUTION_CACHE_FILE,
+    `${JSON.stringify(cachedResolutions, null, 2)}\n`,
+  );
   const remoteByIdentity = new Map([
+    ...cachedPortraits,
     ...linkedPortraits,
     ...searchedPortraits,
+    ...(SOFIFA_ONLY ? soFifaPortraits : usableSoFifaPortraits),
     ...reviewedPortraits,
   ]);
   const targets = missing
-    .filter(({ identityId }) => remoteByIdentity.has(identityId))
+    .filter(
+      ({ identityId, cards }) => {
+        if (!cards.some((card) => card.tournamentYear >= MINIMUM_YEAR)) {
+          return false;
+        }
+        const remote = remoteByIdentity.get(identityId);
+        const failed = failedDownloads[identityId];
+        const recentFailure =
+          failed &&
+          failed.imageUrl === remote?.imageUrl &&
+          Date.now() - Date.parse(failed.checkedAt) < 7 * 24 * 60 * 60 * 1_000;
+        return (
+          Boolean(remote) &&
+          (!recentFailure || Boolean(remote?.fallbackImageUrls?.length)) &&
+          (!SOFIFA_ONLY || soFifaPortraits.has(identityId))
+        );
+      },
+    )
     .slice(0, IMPORT_LIMIT);
   const importedCoveragePairs = await mapLimit<
     (typeof targets)[number],
@@ -763,7 +1165,7 @@ const main = async () => {
         if ((index + 1) % 25 === 0 || index + 1 === targets.length) {
           console.log(`Downloaded ${index + 1}/${targets.length} portraits.`);
         }
-        return {
+        const record = {
           playerIdentityId: identityId,
           playerName: player.playerName,
           sourceCardId: player.id,
@@ -771,15 +1173,30 @@ const main = async () => {
           localPath: imported.localPath,
           sourceFile: imported.sourceFile,
           sourcePage: remote.sourcePage,
-          sourceImageUrl: remote.imageUrl,
+          sourceImageUrl: imported.sourceImageUrl,
           sourceKind: remote.resolutionMethod,
           cacheVersion,
           changes:
             "Preserved the downloaded source file and created a normalized local PNG for identity fallback.",
         } satisfies IdentityCoverage;
+        progress.importedByIdentity[identityId] = record;
+        const clearedFailure = Boolean(failedDownloads[identityId]);
+        delete failedDownloads[identityId];
+        progress.updatedAt = new Date().toISOString();
+        await writeProgress();
+        if (clearedFailure) await writeFailedDownloads();
+        return record;
       } catch (error) {
+        const reason =
+          error instanceof Error ? error.message : String(error);
+        failedDownloads[identityId] = {
+          checkedAt: new Date().toISOString(),
+          imageUrl: remote.imageUrl,
+          reason,
+        };
+        await writeFailedDownloads();
         console.warn(
-          `${identityId}: download failed: ${error instanceof Error ? error.message : String(error)}`,
+          `${identityId}: download failed: ${reason}`,
         );
         return undefined;
       }
@@ -789,8 +1206,12 @@ const main = async () => {
     (record): record is IdentityCoverage => Boolean(record),
   );
   const importedCoverage = [
-    ...retainedImportedCoverage,
-    ...newlyImportedCoverage,
+    ...new Map(
+      [...retainedImportedCoverage, ...newlyImportedCoverage].map((record) => [
+        record.playerIdentityId,
+        record,
+      ]),
+    ).values(),
   ];
   const importedIds = new Set(importedCoverage.map((record) => record.playerIdentityId));
   const unresolved = missing
@@ -839,4 +1260,7 @@ const main = async () => {
   if (!ALLOW_PARTIAL && unresolved.length > 0) process.exitCode = 1;
 };
 
-await main();
+void main().catch((error) => {
+  console.error(error instanceof Error ? error.stack : String(error));
+  process.exitCode = 1;
+});

@@ -50,13 +50,8 @@ describe("historical opponents", () => {
     for (const opponent of historicalOpponentArchive) {
       expect(opponent.sources.length).toBeGreaterThan(0);
       if (opponent.tournamentYear === 2026) {
-        if (opponent.id === "spain-2026") {
-          expect(opponent.tournamentStats.matches).toBe(7);
-          expect(opponent.tournamentFinish).toBe("champion");
-        } else {
-          expect(opponent.tournamentStats.matches).toBeNull();
-          expect(opponent.tournamentFinish).toBeNull();
-        }
+        expect(opponent.tournamentStatus).toBe("complete");
+        expect(opponent.tournamentStats.matches).not.toBeNull();
       } else {
         expect(opponent.tournamentStats.matches).not.toBeNull();
       }
@@ -88,13 +83,9 @@ describe("historical opponents", () => {
     ]);
     for (const champion of historicalOpponents) {
       expect(champion.tournamentFinish).toBe("champion");
-      expect(champion.dataStatus).toBe(
-        champion.tournamentYear === 2026 ? "modeled-lineup" : "verified-lineup",
-      );
+      expect(champion.dataStatus).toBe("verified-lineup");
       expect(champion.managerName).toBeTruthy();
-      if (champion.tournamentYear !== 2026) {
-        expect(champion.managerCardId).toBeTruthy();
-      }
+      expect(champion.managerCardId).toBeTruthy();
       expect(champion.formationLabel).toBeTruthy();
       expect(formationIds.has(champion.formation)).toBe(true);
       expect(champion.startingLineup).toHaveLength(11);

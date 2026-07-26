@@ -71,10 +71,18 @@ describe("DraftBoard", () => {
     const slot = formation.slots.find(
       (candidate) => candidate.id === preview.slotId,
     )!;
-    await user.click(
-      screen.getByRole("button", {
+    const slotButton = screen
+      .getAllByRole("button", {
         name: new RegExp(`^${slot.label}\\.`, "i"),
-      }),
+      })
+      .find(
+        (button) =>
+          button.getAttribute("data-slot-x") === String(slot.x) &&
+          button.getAttribute("data-slot-y") === String(slot.y),
+      );
+    expect(slotButton).toBeDefined();
+    await user.click(
+      slotButton!,
     );
     expect(screen.getByLabelText("1 of 14 players drafted")).toBeInTheDocument();
     expect(useGameStore.getState().picks).toHaveLength(1);

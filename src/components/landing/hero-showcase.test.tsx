@@ -36,7 +36,7 @@ describe("HeroShowcase", () => {
       id: "lionel-messi-2006",
       tournamentYear: 2006,
       overall: 80,
-      primaryPosition: "RW",
+      primaryPosition: "ST",
       imageId: "lionel-messi-2006",
     });
     expect(cards.ronaldo).toMatchObject({

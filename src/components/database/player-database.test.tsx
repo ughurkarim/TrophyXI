@@ -1,14 +1,23 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { PlayerDatabase } from "@/components/database/player-database";
+import { draftEligiblePlayers } from "@/data/players";
 
 describe("PlayerDatabase", () => {
   it("searches the expanded archive and exposes every Messi and Ronaldo version", () => {
     render(<PlayerDatabase />);
 
     expect(screen.getByRole("heading", { name: "Player Database" })).toBeVisible();
-    expect(screen.getByText("Cards").parentElement).toHaveTextContent("1376");
-    expect(screen.getByText("Identities").parentElement).toHaveTextContent("676");
+    expect(screen.getByText("Cards").parentElement).toHaveTextContent(
+      String(draftEligiblePlayers.length),
+    );
+    expect(screen.getByText("Identities").parentElement).toHaveTextContent(
+      String(
+        new Set(
+          draftEligiblePlayers.map((player) => player.playerIdentityId),
+        ).size,
+      ),
+    );
 
     fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
       target: { value: "Lionel Messi" },

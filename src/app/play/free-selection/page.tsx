@@ -111,15 +111,16 @@ export default function FreeSelectionPage() {
         return { player, positionFit };
       })
       .filter((candidate) => targetBench || candidate.positionFit >= 70);
-    const impactPool = targetBench && !viewAll
-      ? [...eligible]
-          .sort(
-            (first, second) =>
-              second.player.overall - first.player.overall ||
-              second.player.eligiblePositions.length - first.player.eligiblePositions.length,
-          )
-          .slice(0, 120)
-      : eligible;
+    const impactPool = [...eligible]
+      .sort(
+        (first, second) =>
+          second.player.overall - first.player.overall ||
+          second.positionFit - first.positionFit ||
+          second.player.eligiblePositions.length -
+            first.player.eligiblePositions.length ||
+          first.player.playerName.localeCompare(second.player.playerName),
+      )
+      .slice(0, viewAll ? 300 : targetBench ? 120 : 180);
     return impactPool
       .map(({ player, positionFit }) => {
         const eraFit = eraId === "all" ? null : calculateEraFitDetails(player, eraId, { manager, formation }).fit;

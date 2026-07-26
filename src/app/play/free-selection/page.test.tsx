@@ -37,10 +37,10 @@ describe("FreeSelectionPage", () => {
     expect(screen.getAllByRole("button", { name: /^CB: empty/i })).toHaveLength(2);
 
     await user.click(screen.getByRole("button", { name: /^GK: empty/i }));
-    expect(screen.getByText("BEST FOR SQUAD")).toBeVisible();
+    expect(screen.getByText("BEST SQUAD IMPACT FIRST")).toBeVisible();
     const options = screen.getAllByRole("button", { name: /select .* for GK/i });
     await user.click(options[0]);
-    const place = screen.getByRole("button", { name: "PLACE PLAYER" });
+    const place = screen.getByRole("button", { name: "PLACE" });
     expect(place).toBeEnabled();
     await user.click(place);
 
@@ -54,14 +54,13 @@ describe("FreeSelectionPage", () => {
 
     await user.click(screen.getByRole("button", { name: /b1 open bench/i }));
 
-    expect(screen.getByText("BEST FOR SQUAD")).toBeVisible();
-    expect(screen.getByText("RANKED BY BENCH IMPACT")).toBeVisible();
+    expect(screen.getByText("BEST BENCH IMPACT FIRST")).toBeVisible();
     expect(screen.queryByText(/position fit/i)).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Draft eligibility")).not.toBeInTheDocument();
 
     const options = screen.getAllByRole("button", { name: /select .* for bench/i });
     await user.click(options[0]);
     expect(screen.queryByText(/position fit/i)).not.toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "PLACE PLAYER" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "PLACE" })).toBeEnabled();
   });
 });
