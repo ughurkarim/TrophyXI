@@ -6,13 +6,18 @@ import {
   FastForward,
   Play,
   RotateCcw,
-  Shield,
   Trophy,
   Users,
   Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import worldCupImage from "../../../../assets/worldcup2.png";
+import groupLossImage from "../../../../assets/world-cup-losses/group.png";
+import r32LossImage from "../../../../assets/world-cup-losses/r32.png";
+import r16LossImage from "../../../../assets/world-cup-losses/r16.png";
+import qfLossImage from "../../../../assets/world-cup-losses/qf.png";
+import sfLossImage from "../../../../assets/world-cup-losses/sf.png";
+import finalLossImage from "../../../../assets/world-cup-losses/final.png";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { flushSync } from "react-dom";
@@ -40,6 +45,22 @@ const stageLabels: Record<WorldCupRunStage, string> = {
   complete: "TOURNAMENT COMPLETE",
 };
 
+const ordinal = (value: number) => {
+  const mod100 = value % 100;
+  if (mod100 >= 11 && mod100 <= 13) return `${value}th`;
+
+  switch (value % 10) {
+    case 1:
+      return `${value}st`;
+    case 2:
+      return `${value}nd`;
+    case 3:
+      return `${value}rd`;
+    default:
+      return `${value}th`;
+  }
+};
+
 const shortStageLabels: Record<WorldCupRunKnockoutStage, string> = {
   "round-of-32": "R32",
   "round-of-16": "R16",
@@ -52,6 +73,42 @@ const stageOrder: Array<Exclude<WorldCupRunStage, "complete">> = [
   "group",
   ...WORLD_CUP_RUN_KNOCKOUT_STAGES,
 ];
+
+const lossPresentation: Record<
+  Exclude<WorldCupRunStage, "complete">,
+  { image: string; eyebrow: string; headline: string }
+> = {
+  group: {
+    image: groupLossImage.src,
+    eyebrow: "Tournament over",
+    headline: "The World Cup ends in the group stage.",
+  },
+  "round-of-32": {
+    image: r32LossImage.src,
+    eyebrow: "Tournament over",
+    headline: "The journey ends in the Round of 32.",
+  },
+  "round-of-16": {
+    image: r16LossImage.src,
+    eyebrow: "Tournament over",
+    headline: "The journey ends in the Round of 16.",
+  },
+  "quarter-final": {
+    image: qfLossImage.src,
+    eyebrow: "Tournament over",
+    headline: "The dream ends in the quarterfinal.",
+  },
+  "semi-final": {
+    image: sfLossImage.src,
+    eyebrow: "Tournament over",
+    headline: "The dream ends in the semifinal.",
+  },
+  final: {
+    image: finalLossImage.src,
+    eyebrow: "Tournament over",
+    headline: "So close to the trophy.",
+  },
+};
 
 const countryColors = [
   "#4ea8de",
@@ -102,6 +159,12 @@ export default function WorldCupRunPage() {
     Record<string, "up" | "down">
   >({});
   const [deferredElimination, setDeferredElimination] = useState(false);
+  const [deferredFixtureId, setDeferredFixtureId] = useState<string | null>(null);
+
+  const dismissDeferredElimination = () => {
+    setDeferredElimination(false);
+    setDeferredFixtureId(null);
+  };
 
   useEffect(() => {
     if (!hydrated) return;
@@ -140,8 +203,18 @@ export default function WorldCupRunPage() {
      * gets cleared immediately below when the run remains active.
      */
     if (before.currentStage !== "group" && before.status === "active") {
+      const fixtureBeforeSimulation =
+        before.currentStage !== "complete"
+          ? before.fixtures.find(
+              (fixture) =>
+                fixture.stage === before.currentStage &&
+                [fixture.homeTeamId, fixture.awayTeamId].includes(before.userTeamId),
+            )
+          : null;
+
       flushSync(() => {
         setDeferredElimination(true);
+        setDeferredFixtureId(fixtureBeforeSimulation?.id ?? null);
       });
     }
 
@@ -159,6 +232,7 @@ export default function WorldCupRunPage() {
 
     if (after.status !== "eliminated") {
       setDeferredElimination(false);
+      setDeferredFixtureId(null);
     }
 
     setRevealedFixtures(
@@ -327,8 +401,6 @@ export default function WorldCupRunPage() {
       : [],
   );
 
-  const currentStageIndex =
-    run.currentStage === "complete" ? stageOrder.length : stageOrder.indexOf(run.currentStage);
   const knockoutView = run.currentStage !== "group";
   const userCurrentFixture =
     run.currentStage !== "group" && run.currentStage !== "complete"
@@ -338,6 +410,25 @@ export default function WorldCupRunPage() {
             [fixture.homeTeamId, fixture.awayTeamId].includes(run.userTeamId),
         )
       : null;
+
+  const deferredUserFixture =
+    deferredElimination && deferredFixtureId
+      ? run.fixtures.find((fixture) => fixture.id === deferredFixtureId) ?? null
+      : null;
+
+  /*
+   * SIMULATE ROUND can advance run.currentStage even when Trophy XI lost in
+   * that round. Keep showing the fixture Trophy XI actually just played until
+   * the user presses NEXT.
+   */
+  const routeFixture = deferredUserFixture ?? userCurrentFixture;
+  const displayStage =
+    deferredElimination && deferredUserFixture
+      ? deferredUserFixture.stage
+      : run.currentStage;
+  const currentStageIndex =
+    displayStage === "complete" ? stageOrder.length : stageOrder.indexOf(displayStage);
+
   const currentRoundPending =
     run.currentStage !== "complete" &&
     run.fixtures.some((fixture) => fixture.stage === run.currentStage && !fixture.result);
@@ -349,13 +440,18 @@ export default function WorldCupRunPage() {
   const tournamentOver =
     run.status === "eliminated" && (finalElimination || !deferredElimination);
   const userLostCurrentFixture = Boolean(
-    userCurrentFixture?.result && winnerFor(userCurrentFixture) !== run.userTeamId,
+    routeFixture?.result && winnerFor(routeFixture) !== run.userTeamId,
   );
   const qualifiedAsBestThird =
     run.qualificationStatus === "qualified" &&
     userStanding.rank === 3 &&
     bestThirdQualifierIds.has(run.userTeamId);
   const champion = run.championTeamId ? teams.get(run.championTeamId) : null;
+  const eliminatedStage = (run.eliminatedStage ?? "group") as Exclude<
+    WorldCupRunStage,
+    "complete"
+  >;
+  const lossScreen = lossPresentation[eliminatedStage];
 
   return (
     <div className={`game-page game-page--stadium ${styles.shell}`}>
@@ -363,11 +459,11 @@ export default function WorldCupRunPage() {
       <SaveNotice />
       <main
         className={`container ${styles.main}`}
-        data-final={run.currentStage === "final"}
+        data-knockout={run.currentStage !== "group"}
       >
         <header
           className={styles.header}
-          data-final={run.currentStage === "final"}
+          data-knockout={run.currentStage !== "group"}
         >
           <div className={styles.titleLockup}>
             {run.currentStage === "group" && (
@@ -381,7 +477,7 @@ export default function WorldCupRunPage() {
                   ? `WORLD CUP RUN · GROUP ${userGroup.id}`
                   : "WORLD CUP RUN · KNOCKOUT"}
               </p>
-              {run.currentStage !== "final" && (
+              {run.currentStage === "group" && (
                 <h1>{stageLabels[run.currentStage]}</h1>
               )}
             </div>
@@ -419,7 +515,7 @@ export default function WorldCupRunPage() {
           {stageOrder.map((stage, index) => (
             <div
               key={stage}
-              data-active={stage === run.currentStage}
+              data-active={stage === displayStage}
               data-complete={index < currentStageIndex}
             >
               <span>{index + 1}</span>
@@ -429,43 +525,60 @@ export default function WorldCupRunPage() {
         </nav>
 
         {tournamentOver ? (
-          <section className={styles.terminal}>
-            <div className={styles.terminalAura} />
-            <span className={styles.terminalIcon}><Shield size={28} /></span>
-            <p className="eyebrow eyebrow--gold">TOURNAMENT OVER</p>
-            <h2>Your run ends at the {stageLabels[run.eliminatedStage ?? "group"]}.</h2>
-            <p>
-              {run.eliminatedStage === "group"
-                ? `Trophy XI finished ${userStanding.rank} in Group ${userGroup.id}.`
-                : run.eliminatedStage === "final"
-                  ? (() => {
-                      const finalFixture = run.fixtures.find(
-                        (fixture) =>
-                          fixture.stage === "final" &&
-                          [fixture.homeTeamId, fixture.awayTeamId].includes(run.userTeamId),
-                      );
+          <section
+            className={`${styles.terminal} ${styles.lossState}`}
+            data-stage={eliminatedStage}
+          >
+            <div className={styles.lossAtmosphere} aria-hidden />
+            <div className={styles.lossCopy}>
+              <p className={styles.lossEyebrow}>{lossScreen.eyebrow}</p>
+              <h2>{lossScreen.headline}</h2>
+              <p className={styles.lossBody}>
+                {eliminatedStage === "group"
+                  ? `Trophy XI finished ${ordinal(userStanding.rank)} in Group ${userGroup.id}. Your squad and tournament record remain saved.`
+                  : eliminatedStage === "final"
+                    ? (() => {
+                        const finalFixture = run.fixtures.find(
+                          (fixture) =>
+                            fixture.stage === "final" &&
+                            [fixture.homeTeamId, fixture.awayTeamId].includes(run.userTeamId),
+                        );
 
-                      if (!finalFixture?.result?.penalties) {
-                        return "The World Cup ends at the final hurdle.";
-                      }
+                        if (!finalFixture?.result?.penalties) {
+                          return "The final hurdle proves one step too far. Your squad and tournament record remain saved.";
+                        }
 
-                      const userAtHome = finalFixture.homeTeamId === run.userTeamId;
-                      const userPenalties = userAtHome
-                        ? finalFixture.result.penalties[0]
-                        : finalFixture.result.penalties[1];
-                      const opponentPenalties = userAtHome
-                        ? finalFixture.result.penalties[1]
-                        : finalFixture.result.penalties[0];
+                        const userAtHome = finalFixture.homeTeamId === run.userTeamId;
+                        const userPenalties = userAtHome
+                          ? finalFixture.result.penalties[0]
+                          : finalFixture.result.penalties[1];
+                        const opponentPenalties = userAtHome
+                          ? finalFixture.result.penalties[1]
+                          : finalFixture.result.penalties[0];
 
-                      return `Trophy XI fall ${userPenalties}–${opponentPenalties} on penalties.`;
-                    })()
-                  : "The knockout road closes here. Your squad and tournament record remain saved."}
-            </p>
-            <div>
-              <Button onClick={() => router.push("/play")}>RETURN TO MAIN SCREEN</Button>
-              <Button variant="secondary" onClick={restartWorldCupRun}>
-                <RotateCcw size={15} /> RESTART TOURNAMENT
-              </Button>
+                        return `Trophy XI fall ${userPenalties}–${opponentPenalties} on penalties. Your squad and tournament record remain saved.`;
+                      })()
+                    : "A memorable World Cup run comes to a close. Your squad and tournament record remain saved."}
+              </p>
+
+              <div className={styles.lossActions}>
+                <Button onClick={() => router.push("/play")}>Return to menu</Button>
+                <Button variant="secondary" onClick={restartWorldCupRun}>
+                  <RotateCcw size={15} /> Restart World Cup
+                </Button>
+              </div>
+            </div>
+
+            <div className={styles.lossVisual} aria-hidden>
+              <div className={styles.lossVisualGlow} />
+              <img
+                src={lossScreen.image}
+                alt=""
+                className={styles.lossPlayer}
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
+              />
             </div>
           </section>
         ) : run.status === "champion" ? (
@@ -523,7 +636,7 @@ export default function WorldCupRunPage() {
                 )}
                 <div className={styles.quickActions}>
                   {run.status === "eliminated" && deferredElimination ? (
-                    <Button onClick={() => setDeferredElimination(false)}>
+                    <Button onClick={dismissDeferredElimination}>
                       NEXT <ArrowRight size={15} />
                     </Button>
                   ) : run.qualificationStatus === "qualified" ? (
@@ -681,43 +794,43 @@ export default function WorldCupRunPage() {
             <section className={`${styles.panel} ${styles.routePanel}`}>
               <div>
                 <p className="eyebrow eyebrow--gold">
-                  {run.currentStage === "final" ? "THE CHAMPIONSHIP MATCH" : "TROPHY XI ROUTE"}
+                  {displayStage === "final" ? "THE CHAMPIONSHIP MATCH" : "TROPHY XI ROUTE"}
                 </p>
                 <h2>
-                  {run.currentStage === "final"
-                    ? "THE WORLD CUP FINAL"
-                    : userLostCurrentFixture
-                      ? "THE RUN ENDS HERE"
-                      : userCurrentFixture?.result
+                  {userLostCurrentFixture
+                    ? "THE RUN ENDS HERE"
+                    : displayStage === "final"
+                      ? "ONE MATCH. ONE TROPHY."
+                      : routeFixture?.result
                         ? "ADVANCEMENT SECURED"
-                        : `${stageLabels[run.currentStage]} MATCH`}
+                        : `${stageLabels[displayStage]} MATCH`}
                 </h2>
               </div>
-              {userCurrentFixture && (
+              {routeFixture && (
                 <div className={styles.routeFixture}>
                   <div
                     className={styles.routeTeam}
-                    data-user={userCurrentFixture.homeTeamId === run.userTeamId}
+                    data-user={routeFixture.homeTeamId === run.userTeamId}
                   >
                     <span>
-                      {flagForCountry(teams.get(userCurrentFixture.homeTeamId)!.countryCode)}
-                      <strong>{teams.get(userCurrentFixture.homeTeamId)!.name}</strong>
+                      {flagForCountry(teams.get(routeFixture.homeTeamId)!.countryCode)}
+                      <strong>{teams.get(routeFixture.homeTeamId)!.name}</strong>
                     </span>
                     <small>
-                      {teams.get(userCurrentFixture.homeTeamId)!.countryCode}
+                      {teams.get(routeFixture.homeTeamId)!.countryCode}
                       <i>·</i>
-                      <b>{teams.get(userCurrentFixture.homeTeamId)!.rating} OVR</b>
+                      <b>{teams.get(routeFixture.homeTeamId)!.rating} OVR</b>
                     </small>
                   </div>
 
                   <div className={styles.routeResult}>
                     <b className={styles.routeScore}>
-                      {userCurrentFixture.result
-                        ? `${userCurrentFixture.result.homeGoals} – ${userCurrentFixture.result.awayGoals}`
+                      {routeFixture.result
+                        ? `${routeFixture.result.homeGoals} – ${routeFixture.result.awayGoals}`
                         : "VS"}
                     </b>
                     {(() => {
-                      const penalties = userCurrentFixture.result?.penalties;
+                      const penalties = routeFixture.result?.penalties;
                       if (!penalties) {
                         return (
                           <span
@@ -731,7 +844,7 @@ export default function WorldCupRunPage() {
                       }
 
                       const userAtHome =
-                        userCurrentFixture.homeTeamId === run.userTeamId;
+                        routeFixture.homeTeamId === run.userTeamId;
                       const userPenalties = userAtHome
                         ? penalties[0]
                         : penalties[1];
@@ -739,7 +852,7 @@ export default function WorldCupRunPage() {
                         ? penalties[1]
                         : penalties[0];
                       const wonShootout =
-                        winnerFor(userCurrentFixture) === run.userTeamId;
+                        winnerFor(routeFixture) === run.userTeamId;
 
                       return (
                         <span
@@ -755,23 +868,26 @@ export default function WorldCupRunPage() {
 
                   <div
                     className={styles.routeTeam}
-                    data-user={userCurrentFixture.awayTeamId === run.userTeamId}
+                    data-user={routeFixture.awayTeamId === run.userTeamId}
                   >
                     <span>
-                      {flagForCountry(teams.get(userCurrentFixture.awayTeamId)!.countryCode)}
-                      <strong>{teams.get(userCurrentFixture.awayTeamId)!.name}</strong>
+                      {flagForCountry(teams.get(routeFixture.awayTeamId)!.countryCode)}
+                      <strong>{teams.get(routeFixture.awayTeamId)!.name}</strong>
                     </span>
                     <small>
-                      {teams.get(userCurrentFixture.awayTeamId)!.countryCode}
+                      {teams.get(routeFixture.awayTeamId)!.countryCode}
                       <i>·</i>
-                      <b>{teams.get(userCurrentFixture.awayTeamId)!.rating} OVR</b>
+                      <b>{teams.get(routeFixture.awayTeamId)!.rating} OVR</b>
                     </small>
                   </div>
                 </div>
               )}
               <div className={styles.quickActions}>
                 {run.status === "eliminated" && deferredElimination ? (
-                  <Button onClick={() => setDeferredElimination(false)}>
+                  <Button
+                    className={styles.nextAction}
+                    onClick={dismissDeferredElimination}
+                  >
                     NEXT <ArrowRight size={15} />
                   </Button>
                 ) : run.currentStage === "final" && nextFixture && finalOpponent ? (

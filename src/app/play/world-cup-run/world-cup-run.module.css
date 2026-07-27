@@ -288,23 +288,23 @@
   min-height: 58px;
 }
 
-.header[data-final="true"] {
+.header[data-knockout="true"] {
   min-height: 30px;
 }
 
-.header[data-final="true"] .titleLockup {
+.header[data-knockout="true"] .titleLockup {
   align-items: center;
 }
 
-.header[data-final="true"] .titleLockup > div {
+.header[data-knockout="true"] .titleLockup > div {
   gap: 0;
 }
 
-.header[data-final="true"] .titleLockup p {
+.header[data-knockout="true"] .titleLockup p {
   line-height: 1;
 }
 
-.main[data-final="true"] {
+.main[data-knockout="true"] {
   gap: 0.48rem;
   padding-block: 0.28rem 1.35rem;
 }
@@ -1132,6 +1132,7 @@
   border: 0;
   box-sizing: border-box;
   display: grid;
+  grid-column: 3;
   gap: 0.45rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-content: stretch;
@@ -1158,14 +1159,14 @@
 
 
 /*
-  When a knockout loss swaps the two simulation buttons for a single NEXT
-  action, keep it in the right-hand slot. The action rail therefore stays the
-  exact same width and the matchup/score never moves.
+  Result state: NEXT has its own explicit slot.
+  The 360px action rail never changes width, so the matchup and score remain
+  perfectly static before and after a result.
 */
-.routePanel .quickActions > button:only-child:not(.championshipAction) {
+.routePanel .quickActions > button.nextAction {
   grid-column: 2;
-  justify-self: end;
-  width: calc(100% - 0.2rem);
+  justify-self: stretch;
+  width: 100%;
 }
 
 /* The final CTA is intentionally wider than NEXT. The outer action rail stays
@@ -2353,8 +2354,9 @@
     width: 100%;
   }
 
-  .routePanel .quickActions > button:only-child {
+  .routePanel .quickActions > button.nextAction {
     grid-column: 1 / -1;
+    justify-self: stretch;
     width: 100%;
   }
 
@@ -3329,26 +3331,313 @@
 }
 
 
-.header[data-final="true"] .headerStatus {
+.header[data-knockout="true"] .headerStatus {
   display: none;
 }
 
-.header[data-final="true"] {
+.header[data-knockout="true"] {
   grid-template-columns: minmax(0, 1fr) auto;
 }
 
 
 @media (max-height: 850px) and (min-width: 821px) {
-  .main[data-final="true"] {
+  .main[data-knockout="true"] {
     gap: 0.34rem;
     padding-block: 0.2rem 1.05rem;
   }
 
-  .header[data-final="true"] {
+  .header[data-knockout="true"] {
     min-height: 24px;
   }
 
   .finalStage {
     transform: translateY(-10px);
+  }
+}
+
+
+@media (min-width: 1181px) {
+  .routePanel .quickActions > button.nextAction {
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+
+/* ------------------------------------------------------------------
+   World Cup elimination presentation
+   Each stage can use a different transparent PNG in /public/assets/
+   world-cup-losses/. The image is art direction, not a card/icon.
+   ------------------------------------------------------------------ */
+
+.lossState {
+  align-items: stretch;
+  background:
+    linear-gradient(90deg, rgba(4, 9, 8, 0.98) 0%, rgba(4, 9, 8, 0.93) 46%, rgba(4, 8, 7, 0.70) 100%),
+    radial-gradient(ellipse at 73% 44%, rgba(190, 139, 32, 0.085), transparent 38%),
+    rgba(3, 8, 7, 0.94);
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.78fr);
+  justify-content: stretch;
+  min-height: clamp(430px, 57vh, 610px);
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+}
+
+.lossState::before {
+  background:
+    linear-gradient(90deg, rgba(232, 191, 83, 0.18), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 18%);
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.lossAtmosphere {
+  background:
+    radial-gradient(ellipse at 72% 45%, rgba(226, 177, 56, 0.09), transparent 31%),
+    radial-gradient(ellipse at 75% 83%, rgba(208, 153, 35, 0.065), transparent 25%);
+  filter: blur(18px);
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.lossCopy {
+  align-self: center;
+  display: grid;
+  justify-items: start;
+  max-width: 760px;
+  padding: clamp(2.25rem, 4.4vw, 5rem);
+  position: relative;
+  z-index: 3;
+}
+
+.lossEyebrow {
+  color: #d8b95d;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  margin: 0 0 0.8rem;
+  text-transform: none;
+}
+
+.lossState h2 {
+  color: #f0eee7;
+  font-size: clamp(2.6rem, 4.7vw, 5.4rem);
+  font-weight: 520;
+  letter-spacing: -0.058em;
+  line-height: 0.98;
+  margin: 0;
+  max-width: 820px;
+  text-wrap: balance;
+}
+
+.lossBody {
+  color: #a9afaa;
+  font-size: clamp(0.88rem, 1.15vw, 1.05rem);
+  line-height: 1.6;
+  margin: 1.25rem 0 0;
+  max-width: 610px;
+}
+
+.lossActions {
+  align-items: center;
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 1.7rem;
+}
+
+.lossActions > button {
+  min-height: 42px;
+}
+
+.lossVisual {
+  align-self: stretch;
+  margin-left: -14%;
+  min-height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  position: relative;
+  width: 114%;
+  z-index: 2;
+
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.28) 8%,
+    rgba(0, 0, 0, 0.82) 20%,
+    #000 32%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.28) 8%,
+    rgba(0, 0, 0, 0.82) 20%,
+    #000 32%,
+    #000 100%
+  );
+}
+
+.lossVisual::before {
+  display: none;
+}
+
+.lossVisual::after {
+  background: linear-gradient(
+    180deg,
+    rgba(3, 8, 7, 0.04) 0%,
+    transparent 49%,
+    rgba(3, 8, 7, 0.86) 93%,
+    rgba(3, 8, 7, 1) 100%
+  );
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 3;
+}
+
+.lossVisualGlow {
+  background:
+    radial-gradient(
+      ellipse at 52% 48%,
+      rgba(238, 191, 75, 0.12) 0%,
+      rgba(190, 134, 26, 0.046) 35%,
+      transparent 70%
+    );
+  filter: blur(28px);
+  inset: 5% -6% -4% -18%;
+  position: absolute;
+}
+
+.lossPlayer {
+  bottom: -2%;
+  filter:
+    brightness(0.77)
+    contrast(1.10)
+    saturate(0.78)
+    drop-shadow(0 22px 28px rgba(0, 0, 0, 0.54))
+    drop-shadow(0 0 18px rgba(229, 180, 58, 0.09));
+  height: 104%;
+  left: 50%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0.93;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 112%;
+  z-index: 2;
+}
+
+/* The closer Trophy XI gets to the cup, the portrait gets a little more
+   presence while the underlying layout stays identical. */
+/* Current art-specific fitting.
+   Group stage + R32/Son use the default .lossPlayer fit. */
+
+.lossState[data-stage="round-of-16"] .lossPlayer {
+  bottom: -2%;
+  height: 96%;
+  left: 52%;
+  width: auto;
+}
+
+.lossState[data-stage="quarter-final"] .lossPlayer {
+  bottom: -6%;
+  height: 101%;
+  left: 58%;
+  width: auto;
+}
+
+.lossState[data-stage="semi-final"] .lossPlayer {
+  bottom: -3%;
+  height: 98%;
+  left: 52%;
+  width: auto;
+}
+
+.lossState[data-stage="final"] .lossPlayer {
+  bottom: -4%;
+  height: 105%;
+  left: 45%;
+  width: auto;
+}
+
+.lossState[data-stage="semi-final"] .lossVisualGlow,
+.lossState[data-stage="final"] .lossVisualGlow {
+  background:
+    radial-gradient(
+      ellipse at 52% 48%,
+      rgba(240, 194, 79, 0.15) 0%,
+      rgba(188, 130, 24, 0.052) 37%,
+      transparent 71%
+    );
+}
+
+@media (max-width: 900px) {
+  .lossState {
+    grid-template-columns: 1fr;
+    min-height: 620px;
+  }
+
+  .lossCopy {
+    padding: 2rem 1.4rem 0;
+    z-index: 4;
+  }
+
+  .lossVisual {
+    margin-left: 0;
+    min-height: 310px;
+    width: 100%;
+
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      #000 18%,
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      #000 18%,
+      #000 100%
+    );
+  }
+
+  .lossPlayer {
+    height: 116%;
+    width: 100%;
+  }
+
+  .lossVisual::before {
+    background: linear-gradient(
+      180deg,
+      rgba(3, 8, 7, 0.96),
+      rgba(3, 8, 7, 0.30) 30%,
+      transparent 60%
+    );
+  }
+}
+
+@media (max-width: 560px) {
+  .lossState h2 {
+    font-size: clamp(2.15rem, 11vw, 3.2rem);
+  }
+
+  .lossActions {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .lossActions > button {
+    width: 100%;
   }
 }
