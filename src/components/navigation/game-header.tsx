@@ -12,10 +12,14 @@ export function GameHeader({
   return (
     <header className="game-header">
       <div className="container game-header__inner">
-        <Link href="/" aria-label="Trophy XI home">
+        <Link
+          className="game-header__brand"
+          href="/"
+          aria-label="Trophy XI home"
+        >
           <Wordmark />
         </Link>
-        <div className="game-header__step">
+        <div className="game-header__step" aria-label={`Session ${step}`}>
           <span>SESSION</span>
           <b>{step}</b>
         </div>

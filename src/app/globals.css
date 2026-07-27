@@ -403,29 +403,107 @@ h3 {
 }
 
 .trophy-mark {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
   overflow: visible;
   fill: none;
-  stroke: var(--gold-bright);
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.4;
+  filter: drop-shadow(0 3px 10px rgba(231, 189, 77, 0.08));
+  transition:
+    filter var(--duration-standard) var(--ease-premium),
+    opacity var(--duration-micro) var(--ease-premium);
+}
+
+.trophy-mark__cup,
+.trophy-mark__handles,
+.trophy-mark__stem,
+.trophy-mark__base {
+  stroke: var(--gold-primary);
+  stroke-width: 1.55;
+}
+
+.trophy-mark__cup {
+  stroke: var(--gold-bright);
+}
+
+.trophy-mark__handles {
+  stroke: color-mix(in srgb, var(--gold-primary) 82%, var(--gold-antique));
+  stroke-width: 1.35;
+}
+
+.trophy-mark__rim {
+  stroke: rgba(255, 241, 184, 0.46);
+  stroke-width: 0.9;
+}
+
+.trophy-mark__monogram {
+  stroke: var(--gold-champagne);
+  stroke-width: 1.45;
+}
+
+.trophy-mark__stem,
+.trophy-mark__base {
+  stroke: color-mix(in srgb, var(--gold-primary) 78%, var(--gold-antique));
+  stroke-width: 1.45;
+}
+
+.trophy-mark__highlight {
+  stroke: rgba(255, 255, 255, 0.58);
+  stroke-width: 0.8;
+  opacity: 0.58;
 }
 
 .wordmark {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 12px;
+  min-width: max-content;
+  color: var(--ivory-primary);
   font-family: var(--font-display), sans-serif;
-  font-size: 0.84rem;
-  font-weight: 680;
-  letter-spacing: 0.08em;
 }
 
-.wordmark b {
-  color: var(--gold-bright);
-  font-weight: 780;
+.wordmark__text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.42em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.wordmark__name {
+  font-size: 0.91rem;
+  font-weight: 690;
+  letter-spacing: 0.115em;
+}
+
+.wordmark__xi {
+  position: relative;
+  color: transparent;
+  background: linear-gradient(
+    180deg,
+    var(--gold-champagne) 0%,
+    var(--gold-bright) 46%,
+    var(--gold-primary) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.075em;
+  text-shadow: 0 0 18px rgba(231, 189, 77, 0.08);
+}
+
+.wordmark__xi::after {
+  position: absolute;
+  right: 0.06em;
+  bottom: -0.34em;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, rgba(244, 216, 107, 0.14), var(--gold-primary));
+  opacity: 0.78;
 }
 
 .site-header {
@@ -1386,34 +1464,146 @@ html:has(.hero-scroll-scene)::-webkit-scrollbar {
 .game-header {
   position: relative;
   z-index: 20;
+  isolation: isolate;
+  overflow: hidden;
   border-bottom: 1px solid transparent;
-  background: linear-gradient(180deg, rgba(7, 8, 7, 0.93), rgba(8, 17, 14, 0.78));
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(12px);
+  background:
+    radial-gradient(ellipse at 50% 118%, rgba(205, 157, 48, 0.12) 0%, rgba(152, 105, 20, 0.055) 24%, transparent 58%),
+    radial-gradient(circle at 18% -55%, rgba(238, 198, 91, 0.05), transparent 42%),
+    linear-gradient(180deg, rgba(13, 12, 8, 0.985) 0%, rgba(8, 8, 6, 0.965) 58%, rgba(6, 6, 5, 0.94) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 226, 139, 0.035),
+    0 14px 40px rgba(0, 0, 0, 0.34),
+    0 1px 0 rgba(194, 144, 38, 0.025);
+  backdrop-filter: blur(16px) saturate(92%);
+}
+
+/* Smoky, brushed-metal atmosphere: visible enough to feel expensive,
+   quiet enough that the logo and page remain the focal points. */
+.game-header::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0.78;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(191, 137, 31, 0.014) 24%,
+      rgba(248, 211, 115, 0.038) 49%,
+      rgba(154, 104, 19, 0.018) 72%,
+      transparent 100%
+    ),
+    repeating-linear-gradient(
+      104deg,
+      rgba(255, 234, 174, 0.011) 0,
+      rgba(255, 234, 174, 0.011) 1px,
+      transparent 1px,
+      transparent 24px
+    );
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.38));
+}
+
+.game-header::after {
+  background: linear-gradient(
+    90deg,
+    transparent 2%,
+    rgba(128, 88, 17, 0.12) 17%,
+    rgba(219, 169, 53, 0.34) 42%,
+    rgba(250, 218, 126, 0.48) 50%,
+    rgba(219, 169, 53, 0.34) 58%,
+    rgba(128, 88, 17, 0.12) 83%,
+    transparent 98%
+  );
+  box-shadow: 0 0 15px rgba(207, 158, 46, 0.055);
+  opacity: 0.62;
+}
+
+.game-header__inner {
+  min-height: 76px;
+}
+
+.game-header__brand {
+  display: inline-flex;
+  width: max-content;
+  align-items: center;
+  border-radius: 8px;
+  outline-offset: 7px;
+}
+
+.game-header__brand .trophy-mark {
+  filter:
+    drop-shadow(0 4px 9px rgba(0, 0, 0, 0.36))
+    drop-shadow(0 0 10px rgba(213, 164, 52, 0.055));
+}
+
+.game-header__brand:hover .trophy-mark {
+  filter:
+    drop-shadow(0 4px 10px rgba(0, 0, 0, 0.38))
+    drop-shadow(0 0 18px rgba(231, 189, 77, 0.12));
+}
+
+.game-header__brand:hover .wordmark__xi {
+  text-shadow: 0 0 20px rgba(244, 216, 107, 0.12);
 }
 
 .game-header__step {
+  position: relative;
   display: flex;
+  min-width: 118px;
   align-items: center;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
+  padding: 3px 18px 2px;
+}
+
+.game-header__step::before,
+.game-header__step::after {
+  position: absolute;
+  top: 50%;
+  width: 23px;
+  height: 1px;
+  content: "";
+  opacity: 0.4;
+  background: linear-gradient(90deg, transparent, rgba(208, 158, 45, 0.42));
+}
+
+.game-header__step::before {
+  right: calc(100% + 10px);
+}
+
+.game-header__step::after {
+  left: calc(100% + 10px);
+  transform: rotate(180deg);
 }
 
 .game-header__step span {
-  color: #5f6a63;
+  color: rgba(198, 150, 43, 0.74);
+  text-shadow: 0 0 12px rgba(188, 134, 25, 0.055);
   font-family: var(--font-mono), monospace;
-  font-size: 0.48rem;
-  letter-spacing: 0.14em;
+  font-size: 0.43rem;
+  font-weight: 650;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .game-header__step b {
+  color: rgba(238, 229, 198, 0.91);
+  text-shadow: 0 1px 10px rgba(211, 165, 58, 0.055);
   font-family: var(--font-mono), monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
+  font-size: 0.61rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.1;
 }
 
 .game-header__utility {
   display: flex;
+  min-width: 0;
+  align-items: center;
   justify-content: flex-end;
 }
 
@@ -3227,10 +3417,21 @@ html:has(.hero-scroll-scene)::-webkit-scrollbar {
   }
 
   .game-header__inner {
-    min-height: 70px;
+    min-height: 68px;
   }
 
   .game-header__inner > a .wordmark span {
+    display: none;
+  }
+
+  .game-header__inner .trophy-mark {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+  .game-header__step::before,
+  .game-header__step::after {
     display: none;
   }
 
