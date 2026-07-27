@@ -1,270 +1,840 @@
+.page {
+  --royal-gold: #e5bd4f;
+  --royal-gold-bright: #f5d86f;
+  --royal-gold-dim: rgba(229, 189, 79, 0.2);
+  --royal-ivory: #f3efe5;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(137, 105, 24, 0.08), transparent 35%),
+    linear-gradient(180deg, rgba(2, 5, 4, 0.18), rgba(2, 4, 3, 0.5));
+}
+
 .main {
-  display: grid;
   min-height: calc(100svh - 82px);
-  place-items: center;
-  padding-block: clamp(1.5rem, 4vh, 3.5rem);
+  padding-block: clamp(1.15rem, 2.4vh, 2rem);
 }
 
 .screen {
   position: relative;
-  width: min(100%, 1040px);
-  padding: clamp(0.4rem, 1.5vw, 1rem);
-  border-radius: 28px;
+  width: min(100%, 1280px);
+  margin: 0 auto;
   isolation: isolate;
-  background: radial-gradient(
-    ellipse at 50% 54%,
-    rgba(231, 189, 77, 0.065),
-    transparent 64%
-  );
 }
 
+.atmosphere {
+  position: absolute;
+  z-index: -4;
+  inset: -100px -15vw -180px;
+  pointer-events: none;
+  background:
+    linear-gradient(112deg, transparent 0 13%, rgba(225, 181, 62, 0.055) 13.1% 13.25%, transparent 13.35%),
+    linear-gradient(248deg, transparent 0 13%, rgba(225, 181, 62, 0.055) 13.1% 13.25%, transparent 13.35%),
+    radial-gradient(ellipse at 50% 85%, rgba(181, 141, 36, 0.06), transparent 45%);
+}
+
+.crownGlow {
+  position: absolute;
+  z-index: -3;
+  left: 50%;
+  top: 42%;
+  width: 72%;
+  height: 72%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse,
+    rgba(225, 181, 62, 0.07),
+    rgba(225, 181, 62, 0.018) 38%,
+    transparent 70%
+  );
+  filter: blur(30px);
+}
+
+/* Quiet, regal headline: the three modes are the hero. */
 .intro {
-  max-width: 720px;
-  margin: 0 auto clamp(1.4rem, 3vh, 2.2rem);
+  max-width: 1160px;
+  margin: 0 auto clamp(1rem, 2vh, 1.5rem);
+  padding-inline: 0.2rem;
   text-align: center;
 }
 
 .intro h1 {
-  margin: 0.55rem 0 0.7rem;
-  color: var(--ivory-primary);
-  font-size: clamp(2.35rem, 5vw, 4.5rem);
-  font-weight: 680;
-  letter-spacing: -0.06em;
+  margin: 0;
+  color: var(--royal-ivory);
+  font-size: clamp(2rem, 3.5vw, 3.7rem);
+  font-weight: 690;
+  letter-spacing: -0.058em;
   line-height: 0.98;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.38);
 }
 
-.intro > p:last-child {
-  max-width: 650px;
-  margin: 0 auto;
-  color: var(--muted);
-  font-size: 0.94rem;
-  line-height: 1.65;
+.intro h1::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 1px;
+  margin: 0.85rem auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(245, 216, 111, 0.8),
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(229, 189, 79, 0.18);
 }
 
-.grid {
+/* Three tall mode posters */
+.modeGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: 1fr;
   gap: 12px;
+  align-items: stretch;
+  perspective: 1400px;
 }
 
 .modeCard {
   position: relative;
-  display: grid;
-  height: 100%;
-  min-height: 132px;
-  grid-template-columns: 44px minmax(0, 1fr);
-  align-items: center;
-  gap: 0.9rem;
-  padding: 1.05rem 1.15rem;
-  color: var(--ivory-primary);
-  border: 1px solid rgba(231, 189, 77, 0.13);
-  border-radius: 15px;
+  min-height: clamp(430px, 52vh, 560px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1.25rem 1rem;
+  color: var(--royal-ivory);
+  border: 1px solid rgba(229, 189, 79, 0.16);
+  border-radius: 3px;
   cursor: pointer;
   text-align: left;
   background:
-    linear-gradient(145deg, rgba(255, 241, 184, 0.025), transparent 52%),
-    rgba(7, 10, 9, 0.88);
+    linear-gradient(180deg, rgba(10, 13, 11, 0.82), rgba(4, 7, 5, 0.985)),
+    #050706;
   box-shadow:
     inset 0 1px rgba(255, 241, 184, 0.035),
-    0 14px 34px rgba(0, 0, 0, 0.26);
+    0 22px 55px rgba(0, 0, 0, 0.3);
   transition:
-    border-color var(--duration-micro) var(--ease-premium),
-    background var(--duration-standard) var(--ease-premium),
-    box-shadow var(--duration-standard) var(--ease-premium),
-    filter var(--duration-micro) var(--ease-premium);
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms ease,
+    box-shadow 260ms ease,
+    filter 220ms ease,
+    opacity 220ms ease;
+}
+
+.modeCard::after {
+  content: "";
+  position: absolute;
+  z-index: 8;
+  inset: 7px;
+  pointer-events: none;
+  border: 1px solid rgba(229, 189, 79, 0.045);
 }
 
 .modeCard:hover {
-  border-color: var(--border-gold-medium);
-  filter: brightness(1.045);
+  transform: translateY(-5px);
+  border-color: rgba(245, 216, 111, 0.43);
   box-shadow:
-    inset 0 1px var(--inner-highlight-low),
-    0 16px 38px rgba(0, 0, 0, 0.3),
-    var(--aura-gold-low);
+    inset 0 1px rgba(255, 241, 184, 0.06),
+    0 29px 62px rgba(0, 0, 0, 0.4),
+    0 0 34px rgba(229, 189, 79, 0.07);
 }
 
-.modeCard:focus-visible {
-  border-color: var(--border-gold-high);
-  outline: 2px solid var(--focus-ring-color);
-  outline-offset: 3px;
+.modeGridHasSelection .modeCard:not(.modeCardSelected) {
+  opacity: 0.68;
+  filter: brightness(0.78) saturate(0.6);
+}
+
+.modeGridHasSelection .modeCard:not(.modeCardSelected):hover {
+  opacity: 0.9;
+  filter: brightness(0.94);
 }
 
 .modeCardSelected {
-  border-color: rgba(244, 216, 107, 0.7);
-  background:
-    radial-gradient(circle at 50% 0%, rgba(244, 216, 107, 0.18), transparent 58%),
-    linear-gradient(145deg, rgba(255, 241, 184, 0.055), transparent 50%),
-    rgba(12, 15, 11, 0.96);
+  z-index: 5;
+  transform: none;
+  border-color: rgba(245, 216, 111, 0.72);
   box-shadow:
-    inset 0 1px var(--inner-highlight-high),
-    inset 0 0 42px rgba(231, 189, 77, 0.09),
-    0 18px 42px rgba(0, 0, 0, 0.36),
-    var(--aura-gold-medium);
+    inset 0 1px rgba(255, 245, 203, 0.1),
+    inset 0 0 90px rgba(217, 171, 49, 0.035),
+    0 30px 66px rgba(0, 0, 0, 0.45),
+    0 0 48px rgba(229, 189, 79, 0.105);
 }
 
-.cardCopy {
-  display: grid;
-  min-width: 0;
-  align-content: center;
-  gap: 0.38rem;
+/* Selection and hover never change panel geometry. */
+.modeCardSelected:hover {
+  transform: none;
+  border-color: rgba(245, 216, 111, 0.72);
+  filter: none;
+  box-shadow:
+    inset 0 1px rgba(255, 245, 203, 0.1),
+    inset 0 0 90px rgba(217, 171, 49, 0.035),
+    0 30px 66px rgba(0, 0, 0, 0.45),
+    0 0 48px rgba(229, 189, 79, 0.105);
 }
 
-.modeCard strong,
-.modeCard small {
+.modeCardSelected:hover .playerImage {
+  opacity: 0.43;
+  transform: scale(1.1);
+}
+
+.modeCard:focus-visible {
+  outline: 2px solid var(--royal-gold-bright);
+  outline-offset: 4px;
+}
+
+.modeNumber {
+  position: absolute;
+  z-index: 7;
+  right: 1.1rem;
+  top: 0.95rem;
+  color: rgba(245, 216, 111, 0.32);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+}
+
+.modeAtmosphere {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 72% 30%, rgba(229, 189, 79, 0.12), transparent 28%),
+    linear-gradient(135deg, rgba(255, 245, 200, 0.025), transparent 38%);
+}
+
+.modeCard[data-mode="classic-draft"] .modeAtmosphere {
+  background:
+    repeating-linear-gradient(
+      128deg,
+      transparent 0 48px,
+      rgba(229, 189, 79, 0.025) 49px,
+      transparent 50px 92px
+    ),
+    radial-gradient(circle at 72% 30%, rgba(229, 189, 79, 0.11), transparent 30%);
+}
+
+.modeCard[data-mode="free-selection"] .modeAtmosphere {
+  background:
+    linear-gradient(rgba(229, 189, 79, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(229, 189, 79, 0.02) 1px, transparent 1px),
+    radial-gradient(circle at 72% 30%, rgba(229, 189, 79, 0.11), transparent 30%);
+  background-size: 52px 52px, 52px 52px, auto;
+}
+
+.modeCard[data-mode="world-cup-run"] .modeAtmosphere {
+  background:
+    radial-gradient(circle at 72% 31%, transparent 0 22%, rgba(229, 189, 79, 0.055) 22.3% 22.7%, transparent 23%),
+    radial-gradient(circle at 72% 31%, transparent 0 31%, rgba(229, 189, 79, 0.04) 31.3% 31.7%, transparent 32%),
+    radial-gradient(circle at 72% 30%, rgba(229, 189, 79, 0.12), transparent 32%);
+}
+
+.playerWrap {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 10%,
+    rgba(0, 0, 0, 0.74) 32%,
+    black 55%,
+    black 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 10%,
+    rgba(0, 0, 0, 0.74) 32%,
+    black 55%,
+    black 100%
+  );
+}
+
+.playerImage {
   display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.34;
+  filter:
+    grayscale(1)
+    saturate(0)
+    sepia(0.08)
+    brightness(0.82)
+    contrast(1.12);
+  transition:
+    opacity 220ms ease,
+    filter 220ms ease;
 }
 
-.modeCard strong {
-  color: var(--gold-primary);
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
-  letter-spacing: 0.055em;
-  line-height: 1.1;
+/*
+ * CLASSIC
+ * Source is very tall and narrow.
+ * Keep the full raised-arm silhouette and ground the torso at the bottom.
+ */
+.modeCard[data-mode="classic-draft"] .playerWrap {
+  right: -2%;
+  bottom: 0;
+  width: 58%;
+  height: 96%;
 }
 
-.modeCard small {
-  color: #9ca39e;
-  font-size: 0.73rem;
-  line-height: 1.45;
+.modeCard[data-mode="classic-draft"] .playerImage {
+  object-fit: contain;
+  object-position: right bottom;
+  transform: scale(1.035);
+  transform-origin: right bottom;
+}
+
+/*
+ * FREE SELECTION
+ * Source is close to square with wide hands.
+ * Crop the outside of the arms so the face/torso become the focal point.
+ */
+.modeCard[data-mode="free-selection"] .playerWrap {
+  right: -24%;
+  bottom: 0%;
+  width: 84%;
+  height: 100%;
+}
+
+.modeCard[data-mode="free-selection"] .playerImage {
+  object-fit: contain;
+  object-position: right bottom;
+  transform: scale(1.15);
+  transform-origin: right bottom;
+}
+
+/*
+ * WORLD CUP RUN
+ * Source is landscape, so contain makes Ronaldo tiny.
+ * Use a tall crop: face + chest + both raised arms, with the fists allowed
+ * to feel larger than the other portraits.
+ */
+.modeCard[data-mode="world-cup-run"] .playerWrap {
+  right: -8%;
+  bottom: -2%;
+  width: 80%;
+  height: 87%;
+}
+
+.modeCard[data-mode="world-cup-run"] .playerImage {
+  object-fit: cover;
+  object-position: 50% 48%;
+  transform: scale(0.96);
+  transform-origin: center bottom;
+}
+
+.modeCard:hover .playerImage {
+  opacity: 0.4;
+}
+
+.modeCardSelected .playerImage,
+.modeCardSelected:hover .playerImage {
+  opacity: 0.48;
+  filter:
+    grayscale(1)
+    saturate(0)
+    sepia(0.14)
+    brightness(0.9)
+    contrast(1.14);
+}
+
+/* Keep each portrait crop completely static when the card is selected. */
+.modeCardSelected[data-mode="classic-draft"] .playerImage,
+.modeCardSelected[data-mode="classic-draft"]:hover .playerImage {
+  transform: scale(1.035);
+}
+
+.modeCardSelected[data-mode="free-selection"] .playerImage,
+.modeCardSelected[data-mode="free-selection"]:hover .playerImage {
+  transform: scale(1.15);
+}
+
+.modeCardSelected[data-mode="world-cup-run"] .playerImage,
+.modeCardSelected[data-mode="world-cup-run"]:hover .playerImage {
+  transform: scale(0.96);
+}
+
+.imageFade {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 7, 5, 0.99) 0%,
+      rgba(4, 7, 5, 0.93) 24%,
+      rgba(4, 7, 5, 0.54) 56%,
+      rgba(4, 7, 5, 0.12) 82%,
+      rgba(4, 7, 5, 0.04) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(4, 7, 5, 0.08) 0%,
+      rgba(4, 7, 5, 0.05) 48%,
+      rgba(4, 7, 5, 0.88) 82%,
+      rgba(4, 7, 5, 0.98) 100%
+    );
+}
+
+.goldSweep {
+  position: absolute;
+  z-index: 3;
+  left: -35%;
+  top: -12%;
+  width: 70%;
+  height: 130%;
+  pointer-events: none;
+  opacity: 0;
+  transform: skewX(-17deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(245, 216, 111, 0.04),
+    transparent
+  );
+  transition: opacity 240ms ease, left 420ms ease;
+}
+
+.modeCardSelected .goldSweep {
+  left: 50%;
+  opacity: 1;
+}
+
+.topRail,
+.copy,
+.traitRail,
+.selectLine {
+  position: relative;
+  z-index: 5;
+}
+
+.topRail {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
 }
 
 .icon {
-  display: inline-flex;
-  width: 44px;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
-  color: color-mix(in srgb, var(--gold-primary) 78%, var(--ivory-primary));
-  border: 1px solid var(--border-gold-low);
-  border-radius: 12px;
-  background:
-    linear-gradient(180deg, rgba(255, 241, 184, 0.045), transparent),
-    rgba(231, 189, 77, 0.055);
-  box-shadow: inset 0 1px var(--inner-highlight-low);
-}
-
-.modeCardSelected .icon {
-  color: var(--gold-champagne);
-  border-color: var(--border-gold-medium);
-  background: rgba(231, 189, 77, 0.11);
-  box-shadow:
-    inset 0 1px var(--inner-highlight-medium),
-    var(--aura-gold-low);
-}
-
-.selectedBadge {
-  position: absolute;
-  top: 11px;
-  right: 11px;
   display: inline-grid;
-  width: 23px;
-  height: 23px;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 auto;
   place-items: center;
-  color: #141006;
-  border: 1px solid var(--gold-champagne);
-  border-radius: 50%;
-  background: var(--gradient-metallic-gold);
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.4),
-    0 0 16px rgba(231, 189, 77, 0.22);
-}
-
-.actionRow {
-  display: grid;
-  min-height: 66px;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.65rem 0.7rem 0.65rem 1.1rem;
-  margin-top: 14px;
-  border: 1px solid rgba(231, 189, 77, 0.11);
-  border-radius: 13px;
+  color: var(--royal-gold);
+  border: 1px solid rgba(229, 189, 79, 0.22);
   background:
-    linear-gradient(145deg, rgba(255, 241, 184, 0.022), transparent 58%),
-    rgba(4, 8, 7, 0.64);
-  box-shadow: inset 0 1px rgba(255, 241, 184, 0.025);
+    linear-gradient(180deg, rgba(245, 216, 111, 0.06), transparent),
+    rgba(229, 189, 79, 0.035);
 }
 
-.actionRow > strong {
-  color: var(--gold-primary);
+.emotion {
+  color: #a18f5d;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.copy {
+  position: relative;
+  z-index: 5;
+  width: 75%;
+  display: grid;
+  grid-template-rows:
+    5.05rem
+    1.45rem
+    4.4rem;
+  align-content: end;
+  gap: 0.48rem;
+  margin-top: auto;
+  padding-bottom: 1.25rem;
+}
+
+.modeTitle {
+  display: flex;
+  align-items: end;
+  min-height: 0;
+  color: var(--royal-gold-bright);
   font-family: var(--font-display), sans-serif;
-  font-size: 0.88rem;
-  letter-spacing: 0.065em;
-  text-transform: uppercase;
+  font-size: clamp(1.65rem, 2.35vw, 2.5rem);
+  font-weight: 720;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
 }
 
-.actionRow > strong:first-letter {
-  text-transform: uppercase;
+.statement {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 1.45rem;
+  color: var(--royal-ivory);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(0.8rem, 0.98vw, 0.98rem);
+  font-weight: 620;
+  line-height: 1;
+  white-space: nowrap;
 }
 
-.actionRow :global(.button) {
-  min-width: 148px;
+.description {
+  display: block;
+  height: 4.4rem;
+  overflow: hidden;
+  color: #92978f;
+  font-size: 0.7rem;
+  line-height: 1.55;
 }
 
-@media (max-width: 860px) {
-  .main {
-    place-items: start center;
+.traitRail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: 48px;
+  border-top: 1px solid rgba(229, 189, 79, 0.12);
+  border-bottom: 1px solid rgba(229, 189, 79, 0.08);
+}
+
+.traitRail > span {
+  display: grid;
+  align-content: center;
+  gap: 0.15rem;
+  padding: 0.45rem 0.45rem 0.4rem 0;
+  color: #7c817a;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.47rem;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+}
+
+.traitRail > span + span {
+  padding-left: 0.5rem;
+  border-left: 1px solid rgba(229, 189, 79, 0.08);
+}
+
+.traitRail i {
+  color: #b08d32;
+  font-size: 0.43rem;
+  font-style: normal;
+}
+
+.selectLine {
+  min-height: 38px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.8rem;
+  color: #746f61;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.53rem;
+  letter-spacing: 0.14em;
+}
+
+.selectLine > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.modeCardSelected .selectLine {
+  color: var(--royal-gold-bright);
+}
+
+.bottomLight {
+  position: absolute;
+  z-index: 7;
+  left: 12%;
+  right: 12%;
+  bottom: -1px;
+  height: 2px;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--royal-gold-bright),
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(229, 189, 79, 0.38);
+  transition: opacity 220ms ease;
+}
+
+.modeCardSelected .bottomLight {
+  opacity: 1;
+}
+
+/* Elegant confirmation rail, not another bulky dashboard panel. */
+.actionBar {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.85fr) minmax(300px, 1.3fr) auto;
+  min-height: 72px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(229, 189, 79, 0.16);
+  border-bottom: 1px solid rgba(229, 189, 79, 0.08);
+  background: linear-gradient(90deg, rgba(7, 10, 8, 0.7), rgba(8, 10, 8, 0.9));
+}
+
+.actionIdentity,
+.actionQuote {
+  display: grid;
+  align-content: center;
+  padding: 0.65rem 1rem;
+}
+
+.actionIdentity > span,
+.actionQuote > span {
+  color: #766f5b;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.49rem;
+  letter-spacing: 0.17em;
+}
+
+.actionIdentity > strong {
+  margin-top: 0.25rem;
+  color: var(--royal-gold);
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.86rem;
+  letter-spacing: 0.035em;
+}
+
+.actionQuote {
+  border-left: 1px solid rgba(229, 189, 79, 0.08);
+  border-right: 1px solid rgba(229, 189, 79, 0.08);
+}
+
+.actionQuote > strong {
+  margin-top: 0.25rem;
+  color: #b3b0a6;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 540;
+}
+
+.actionButton {
+  position: relative;
+  min-width: 205px;
+  min-height: 46px;
+  align-self: center;
+  justify-self: end;
+  margin: 0.65rem 0.8rem;
+  padding-inline: 1.25rem !important;
+  overflow: hidden;
+  color: #171105 !important;
+  border: 1px solid rgba(255, 229, 132, 0.82) !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(180deg, #f4d978 0%, #d2a83f 56%, #b88625 100%) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.52),
+    inset 0 -1px rgba(78, 48, 3, 0.35),
+    0 7px 20px rgba(0, 0, 0, 0.28),
+    0 0 24px rgba(229, 189, 79, 0.12);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.18);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.actionButton::before {
+  content: "";
+  position: absolute;
+  top: -80%;
+  left: -28%;
+  width: 24%;
+  height: 250%;
+  pointer-events: none;
+  opacity: 0.4;
+  transform: rotate(18deg);
+  background: rgba(255, 255, 255, 0.45);
+  filter: blur(5px);
+  transition: left 360ms ease;
+}
+
+.actionButton:not(:disabled):hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.58),
+    inset 0 -1px rgba(78, 48, 3, 0.3),
+    0 10px 24px rgba(0, 0, 0, 0.32),
+    0 0 34px rgba(229, 189, 79, 0.2);
+}
+
+.actionButton:not(:disabled):hover::before {
+  left: 108%;
+}
+
+.actionButton:disabled {
+  color: rgba(231, 220, 190, 0.38) !important;
+  border-color: rgba(229, 189, 79, 0.13) !important;
+  background: rgba(10, 12, 10, 0.62) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.018),
+    0 6px 18px rgba(0, 0, 0, 0.2);
+  opacity: 1 !important;
+}
+
+@media (max-width: 1050px) {
+
+  .modeCard {
+    min-height: 430px;
   }
 
-  .screen {
-    width: min(100%, 660px);
+  .copy {
+    width: 75%;
   }
 
-  .grid {
+  .actionBar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .actionQuote {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .page {
+    overflow: auto;
+  }
+
+  .modeGrid {
     grid-template-columns: 1fr;
   }
 
-  .modeCard {
-    min-height: 108px;
+  .modeCard,
+  .modeCardSelected {
+    min-height: 360px;
+    transform: none;
+  }
+
+  .modeCard[data-mode="classic-draft"] .playerWrap {
+    right: -1%;
+    bottom: 0;
+    width: 52%;
+    height: 96%;
+  }
+
+  .modeCard[data-mode="free-selection"] .playerWrap {
+    right: -18%;
+    bottom: 0;
+    width: 88%;
+    height: 100%;
+  }
+
+  .modeCard[data-mode="free-selection"] .playerImage {
+    transform: scale(1.12);
+  }
+
+  .modeCard[data-mode="world-cup-run"] .playerWrap {
+    right: -4%;
+    bottom: -1%;
+    width: 64%;
+    height: 91%;
+  }
+
+  .copy {
+    width: 64%;
+  }
+
+  .modeGridHasSelection .modeCard:not(.modeCardSelected) {
+    opacity: 0.82;
   }
 }
 
 @media (max-width: 560px) {
   .main {
-    padding-block: 1.25rem 2rem;
-  }
-
-  .screen {
-    padding: 0;
-    border-radius: 20px;
-  }
-
-  .intro {
-    margin-bottom: 1.2rem;
+    padding-block: 1rem 1.75rem;
   }
 
   .intro h1 {
-    font-size: clamp(2.25rem, 11vw, 3.2rem);
+    font-size: 2rem;
   }
 
-  .intro > p:last-child {
-    font-size: 0.84rem;
-    line-height: 1.55;
-  }
 
   .modeCard {
-    min-height: 104px;
-    padding: 0.9rem;
+    min-height: 330px;
+    padding: 1rem;
   }
 
-  .actionRow {
-    gap: 0.7rem;
-    padding-left: 0.9rem;
+  .modeCard[data-mode="classic-draft"] .playerWrap {
+    right: -2%;
+    bottom: 0;
+    width: 60%;
+    height: 96%;
   }
 
-  .actionRow > strong {
-    font-size: 0.72rem;
+  .modeCard[data-mode="free-selection"] .playerWrap {
+    right: -16%;
+    bottom: 0;
+    width: 94%;
+    height: 100%;
   }
 
-  .actionRow :global(.button) {
-    min-width: 124px;
-    padding-inline: 15px;
+  .modeCard[data-mode="free-selection"] .playerImage {
+    transform: scale(1.1);
+  }
+
+  .modeCard[data-mode="world-cup-run"] .playerWrap {
+    right: -6%;
+    bottom: -1%;
+    width: 80%;
+    height: 89%;
+  }
+
+  .copy {
+    width: 76%;
+    grid-template-rows: 3.8rem 1.25rem 4.2rem;
+  }
+
+  .statement {
+    height: 1.25rem;
+    font-size: 0.74rem;
+  }
+
+  .modeTitle {
+    font-size: 1.55rem;
+  }
+
+  .traitRail {
+    grid-template-columns: 1fr;
+  }
+
+  .traitRail > span {
+    display: none;
+  }
+
+  .traitRail > span:first-child {
+    display: grid;
+    min-height: 38px;
+  }
+
+  .actionBar {
+    grid-template-columns: 1fr;
+  }
+
+  .actionButton {
+    width: calc(100% - 1.2rem);
+    min-height: 50px;
+    justify-self: center;
+    margin: 0.6rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .modeCard {
-    filter: none !important;
+  .modeCard,
+  .playerImage,
+  .goldSweep {
+    transition: none !important;
+  }
+
+  .modeCard,
+  .modeCardSelected {
+    transform: none !important;
   }
 }
