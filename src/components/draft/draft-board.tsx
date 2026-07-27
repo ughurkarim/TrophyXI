@@ -12,8 +12,8 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
+  useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
@@ -64,14 +64,12 @@ export function DraftBoard() {
   const reduceMotion = useReducedMotion();
   const [showReset, setShowReset] = useState(false);
   const [showRespin, setShowRespin] = useState(false);
-  const [showSquad, setShowSquad] = useState(false);
   const [isEnteringWorldCup, setIsEnteringWorldCup] = useState(false);
   const [inspected, setInspected] = useState<PlayerTournamentCard | null>(null);
   const [showManagerDetails, setShowManagerDetails] = useState(false);
   const [previewSlotId, setPreviewSlotId] = useState<string | null>(null);
   const [detailReturnFocus, setDetailReturnFocus] =
     useState<HTMLElement | null>(null);
-  const squadControlRef = useRef<HTMLButtonElement | null>(null);
 
   const formationId = useGameStore((state) => state.formationId)!;
   const gameMode = useGameStore((state) => state.gameMode);
@@ -94,9 +92,6 @@ export function DraftBoard() {
   );
   const respinsRemaining = useGameStore(
     (state) => state.playerRespinsRemaining,
-  );
-  const formationRespinRemaining = useGameStore(
-    (state) => state.formationRespinRemaining,
   );
   const selectPlayer = useGameStore((state) => state.selectPlayer);
   const placeSelectedPlayer = useGameStore(
@@ -244,6 +239,19 @@ export function DraftBoard() {
     projectedPositionFits.find(
       (preview) => preview.slotId === previewSlotId && preview.canPlace,
     ) ?? bestPreview;
+
+  useEffect(() => {
+    const removePitchTitles = () => {
+      document
+        .querySelectorAll<HTMLElement>(".draft-pitch-panel .pitch-node[title]")
+        .forEach((node) => node.removeAttribute("title"));
+    };
+
+    removePitchTitles();
+    const frame = window.requestAnimationFrame(removePitchTitles);
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [previewSlotId, selectedPlayerId, projectedPositionFits]);
   const projectedPicks: DraftPick[] =
     selectedPlayer && activePreview
       ? [
@@ -277,6 +285,41 @@ export function DraftBoard() {
           bench,
         })
       : chemistry;
+  const headerProjectedRatings = pendingBenchPlayer
+    ? calculateTeamRatings(lineup, formation, {
+        picks,
+        manager,
+        eraId,
+        bench: [...bench, pendingBenchPlayer],
+      })
+    : projectedRatings;
+  const headerRatingStats = [
+    {
+      label: "ATK",
+      value: ratings.attack,
+      delta: Math.round(headerProjectedRatings.attack - ratings.attack),
+    },
+    {
+      label: "MID",
+      value: ratings.midfield,
+      delta: Math.round(headerProjectedRatings.midfield - ratings.midfield),
+    },
+    {
+      label: "DEF",
+      value: ratings.defense,
+      delta: Math.round(headerProjectedRatings.defense - ratings.defense),
+    },
+    {
+      label: "CHEM",
+      value: ratings.chemistry,
+      delta: Math.round(headerProjectedRatings.chemistry - ratings.chemistry),
+    },
+    {
+      label: "OVR",
+      value: ratings.overall,
+      delta: Math.round(headerProjectedRatings.overall - ratings.overall),
+    },
+  ];
   const selectedEraDetails = selectedPlayer && eraId !== "all"
     ? calculateEraFitDetails(selectedPlayer, eraId, {
         manager,
@@ -356,41 +399,41 @@ export function DraftBoard() {
                     : `Choose starter ${picks.length + 1} of 11`}
           </h1>
         </div>
-        <div className={styles.progressGroup}>
-          <div
-            className="draft-progress"
-            aria-label={`${squadCount} of 14 players drafted`}
-          >
-            <div>
-              <span style={{ width: `${(squadCount / 14) * 100}%` }} />
-            </div>
-          </div>
-          <button
-            type="button"
-            className={styles.squadControl}
-            ref={squadControlRef}
-            aria-expanded={showSquad}
-            aria-controls="draft-squad-drawer"
-            onClick={() => setShowSquad(true)}
-          >
-            <Users size={14} aria-hidden />
-            SQUAD {squadCount} / 14
-          </button>
+        <div
+          className={styles.headerRatings}
+          aria-label={`Live squad ratings. Attack ${ratings.attack}, midfield ${ratings.midfield}, defense ${ratings.defense}, chemistry ${ratings.chemistry}, overall ${ratings.overall}. ${squadCount} of 14 players drafted.`}
+        >
+          {headerRatingStats.map(({ label, value, delta }) => {
+            const direction =
+              delta > 0 ? "up" : delta < 0 ? "down" : undefined;
+            return (
+              <span
+                key={label}
+                data-emphasis={label === "OVR" || undefined}
+                data-delta={direction}
+              >
+                <small>{label}</small>
+                <strong>{value}</strong>
+                <i
+                  className={styles.ratingDelta}
+                  data-direction={direction}
+                  aria-label={
+                    direction
+                      ? `${label} ${delta > 0 ? "up" : "down"} ${Math.abs(delta)}`
+                      : undefined
+                  }
+                  aria-hidden={!direction}
+                >
+                  {direction ? `${delta > 0 ? "+" : "−"}${Math.abs(delta)}` : "\u00A0"}
+                </i>
+              </span>
+            );
+          })}
         </div>
         <div className="draft-utilities">
           <span>
             {manager.managerName} · {formation.name} · {era.label}
           </span>
-          <div className="draft-counter-stack">
-            <strong className="respin-counter">
-              {respinLabel(respinsRemaining)}
-            </strong>
-            <small>
-              {formationRespinRemaining
-                ? "FORMATION RESPIN ×1"
-                : "FORMATION RESPIN USED"}
-            </small>
-          </div>
           <button
             type="button"
             className="icon-button"
@@ -423,7 +466,6 @@ export function DraftBoard() {
             picks={picks}
             fitPreviews={selectedPlayer ? projectedPositionFits : []}
             activeSlotId={selectedPlayer ? activePreview?.slotId : undefined}
-            selectedSlotId={lastPlacementFeedback?.slotId}
             onSelectSlot={selectedPlayer ? placeSelectedPlayer : undefined}
             onInspectPlayer={openPlayer}
             onPreviewSlot={selectedPlayer ? setPreviewSlotId : undefined}
@@ -446,53 +488,6 @@ export function DraftBoard() {
               onCancel={cancelPlayerSelection}
               onOpenRecord={() => openPlayer(selectedPlayer)}
             />
-          )}
-          {lineup.length > 0 && <TeamRatings ratings={ratings} expanded />}
-          {lastPlacementFeedback && draftPhase === "starters" && (
-            <motion.div
-              className="placement-feedback"
-              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.2 }}
-              role="status"
-            >
-              <b>
-                {playersById.get(lastPlacementFeedback.cardId)?.playerName}{" "}
-                {playersById.get(lastPlacementFeedback.cardId)?.tournamentYear} →{" "}
-                {lastPlacementFeedback.slotLabel}
-              </b>
-              <span>Position Fit {lastPlacementFeedback.fit}%</span>
-              {lastPlacementFeedback.penaltyPercent > 0 && (
-                <span>
-                  Placement Penalty −{lastPlacementFeedback.penaltyPercent}%
-                </span>
-              )}
-              {eraId !== "all" && (
-                <span>Era Fit {lastPlacementFeedback.eraFit}</span>
-              )}
-              {eraId !== "all" && (() => {
-                const placedPlayer = playersById.get(
-                  lastPlacementFeedback.cardId,
-                );
-                if (!placedPlayer) return null;
-                const impact = calculateEraFitDetails(
-                  placedPlayer,
-                  eraId,
-                  { manager, formation },
-                ).impactPercent;
-                return impact > 0 ? <span>Era Impact −{impact}%</span> : null;
-              })()}
-              <span>
-                Chemistry{" "}
-                {lastPlacementFeedback.chemistryChange >= 0 ? "+" : ""}
-                {lastPlacementFeedback.chemistryChange}
-              </span>
-              <span>
-                Team Overall{" "}
-                {lastPlacementFeedback.overallChange >= 0 ? "+" : ""}
-                {lastPlacementFeedback.overallChange}
-              </span>
-            </motion.div>
           )}
           {bench.length > 0 && (
             <div className="bench-summary" aria-label="Current substitutes">
@@ -542,14 +537,20 @@ export function DraftBoard() {
               />
             ) : (
               <>
-                <div className="draft-choices__heading">
+                <div
+                  className={`draft-choices__heading ${styles.choiceHeadingRow}`}
+                >
                   <div>
                     <span className="eyebrow eyebrow--gold">
                       BENCH SPIN / 05 · ROUND {benchPicks.length + 1}
                     </span>
                     <h2>Choose a tactical alternative</h2>
                   </div>
-                  <p>Select a player, then choose Bench 1, 2, or 3.</p>
+                  <RespinRow
+                    canRespin={canRespin}
+                    remaining={respinsRemaining}
+                    onOpen={() => setShowRespin(true)}
+                  />
                 </div>
                 <PlayerChoices
                   options={options}
@@ -559,11 +560,11 @@ export function DraftBoard() {
                   onSelect={selectPlayer}
                   onInspect={openPlayer}
                 />
-                <RespinRow
-                  canRespin={canRespin}
-                  remaining={respinsRemaining}
-                  onOpen={() => setShowRespin(true)}
-                />
+                {lineup.length > 0 && (
+                  <div className={styles.ratingsBelowChoices}>
+                    <TeamRatings ratings={ratings} expanded display="models" />
+                  </div>
+                )}
               </>
             )
           ) : startersComplete ? (
@@ -581,7 +582,9 @@ export function DraftBoard() {
             </div>
           ) : (
             <>
-              <div className="draft-choices__heading">
+              <div
+                className={`draft-choices__heading ${styles.choiceHeadingRow}`}
+              >
                 <div>
                   <span className="eyebrow eyebrow--gold">
                     ARCHIVE SPIN / 05 · ROUND {picks.length + 1}
@@ -592,6 +595,13 @@ export function DraftBoard() {
                       : "Choose one player first"}
                   </h2>
                 </div>
+                {!selectedPlayer && (
+                  <RespinRow
+                    canRespin={canRespin}
+                    remaining={respinsRemaining}
+                    onOpen={() => setShowRespin(true)}
+                  />
+                )}
               </div>
               <PlayerChoices
                 options={options}
@@ -603,12 +613,10 @@ export function DraftBoard() {
                 onSelect={selectPlayer}
                 onInspect={openPlayer}
               />
-              {!selectedPlayer && (
-                <RespinRow
-                  canRespin={canRespin}
-                  remaining={respinsRemaining}
-                  onOpen={() => setShowRespin(true)}
-                />
+              {lineup.length > 0 && (
+                <div className={styles.ratingsBelowChoices}>
+                  <TeamRatings ratings={ratings} expanded display="models" />
+                </div>
               )}
               {!draftFeasible && (
                 <p className="draft-feasibility-warning" role="alert">
@@ -706,28 +714,6 @@ export function DraftBoard() {
         </div>
       )}
 
-      {showSquad && (
-        <SquadDrawer
-          formation={formation}
-          manager={manager}
-          picks={picks}
-          benchPicks={benchPicks}
-          onClose={() => {
-            setShowSquad(false);
-            window.requestAnimationFrame(() => squadControlRef.current?.focus());
-          }}
-          onInspectPlayer={(player) => {
-            setShowSquad(false);
-            setDetailReturnFocus(squadControlRef.current);
-            setInspected(player);
-          }}
-          onInspectManager={() => {
-            setShowSquad(false);
-            setDetailReturnFocus(squadControlRef.current);
-            setShowManagerDetails(true);
-          }}
-        />
-      )}
 
 
       {inspected && (
@@ -745,176 +731,6 @@ export function DraftBoard() {
         />
       )}
     </section>
-  );
-}
-
-function SquadDrawer({
-  formation,
-  manager,
-  picks,
-  benchPicks,
-  onClose,
-  onInspectPlayer,
-  onInspectManager,
-}: {
-  formation: Formation;
-  manager: ManagerTournamentCard;
-  picks: DraftPick[];
-  benchPicks: Array<{ slotId: BenchSlotId; cardId: string }>;
-  onClose: () => void;
-  onInspectPlayer: (player: PlayerTournamentCard) => void;
-  onInspectManager: () => void;
-}) {
-  return (
-    <div
-      className={`drawer-backdrop ${styles.squadBackdrop}`}
-      role="presentation"
-      onMouseDown={onClose}
-    >
-      <aside
-        className={styles.squadDrawer}
-        id="draft-squad-drawer"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="squad-drawer-title"
-        onMouseDown={(event) => event.stopPropagation()}
-        onKeyDown={(event) => {
-          if (event.key === "Escape") onClose();
-        }}
-      >
-        <div className={styles.squadDrawerHeader}>
-          <div>
-            <span className="eyebrow eyebrow--gold">YOUR FOURTEEN</span>
-            <h2 id="squad-drawer-title">
-              SQUAD {picks.length + benchPicks.length}/14
-            </h2>
-          </div>
-          <button
-            type="button"
-            className="icon-button"
-            onClick={onClose}
-            aria-label="Close squad"
-            autoFocus
-          >
-            <X size={17} aria-hidden />
-          </button>
-        </div>
-        <section className={styles.squadSection}>
-          <span className="eyebrow">MANAGER</span>
-          <button
-            type="button"
-            className={styles.squadRow}
-            onClick={onInspectManager}
-            aria-label={`Inspect manager ${manager.managerName}`}
-          >
-            <CircularPortrait
-              imageId={manager.imageId}
-              subjectName={manager.managerName}
-              era={manager.era}
-              countryCode={manager.countryCode}
-              tournamentYear={manager.tournamentYear}
-              size="compact"
-            />
-            <span>
-              <b>{manager.managerName}</b>
-              <small>
-                {flagForCountry(manager.countryCode)} {manager.style} ·{" "}
-                {manager.tournamentYear}
-              </small>
-            </span>
-            <strong>MGR</strong>
-          </button>
-        </section>
-        <section className={styles.squadSection}>
-          <span className="eyebrow">STARTING XI</span>
-          <div className={styles.squadList}>
-            {formation.slots.map((slot) => {
-              const pick = picks.find(
-                (candidate) => candidate.slotId === slot.id,
-              );
-              const player = pick ? playersById.get(pick.cardId) : undefined;
-              return player ? (
-                <button
-                  type="button"
-                  className={styles.squadRow}
-                  key={slot.id}
-                  onClick={() => onInspectPlayer(player)}
-                  aria-label={`Inspect ${slot.label}, ${player.playerName} ${player.tournamentYear}`}
-                >
-                  <CircularPortrait
-                    imageId={player.imageId}
-                    subjectName={player.playerName}
-                    era={player.era}
-                    statusTier={player.statusTier}
-                    countryCode={player.countryCode}
-                    tournamentYear={player.tournamentYear}
-                    size="compact"
-                  />
-                  <span>
-                    <b>{player.playerName}</b>
-                    <small>
-                      {flagForCountry(player.countryCode)}{" "}
-                      {player.primaryPosition} · {player.tournamentYear}
-                    </small>
-                  </span>
-                  <strong>{player.overall}</strong>
-                  <i>{slot.label}</i>
-                </button>
-              ) : (
-                <div className={styles.openSquadRow} key={slot.id}>
-                  <span>{slot.label}</span>
-                  <small>Open position</small>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-        <section className={styles.squadSection}>
-          <span className="eyebrow">BENCH 1–3</span>
-          <div className={styles.squadList}>
-            {benchSlots.map((slotId, index) => {
-              const pick = benchPicks.find(
-                (candidate) => candidate.slotId === slotId,
-              );
-              const player = pick ? playersById.get(pick.cardId) : undefined;
-              return player ? (
-                <button
-                  type="button"
-                  className={styles.squadRow}
-                  key={slotId}
-                  onClick={() => onInspectPlayer(player)}
-                  aria-label={`Inspect Bench ${index + 1}, ${player.playerName} ${player.tournamentYear}`}
-                >
-                  <CircularPortrait
-                    imageId={player.imageId}
-                    subjectName={player.playerName}
-                    era={player.era}
-                    statusTier={player.statusTier}
-                    countryCode={player.countryCode}
-                    tournamentYear={player.tournamentYear}
-                    size="compact"
-                  />
-                  <span>
-                    <b>{player.playerName}</b>
-                    <small>
-                      {flagForCountry(player.countryCode)}{" "}
-                      {player.primaryPosition} · {player.tournamentYear}
-                    </small>
-                  </span>
-                  <strong>{player.overall}</strong>
-                  <i>B{index + 1}</i>
-                </button>
-              ) : (
-                <div className={styles.openSquadRow} key={slotId}>
-                  <span>BENCH {index + 1}</span>
-                  <small>Open position</small>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      </aside>
-    </div>
   );
 }
 
@@ -972,6 +788,7 @@ function PlayerChoices({
               onSelect={() => onSelect(player.id)}
               onInspect={() => onInspect(player)}
               selected={selected}
+              compactDraft
               showFit
               positionFit={positionFit}
               eraFit={

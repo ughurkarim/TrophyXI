@@ -69,3 +69,54 @@
   width: 100%;
   transform: none !important;
 }
+
+
+/* Draft-only compact presentation. Other PlayerCard usages keep the full dossier. */
+.compactDraft {
+  height: auto !important;
+  min-height: 0 !important;
+  padding-bottom: 10px;
+}
+
+.compactDraft :global(.player-card__identity) {
+  margin-bottom: 2px;
+}
+
+.compactDraft :global(.player-card__identity h3) {
+  padding-bottom: 0 !important;
+  border-bottom: 0 !important;
+  font-size: clamp(0.78rem, 0.95vw, 0.98rem);
+}
+
+.compactDraft :global(.player-card__identity h3)::after {
+  display: none !important;
+  content: none !important;
+}
+
+.compactDraft :global(.player-card__fit) {
+  display: flex;
+  min-width: 0;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.compactDraft :global(.player-card__fit span) {
+  display: inline-flex;
+  min-width: 0;
+  min-height: 24px;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  overflow: hidden;
+  font-size: 0.42rem;
+  line-height: 1;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+.compactDraft :global(.player-card__inspect) {
+  margin-top: 6px;
+}

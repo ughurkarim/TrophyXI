@@ -72,27 +72,24 @@ const ChemistryFactor = ({
 
 type TeamRatingsProps = {
   ratings: TeamRatingsModel;
-  /**
-   * Kept for draft screens that explicitly request the full ratings presentation.
-   * The current component is already the full presentation, but accepting this
-   * prop preserves the shared API used by Classic Draft.
-   */
+  /** Preserve the existing Classic Draft API. */
   expanded?: boolean;
+  /**
+   * full: headline ratings + Legacy/Chemistry model
+   * headline: ATK/MID/DEF/CHEM/OVR only
+   * models: Legacy/Chemistry model only
+   */
+  display?: "full" | "headline" | "models";
 };
 
 export function TeamRatings({
   ratings,
   expanded = false,
+  display = "full",
 }: TeamRatingsProps) {
   const legacyScore = clampPercent(ratings.legacyScore);
   const legacyBonus = Math.max(0, Math.min(4, ratings.legacyBonus ?? 0));
   const tier = legacyTier(legacyScore);
-  const coreOverall = Math.round(
-    ratings.coreOverall ??
-      (ratings.playerQuality ?? ratings.overall) * 0.5 +
-        ratings.positionFit * 0.3 +
-        ratings.chemistry * 0.2,
-  );
 
   const chemistryFactors = [
     {
@@ -109,17 +106,22 @@ export function TeamRatings({
     <section
       className={styles.shell}
       data-expanded={expanded || undefined}
+      data-display={display}
       aria-label="Trophy XI squad rating"
     >
-      <div className={styles.orbRow}>
-        <RatingOrb label="ATK" value={ratings.attack} />
-        <RatingOrb label="MID" value={ratings.midfield} />
-        <RatingOrb label="DEF" value={ratings.defense} />
-        <RatingOrb label="CHEM" value={ratings.chemistry} />
-        <RatingOrb label="OVR" value={ratings.overall} emphasis />
-      </div>
+      {display !== "models" && (
+        <div className={styles.orbRow}>
+          <RatingOrb label="ATK" value={ratings.attack} />
+          <RatingOrb label="MID" value={ratings.midfield} />
+          <RatingOrb label="DEF" value={ratings.defense} />
+          <RatingOrb label="CHEM" value={ratings.chemistry} />
+          <RatingOrb label="OVR" value={ratings.overall} emphasis />
+        </div>
+      )}
 
-      <div className={styles.modelGrid}>
+      {display !== "headline" && (
+        <>
+          <div className={styles.modelGrid}>
         <article
           className={styles.legacyCard}
           data-legacy-tier={tier.key}
@@ -147,10 +149,9 @@ export function TeamRatings({
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={legacyScore}
-            aria-label={`Squad legacy: ${legacyScore} out of 100, plus ${legacyBonus} overall`}
+            aria-label={`Squad legacy: ${legacyScore} out of 100, overall boost plus ${legacyBonus}`}
           >
             <span className={styles.legacyFill} />
-            <i className={styles.legacySpark} aria-hidden />
           </div>
 
           <div className={styles.legacyThresholds} aria-hidden>
@@ -162,9 +163,7 @@ export function TeamRatings({
             <span>100</span>
           </div>
 
-          <p className={styles.legacyNote}>
-            CAREER ACCOLADES · SAME LEGACY ON EVERY TOURNAMENT CARD
-          </p>
+          <p className={styles.legacyNote}>CAREER ACCOLADES</p>
         </article>
 
         <article className={styles.chemistryCard}>
@@ -187,41 +186,8 @@ export function TeamRatings({
         </article>
       </div>
 
-      <div className={styles.overallFormula} aria-label="Overall rating formula">
-        <div className={styles.coreInputs}>
-          <span>
-            QUALITY <b>{clampPercent(ratings.playerQuality)}</b>
-            <small>50%</small>
-          </span>
-
-          <span
-            className={styles.positionFitBadge}
-            title={`Position fit ${ratings.positionFit}% · 30% of core OVR`}
-            aria-label={`Position fit ${ratings.positionFit} percent`}
-          >
-            {ratings.positionFit}%
-          </span>
-
-          <span>
-            CHEM <b>{ratings.chemistry}</b>
-            <small>20%</small>
-          </span>
-        </div>
-
-        <div className={styles.equation}>
-          <span>
-            CORE <b>{coreOverall}</b>
-          </span>
-          <i>+</i>
-          <span className={styles.equationLegacy} data-boost={legacyBonus}>
-            LEGACY <b>+{legacyBonus}</b>
-          </span>
-          <i>=</i>
-          <span className={styles.equationOverall}>
-            OVR <b>{ratings.overall}</b>
-          </span>
-        </div>
-      </div>
+        </>
+      )}
     </section>
   );
 }

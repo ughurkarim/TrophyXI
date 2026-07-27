@@ -15464,19 +15464,6 @@
       "changes": "Preserved the downloaded source file and created a normalized local PNG for identity fallback."
     },
     {
-      "playerIdentityId": "mohamed-hany",
-      "playerName": "Mohamed Hany",
-      "sourceCardId": "mohamed-hany-2026",
-      "sourceTournamentYear": 2026,
-      "localPath": "/assets/players/2026/mohamed-hany-2026.png",
-      "sourceFile": "/assets/research/player-identity-sources/mohamed-hany.png",
-      "sourcePage": "https://sofifa.com/player/222400",
-      "sourceImageUrl": "https://cdn.sofifa.net/players/222/400/26_120.png",
-      "sourceKind": "sofifa-game-face",
-      "cacheVersion": "777e09b97451cdc5",
-      "changes": "Preserved the downloaded source file and created a normalized local PNG for identity fallback."
-    },
-    {
       "playerIdentityId": "mohamed-salah",
       "playerName": "Mohamed Salah",
       "sourceCardId": "mohamed-salah-2026",
@@ -36628,19 +36615,6 @@
       "changes": "Preserved the downloaded source file and created a normalized local PNG for identity fallback.",
       "sourcePage": "https://sofifa.com/player/246169",
       "sourceImageUrl": "https://cdn.sofifa.net/players/246/169/26_120.png"
-    },
-    {
-      "id": "mohamed-hany-2026",
-      "kind": "player",
-      "playerIdentityId": "mohamed-hany",
-      "tournamentYear": 2026,
-      "localPath": "/assets/players/2026/mohamed-hany-2026.png",
-      "sourceFile": "/assets/research/player-identity-sources/mohamed-hany.png",
-      "portraitScope": "identity-only",
-      "cacheVersion": "777e09b97451cdc5",
-      "changes": "Preserved the downloaded source file and created a normalized local PNG for identity fallback.",
-      "sourcePage": "https://sofifa.com/player/222400",
-      "sourceImageUrl": "https://cdn.sofifa.net/players/222/400/26_120.png"
     },
     {
       "id": "mohamed-salah-2026",

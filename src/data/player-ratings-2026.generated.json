@@ -6751,9 +6751,9 @@
         "savePercentage": 2.7272727489471436,
         "impactPercentile": 0.872
       },
-      "overall": 81,
+      "overall": 90,
       "ratingBasis": "evidence-tier-review",
-      "ratingRationale": "FIFA records 445.46 minutes across 4 matches, 0 goals, and 0 assists for a round of 32 team. Its final 81 overall is an explicit placement on the restored Trophy XI participation, progression, contribution, and position-impact bands."
+      "ratingRationale": "FIFA records 445.46 minutes across 4 matches, 0 goals, and 0 assists for a round of 32 team. Its final 90 overall is an explicit placement on the restored Trophy XI participation, progression, contribution, and position-impact bands."
     },
     {
       "cardId": "stopira-2026",
@@ -9769,29 +9769,6 @@
       "ratingRationale": "FIFA records 533.07 minutes across 5 matches, 1 goals, and 0 assists for a round of 16 team. Its final 83 overall is an explicit placement on the restored Trophy XI participation, progression, contribution, and position-impact bands."
     },
     {
-      "cardId": "mohamed-hany-2026",
-      "playerIdentityId": "mohamed-hany",
-      "playerName": "Mohamed Hany",
-      "teamCode": "EGY",
-      "shirtNumber": 3,
-      "primaryPosition": "CB",
-      "fifaPlayerId": "408950",
-      "fifaPlayerName": "MOHAMED HANY",
-      "tournamentFinish": "round of 16",
-      "tournamentEvidence": {
-        "matchesPlayed": 5,
-        "minutesPlayed": 546.84,
-        "goals": 0,
-        "assists": 1,
-        "saves": null,
-        "savePercentage": null,
-        "impactPercentile": 0.335
-      },
-      "overall": 84,
-      "ratingBasis": "evidence-tier-review",
-      "ratingRationale": "FIFA records 546.84 minutes across 5 matches, 0 goals, and 1 assists for a round of 16 team. Its final 84 overall is an explicit placement on the restored Trophy XI participation, progression, contribution, and position-impact bands."
-    },
-    {
       "cardId": "hossam-abdelmaguid-2026",
       "playerIdentityId": "hossam-abdelmaguid",
       "playerName": "Hossam Abdelmaguid",
@@ -11259,7 +11236,7 @@
         "savePercentage": null,
         "impactPercentile": 0.933
       },
-      "overall": 89,
+      "overall": 82,
       "ratingBasis": "evidence-tier-review",
       "ratingRationale": "FIFA records 522.9 minutes across 7 matches, 1 goals, and 1 assists for a champion team. Its final 89 overall is an explicit placement on the restored Trophy XI participation, progression, contribution, and position-impact bands."
     },

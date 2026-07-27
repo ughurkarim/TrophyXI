@@ -6708,22 +6708,6 @@
       "sourcePlayerName": "YASSER IBRAHIM"
     },
     {
-      "identityId": "mohamed-hany",
-      "playerName": "Mohamed Hany",
-      "teamCode": "EGY",
-      "teamName": "Egypt",
-      "shirtNumber": 3,
-      "primaryPosition": "CB",
-      "eligiblePositions": [
-        "CB",
-        "LB",
-        "RB"
-      ],
-      "birthDate": "1996-02-02",
-      "club": "Al Ahly FC (EGY)",
-      "sourcePlayerName": "MOHAMED HANY"
-    },
-    {
       "identityId": "hossam-abdelmaguid",
       "playerName": "Hossam Abdelmaguid",
       "teamCode": "EGY",

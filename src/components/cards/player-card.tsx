@@ -28,6 +28,7 @@ export function PlayerCard({
   onInspect,
   actionLabel,
   disabled = false,
+  compactDraft = false,
 }: {
   player: PlayerTournamentCard;
   onSelect?: () => void;
@@ -40,6 +41,7 @@ export function PlayerCard({
   onInspect?: () => void;
   actionLabel?: string;
   disabled?: boolean;
+  compactDraft?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
   const content = (
@@ -61,37 +63,50 @@ export function PlayerCard({
           {flagForCountry(player.countryCode)} {player.countryCode}
         </span>
         <h3 title={player.playerName}>{player.playerName}</h3>
-        <p>{player.archetype}</p>
+        {!compactDraft && <p>{player.archetype}</p>}
       </div>
-      <div className="player-card__stats">
-        {[
-          ["ATK", player.attributes.attack],
-          ["CRE", player.attributes.creativity],
-          ["CTL", player.attributes.control],
-          ["DEF", player.attributes.defense],
-          ["PHY", player.attributes.physical],
-          ["CLT", player.attributes.clutch],
-        ].map(([label, value]) => (
-          <span key={label}>
-            <b>{value}</b>
-            <small>{label}</small>
-          </span>
-        ))}
-      </div>
-      <div className="player-card__footer">
-        <span>{player.countryName}</span>
-        <span>{player.eligiblePositions.join(" · ")}</span>
-      </div>
+      {!compactDraft && (
+        <>
+          <div className="player-card__stats">
+            {[
+              ["ATK", player.attributes.attack],
+              ["CRE", player.attributes.creativity],
+              ["CTL", player.attributes.control],
+              ["DEF", player.attributes.defense],
+              ["PHY", player.attributes.physical],
+              ["CLT", player.attributes.clutch],
+            ].map(([label, value]) => (
+              <span key={label}>
+                <b>{value}</b>
+                <small>{label}</small>
+              </span>
+            ))}
+          </div>
+          <div className="player-card__footer">
+            <span>{player.countryName}</span>
+            <span>{player.eligiblePositions.join(" · ")}</span>
+          </div>
+        </>
+      )}
       {showFit && (
         <div className="player-card__fit" aria-label="Draft eligibility">
-          <span>
-            <ShieldCheck size={12} aria-hidden /> Position Fit{" "}
-            {positionFit ?? "—"}
-          </span>
-          {eraFit !== undefined && (
-            <span>
-              <TimerReset size={12} aria-hidden /> Era Fit {eraFit}
-            </span>
+          {compactDraft ? (
+            <>
+              <span>POSITION FIT {positionFit ?? "—"}</span>
+              {eraFit !== undefined && <span>ERA FIT {eraFit}</span>}
+            </>
+          ) : (
+            <>
+              <span>
+                <ShieldCheck size={12} aria-hidden /> Position Fit{" "}
+                {positionFit ?? "—"}
+              </span>
+              {eraFit !== undefined && (
+                <span>
+                  <TimerReset size={12} aria-hidden /> Era Fit {eraFit}
+                </span>
+              )}
+            </>
           )}
         </div>
       )}
@@ -140,6 +155,7 @@ export function PlayerCard({
         `player-card--tier-${player.statusTier}`,
         selected && "player-card--selected",
         disabled && "player-card--disabled",
+        compactDraft && styles.compactDraft,
         className,
       )}
       whileHover={reduceMotion || selected || disabled ? undefined : { y: -3 }}
