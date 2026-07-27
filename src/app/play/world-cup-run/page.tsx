@@ -12,6 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import backgroundWorldCupImage from "../../../../assets/backgroundwc.png";
 import worldCupImage from "../../../../assets/worldcup2.png";
 import winImage from "../../../../assets/win.png";
 import groupLossImage from "../../../../assets/world-cup-losses/group.png";
@@ -280,12 +281,15 @@ export default function WorldCupRunPage() {
       <div className={`game-page game-page--stadium ${styles.shell}`}>
         <GameHeader step="WORLD CUP RUN" />
         <SaveNotice />
-        <main className={`container game-main ${styles.launch}`}>
-          <div className={styles.launchBackdrop} aria-hidden>
-            <span />
-            <span />
-            <span />
-          </div>
+        <main
+          className={`container game-main ${styles.launch}`}
+          style={
+            {
+              "--world-cup-launch-bg": `url(${backgroundWorldCupImage.src})`,
+            } as CSSProperties
+          }
+        >
+          <div className={styles.launchBackdrop} aria-hidden />
 
           <section className={styles.launchContent}>
             <div className={styles.launchKicker}>
@@ -311,24 +315,6 @@ export default function WorldCupRunPage() {
               <Button onClick={startWorldCupRun}>
                 BEGIN THE WORLD CUP <ArrowRight size={16} aria-hidden />
               </Button>
-            </div>
-          </section>
-
-          <section className={styles.launchVisual} aria-label="World Cup trophy presentation">
-            <div className={styles.prizeEyebrow}>
-              <i />
-              <span>THE ULTIMATE PRIZE</span>
-              <i />
-            </div>
-
-            <div className={styles.trophyStage}>
-              <div className={styles.trophyGlow} aria-hidden />
-              <div className={styles.trophyAura} aria-hidden />
-              <img
-                src={worldCupImage.src}
-                alt="World Cup trophy"
-                className={styles.worldCupImage}
-              />
             </div>
           </section>
         </main>

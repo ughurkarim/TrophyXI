@@ -4086,3 +4086,845 @@
     width: 84%;
   }
 }
+
+/* ==========================================================================
+   WORLD CUP LAUNCH — BACKGROUNDWC
+   The stadium, trophy, halo and pedestal are baked into assets/backgroundwc.png.
+   Keep the live UI deliberately minimal: title, metadata and primary CTA only.
+   ========================================================================== */
+
+.launch {
+  align-items: center;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(1, 5, 5, 0.18) 0%,
+      rgba(1, 5, 5, 0.05) 38%,
+      rgba(1, 5, 5, 0) 60%
+    ),
+    var(--world-cup-launch-bg) center center / cover no-repeat;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  height: calc(100svh - 72px);
+  max-height: calc(100svh - 72px);
+  max-width: none;
+  min-height: 0 !important;
+  overflow: hidden;
+  padding:
+    clamp(1.4rem, 3vh, 2.6rem)
+    clamp(2.2rem, 9vw, 10rem);
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.launchBackdrop {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(1, 5, 5, 0.54) 0%,
+      rgba(1, 5, 5, 0.26) 26%,
+      rgba(1, 5, 5, 0.06) 48%,
+      transparent 66%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.08) 0%,
+      transparent 30%,
+      transparent 72%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.launchBackdrop::before,
+.launchBackdrop::after,
+.launchBackdrop > span {
+  display: none !important;
+}
+
+.launchContent {
+  align-content: center;
+  display: grid;
+  justify-items: start;
+  max-width: min(47vw, 760px);
+  min-height: 0;
+  position: relative;
+  transform: translateY(2.5vh);
+  z-index: 2;
+}
+
+.launchKicker {
+  align-items: center;
+  display: inline-grid;
+  gap: 12px;
+  grid-template-columns: 46px auto 46px;
+}
+
+.launchKicker p {
+  color: #e0b94e;
+  font-size: clamp(0.58rem, 0.72vw, 0.74rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  margin: 0;
+  text-shadow:
+    0 0 8px rgba(229, 188, 78, 0.22),
+    0 0 20px rgba(229, 188, 78, 0.08);
+  white-space: nowrap;
+}
+
+.launchKicker i {
+  display: block;
+  height: 1px;
+}
+
+.launchKicker i:first-child {
+  background: linear-gradient(90deg, transparent, rgba(229, 188, 78, 0.88));
+}
+
+.launchKicker i:last-child {
+  background: linear-gradient(90deg, rgba(229, 188, 78, 0.88), transparent);
+}
+
+.launchHeadline {
+  color: #f4f1e9;
+  display: grid;
+  font-size: clamp(4.25rem, 7.25vw, 7.55rem);
+  font-weight: 790;
+  letter-spacing: -0.07em;
+  line-height: 0.82;
+  margin: 1rem 0 1.2rem;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.26);
+}
+
+.launchHeadline span {
+  background: linear-gradient(
+    180deg,
+    #ffe8a2 0%,
+    #e8bd4e 31%,
+    #c89125 76%,
+    #9b6815 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 10px rgba(232, 188, 70, 0.10),
+    0 0 25px rgba(219, 161, 39, 0.07);
+}
+
+.launchMeta {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.12rem;
+}
+
+.launchMeta span {
+  color: #c5c1b5;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(0.5rem, 0.6vw, 0.61rem);
+  font-weight: 760;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+}
+
+.launchMeta i {
+  background: #c79f38;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(225, 180, 60, 0.16);
+  display: block;
+  height: 4px;
+  width: 4px;
+}
+
+.launchActions {
+  align-items: flex-start;
+  display: flex;
+  margin-top: 1.45rem;
+}
+
+.launchActions > button {
+  background: linear-gradient(180deg, #f2cf66 0%, #d8a73a 100%);
+  border-color: rgba(255, 225, 133, 0.84);
+  box-shadow:
+    inset 0 1px rgba(255, 250, 223, 0.48),
+    0 0 20px rgba(220, 164, 42, 0.11),
+    0 10px 34px rgba(0, 0, 0, 0.24);
+  color: #171106;
+  min-height: 56px;
+  min-width: 270px;
+  padding-inline: 1.8rem;
+  transition:
+    background 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.launchActions > button:hover {
+  background: linear-gradient(180deg, #f7dc82 0%, #e0b44a 100%);
+  border-color: rgba(255, 237, 178, 0.96);
+  box-shadow:
+    inset 0 1px rgba(255, 252, 231, 0.58),
+    0 0 28px rgba(225, 176, 49, 0.17),
+    0 12px 38px rgba(0, 0, 0, 0.26);
+  color: #130e05;
+  transform: translateY(-1px);
+}
+
+/* Old trophy UI is intentionally not rendered on the new launch screen. */
+.launchVisual,
+.prizeEyebrow,
+.trophyStage,
+.trophyGlow,
+.trophyAura,
+.trophyBeam,
+.worldCupImage {
+  display: none !important;
+}
+
+@media (max-height: 900px) and (min-width: 821px) {
+  .launch {
+    padding-block: 1rem;
+  }
+
+  .launchContent {
+    transform: translateY(1.5vh);
+  }
+
+  .launchHeadline {
+    font-size: clamp(3.7rem, 6.35vw, 6.45rem);
+    margin-block: 0.8rem 1rem;
+  }
+
+  .launchActions {
+    margin-top: 1.15rem;
+  }
+
+  .launchActions > button {
+    min-height: 50px;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 821px) {
+  .launchHeadline {
+    font-size: clamp(3.2rem, 5.55vw, 5.6rem);
+  }
+
+  .launchKicker p {
+    font-size: 0.56rem;
+  }
+
+  .launchActions > button {
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 980px) {
+  .launch {
+    background-position: 60% center;
+    padding-inline: clamp(1.3rem, 5vw, 3rem);
+  }
+
+  .launchContent {
+    max-width: min(62vw, 620px);
+  }
+
+  .launchHeadline {
+    font-size: clamp(3.4rem, 8vw, 5.4rem);
+  }
+}
+
+@media (max-width: 720px) {
+  .launch {
+    background-position: 66% center;
+  }
+
+  .launchBackdrop {
+    background: linear-gradient(
+      90deg,
+      rgba(1, 5, 5, 0.84) 0%,
+      rgba(1, 5, 5, 0.64) 54%,
+      rgba(1, 5, 5, 0.18) 82%,
+      transparent 100%
+    );
+  }
+
+  .launchContent {
+    max-width: 82vw;
+    transform: none;
+  }
+
+  .launchHeadline {
+    font-size: clamp(3rem, 13vw, 4.7rem);
+  }
+
+  .launchKicker {
+    grid-template-columns: 28px auto 28px;
+  }
+
+  .launchMeta {
+    gap: 0.55rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .launch {
+    padding-inline: 1rem;
+  }
+
+  .launchContent {
+    max-width: 100%;
+  }
+
+  .launchKicker p {
+    font-size: 0.46rem;
+    letter-spacing: 0.15em;
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.75rem, 14.5vw, 4rem);
+  }
+
+  .launchMeta span {
+    font-size: 0.4rem;
+  }
+
+  .launchActions,
+  .launchActions > button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .launchActions > button {
+    transition: none;
+  }
+}
+
+
+/* ==========================================================================
+   WORLD CUP LAUNCH — V30 BALANCED CINEMATIC PASS
+   Less aggressive scale, darker stadium treatment, softer Trophy XI gold.
+   ========================================================================== */
+
+.launch {
+  background: #020606 !important;
+  isolation: isolate;
+}
+
+/* Use the finished background image as a separate layer so it can be scaled
+   independently from the viewport. This is intentionally smaller than cover. */
+.launch::before {
+  background-image: var(--world-cup-launch-bg);
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: auto 108%;
+  content: "";
+  inset: 0;
+  opacity: 0.84;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 7%,
+    rgba(0, 0, 0, 0.78) 19%,
+    #000 34%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 7%,
+    rgba(0, 0, 0, 0.78) 19%,
+    #000 34%,
+    #000 100%
+  );
+}
+
+/* Cinematic shadow pass: preserve stadium detail but pull it back into
+   the Trophy XI dark/green-black aesthetic. */
+.launchBackdrop {
+  background:
+    radial-gradient(
+      ellipse at 71% 45%,
+      rgba(210, 159, 42, 0.045) 0%,
+      rgba(210, 159, 42, 0.018) 27%,
+      transparent 58%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(1, 7, 6, 0.84) 0%,
+      rgba(1, 7, 6, 0.64) 22%,
+      rgba(1, 7, 6, 0.34) 39%,
+      rgba(1, 7, 6, 0.17) 56%,
+      rgba(0, 0, 0, 0.10) 74%,
+      rgba(0, 0, 0, 0.20) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.20) 0%,
+      rgba(0, 0, 0, 0.03) 25%,
+      rgba(0, 0, 0, 0.03) 65%,
+      rgba(0, 0, 0, 0.34) 100%
+    );
+  display: block !important;
+  inset: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Subtle edge vignette to stop the background from feeling like a bright poster. */
+.launchBackdrop::after {
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 52%,
+      rgba(0, 0, 0, 0.16) 76%,
+      rgba(0, 0, 0, 0.38) 100%
+    );
+  content: "";
+  display: block !important;
+  inset: 0;
+  position: absolute;
+}
+
+/* Slightly smaller and calmer hierarchy than v29. */
+.launchContent {
+  max-width: min(44vw, 700px);
+  transform: translateY(1.5vh);
+}
+
+.launchHeadline {
+  font-size: clamp(3.8rem, 6.25vw, 6.55rem);
+  line-height: 0.84;
+  margin: 0.9rem 0 1.05rem;
+  text-shadow:
+    0 5px 28px rgba(0, 0, 0, 0.38),
+    0 0 18px rgba(255, 255, 255, 0.018);
+}
+
+.launchHeadline span {
+  background: linear-gradient(
+    180deg,
+    #f7dda0 0%,
+    #ddb64e 33%,
+    #b98728 75%,
+    #8f641c 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 8px rgba(215, 166, 47, 0.09));
+  text-shadow: none;
+}
+
+.launchKicker p {
+  color: #c9a74d;
+  text-shadow: 0 0 10px rgba(208, 163, 54, 0.10);
+}
+
+.launchMeta span {
+  color: #aaa99f;
+}
+
+.launchMeta i {
+  background: #a88839;
+  box-shadow: none;
+}
+
+/* Softer CTA: gold, but no longer the brightest object on the screen. */
+.launchActions > button {
+  background: linear-gradient(180deg, #e6c45e 0%, #c89734 100%);
+  border-color: rgba(232, 197, 91, 0.68);
+  box-shadow:
+    inset 0 1px rgba(255, 246, 203, 0.26),
+    0 0 16px rgba(202, 151, 45, 0.065),
+    0 10px 28px rgba(0, 0, 0, 0.28);
+  min-width: 265px;
+}
+
+.launchActions > button:hover {
+  background: linear-gradient(180deg, #efd06d 0%, #d3a642 100%);
+  border-color: rgba(244, 214, 125, 0.82);
+  box-shadow:
+    inset 0 1px rgba(255, 250, 221, 0.36),
+    0 0 20px rgba(211, 164, 48, 0.10),
+    0 12px 30px rgba(0, 0, 0, 0.30);
+}
+
+/* Shorter displays: reduce image scale further rather than zooming/cropping. */
+@media (max-height: 900px) and (min-width: 821px) {
+  .launch::before {
+    background-size: auto 104%;
+  }
+
+  .launchHeadline {
+    font-size: clamp(3.45rem, 5.7vw, 5.9rem);
+  }
+}
+
+@media (max-height: 760px) and (min-width: 821px) {
+  .launch::before {
+    background-size: auto 100%;
+  }
+
+  .launchHeadline {
+    font-size: clamp(3rem, 5.05vw, 5.15rem);
+  }
+}
+
+@media (max-width: 980px) {
+  .launch::before {
+    background-position: 64% center;
+    background-size: auto 104%;
+  }
+
+  .launchContent {
+    max-width: min(58vw, 610px);
+  }
+}
+
+@media (max-width: 720px) {
+  .launch::before {
+    background-position: 67% center;
+    background-size: auto 100%;
+    opacity: 0.76;
+  }
+
+  .launchBackdrop {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(1, 7, 6, 0.92) 0%,
+        rgba(1, 7, 6, 0.74) 50%,
+        rgba(1, 7, 6, 0.34) 82%,
+        rgba(0, 0, 0, 0.16) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.18),
+        transparent 40%,
+        rgba(0, 0, 0, 0.30)
+      );
+  }
+}
+
+
+/* ==========================================================================
+   WORLD CUP LAUNCH — V31
+   Fixes:
+   1) no hard background-to-black seam
+   2) ENTER THE / WORLD CUP never clips
+   ========================================================================== */
+
+.launch {
+  background: #020606 !important;
+  isolation: isolate;
+}
+
+/*
+  Layer 1: a very dark, blurred full-bleed copy of backgroundwc.png.
+  This fills the entire viewport so the unzoomed hero image can never
+  terminate abruptly into flat black.
+*/
+.launch::before {
+  background-image: var(--world-cup-launch-bg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+  filter: blur(18px) brightness(0.42) saturate(0.72);
+  inset: -24px;
+  opacity: 0.34;
+  pointer-events: none;
+  position: absolute;
+  transform: scale(1.035);
+  z-index: 0;
+
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/*
+  Layer 2: the clean, intentionally smaller hero image.
+  It stays right-aligned so the trophy does not become oversized.
+*/
+.launch::after {
+  background-image: var(--world-cup-launch-bg);
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: auto 103%;
+  content: "";
+  inset: 0;
+  opacity: 0.78;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+/*
+  Continuous cinematic shading across BOTH image layers.
+  No mask edge, no rectangular cutoff.
+*/
+.launchBackdrop {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(1, 7, 6, 0.88) 0%,
+      rgba(1, 7, 6, 0.72) 17%,
+      rgba(1, 7, 6, 0.50) 31%,
+      rgba(1, 7, 6, 0.28) 45%,
+      rgba(1, 7, 6, 0.10) 61%,
+      rgba(0, 0, 0, 0.08) 79%,
+      rgba(0, 0, 0, 0.18) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.20) 0%,
+      rgba(0, 0, 0, 0.02) 28%,
+      rgba(0, 0, 0, 0.02) 67%,
+      rgba(0, 0, 0, 0.34) 100%
+    );
+  display: block !important;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.launchBackdrop::after {
+  background: radial-gradient(
+    ellipse at 67% 48%,
+    transparent 42%,
+    rgba(0, 0, 0, 0.08) 69%,
+    rgba(0, 0, 0, 0.26) 100%
+  );
+  content: "";
+  display: block !important;
+  inset: 0;
+  position: absolute;
+}
+
+/* Give the headline enough physical room instead of clipping at 44vw. */
+.launchContent {
+  max-width: none;
+  overflow: visible;
+  width: min(49vw, 780px);
+}
+
+/*
+  Slightly more relaxed line-height + tiny internal padding prevents
+  the glyph edges and gold gradient from being cropped.
+*/
+.launchHeadline {
+  box-sizing: content-box;
+  font-size: clamp(3.7rem, 6.05vw, 6.35rem);
+  line-height: 0.90;
+  max-width: none;
+  overflow: visible;
+  padding-bottom: 0.08em;
+  padding-right: 0.08em;
+  white-space: nowrap;
+  width: max-content;
+}
+
+.launchHeadline span {
+  display: block;
+  overflow: visible;
+  padding-bottom: 0.055em;
+  padding-right: 0.08em;
+  white-space: nowrap;
+}
+
+/* Keep metadata from artificially constraining the headline width. */
+.launchMeta {
+  max-width: none;
+  overflow: visible;
+}
+
+/* Shorter desktop displays */
+@media (max-height: 900px) and (min-width: 821px) {
+  .launch::after {
+    background-size: auto 100%;
+  }
+
+  .launchHeadline {
+    font-size: clamp(3.35rem, 5.55vw, 5.75rem);
+  }
+}
+
+@media (max-height: 760px) and (min-width: 821px) {
+  .launch::after {
+    background-size: auto 97%;
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.95rem, 4.9vw, 5rem);
+  }
+}
+
+@media (max-width: 980px) {
+  .launchContent {
+    width: min(61vw, 640px);
+  }
+
+  .launch::after {
+    background-position: 62% center;
+    background-size: auto 100%;
+  }
+}
+
+@media (max-width: 720px) {
+  .launchContent {
+    width: min(86vw, 620px);
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.85rem, 12vw, 4.55rem);
+    white-space: normal;
+    width: auto;
+  }
+
+  .launchHeadline span {
+    white-space: normal;
+  }
+
+  .launch::after {
+    background-position: 66% center;
+    background-size: auto 96%;
+    opacity: 0.68;
+  }
+
+  .launch::before {
+    opacity: 0.28;
+  }
+}
+
+
+/* ==========================================================================
+   WORLD CUP LAUNCH — V33 NEW BACKGROUND
+   Reverted to v31 composition. New backgroundwc.png, slightly zoomed.
+   ========================================================================== */
+
+.launch::before {
+  background-position: center center;
+  background-size: cover;
+  filter: blur(18px) brightness(0.40) saturate(0.70);
+  opacity: 0.30;
+}
+
+/* Slight zoom only — no v32 left shift or masking. */
+.launch::after {
+  background-position: right center;
+  background-size: auto 110%;
+  opacity: 0.80;
+
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Preserve the darker Trophy XI treatment over the new brighter stadium image. */
+.launchBackdrop {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(1, 7, 6, 0.88) 0%,
+      rgba(1, 7, 6, 0.72) 17%,
+      rgba(1, 7, 6, 0.50) 31%,
+      rgba(1, 7, 6, 0.28) 45%,
+      rgba(1, 7, 6, 0.11) 60%,
+      rgba(0, 0, 0, 0.07) 78%,
+      rgba(0, 0, 0, 0.16) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.20) 0%,
+      rgba(0, 0, 0, 0.02) 28%,
+      rgba(0, 0, 0, 0.02) 67%,
+      rgba(0, 0, 0, 0.34) 100%
+    );
+}
+
+/* Keep the trophy comfortably visible on shorter desktop displays. */
+@media (max-height: 900px) and (min-width: 821px) {
+  .launch::after {
+    background-position: right center;
+    background-size: auto 107%;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 821px) {
+  .launch::after {
+    background-position: right center;
+    background-size: auto 104%;
+  }
+}
+
+@media (max-width: 980px) {
+  .launch::after {
+    background-position: 66% center;
+    background-size: auto 106%;
+  }
+}
+
+@media (max-width: 720px) {
+  .launch::after {
+    background-position: 68% center;
+    background-size: auto 102%;
+  }
+}
+
+
+/* ==========================================================================
+   WORLD CUP LAUNCH — V34 FINAL POLISH
+   Tiny composition refinements only.
+   ========================================================================== */
+
+.launchContent {
+  transform: translate(46px, calc(1.5vh - 12px));
+}
+
+/* Slightly cleaner champagne-gold to better match the rest of Trophy XI. */
+.launchHeadline span {
+  background: linear-gradient(
+    180deg,
+    #f8e3a4 0%,
+    #e5bf59 38%,
+    #c99a32 72%,
+    #ad7d22 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Preserve sensible positioning on shorter desktop screens. */
+@media (max-height: 900px) and (min-width: 821px) {
+  .launchContent {
+    transform: translate(42px, calc(1.1vh - 10px));
+  }
+}
+
+@media (max-height: 760px) and (min-width: 821px) {
+  .launchContent {
+    transform: translate(36px, calc(0.7vh - 8px));
+  }
+}
+
+/* Don't force the desktop offset on narrow layouts. */
+@media (max-width: 720px) {
+  .launchContent {
+    transform: none;
+  }
+}
