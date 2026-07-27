@@ -93,11 +93,7 @@ const buildAttribution = (
 
 export const tournamentEditionPlayerImages =
   playerLocalPortraitRecords
-    .filter(
-      (record) =>
-        record.portraitScope === "card-specific" &&
-        record.tournamentYear !== 2026,
-    )
+    .filter((record) => record.portraitScope === "card-specific")
     .map(buildAttribution);
 export const historicalPlayerImages = playerLocalPortraitRecords
   .filter(

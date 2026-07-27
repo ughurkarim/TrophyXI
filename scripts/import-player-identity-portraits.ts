@@ -101,11 +101,11 @@ type ImportedPortraitRecord = {
   tournamentYear: number;
   localPath: string;
   sourceFile: string;
-  portraitScope: "identity-only";
+  portraitScope: "card-exact" | "identity-only";
   cacheVersion: string;
   changes: string;
-  sourcePage: string;
-  sourceImageUrl: string;
+  sourcePage: string | null;
+  sourceImageUrl: string | null;
 };
 
 type GeneratedPortraitArchive = {
@@ -649,23 +649,62 @@ const findExistingCandidates = async (cards: PlayerCard[]) => {
   for (const card of cards) {
     const directory = path.join(PLAYER_DIRECTORY, String(card.tournamentYear));
     if (!existsSync(directory)) continue;
+
     const availablePromise =
       availablePortraitFilesByYear.get(card.tournamentYear) ??
       readdir(directory).then((files) => new Set(files));
     availablePortraitFilesByYear.set(card.tournamentYear, availablePromise);
     const available = await availablePromise;
-    for (const extension of IMAGE_EXTENSIONS) {
-      const filename = `${card.id}.${extension}`;
-      if (!available.has(filename)) continue;
-      const absolutePath = path.join(directory, filename);
+
+    const canonicalFilename = `${card.id}.png`;
+    const canonicalAbsolutePath = path.join(directory, canonicalFilename);
+
+    // Prefer the canonical card-specific PNG when it already exists.
+    if (available.has(canonicalFilename)) {
       candidates.push({
         cardId: card.id,
         tournamentYear: card.tournamentYear,
-        localPath: `/assets/players/${card.tournamentYear}/${filename}`,
-        absolutePath,
+        localPath: `/assets/players/${card.tournamentYear}/${canonicalFilename}`,
+        absolutePath: canonicalAbsolutePath,
       });
-      break;
+      continue;
     }
+
+    // Accept only the SAME card/year under a legacy extension or a
+    // diacritic-equivalent filename. Never match a different tournament year.
+    let legacyFilename = IMAGE_EXTENSIONS
+      .map((extension) => `${card.id}.${extension}`)
+      .find((filename) => available.has(filename));
+
+    if (!legacyFilename) {
+      legacyFilename = [...available].find((filename) => {
+        const extension = path.extname(filename).slice(1).toLocaleLowerCase("en");
+        if (!IMAGE_EXTENSIONS.includes(extension as (typeof IMAGE_EXTENSIONS)[number])) {
+          return false;
+        }
+        const stem = filename.slice(0, -path.extname(filename).length);
+        return normalized(stem) === card.id;
+      });
+    }
+
+    if (!legacyFilename) continue;
+
+    const legacyAbsolutePath = path.join(directory, legacyFilename);
+
+    // Normalize legacy .webp/.jpg/accented filenames to the one canonical
+    // runtime path expected by gameFacePathFor().
+    await sharp(legacyAbsolutePath, { animated: false })
+      .rotate()
+      .png({ compressionLevel: 9, palette: false })
+      .toFile(canonicalAbsolutePath);
+
+    available.add(canonicalFilename);
+    candidates.push({
+      cardId: card.id,
+      tournamentYear: card.tournamentYear,
+      localPath: `/assets/players/${card.tournamentYear}/${canonicalFilename}`,
+      absolutePath: canonicalAbsolutePath,
+    });
   }
   return candidates;
 };
@@ -856,9 +895,11 @@ const main = async () => {
   );
   const existingCoverage: IdentityCoverage[] = [];
   const retainedImportedCoverage: IdentityCoverage[] = [];
+  const exactLocalCandidatesByIdentity = new Map<string, PortraitCandidate[]>();
   const missing: { identityId: string; cards: PlayerCard[] }[] = [];
   for (const [identityId, cards] of identities) {
     const candidates = await findExistingCandidates(cards);
+    exactLocalCandidatesByIdentity.set(identityId, candidates);
     const canonical = canonicalExistingCandidate(cards, candidates);
     const previousImported = previousImportedByIdentity.get(identityId);
     if (!canonical) {
@@ -1224,8 +1265,34 @@ const main = async () => {
         ? "The resolved image could not be downloaded or decoded."
         : "No confidently matched portrait was found.",
     }));
-  const importedPortraits: ImportedPortraitRecord[] = importedCoverage.map(
-    (record) => ({
+  const exactLocalPortraits = (
+    await Promise.all(
+      [...exactLocalCandidatesByIdentity.entries()].flatMap(
+        ([playerIdentityId, candidates]) =>
+          candidates.map(async (candidate): Promise<ImportedPortraitRecord> => ({
+            id: candidate.cardId,
+            kind: "player",
+            playerIdentityId,
+            tournamentYear: candidate.tournamentYear,
+            localPath: candidate.localPath,
+            sourceFile: candidate.localPath,
+            portraitScope: "card-exact",
+            cacheVersion: (await fileSha256(candidate.absolutePath)).slice(0, 16),
+            changes:
+              "Registered an existing local portrait for this exact tournament card.",
+            sourcePage: null,
+            sourceImageUrl: null,
+          })),
+      ),
+    )
+  ).sort(
+    (first, second) =>
+      first.tournamentYear - second.tournamentYear ||
+      first.id.localeCompare(second.id),
+  );
+
+  const identityOnlyImportedPortraits: ImportedPortraitRecord[] =
+    importedCoverage.map((record) => ({
       id: record.sourceCardId,
       kind: "player",
       playerIdentityId: record.playerIdentityId,
@@ -1235,9 +1302,22 @@ const main = async () => {
       portraitScope: "identity-only",
       cacheVersion: record.cacheVersion,
       changes: record.changes,
-      sourcePage: record.sourcePage!,
-      sourceImageUrl: record.sourceImageUrl!,
-    }),
+      sourcePage: record.sourcePage,
+      sourceImageUrl: record.sourceImageUrl,
+    }));
+
+  // Card-exact local files win over an identity-only record with the same card id.
+  const importedPortraits: ImportedPortraitRecord[] = [
+    ...new Map(
+      [...identityOnlyImportedPortraits, ...exactLocalPortraits].map((record) => [
+        record.id,
+        record,
+      ]),
+    ).values(),
+  ].sort(
+    (first, second) =>
+      first.tournamentYear - second.tournamentYear ||
+      first.id.localeCompare(second.id),
   );
   const archive: GeneratedPortraitArchive = {
     version: 1,
