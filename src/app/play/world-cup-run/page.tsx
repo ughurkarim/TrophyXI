@@ -3,17 +3,19 @@
 import {
   ArrowRight,
   Crown,
+  FastForward,
   Play,
   RotateCcw,
   Shield,
-  Sparkles,
   Trophy,
   Users,
   Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import worldCupImage from "../../../../assets/worldcup2.png";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
+import { flushSync } from "react-dom";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
 import { Button } from "@/components/ui/button";
@@ -127,18 +129,38 @@ export default function WorldCupRunPage() {
   const animateQuickSimulation = (action: () => void) => {
     const before = useGameStore.getState().worldCupRun;
     if (!before) return;
+
+    /*
+     * Knockout losses use a deliberate result state before the terminal screen.
+     * Zustand is an external store, so its update can render before the local
+     * deferred-elimination state unless we commit the guard first. That caused
+     * the one-frame "wrong screen" flash.
+     *
+     * Set the guard BEFORE mutating the tournament. It is harmless on wins and
+     * gets cleared immediately below when the run remains active.
+     */
+    if (before.currentStage !== "group" && before.status === "active") {
+      flushSync(() => {
+        setDeferredElimination(true);
+      });
+    }
+
     const previousRanks = new Map(
       Object.values(before.standings)
         .flat()
         .map((standing) => [standing.teamId, standing.rank]),
     );
     const previousFixtureIds = new Set(before.history.map((entry) => entry.fixtureId));
+
     action();
+
     const after = useGameStore.getState().worldCupRun;
     if (!after) return;
-    if (before.status === "active" && after.status === "eliminated") {
-      setDeferredElimination(true);
+
+    if (after.status !== "eliminated") {
+      setDeferredElimination(false);
     }
+
     setRevealedFixtures(
       after.history
         .filter((entry) => !previousFixtureIds.has(entry.fixtureId))
@@ -192,16 +214,56 @@ export default function WorldCupRunPage() {
         <GameHeader step="WORLD CUP RUN" />
         <SaveNotice />
         <main className={`container game-main ${styles.launch}`}>
-          <span className={styles.trophy} aria-hidden><Trophy size={44} /></span>
-          <p className="eyebrow eyebrow--gold">THE ROAD TO GLORY</p>
-          <h1>Enter the World Cup.</h1>
-          <p>
-            Forty-eight teams. Twelve groups. Thirty-two places in the knockouts.
-            Every early score is instant; the Final unlocks the full match experience.
-          </p>
-          <Button onClick={startWorldCupRun}>
-            GENERATE TOURNAMENT <ArrowRight size={16} aria-hidden />
-          </Button>
+          <div className={styles.launchBackdrop} aria-hidden>
+            <span />
+            <span />
+            <span />
+          </div>
+
+          <section className={styles.launchContent}>
+            <div className={styles.launchKicker}>
+              <i />
+              <p className="eyebrow eyebrow--gold">THE BIGGEST STAGE IN FOOTBALL</p>
+              <i />
+            </div>
+
+            <h1 className={styles.launchHeadline}>
+              ENTER THE
+              <span>WORLD CUP</span>
+            </h1>
+
+            <div className={styles.launchMeta} aria-label="World Cup overview">
+              <span>48 NATIONS</span>
+              <i />
+              <span>ONE TROPHY</span>
+              <i />
+              <span>YOUR RUN STARTS NOW</span>
+            </div>
+
+            <div className={styles.launchActions}>
+              <Button onClick={startWorldCupRun}>
+                BEGIN THE WORLD CUP <ArrowRight size={16} aria-hidden />
+              </Button>
+            </div>
+          </section>
+
+          <section className={styles.launchVisual} aria-label="World Cup trophy presentation">
+            <div className={styles.prizeEyebrow}>
+              <i />
+              <span>THE ULTIMATE PRIZE</span>
+              <i />
+            </div>
+
+            <div className={styles.trophyStage}>
+              <div className={styles.trophyGlow} aria-hidden />
+              <div className={styles.trophyAura} aria-hidden />
+              <img
+                src={worldCupImage.src}
+                alt="World Cup trophy"
+                className={styles.worldCupImage}
+              />
+            </div>
+          </section>
         </main>
       </div>
     );
@@ -217,7 +279,54 @@ export default function WorldCupRunPage() {
       : nextFixture.homeTeamId
     : null;
   const userGroupFixtures = run.fixtures.filter((fixture) => fixture.groupId === userGroup.id);
+  const userGroupRoad = userGroupFixtures
+    .filter((fixture) => [fixture.homeTeamId, fixture.awayTeamId].includes(run.userTeamId))
+    .sort(
+      (a, b) =>
+        (a.matchday ?? Number.MAX_SAFE_INTEGER) -
+        (b.matchday ?? Number.MAX_SAFE_INTEGER),
+    );
   const unresolvedGroupFixtures = userGroupFixtures.filter((fixture) => !fixture.result);
+  const groupStageComplete = run.fixtures
+    .filter((fixture) => fixture.stage === "group")
+    .every((fixture) => Boolean(fixture.result));
+
+  const automaticQualifierIds = Object.values(run.standings).flatMap((standings) =>
+    standings.slice(0, 2).map((standing) => standing.teamId),
+  );
+
+  const rankedBestThirdIds = Object.values(run.standings)
+    .map((standings) => standings[2])
+    .sort(
+      (first, second) =>
+        second.points - first.points ||
+        second.goalDifference - first.goalDifference ||
+        second.goalsFor - first.goalsFor ||
+        first.deterministicTiebreak - second.deterministicTiebreak,
+    )
+    .slice(0, 8)
+    .map((standing) => standing.teamId);
+
+  const actualQualifierIds = [...automaticQualifierIds, ...rankedBestThirdIds];
+  if (!actualQualifierIds.includes(run.finalBossTeamId)) {
+    const replacementIndex = actualQualifierIds.findLastIndex(
+      (teamId) => teamId !== run.userTeamId,
+    );
+    if (replacementIndex >= 0) actualQualifierIds[replacementIndex] = run.finalBossTeamId;
+  }
+
+  const bestThirdQualifierIds = new Set(
+    groupStageComplete
+      ? actualQualifierIds.filter((teamId) =>
+          Object.values(run.standings).some(
+            (standings) =>
+              standings[2]?.teamId === teamId &&
+              standings[2]?.rank === 3,
+          ),
+        )
+      : [],
+  );
+
   const currentStageIndex =
     run.currentStage === "complete" ? stageOrder.length : stageOrder.indexOf(run.currentStage);
   const knockoutView = run.currentStage !== "group";
@@ -234,25 +343,47 @@ export default function WorldCupRunPage() {
     run.fixtures.some((fixture) => fixture.stage === run.currentStage && !fixture.result);
   const finalOpponent = nextOpponentId ? teams.get(nextOpponentId) : null;
 
-  const tournamentOver = run.status === "eliminated" && !deferredElimination;
+  const finalElimination =
+    run.status === "eliminated" &&
+    (run.currentStage === "complete" || run.eliminatedStage === "final");
+  const tournamentOver =
+    run.status === "eliminated" && (finalElimination || !deferredElimination);
   const userLostCurrentFixture = Boolean(
     userCurrentFixture?.result && winnerFor(userCurrentFixture) !== run.userTeamId,
   );
   const qualifiedAsBestThird =
-    run.qualificationStatus === "qualified" && userStanding.rank === 3;
+    run.qualificationStatus === "qualified" &&
+    userStanding.rank === 3 &&
+    bestThirdQualifierIds.has(run.userTeamId);
   const champion = run.championTeamId ? teams.get(run.championTeamId) : null;
 
   return (
     <div className={`game-page game-page--stadium ${styles.shell}`}>
       <GameHeader step="WORLD CUP RUN" />
       <SaveNotice />
-      <main className={`container ${styles.main}`}>
-        <header className={styles.header}>
+      <main
+        className={`container ${styles.main}`}
+        data-final={run.currentStage === "final"}
+      >
+        <header
+          className={styles.header}
+          data-final={run.currentStage === "final"}
+        >
           <div className={styles.titleLockup}>
-            <span className={styles.cupMark} aria-hidden><Trophy size={19} /></span>
+            {run.currentStage === "group" && (
+              <span className={styles.cupMark} aria-hidden>
+                <Trophy size={19} />
+              </span>
+            )}
             <div>
-              <p className="eyebrow eyebrow--gold">WORLD CUP RUN · GROUP {userGroup.id}</p>
-              <h1>{stageLabels[run.currentStage]}</h1>
+              <p className="eyebrow eyebrow--gold">
+                {run.currentStage === "group"
+                  ? `WORLD CUP RUN · GROUP ${userGroup.id}`
+                  : "WORLD CUP RUN · KNOCKOUT"}
+              </p>
+              {run.currentStage !== "final" && (
+                <h1>{stageLabels[run.currentStage]}</h1>
+              )}
             </div>
           </div>
           <div className={styles.headerStatus} data-status={run.status}>
@@ -306,7 +437,29 @@ export default function WorldCupRunPage() {
             <p>
               {run.eliminatedStage === "group"
                 ? `Trophy XI finished ${userStanding.rank} in Group ${userGroup.id}.`
-                : "The knockout road closes here. Your squad and tournament record remain saved."}
+                : run.eliminatedStage === "final"
+                  ? (() => {
+                      const finalFixture = run.fixtures.find(
+                        (fixture) =>
+                          fixture.stage === "final" &&
+                          [fixture.homeTeamId, fixture.awayTeamId].includes(run.userTeamId),
+                      );
+
+                      if (!finalFixture?.result?.penalties) {
+                        return "The World Cup ends at the final hurdle.";
+                      }
+
+                      const userAtHome = finalFixture.homeTeamId === run.userTeamId;
+                      const userPenalties = userAtHome
+                        ? finalFixture.result.penalties[0]
+                        : finalFixture.result.penalties[1];
+                      const opponentPenalties = userAtHome
+                        ? finalFixture.result.penalties[1]
+                        : finalFixture.result.penalties[0];
+
+                      return `Trophy XI fall ${userPenalties}–${opponentPenalties} on penalties.`;
+                    })()
+                  : "The knockout road closes here. Your squad and tournament record remain saved."}
             </p>
             <div>
               <Button onClick={() => router.push("/play")}>RETURN TO MAIN SCREEN</Button>
@@ -330,71 +483,127 @@ export default function WorldCupRunPage() {
           </section>
         ) : !knockoutView ? (
           <div className={styles.groupDashboard}>
-            <section className={`${styles.panel} ${styles.nextPanel}`}>
-              <div className={styles.panelTopline}>
-                <span><Zap size={13} /> NEXT FIXTURE</span>
-                <b>{nextFixture ? `MATCHDAY ${nextFixture.matchday}` : "GROUP COMPLETE"}</b>
-              </div>
-              {nextFixture && nextOpponentId ? (
-                <div className={styles.fixtureHero}>
-                  <TeamIdentity team={teams.get(run.userTeamId)!} home />
-                  <div className={styles.versus}><span>VS</span><small>GROUP {userGroup.id}</small></div>
-                  <TeamIdentity team={teams.get(nextOpponentId)!} />
+            <div className={styles.groupPrimaryRail}>
+              <section className={`${styles.panel} ${styles.nextPanel}`}>
+                <div className={styles.panelTopline}>
+                  <span><Zap size={13} /> NEXT FIXTURE</span>
+                  <b>{nextFixture ? `MATCHDAY ${nextFixture.matchday}` : "GROUP COMPLETE"}</b>
                 </div>
-              ) : (
-                <div className={styles.qualifiedHero}>
-                  {run.status === "eliminated" ? <Shield size={23} /> : <Sparkles size={23} />}
-                  <div>
-                    <p className="eyebrow eyebrow--gold">
-                      {run.status === "eliminated"
-                        ? "GROUP COMPLETE"
-                        : qualifiedAsBestThird
-                          ? "BEST THIRD-PLACE QUALIFIER"
-                          : "GROUP QUALIFIED"}
-                    </p>
-                    <h2>
-                      {run.status === "eliminated"
-                        ? "The final scores are in."
-                        : qualifiedAsBestThird
-                          ? "Third place is through."
-                          : "The knockout road is open."}
-                    </h2>
-                    {qualifiedAsBestThird && (
-                      <span className={styles.thirdPlaceNotice}>
-                        <b>3RD</b>
-                        <span>ONE OF THE 8 BEST THIRD-PLACE TEAMS</span>
-                      </span>
-                    )}
+                {nextFixture && nextOpponentId ? (
+                  <div className={styles.fixtureHero}>
+                    <TeamIdentity team={teams.get(run.userTeamId)!} home />
+                    <div className={styles.versus}><span>VS</span><small>GROUP {userGroup.id}</small></div>
+                    <TeamIdentity team={teams.get(nextOpponentId)!} />
                   </div>
-                </div>
-              )}
-              <div className={styles.quickActions}>
-                {run.status === "eliminated" && deferredElimination ? (
-                  <Button onClick={() => setDeferredElimination(false)}>
-                    NEXT <ArrowRight size={15} />
-                  </Button>
-                ) : run.qualificationStatus === "qualified" ? (
-                  <Button onClick={enterKnockouts}>
-                    ENTER ROUND OF 32 <ArrowRight size={15} />
-                  </Button>
                 ) : (
-                  <>
-                    <Button
-                      onClick={() => animateQuickSimulation(simulateMatch)}
-                      disabled={!nextFixture}
-                    >
-                      <Play size={14} fill="currentColor" /> SIMULATE MATCH
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={() => animateQuickSimulation(simulateGroup)}
-                    >
-                      <Users size={15} /> SIMULATE GROUP
-                    </Button>
-                  </>
+                  <div className={styles.qualifiedHero}>
+                    <div className={styles.qualifiedHeroContent}>
+                      <p className="eyebrow eyebrow--gold">
+                        {run.status === "eliminated"
+                          ? "GROUP COMPLETE"
+                          : qualifiedAsBestThird
+                            ? "BEST THIRD-PLACE QUALIFIER"
+                            : "GROUP QUALIFIED"}
+                      </p>
+                      <h2>
+                        {run.status === "eliminated"
+                          ? "The final scores are in."
+                          : qualifiedAsBestThird
+                            ? "Third place is through."
+                            : "The knockout road is open."}
+                      </h2>
+                      {qualifiedAsBestThird && (
+                        <span className={styles.thirdPlaceNotice}>
+                          <b>3RD</b>
+                          <span>ONE OF THE 8 BEST THIRD-PLACE TEAMS</span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 )}
-              </div>
-            </section>
+                <div className={styles.quickActions}>
+                  {run.status === "eliminated" && deferredElimination ? (
+                    <Button onClick={() => setDeferredElimination(false)}>
+                      NEXT <ArrowRight size={15} />
+                    </Button>
+                  ) : run.qualificationStatus === "qualified" ? (
+                    <Button onClick={enterKnockouts}>
+                      ENTER ROUND OF 32 <ArrowRight size={15} />
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={() => animateQuickSimulation(simulateMatch)}
+                        disabled={!nextFixture}
+                      >
+                        <Play size={14} fill="currentColor" /> SIMULATE MATCH
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => animateQuickSimulation(simulateGroup)}
+                      >
+                        <Users size={15} /> SIMULATE GROUP
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </section>
+
+              <section className={`${styles.panel} ${styles.groupRoadPanel}`}>
+                <div className={styles.panelTopline}>
+                  <span>ROAD TO THE KNOCKOUTS</span>
+                  <b>3 GROUP MATCHES</b>
+                </div>
+                <div className={styles.groupRoad}>
+                  {userGroupRoad.map((fixture) => {
+                    const opponentId =
+                      fixture.homeTeamId === run.userTeamId
+                        ? fixture.awayTeamId
+                        : fixture.homeTeamId;
+                    const opponent = teams.get(opponentId)!;
+                    const isNext = nextFixture?.id === fixture.id;
+
+                    let roadState = "upcoming";
+                    let roadLabel = isNext ? "NEXT" : "UPCOMING";
+
+                    if (fixture.result) {
+                      const userGoals =
+                        fixture.homeTeamId === run.userTeamId
+                          ? fixture.result.homeGoals
+                          : fixture.result.awayGoals;
+                      const opponentGoals =
+                        fixture.homeTeamId === run.userTeamId
+                          ? fixture.result.awayGoals
+                          : fixture.result.homeGoals;
+
+                      roadState =
+                        userGoals > opponentGoals
+                          ? "win"
+                          : userGoals < opponentGoals
+                            ? "loss"
+                            : "draw";
+                      roadLabel =
+                        roadState === "win" ? "W" : roadState === "loss" ? "L" : "D";
+                    }
+
+                    return (
+                      <div
+                        key={fixture.id}
+                        className={styles.groupRoadStep}
+                        data-current={isNext}
+                        data-complete={Boolean(fixture.result)}
+                        title={opponent.name}
+                      >
+                        <small>MD {fixture.matchday}</small>
+                        <span>{flagForCountry(opponent.countryCode)}</span>
+                        <strong>{opponent.countryCode}</strong>
+                        <i data-result={roadState}>{roadLabel}</i>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            </div>
 
             <section className={`${styles.panel} ${styles.standingsPanel}`}>
               <div className={styles.panelTopline}>
@@ -405,43 +614,47 @@ export default function WorldCupRunPage() {
                 <span>POS</span><span>TEAM</span><span>P</span><span>GD</span><span>PTS</span>
               </div>
               <div className={styles.tableBody}>
-                {groupStandings.map((standing) => {
+                {groupStandings.map((standing, index) => {
                   const team = teams.get(standing.teamId)!;
                   const isBestThirdQualifier =
-                    qualifiedAsBestThird && standing.teamId === run.userTeamId;
+                    standing.rank === 3 &&
+                    bestThirdQualifierIds.has(standing.teamId);
+
                   return (
-                    <div
-                      key={standing.teamId}
-                      className={styles.tableRow}
-                      data-user={standing.teamId === run.userTeamId}
-                      data-changed={changedTeams.includes(standing.teamId)}
-                      data-movement={teamMovements[standing.teamId]}
-                      data-qualified={standing.rank <= 2 || isBestThirdQualifier}
-                      data-best-third={isBestThirdQualifier}
-                    >
-                      <b>{standing.rank}</b>
-                      <span className={styles.tableTeam}>
-                        <i>{flagForCountry(team.countryCode)}</i>
-                        <strong>{team.name}</strong>
-                        <small className={isBestThirdQualifier ? styles.bestThirdTag : ""}>
-                          {isBestThirdQualifier ? "BEST 3RD · THROUGH" : team.countryCode}
-                        </small>
-                      </span>
-                      <span>{standing.played}</span>
-                      <span>{standing.goalDifference > 0 ? "+" : ""}{standing.goalDifference}</span>
-                      <b>{standing.points}</b>
-                    </div>
+                    <Fragment key={standing.teamId}>
+                      {index === 2 && (
+                        <div
+                          className={styles.autoQualificationBreak}
+                          aria-label="Automatic qualification line"
+                        >
+                          <span />
+                          <b>AUTOMATIC QUALIFICATION</b>
+                          <span />
+                        </div>
+                      )}
+                      <div
+                        className={styles.tableRow}
+                        data-user={standing.teamId === run.userTeamId}
+                        data-changed={changedTeams.includes(standing.teamId)}
+                        data-movement={teamMovements[standing.teamId]}
+                        data-qualified={standing.rank <= 2 || isBestThirdQualifier}
+                        data-best-third={isBestThirdQualifier}
+                      >
+                        <b>{standing.rank}</b>
+                        <span className={styles.tableTeam}>
+                          <i>{flagForCountry(team.countryCode)}</i>
+                          <strong>{team.name}</strong>
+                          <small className={isBestThirdQualifier ? styles.bestThirdTag : ""}>
+                            {isBestThirdQualifier ? "BEST 3RD · THROUGH" : team.countryCode}
+                          </small>
+                        </span>
+                        <span>{standing.played}</span>
+                        <span>{standing.goalDifference > 0 ? "+" : ""}{standing.goalDifference}</span>
+                        <b>{standing.points}</b>
+                      </div>
+                    </Fragment>
                   );
                 })}
-              </div>
-              <div className={styles.qualificationLine}>
-                <span />
-                <b>
-                  {qualifiedAsBestThird
-                    ? "BEST THIRD-PLACE QUALIFICATION SECURED"
-                    : "QUALIFICATION LINE"}
-                </b>
-                <span />
               </div>
             </section>
 
@@ -472,23 +685,88 @@ export default function WorldCupRunPage() {
                 </p>
                 <h2>
                   {run.currentStage === "final"
-                    ? `One match from immortality.`
+                    ? "THE WORLD CUP FINAL"
                     : userLostCurrentFixture
-                      ? "The score is final."
+                      ? "THE RUN ENDS HERE"
                       : userCurrentFixture?.result
-                      ? "Your place is secured. Complete the round."
-                      : `${stageLabels[run.currentStage]} showdown`}
+                        ? "ADVANCEMENT SECURED"
+                        : `${stageLabels[run.currentStage]} MATCH`}
                 </h2>
               </div>
               {userCurrentFixture && (
                 <div className={styles.routeFixture}>
-                  <span>{flagForCountry(teams.get(userCurrentFixture.homeTeamId)!.countryCode)} {teams.get(userCurrentFixture.homeTeamId)!.name}</span>
-                  <b>
-                    {userCurrentFixture.result
-                      ? `${userCurrentFixture.result.homeGoals} – ${userCurrentFixture.result.awayGoals}`
-                      : "VS"}
-                  </b>
-                  <span>{flagForCountry(teams.get(userCurrentFixture.awayTeamId)!.countryCode)} {teams.get(userCurrentFixture.awayTeamId)!.name}</span>
+                  <div
+                    className={styles.routeTeam}
+                    data-user={userCurrentFixture.homeTeamId === run.userTeamId}
+                  >
+                    <span>
+                      {flagForCountry(teams.get(userCurrentFixture.homeTeamId)!.countryCode)}
+                      <strong>{teams.get(userCurrentFixture.homeTeamId)!.name}</strong>
+                    </span>
+                    <small>
+                      {teams.get(userCurrentFixture.homeTeamId)!.countryCode}
+                      <i>·</i>
+                      <b>{teams.get(userCurrentFixture.homeTeamId)!.rating} OVR</b>
+                    </small>
+                  </div>
+
+                  <div className={styles.routeResult}>
+                    <b className={styles.routeScore}>
+                      {userCurrentFixture.result
+                        ? `${userCurrentFixture.result.homeGoals} – ${userCurrentFixture.result.awayGoals}`
+                        : "VS"}
+                    </b>
+                    {(() => {
+                      const penalties = userCurrentFixture.result?.penalties;
+                      if (!penalties) {
+                        return (
+                          <span
+                            className={styles.routePenaltyResult}
+                            data-empty="true"
+                            aria-hidden
+                          >
+                            NO SHOOTOUT
+                          </span>
+                        );
+                      }
+
+                      const userAtHome =
+                        userCurrentFixture.homeTeamId === run.userTeamId;
+                      const userPenalties = userAtHome
+                        ? penalties[0]
+                        : penalties[1];
+                      const opponentPenalties = userAtHome
+                        ? penalties[1]
+                        : penalties[0];
+                      const wonShootout =
+                        winnerFor(userCurrentFixture) === run.userTeamId;
+
+                      return (
+                        <span
+                          className={styles.routePenaltyResult}
+                          data-result={wonShootout ? "win" : "loss"}
+                          aria-label={`${wonShootout ? "Won" : "Lost"} ${userPenalties}–${opponentPenalties} on penalties`}
+                        >
+                          ({userPenalties}–{opponentPenalties})
+                        </span>
+                      );
+                    })()}
+                  </div>
+
+                  <div
+                    className={styles.routeTeam}
+                    data-user={userCurrentFixture.awayTeamId === run.userTeamId}
+                  >
+                    <span>
+                      {flagForCountry(teams.get(userCurrentFixture.awayTeamId)!.countryCode)}
+                      <strong>{teams.get(userCurrentFixture.awayTeamId)!.name}</strong>
+                    </span>
+                    <small>
+                      {teams.get(userCurrentFixture.awayTeamId)!.countryCode}
+                      <i>·</i>
+                      <b>{teams.get(userCurrentFixture.awayTeamId)!.rating} OVR</b>
+                    </small>
+                  </div>
                 </div>
               )}
               <div className={styles.quickActions}>
@@ -498,6 +776,7 @@ export default function WorldCupRunPage() {
                   </Button>
                 ) : run.currentStage === "final" && nextFixture && finalOpponent ? (
                   <Button
+                    className={styles.championshipAction}
                     onClick={() => {
                       continueWorldCupRun();
                       router.push("/match");
@@ -518,7 +797,7 @@ export default function WorldCupRunPage() {
                       onClick={() => animateQuickSimulation(simulateRound)}
                       disabled={!currentRoundPending}
                     >
-                      <Sparkles size={15} /> SIMULATE ROUND
+                      <FastForward size={15} fill="currentColor" /> SIMULATE ROUND
                     </Button>
                   </>
                 )}
@@ -555,6 +834,7 @@ type Team = {
   id: string;
   name: string;
   countryCode: string;
+  rating: number;
 };
 
 function TeamIdentity({ team, home = false }: { team: Team; home?: boolean }) {
@@ -565,7 +845,13 @@ function TeamIdentity({ team, home = false }: { team: Team; home?: boolean }) {
       style={{ "--nation-accent": accentFor(team.countryCode) } as CSSProperties}
     >
       <span>{flagForCountry(team.countryCode)}</span>
-      <div><strong>{team.name}</strong><small>{team.countryCode}</small></div>
+      <div>
+        <strong>{team.name}</strong>
+        <small>
+          <span>{team.countryCode}</span>
+          <b>{team.rating} OVR</b>
+        </small>
+      </div>
     </div>
   );
 }
@@ -590,9 +876,13 @@ function CompactFixture({
       data-user={[fixture.homeTeamId, fixture.awayTeamId].includes(userTeamId)}
     >
       <small>MD {fixture.matchday}</small>
-      <span>{flagForCountry(home.countryCode)} {home.name}</span>
+      <span data-user-team={home.id === userTeamId}>
+        {flagForCountry(home.countryCode)} {home.name}
+      </span>
       <b>{fixture.result ? `${fixture.result.homeGoals}–${fixture.result.awayGoals}` : "—"}</b>
-      <span>{flagForCountry(away.countryCode)} {away.name}</span>
+      <span data-user-team={away.id === userTeamId}>
+        {flagForCountry(away.countryCode)} {away.name}
+      </span>
     </article>
   );
 }
@@ -667,10 +957,19 @@ function FullBracket({
         <span>THE DECIDER</span>
       </header>
 
-      <div className={styles.finalStage}>
-        <span className={styles.finalTrophy} aria-hidden>
-          <Trophy size={25} />
-        </span>
+      <div
+        className={styles.finalStage}
+        data-ready={Boolean(finalFixture)}
+      >
+        <div className={styles.finalTrophyPresentation} aria-hidden>
+          <div className={styles.finalTrophyHalo} />
+          <div className={styles.finalTrophyBaseGlow} />
+          <img
+            src={worldCupImage.src}
+            alt=""
+            className={styles.finalTrophyImage}
+          />
+        </div>
 
         <BracketSlot
           stage="final"
@@ -719,8 +1018,20 @@ function BracketSlot({
 }) {
   const previousStage = previousKnockoutStage[stage];
   const firstFeeder = index * 2 + 1;
+  const involvesUser = Boolean(
+    fixture && [fixture.homeTeamId, fixture.awayTeamId].includes(userTeamId),
+  );
+  const userAdvanced = Boolean(
+    fixture?.result && winnerFor(fixture) === userTeamId,
+  );
+
   return (
-    <div className={styles.bracketSlot} data-side={side}>
+    <div
+      className={styles.bracketSlot}
+      data-side={side}
+      data-user={involvesUser}
+      data-user-advanced={userAdvanced}
+    >
       {fixture ? (
         <BracketFixture
           fixture={fixture}

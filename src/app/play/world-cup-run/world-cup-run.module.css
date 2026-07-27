@@ -31,27 +31,232 @@
 
 .launch {
   align-items: center;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 4.25rem);
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.9fr);
   min-height: calc(100svh - 72px);
-  justify-content: center;
-  padding-block: 3rem;
+  padding: clamp(1.5rem, 3.8vw, 4rem) clamp(0.8rem, 2.6vw, 2rem);
   position: relative;
-  text-align: center;
   z-index: 1;
 }
 
-.launch h1 {
-  font-size: clamp(2.8rem, 7vw, 5.7rem);
-  letter-spacing: -0.065em;
-  margin: 0.55rem 0;
+.launchBackdrop {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
 }
 
-.launch > p:last-of-type {
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin-bottom: 1.6rem;
-  max-width: 680px;
+.launchBackdrop::before {
+  background:
+    radial-gradient(circle at 72% 45%, rgba(228, 187, 77, 0.12), transparent 28%),
+    radial-gradient(circle at 28% 12%, rgba(228, 187, 77, 0.08), transparent 24%);
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.launchBackdrop > span {
+  display: none;
+}
+
+.launchContent,
+.launchVisual {
+  position: relative;
+  z-index: 1;
+}
+
+.launchContent {
+  max-width: 650px;
+}
+
+.launchKicker {
+  align-items: center;
+  display: inline-grid;
+  gap: 10px;
+  grid-template-columns: 42px auto 42px;
+}
+
+.launchKicker p {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.launchKicker i {
+  display: block;
+  height: 1px;
+}
+
+.launchKicker i:first-child {
+  background: linear-gradient(90deg, transparent, rgba(229, 188, 78, 0.86));
+}
+
+.launchKicker i:last-child {
+  background: linear-gradient(90deg, rgba(229, 188, 78, 0.86), transparent);
+}
+
+.launchHeadline {
+  color: #f2efe6;
+  display: grid;
+  font-size: clamp(3.4rem, 7vw, 6.8rem);
+  font-weight: 760;
+  letter-spacing: -0.075em;
+  line-height: 0.86;
+  margin: 1rem 0 1.2rem;
+}
+
+.launchHeadline span {
+  color: #dfba4f;
+  text-shadow:
+    0 0 16px rgba(230, 188, 78, 0.12),
+    0 0 40px rgba(230, 188, 78, 0.08);
+}
+
+.launchSubhead {
+  color: #9ea49d;
+  font-size: clamp(0.98rem, 1.4vw, 1.08rem);
+  line-height: 1.75;
+  margin: 0;
+  max-width: 590px;
+}
+
+.launchMeta {
+  align-items: center;
+  color: #a39a7b;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.launchMeta span {
+  color: #b8aa7b;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+}
+
+.launchMeta i {
+  background: rgba(228, 187, 77, 0.72);
+  border-radius: 50%;
+  display: block;
+  height: 5px;
+  width: 5px;
+}
+
+.launchActions {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1.1rem;
+}
+
+.launchActions > button {
+  box-shadow:
+    0 0 30px rgba(228, 187, 77, 0.12),
+    inset 0 1px rgba(255, 255, 255, 0.24);
+  min-height: 56px;
+  padding-inline: 1.5rem;
+}
+
+.launchVisual {
+  align-items: center;
+  display: grid;
+  justify-items: center;
+  min-height: min(72vh, 700px);
+  padding-top: 1.2rem;
+}
+
+.prizeEyebrow {
+  align-items: center;
+  color: #ae8d46;
+  display: inline-grid;
+  gap: 10px;
+  grid-template-columns: 56px auto 56px;
+  margin-bottom: 1.2rem;
+  white-space: nowrap;
+}
+
+.prizeEyebrow span {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.46rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.prizeEyebrow i {
+  display: block;
+  height: 1px;
+}
+
+.prizeEyebrow i:first-child {
+  background: linear-gradient(90deg, transparent, rgba(229, 188, 78, 0.92));
+}
+
+.prizeEyebrow i:last-child {
+  background: linear-gradient(90deg, rgba(229, 188, 78, 0.92), transparent);
+}
+
+.trophyStage {
+  align-items: end;
+  aspect-ratio: 0.84;
+  display: grid;
+  justify-items: center;
+  position: relative;
+  width: min(31vw, 410px);
+}
+
+.trophyGlow {
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 224, 128, 0.14), rgba(230, 185, 70, 0.05) 36%, transparent 72%);
+  border-radius: 50%;
+  filter: blur(8px);
+  inset: 12% 8% 8%;
+  position: absolute;
+}
+
+.trophyAura {
+  background:
+    radial-gradient(ellipse at center, rgba(249, 215, 112, 0.55) 0%, rgba(244, 197, 76, 0.34) 24%, rgba(215, 158, 42, 0.16) 42%, transparent 72%);
+  bottom: 5%;
+  filter: blur(14px);
+  height: 28%;
+  left: 14%;
+  opacity: 0.92;
+  position: absolute;
+  width: 72%;
+  z-index: 1;
+}
+
+.trophyBeam {
+  display: none;
+}
+
+.worldCupImage {
+  animation: trophyFloat 5.8s ease-in-out infinite;
+  filter:
+    drop-shadow(0 22px 32px rgba(0, 0, 0, 0.56))
+    drop-shadow(0 0 24px rgba(227, 184, 71, 0.18));
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  position: relative;
+  width: min(100%, 360px);
+  z-index: 2;
+}
+
+@keyframes trophyFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .trophy,
@@ -83,10 +288,37 @@
   min-height: 58px;
 }
 
-.titleLockup {
+.header[data-final="true"] {
+  min-height: 30px;
+}
+
+.header[data-final="true"] .titleLockup {
   align-items: center;
+}
+
+.header[data-final="true"] .titleLockup > div {
+  gap: 0;
+}
+
+.header[data-final="true"] .titleLockup p {
+  line-height: 1;
+}
+
+.main[data-final="true"] {
+  gap: 0.48rem;
+  padding-block: 0.28rem 1.35rem;
+}
+
+.titleLockup {
+  align-items: flex-start;
   display: flex;
   gap: 0.8rem;
+}
+
+.titleLockup > div {
+  display: grid;
+  align-content: start;
+  gap: 0.12rem;
 }
 
 .titleLockup h1 {
@@ -104,6 +336,7 @@
   flex: 0 0 auto;
   height: 44px;
   width: 44px;
+  margin-top: 0.12rem;
 }
 
 .headerStatus {
@@ -167,7 +400,7 @@
 
 .progress > div {
   align-items: center;
-  color: #53605d;
+  color: #626d69;
   display: flex;
   gap: 0.55rem;
   justify-content: center;
@@ -210,23 +443,57 @@
 }
 
 .progress > div[data-active="true"] {
-  background: linear-gradient(90deg, transparent, rgba(229, 185, 74, 0.12), transparent);
-  color: #f0c95f;
-  text-shadow: 0 0 16px rgba(241, 199, 82, 0.38);
+  background: linear-gradient(90deg, transparent, rgba(229, 185, 74, 0.075), transparent);
+  color: #f4d86b;
+  text-shadow:
+    0 0 6px rgba(244, 216, 107, 0.58),
+    0 0 14px rgba(231, 189, 77, 0.24);
 }
 
 .progress > div[data-active="true"] span {
-  background: #e1b63f;
-  border-color: #ffe09a;
-  box-shadow: 0 0 19px rgba(225, 182, 63, 0.48);
+  background: #e7bd4d;
+  border-color: #ffe69a;
+  box-shadow:
+    inset 0 1px rgba(255, 241, 184, 0.34),
+    0 0 7px rgba(244, 216, 107, 0.6),
+    0 0 16px rgba(231, 189, 77, 0.28);
   color: #151006;
+  text-shadow: none;
+}
+
+.progress > div[data-active="true"] b {
+  color: #f4d86b;
+  text-shadow:
+    0 0 6px rgba(244, 216, 107, 0.58),
+    0 0 13px rgba(231, 189, 77, 0.22);
 }
 
 .groupDashboard {
+  align-items: start;
   display: grid;
   gap: 0.72rem;
   grid-template-columns: minmax(0, 1.02fr) minmax(0, 1.06fr) minmax(280px, 0.82fr);
+  height: 100%;
   min-height: 0;
+}
+
+.groupPrimaryRail {
+  align-content: start;
+  display: grid;
+  gap: 0.72rem;
+  min-width: 0;
+}
+
+.groupDashboard .panel {
+  border-color: rgba(224, 181, 72, 0.12);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.17),
+    inset 0 1px rgba(255, 255, 255, 0.022),
+    inset 0 0 34px rgba(1, 17, 13, 0.2);
+}
+
+.groupDashboard .fixturesPanel {
+  border-color: rgba(224, 181, 72, 0.16);
 }
 
 .panel {
@@ -283,7 +550,7 @@
 
 .nextPanel {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(clamp(205px, 25vh, 250px), auto) auto;
 }
 
 .nextPanel::before {
@@ -303,7 +570,8 @@
   display: grid;
   gap: 0.6rem;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  padding: 1.3rem 1rem 0.8rem;
+  min-height: clamp(205px, 25vh, 250px);
+  padding: 1rem 1rem 0.8rem;
   position: relative;
 }
 
@@ -323,7 +591,9 @@
     rgba(255, 255, 255, 0.025);
   border: 1px solid color-mix(in srgb, var(--nation-accent) 48%, transparent);
   border-radius: 50%;
-  box-shadow: 0 0 28px color-mix(in srgb, var(--nation-accent) 18%, transparent);
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--nation-accent) 24%, transparent),
+    0 0 38px color-mix(in srgb, var(--nation-accent) 12%, transparent);
   display: flex;
   font-size: clamp(2.3rem, 4vw, 4rem);
   height: clamp(78px, 9vw, 116px);
@@ -334,7 +604,9 @@
 .teamIdentity[data-home="true"] > span {
   background: radial-gradient(circle, rgba(235, 194, 84, 0.24), transparent 68%);
   border-color: rgba(237, 197, 91, 0.55);
-  box-shadow: 0 0 32px rgba(229, 185, 74, 0.15);
+  box-shadow:
+    0 0 18px rgba(229, 185, 74, 0.24),
+    0 0 38px rgba(229, 185, 74, 0.12);
 }
 
 .teamIdentity strong {
@@ -346,10 +618,25 @@
 }
 
 .teamIdentity small {
+  align-items: center;
   color: var(--text-muted);
+  display: flex;
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.16em;
+  font-size: 0.56rem;
+  gap: 0.45rem;
+  justify-content: center;
+  letter-spacing: 0.12em;
+}
+
+.teamIdentity small b {
+  color: #c8aa55;
+  font-size: inherit;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.teamIdentity[data-home="true"] small b {
+  color: #e5c45f;
 }
 
 .versus {
@@ -395,18 +682,29 @@
 }
 
 .qualifiedHero {
-  align-items: center;
-  align-self: center;
+  align-self: stretch;
   color: var(--gold);
-  display: flex;
-  gap: 1rem;
-  justify-self: center;
-  padding: 2rem;
+  display: grid;
+  min-height: clamp(205px, 25vh, 250px);
+  padding: 1rem 1.15rem 0.8rem;
+  place-items: center;
+}
+
+.qualifiedHeroContent {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: start;
+  max-width: 360px;
+  width: 100%;
 }
 
 .qualifiedHero h2 {
   color: var(--text-primary);
-  margin-top: 0.25rem;
+  margin: 0;
+}
+
+.qualifiedHero .eyebrow {
+  margin: 0;
 }
 
 .thirdPlaceNotice {
@@ -440,8 +738,9 @@
 }
 
 .standingsPanel {
+  align-self: start;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto auto;
 }
 
 .tableHead,
@@ -475,7 +774,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.055);
   font-family: var(--font-mono);
   font-size: 0.67rem;
-  min-height: 64px;
+  min-height: 58px;
   padding: 0.5rem 0.25rem;
   position: relative;
   text-align: center;
@@ -503,9 +802,13 @@
 }
 
 .tableRow[data-best-third="true"] {
+  background: linear-gradient(90deg, rgba(73, 194, 139, 0.08), transparent 62%);
+  box-shadow: inset 0 0 20px rgba(69, 190, 135, 0.025);
+}
+
+.tableRow[data-best-third="true"][data-user="true"] {
   background:
-    linear-gradient(90deg, rgba(73, 194, 139, 0.16), rgba(223, 181, 70, 0.075) 58%, transparent);
-  box-shadow: inset 0 0 24px rgba(69, 190, 135, 0.045);
+    linear-gradient(90deg, rgba(73, 194, 139, 0.13), rgba(223, 181, 70, 0.075) 58%, transparent);
 }
 
 .tableRow[data-changed="true"] {
@@ -581,9 +884,139 @@
   background: linear-gradient(90deg, currentColor, transparent);
 }
 
+
+/* Group-stage hierarchy: compact content instead of vertically stretched cards. */
+.nextPanel .quickActions {
+  justify-content: stretch;
+}
+
+.nextPanel .quickActions > button {
+  flex: 1 1 0;
+}
+
+.autoQualificationBreak {
+  align-items: center;
+  color: #6db18f;
+  display: grid;
+  font-family: var(--font-mono);
+  font-size: 0.44rem;
+  gap: 0.5rem;
+  grid-template-columns: 1fr auto 1fr;
+  letter-spacing: 0.09em;
+  min-height: 28px;
+  padding: 0 0.45rem;
+}
+
+.autoQualificationBreak span {
+  background: linear-gradient(90deg, transparent, currentColor);
+  height: 1px;
+  opacity: 0.34;
+}
+
+.autoQualificationBreak span:last-child {
+  background: linear-gradient(90deg, currentColor, transparent);
+}
+
+.autoQualificationBreak b {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.groupRoadPanel {
+  display: grid;
+  grid-template-rows: auto auto;
+}
+
+.groupRoad {
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 0.7rem 0.65rem 0.75rem;
+}
+
+.groupRoadStep {
+  align-content: center;
+  display: grid;
+  gap: 0.16rem;
+  justify-items: center;
+  min-height: 76px;
+  padding: 0.15rem 0.45rem;
+  position: relative;
+}
+
+.groupRoadStep:not(:last-child)::after {
+  background: linear-gradient(90deg, rgba(227, 184, 71, 0.34), rgba(227, 184, 71, 0.08));
+  content: "";
+  height: 1px;
+  position: absolute;
+  right: -16%;
+  top: 48%;
+  width: 32%;
+}
+
+.groupRoadStep small,
+.groupRoadStep i {
+  color: #59635f;
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  min-width: 14px;
+  text-align: center;
+}
+
+/* Match the draft chemistry +/- treatment: color + restrained luminous text only.
+   No pill, border, background, or badge surface. */
+.groupRoadStep i[data-result="upcoming"] {
+  color: #59635f;
+  font-size: 0.4rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-shadow: none;
+}
+
+.groupRoadStep i[data-result="win"] {
+  color: #6fe0b6;
+  text-shadow:
+    0 0 6px rgba(111, 224, 182, 0.58),
+    0 0 13px rgba(83, 205, 141, 0.24);
+}
+
+.groupRoadStep i[data-result="loss"] {
+  color: #e58679;
+  text-shadow:
+    0 0 6px rgba(229, 134, 121, 0.54),
+    0 0 12px rgba(217, 104, 91, 0.22);
+}
+
+.groupRoadStep i[data-result="draw"] {
+  color: #f2cc62;
+  text-shadow:
+    0 0 6px rgba(242, 204, 98, 0.52),
+    0 0 12px rgba(213, 174, 65, 0.2);
+}
+
+.groupRoadStep[data-current="true"] strong,
+.groupRoadStep[data-current="true"] i[data-result="upcoming"] {
+  color: #efc65b;
+}
+
+.groupRoadStep[data-current="true"] > span {
+  filter: drop-shadow(0 0 10px rgba(229, 185, 74, 0.2));
+}
+
+.groupRoadStep[data-complete="true"] strong {
+  color: #deddd5;
+}
+
 .fixturesPanel {
+  align-self: stretch;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
 }
 
 .fixtureList {
@@ -604,7 +1037,9 @@
   gap: 0.42rem;
   grid-template-columns: 30px minmax(0, 1fr) auto minmax(0, 1fr);
   min-height: 61px;
+  overflow: hidden;
   padding: 0.55rem 0.65rem;
+  position: relative;
 }
 
 .compactFixture small {
@@ -630,7 +1065,24 @@
 }
 
 .compactFixture[data-user="true"] {
-  border-color: rgba(225, 183, 72, 0.18);
+  background:
+    linear-gradient(90deg, rgba(225, 183, 72, 0.075), transparent 34%),
+    rgba(255, 255, 255, 0.022);
+  border-color: rgba(225, 183, 72, 0.24);
+}
+
+.compactFixture[data-user="true"]::before {
+  background: linear-gradient(180deg, #f0c95f, #9f7820);
+  box-shadow: 0 0 12px rgba(225, 183, 72, 0.28);
+  content: "";
+  inset: 14% auto 14% 0;
+  position: absolute;
+  width: 2px;
+}
+
+.compactFixture span[data-user-team="true"] {
+  color: #e8d59a;
+  font-weight: 700;
 }
 
 .compactFixture[data-revealed="true"] {
@@ -651,52 +1103,208 @@
 .routePanel {
   align-items: center;
   background:
-    linear-gradient(90deg, rgba(216, 169, 52, 0.105), transparent 40%),
-    radial-gradient(circle at 80% 50%, rgba(24, 117, 92, 0.09), transparent 32%),
-    rgba(3, 8, 7, 0.88);
+    linear-gradient(90deg, rgba(216, 169, 52, 0.075), transparent 34%),
+    rgba(3, 8, 7, 0.9);
   display: grid;
-  gap: 0.7rem;
-  grid-template-columns: minmax(210px, 0.7fr) minmax(300px, 1fr) auto;
-  min-height: 72px;
-  padding: 0.45rem 0.8rem;
+  gap: clamp(0.8rem, 1.4vw, 1.5rem);
+  grid-template-columns: minmax(235px, 0.58fr) minmax(430px, 1.42fr) 360px;
+  height: 78px;
+  min-height: 78px;
+  max-height: 78px;
+  overflow: hidden;
+  padding: 0.55rem 1rem 0.55rem 0.85rem;
 }
 
 
 .routePanel h2 {
-  font-size: clamp(0.95rem, 1.6vw, 1.35rem);
-  margin: 0.1rem 0 0;
+  color: #ece9df;
+  font-size: clamp(0.92rem, 1.22vw, 1.08rem);
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  margin: 0.16rem 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 
 .routePanel .quickActions {
   border: 0;
-  gap: 0.4rem;
-  padding: 0;
+  box-sizing: border-box;
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-content: stretch;
+  padding: 0 0.55rem 0 0;
+  width: 360px;
 }
 
 .routePanel .quickActions > button {
-  min-height: 32px;
-  padding-block: 0.35rem;
+  gap: 6px;
+  min-height: 40px;
+  min-width: 0;
+  padding: 0 0.72rem;
+  width: 100%;
+  font-size: 0.72rem;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
 }
+
+.routePanel .quickActions > button svg {
+  flex: 0 0 auto;
+  height: 14px;
+  width: 14px;
+}
+
+
+/*
+  When a knockout loss swaps the two simulation buttons for a single NEXT
+  action, keep it in the right-hand slot. The action rail therefore stays the
+  exact same width and the matchup/score never moves.
+*/
+.routePanel .quickActions > button:only-child:not(.championshipAction) {
+  grid-column: 2;
+  justify-self: end;
+  width: calc(100% - 0.2rem);
+}
+
+/* The final CTA is intentionally wider than NEXT. The outer action rail stays
+   fixed at 360px, so using both internal columns does not move the matchup. */
+.routePanel .quickActions > button.championshipAction {
+  grid-column: 1 / -1;
+  justify-self: end;
+  max-width: none;
+  width: 258px;
+}
+
+.routePanel .quickActions > button.championshipAction {
+  font-size: 0.68rem;
+  gap: 7px;
+  padding-inline: 1rem;
+}
+
 
 .routeFixture {
   align-items: center;
   display: grid;
-  gap: 0.75rem;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: clamp(0.7rem, 1.2vw, 1.15rem);
+  grid-template-columns: minmax(0, 1fr) 92px minmax(0, 1fr);
+  height: 100%;
+  min-width: 0;
   text-align: center;
 }
 
-.routeFixture span {
-  font-size: 0.82rem;
-  font-weight: 650;
+.routeTeam {
+  align-content: center;
+  display: grid;
+  gap: 0.28rem;
+  min-width: 0;
 }
 
-.routeFixture b {
+.routeTeam:first-child {
+  justify-items: end;
+  text-align: right;
+}
+
+.routeTeam:last-child {
+  justify-items: start;
+  text-align: left;
+}
+
+.routeTeam > span {
+  align-items: center;
+  display: flex;
+  font-size: clamp(0.9rem, 1.08vw, 1.05rem);
+  font-weight: 680;
+  gap: 0.38rem;
+  min-width: 0;
+}
+
+.routeTeam > span strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.routeTeam > small {
+  align-items: baseline;
+  color: #68736f;
+  display: flex;
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  gap: 0.32rem;
+  letter-spacing: 0.09em;
+}
+
+.routeTeam > small i {
+  color: #756538;
+  font-style: normal;
+}
+
+.routeTeam > small b {
+  color: #d1ae50;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-shadow: 0 0 10px rgba(209, 174, 80, 0.12);
+}
+
+.routeTeam[data-user="true"] > span strong {
+  color: #f0d36f;
+  text-shadow:
+    0 0 7px rgba(240, 211, 111, 0.28),
+    0 0 16px rgba(225, 183, 72, 0.11);
+}
+
+.routeTeam[data-user="true"] > small b {
+  color: #e9c75e;
+}
+
+.routeResult {
+  align-items: center;
+  display: grid;
+  gap: 0.18rem;
+  grid-template-rows: 25px 11px;
+  justify-items: center;
+  min-height: 38px;
+  min-width: 92px;
+}
+
+.routeScore {
   color: #f0ca65;
   font-family: var(--font-mono);
-  font-size: 1.25rem;
-  text-shadow: 0 0 18px rgba(226, 180, 62, 0.28);
+  font-size: 1.18rem;
+  text-shadow:
+    0 0 7px rgba(240, 202, 101, 0.44),
+    0 0 18px rgba(226, 180, 62, 0.18);
+}
+
+.routePenaltyResult {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  min-height: 11px;
+  white-space: nowrap;
+}
+
+.routePenaltyResult[data-empty="true"] {
+  visibility: hidden;
+}
+
+.routePenaltyResult[data-result="win"] {
+  color: #6fe0b6;
+  text-shadow:
+    0 0 6px rgba(111, 224, 182, 0.58),
+    0 0 13px rgba(83, 205, 141, 0.24);
+}
+
+.routePenaltyResult[data-result="loss"] {
+  color: #e58679;
+  text-shadow:
+    0 0 6px rgba(229, 134, 121, 0.54),
+    0 0 12px rgba(217, 104, 91, 0.22);
 }
 
 
@@ -830,14 +1438,15 @@
   width: 100%;
 }
 
-.fullBracket::before {
-  background:
-    radial-gradient(circle at 50% 50%, rgba(231, 186, 65, 0.12), transparent 12%),
-    linear-gradient(90deg, transparent, rgba(224, 180, 64, 0.035) 50%, transparent);
-  content: "";
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
+.fullBracket::before,
+.fullBracket::after {
+  display: none;
+}
+
+.bracketRound,
+.finalColumn {
+  overflow: visible;
+  z-index: 1;
 }
 
 
@@ -853,7 +1462,7 @@
 .bracketRound > header,
 .finalColumn > header {
   align-items: center;
-  color: #6f7976;
+  color: #7b8581;
   display: flex;
   font-family: var(--font-mono);
   justify-content: space-between;
@@ -928,18 +1537,18 @@
 .bracketRound[data-side="left"]:not([data-stage="round-of-32"]) .bracketSlot::before,
 
 .bracketRound[data-side="right"]:not([data-stage="round-of-32"]) .bracketSlot::after {
-  border-right: 1px solid rgba(224, 185, 79, 0.42);
+  border-right: 1px solid rgba(224, 185, 79, 0.50);
   right: -6px;
 }
 
 
 .bracketRound[data-side="left"]:not([data-stage="round-of-32"]) .bracketSlot::before {
-  border-left: 1px solid rgba(224, 185, 79, 0.42);
+  border-left: 1px solid rgba(224, 185, 79, 0.50);
   left: -6px;
 }
 
 .bracketRound[data-side="right"]:not([data-stage="round-of-32"]) .bracketSlot::after {
-  border-right: 1px solid rgba(224, 185, 79, 0.42);
+  border-right: 1px solid rgba(224, 185, 79, 0.50);
   right: -0.75rem;
 }
 
@@ -948,9 +1557,9 @@
   background:
     linear-gradient(115deg, rgba(225, 183, 75, 0.025), transparent 45%),
     rgba(255, 255, 255, 0.012);
-  border: 1px dashed rgba(222, 183, 84, 0.14);
+  border: 1px dashed rgba(222, 183, 84, 0.20);
   border-radius: 6px;
-  color: #53605d;
+  color: #626d69;
   display: grid;
   gap: 1px;
   min-width: 0;
@@ -959,6 +1568,7 @@
 
 
 .bracketPlaceholder > small {
+  color: #65706c;
   font-family: var(--font-mono);
   font-size: 0.35rem;
   letter-spacing: 0.06em;
@@ -976,12 +1586,13 @@
 
 
 .bracketPlaceholder > div span {
-  color: #786c46;
+  color: #8a794c;
   font-size: 0.6rem;
 }
 
 
 .bracketPlaceholder > div strong {
+  color: #66716d;
   font-family: var(--font-mono);
   font-size: clamp(0.35rem, 0.46vw, 0.5rem);
   font-weight: 500;
@@ -1001,79 +1612,185 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 100%;
+  overflow: visible;
   position: relative;
+  transform: translateY(-8px);
 }
 
-
+/*
+  A very restrained atmospheric pool behind the center.
+  It is intentionally dark: the trophy itself remains the brightest object.
+*/
 .finalStage::before {
-  background: radial-gradient(circle, rgba(230, 183, 58, 0.17), transparent 68%);
+  background:
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(211, 158, 44, 0.055) 0%,
+      rgba(151, 104, 24, 0.025) 34%,
+      transparent 70%
+    );
   content: "";
-  height: 150px;
+  filter: blur(18px);
+  height: 58%;
+  left: -18%;
   pointer-events: none;
   position: absolute;
-  width: 150px;
+  top: 20%;
+  width: 136%;
+  z-index: 0;
+}
+
+.finalStage::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(229, 184, 67, 0.045) 24%,
+    rgba(241, 201, 91, 0.08) 50%,
+    rgba(229, 184, 67, 0.045) 76%,
+    transparent
+  );
+  content: "";
+  height: 1px;
+  left: -18%;
+  pointer-events: none;
+  position: absolute;
+  top: 57%;
+  width: 136%;
+  z-index: 0;
+}
+
+.finalTrophyPresentation {
+  align-items: flex-end;
+  display: flex;
+  height: clamp(122px, 14.6vh, 164px);
+  justify-content: center;
+  margin-bottom: 0.12rem;
+  overflow: visible;
+  pointer-events: none;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.finalTrophyPresentation::after {
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 220, 113, 0.30) 0%,
+      rgba(230, 177, 47, 0.13) 34%,
+      rgba(176, 116, 18, 0.025) 62%,
+      transparent 78%
+    );
+  bottom: -3px;
+  content: "";
+  filter: blur(7px);
+  height: 15px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 72%;
+  z-index: 1;
+}
+
+.finalTrophyHalo {
+  background:
+    radial-gradient(
+      ellipse at 50% 62%,
+      rgba(249, 211, 105, 0.13) 0%,
+      rgba(224, 170, 43, 0.065) 30%,
+      rgba(154, 101, 18, 0.022) 57%,
+      transparent 76%
+    );
+  filter: blur(18px);
+  height: 132%;
+  left: 50%;
+  position: absolute;
+  top: -6%;
+  transform: translateX(-50%);
+  width: 138%;
+}
+
+.finalTrophyBaseGlow {
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 220, 111, 0.38) 0%,
+      rgba(232, 177, 45, 0.16) 30%,
+      rgba(166, 107, 15, 0.03) 60%,
+      transparent 78%
+    );
+  bottom: -1%;
+  filter: blur(11px);
+  height: 22%;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 68%;
+}
+
+.finalTrophyImage {
+  filter:
+    brightness(0.88)
+    contrast(1.08)
+    saturate(0.92)
+    drop-shadow(0 11px 15px rgba(0, 0, 0, 0.50))
+    drop-shadow(0 0 7px rgba(255, 219, 112, 0.24))
+    drop-shadow(0 0 22px rgba(222, 165, 36, 0.15));
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.98;
+  position: relative;
+  width: auto;
+  z-index: 2;
 }
 
 .finalStage > .bracketSlot {
+  margin-top: -0.08rem;
+  position: relative;
   width: 100%;
+  z-index: 2;
 }
 
+.finalStage > .bracketSlot::before,
+.finalStage > .bracketSlot::after {
+  background: linear-gradient(
+    90deg,
+    rgba(214, 169, 61, 0.18),
+    rgba(235, 194, 84, 0.58)
+  );
+  box-shadow: 0 0 8px rgba(225, 181, 68, 0.10);
+  content: "";
+  height: 1px;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  width: calc(50% + 10px);
+  z-index: -1;
+}
+
+.finalStage > .bracketSlot::before {
+  right: 100%;
+}
+
+.finalStage > .bracketSlot::after {
+  background: linear-gradient(
+    90deg,
+    rgba(235, 194, 84, 0.58),
+    rgba(214, 169, 61, 0.18)
+  );
+  left: 100%;
+}
 
 .finalStage > small {
-  color: #85713d;
+  color: #90763a;
   font-family: var(--font-mono);
   font-size: 0.34rem;
   letter-spacing: 0.09em;
-  margin-top: 0.3rem;
-}
-
-
-.finalTrophy {
-  align-items: center;
-  background: rgba(225, 179, 54, 0.08);
-  border: 1px solid rgba(236, 197, 89, 0.3);
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(223, 174, 43, 0.13);
-  color: #efc85e;
-  display: flex;
-  height: 32px;
-  justify-content: center;
-  margin-bottom: 0.35rem;
+  margin-top: 0.18rem;
   position: relative;
-  width: 32px;
-}
-
-.finalTrophy svg {
-  height: 17px;
-  width: 17px;
-}
-
-.finalColumn .bracketFixture,
-.finalColumn .bracketPlaceholder {
-  border-color: rgba(235, 195, 88, 0.34);
-  box-shadow: 0 0 30px rgba(219, 168, 36, 0.08);
-}
-
-.bracketGrid {
-  align-content: start;
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  min-height: 0;
-  overflow-y: auto;
-  padding: 0 0.8rem 0.8rem;
-  scrollbar-color: rgba(222, 180, 70, 0.28) transparent;
-}
-
-.bracketGrid[data-round="semi-final"],
-.bracketGrid[data-round="final"] {
-  align-content: center;
-  grid-template-columns: repeat(2, minmax(260px, 420px));
-  justify-content: center;
-}
-
-.bracketGrid[data-round="final"] {
-  grid-template-columns: minmax(320px, 520px);
+  text-shadow: 0 0 10px rgba(225, 183, 72, 0.08);
+  z-index: 2;
 }
 
 
@@ -1157,10 +1874,48 @@
 
 .bracketFixture[data-user="true"] {
   background:
-    linear-gradient(105deg, rgba(225, 180, 64, 0.13), transparent 52%),
-    rgba(255, 255, 255, 0.025);
-  border-color: rgba(236, 197, 92, 0.42);
-  box-shadow: 0 0 24px rgba(219, 169, 42, 0.09), inset 2px 0 rgba(236, 192, 79, 0.62);
+    linear-gradient(105deg, rgba(225, 180, 64, 0.145), transparent 52%),
+    rgba(255, 255, 255, 0.026);
+  border-color: rgba(244, 207, 104, 0.5);
+  box-shadow:
+    0 0 8px rgba(244, 207, 104, 0.18),
+    0 0 22px rgba(219, 169, 42, 0.1),
+    inset 2px 0 rgba(244, 202, 92, 0.72);
+}
+
+.bracketSlot[data-user="true"][data-side="left"]::after,
+.bracketSlot[data-user="true"][data-side="right"]::before {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 224, 126, 0.86),
+    rgba(231, 183, 64, 0.38)
+  );
+  box-shadow:
+    0 0 5px rgba(248, 210, 104, 0.55),
+    0 0 12px rgba(231, 183, 64, 0.24);
+  content: "";
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+}
+
+.bracketSlot[data-user="true"][data-side="left"]::after {
+  left: 100%;
+  right: calc(-1 * clamp(3px, 0.35vw, 6px));
+}
+
+.bracketSlot[data-user="true"][data-side="right"]::before {
+  left: calc(-1 * clamp(3px, 0.35vw, 6px));
+  right: 100%;
+}
+
+.bracketSlot[data-user-advanced="true"] .bracketFixture {
+  border-color: rgba(244, 207, 104, 0.56);
+  box-shadow:
+    0 0 7px rgba(244, 207, 104, 0.22),
+    0 0 20px rgba(219, 169, 42, 0.11),
+    inset 2px 0 rgba(244, 202, 92, 0.76);
 }
 
 .bracketFixture[data-revealed="true"] {
@@ -1263,6 +2018,115 @@
 }
 
 
+
+@media (max-width: 1080px) {
+  .launch {
+    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
+  }
+
+  .launchHeadline {
+    font-size: clamp(3rem, 6vw, 5.6rem);
+  }
+
+  .trophyStage {
+    width: min(42vw, 460px);
+  }
+}
+
+@media (max-width: 820px) {
+  .launch {
+    gap: 1.1rem;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-block: 2rem 2.8rem;
+  }
+
+  .launchContent {
+    align-items: center;
+    display: grid;
+    justify-items: center;
+    max-width: none;
+    text-align: center;
+  }
+
+  .launchSubhead {
+    max-width: 620px;
+  }
+
+  .launchMeta {
+    justify-content: center;
+  }
+
+  .launchActions {
+    align-items: center;
+  }
+
+  .launchVisual {
+    min-height: 460px;
+    order: -1;
+  }
+
+  .trophyStage {
+    width: min(74vw, 420px);
+  }
+
+  .prizeEyebrow {
+    margin-bottom: 0.7rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .launch {
+    padding-inline: 0.5rem;
+  }
+
+  .launchKicker {
+    gap: 8px;
+    grid-template-columns: 28px auto 28px;
+  }
+
+  .launchKicker p,
+  .prizeEyebrow span {
+    font-size: 0.39rem;
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.9rem, 13vw, 4.7rem);
+  }
+
+  .launchMeta {
+    gap: 0.55rem;
+  }
+
+  .launchMeta span,
+  .launchActions > p {
+    font-size: 0.39rem;
+  }
+
+  .launchActions {
+    width: 100%;
+  }
+
+  .launchActions > button {
+    width: 100%;
+  }
+
+  .launchVisual {
+    min-height: 360px;
+  }
+
+  .trophyStage {
+    width: min(84vw, 340px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .worldCupImage {
+    animation: none;
+  }
+}
+
 @media (max-height: 850px) and (min-width: 821px) {
   .main {
     gap: 0.4rem;
@@ -1291,8 +2155,10 @@
   }
 
   .routePanel {
-    min-height: 58px;
-    padding-block: 0.3rem;
+    height: 70px;
+    min-height: 70px;
+    max-height: 70px;
+    padding-block: 0.38rem;
   }
 
   .routePanel h2 {
@@ -1335,15 +2201,16 @@
     min-height: 12px;
   }
 
-  .finalTrophy {
-    height: 28px;
-    margin-bottom: 0.2rem;
-    width: 28px;
+  .finalTrophyPresentation {
+    height: 118px;
+    margin-bottom: 0.3rem;
+    width: 100%;
   }
 
-  .finalTrophy svg {
-    height: 15px;
-    width: 15px;
+  .finalTrophyImage {
+    height: 100%;
+    max-height: none;
+    width: auto;
   }
 }
 
@@ -1357,8 +2224,10 @@
   }
 
   .routePanel {
-    grid-template-columns: minmax(180px, 0.65fr) minmax(260px, 1fr) auto;
-    min-height: 50px;
+    grid-template-columns: minmax(190px, 0.55fr) minmax(380px, 1.35fr) 340px;
+    height: 64px;
+    min-height: 64px;
+    max-height: 64px;
   }
 
   .routePanel .eyebrow {
@@ -1408,7 +2277,8 @@
 
   .routePanel .quickActions {
     grid-column: 1 / -1;
-    justify-content: flex-end;
+    justify-self: end;
+    width: min(350px, 100%);
   }
 
   .bracketGrid {
@@ -1429,6 +2299,7 @@
   }
 
   .header {
+    align-items: start;
     grid-template-columns: 1fr auto;
   }
 
@@ -1455,11 +2326,42 @@
 
   .nextPanel,
   .standingsPanel {
-    min-height: 430px;
+    min-height: 0;
+  }
+
+  .fixtureHero {
+    min-height: 210px;
+  }
+
+  .qualifiedHero {
+    min-height: 210px;
+  }
+
+  .fixturesPanel {
+    height: auto;
   }
 
   .routePanel {
     grid-template-columns: 1fr;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+  }
+
+  .routePanel .quickActions {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .routePanel .quickActions > button:only-child {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .routePanel .quickActions > button.championshipAction {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    width: 100%;
   }
 
   .routePanel .quickActions {
@@ -1478,6 +2380,20 @@
 @media (max-width: 540px) {
   .main {
     padding-inline: 0.7rem;
+  }
+
+  .groupRoad {
+    padding-inline: 0.35rem;
+  }
+
+  .groupRoadStep {
+    min-height: 70px;
+    padding-inline: 0.2rem;
+  }
+
+  .groupRoadStep:not(:last-child)::after {
+    right: -12%;
+    width: 24%;
   }
 
   .restart {
@@ -1544,5 +2460,895 @@
   .bracketFixture[data-revealed="true"],
   .tableRow[data-changed="true"] {
     animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   World Cup launch — hard single-screen lock
+   -------------------------------------------------------------------------- */
+
+.shell {
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
+  max-height: 100svh;
+  overflow: hidden !important;
+}
+
+.launch {
+  width: 100%;
+  height: calc(100svh - 72px);
+  min-height: 0 !important;
+  max-height: calc(100svh - 72px);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.launchContent,
+.launchVisual,
+.trophyStage {
+  min-height: 0;
+}
+
+/* Short desktop displays: scale the presentation instead of creating scroll. */
+@media (max-height: 900px) and (min-width: 821px) {
+  .launch {
+    gap: clamp(1.25rem, 3vw, 3rem);
+    padding-block: 1.35rem;
+  }
+
+  .launchHeadline {
+    font-size: clamp(3rem, 5.9vw, 5.7rem);
+    margin-block: 0.72rem 0.78rem;
+  }
+
+  .launchSubhead {
+    font-size: 0.94rem;
+    line-height: 1.58;
+    max-width: 560px;
+  }
+
+  .launchMeta {
+    margin-top: 1.15rem;
+  }
+
+  .launchActions {
+    margin-top: 1.35rem;
+  }
+
+  .launchActions > button {
+    min-height: 50px;
+  }
+
+  .launchVisual {
+    min-height: 0;
+    height: min(68vh, 590px);
+  }
+
+  .trophyStage {
+    width: min(33vw, 465px);
+    max-height: 58vh;
+  }
+
+  .prizeEyebrow {
+    margin-bottom: 0.6rem;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 821px) {
+  .launch {
+    padding-block: 0.8rem;
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.7rem, 5.1vw, 4.9rem);
+  }
+
+  .launchSubhead {
+    font-size: 0.86rem;
+    line-height: 1.48;
+  }
+
+  .launchMeta {
+    margin-top: 0.8rem;
+  }
+
+  .launchActions {
+    gap: 0.55rem;
+    margin-top: 0.9rem;
+  }
+
+  .launchActions > button {
+    min-height: 44px;
+  }
+
+  .launchVisual {
+    height: min(62vh, 500px);
+  }
+
+  .trophyStage {
+    width: min(29vw, 390px);
+  }
+}
+
+/* Tablet/mobile remains a presentation, not a scrolling document. */
+@media (max-width: 820px) {
+  .shell {
+    overflow: hidden !important;
+  }
+
+  .launch {
+    height: calc(100svh - 64px);
+    min-height: 0 !important;
+    max-height: calc(100svh - 64px);
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(180px, 0.78fr) minmax(0, 1.22fr);
+    gap: 0.45rem;
+    padding: 0.75rem 1rem 1rem;
+    overflow: hidden;
+  }
+
+  .launchVisual {
+    width: 100%;
+    height: 100%;
+    min-height: 0 !important;
+    max-height: none;
+    order: -1;
+  }
+
+  .prizeEyebrow {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    z-index: 3;
+  }
+
+  .trophyStage {
+    width: min(48vw, 320px);
+    max-height: 100%;
+  }
+
+  .launchContent {
+    align-content: center;
+    min-height: 0;
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.55rem, 9.8vw, 4.25rem);
+    margin: 0.55rem 0 0.65rem;
+  }
+
+  .launchSubhead {
+    max-width: 560px;
+    font-size: clamp(0.76rem, 2.2vw, 0.9rem);
+    line-height: 1.48;
+  }
+
+  .launchMeta {
+    margin-top: 0.75rem;
+  }
+
+  .launchActions {
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+  }
+
+  .launchActions > button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 540px) {
+  .launch {
+    grid-template-rows: minmax(155px, 0.68fr) minmax(0, 1.32fr);
+    padding: 0.5rem 0.7rem 0.75rem;
+  }
+
+  .prizeEyebrow {
+    grid-template-columns: 34px auto 34px;
+  }
+
+  .trophyStage {
+    width: min(52vw, 250px);
+  }
+
+  .launchKicker {
+    grid-template-columns: 24px auto 24px;
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.35rem, 11.8vw, 3.55rem);
+    line-height: 0.88;
+  }
+
+  .launchSubhead {
+    font-size: 0.74rem;
+    line-height: 1.42;
+  }
+
+  .launchMeta {
+    gap: 0.42rem;
+    margin-top: 0.55rem;
+  }
+
+  .launchMeta span,
+  .launchActions > p {
+    font-size: 0.34rem;
+  }
+
+  .launchActions {
+    margin-top: 0.65rem;
+  }
+
+  .launchActions > button {
+    min-height: 42px;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Final World Cup entry composition polish
+   -------------------------------------------------------------------------- */
+
+.launchContent {
+  transform: translateY(24px);
+}
+
+/* Make the trophy read as a complete prize, not a cropped background image. */
+.trophyStage {
+  width: min(35vw, 490px);
+  transform: translateX(26px);
+}
+
+.worldCupImage {
+  width: min(86%, 420px);
+  max-height: 92%;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Stronger stage light without increasing trophy scale. */
+.trophyGlow {
+  inset: 5% -8% -2%;
+  background:
+    radial-gradient(
+      circle at 50% 44%,
+      rgba(255, 231, 145, 0.24) 0%,
+      rgba(235, 193, 83, 0.12) 28%,
+      rgba(222, 177, 57, 0.045) 48%,
+      transparent 72%
+    );
+  filter: blur(9px);
+}
+
+.trophyBeam {
+  width: 94%;
+  opacity: 0.5;
+}
+
+/* The stage progression should whisper, not compete. */
+.launchActions > p {
+  color: #505751;
+  opacity: 0.78;
+}
+
+/* Cinematic entrance sequence. */
+.launchBackdrop::before {
+  animation: worldCupBackdropReveal 700ms ease-out both;
+}
+
+.launchKicker {
+  animation: worldCupCopyReveal 520ms 90ms ease-out both;
+}
+
+.launchHeadline {
+  animation: worldCupHeadlineReveal 620ms 150ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.launchHeadline span {
+  animation: worldCupGoldReveal 600ms 260ms ease-out both;
+}
+
+.launchSubhead,
+.launchMeta {
+  animation: worldCupCopyReveal 520ms 330ms ease-out both;
+}
+
+.prizeEyebrow {
+  animation: worldCupCopyReveal 500ms 180ms ease-out both;
+}
+
+.trophyStage {
+  animation: worldCupTrophyReveal 760ms 120ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.launchActions > button {
+  animation: worldCupButtonReveal 520ms 520ms ease-out both;
+}
+
+.launchActions > p {
+  animation: worldCupCopyReveal 480ms 610ms ease-out both;
+}
+
+@keyframes worldCupBackdropReveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes worldCupCopyReveal {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes worldCupHeadlineReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes worldCupGoldReveal {
+  from {
+    opacity: 0;
+    text-shadow: 0 0 0 rgba(230, 188, 78, 0);
+  }
+
+  to {
+    opacity: 1;
+    text-shadow:
+      0 0 16px rgba(230, 188, 78, 0.12),
+      0 0 40px rgba(230, 188, 78, 0.08);
+  }
+}
+
+@keyframes worldCupTrophyReveal {
+  from {
+    opacity: 0;
+    transform: translateX(26px) translateY(18px) scale(0.965);
+    filter: blur(2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(26px) translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes worldCupButtonReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    box-shadow: 0 0 0 rgba(228, 187, 77, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow:
+      0 0 30px rgba(228, 187, 77, 0.12),
+      inset 0 1px rgba(255, 255, 255, 0.24);
+  }
+}
+
+/* Shorter desktops need the same proportions, just scaled down. */
+@media (max-height: 900px) and (min-width: 821px) {
+  .launchContent {
+    transform: translateY(16px);
+  }
+
+  .trophyStage {
+    width: min(31vw, 430px);
+    transform: translateX(22px);
+  }
+
+  .worldCupImage {
+    width: min(84%, 370px);
+  }
+
+  @keyframes worldCupTrophyReveal {
+    from {
+      opacity: 0;
+      transform: translateX(22px) translateY(16px) scale(0.965);
+      filter: blur(2px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(22px) translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+}
+
+@media (max-height: 760px) and (min-width: 821px) {
+  .launchContent {
+    transform: translateY(10px);
+  }
+
+  .trophyStage {
+    width: min(28vw, 365px);
+  }
+
+  .worldCupImage {
+    width: min(82%, 320px);
+  }
+}
+
+/* On stacked layouts, keep the trophy centered rather than shifted. */
+@media (max-width: 820px) {
+  .launchContent {
+    transform: none;
+  }
+
+  .trophyStage {
+    transform: none;
+  }
+
+  .worldCupImage {
+    width: min(82%, 360px);
+  }
+
+  @keyframes worldCupTrophyReveal {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.965);
+      filter: blur(2px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .worldCupImage {
+    width: min(80%, 270px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .launchBackdrop::before,
+  .launchKicker,
+  .launchHeadline,
+  .launchHeadline span,
+  .launchSubhead,
+  .launchMeta,
+  .prizeEyebrow,
+  .trophyStage,
+  .launchActions > button,
+  .launchActions > p {
+    animation: none !important;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Trophy aura — remove fake overhead lights, radiate gold from below
+   -------------------------------------------------------------------------- */
+
+/* Kill the artificial ceiling/spotlight shapes. */
+.launchBackdrop > span {
+  display: none !important;
+}
+
+.trophyBeam {
+  display: none !important;
+}
+
+/* Keep only a restrained ambient glow around the trophy body. */
+.trophyGlow {
+  inset: 10% -2% 5%;
+  background:
+    radial-gradient(
+      ellipse at 50% 62%,
+      rgba(255, 225, 132, 0.15) 0%,
+      rgba(231, 187, 73, 0.07) 34%,
+      transparent 70%
+    );
+  filter: blur(12px);
+}
+
+/*
+  The "legendary chest" effect:
+  energy originates below the trophy and breathes upward.
+*/
+.trophyStage::before {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  bottom: 0.5%;
+  width: 78%;
+  height: 42%;
+  content: "";
+  pointer-events: none;
+  transform: translateX(-50%);
+  border-radius: 50% 50% 18% 18%;
+  background:
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(255, 224, 119, 0.52) 0%,
+      rgba(236, 191, 69, 0.28) 20%,
+      rgba(222, 168, 43, 0.12) 42%,
+      transparent 72%
+    );
+  filter: blur(13px);
+  opacity: 0.8;
+  animation: trophyBasePulse 3.4s ease-in-out infinite;
+}
+
+.trophyStage::after {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: -2%;
+  width: 64%;
+  height: 47%;
+  content: "";
+  pointer-events: none;
+  transform: translateX(-50%);
+  background:
+    linear-gradient(
+      82deg,
+      transparent 12%,
+      rgba(255, 222, 111, 0.05) 28%,
+      rgba(255, 224, 118, 0.22) 43%,
+      rgba(255, 235, 158, 0.34) 50%,
+      rgba(255, 224, 118, 0.2) 58%,
+      rgba(255, 222, 111, 0.05) 72%,
+      transparent 88%
+    );
+  clip-path: polygon(
+    35% 100%,
+    42% 30%,
+    47% 58%,
+    50% 0%,
+    54% 52%,
+    61% 24%,
+    68% 100%
+  );
+  filter: blur(9px);
+  opacity: 0.54;
+  animation: trophyAuraRise 4.4s ease-in-out infinite;
+}
+
+/* Add a bright but tasteful floor pool under the trophy. */
+.launchVisual::after {
+  bottom: 5%;
+  width: 70%;
+  height: 64px;
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(255, 221, 112, 0.34) 0%,
+      rgba(225, 175, 49, 0.17) 32%,
+      rgba(224, 173, 47, 0.055) 56%,
+      transparent 76%
+    );
+  filter: blur(12px);
+  opacity: 0.85;
+  animation: trophyFloorGlow 3.4s ease-in-out infinite;
+}
+
+/* A little reflected gold on the lower half makes the source feel believable. */
+.worldCupImage {
+  filter:
+    drop-shadow(0 24px 34px rgba(0, 0, 0, 0.54))
+    drop-shadow(0 0 24px rgba(227, 184, 71, 0.13))
+    drop-shadow(0 18px 20px rgba(237, 190, 67, 0.12));
+}
+
+@keyframes trophyBasePulse {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: translateX(-50%) scaleX(0.9) scaleY(0.92);
+  }
+
+  50% {
+    opacity: 0.92;
+    transform: translateX(-50%) scaleX(1.04) scaleY(1.04);
+  }
+}
+
+@keyframes trophyAuraRise {
+  0%,
+  100% {
+    opacity: 0.34;
+    transform: translateX(-50%) translateY(8px) scaleX(0.88);
+  }
+
+  50% {
+    opacity: 0.68;
+    transform: translateX(-50%) translateY(-8px) scaleX(1.04);
+  }
+}
+
+@keyframes trophyFloorGlow {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: scaleX(0.88);
+  }
+
+  50% {
+    opacity: 0.92;
+    transform: scaleX(1.03);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trophyStage::before,
+  .trophyStage::after,
+  .launchVisual::after {
+    animation: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Fit the trophy fully on screen
+   -------------------------------------------------------------------------- */
+
+.launchVisual {
+  min-height: min(68vh, 640px);
+  padding-block: 0.75rem 1.75rem;
+}
+
+.trophyStage {
+  width: min(31vw, 430px);
+  height: min(66vh, 610px);
+  aspect-ratio: auto;
+  align-self: center;
+}
+
+.worldCupImage {
+  width: min(100%, 395px);
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+/* Keep the glow/aura aligned to the smaller trophy footprint. */
+.trophyStage::before {
+  width: 74%;
+  height: 36%;
+  bottom: 1.5%;
+}
+
+.trophyStage::after {
+  width: 58%;
+  height: 40%;
+  bottom: 0;
+}
+
+.launchVisual::after {
+  width: 62%;
+  bottom: 7%;
+}
+
+@media (max-width: 1280px) {
+  .trophyStage {
+    width: min(30vw, 390px);
+    height: min(62vh, 560px);
+  }
+
+  .worldCupImage {
+    width: min(100%, 360px);
+  }
+}
+
+@media (max-width: 980px) {
+  .launch {
+    grid-template-columns: 1fr;
+  }
+
+  .launchVisual {
+    min-height: min(46vh, 420px);
+    padding-top: 0;
+  }
+
+  .trophyStage {
+    width: min(72vw, 320px);
+    height: min(42vh, 380px);
+  }
+
+  .worldCupImage {
+    width: min(100%, 300px);
+  }
+}
+
+
+@media (max-width: 980px) {
+  .launch {
+    gap: 2rem;
+    grid-template-columns: 1fr;
+    min-height: calc(100svh - 72px);
+  }
+
+  .launchContent {
+    max-width: none;
+    order: 2;
+  }
+
+  .launchVisual {
+    min-height: auto;
+    order: 1;
+    padding-top: 0;
+  }
+
+  .trophyStage {
+    width: min(54vw, 320px);
+  }
+
+  .worldCupImage {
+    width: min(100%, 280px);
+  }
+}
+
+
+.launchVisual {
+  min-height: min(66vh, 620px);
+  padding-block: 0.35rem 1.35rem;
+}
+
+.trophyStage {
+  width: min(27vw, 220px);
+  height: min(60vh, 520px);
+  aspect-ratio: auto;
+}
+
+.worldCupImage {
+  width: min(100%, 330px);
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.launchMeta {
+  margin-top: 0.45rem;
+}
+
+.launchActions {
+  margin-top: 1rem;
+}
+
+.launchActions > p,
+.launchSubhead {
+  display: none;
+}
+
+@media (max-width: 1280px) {
+  .trophyStage {
+    width: min(26vw, 330px);
+    height: min(56vh, 470px);
+  }
+
+  .worldCupImage {
+    width: min(100%, 300px);
+  }
+}
+
+@media (max-width: 980px) {
+  .launchVisual {
+    min-height: auto;
+  }
+
+  .trophyStage {
+    width: min(54vw, 280px);
+    height: min(42vh, 320px);
+  }
+
+  .worldCupImage {
+    width: min(100%, 250px);
+  }
+}
+
+@media (max-width: 820px) {
+  .routeTeam:first-child,
+  .routeTeam:last-child {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .routeTeam > small {
+    justify-content: center;
+  }
+
+}
+
+
+@media (max-width: 820px) {
+  .routeResult {
+    min-width: 80px;
+  }
+
+  .routePenaltyResult {
+    font-size: 0.41rem;
+  }
+}
+
+
+@media (max-height: 900px) and (min-width: 821px) {
+  .finalTrophyPresentation {
+    height: clamp(108px, 13.5vh, 132px);
+  }
+
+  .finalTrophyImage {
+    height: 100%;
+    max-height: none;
+    width: auto;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 821px) {
+  .finalTrophyPresentation {
+    height: 96px;
+    margin-bottom: 0.2rem;
+  }
+
+  .finalTrophyImage {
+    height: 100%;
+    max-height: none;
+    width: auto;
+  }
+}
+
+@media (max-width: 820px) {
+  .finalTrophyPresentation {
+    height: 86px;
+  }
+
+  .finalTrophyHalo {
+    width: 130%;
+  }
+
+  .finalTrophyBaseGlow {
+    width: 70%;
+  }
+}
+
+
+.header[data-final="true"] .headerStatus {
+  display: none;
+}
+
+.header[data-final="true"] {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+
+@media (max-height: 850px) and (min-width: 821px) {
+  .main[data-final="true"] {
+    gap: 0.34rem;
+    padding-block: 0.2rem 1.05rem;
+  }
+
+  .header[data-final="true"] {
+    min-height: 24px;
+  }
+
+  .finalStage {
+    transform: translateY(-10px);
   }
 }
