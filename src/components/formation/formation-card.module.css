@@ -46,60 +46,60 @@
 
 .selected :global(.pitch)::after {
   position: absolute;
-  inset: 8% 5%;
+  inset: 3% 0%;
   z-index: -1;
   pointer-events: none;
   content: "";
-  border-radius: 22%;
-  opacity: 0.68;
+  border-radius: 24%;
+  opacity: 0.82;
   background:
-    radial-gradient(circle at 50% 44%, rgba(232, 197, 89, 0.12), transparent 47%),
-    radial-gradient(circle at 50% 44%, rgba(255, 237, 161, 0.035), transparent 67%);
-  filter: blur(8px);
+    radial-gradient(
+      ellipse at 50% 48%,
+      rgba(232, 197, 89, 0.13),
+      rgba(214, 180, 92, 0.055) 45%,
+      transparent 72%
+    );
+  filter: blur(12px);
 }
 
 .selected :global(.pitch-node__disc) {
   position: relative;
   isolation: isolate;
   overflow: visible;
-  border-color: rgba(255, 228, 132, 0.96) !important;
+  border-color: rgba(255, 228, 132, 0.9) !important;
   color: #211703 !important;
   font-size: 0.32rem;
   font-weight: 900;
-  text-shadow:
-    0 1px 0 rgba(255, 244, 190, 0.24),
-    0 0 3px rgba(255, 231, 132, 0.18);
+  text-shadow: 0 1px 0 rgba(255, 244, 190, 0.18);
   background:
-    radial-gradient(circle at 34% 25%, rgba(255, 250, 216, 0.38), transparent 28%),
-    radial-gradient(circle at 50% 58%, #e8bd4b 0%, #c89527 58%, #896215 100%) !important;
+    radial-gradient(circle at 34% 25%, rgba(255, 250, 216, 0.28), transparent 28%),
+    radial-gradient(circle at 50% 58%, #dfb94b 0%, #bf9028 60%, #7c5a18 100%) !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.72),
-    inset 0 -3px 7px rgba(103, 67, 4, 0.2),
-    0 0 0 2px rgba(246, 214, 107, 0.2),
-    0 0 8px rgba(248, 211, 91, 0.76),
-    0 0 18px rgba(233, 187, 52, 0.5),
-    0 0 31px rgba(211, 156, 24, 0.22) !important;
-  filter: saturate(1.08) brightness(1.06);
-  animation: formationGoldPulse 2.6s ease-in-out infinite;
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -2px 5px rgba(103, 67, 4, 0.16),
+    0 0 0 1px rgba(246, 214, 107, 0.18),
+    0 0 6px rgba(248, 211, 91, 0.38),
+    0 0 13px rgba(233, 187, 52, 0.16) !important;
+  filter: saturate(1.03) brightness(1.03);
 }
 
 /* A blurred halo beyond the circle creates the actual aura rather than
    relying only on a brighter fill color. */
 .selected :global(.pitch-node__disc)::before {
   position: absolute;
-  inset: -8px;
+  inset: -6px;
   z-index: -1;
   pointer-events: none;
   content: "";
   border-radius: 50%;
-  opacity: 0.82;
+  opacity: 0.5;
   background: radial-gradient(
     circle,
-    rgba(255, 226, 119, 0.44) 0%,
-    rgba(228, 179, 48, 0.22) 42%,
+    rgba(255, 226, 119, 0.28) 0%,
+    rgba(228, 179, 48, 0.11) 44%,
     rgba(197, 137, 19, 0) 72%
   );
-  filter: blur(3px);
+  filter: blur(4px);
 }
 
 /* The brightest edge is kept small so eleven nodes still look premium,
@@ -109,40 +109,9 @@
   inset: 2px;
   pointer-events: none;
   content: "";
-  border: 1px solid rgba(255, 246, 196, 0.38);
+  border: 1px solid rgba(255, 246, 196, 0.24);
   border-radius: 50%;
-  box-shadow: inset 0 0 5px rgba(255, 244, 189, 0.1);
-}
-
-@keyframes formationGoldPulse {
-  0%,
-  100% {
-    filter: saturate(1.06) brightness(1.04);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.72),
-      inset 0 -3px 7px rgba(103, 67, 4, 0.2),
-      0 0 0 2px rgba(246, 214, 107, 0.18),
-      0 0 8px rgba(248, 211, 91, 0.68),
-      0 0 17px rgba(233, 187, 52, 0.42),
-      0 0 29px rgba(211, 156, 24, 0.17);
-  }
-
-  50% {
-    filter: saturate(1.12) brightness(1.12);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      inset 0 -3px 7px rgba(103, 67, 4, 0.18),
-      0 0 0 2px rgba(250, 221, 120, 0.28),
-      0 0 10px rgba(255, 220, 107, 0.9),
-      0 0 22px rgba(239, 194, 60, 0.62),
-      0 0 36px rgba(216, 162, 29, 0.26);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .selected :global(.pitch-node__disc) {
-    animation: none;
-  }
+  box-shadow: inset 0 0 4px rgba(255, 244, 189, 0.07);
 }
 
 .top {
@@ -195,8 +164,8 @@
 }
 
 .card :global(.pitch) {
-  width: clamp(118px, 9vw, 148px);
-  margin: 10px auto 12px;
+  width: clamp(132px, 10.2vw, 166px);
+  margin: 8px auto 11px;
 }
 
 /* Formation cards are diagrams, so the nodes should explain the system at a glance. */
@@ -253,60 +222,51 @@
 .fitGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
   margin-top: auto;
-  padding-top: 6px;
+  padding-top: 8px;
   border-top: 1px solid var(--border-gold-low);
 }
 
 .fitBlock {
   display: grid;
-  min-height: 50px;
-  grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: 1px 4px;
-  padding: 5px 7px;
-  overflow: hidden;
-  border: 1px solid var(--border-gold-low);
-  border-radius: 8px;
-  background:
-    linear-gradient(145deg, rgba(231, 189, 77, 0.07), transparent 58%),
-    rgba(7, 10, 8, 0.78);
-  box-shadow: inset 0 1px var(--inner-highlight-low);
+  min-height: 42px;
+  align-content: center;
+  gap: 4px;
+  padding: 0 9px;
+  background: transparent;
+  border: 0;
+  border-left: 1px solid rgba(214, 180, 92, 0.1);
+  text-align: left;
+}
+
+.fitBlock:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.fitBlock:last-child {
+  padding-right: 0;
 }
 
 .fitBlock span {
-  grid-column: 1 / -1;
-  color: #9b9278;
+  color: #8d876f;
   font-family: var(--font-mono), monospace;
-  font-size: 0.43rem;
-  letter-spacing: 0.06em;
+  font-size: 0.41rem;
+  letter-spacing: 0.075em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
 .fitBlock strong {
   color: #f0d889;
   font-family: var(--font-display), sans-serif;
-  font-size: 1rem;
-  line-height: 0.9;
+  font-size: 1.03rem;
+  font-weight: 690;
+  line-height: 1;
 }
 
-.fitGrid[data-single="true"] {
-  grid-template-columns: 74px minmax(0, 1fr);
-  align-items: center;
-}
-
-.neutralNote {
-  color: #8f968f;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.42rem;
-  line-height: 1.35;
-}
-
-.fitBlock small {
-  color: #6f776f;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.4rem;
+.selected .fitBlock strong {
+  color: #f3d875;
 }
 
 @media (max-width: 620px) {
@@ -316,7 +276,7 @@
   }
 
   .card :global(.pitch) {
-    width: 124px;
+    width: 138px;
   }
 }
 
@@ -327,4 +287,8 @@
   font-size: 0 !important;
   color: transparent !important;
   text-shadow: none !important;
+}
+
+.fitBlock[data-fit-kind="era"] strong {
+  font-size: 0.92rem;
 }

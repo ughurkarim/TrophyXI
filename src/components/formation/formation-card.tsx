@@ -59,29 +59,20 @@ export function FormationCard({
       >
         {Object.entries(formation.tendencies).map(([label, value]) => (
           <span key={label}>
-            <small>{label}</small>
+            <small>{label === "control" ? "midfield" : label}</small>
             <b>{value}</b>
           </span>
         ))}
       </div>
-      <div className={styles.fitGrid} data-single={!showEraFit}>
+      <div className={styles.fitGrid}>
         <div className={styles.fitBlock} data-fit-kind="manager">
           <span>Manager Fit</span>
           <strong>{managerFit}</strong>
-          <small>/100</small>
         </div>
-        {showEraFit && (
-          <div className={styles.fitBlock} data-fit-kind="era">
-            <span>Era Fit</span>
-            <strong>{eraFit}</strong>
-            <small>/100</small>
-          </div>
-        )}
-        {!showEraFit && (
-          <small className={styles.neutralNote}>
-            Neutral era — no era modifier.
-          </small>
-        )}
+        <div className={styles.fitBlock} data-fit-kind="era">
+          <span>Era Fit</span>
+          <strong>{showEraFit ? eraFit : "Neutral"}</strong>
+        </div>
       </div>
     </button>
   );

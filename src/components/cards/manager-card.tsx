@@ -168,7 +168,6 @@ export function ManagerCard({
         ) : (
           <span className={styles.selectLabel}>
             SELECT MANAGER
-            <ArrowRight size={13} aria-hidden />
           </span>
         )}
 

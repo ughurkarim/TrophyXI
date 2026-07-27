@@ -124,6 +124,14 @@ export function FormationSelection({
           <span>Manager Fit</span>
           <strong>{selectedMetrics?.managerFit ?? "—"}</strong>
         </div>
+        <div className={styles.selectedFit}>
+          <span>Era Fit</span>
+          <strong>
+            {eraId === "all"
+              ? "Neutral"
+              : selectedMetrics?.eraFit ?? "—"}
+          </strong>
+        </div>
         <Button
           className={styles.enterButton}
           disabled={!selectedMetrics}
