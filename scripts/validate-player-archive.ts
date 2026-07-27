@@ -6,7 +6,10 @@ import roster2026Json from "../src/data/player-tournaments-2026.generated.json";
 import identityPortraitJson from "../src/data/player-identity-portraits.generated.json";
 import gameFaceCacheJson from "./cache/game-faces/import-cache.json";
 import { imagesById, playerImages } from "../src/data/player-images";
-import { players, playersById } from "../src/data/players";
+import {
+  allPlayersBeforeIdentityPruning as players,
+  players as playablePlayers,
+} from "../src/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "../src/types/game";
 
 type HistoricalArchive = {
@@ -36,6 +39,9 @@ const roster2026 = roster2026Json as unknown as Roster2026Archive;
 const identityPortraits =
   identityPortraitJson as unknown as IdentityPortraitArchive;
 const ROOT = process.cwd();
+const archivedPlayersById = new Map(
+  players.map((player) => [player.id, player]),
+);
 const REPORT_FILE = path.join(
   ROOT,
   "reports",
@@ -211,7 +217,7 @@ const main = async () => {
     .map((player) => player.id);
   const imageAssignments = new Map<string, Set<string>>();
   for (const image of playerImages) {
-    const identityId = playersById.get(image.id)?.playerIdentityId;
+    const identityId = archivedPlayersById.get(image.id)?.playerIdentityId;
     if (!identityId) continue;
     const identities = imageAssignments.get(image.file) ?? new Set<string>();
     identities.add(identityId);
@@ -310,6 +316,10 @@ const main = async () => {
     summary: {
       cards: players.length,
       identities: countriesByIdentity.size,
+      playableCards: playablePlayers.length,
+      playableIdentities: new Set(
+        playablePlayers.map((player) => player.playerIdentityId),
+      ).size,
       realFaces: players.length - missingFaceIds.length,
       missingFaces: missingFaceIds.length,
       missingAccolades: missingAccoladeIds.length,

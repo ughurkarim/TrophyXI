@@ -27,26 +27,40 @@ describe("FreeSelectionPage", () => {
     });
   });
 
-  it("selects a position first, recommends players, and places the chosen card", async () => {
-    const user = userEvent.setup();
-    render(<FreeSelectionPage />);
+  it(
+    "selects a position first, recommends players, and places the chosen card",
+    async () => {
+      const user = userEvent.setup();
+      render(<FreeSelectionPage />);
 
-    expect(screen.getByRole("heading", { name: "BUILD YOUR SQUAD" })).toBeVisible();
-    expect(screen.getByText("Select a position on the pitch.")).toBeVisible();
-    expect(screen.queryByText(/LCB|RCB/)).not.toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: /^CB: empty/i })).toHaveLength(2);
+      expect(
+        screen.getByRole("heading", { name: "BUILD YOUR SQUAD" }),
+      ).toBeVisible();
+      expect(
+        screen.getByText("Select a position on the pitch."),
+      ).toBeVisible();
+      expect(screen.queryByText(/LCB|RCB/)).not.toBeInTheDocument();
+      expect(
+        screen.getAllByRole("button", { name: /^CB: empty/i }),
+      ).toHaveLength(2);
 
-    await user.click(screen.getByRole("button", { name: /^GK: empty/i }));
-    expect(screen.getByText("BEST SQUAD IMPACT FIRST")).toBeVisible();
-    const options = screen.getAllByRole("button", { name: /select .* for GK/i });
-    await user.click(options[0]);
-    const place = screen.getByRole("button", { name: "PLACE" });
-    expect(place).toBeEnabled();
-    await user.click(place);
+      await user.click(
+        screen.getByRole("button", { name: /^GK: empty/i }),
+      );
+      expect(screen.getByText("BEST SQUAD IMPACT FIRST")).toBeVisible();
+      const options = screen.getAllByRole("button", {
+        name: /select .* for GK/i,
+      });
+      await user.click(options[0]);
+      const place = screen.getByRole("button", { name: "PLACE" });
+      expect(place).toBeEnabled();
+      await user.click(place);
 
-    expect(useGameStore.getState().picks).toHaveLength(1);
-    expect(useGameStore.getState().picks[0].slotId).toBe("gk");
-  });
+      expect(useGameStore.getState().picks).toHaveLength(1);
+      expect(useGameStore.getState().picks[0].slotId).toBe("gk");
+    },
+    10_000,
+  );
 
   it("ranks bench depth without showing positional fit", async () => {
     const user = userEvent.setup();

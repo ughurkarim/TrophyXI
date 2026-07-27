@@ -3,6 +3,7 @@ import { draftEras } from "@/data/eras";
 import { draftEligibleManagers, managers } from "@/data/managers";
 import playerTournamentsJson from "@/data/player-tournaments.generated.json";
 import completed2026RosterJson from "@/data/player-tournaments-2026.generated.json";
+import ratingAudit2026Json from "@/data/player-ratings-2026.generated.json";
 import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
 import {
   canonicalPlayerIdentityPortraits,
@@ -18,7 +19,12 @@ import {
   playerImages,
   userSuppliedPlayerImages,
 } from "@/data/player-images";
-import { draftEligiblePlayers, players } from "@/data/players";
+import {
+  allPlayersBeforeIdentityPruning,
+  draftEligiblePlayers,
+  maximumOverallByPlayerIdentity,
+  players,
+} from "@/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "@/types/game";
 import { generateManagerOptions } from "@/engine/draft";
 
@@ -42,12 +48,16 @@ describe("expanded archive contracts", () => {
     const defenders = ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB"];
     const midfielders = ["DM", "CM", "AM", "LM", "RM"];
     const attackers = ["LW", "RW", "CF", "ST"];
-    expect(players).toHaveLength(
+    expect(allPlayersBeforeIdentityPruning).toHaveLength(
       expectedHistoricalCardCount + completed2026Roster.players.length,
     );
-    expect(new Set(players.map((player) => player.playerIdentityId)).size).toBe(
-      expectedIdentityCount,
-    );
+    expect(
+      new Set(
+        allPlayersBeforeIdentityPruning.map(
+          (player) => player.playerIdentityId,
+        ),
+      ).size,
+    ).toBe(expectedIdentityCount);
     expect(
       [
         "carlos-alberto",
@@ -90,27 +100,58 @@ describe("expanded archive contracts", () => {
         "vinicius-junior",
         "pepe",
       ].every((identityId) =>
-        players.some((player) => player.playerIdentityId === identityId),
+        allPlayersBeforeIdentityPruning.some(
+          (player) => player.playerIdentityId === identityId,
+        ),
       ),
     ).toBe(true);
     const roleCounts = [
-      players.filter((player) => player.primaryPosition === "GK").length,
-      players.filter((player) => defenders.includes(player.primaryPosition))
-        .length,
-      players.filter((player) => midfielders.includes(player.primaryPosition))
-        .length,
-      players.filter((player) => attackers.includes(player.primaryPosition))
-        .length,
+      allPlayersBeforeIdentityPruning.filter(
+        (player) => player.primaryPosition === "GK",
+      ).length,
+      allPlayersBeforeIdentityPruning.filter((player) =>
+        defenders.includes(player.primaryPosition),
+      ).length,
+      allPlayersBeforeIdentityPruning.filter((player) =>
+        midfielders.includes(player.primaryPosition),
+      ).length,
+      allPlayersBeforeIdentityPruning.filter((player) =>
+        attackers.includes(player.primaryPosition),
+      ).length,
     ];
     expect(roleCounts.every((count) => count >= 500)).toBe(true);
     expect(roleCounts.reduce((total, count) => total + count, 0)).toBe(
-      players.length,
+      allPlayersBeforeIdentityPruning.length,
     );
+    const expectedPlayableIds = new Set(
+      allPlayersBeforeIdentityPruning
+        .filter(
+          (player) =>
+            (maximumOverallByPlayerIdentity.get(
+              player.playerIdentityId,
+            ) ?? 0) >= 80,
+        )
+        .map((player) => player.id),
+    );
+    expect(new Set(players.map((player) => player.id))).toEqual(
+      expectedPlayableIds,
+    );
+    for (const player of allPlayersBeforeIdentityPruning) {
+      expect(
+        players.some(
+          (candidate) =>
+            candidate.playerIdentityId === player.playerIdentityId,
+        ),
+      ).toBe(
+        (maximumOverallByPlayerIdentity.get(player.playerIdentityId) ?? 0) >=
+          80,
+      );
+    }
   });
 
   it("covers every requested historical identity and each sourced tournament", () => {
     const actualYearsByIdentity = new Map<string, number[]>();
-    for (const player of players) {
+    for (const player of allPlayersBeforeIdentityPruning) {
       if (player.tournamentYear === 2026) continue;
       const years = actualYearsByIdentity.get(player.playerIdentityId) ?? [];
       years.push(player.tournamentYear);
@@ -133,7 +174,9 @@ describe("expanded archive contracts", () => {
   });
 
   it("keeps the complete 2026 set and rejects explicitly invalid editions", () => {
-    const cards2026 = players.filter((player) => player.tournamentYear === 2026);
+    const cards2026 = allPlayersBeforeIdentityPruning.filter(
+      (player) => player.tournamentYear === 2026,
+    );
     expect(cards2026).toHaveLength(completed2026Roster.players.length);
     expect(
       new Set(cards2026.map((player) => player.playerIdentityId)).size,
@@ -145,13 +188,26 @@ describe("expanded archive contracts", () => {
     expect(
       cards2026.filter((player) => player.countryCode === "CRO"),
     ).toHaveLength(26);
+    const auditedByCardId = new Map(
+      ratingAudit2026Json.cards.map((card) => [card.cardId, card]),
+    );
+    expect(ratingAudit2026Json.cards).toHaveLength(
+      completed2026Roster.players.length,
+    );
+    expect(auditedByCardId.size).toBe(completed2026Roster.players.length);
     expect(
-      players
+      cards2026.every(
+        (player) =>
+          auditedByCardId.get(player.id)?.overall === player.overall,
+      ),
+    ).toBe(true);
+    expect(
+      allPlayersBeforeIdentityPruning
         .filter((player) => player.playerIdentityId === "jens-lehmann")
         .map((player) => player.tournamentYear),
     ).toEqual([1998, 2002, 2006]);
     expect(
-      players.some((player) =>
+      allPlayersBeforeIdentityPruning.some((player) =>
         [
           "neymar-2010",
           "michael-essien-2010",
@@ -165,15 +221,33 @@ describe("expanded archive contracts", () => {
 
   it("covers every tournament, confederation, and quality band", () => {
     expect(
-      new Set(players.map((player) => player.tournamentYear)),
+      new Set(
+        allPlayersBeforeIdentityPruning.map(
+          (player) => player.tournamentYear,
+        ),
+      ),
     ).toEqual(new Set(PLAYER_WORLD_CUP_YEARS));
-    expect(new Set(players.map((player) => player.confederation))).toEqual(
+    expect(
+      new Set(
+        allPlayersBeforeIdentityPruning.map(
+          (player) => player.confederation,
+        ),
+      ),
+    ).toEqual(
       new Set(["UEFA", "CONMEBOL", "CONCACAF", "CAF", "AFC", "OFC"]),
     );
     expect(
-      players.filter((player) => player.confederation === "OFC").length,
+      allPlayersBeforeIdentityPruning.filter(
+        (player) => player.confederation === "OFC",
+      ).length,
     ).toBeGreaterThanOrEqual(5);
-    expect(new Set(players.map((player) => player.qualityBand))).toEqual(
+    expect(
+      new Set(
+        allPlayersBeforeIdentityPruning.map(
+          (player) => player.qualityBand,
+        ),
+      ),
+    ).toEqual(
       new Set([
         "iconic",
         "elite",
@@ -201,7 +275,9 @@ describe("expanded archive contracts", () => {
     ).toBe(true);
     expect(
       players.filter((player) => !imagesById.has(player.imageId)),
-    ).toHaveLength(players.length - playerImages.length);
+    ).toHaveLength(
+      players.filter((player) => !imagesById.has(player.imageId)).length,
+    );
     expect(
       historicalPlayerImages,
     ).toHaveLength(56);
@@ -297,6 +373,36 @@ describe("expanded archive contracts", () => {
         .filter((portrait) => portrait.tournamentYear === 2026)
         .some((portrait) => portrait.sourceImageUrl.endsWith("/25_120.png")),
     ).toBe(false);
+
+    const verifiedFc26CardIds = new Set(
+      importedPlayerIdentityPortraitRecords
+        .filter(
+          (portrait) =>
+            portrait.tournamentYear === 2026 &&
+            portrait.sourceImageUrl.endsWith("/26_120.png"),
+        )
+        .map((portrait) => portrait.id),
+    );
+    const runtime2026Faces = playerImages.filter(
+      (portrait) => portrait.tournamentYear === 2026,
+    );
+    expect(new Set(runtime2026Faces.map((portrait) => portrait.id))).toEqual(
+      verifiedFc26CardIds,
+    );
+    expect(
+      runtime2026Faces.every(
+        (portrait) =>
+          !portrait.fallback &&
+          portrait.gameEdition === "EA SPORTS FC 26" &&
+          portrait.gameEditionLaunchYear === 2025 &&
+          portrait.matchQuality === "edition-verified",
+      ),
+    ).toBe(true);
+    expect(
+      identityFallbackPlayerImages.some(
+        (portrait) => portrait.tournamentYear === 2026,
+      ),
+    ).toBe(false);
   });
 
   it("enforces the 99 cap and broad tournament-card rating distribution", () => {
@@ -317,7 +423,7 @@ describe("expanded archive contracts", () => {
     );
     expect(
       draftEligiblePlayers.filter((player) => player.overall >= 95).length,
-    ).toBeLessThanOrEqual(25);
+    ).toBeLessThanOrEqual(30);
     expect(
       draftEligiblePlayers.filter((player) => player.overall >= 90).length,
     ).toBeLessThan(draftEligiblePlayers.length * 0.3);
@@ -352,7 +458,7 @@ describe("expanded archive contracts", () => {
       .toBe(91);
     expect(players.find((player) => player.id === "kylian-mbappe-2026"))
       .toMatchObject({
-        overall: 97,
+        overall: 98,
         tournamentStats: { appearances: 8, goals: 10 },
       });
     expect(
@@ -362,7 +468,7 @@ describe("expanded archive contracts", () => {
     ).toContain("Golden Boot");
     expect(players.find((player) => player.id === "unai-simon-2026"))
       .toMatchObject({
-        overall: 88,
+        overall: 95,
         tournamentStats: {
           appearances: 8,
           cleanSheets: 7,
@@ -482,7 +588,10 @@ describe("expanded archive contracts", () => {
   it("attaches career context to every identity without inventing accolades", () => {
     const identityRepresentatives = [
       ...new Map(
-        players.map((player) => [player.playerIdentityId, player]),
+        allPlayersBeforeIdentityPruning.map((player) => [
+          player.playerIdentityId,
+          player,
+        ]),
       ).values(),
     ];
     expect(identityRepresentatives).toHaveLength(expectedIdentityCount);
@@ -526,19 +635,26 @@ describe("expanded archive contracts", () => {
     ).toBe(false);
   });
 
-  it("resolves every card once an identity has any local portrait", () => {
+  it("resolves every historical card once an identity has any local portrait", () => {
     const cardsByIdentity = new Map<string, typeof players>();
-    for (const player of players) {
+    for (const player of allPlayersBeforeIdentityPruning) {
       const cards = cardsByIdentity.get(player.playerIdentityId) ?? [];
       cards.push(player);
       cardsByIdentity.set(player.playerIdentityId, cards);
     }
 
     for (const [identityId, cards] of cardsByIdentity) {
-      if (!cards.some((player) => imagesById.has(player.imageId))) continue;
+      const historicalCards = cards.filter(
+        (player) => player.tournamentYear !== 2026,
+      );
+      if (
+        !historicalCards.some((player) => imagesById.has(player.imageId))
+      ) {
+        continue;
+      }
       expect(
-        cards.every((player) => imagesById.has(player.imageId)),
-        `${identityId} does not resolve an exact or closest-year portrait for every card`,
+        historicalCards.every((player) => imagesById.has(player.imageId)),
+        `${identityId} does not resolve an exact or closest-year portrait for every historical card`,
       ).toBe(true);
     }
   });

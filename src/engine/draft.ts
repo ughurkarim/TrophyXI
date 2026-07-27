@@ -386,9 +386,8 @@ export const generateDraftOptions = (
           ? withoutRejected
           : identitySafe;
   const uniqueCards = uniqueIdentityCards(preferredPool, random);
-  // The archive contains thousands of identities. A deterministic, seed-based
-  // sample keeps offer ranking responsive while preserving the full pool for
-  // identity exclusion, completion checks, and long-run offer variety.
+  // A deterministic sample keeps offer ranking responsive while preserving
+  // the full pool for identity exclusion and completion checks.
   const shuffledUniqueCards = shuffle(uniqueCards, random);
   const priorityRankingCards = shuffledUniqueCards.filter(
     (card) =>
@@ -407,13 +406,26 @@ export const generateDraftOptions = (
       )
       .slice(0, 8),
   );
-  const rankingCards =
+  const sampledRankingCards =
     uniqueCards.length > 240
       ? [...priorityRankingCards, ...supplementalRankingCards]
       : shuffledUniqueCards;
   const openGoalkeeperSlots = openSlots.filter(
     (slot) => slot.position === "GK",
   ).length;
+  const rankingCards =
+    openGoalkeeperSlots > 0
+      ? [
+          ...new Map(
+            [
+              ...sampledRankingCards,
+              ...shuffledUniqueCards.filter(
+                (card) => card.primaryPosition === "GK",
+              ),
+            ].map((card) => [card.playerIdentityId, card]),
+          ).values(),
+        ]
+      : sampledRankingCards;
   const openOutfieldSlots = openSlots.length - openGoalkeeperSlots;
   const remainingGoalkeeperIdentities = rankingCards.filter(
     (player) => player.primaryPosition === "GK",

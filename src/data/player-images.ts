@@ -9,11 +9,14 @@ import {
   importedPlayerIdentityPortraitRecords,
   type PlayerIdentityPortraitRecord,
 } from "@/data/player-identity-portraits";
-import { players, playersById } from "@/data/players";
+import { allPlayersBeforeIdentityPruning } from "@/data/players";
 import { userSuppliedPlayerImages } from "@/data/user-player-portraits";
 import type { ImageAttribution } from "@/types/game";
 
 type GameFaceKind = ImageAttribution["kind"];
+const archivedPlayersById = new Map(
+  allPlayersBeforeIdentityPruning.map((player) => [player.id, player]),
+);
 
 export const gameFacePathFor = (
   kind: GameFaceKind,
@@ -26,7 +29,7 @@ const buildAttribution = (
   record: LocalPortraitManifestRecord | PlayerIdentityPortraitRecord,
 ): ImageAttribution => {
   const { id, kind } = record;
-  const player = kind === "player" ? playersById.get(id) : undefined;
+  const player = kind === "player" ? archivedPlayersById.get(id) : undefined;
   const manager = kind === "manager" ? managersById.get(id) : undefined;
   if (!player && !manager) {
     throw new Error(
@@ -35,6 +38,11 @@ const buildAttribution = (
   }
   const subjectName = player?.playerName ?? manager!.managerName;
   const tournamentYear = player?.tournamentYear ?? manager!.tournamentYear;
+  const isVerified2026GameFace =
+    kind === "player" &&
+    tournamentYear === 2026 &&
+    "sourceImageUrl" in record &&
+    record.sourceImageUrl.endsWith("/26_120.png");
   if (
     tournamentYear !== record.tournamentYear ||
     record.localPath !== gameFacePathFor(kind, id, tournamentYear)
@@ -63,52 +71,58 @@ const buildAttribution = (
     fallback: false,
     representedTeam: player?.countryName ?? manager!.teamName,
     photographedYear: null,
-    exactTournamentImage: false,
+    exactTournamentImage: isVerified2026GameFace,
     isNationalTeamKit: false,
-    photoContext: "other-licensed-face",
+    photoContext: isVerified2026GameFace
+      ? "tournament-edition-game-face"
+      : "other-licensed-face",
     cropFocus: { x: 50, y: 20 },
-    gameEdition: null,
-    gameEditionLaunchYear: null,
+    gameEdition: isVerified2026GameFace ? "EA SPORTS FC 26" : null,
+    gameEditionLaunchYear: isVerified2026GameFace ? 2025 : null,
     sourceWebsite: "Local portrait archive",
     retrievedOn: "2026-07-21",
     matchQuality:
-      record.portraitScope === "card-specific"
-        ? "manually-reviewed-edition"
-        : "identity-only-permissioned",
+      isVerified2026GameFace
+        ? "edition-verified"
+        : record.portraitScope === "card-specific"
+          ? "manually-reviewed-edition"
+          : "identity-only-permissioned",
     requiredAttribution: "Local portrait from the Trophy XI project archive.",
   };
 };
 
 export const tournamentEditionPlayerImages =
   playerLocalPortraitRecords
-    .filter((record) => record.portraitScope === "card-specific")
+    .filter(
+      (record) =>
+        record.portraitScope === "card-specific" &&
+        record.tournamentYear !== 2026,
+    )
     .map(buildAttribution);
 export const historicalPlayerImages = playerLocalPortraitRecords
-  .filter((record) => record.portraitScope === "identity-only")
+  .filter(
+    (record) =>
+      record.portraitScope === "identity-only" &&
+      record.tournamentYear !== 2026,
+  )
   .map(buildAttribution);
-const fc25ImportedSourceCardIds = new Set(
-  importedPlayerIdentityPortraitRecords
-    .filter((record) => record.sourceImageUrl.endsWith("/25_120.png"))
-    .map((record) => record.id),
-);
 export const importedPlayerIdentityImages =
   importedPlayerIdentityPortraitRecords
     .filter(
       (record) =>
-        playersById.has(record.id) &&
-        !(
-          record.tournamentYear === 2026 &&
-          record.sourceImageUrl.includes("cdn.sofifa.net/players/") &&
-          !record.sourceImageUrl.endsWith("/26_120.png")
-        ),
+        archivedPlayersById.has(record.id) &&
+        (record.tournamentYear !== 2026 ||
+          record.sourceImageUrl.endsWith("/26_120.png")),
     )
     .map(buildAttribution);
 const directPlayerImageById = new Map(
   [
-  ...tournamentEditionPlayerImages,
-  ...historicalPlayerImages,
-  ...importedPlayerIdentityImages,
-  ...userSuppliedPlayerImages,
+    ...tournamentEditionPlayerImages,
+    ...historicalPlayerImages,
+    ...importedPlayerIdentityImages,
+    ...userSuppliedPlayerImages.filter(
+      (image) => image.tournamentYear !== 2026,
+    ),
   ].map((image) => [image.id, image]),
 );
 const directPlayerImages = [...directPlayerImageById.values()];
@@ -121,7 +135,7 @@ const directPlayerImages = [...directPlayerImageById.values()];
  */
 const directPortraitsByIdentity = new Map<string, ImageAttribution[]>();
 for (const image of directPlayerImages) {
-  const sourceCard = playersById.get(image.id);
+  const sourceCard = archivedPlayersById.get(image.id);
   if (!sourceCard) continue;
   directPortraitsByIdentity.set(sourceCard.playerIdentityId, [
     ...(directPortraitsByIdentity.get(sourceCard.playerIdentityId) ?? []),
@@ -129,43 +143,39 @@ for (const image of directPlayerImages) {
   ]);
 }
 
-export const identityFallbackPlayerImages = players.flatMap((player) => {
-  if (directPlayerImageById.has(player.imageId)) return [];
-  const source = [
-    ...(directPortraitsByIdentity.get(player.playerIdentityId) ?? []),
-  ]
-    .filter(
-      (candidate) =>
-        player.tournamentYear !== 2026 ||
-        !fc25ImportedSourceCardIds.has(candidate.id),
-    )
-    .sort(
+export const identityFallbackPlayerImages =
+  allPlayersBeforeIdentityPruning.flatMap((player) => {
+    if (directPlayerImageById.has(player.imageId)) return [];
+    if (player.tournamentYear === 2026) return [];
+    const source = [
+      ...(directPortraitsByIdentity.get(player.playerIdentityId) ?? []),
+    ].sort(
       (first, second) =>
         Math.abs(first.tournamentYear - player.tournamentYear) -
           Math.abs(second.tournamentYear - player.tournamentYear) ||
         second.tournamentYear - first.tournamentYear ||
         first.id.localeCompare(second.id),
     )[0];
-  if (!source) return [];
-  return [
-    {
-      ...source,
-      id: player.imageId,
-      subjectName: player.playerName,
-      tournamentYear: player.tournamentYear,
-      cacheVersion: `${source.cacheVersion}-${player.imageId}`,
-      changes: `${source.changes} Reused as an identity-only fallback for the ${player.tournamentYear} tournament card; it is not represented as an exact-tournament photograph.`,
-      fallback: true,
-      representedTeam: player.countryName,
-      photographedYear: null,
-      exactTournamentImage: false,
-      photoContext: "other-licensed-face" as const,
-      gameEdition: null,
-      gameEditionLaunchYear: null,
-      matchQuality: "identity-only-permissioned",
-    },
-  ];
-});
+    if (!source) return [];
+    return [
+      {
+        ...source,
+        id: player.imageId,
+        subjectName: player.playerName,
+        tournamentYear: player.tournamentYear,
+        cacheVersion: `${source.cacheVersion}-${player.imageId}`,
+        changes: `${source.changes} Reused as an identity-only fallback for the ${player.tournamentYear} tournament card; it is not represented as an exact-tournament photograph.`,
+        fallback: true,
+        representedTeam: player.countryName,
+        photographedYear: null,
+        exactTournamentImage: false,
+        photoContext: "other-licensed-face" as const,
+        gameEdition: null,
+        gameEditionLaunchYear: null,
+        matchQuality: "identity-only-permissioned",
+      },
+    ];
+  });
 
 export const playerImages = [
   ...directPlayerImages,

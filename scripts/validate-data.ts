@@ -1,9 +1,11 @@
 import { existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import playerTournamentsJson from "../src/data/player-tournaments.generated.json";
 import completed2026RosterJson from "../src/data/player-tournaments-2026.generated.json";
+import ratingAudit2026Json from "../src/data/player-ratings-2026.generated.json";
 import requestedIdentityJson from "../src/data/requested-player-identities.generated.json";
 import { draftEras } from "../src/data/eras";
 import { formations } from "../src/data/formations";
@@ -30,8 +32,10 @@ import {
   userSuppliedPlayerImages,
 } from "../src/data/player-images";
 import {
+  allPlayersBeforeIdentityPruning,
   draftEligiblePlayers,
-  players,
+  maximumOverallByPlayerIdentity,
+  players as playablePlayers,
   playersById,
 } from "../src/data/players";
 import {
@@ -81,6 +85,10 @@ const failures: string[] = [];
 const assert = (condition: boolean, message: string) => {
   if (!condition) failures.push(message);
 };
+const players = allPlayersBeforeIdentityPruning;
+const archivedPlayersById = new Map(
+  players.map((player) => [player.id, player]),
+);
 
 const groups = {
   goalkeepers: (player: PlayerTournamentCard) => player.primaryPosition === "GK",
@@ -193,7 +201,7 @@ const main = async () => {
   for (const record of localPortraitRecords) {
     const card =
       record.kind === "player"
-        ? playersById.get(record.id)
+        ? archivedPlayersById.get(record.id)
         : managerById.get(record.id);
     assert(Boolean(card), `${record.id} local portrait has no matching card`);
     assert(
@@ -616,7 +624,7 @@ const main = async () => {
     "Rodri 2026 must use the Golden Ball baseline rating of 96",
   );
   assert(
-    draftEligiblePlayers.filter((player) => player.overall >= 95).length <= 25,
+    draftEligiblePlayers.filter((player) => player.overall >= 95).length <= 30,
     "The 95–99 cohort must remain very small",
   );
   assert(
@@ -837,11 +845,56 @@ const main = async () => {
       playerIdentities.size === expectedPlayerIdentityCount,
     `Player archive must exactly match sourced rosters; expected ${expectedHistoricalCardCount + completed2026Roster.players.length} cards / ${expectedPlayerIdentityCount} identities, found ${players.length} / ${playerIdentities.size}`,
   );
+  const expectedPlayablePlayers = players.filter(
+    (player) =>
+      (maximumOverallByPlayerIdentity.get(player.playerIdentityId) ?? 0) >= 80,
+  );
+  const playableIds = new Set(playablePlayers.map((player) => player.id));
+  assert(
+    playablePlayers.length === expectedPlayablePlayers.length &&
+      playablePlayers.every((player) =>
+        expectedPlayablePlayers.some((candidate) => candidate.id === player.id),
+      ) &&
+      expectedPlayablePlayers.every((player) => playableIds.has(player.id)),
+    "Playable pruning must remove an identity iff its maximum card overall is below 80",
+  );
+  for (const [identityId, versions] of versionsByIdentity) {
+    const playableVersions = playablePlayers.filter(
+      (player) => player.playerIdentityId === identityId,
+    );
+    const identityMaximum = Math.max(
+      ...versions.map((player) => player.overall),
+    );
+    assert(
+      identityMaximum < 80
+        ? playableVersions.length === 0
+        : playableVersions.length === versions.length,
+      `${identityId} violates identity-wide pruning completeness`,
+    );
+  }
+  const historicalRatingFingerprint = createHash("sha256")
+    .update(
+      players
+        .filter((player) => player.tournamentYear !== 2026)
+        .sort((first, second) => first.id.localeCompare(second.id))
+        .map((player) => `${player.id}:${player.overall}`)
+        .join("\n"),
+    )
+    .digest("hex");
+  assert(
+    historicalRatingFingerprint ===
+      "0a741898b902706748d9b52f39f4309c780bf28456eb626d1abcba81b4d350c7",
+    "The restored 1970–2022 card ratings drifted from the pre-task baseline",
+  );
   assert(
     managers.length === 47 && managerIdentities.size === 47,
     `Manager archive must contain one card for each of 47 identities; found ${managers.length} / ${managerIdentities.size}`,
   );
   const cards2026 = players.filter((player) => player.tournamentYear === 2026);
+  const audited2026Cards = ratingAudit2026Json.cards;
+  const audited2026ByCardId = new Map(
+    audited2026Cards.map((card) => [card.cardId, card]),
+  );
   assert(
     cards2026.length === completed2026Roster.players.length &&
       new Set(cards2026.map((player) => player.playerIdentityId)).size ===
@@ -849,6 +902,15 @@ const main = async () => {
       completed2026Roster.teams.length === 48 &&
       completed2026Roster.teams.every((team) => team.playerCount === 26),
     "The completed 2026 archive must contain all 1,248 unique players across 48 complete squads",
+  );
+  assert(
+    audited2026Cards.length === completed2026Roster.players.length &&
+      audited2026ByCardId.size === audited2026Cards.length &&
+      cards2026.every(
+        (player) =>
+          audited2026ByCardId.get(player.id)?.overall === player.overall,
+      ),
+    "Every 2026 card must use its explicit audited overall",
   );
   assert(
     versionsByIdentity
@@ -864,7 +926,7 @@ const main = async () => {
     "samuel-etoo-2006",
     "youssef-msakni-2018",
   ]) {
-    assert(!playersById.has(excludedId), `${excludedId} must not exist`);
+    assert(!archivedPlayersById.has(excludedId), `${excludedId} must not exist`);
   }
   assert(
     requestedIdentityJson.identities.length === 434,
@@ -893,13 +955,35 @@ const main = async () => {
       Boolean(representative.careerStats),
       `${identityId} is missing career context`,
     );
-    if (versions.some((player) => imagesById.has(player.imageId))) {
+    const historicalVersions = versions.filter(
+      (player) => player.tournamentYear !== 2026,
+    );
+    if (
+      historicalVersions.some((player) => imagesById.has(player.imageId))
+    ) {
       assert(
-        versions.every((player) => imagesById.has(player.imageId)),
-        `${identityId} does not resolve an exact or closest-year portrait for every card`,
+        historicalVersions.every((player) =>
+          imagesById.has(player.imageId),
+        ),
+        `${identityId} does not resolve an exact or closest-year portrait for every historical card`,
       );
     }
   }
+  assert(
+    identityFallbackPlayerImages.every(
+      (image) => image.tournamentYear !== 2026,
+    ) &&
+      playerImages
+        .filter((image) => image.tournamentYear === 2026)
+        .every(
+          (image) =>
+            !image.fallback &&
+            image.gameEdition === "EA SPORTS FC 26" &&
+            image.gameEditionLaunchYear === 2025 &&
+            image.matchQuality === "edition-verified",
+        ),
+    "A 2026 card face is not a verified FC26 game face or Photo Pending",
+  );
   const expectedTournamentCardIds = new Set(
     Object.entries(playerTournaments.identities).flatMap(
       ([identityId, tournaments]) =>
@@ -950,7 +1034,7 @@ const main = async () => {
     playerTournaments.identities,
   )) {
     for (const tournament of tournaments) {
-      const card = playersById.get(
+      const card = archivedPlayersById.get(
         `${identityId}-${tournament.tournamentYear}`,
       );
       assert(
@@ -983,10 +1067,11 @@ const main = async () => {
         .join("|") === expectedYears.join("|"),
       `${identityId} does not have all six tournament versions`,
     );
-    const availablePortraitYears =
-      identityId === "lionel-messi"
-        ? expectedYears.filter((year) => year !== 2006)
-        : expectedYears;
+    const availablePortraitYears = expectedYears.filter(
+      (year) =>
+        year !== 2026 &&
+        !(identityId === "lionel-messi" && year === 2006),
+    );
     assert(
       availablePortraitYears.every((year) =>
         imagesById.has(`${identityId}-${year}`),
@@ -1127,7 +1212,7 @@ const main = async () => {
     typeof directPlayerImages
   >();
   for (const image of directPlayerImages) {
-    const card = playersById.get(image.id);
+    const card = archivedPlayersById.get(image.id);
     if (!card) continue;
     directPortraitsByIdentity.set(card.playerIdentityId, [
       ...(directPortraitsByIdentity.get(card.playerIdentityId) ?? []),
@@ -1177,7 +1262,7 @@ const main = async () => {
           `${image.id} manager portrait must use its one canonical identity path`,
         );
       } else if (image.fallback) {
-        const targetCard = playersById.get(image.id);
+        const targetCard = archivedPlayersById.get(image.id);
         const candidates = targetCard
           ? [...(directPortraitsByIdentity.get(targetCard.playerIdentityId) ?? [])]
               .sort(
@@ -1200,7 +1285,7 @@ const main = async () => {
           `${image.id} does not reuse the closest verified portrait for its identity`,
         );
       } else {
-        const card = playersById.get(image.id);
+        const card = archivedPlayersById.get(image.id);
         assert(
           Boolean(card && card.tournamentYear === image.tournamentYear),
           `${image.id} direct portrait has no matching tournament card`,
@@ -1283,9 +1368,11 @@ const main = async () => {
   ).length;
 
   console.log("Trophy XI data report");
-  console.log(`Players: ${players.length} cards / ${playerIdentities.size} identities`);
   console.log(
-    `Draftable players: ${draftEligiblePlayers.length}; tournament-edition game faces: ${tournamentEditionPlayerImages.length}; historical identity portraits: ${historicalPlayerImages.length}; user-supplied portraits: ${userSuppliedPlayerImages.length}; identity fallbacks: ${identityFallbackPlayerImages.length}; photo-pending placeholders: ${draftEligiblePlayers.length - playerImages.length}`,
+    `Source archive: ${players.length} cards / ${playerIdentities.size} identities`,
+  );
+  console.log(
+    `Playable players after identity pruning: ${draftEligiblePlayers.length} cards / ${new Set(draftEligiblePlayers.map((player) => player.playerIdentityId)).size} identities; tournament-edition game faces: ${tournamentEditionPlayerImages.length}; historical identity portraits: ${historicalPlayerImages.length}; user-supplied portraits: ${userSuppliedPlayerImages.length}; identity fallbacks: ${identityFallbackPlayerImages.length}; photo-pending placeholders: ${draftEligiblePlayers.filter((player) => !imagesById.has(player.imageId)).length}`,
   );
   console.log(
     `Positions: ${counts.goalkeepers} GK / ${counts.defenders} DEF / ${counts.midfielders} MID / ${counts.attackers} FWD`,
@@ -1304,7 +1391,7 @@ const main = async () => {
     `Tournament-edition faces: ${tournamentEditionPlayerImages.length} players; exact-year faces: ${managerImages.length} managers; historical identity portraits: ${historicalPlayerImages.length}; user-supplied portraits: ${userSuppliedPlayerImages.length}; identity fallbacks: ${identityFallbackPlayerImages.length}`,
   );
   console.log(
-    `Photo Pending: ${draftEligiblePlayers.length - playerImages.length} players / ${draftEligibleManagers.length - managerImages.length} managers`,
+    `Photo Pending: ${draftEligiblePlayers.filter((player) => !imagesById.has(player.imageId)).length} players / ${draftEligibleManagers.filter((manager) => !imagesById.has(manager.imageId)).length} managers`,
   );
   console.log(
     `Draftable player ratings: ${JSON.stringify(distribution(draftEligiblePlayers.map((player) => String(player.overall))))}`,

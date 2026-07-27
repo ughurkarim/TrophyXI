@@ -162,22 +162,18 @@ describe("TacticalPitch", () => {
       name: /CB\. Adaptable, 82 percent/i,
     });
     expect(leftCenterBack).toHaveClass("pitch-node--fit-yellow");
-    expect(leftCenterBack).not.toHaveClass("pitch-node--fit-label-above");
     const rightCenterBack = screen.getByRole("button", {
       name: /CB\. Awkward Fit, 58 percent/i,
     });
     expect(rightCenterBack).toHaveClass("pitch-node--fit-red");
-    expect(rightCenterBack).not.toHaveClass("pitch-node--fit-label-above");
     const incompatibleGoalkeeperSlot = screen.getByRole("button", {
       name: /GK\. Incompatible, 0 percent/i,
     });
     expect(incompatibleGoalkeeperSlot).toHaveAttribute("aria-disabled", "true");
-    expect(incompatibleGoalkeeperSlot).toHaveClass(
-      "pitch-node--fit-label-above",
-    );
     expect(incompatibleGoalkeeperSlot).toHaveClass("pitch-node--near-bottom");
-    expect(incompatibleGoalkeeperSlot.querySelector(".pitch-node__fit"))
-      .toHaveTextContent("GK0%");
+    expect(
+      incompatibleGoalkeeperSlot.querySelector(".pitch-node__fit-percent"),
+    ).toHaveTextContent("0%");
     expect(incompatibleGoalkeeperSlot).toHaveAttribute(
       "title",
       expect.stringMatching(/Incompatible, 0 percent/i),
@@ -253,7 +249,6 @@ describe("TacticalPitch", () => {
       name: /GK\. Perfect Fit, 100 percent\. No placement penalty/i,
     });
     expect(goalkeeperSlot).toHaveStyle({ left: "50%", top: "91%" });
-    expect(goalkeeperSlot).toHaveClass("pitch-node--fit-label-above");
     expect(goalkeeperSlot).toHaveClass("pitch-node--near-bottom");
     expect(goalkeeperSlot).toHaveClass("pitch-node--goalkeeper");
     expect(goalkeeperSlot).toHaveAttribute("data-slot-position", "GK");

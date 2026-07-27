@@ -21873,19 +21873,6 @@
       "changes": "Preserved the downloaded source file and created a normalized local PNG for identity fallback."
     },
     {
-      "playerIdentityId": "william-gallas",
-      "playerName": "William Gallas",
-      "sourceCardId": "william-gallas-2010",
-      "sourceTournamentYear": 2010,
-      "localPath": "/assets/players/2010/william-gallas-2010.png",
-      "sourceFile": "/assets/research/player-identity-sources/william-gallas.png",
-      "sourcePage": "https://sofifa.com/player/1625",
-      "sourceImageUrl": "https://cdn.sofifa.net/players/001/625/15_120.png",
-      "sourceKind": "sofifa-game-face",
-      "cacheVersion": "dc32d11f5fe8d025",
-      "changes": "Preserved the downloaded source file and created a normalized local PNG for identity fallback."
-    },
-    {
       "playerIdentityId": "william-saliba",
       "playerName": "William Saliba",
       "sourceCardId": "william-saliba-2026",
@@ -42413,19 +42400,6 @@
       "changes": "Preserved the downloaded source file and created a normalized local PNG for identity fallback.",
       "sourcePage": "https://sofifa.com/player/207566",
       "sourceImageUrl": "https://cdn.sofifa.net/players/207/566/23_120.png"
-    },
-    {
-      "id": "william-gallas-2010",
-      "kind": "player",
-      "playerIdentityId": "william-gallas",
-      "tournamentYear": 2010,
-      "localPath": "/assets/players/2010/william-gallas-2010.png",
-      "sourceFile": "/assets/research/player-identity-sources/william-gallas.png",
-      "portraitScope": "identity-only",
-      "cacheVersion": "dc32d11f5fe8d025",
-      "changes": "Preserved the downloaded source file and created a normalized local PNG for identity fallback.",
-      "sourcePage": "https://sofifa.com/player/1625",
-      "sourceImageUrl": "https://cdn.sofifa.net/players/001/625/15_120.png"
     },
     {
       "id": "william-saliba-2026",

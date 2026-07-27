@@ -1,116 +1,49 @@
+import playerRatings2026Json from "@/data/player-ratings-2026.generated.json";
 import type { Position } from "@/types/game";
 
-export type Completed2026PlayerSeed = readonly [
-  playerName: string,
-  nation: string,
-  primaryPosition: Position,
-  overall: number,
-];
+export type Completed2026PlayerRating = {
+  cardId: string;
+  playerIdentityId: string;
+  playerName: string;
+  teamCode: string;
+  shirtNumber: number;
+  primaryPosition: Position;
+  fifaPlayerId: string | null;
+  fifaPlayerName: string | null;
+  tournamentFinish: string;
+  tournamentEvidence: {
+    matchesPlayed: number;
+    minutesPlayed: number;
+    goals: number;
+    assists: number;
+    saves: number | null;
+    savePercentage: number | null;
+    impactPercentile: number | null;
+  };
+  overall: number;
+  ratingBasis: "manual-elite-anchor" | "evidence-tier-review";
+  ratingRationale: string;
+};
 
-// Curated from the completed tournament roster supplied for the archive.
-// Ratings reflect tournament performance rather than general player reputation:
-// 99 legendary, 98 iconic, 96 Golden Ball, 90–95 excellent, ~85 solid.
-export const completed2026PlayerSeeds = [
-  ["Rodri", "ESP", "DM", 96],
-  ["Unai Simón", "ESP", "GK", 88],
-  ["Pau Cubarsí", "ESP", "CB", 93],
-  ["Lamine Yamal", "ESP", "RW", 84],
-  ["Mikel Oyarzabal", "ESP", "ST", 90],
-  ["Ferran Torres", "ESP", "RW", 82],
-  ["Aymeric Laporte", "ESP", "CB", 84],
-  ["Marc Cucurella", "ESP", "LB", 88],
-  ["Pedro Porro", "ESP", "RB", 83],
-  ["Fabián Ruiz", "ESP", "CM", 85],
-  ["Dani Olmo", "ESP", "AM", 88],
-  ["Nico Williams", "ESP", "LW", 85],
-  ["Lionel Messi", "ARG", "RW", 95],
-  ["Emiliano Martínez", "ARG", "GK", 91],
-  ["Enzo Fernández", "ARG", "CM", 83],
-  ["Julián Álvarez", "ARG", "ST", 84],
-  ["Lautaro Martínez", "ARG", "ST", 83],
-  ["Alexis Mac Allister", "ARG", "CM", 83],
-  ["Rodrigo De Paul", "ARG", "CM", 80],
-  ["Cristian Romero", "ARG", "CB", 86],
-  ["Nicolás Otamendi", "ARG", "CB", 78],
-  ["Nico Paz", "ARG", "AM", 78],
-  ["Kylian Mbappé", "FRA", "ST", 97],
-  ["Michael Olise", "FRA", "RW", 93],
-  ["Ousmane Dembélé", "FRA", "RW", 90],
-  ["Désiré Doué", "FRA", "LW", 87],
-  ["Aurélien Tchouaméni", "FRA", "DM", 84],
-  ["William Saliba", "FRA", "CB", 82],
-  ["Ibrahima Konaté", "FRA", "CB", 87],
-  ["Theo Hernández", "FRA", "LB", 82],
-  ["Jude Bellingham", "ENG", "AM", 94],
-  ["Harry Kane", "ENG", "ST", 91],
-  ["Bukayo Saka", "ENG", "RW", 80],
-  ["Declan Rice", "ENG", "DM", 86],
-  ["Anthony Gordon", "ENG", "LW", 80],
-  ["Nico O’Reilly", "ENG", "CM", 82],
-  ["Jordan Pickford", "ENG", "GK", 82],
-  ["Marc Guéhi", "ENG", "CB", 84],
-  ["Ezri Konsa", "ENG", "CB", 84],
-  ["Erling Haaland", "NOR", "ST", 93],
-  ["Martin Ødegaard", "NOR", "AM", 87],
-  ["Antonio Nusa", "NOR", "LW", 80],
-  ["Oscar Bobb", "NOR", "RW", 79],
-  ["Alexander Sørloth", "NOR", "ST", 73],
-  ["Achraf Hakimi", "MAR", "RB", 87],
-  ["Brahim Díaz", "MAR", "AM", 84],
-  ["Yassine Bounou", "MAR", "GK", 90],
-  ["Neil El Aynaoui", "MAR", "CM", 82],
-  ["Ismaïla Sarr", "SEN", "RW", 80],
-  ["Iliman Ndiaye", "SEN", "AM", 78],
-  ["Sadio Mané", "SEN", "LW", 80],
-  ["Kevin De Bruyne", "BEL", "AM", 84],
-  ["Thibaut Courtois", "BEL", "GK", 89],
-  ["Jérémy Doku", "BEL", "LW", 84],
-  ["Romelu Lukaku", "BEL", "ST", 83],
-  ["Amadou Onana", "BEL", "DM", 81],
-  ["Youri Tielemans", "BEL", "CM", 83],
-  ["Brandon Mechele", "BEL", "CB", 77],
-  ["Neymar", "BRA", "LW", 74],
-  ["Vinícius Júnior", "BRA", "LW", 90],
-  ["Rodrygo", "BRA", "RW", 84],
-  ["Bruno Guimarães", "BRA", "CM", 80],
-  ["Gabriel Magalhães", "BRA", "CB", 84],
-  ["Lucas Paquetá", "BRA", "AM", 83],
-  ["Raphinha", "BRA", "RW", 80],
-  ["Alisson", "BRA", "GK", 83],
-  ["Cristiano Ronaldo", "POR", "ST", 85],
-  ["Bruno Fernandes", "POR", "AM", 72],
-  ["Bernardo Silva", "POR", "RW", 74],
-  ["Rafael Leão", "POR", "LW", 82],
-  ["João Neves", "POR", "CM", 83],
-  ["Vitinha", "POR", "CM", 74],
-  ["Rúben Dias", "POR", "CB", 83],
-  ["Diogo Costa", "POR", "GK", 81],
-  ["Florian Wirtz", "GER", "AM", 82],
-  ["Jamal Musiala", "GER", "AM", 79],
-  ["Joshua Kimmich", "GER", "DM", 86],
-  ["Kai Havertz", "GER", "CF", 82],
-  ["Deniz Undav", "GER", "ST", 85],
-  ["Antonio Rüdiger", "GER", "CB", 81],
-  ["Marc-André ter Stegen", "GER", "GK", 76],
-  ["Virgil van Dijk", "NED", "CB", 84],
-  ["Ryan Gravenberch", "NED", "CM", 81],
-  ["Xavi Simons", "NED", "AM", 78],
-  ["Cody Gakpo", "NED", "LW", 83],
-  ["Crysencio Summerville", "NED", "LW", 81],
-  ["Denzel Dumfries", "NED", "RWB", 80],
-  ["Mohamed Salah", "EGY", "RW", 83],
-  ["Omar Marmoush", "EGY", "ST", 74],
-  ["Christian Pulisic", "USA", "LW", 75],
-  ["Folarin Balogun", "USA", "ST", 80],
-  ["Weston McKennie", "USA", "CM", 79],
-  ["Tyler Adams", "USA", "DM", 80],
-  ["Alphonso Davies", "CAN", "LB", 81],
-  ["Jonathan David", "CAN", "ST", 78],
-  ["Luis Díaz", "COL", "LW", 85],
-  ["James Rodríguez", "COL", "AM", 79],
-  ["Granit Xhaka", "SUI", "CM", 80],
-  ["Vozinha", "CPV", "GK", 90],
-  ["Arda Güler", "TUR", "AM", 77],
-  ["Giuliano Simeone", "ARG", "RW", 82],
-  ["Azzedine Ounahi", "MAR", "CM", 84],
-] as const satisfies readonly Completed2026PlayerSeed[];
+type Completed2026RatingAudit = {
+  version: number;
+  generatedAt: string;
+  summary: {
+    cards: number;
+    matchedToCurrentFifaStats: number;
+    unmatchedRestoredRosterCards: number;
+    playersWithMinutes: number;
+    playersWithoutMinutes: number;
+    cardsAt80OrHigher: number;
+    distribution: Record<string, number>;
+  };
+  cards: Completed2026PlayerRating[];
+};
+
+// This static audit is generated from official FIFA tournament evidence. Runtime
+// card construction consumes only these explicit final values; it does not
+// derive ratings from roster order, historical appearances, or game ratings.
+export const completed2026RatingAudit =
+  playerRatings2026Json as Completed2026RatingAudit;
+
+export const completed2026PlayerRatings = completed2026RatingAudit.cards;

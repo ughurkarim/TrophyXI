@@ -3231,12 +3231,6 @@ export const historicalWorldCupTournamentStatsByCard = {
     "goals": 0,
     "assists": null
   },
-  "william-gallas-2006": {
-    "appearances": 7,
-    "starts": 7,
-    "goals": 0,
-    "assists": null
-  },
   "willy-sagnol-2006": {
     "appearances": 7,
     "starts": 7,
@@ -4279,12 +4273,6 @@ export const historicalWorldCupTournamentStatsByCard = {
     "appearances": 7,
     "starts": 7,
     "goals": 5,
-    "assists": null
-  },
-  "william-gallas-2010": {
-    "appearances": 3,
-    "starts": 3,
-    "goals": 0,
     "assists": null
   },
   "winston-reid-2010": {

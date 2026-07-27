@@ -284,11 +284,17 @@ describe("DraftBoard", () => {
       .projectedPositionFits.find(
         (candidate) => candidate.slotId === targetSlotId,
       )!;
-    await user.hover(
-      screen.getByRole("button", {
+    const slotButton = screen
+      .getAllByRole("button", {
         name: new RegExp(`^${slot.label}\\.`, "i"),
-      }),
-    );
+      })
+      .find(
+        (button) =>
+          button.getAttribute("data-slot-x") === String(slot.x) &&
+          button.getAttribute("data-slot-y") === String(slot.y),
+      );
+    expect(slotButton).toBeDefined();
+    await user.hover(slotButton!);
     expect(screen.getByLabelText("Selected player preview")).toHaveTextContent(
       `Placement Penalty −${preview.penaltyPercent}%`,
     );

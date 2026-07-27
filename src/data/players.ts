@@ -2,7 +2,7 @@ import { playerSeedSchema } from "@/lib/validation";
 import { playerCareerDataByIdentityId } from "@/data/player-career-data";
 import tournamentArchiveJson from "@/data/player-tournaments.generated.json";
 import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
-import { completed2026PlayerSeeds } from "@/data/player-tournaments-2026";
+import { completed2026PlayerRatings } from "@/data/player-tournaments-2026";
 import completed2026RosterJson from "@/data/player-tournaments-2026.generated.json";
 import { historicalWorldCupTournamentStatsByCard } from "@/data/historical-world-cup-tournament-stats.by-card.generated";
 import { worldCup2026GoalkeeperStats } from "@/data/world-cup-2026-goalkeeper-stats.generated";
@@ -621,6 +621,7 @@ type Completed2026RosterArchive = {
     identityId: string;
     playerName: string;
     teamCode: string;
+    shirtNumber: number;
     primaryPosition: Position;
     eligiblePositions: Position[];
   }[];
@@ -2452,60 +2453,59 @@ function getPriorityExpansionSeeds(): CardSeed[] {
   ];
 }
 
-const completed2026Seeds: CardSeed[] = completed2026PlayerSeeds.map(
-  ([playerName, nation, primaryPosition, overall]) => ({
-    id: `${slugify(playerName)}-2026`,
-    playerName,
-    nation,
-    tournamentYear: 2026,
-    primaryPosition,
-    eligiblePositions: eligibleFor(primaryPosition),
-    overall,
-    finalOverall: overall,
-    archetype:
-      primaryPosition === "GK"
-        ? "2026 tournament goalkeeper"
-        : overall >= 94
-          ? "Tournament-defining 2026 performer"
-          : overall >= 90
-            ? "Elite 2026 tournament performer"
-            : "2026 tournament standout",
-    rarity: overall >= 96 ? "iconic" : overall >= 90 ? "legendary" : "classic",
-  }),
+const audited2026RatingByIdentity = new Map(
+  completed2026PlayerRatings.map((rating) => [
+    rating.playerIdentityId,
+    rating,
+  ]),
 );
-
-const curated2026SeedById = new Map(
-  completed2026Seeds.map((seed) => [seed.id, seed]),
+const historicalDisplayNameByIdentity = new Map(
+  sourcedTournamentSeeds.map((seed) => [
+    seed.id.replace(/-\d{4}$/, ""),
+    seed.playerName,
+  ]),
 );
 const complete2026RosterSeeds: CardSeed[] = completed2026Roster.players.map(
   (player) => {
     const id = `${player.identityId}-2026`;
-    const curated = curated2026SeedById.get(id);
-    const historicalAppearances =
-      tournamentArchive.identities[player.identityId]?.reduce(
-        (total, tournament) => total + tournament.appearances,
-        0,
-      ) ?? 0;
-    const rosterOverall = Math.min(
-      80,
-      70 + Math.floor(Math.min(30, historicalAppearances) / 4),
-    );
+    const audited = audited2026RatingByIdentity.get(player.identityId);
+    if (!audited) {
+      throw new Error(`${id} is missing its explicit 2026 rating audit`);
+    }
+    if (
+      audited.cardId !== id ||
+      audited.teamCode !== player.teamCode ||
+      audited.shirtNumber !== player.shirtNumber
+    ) {
+      throw new Error(`${id} does not match its explicit 2026 rating audit`);
+    }
     return {
       id,
-      playerName: curated?.playerName ?? player.playerName,
+      playerName:
+        historicalDisplayNameByIdentity.get(player.identityId) ??
+        player.playerName,
       nation: player.teamCode,
       tournamentYear: 2026,
-      primaryPosition: curated?.primaryPosition ?? player.primaryPosition,
-      eligiblePositions:
-        curated?.eligiblePositions ?? player.eligiblePositions,
-      overall: curated?.overall ?? rosterOverall,
-      finalOverall: curated?.finalOverall ?? rosterOverall,
+      primaryPosition: player.primaryPosition,
+      eligiblePositions: player.eligiblePositions,
+      overall: audited.overall,
+      finalOverall: audited.overall,
       archetype:
-        curated?.archetype ??
-        (player.primaryPosition === "GK"
+        player.primaryPosition === "GK"
           ? "2026 tournament goalkeeper"
-          : "2026 World Cup squad player"),
-      rarity: curated?.rarity ?? "classic",
+          : audited.overall >= 94
+            ? "Tournament-defining 2026 performer"
+            : audited.overall >= 90
+              ? "Elite 2026 tournament performer"
+              : audited.overall >= 85
+                ? "2026 tournament standout"
+                : "2026 World Cup squad player",
+      rarity:
+        audited.overall >= 96
+          ? "iconic"
+          : audited.overall >= 90
+            ? "legendary"
+            : "classic",
     };
   },
 );
@@ -2518,7 +2518,8 @@ const seeds = [
 const normalizeCenterBackPosition = (position: Position): Position =>
   position === "LCB" || position === "RCB" ? "CB" : position;
 
-export const players: PlayerTournamentCard[] = playerSeedSchema
+export const allPlayersBeforeIdentityPruning: PlayerTournamentCard[] =
+  playerSeedSchema
   .parse(seeds.map(makeCard))
   .map((player) => ({
     ...player,
@@ -2527,6 +2528,27 @@ export const players: PlayerTournamentCard[] = playerSeedSchema
       ...new Set(player.eligiblePositions.map(normalizeCenterBackPosition)),
     ],
   }));
+
+export const maximumOverallByPlayerIdentity = new Map<string, number>();
+for (const player of allPlayersBeforeIdentityPruning) {
+  maximumOverallByPlayerIdentity.set(
+    player.playerIdentityId,
+    Math.max(
+      maximumOverallByPlayerIdentity.get(player.playerIdentityId) ??
+        Number.NEGATIVE_INFINITY,
+      player.overall,
+    ),
+  );
+}
+
+// The complete sourced archive remains intact above. The playable pool removes
+// an identity iff every one of its tournament cards is below 80, and therefore
+// keeps every card for every retained identity.
+export const players: PlayerTournamentCard[] =
+  allPlayersBeforeIdentityPruning.filter(
+    (player) =>
+      (maximumOverallByPlayerIdentity.get(player.playerIdentityId) ?? 0) >= 80,
+  );
 
 export const playersById = new Map(players.map((player) => [player.id, player]));
 export const draftEligiblePlayers = players.filter(
