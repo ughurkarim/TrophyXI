@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowLeft,
   ArrowRight,
   Crown,
   FastForward,
@@ -860,15 +861,17 @@ export default function WorldCupRunPage() {
                 <p className="eyebrow eyebrow--gold">
                   {displayStage === "final" ? "THE CHAMPIONSHIP MATCH" : "TROPHY XI ROUTE"}
                 </p>
-                <h2>
-                  {userLostCurrentFixture
-                    ? "THE RUN ENDS HERE"
-                    : displayStage === "final"
-                      ? "ONE MATCH. ONE TROPHY."
-                      : routeFixture?.result
-                        ? "ADVANCEMENT SECURED"
-                        : `${stageLabels[displayStage]} MATCH`}
-                </h2>
+                {!(run.status === "champion" && run.currentStage === "complete") && (
+                  <h2>
+                    {userLostCurrentFixture
+                      ? "THE RUN ENDS HERE"
+                      : displayStage === "final"
+                        ? "ONE MATCH. ONE TROPHY."
+                        : routeFixture?.result
+                          ? "ADVANCEMENT SECURED"
+                          : `${stageLabels[displayStage]} MATCH`}
+                  </h2>
+                )}
               </div>
               {routeFixture && (
                 <div className={styles.routeFixture}>
@@ -947,7 +950,15 @@ export default function WorldCupRunPage() {
                 </div>
               )}
               <div className={styles.quickActions}>
-                {run.status === "eliminated" && deferredElimination ? (
+                {run.status === "champion" && run.currentStage === "complete" ? (
+                  <Button
+                    className={styles.nextAction}
+                    variant="secondary"
+                    onClick={() => setShowChampionCelebration(true)}
+                  >
+                    <ArrowLeft size={15} aria-hidden /> GO BACK
+                  </Button>
+                ) : run.status === "eliminated" && deferredElimination ? (
                   <Button
                     className={styles.nextAction}
                     onClick={dismissDeferredElimination}
