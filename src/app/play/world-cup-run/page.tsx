@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import worldCupImage from "../../../../assets/worldcup2.png";
+import winImage from "../../../../assets/win.png";
 import groupLossImage from "../../../../assets/world-cup-losses/group.png";
 import r32LossImage from "../../../../assets/world-cup-losses/r32.png";
 import r16LossImage from "../../../../assets/world-cup-losses/r16.png";
@@ -43,22 +44,6 @@ const stageLabels: Record<WorldCupRunStage, string> = {
   "semi-final": "SEMIFINAL",
   final: "WORLD CUP FINAL",
   complete: "TOURNAMENT COMPLETE",
-};
-
-const ordinal = (value: number) => {
-  const mod100 = value % 100;
-  if (mod100 >= 11 && mod100 <= 13) return `${value}th`;
-
-  switch (value % 10) {
-    case 1:
-      return `${value}st`;
-    case 2:
-      return `${value}nd`;
-    case 3:
-      return `${value}rd`;
-    default:
-      return `${value}th`;
-  }
 };
 
 const shortStageLabels: Record<WorldCupRunKnockoutStage, string> = {
@@ -160,11 +145,18 @@ export default function WorldCupRunPage() {
   >({});
   const [deferredElimination, setDeferredElimination] = useState(false);
   const [deferredFixtureId, setDeferredFixtureId] = useState<string | null>(null);
+  const [showChampionCelebration, setShowChampionCelebration] = useState(true);
 
   const dismissDeferredElimination = () => {
     setDeferredElimination(false);
     setDeferredFixtureId(null);
   };
+
+  useEffect(() => {
+    if (run?.status === "champion") {
+      setShowChampionCelebration(true);
+    }
+  }, [run?.currentStage, run?.status]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -361,6 +353,26 @@ export default function WorldCupRunPage() {
         (b.matchday ?? Number.MAX_SAFE_INTEGER),
     );
   const unresolvedGroupFixtures = userGroupFixtures.filter((fixture) => !fixture.result);
+  const completedUserFixtures = run.fixtures.filter(
+    (fixture) =>
+      Boolean(fixture.result) &&
+      [fixture.homeTeamId, fixture.awayTeamId].includes(run.userTeamId),
+  );
+  const championWins = completedUserFixtures.filter((fixture) => {
+    if (!fixture.result) return false;
+
+    const userAtHome = fixture.homeTeamId === run.userTeamId;
+    const userGoals = userAtHome
+      ? fixture.result.homeGoals
+      : fixture.result.awayGoals;
+    const opponentGoals = userAtHome
+      ? fixture.result.awayGoals
+      : fixture.result.homeGoals;
+
+    if (userGoals !== opponentGoals) return userGoals > opponentGoals;
+    return fixture.stage !== "group" && winnerFor(fixture) === run.userTeamId;
+  }).length;
+
   const groupStageComplete = run.fixtures
     .filter((fixture) => fixture.stage === "group")
     .every((fixture) => Boolean(fixture.result));
@@ -511,7 +523,11 @@ export default function WorldCupRunPage() {
           </button>
         </header>
 
-        <nav className={styles.progress} aria-label="Tournament progress">
+        <nav
+          className={styles.progress}
+          aria-label="Tournament progress"
+          data-champion={run.status === "champion"}
+        >
           {stageOrder.map((stage, index) => (
             <div
               key={stage}
@@ -535,7 +551,7 @@ export default function WorldCupRunPage() {
               <h2>{lossScreen.headline}</h2>
               <p className={styles.lossBody}>
                 {eliminatedStage === "group"
-                  ? `Trophy XI finished ${ordinal(userStanding.rank)} in Group ${userGroup.id}. Your squad and tournament record remain saved.`
+                  ? `Trophy XI finished ${userStanding.rank} in Group ${userGroup.id}. Your squad and tournament record remain saved.`
                   : eliminatedStage === "final"
                     ? (() => {
                         const finalFixture = run.fixtures.find(
@@ -581,17 +597,65 @@ export default function WorldCupRunPage() {
               />
             </div>
           </section>
-        ) : run.status === "champion" ? (
+        ) : run.status === "champion" && showChampionCelebration ? (
           <section className={`${styles.terminal} ${styles.championState}`}>
-            <span className={styles.terminalIcon}><Crown size={30} /></span>
-            <p className="eyebrow eyebrow--gold">WORLD CHAMPIONS</p>
-            <h2>Trophy XI have conquered the world.</h2>
-            <p>The trophy is yours after surviving every stage of the tournament.</p>
-            <div>
-              {matchResult && (
-                <Button onClick={() => router.push("/result")}>VIEW FINAL RECORD</Button>
-              )}
-              <Button variant="secondary" onClick={() => router.push("/play")}>RETURN TO MAIN SCREEN</Button>
+            <div className={styles.winAtmosphere} aria-hidden />
+
+            <div className={styles.winCopy}>
+              <p className={styles.winEyebrow}>WORLD CHAMPIONS</p>
+              <h2>
+                <span className={styles.winHeadlineLead}>Trophy XI</span>
+                <span className={styles.winHeadlineAccent}>reach football&apos;s summit.</span>
+              </h2>
+              <p className={styles.winBody}>
+                Football&apos;s greatest prize belongs to Trophy XI.
+              </p>
+
+              <div className={styles.winStats} aria-label="World Cup run summary">
+                <article>
+                  <Play size={19} aria-hidden />
+                  <strong>{completedUserFixtures.length}</strong>
+                  <span>MATCHES</span>
+                </article>
+                <article>
+                  <Trophy size={19} aria-hidden />
+                  <strong>{championWins}</strong>
+                  <span>WINS</span>
+                </article>
+                <article>
+                  <Crown size={20} aria-hidden />
+                  <strong>1</strong>
+                  <span>TITLE</span>
+                </article>
+              </div>
+
+              <div className={styles.winActions}>
+                <Button
+                  className={styles.winPrimaryAction}
+                  onClick={() => router.push("/play")}
+                >
+                  RETURN TO MAIN SCREEN <ArrowRight size={16} aria-hidden />
+                </Button>
+                <Button
+                  className={styles.winSecondaryAction}
+                  variant="secondary"
+                  onClick={() => setShowChampionCelebration(false)}
+                >
+                  VIEW WORLD CUP RUN
+                </Button>
+              </div>
+            </div>
+
+            <div className={styles.winVisual} aria-hidden>
+              <div className={styles.winVisualGlow} />
+              <img
+                src={winImage.src}
+                alt=""
+                className={styles.winPlayer}
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
+              />
             </div>
           </section>
         ) : !knockoutView ? (
