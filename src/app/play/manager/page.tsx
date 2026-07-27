@@ -97,8 +97,7 @@ export default function ManagerPage() {
               </p>
               <h1 id="manager-title">Choose your manager.</h1>
               <p>
-                Choose the manager whose tactics, leadership, and match
-                decisions best fit the team you want to build.
+                Tactics. Leadership. Match decisions. Choose who leads your XI.
               </p>
             </div>
             <div className={`manager-grid ${styles.managerGrid}`}>
@@ -123,11 +122,9 @@ export default function ManagerPage() {
             </div>
             <div className={`manager-utility ${styles.utility}`}>
               <div className={styles.eraContext}>
-                <span className="eyebrow">MATCH ERA · {era.label}</span>
-                <p>
-                  Manager tactics will adapt to the selected match environment.
-                </p>
-                <small>Each respin is saved and used separately.</small>
+                <span className="eyebrow">MATCH ERA</span>
+                <p>{era.label}</p>
+                <small>Manager tactics adapt to this environment.</small>
               </div>
               <div
                 className={`manager-respin-actions ${styles.respinActions}`}
@@ -163,9 +160,7 @@ export default function ManagerPage() {
                   router.push("/play/formation");
                 }}
               >
-                {selectedManager
-                  ? `CONTINUE WITH ${selectedManager.managerName.toLocaleUpperCase()}`
-                  : "SELECT A MANAGER TO CONTINUE"}
+                {selectedManager ? "SELECT MANAGER" : "SELECT A MANAGER"}
                 <ArrowRight size={16} aria-hidden />
               </Button>
             </div>

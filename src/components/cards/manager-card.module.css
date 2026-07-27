@@ -1,331 +1,580 @@
-.card.card {
-  --manager-accent: #e5cf79;
+.card {
+  --manager-accent: 215, 183, 83;
 
+  position: relative;
   display: flex;
-  height: clamp(420px, 43vh, 430px);
+  min-width: 0;
+  height: 100%;
   min-height: 0;
+  padding: 17px 18px 14px;
   overflow: hidden;
   flex-direction: column;
-  border: 1px solid color-mix(in srgb, var(--manager-accent) 36%, var(--border-gold-low));
-  border-radius: 17px;
+  color: #f0eee7;
+  border: 1px solid rgba(215, 183, 83, 0.33);
+  border-radius: 15px;
   background:
     radial-gradient(
-      circle at 50% 20%,
-      color-mix(in srgb, var(--manager-accent) 13%, transparent),
-      transparent 36%
+      circle at 78% 19%,
+      rgba(var(--manager-accent), 0.075),
+      transparent 35%
     ),
-    linear-gradient(155deg, rgba(27, 25, 18, 0.96), var(--surface-black) 62%);
+    linear-gradient(155deg, rgba(12, 14, 11, 0.98), rgba(4, 7, 5, 0.995));
   box-shadow:
-    inset 0 1px var(--inner-highlight-medium),
-    0 18px 44px rgba(0, 0, 0, 0.4),
-    var(--aura-gold-low);
+    inset 0 1px rgba(255, 255, 255, 0.035),
+    inset 0 0 55px rgba(var(--manager-accent), 0.018),
+    0 18px 38px rgba(0, 0, 0, 0.28),
+    0 0 24px rgba(var(--manager-accent), 0.025);
+  isolation: isolate;
+  cursor: pointer;
   transform: none;
   transition:
-    border-color var(--duration-micro) var(--ease-premium),
-    box-shadow var(--duration-standard) var(--ease-premium),
-    background var(--duration-standard) var(--ease-premium),
-    filter var(--duration-micro) var(--ease-premium);
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    background 180ms ease;
 }
 
-.card.card::before {
-  inset: 5px;
-  border-color: color-mix(in srgb, var(--manager-accent) 17%, transparent);
-  border-radius: 12px;
+.card::before {
+  position: absolute;
+  z-index: 5;
+  inset: 7px;
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(var(--manager-accent), 0.05);
+  border-radius: 10px;
 }
 
-.card.card::after {
-  top: 10px;
-  width: 44px;
-  height: 5px;
-  border-color: var(--manager-accent);
+.card::after {
+  position: absolute;
+  z-index: 6;
+  top: 0;
+  left: 12%;
+  width: 76%;
+  height: 2px;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(var(--manager-accent), 0.8),
+      transparent
+    );
+  box-shadow: 0 0 14px rgba(var(--manager-accent), 0.38);
 }
 
-.card.card:hover,
-.card.card:focus-within,
-.card.selected {
-  border-color: var(--manager-accent);
+.card:hover {
+  border-color: rgba(var(--manager-accent), 0.64);
+  filter: brightness(1.035);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 0 62px rgba(var(--manager-accent), 0.035),
+    0 20px 42px rgba(0, 0, 0, 0.32),
+    0 0 30px rgba(var(--manager-accent), 0.075);
+}
+
+.selected,
+.selected:hover {
+  border-color: rgba(244, 215, 112, 0.96);
+  filter: brightness(1.07);
   background:
     radial-gradient(
-      circle at 50% 20%,
-      color-mix(in srgb, var(--manager-accent) 21%, transparent),
-      transparent 40%
+      circle at 78% 18%,
+      rgba(231, 196, 87, 0.16),
+      rgba(224, 188, 78, 0.055) 35%,
+      transparent 56%
     ),
-    linear-gradient(155deg, #211e14, #080a09 62%);
+    linear-gradient(155deg, rgba(15, 16, 10, 0.99), rgba(4, 7, 5, 0.995));
   box-shadow:
-    inset 0 0 0 1px
-      color-mix(in srgb, var(--manager-accent) 18%, transparent),
-    0 20px 48px rgba(0, 0, 0, 0.42),
-    0 0 28px color-mix(in srgb, var(--manager-accent) 18%, transparent);
-  transform: none;
+    inset 0 0 0 1px rgba(239, 207, 103, 0.15),
+    inset 0 1px rgba(255, 255, 255, 0.075),
+    inset 0 0 78px rgba(224, 188, 78, 0.065),
+    0 20px 44px rgba(0, 0, 0, 0.34),
+    0 0 34px rgba(224, 188, 78, 0.17),
+    0 0 74px rgba(224, 188, 78, 0.055);
 }
 
-.card.card:hover,
-.card.card:focus-within {
-  filter: brightness(var(--hover-brightness));
+.selected::before {
+  border-color: rgba(239, 207, 103, 0.14);
 }
 
-.card.selected {
-  border-width: 2px;
+.selected::after {
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 225, 122, 1),
+      transparent
+    );
   box-shadow:
-    inset 0 1px var(--inner-highlight-high),
-    0 20px 48px rgba(0, 0, 0, 0.46),
-    0 0 34px color-mix(in srgb, var(--manager-accent) 24%, transparent);
+    0 0 17px rgba(239, 204, 99, 0.72),
+    0 0 38px rgba(239, 204, 99, 0.20);
 }
 
 .attacking {
-  --manager-accent: #d7b64d;
+  --manager-accent: 214, 184, 83;
 }
 
 .transition {
-  --manager-accent: #c98a45;
+  --manager-accent: 194, 142, 66;
 }
 
 .defensive {
-  --manager-accent: #79a9c7;
+  --manager-accent: 159, 170, 158;
 }
 
 .balanced {
-  --manager-accent: #e5cf79;
+  --manager-accent: 201, 184, 117;
 }
 
 .highEraFit {
-  --manager-accent: var(--era-accent, #e5cf79);
+  --manager-accent: 230, 196, 91;
 }
 
-.card .meta {
-  min-height: 39px;
-  padding: 18px 18px 0;
-  color: color-mix(in srgb, var(--manager-accent) 82%, white);
-  font-size: 0.61rem;
-}
-
-.card .portrait {
-  position: relative;
-  height: 112px;
-  min-height: 112px;
-  margin-top: 0;
-}
-
-.card .portrait :global(.circular-portrait) {
-  --portrait-size: 104px;
-
-  width: var(--portrait-size);
-  height: var(--portrait-size);
-  aspect-ratio: 1;
-  border-radius: 50%;
-}
-
-.card .portrait :global(.circular-portrait__mask) {
-  width: auto;
-  height: auto;
-  aspect-ratio: 1;
-  border-radius: 50%;
-}
-
-.card .portrait :global(.circular-portrait__mask img) {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
-  object-position: center top;
-}
-
-.card.selected .portrait :global(.circular-portrait__rim) {
-  border-color: var(--manager-accent);
-  box-shadow:
-    inset 0 0 16px
-      color-mix(in srgb, var(--manager-accent) 28%, transparent),
-    0 0 26px color-mix(in srgb, var(--manager-accent) 48%, transparent);
-}
-
-.selectedBadge {
+/* Entire card is the selection target.
+   It deliberately sits above all non-interactive content. */
+.pickTarget {
   position: absolute;
   z-index: 10;
-  right: 15px;
-  bottom: 1px;
-  display: inline-flex;
-  min-height: 27px;
-  align-items: center;
-  gap: 5px;
-  padding: 0 9px;
-  color: #fff8d7;
-  border: 1px solid var(--manager-accent);
-  border-radius: 999px;
-  background: #10120f;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.54rem;
-  letter-spacing: 0.09em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
-.card .copy {
+.tacticalField {
+  position: absolute;
+  z-index: 0;
+  top: 48px;
+  right: -28px;
+  width: 205px;
+  height: 205px;
+  pointer-events: none;
+  opacity: 0.11;
+  border: 1px solid rgba(var(--manager-accent), 0.24);
+  border-radius: 50%;
+  mask-image: linear-gradient(90deg, transparent, black 45%);
+}
+
+.tacticalField::before,
+.tacticalField::after {
+  position: absolute;
+  content: "";
+  border: 1px solid rgba(var(--manager-accent), 0.16);
+}
+
+.tacticalField::before {
+  inset: 34% 15%;
+  border-left: 0;
+  border-right: 0;
+}
+
+.tacticalField::after {
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 70%;
+  border: 0;
+  background: rgba(var(--manager-accent), 0.15);
+  transform: translate(-50%, -50%);
+}
+
+.tacticalField span {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border: 1px solid rgba(var(--manager-accent), 0.28);
+  border-radius: 50%;
+}
+
+.tacticalField span:nth-child(1) { top: 22%; left: 55%; }
+.tacticalField span:nth-child(2) { top: 39%; left: 35%; }
+.tacticalField span:nth-child(3) { top: 39%; left: 70%; }
+.tacticalField span:nth-child(4) { top: 64%; left: 48%; }
+.tacticalField span:nth-child(5) { top: 75%; left: 69%; }
+
+/* Foreground content never blocks the full-card pick target. */
+.meta,
+.heroRow,
+.identityLine,
+.metrics,
+.lowerRow,
+.footer {
+  pointer-events: none;
+}
+
+.meta {
+  position: relative;
+  z-index: 3;
   display: flex;
-  min-height: 0;
-  padding: 12px 17px 8px;
+  min-height: 18px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 8px;
+  color: #9b9278;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.heroRow {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  min-height: 122px;
+  grid-template-columns: minmax(0, 1fr) 118px;
+  align-items: center;
+  gap: 16px;
+}
+
+.identity {
+  position: relative;
+  z-index: 3;
+  min-width: 0;
+  padding: 0;
   margin: 0;
-  flex: 1;
-  flex-direction: column;
-  background: none;
+  background: transparent;
 }
 
 .styleLabel {
-  color: var(--manager-accent);
+  display: block;
+  margin-bottom: 7px;
+  color: rgb(var(--manager-accent));
   font-family: var(--font-mono), monospace;
-  font-size: 0.54rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  font-size: 0.53rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
 }
 
-.card .copy h2 {
-  min-height: 0;
-  margin: 5px 0 2px;
-  font-size: clamp(1.12rem, 1.5vw, 1.35rem);
-  line-height: 1.05;
-}
-
-.card .copy > p {
+.identity h2 {
+  max-width: 100%;
   margin: 0;
-  color: #aeb3ad;
+  color: #f4f1e9;
+  font-size: clamp(1.42rem, 1.75vw, 1.72rem);
+  font-weight: 620;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  overflow-wrap: anywhere;
+}
+
+.identity p {
+  margin: 8px 0 0;
+  color: #a6aaa4;
+  font-size: 0.66rem;
+  line-height: 1.2;
+}
+
+.portrait {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  width: 112px;
+  height: 112px;
+  margin: 6px 12px 0 0;
+  place-items: center;
+  justify-self: end;
+}
+
+/* Manager-only override of the shared hero portrait size. */
+.portrait :global(.circular-portrait) {
+  width: 112px !important;
+  height: 112px !important;
+  min-width: 112px !important;
+  min-height: 112px !important;
+  max-width: 112px !important;
+  max-height: 112px !important;
+}
+
+.portraitGlow {
+  position: absolute;
+  z-index: -1;
+  inset: 2%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(var(--manager-accent), 0.14),
+      rgba(var(--manager-accent), 0.055) 48%,
+      transparent 72%
+    );
+  filter: blur(11px);
+  opacity: 0.48;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.portrait :global(img) {
+  filter:
+    grayscale(0.72)
+    saturate(0.42)
+    brightness(0.9)
+    contrast(1.05);
+  transition:
+    filter 220ms ease,
+    transform 220ms ease;
+}
+
+.selected .portrait :global(img) {
+  filter:
+    grayscale(0.06)
+    saturate(0.98)
+    brightness(1.035)
+    contrast(1.04);
+}
+
+.selected .portraitGlow {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.identityLine {
+  position: relative;
+  z-index: 3;
+  min-height: 2.65em;
+  margin: 16px 0 14px;
+  padding: 0;
+  color: #aaa9a1;
+  border: 0;
   font-size: 0.68rem;
-  line-height: 1.25;
+  font-style: normal;
+  line-height: 1.35;
 }
 
-.card .metrics {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 5px;
-  margin-top: 11px;
-}
-
-.card .metrics.neutralMetrics {
+.metrics {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  min-height: 64px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 9px 0 10px;
+  margin: 0;
+  border-top: 1px solid rgba(var(--manager-accent), 0.12);
+  border-bottom: 1px solid rgba(var(--manager-accent), 0.12);
 }
 
-.card .metrics span {
+.metrics > span {
+  display: grid;
   min-width: 0;
-  min-height: 50px;
-  border-color: color-mix(
-    in srgb,
-    var(--manager-accent) 22%,
-    transparent
-  );
-  background: color-mix(in srgb, var(--manager-accent) 5%, transparent);
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  align-content: center;
+  justify-items: center;
+  row-gap: 2px;
+  padding: 0 7px;
+  border-left: 1px solid rgba(var(--manager-accent), 0.08);
+  text-align: center;
 }
 
-.card .metrics small,
-.card .metrics i {
-  font-size: 0.42rem;
+.metricsWithEraFit {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.eraMetric {
+  background: transparent;
+}
+
+.eraMetric small {
+  color: color-mix(in srgb, rgb(var(--manager-accent)) 68%, #77786f);
+}
+
+.eraMetric strong {
+  color: #e8c95e;
+  font-size: 1rem;
+  font-weight: 720;
+}
+
+.selected .eraMetric {
+  background: transparent;
+}
+
+.selected .eraMetric strong {
+  color: #f2d66f;
+}
+
+.metrics > span:first-child {
+  border-left: 0;
+}
+
+.metrics small {
+  color: #77786f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.metrics strong {
+  width: 100%;
+  color: #e5c65e;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.94rem;
   line-height: 1;
   text-align: center;
 }
 
-.card .metrics b {
-  color: color-mix(in srgb, var(--manager-accent) 86%, white);
-  font-size: 0.92rem;
+.metrics i {
+  display: block;
+  width: 100%;
+  color: #77786f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.44rem;
+  font-style: normal;
   line-height: 1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  justify-self: center;
+  transform: translateX(-2px);
 }
 
-.card .copy blockquote {
-  min-height: 2.7em;
-  margin: 10px 0 7px;
-  color: #b9bdb8;
-  font-size: 0.67rem;
-  line-height: 1.35;
+.lowerRow {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  padding: 7px 0 5px;
 }
 
 .formations {
-  display: flex;
+  display: inline-flex;
+  min-width: 0;
   align-items: center;
-  gap: 5px;
-  margin-top: auto;
-  color: #9b9f99;
+  gap: 6px;
+  margin: 0;
+  color: #777f79;
   font-family: var(--font-mono), monospace;
-  font-size: 0.49rem;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  font-size: 0.5rem;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
 }
 
-.card .inspect {
+
+.footer {
   position: relative;
   z-index: 11;
-  right: auto;
-  bottom: auto;
-  width: auto;
-  min-height: 34px;
-  margin: 0 17px 13px;
-  color: color-mix(in srgb, var(--manager-accent) 84%, white);
-  border: 1px solid color-mix(
-    in srgb,
-    var(--manager-accent) 30%,
-    transparent
-  );
-  border-radius: 7px;
-  background: color-mix(in srgb, var(--manager-accent) 5%, #090b09);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  margin-top: auto;
+  border-top: 1px solid rgba(var(--manager-accent), 0.09);
 }
 
-.card .inspect:hover,
-.card .inspect:focus-visible {
-  border-color: var(--manager-accent);
-  background: color-mix(in srgb, var(--manager-accent) 12%, #090b09);
+.selectedBadge,
+.selectLabel {
+  display: inline-flex;
+  min-height: 15px;
+  align-items: center;
+  gap: 6px;
+  color: #8b826b;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.5rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.selectLabel svg,
+.selectedBadge svg {
+  display: block;
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+}
+
+.selectedBadge {
+  color: #f0d36b;
+}
+
+.inspect {
+  position: relative;
+  z-index: 12;
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 0;
+  margin: 0;
+  color: #9b9279;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.5rem;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.inspect:hover {
+  color: #e6c75e;
 }
 
 @media (max-width: 1000px) {
-  .card.card {
-    display: flex;
-    height: auto;
-    min-height: 430px;
-    grid-template-columns: none;
+  .card {
+    min-height: 400px;
   }
 
-  .card .meta,
-  .card .portrait,
-  .card .copy {
-    position: relative;
+  .heroRow {
+    grid-template-columns: minmax(0, 1fr) 110px;
   }
 
-  .card .portrait {
-    height: 120px;
-    min-height: 120px;
-    grid-row: auto;
+  .portrait {
+    width: 104px;
+    height: 104px;
+    margin-right: 8px;
   }
 
-  .card .copy {
-    padding-top: 13px;
-  }
-}
-
-@media (max-width: 520px) {
-  .card.card {
-    min-height: 445px;
-  }
-
-  .card .metrics {
-    gap: 4px;
-  }
-
-  .card .metrics span {
-    min-height: 53px;
-  }
-
-  .card .metrics small {
-    font-size: 0.39rem;
-  }
-
-  .selectedBadge {
-    right: 12px;
+  .portrait :global(.circular-portrait) {
+    width: 104px !important;
+    height: 104px !important;
+    min-width: 104px !important;
+    min-height: 104px !important;
+    max-width: 104px !important;
+    max-height: 104px !important;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .card.card {
-    transition: none !important;
+@media (max-width: 540px) {
+  .card {
+    padding: 15px;
+  }
+
+  .heroRow {
+    grid-template-columns: minmax(0, 1fr) 92px;
+  }
+
+  .portrait {
+    width: 88px;
+    height: 88px;
+    margin-right: 2px;
+  }
+
+  .portrait :global(.circular-portrait) {
+    width: 88px !important;
+    height: 88px !important;
+    min-width: 88px !important;
+    min-height: 88px !important;
+    max-width: 88px !important;
+    max-height: 88px !important;
+  }
+
+  .metrics > span {
+    padding-inline: 4px;
+  }
+
+  .lowerRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 }
