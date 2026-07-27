@@ -1,16 +1,24 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import historicalJson from "../src/data/player-tournaments.generated.json";
 import roster2026Json from "../src/data/player-tournaments-2026.generated.json";
 import identityPortraitJson from "../src/data/player-identity-portraits.generated.json";
-import gameFaceCacheJson from "./cache/game-faces/import-cache.json";
 import { imagesById, playerImages } from "../src/data/player-images";
 import {
   allPlayersBeforeIdentityPruning as players,
   players as playablePlayers,
 } from "../src/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "../src/types/game";
+
+const gameFaceCachePath = path.join(
+  process.cwd(),
+  "scripts/cache/game-faces/import-cache.json",
+);
+
+const gameFaceCacheJson = existsSync(gameFaceCachePath)
+  ? JSON.parse(readFileSync(gameFaceCachePath, "utf8"))
+  : {};
 
 type HistoricalArchive = {
   identities: Record<
