@@ -1,49 +1,53 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import {
   Crown,
-  Eye,
   FastForward,
   Pause,
   Play,
   SkipForward,
-  Trophy,
   X,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { getFormation } from "@/data/formations";
-import { managers, managersById } from "@/data/managers";
-import { playersById } from "@/data/players";
+import { useEffect, useState } from "react";
 import { flagForCountry } from "@/lib/utils";
-import { useGameStore } from "@/store/game-store";
 import type {
-  HistoricalLineupPlayer,
   HistoricalWorldCupTeam,
   MatchEvent,
   MatchResult,
-  Position,
 } from "@/types/game";
+import argentinaLogo from "../../../assets/circlelogo/argentina.png";
+import brazilLogo from "../../../assets/circlelogo/brazil.png";
+import franceLogo from "../../../assets/circlelogo/france.png";
+import germanyLogo from "../../../assets/circlelogo/germany.png";
+import italyLogo from "../../../assets/circlelogo/italy.png";
+import spainLogo from "../../../assets/circlelogo/spain.png";
 import styles from "./match-timeline.module.css";
 
-type BroadcastPlayer = { id: string; name: string; position: Position };
-type DrawerView = "user" | "opponent" | "timeline" | null;
+type DrawerView = "timeline" | null;
 
-const opponentCoachFor = (opponent: HistoricalWorldCupTeam) =>
-  opponent.allStars?.manager ??
-  managers.find(
-    (manager) =>
-      manager.tournamentYear === opponent.tournamentYear &&
-      manager.teamName === opponent.nationName,
-  );
+const championLogoByCode: Record<string, string> = {
+  ARG: argentinaLogo.src,
+  BRA: brazilLogo.src,
+  FRA: franceLogo.src,
+  GER: germanyLogo.src,
+  FRG: germanyLogo.src,
+  ITA: italyLogo.src,
+  ESP: spainLogo.src,
+};
 
-const opponentPlayers = (lineup: HistoricalLineupPlayer[]): BroadcastPlayer[] =>
-  lineup.map((player) => ({
-    id: player.playerIdentityId,
-    name: player.name,
-    position: player.position,
-  }));
+const championLogoByNation: Record<string, string> = {
+  argentina: argentinaLogo.src,
+  brazil: brazilLogo.src,
+  france: franceLogo.src,
+  germany: germanyLogo.src,
+  "west germany": germanyLogo.src,
+  italy: italyLogo.src,
+  spain: spainLogo.src,
+};
+
+const normalizeNationName = (value: string) => value.trim().toLowerCase();
 
 export function MatchTimeline({
   result,
@@ -55,42 +59,13 @@ export function MatchTimeline({
   onSkip: () => void;
 }) {
   const reduceMotion = useReducedMotion();
-  const formationId = useGameStore((state) => state.formationId);
-  const managerId = useGameStore((state) => state.managerId);
-  const picks = useGameStore((state) => state.picks);
-  const formation = useMemo(
-    () => (formationId ? getFormation(formationId) : null),
-    [formationId],
-  );
-  const userManager = managerId ? managersById.get(managerId) : undefined;
-  const userLineup = useMemo<BroadcastPlayer[]>(
-    () =>
-      formation
-        ? formation.slots.flatMap((slot) => {
-            const pick = picks.find((candidate) => candidate.slotId === slot.id);
-            const player = pick ? playersById.get(pick.cardId) : undefined;
-            return player
-              ? [{
-                  id: player.id,
-                  name: `${player.playerName} ${player.tournamentYear}`,
-                  position: slot.position,
-                }]
-              : [];
-          })
-        : [],
-    [formation, picks],
-  );
-  const opponentManager = opponentCoachFor(opponent);
-  const opponentLineup = useMemo(
-    () => opponentPlayers(opponent.startingLineup),
-    [opponent.startingLineup],
-  );
   const opponentName =
     opponent.kind === "all-stars" || opponent.tournamentYear === null
       ? opponent.nationName
       : `${opponent.nationName} ${opponent.tournamentYear}`;
-  const opponentCode =
-    opponent.kind === "all-stars" ? "ALL" : opponent.nationCode;
+  const opponentLogo =
+    championLogoByCode[opponent.nationCode] ??
+    championLogoByNation[normalizeNationName(opponent.nationName)];
 
   const [index, setIndex] = useState(reduceMotion ? result.events.length - 1 : 0);
   const [paused, setPaused] = useState(false);
@@ -98,6 +73,24 @@ export function MatchTimeline({
   const [drawer, setDrawer] = useState<DrawerView>(null);
   const current = result.events[index];
   const complete = index >= result.events.length - 1;
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const previousHtmlOverflow = html.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousOverscroll = body.style.overscrollBehavior;
+
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.overscrollBehavior = "none";
+
+    return () => {
+      html.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+      body.style.overscrollBehavior = previousOverscroll;
+    };
+  }, []);
 
   useEffect(() => {
     if (paused || complete || reduceMotion) return;
@@ -124,8 +117,10 @@ export function MatchTimeline({
       Math.max(minimum[side], Math.round(value * matchProgress)),
     ) as [number, number];
   const liveShots = scalePair(result.stats.shots, [current.userScore, current.opponentScore]);
-  const liveShotsOnTarget = scalePair(result.stats.shotsOnTarget, [current.userScore, current.opponentScore])
-    .map((value, side) => Math.min(value, liveShots[side])) as [number, number];
+  const liveShotsOnTarget = scalePair(
+    result.stats.shotsOnTarget,
+    [current.userScore, current.opponentScore],
+  ).map((value, side) => Math.min(value, liveShots[side])) as [number, number];
   const liveExpectedGoals = result.stats.expectedGoals.map((value) =>
     Number((value * matchProgress).toFixed(2)),
   ) as [number, number];
@@ -137,13 +132,16 @@ export function MatchTimeline({
     },
     [0, 0],
   );
-  const statRows: Array<{ label: string; values: [number, number] }> = [
-    { label: "Shots", values: liveShots },
-    { label: "On target", values: liveShotsOnTarget },
-    { label: "Chance quality", values: liveExpectedGoals },
-    { label: "Tactical control", values: result.stats.tacticalImpact },
-    { label: "Possession", values: result.stats.possession },
-    { label: "Yellow cards", values: liveYellowCards },
+  const statRows: Array<{
+    label: string;
+    values: [number, number];
+    better: "higher" | "lower";
+  }> = [
+    { label: "Shots", values: liveShots, better: "higher" },
+    { label: "On target", values: liveShotsOnTarget, better: "higher" },
+    { label: "Chance quality", values: liveExpectedGoals, better: "higher" },
+    { label: "Possession", values: result.stats.possession, better: "higher" },
+    { label: "Yellow cards", values: liveYellowCards, better: "lower" },
   ];
   const eventLabel =
     current.type === "goal"
@@ -161,6 +159,29 @@ export function MatchTimeline({
         : current.type === "yellow"
           ? "caution"
           : "live";
+  const penaltyScore = result.score.penalties;
+  const winnerSide =
+    result.score.user > result.score.opponent
+      ? "user"
+      : result.score.opponent > result.score.user
+        ? "opponent"
+        : penaltyScore
+          ? penaltyScore[0] > penaltyScore[1]
+            ? "user"
+            : penaltyScore[1] > penaltyScore[0]
+              ? "opponent"
+              : null
+          : null;
+  const decidedOnPenalties =
+    Boolean(penaltyScore) && result.score.user === result.score.opponent && winnerSide !== null;
+  const finalWinnerName = winnerSide === "user" ? "Trophy XI" : opponent.nationName;
+  const decisiveGoal = winnerSide
+    ? [...result.events]
+        .reverse()
+        .find((event) => event.type === "goal" && event.team === winnerSide)
+    : undefined;
+  const decisiveGoalName = decisiveGoal?.title.replace(/^GOAL\s*[—-]\s*/i, "");
+  const showFinalSummary = complete && (current.type === "fulltime" || current.type === "penalties");
 
   return (
     <section
@@ -181,9 +202,9 @@ export function MatchTimeline({
               animate={
                 reduceMotion
                   ? { opacity: 0 }
-                  : { opacity: [0, 0.95, 0.38] }
+                  : { opacity: [0, 0.52, 0.18] }
               }
-              transition={{ duration: reduceMotion ? 0 : 1.15, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 1.05, ease: "easeOut" }}
               aria-hidden
             />
           )}
@@ -191,28 +212,17 @@ export function MatchTimeline({
 
         <header className={styles.topbar}>
           <div className={styles.showdownTitle}>
-            <span className="live-dot">
+            <span className={styles.livePill} data-paused={paused} data-complete={complete}>
+              <i />
               {complete ? "FULL TIME" : paused ? "PAUSED" : "LIVE"}
             </span>
             <div>
-              <small>THE FINAL STAGE</small>
+              <small>FINAL MATCH</small>
               <strong>THE SHOWDOWN</strong>
             </div>
           </div>
           <nav className={styles.lineupActions} aria-label="Match views">
-            <button
-              onClick={() => setDrawer("user")}
-              aria-label="View Trophy XI"
-            >
-              <Eye size={13} aria-hidden /> Trophy XI
-            </button>
-            <button
-              onClick={() => setDrawer("opponent")}
-              aria-label="View opponent XI"
-            >
-              <Eye size={13} aria-hidden /> Opponent
-            </button>
-            <button onClick={() => setDrawer("timeline")}>
+            <button type="button" onClick={() => setDrawer("timeline")}>
               Match log
             </button>
           </nav>
@@ -225,33 +235,59 @@ export function MatchTimeline({
           data-testid="live-scoreboard"
           aria-label={`Trophy XI ${current.userScore}, ${opponentName} ${current.opponentScore}, ${current.minuteLabel}`}
         >
+          <span className={styles.finalKicker}>THE WORLD CUP FINAL</span>
+
           <div className={styles.scoreTeam}>
-            <span className={styles.crest} aria-hidden>
-              <Trophy size={23} />
+            <span className={styles.crest} data-side="user" aria-hidden>
+              <span className={styles.xiMark}>XI</span>
             </span>
             <div>
-              <small>YOUR TEAM</small>
+              <small>YOUR XI</small>
               <b>Trophy XI</b>
             </div>
           </div>
+
           <div className={styles.score}>
-            <strong>{current.userScore}</strong>
+            <motion.strong
+              key={`user-${current.userScore}`}
+              initial={reduceMotion ? false : { y: -5, opacity: 0.55 }}
+              animate={{ y: 0, opacity: 1 }}
+            >
+              {current.userScore}
+            </motion.strong>
             <div className={styles.clock}>
-              <small>MATCH CLOCK</small>
+              <small>MATCH</small>
               <span>{current.minuteLabel}</span>
             </div>
-            <strong>{current.opponentScore}</strong>
+            <motion.strong
+              key={`opponent-${current.opponentScore}`}
+              initial={reduceMotion ? false : { y: -5, opacity: 0.55 }}
+              animate={{ y: 0, opacity: 1 }}
+            >
+              {current.opponentScore}
+            </motion.strong>
           </div>
+
           <div className={`${styles.scoreTeam} ${styles.scoreTeamRight}`}>
             <div>
               <small>
-                {opponent.kind === "all-stars" ? "MYTHIC" : "WORLD CHAMPION"}
+                {opponent.kind === "all-stars"
+                  ? "FEATURED CHALLENGE"
+                  : `WORLD CHAMPION · ${opponent.tournamentYear ?? ""}`}
               </small>
-              <b>{opponentName}</b>
+              <b>{opponent.nationName}</b>
             </div>
-            <span className={styles.crest} aria-hidden>
+            <span className={styles.crest} data-side="opponent" aria-hidden>
               {opponent.kind === "all-stars" ? (
-                <Crown size={23} />
+                <Crown size={22} />
+              ) : opponentLogo ? (
+                <Image
+                  className={styles.opponentLogo}
+                  src={opponentLogo}
+                  alt=""
+                  width={48}
+                  height={48}
+                />
               ) : (
                 flagForCountry(opponent.nationCode)
               )}
@@ -278,58 +314,107 @@ export function MatchTimeline({
                 reduceMotion
                   ? false
                   : current.type === "goal"
-                    ? { opacity: 0, scale: 0.9, y: 12 }
-                    : { opacity: 0, y: 8 }
+                    ? { opacity: 0, scale: 0.96, y: 8 }
+                    : { opacity: 0, y: 6 }
               }
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -7 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -5 }}
               transition={{
-                duration: reduceMotion ? 0 : current.type === "goal" ? 0.38 : 0.24,
+                duration: reduceMotion ? 0 : current.type === "goal" ? 0.34 : 0.22,
                 ease: "easeOut",
               }}
             >
-              <div className={styles.eventMeta}>
-                <time>{current.minuteLabel}</time>
-                <span>{eventLabel}</span>
-              </div>
-              {current.type === "goal" && (
-                <motion.strong
-                  className={styles.goalCall}
-                  initial={reduceMotion ? false : { letterSpacing: "0.34em", opacity: 0 }}
-                  animate={{ letterSpacing: "0.12em", opacity: 1 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.42 }}
-                >
-                  GOAL
-                </motion.strong>
+              {showFinalSummary ? (
+                <>
+                  <div className={styles.eventMeta}>
+                    <time>FT</time>
+                    <i />
+                    <span>FINAL WHISTLE</span>
+                  </div>
+                  <h1 id="match-live-heading" className={styles.finalVerdict}>
+                    {winnerSide ? (
+                      <>
+                        <span className={styles.finalWinnerName}>{finalWinnerName}</span>
+                        {decidedOnPenalties ? " WIN ON PENALTIES" : " WIN THE FINAL"}
+                      </>
+                    ) : (
+                      "THE FINAL ENDS LEVEL"
+                    )}
+                  </h1>
+                  {decidedOnPenalties && penaltyScore ? (
+                    <p className={styles.finalDetail}>
+                      Penalties {penaltyScore[0]}–{penaltyScore[1]}
+                    </p>
+                  ) : decisiveGoal && decisiveGoalName ? (
+                    <p className={styles.finalDetail}>
+                      {decisiveGoalName} <span>·</span> {decisiveGoal.minuteLabel}
+                    </p>
+                  ) : (
+                    <p className={styles.finalDetail}>History has its answer.</p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className={styles.eventMeta}>
+                    <time>{current.minuteLabel}</time>
+                    <i />
+                    <span>{eventLabel}</span>
+                  </div>
+                  {current.type === "goal" && (
+                    <motion.strong
+                      className={styles.goalCall}
+                      initial={reduceMotion ? false : { letterSpacing: "0.24em", opacity: 0 }}
+                      animate={{ letterSpacing: "0.1em", opacity: 1 }}
+                      transition={{ duration: reduceMotion ? 0 : 0.36 }}
+                    >
+                      GOAL
+                    </motion.strong>
+                  )}
+                  <h1 id="match-live-heading">{current.title}</h1>
+                  <p>{current.detail}</p>
+                </>
               )}
-              <h1 id="match-live-heading">{current.title}</h1>
-              <p>{current.detail}</p>
             </motion.article>
           </AnimatePresence>
         </section>
 
         <section className={styles.stats} aria-labelledby="live-stats-heading">
           <div className={styles.sectionHeading}>
-            <h2 id="live-stats-heading">Live match stats</h2>
-            <span>
-              <b>TXI</b>
-              <b>{opponentCode}</b>
-            </span>
+            <div className={styles.metricTitle}>
+              <i />
+              <h2 id="live-stats-heading">LIVE MATCH STATS</h2>
+              <i />
+            </div>
           </div>
           <div className={styles.statGrid}>
             {statRows.map((stat) => {
-              const total = Math.max(1, stat.values[0] + stat.values[1]);
-              const leftShare = (stat.values[0] / total) * 100;
+              const max = Math.max(1, stat.values[0], stat.values[1]);
+              const leftWidth = (stat.values[0] / max) * 100;
+              const rightWidth = (stat.values[1] / max) * 100;
+              const even = stat.values[0] === stat.values[1];
+              const userBetter =
+                !even &&
+                (stat.better === "higher"
+                  ? stat.values[0] > stat.values[1]
+                  : stat.values[0] < stat.values[1]);
+              const userState = even ? "even" : userBetter ? "better" : "worse";
+              const opponentState = even ? "even" : userBetter ? "worse" : "better";
+
               return (
                 <div className={styles.stat} key={stat.label}>
                   <div>
-                    <b>{stat.values[0]}</b>
+                    <b data-state={userState}>{stat.values[0]}</b>
                     <span>{stat.label}</span>
-                    <b>{stat.values[1]}</b>
+                    <b data-state={opponentState}>{stat.values[1]}</b>
                   </div>
-                  <i aria-hidden>
-                    <span style={{ width: `${leftShare}%` }} />
-                  </i>
+                  <div className={styles.statBars} aria-hidden>
+                    <i data-side="user" data-state={userState}>
+                      <em style={{ width: `${leftWidth}%` }} />
+                    </i>
+                    <i data-side="opponent" data-state={opponentState}>
+                      <em style={{ width: `${rightWidth}%` }} />
+                    </i>
+                  </div>
                 </div>
               );
             })}
@@ -338,63 +423,51 @@ export function MatchTimeline({
 
         <footer className={styles.controls} aria-label="Match timeline controls">
           <span className={styles.engineStatus}>
-            {fast && !complete ? "2× MATCH SPEED" : `ENGINE ${result.seed}`}
+            <i />
+            {fast && !complete ? "2× MATCH SPEED" : complete ? "MATCH COMPLETE" : "MATCH ENGINE LIVE"}
           </span>
-          <button
-            className={`icon-button ${styles.controlButton}`}
-            onClick={() => setPaused((value) => !value)}
-            aria-label={paused ? "Resume match" : "Pause match"}
-            disabled={complete}
-          >
-            {paused ? <Play size={16} aria-hidden /> : <Pause size={16} aria-hidden />}
-          </button>
-          <button
-            className={`icon-button ${styles.controlButton} ${
-              fast ? styles.activeControl : ""
-            }`}
-            onClick={() => setFast((value) => !value)}
-            aria-label="Fast forward"
-            aria-pressed={fast}
-            disabled={complete}
-          >
-            <FastForward size={16} aria-hidden />
-          </button>
-          {complete ? (
-            <Button onClick={onSkip}>
-              View Result <SkipForward size={14} aria-hidden />
-            </Button>
-          ) : (
-            <button className={styles.skipButton} onClick={onSkip}>
-              Skip to result <SkipForward size={14} aria-hidden />
-            </button>
+          {!complete && (
+            <>
+              <button
+                type="button"
+                className={`icon-button ${styles.controlButton}`}
+                onClick={() => setPaused((value) => !value)}
+                aria-label={paused ? "Resume match" : "Pause match"}
+              >
+                {paused ? <Play size={16} aria-hidden /> : <Pause size={16} aria-hidden />}
+              </button>
+              <button
+                type="button"
+                className={`icon-button ${styles.controlButton} ${
+                  fast ? styles.activeControl : ""
+                }`}
+                onClick={() => setFast((value) => !value)}
+                aria-label="Fast forward"
+                aria-pressed={fast}
+              >
+                <FastForward size={16} aria-hidden />
+              </button>
+            </>
           )}
+          <button
+            type="button"
+            className={styles.skipButton}
+            data-complete={complete}
+            onClick={onSkip}
+          >
+            <span>{complete ? "View final result" : "Skip to result"}</span>
+            <span className={styles.skipArrow} aria-hidden>
+              <SkipForward size={14} />
+            </span>
+          </button>
         </footer>
       </div>
 
-      {drawer === "user" && (
-        <LineupDrawer
-          teamName="Trophy XI"
-          code="XI"
-          coach={userManager?.managerName}
-          formation={formation?.id ?? "—"}
-          lineup={userLineup}
-          onClose={() => setDrawer(null)}
-          testId="user-lineup"
-        />
-      )}
-      {drawer === "opponent" && (
-        <LineupDrawer
-          teamName={opponentName}
-          code={opponent.kind === "all-stars" ? "ALL" : flagForCountry(opponent.nationCode)}
-          coach={opponentManager?.managerName ?? opponent.managerName ?? undefined}
-          formation={opponent.formation}
-          lineup={opponentLineup}
-          onClose={() => setDrawer(null)}
-          testId="opponent-lineup"
-        />
-      )}
       {drawer === "timeline" && (
-        <TimelineDrawer events={result.events.slice(0, index + 1)} onClose={() => setDrawer(null)} />
+        <TimelineDrawer
+          events={result.events.slice(0, index + 1)}
+          onClose={() => setDrawer(null)}
+        />
       )}
 
       <p className="sr-only" role="status" aria-live="polite">
@@ -404,62 +477,46 @@ export function MatchTimeline({
   );
 }
 
-function DrawerShell({
-  title,
-  eyebrow,
-  onClose,
-  children,
-  testId,
-}: {
-  title: string;
-  eyebrow: string;
-  onClose: () => void;
-  children: React.ReactNode;
-  testId?: string;
-}) {
-  return (
-    <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
-      <aside className={styles.drawer} role="dialog" aria-modal="true" aria-label={title} onMouseDown={(event) => event.stopPropagation()} onKeyDown={(event) => { if (event.key === "Escape") onClose(); }} data-testid={testId}>
-        <header><div><span className="eyebrow eyebrow--gold">{eyebrow}</span><h2>{title}</h2></div><button className="icon-button" onClick={onClose} aria-label={`Close ${title}`} autoFocus><X size={17} aria-hidden /></button></header>
-        {children}
-      </aside>
-    </div>
-  );
-}
-
-function LineupDrawer({
-  teamName,
-  code,
-  coach,
-  formation,
-  lineup,
-  onClose,
-  testId,
-}: {
-  teamName: string;
-  code: string;
-  coach?: string;
-  formation: string;
-  lineup: BroadcastPlayer[];
-  onClose: () => void;
-  testId: string;
-}) {
-  return (
-    <DrawerShell title={teamName} eyebrow="STARTING XI" onClose={onClose} testId={testId}>
-      <dl className={styles.drawerMeta}><div><dt>Coach</dt><dd>{coach ?? "—"}</dd></div><div><dt>Formation</dt><dd>{formation}</dd></div></dl>
-      <ol className={styles.lineupList} aria-label={`${teamName} starting lineup`}>
-        {lineup.map((player) => <li key={`${player.id}-${player.position}`}><span>{player.position === "LCB" || player.position === "RCB" ? "CB" : player.position}</span><b>{player.name}</b><i>{code}</i></li>)}
-      </ol>
-    </DrawerShell>
-  );
-}
-
 function TimelineDrawer({ events, onClose }: { events: MatchEvent[]; onClose: () => void }) {
   return (
-    <DrawerShell title="Full match timeline" eyebrow="0–90+" onClose={onClose}>
-      <ol className={styles.fullEventList} aria-label="Full match timeline">
-        {[...events].reverse().map((event) => <li key={event.id} data-goal={event.type === "goal"}><time>{event.minuteLabel}</time><div><b>{event.title}</b><p>{event.detail}</p></div></li>)}
-      </ol>
-    </DrawerShell>
+    <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
+      <aside
+        className={styles.drawer}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Full match timeline"
+        onMouseDown={(event) => event.stopPropagation()}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") onClose();
+        }}
+      >
+        <header>
+          <div>
+            <span className="eyebrow eyebrow--gold">0–90+</span>
+            <h2>Full match timeline</h2>
+          </div>
+          <button
+            type="button"
+            className="icon-button"
+            onClick={onClose}
+            aria-label="Close Full match timeline"
+            autoFocus
+          >
+            <X size={17} aria-hidden />
+          </button>
+        </header>
+        <ol className={styles.fullEventList} aria-label="Full match timeline">
+          {[...events].reverse().map((event) => (
+            <li key={event.id} data-goal={event.type === "goal"}>
+              <time>{event.minuteLabel}</time>
+              <div>
+                <b>{event.title}</b>
+                <p>{event.detail}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </aside>
+    </div>
   );
 }
