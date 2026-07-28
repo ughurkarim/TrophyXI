@@ -1,3 +1,4 @@
+import { playerCareerDataByIdentityId } from "@/data/player-career-data";
 import type {
   PlayerAccolade,
   PlayerTournamentCard,
@@ -199,6 +200,7 @@ export const classifyAccolade = (
 ): AccoladeKind => {
   const value = normalize(label);
   if (/top 100 player/.test(value)) return "top-100";
+  if (/fifa club world cup winner/.test(value)) return "continental-club";
   if (/world cup champion/.test(value)) return "world-cup-champion";
   if (/ballon d'or/.test(value)) return "ballon-dor";
   if (/world cup golden ball/.test(value)) return "world-cup-golden-ball";
@@ -274,13 +276,11 @@ const itemFromCareerAccolade = (
   };
 };
 
-/**
- * Career accolades belong to the player identity, not to a tournament card.
- * Tournament-specific `achievements` are intentionally excluded here so every
- * card version of the same player carries the same legacy profile.
- */
-export const getPlayerAccoladeItems = (player: PlayerTournamentCard) => {
-  const career = player.careerAccolades
+const accoladeItemsFor = (
+  player: PlayerTournamentCard,
+  accolades: PlayerAccolade[],
+) => {
+  const career = accolades
     .filter((accolade) => accolade.verified)
     .map(itemFromCareerAccolade);
   const top100: PlayerAccoladeItem[] = player.top100Player
@@ -314,6 +314,18 @@ export const getPlayerAccoladeItems = (player: PlayerTournamentCard) => {
   );
 };
 
+/**
+ * The card UI uses the audited identity-level full-career list.
+ * Tournament-specific `achievements` remain separate card-level data.
+ */
+export const getPlayerAccoladeItems = (player: PlayerTournamentCard) =>
+  accoladeItemsFor(player, player.careerAccolades);
+
+/**
+ * Preserve the pre-audit identity-level inputs used by team ratings. Step 1
+ * changes the accolade display data only; it must not alter gameplay ratings,
+ * chemistry, or match behavior.
+ */
 const diminishingCount = (count: number) =>
   Math.min(2.65, 1 + Math.log2(Math.max(1, count)) * 0.55);
 
@@ -347,10 +359,11 @@ export type SquadLegacy = {
   }>;
 };
 
-export const calculatePlayerLegacyScore = (
+export const calculateCareerAccoladeLegacyScore = (
   player: PlayerTournamentCard,
+  accolades: PlayerAccolade[],
 ): number => {
-  const items = getPlayerAccoladeItems(player);
+  const items = accoladeItemsFor(player, accolades);
   if (items.length === 0) return 0;
 
   const points = items.reduce(
@@ -365,6 +378,23 @@ export const calculatePlayerLegacyScore = (
   // enormous trophy counts cannot make the score exceed 100.
   return Math.round(
     Math.min(100, 100 * (1 - Math.exp(-points / 45))),
+  );
+};
+
+export const calculatePlayerLegacyScore = (
+  player: PlayerTournamentCard,
+): number => {
+  const frozenGameplayCareer = playerCareerDataByIdentityId.get(
+    player.playerIdentityId,
+  );
+  if (!frozenGameplayCareer) {
+    throw new Error(
+      `${player.playerIdentityId} is missing its frozen gameplay career record`,
+    );
+  }
+  return calculateCareerAccoladeLegacyScore(
+    player,
+    frozenGameplayCareer.accolades,
   );
 };
 

@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-27",
+  "sourceCommit": "a043cf97b214b7aa751071dc95787edef8c81b7d",
+  "purpose": "Frozen pre-Step-1B proof that display-only career-accolade and portrait changes do not alter player identity, ratings, gameplay, draft behavior, tournament records, or career statistics.",
+  "serialization": {
+    "algorithm": "SHA-256 of JSON.stringify(value)",
+    "historicalIdOverallException": "The pre-existing historicalIdOverall checkpoint is SHA-256 of the raw newline-delimited id:overall string.",
+    "cardFieldHashes": "Cards are sorted by card id unless the hash name explicitly ends in Order or is documented as archive-order.",
+    "matrixOrdering": "Production array order is intentionally preserved because draft sampling and deterministic output generation consume it."
+  },
+  "counts": {
+    "archiveCards": 9626,
+    "archiveIdentities": 7254,
+    "playableCards": 2158,
+    "playableIdentities": 1124,
+    "draftEligibleCards": 2158,
+    "multiCardIdentities": 1818,
+    "tournamentAwardRows": 112,
+    "cardsWithTournamentAwards": 92,
+    "cardsByTournamentYear": {
+      "1970": 349,
+      "1974": 352,
+      "1978": 352,
+      "1982": 526,
+      "1986": 528,
+      "1990": 528,
+      "1994": 528,
+      "1998": 705,
+      "2002": 736,
+      "2006": 736,
+      "2010": 736,
+      "2014": 736,
+      "2018": 736,
+      "2022": 831,
+      "2026": 1247
+    },
+    "draftOfferMatrix": 1536,
+    "teamRatingMatrix": 3948,
+    "simulationMatrix": 420
+  },
+  "scenarios": {
+    "lineupCardIds": [
+      "manuel-neuer-2014",
+      "roberto-carlos-2002",
+      "fabio-cannavaro-2006",
+      "carles-puyol-2010",
+      "philipp-lahm-2014",
+      "andrea-pirlo-2006",
+      "xavi-2010",
+      "luka-modric-2018",
+      "kylian-mbappe-2022",
+      "ronaldo-2002",
+      "lionel-messi-2014"
+    ],
+    "benchCardIds": [
+      "pele-1970",
+      "diego-maradona-1986",
+      "zico-1982"
+    ],
+    "draft": {
+      "formations": "all production formations in production order",
+      "seedIndexes": 64,
+      "starterSeedOffset": 10000,
+      "benchSeedOffset": 20000
+    },
+    "teamRatings": {
+      "formations": "all production formations",
+      "eras": "all production draft eras",
+      "managers": "all production managers"
+    },
+    "simulation": {
+      "formationId": "4-3-3",
+      "managerId": "joachim-low-2014",
+      "opponents": "all normal historical champion opponents",
+      "eras": "all production draft eras",
+      "seeds": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  "hashes": {
+    "archiveCardIdOrder": "da2170116c84fad04640b67af555358aad041357812a8919b2a90dddf070c430",
+    "archiveIdentityByCardOrder": "b16ccd66aead94fa0536ef64e125ab533bda91fd9aeea21ef96748500b24ffa7",
+    "playableCardIdOrder": "47fd83d0331f535aae5ff1a1315f04db901b4bba9bd2d8c65d12d4971f0d56c2",
+    "draftEligibleCardIdOrder": "47fd83d0331f535aae5ff1a1315f04db901b4bba9bd2d8c65d12d4971f0d56c2",
+    "cardIdsSorted": "b18044821f11e4e45731018aaaefe40f1fe2f4344ee262068ef23a81b9bf78fe",
+    "playerAndCardIds": "05cbac7d945e36689b56ab9ac135d946dcc0943c1d7e6f54ed452cb6e0f5ef18",
+    "playerNames": "8cdd65ad05f8961ae147c040f798fbf3fa7d18e2691c1ef2f5445ca27999926a",
+    "overallRatings": "db65e694294417b6a46c5d303365c5984b7612775920e775ec0803600a328c2e",
+    "historicalIdOverall": "0a741898b902706748d9b52f39f4309c780bf28456eb626d1abcba81b4d350c7",
+    "attributes": "ac4ed71446e4c3aea5b347ff9bfd497c8b4ebc8f0722e01f84e8c92a53b67b74",
+    "statusTiers": "67ca2b0f77bdc0c4b0712295483873758f02282f74a86c30d22623c489a4073a",
+    "draftEligibility": "19d138f74b97a9b21f6b4d1518941c9a5c31aeba25bca3e4eff5e766eed92862",
+    "playableIdsSorted": "3e5b381e2c7b0568bec61d6c35bced4214e32010d5dcc5050fb4733797f70c66",
+    "draftEligibleIdsSorted": "3e5b381e2c7b0568bec61d6c35bced4214e32010d5dcc5050fb4733797f70c66",
+    "gameplayCardInputs": "ce91f7c4f2fec15239977f0713bf716188a41f9772c8eb2ecd5bbe9fe644a49c",
+    "tournamentStats": "73530e519d27f347b5a2eead3d2f9a940e4e39fe1ed8d446dc888763d31090d3",
+    "tournamentAwards": "2815f461a2aee26cdbcce342c4b368f643122e3c3533425c52f6e9914bc4ef46",
+    "tournamentFinishes": "e241eaf52f1b88efc1375fca008c0d7d4356c199655bd9ec1b3ce2d3703ac69f",
+    "tournamentStatsAwardsCombined": "db42689fa99fc23f0c67709288ee3cf9c5894340969218f7225b5488c4138716",
+    "careerStats": "2029caee1326f362a7fc75bd41c8b4bfe135dc4ecf7bc9278bafc1e72a08987f",
+    "legacyScoresByCard": "8e490ed0483fbf2258c61acad9174aaf5eb8e432e1c0f643d10c4ca43c136c40",
+    "draftWeights": "2e27fe937accd1dfb6a0d89c6982f3ca3482b0630809ba8c85d294f50e88f030",
+    "draftOfferMatrix": "e7c84df74ec2314be509e53e1c9f621b53f97c1649b3a9bca3d18a473c8db79b",
+    "teamRatingMatrix": "98c86d22bb3d9e5708d9d32c1fcfdd5393931fa064aada2c02ae33e88f8fc37a",
+    "simulationMatrix": "032d1326dc6be3c07e043d56479323bbb0d3fd5fe405954657b2cddfda4f2391"
+  }
+}

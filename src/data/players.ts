@@ -1,5 +1,8 @@
 import { playerSeedSchema } from "@/lib/validation";
-import { playerCareerDataByIdentityId } from "@/data/player-career-data";
+import {
+  playerCareerDataByIdentityId,
+  playerDisplayAccoladesByIdentityId,
+} from "@/data/player-career-data";
 import tournamentArchiveJson from "@/data/player-tournaments.generated.json";
 import requestedIdentityJson from "@/data/requested-player-identities.generated.json";
 import { completed2026PlayerRatings } from "@/data/player-tournaments-2026";
@@ -1224,6 +1227,13 @@ const makeCard = (seed: CardSeed): PlayerTournamentCard => {
   const nation = nations[seed.nation];
   const playerIdentityId = seed.id.replace(/-\d{4}$/, "");
   const careerData = playerCareerDataByIdentityId.get(playerIdentityId);
+  const displayAccoladeData =
+    playerDisplayAccoladesByIdentityId.get(playerIdentityId);
+  if (!displayAccoladeData) {
+    throw new Error(
+      `${seed.id} is missing its identity-level career accolade audit`,
+    );
+  }
   const overall =
     seed.finalOverall ??
     tournamentRatingOverrides[seed.id] ??
@@ -1431,7 +1441,7 @@ const stats: TournamentStatLine = {
       : null,
     achievements: evidence.achievements ?? [],
     careerStats: careerData?.careerStats ?? null,
-    careerAccolades: careerData?.accolades ?? [],
+    careerAccolades: displayAccoladeData.accolades,
     top100Player: careerData?.top100Player ?? false,
     ...(careerData?.top100Source
       ? { top100Source: careerData.top100Source }

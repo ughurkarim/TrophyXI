@@ -80,6 +80,15 @@ const EXPECTED_OPPONENTS = new Map<WorldCupYear, number>([
   [2018, 32],
   [2022, 32],
 ]);
+const STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR = new Map<
+  number,
+  { gameEdition: string; launchYear: number }
+>([
+  [2014, { gameEdition: "FIFA 14", launchYear: 2013 }],
+  [2018, { gameEdition: "FIFA 18", launchYear: 2017 }],
+  [2022, { gameEdition: "FIFA 23", launchYear: 2022 }],
+  [2026, { gameEdition: "EA SPORTS FC 26", launchYear: 2025 }],
+]);
 
 const failures: string[] = [];
 const assert = (condition: boolean, message: string) => {
@@ -188,9 +197,10 @@ const main = async () => {
     [...imagesByPath.values()].every(
       (entries) =>
         entries.length === 1 ||
-        entries.filter((image) => !image.fallback).length === 1,
+        entries.filter((image) => !image.fallback).length === 1 ||
+        entries.every((image) => image.fallback),
     ),
-    "Every shared production portrait path must have one direct source image",
+    "Every shared production portrait path must have one direct source image or only identity fallbacks",
   );
   assert(
     new Set(localPortraitRecords.map((record) => record.id)).size ===
@@ -956,7 +966,8 @@ const main = async () => {
       `${identityId} is missing career context`,
     );
     const historicalVersions = versions.filter(
-      (player) => player.tournamentYear !== 2026,
+      (player) =>
+        !STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(player.tournamentYear),
     );
     if (
       historicalVersions.some((player) => imagesById.has(player.imageId))
@@ -971,18 +982,29 @@ const main = async () => {
   }
   assert(
     identityFallbackPlayerImages.every(
-      (image) => image.tournamentYear !== 2026,
+      (image) =>
+        !STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(image.tournamentYear),
     ) &&
       playerImages
-        .filter((image) => image.tournamentYear === 2026)
+        .filter((image) =>
+          STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(image.tournamentYear),
+        )
         .every(
-          (image) =>
-            !image.fallback &&
-            image.gameEdition === "EA SPORTS FC 26" &&
-            image.gameEditionLaunchYear === 2025 &&
-            image.matchQuality === "edition-verified",
+          (image) => {
+            const required = STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.get(
+              image.tournamentYear,
+            );
+            return Boolean(
+              required &&
+                !image.fallback &&
+                image.exactTournamentImage &&
+                image.gameEdition === required.gameEdition &&
+                image.gameEditionLaunchYear === required.launchYear &&
+                image.matchQuality === "edition-verified",
+            );
+          },
         ),
-    "A 2026 card face is not a verified FC26 game face or Photo Pending",
+    "A strict-edition card face is not verified for its required game or Photo Pending",
   );
   const expectedTournamentCardIds = new Set(
     Object.entries(playerTournaments.identities).flatMap(
@@ -1097,7 +1119,7 @@ const main = async () => {
       ) &&
       messi.careerAccolades.some(
         (accolade) =>
-          accolade.label === "Champions League Winner" &&
+          accolade.label === "UEFA Champions League Champion" &&
           accolade.count === 4,
       ),
     "Messi is missing verified career accolades or curated Top 100 status",
@@ -1204,21 +1226,6 @@ const main = async () => {
     "Completed 2026 team records must retain FIFA source coverage and complete result fields",
   );
 
-  const directPlayerImages = imageAttributions.filter(
-    (image) => image.kind === "player" && !image.fallback,
-  );
-  const directPortraitsByIdentity = new Map<
-    string,
-    typeof directPlayerImages
-  >();
-  for (const image of directPlayerImages) {
-    const card = archivedPlayersById.get(image.id);
-    if (!card) continue;
-    directPortraitsByIdentity.set(card.playerIdentityId, [
-      ...(directPortraitsByIdentity.get(card.playerIdentityId) ?? []),
-      image,
-    ]);
-  }
   const managerByIdentity = new Map(
     managers.map((manager) => [manager.managerIdentityId, manager]),
   );
@@ -1227,6 +1234,7 @@ const main = async () => {
     imageAttributions.map(async (image) => {
       const localFile = path.join(
         process.cwd(),
+        image.file.startsWith("/players/") ? "public" : "",
         image.file.replace(/^\//, ""),
       );
       assert(
@@ -1263,26 +1271,14 @@ const main = async () => {
         );
       } else if (image.fallback) {
         const targetCard = archivedPlayersById.get(image.id);
-        const candidates = targetCard
-          ? [...(directPortraitsByIdentity.get(targetCard.playerIdentityId) ?? [])]
-              .sort(
-                (first, second) =>
-                  Math.abs(first.tournamentYear - targetCard.tournamentYear) -
-                    Math.abs(second.tournamentYear - targetCard.tournamentYear) ||
-                  second.tournamentYear - first.tournamentYear ||
-                  first.id.localeCompare(second.id),
-              )
-          : [];
-        const closest = candidates[0];
         assert(
           Boolean(
             targetCard &&
-              closest &&
-              closest.file === image.file &&
               image.gameEdition === null &&
-              !image.exactTournamentImage,
+              !image.exactTournamentImage &&
+              image.matchQuality !== "edition-verified",
           ),
-          `${image.id} does not reuse the closest verified portrait for its identity`,
+          `${image.id} has invalid identity-fallback portrait metadata`,
         );
       } else {
         const card = archivedPlayersById.get(image.id);

@@ -17,6 +17,7 @@ import {
   imagesById,
   managerImages,
   playerImages,
+  tournamentEditionPlayerImages,
   userSuppliedPlayerImages,
 } from "@/data/player-images";
 import {
@@ -334,11 +335,7 @@ describe("expanded archive contracts", () => {
       fallback: true,
       exactTournamentImage: false,
     });
-    expect(imagesById.get("sofyan-amrabat-2018")).toMatchObject({
-      file: "/assets/players/2022/sofyan-amrabat-2022.webp",
-      fallback: true,
-      exactTournamentImage: false,
-    });
+    expect(imagesById.has("sofyan-amrabat-2018")).toBe(false);
     expect(imagesById.get("gianluigi-buffon-2010")).toMatchObject({
       file: "/assets/players/2014/gianluigi-buffon-2014.png",
       fallback: true,
@@ -356,7 +353,7 @@ describe("expanded archive contracts", () => {
     expect(messi2006?.cacheVersion).toBe("ce83969b96dab437");
   });
 
-  it("uses only FC26 game-face sources for direct 2026 imports", () => {
+  it("uses only audited strict-edition game faces for target cards", () => {
     expect(
       canonicalPlayerIdentityPortraits
         .filter(
@@ -374,35 +371,43 @@ describe("expanded archive contracts", () => {
         .some((portrait) => portrait.sourceImageUrl.endsWith("/25_120.png")),
     ).toBe(false);
 
-    const verifiedFc26CardIds = new Set(
-      importedPlayerIdentityPortraitRecords
-        .filter(
-          (portrait) =>
-            portrait.tournamentYear === 2026 &&
-            portrait.sourceImageUrl.endsWith("/26_120.png"),
-        )
-        .map((portrait) => portrait.id),
+    const requiredEditionByYear = new Map([
+      [2014, { edition: "FIFA 14", launchYear: 2013 }],
+      [2018, { edition: "FIFA 18", launchYear: 2017 }],
+      [2022, { edition: "FIFA 23", launchYear: 2022 }],
+      [2026, { edition: "EA SPORTS FC 26", launchYear: 2025 }],
+    ]);
+    const runtimeTargetFaces = playerImages.filter((portrait) =>
+      requiredEditionByYear.has(portrait.tournamentYear),
     );
-    const runtime2026Faces = playerImages.filter(
-      (portrait) => portrait.tournamentYear === 2026,
-    );
-    expect(new Set(runtime2026Faces.map((portrait) => portrait.id))).toEqual(
-      verifiedFc26CardIds,
+    expect(new Set(runtimeTargetFaces.map((portrait) => portrait.id))).toEqual(
+      new Set(
+        tournamentEditionPlayerImages.map((portrait) => portrait.id),
+      ),
     );
     expect(
-      runtime2026Faces.every(
-        (portrait) =>
+      runtimeTargetFaces.every((portrait) => {
+        const required = requiredEditionByYear.get(
+          portrait.tournamentYear,
+        );
+        return (
+          Boolean(required) &&
           !portrait.fallback &&
-          portrait.gameEdition === "EA SPORTS FC 26" &&
-          portrait.gameEditionLaunchYear === 2025 &&
-          portrait.matchQuality === "edition-verified",
-      ),
+          portrait.file ===
+            `/assets/players/game-faces/${portrait.id}.png` &&
+          portrait.exactTournamentImage &&
+          portrait.gameEdition === required?.edition &&
+          portrait.gameEditionLaunchYear === required?.launchYear &&
+          portrait.matchQuality === "edition-verified"
+        );
+      }),
     ).toBe(true);
     expect(
-      identityFallbackPlayerImages.some(
-        (portrait) => portrait.tournamentYear === 2026,
+      identityFallbackPlayerImages.every(
+        (portrait) =>
+          !requiredEditionByYear.has(portrait.tournamentYear),
       ),
-    ).toBe(false);
+    ).toBe(true);
   });
 
   it("enforces the 99 cap and broad tournament-card rating distribution", () => {
@@ -568,24 +573,124 @@ describe("expanded archive contracts", () => {
       listName: "Trophy XI Curated Top 100",
       year: 2026,
     });
-    expect(messi.careerAccolades).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          label: "World Cup Golden Ball",
-          count: 2,
-        }),
-        expect.objectContaining({
-          label: "Champions League Winner",
-          count: 4,
-        }),
-      ]),
-    );
+    expect(
+      messi.careerAccolades.find(
+        (accolade) => accolade.label === "World Cup Golden Ball",
+      ),
+    ).toMatchObject({ count: 2 });
+    expect(
+      messi.careerAccolades.find(
+        (accolade) =>
+          accolade.label === "UEFA Champions League Champion",
+      ),
+    ).toMatchObject({ count: 4 });
     expect(
       players.some((player) => player.top100Player && player.overall < 90),
     ).toBe(true);
   });
 
-  it("attaches career context to every identity without inventing accolades", () => {
+  it("resolves one canonical career accolade list for every multi-card identity", () => {
+    const cardsByIdentity = new Map<
+      string,
+      typeof allPlayersBeforeIdentityPruning
+    >();
+    for (const player of allPlayersBeforeIdentityPruning) {
+      const cards = cardsByIdentity.get(player.playerIdentityId) ?? [];
+      cards.push(player);
+      cardsByIdentity.set(player.playerIdentityId, cards);
+    }
+
+    for (const cards of cardsByIdentity.values()) {
+      if (cards.length < 2) continue;
+      const [reference, ...otherCards] = cards;
+      for (const card of otherCards) {
+        expect(card.careerAccolades).toEqual(reference.careerAccolades);
+      }
+    }
+  });
+
+  it("gives every Perišić card the complete canonical list without non-winning honors", () => {
+    const perisicCards = allPlayersBeforeIdentityPruning.filter(
+      (player) => player.playerIdentityId === "ivan-perisic",
+    );
+    expect(
+      perisicCards.map((player) => player.id).sort(),
+    ).toEqual([
+      "ivan-perisic-2014",
+      "ivan-perisic-2018",
+      "ivan-perisic-2022",
+      "ivan-perisic-2026",
+    ]);
+
+    const canonicalAccolades = perisicCards[0]!.careerAccolades;
+    for (const card of perisicCards.slice(1)) {
+      expect(card.careerAccolades).toEqual(canonicalAccolades);
+    }
+    expect(canonicalAccolades).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "UEFA Champions League Champion",
+        }),
+        expect.objectContaining({
+          label: "Coppa Italia Winner",
+        }),
+        expect.objectContaining({
+          label: "DFB-Pokal Winner",
+          count: 3,
+        }),
+        expect.objectContaining({
+          label: "Bundesliga Champion",
+          count: 2,
+        }),
+        expect.objectContaining({
+          label: "Eredivisie Champion",
+          count: 2,
+        }),
+        expect.objectContaining({
+          label: "Serie A Champion",
+        }),
+        expect.objectContaining({
+          label: "Croatian Footballer of the Year",
+        }),
+        expect.objectContaining({
+          label: "Jupiler Pro League Player of the Year",
+        }),
+        expect.objectContaining({
+          label: "Jupiler Pro League Top Goalscorer",
+        }),
+        expect.objectContaining({
+          label: "KNVB Cup Top Goalscorer",
+        }),
+      ]),
+    );
+    expect(
+      canonicalAccolades
+        .map((accolade) => `${accolade.label} ${accolade.description ?? ""}`)
+        .join(" "),
+    ).not.toMatch(/runner[- ]?up|super[\s-]?cup|supercopa|supercoppa/i);
+  });
+
+  it("keeps tournament statistics and awards specific to each card", () => {
+    const messi2014 = players.find(
+      (player) => player.id === "lionel-messi-2014",
+    )!;
+    const messi2022 = players.find(
+      (player) => player.id === "lionel-messi-2022",
+    )!;
+
+    expect(messi2014.careerAccolades).toEqual(messi2022.careerAccolades);
+    expect(messi2014.tournamentStats).not.toEqual(messi2022.tournamentStats);
+    expect(messi2014.achievements).not.toEqual(messi2022.achievements);
+    expect(messi2014.achievements.map((award) => award.label)).toEqual([
+      "Golden Ball",
+    ]);
+    expect(messi2022.achievements.map((award) => award.label)).toEqual([
+      "Golden Ball",
+      "Silver Boot",
+    ]);
+  });
+
+  it("attaches complete career context to every identity without inventing accolades", () => {
     const identityRepresentatives = [
       ...new Map(
         allPlayersBeforeIdentityPruning.map((player) => [
@@ -612,19 +717,21 @@ describe("expanded archive contracts", () => {
     expect(giroud.careerAccolades).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          label: "Domestic League Champion",
-          count: 2,
+          label: "UEFA Champions League Champion",
+          description: expect.stringContaining("20/21"),
         }),
         expect.objectContaining({
-          label: "UEFA Champions League Champion — 2020-21",
-          count: 1,
-        }),
-        expect.objectContaining({
-          label: "World Cup Champion — 2018",
-          count: 1,
+          label: "FIFA World Cup Champion",
         }),
       ]),
     );
+    expect(
+      giroud.careerAccolades.some((accolade) =>
+        /2020|2021|20\/21/.test(
+          `${accolade.label} ${accolade.description ?? ""}`,
+        ),
+      ),
+    ).toBe(true);
     expect(giroud.careerAccolades.every((accolade) => accolade.verified)).toBe(
       true,
     );
@@ -645,7 +752,8 @@ describe("expanded archive contracts", () => {
 
     for (const [identityId, cards] of cardsByIdentity) {
       const historicalCards = cards.filter(
-        (player) => player.tournamentYear !== 2026,
+        (player) =>
+          ![2014, 2018, 2022, 2026].includes(player.tournamentYear),
       );
       if (
         !historicalCards.some((player) => imagesById.has(player.imageId))

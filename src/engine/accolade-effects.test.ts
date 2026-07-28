@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { playersById } from "@/data/players";
 import {
+  calculateCareerAccoladeLegacyScore,
   calculatePlayerAccoladeEffect,
-  calculatePlayerLegacyScore,
   calculateSquadAccoladeEffect,
   classifyAccolade,
   getPlayerAccoladeItems,
@@ -11,12 +11,11 @@ import {
 const playerWithChampionCount = (count: number) => {
   const base = playersById.get("olivier-giroud-2018")!;
   const source = base.careerAccolades.find(
-    (accolade) =>
-      accolade.label === "World Cup Winner — 2018" ||
-      accolade.label === "World Cup Champion",
+    (accolade) => /world cup (?:winner|champion)/i.test(accolade.label),
   )!;
   return {
     ...base,
+    playerIdentityId: "accolade-effect-test-player",
     achievements: [],
     top100Player: false,
     careerAccolades: [{ ...source, count }],
@@ -40,6 +39,8 @@ describe("accolade effects", () => {
       .toBe("continental-international");
     expect(classifyAccolade("Champions League Winner", "continental"))
       .toBe("continental-club");
+    expect(classifyAccolade("FIFA Club World Cup Winner", "continental"))
+      .toBe("continental-club");
     expect(classifyAccolade("Premier League Champion", "domestic-league"))
       .toBe("domestic-league");
     expect(classifyAccolade("Domestic Cup Winner", "domestic-cup"))
@@ -51,10 +52,17 @@ describe("accolade effects", () => {
   });
 
   it("is deterministic and gives repeated trophies diminishing returns", () => {
-    const one = calculatePlayerLegacyScore(playerWithChampionCount(1));
-    const two = calculatePlayerLegacyScore(playerWithChampionCount(2));
-    const three = calculatePlayerLegacyScore(playerWithChampionCount(3));
-    expect(calculatePlayerLegacyScore(playerWithChampionCount(3))).toBe(three);
+    const scoreFor = (count: number) => {
+      const player = playerWithChampionCount(count);
+      return calculateCareerAccoladeLegacyScore(
+        player,
+        player.careerAccolades,
+      );
+    };
+    const one = scoreFor(1);
+    const two = scoreFor(2);
+    const three = scoreFor(3);
+    expect(scoreFor(3)).toBe(three);
     expect(two).toBeGreaterThan(one);
     expect(three).toBeGreaterThan(two);
     expect(two - one).toBeGreaterThanOrEqual(three - two);

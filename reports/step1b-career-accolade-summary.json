@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-28T06:03:03.291Z",
+  "branch": "fix/player-images-accolades-step-1",
+  "preservedCommit": "a043cf97b214b7aa751071dc95787edef8c81b7d",
+  "careerAccolades": {
+    "uniqueIdentitiesAudited": 7254,
+    "playerCardsCovered": 9626,
+    "statusCounts": {
+      "verified": 150,
+      "partially-verified": 406,
+      "unresolved": 6698,
+      "verified-no-recorded-major-accolades": 0
+    },
+    "verifiedAchievementRecords": 2525,
+    "verifiedAchievementOccurrences": 4546,
+    "multiCardIdentities": 1818,
+    "multiCardIdentitiesPreviouslyInconsistent": 252,
+    "multiCardIdentitiesCorrected": 252,
+    "perisic": {
+      "cardIds": [
+        "ivan-perisic-2014",
+        "ivan-perisic-2018",
+        "ivan-perisic-2022",
+        "ivan-perisic-2026"
+      ],
+      "canonicalCareerAccoladeHash": "ce79e6689f2c1d3411a34a3d34d47f3a0b1553c31d69cfb424f10387379e6a5c",
+      "canonicalCareerAccoladeRecords": 10,
+      "finalConsistencyStatus": "consistent"
+    }
+  },
+  "gameplayProtection": {
+    "displayArtifact": "/src/data/player-career-accolades-by-identity.generated.json",
+    "frozenGameplayArtifact": "/src/data/player-career.generated.json",
+    "gameplayArtifactChanged": false
+  },
+  "artifacts": [
+    "/src/data/player-career-accolades-by-identity.generated.json",
+    "/reports/step1b-career-accolade-audit.json",
+    "/reports/step1b-multi-card-accolade-consistency.json",
+    "/reports/step1b-career-accolade-summary.json",
+    "/reports/step1b-summary.json"
+  ]
+}

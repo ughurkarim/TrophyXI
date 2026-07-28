@@ -321,11 +321,10 @@ const main = async () => {
     const runnerUp = candidates[1];
     const safelyUnique =
       best &&
-      ((best.score >= 70 &&
-        (!runnerUp || best.score - runnerUp.score >= 12)) ||
-        (best.nationMatch &&
-          !candidates.slice(1).some((candidate) => candidate.nationMatch) &&
-          best.score >= 18));
+      Boolean(best.matchedName) &&
+      best.nationMatch &&
+      best.score >= 70 &&
+      (!runnerUp || best.score - runnerUp.score >= 12);
     if (!safelyUnique) {
       const record = {
         playerIdentityId: target.playerIdentityId,
@@ -392,13 +391,41 @@ const main = async () => {
       versions: uniqueVersions,
     });
   }
+  const mappingCountBySoFifaPlayerId = new Map<string, number>();
+  for (const mapping of mappings) {
+    const playerId = String(mapping.sofifaPlayerId);
+    mappingCountBySoFifaPlayerId.set(
+      playerId,
+      (mappingCountBySoFifaPlayerId.get(playerId) ?? 0) + 1,
+    );
+  }
+  const uniqueMappings = mappings.filter((mapping) => {
+    const playerId = String(mapping.sofifaPlayerId);
+    if ((mappingCountBySoFifaPlayerId.get(playerId) ?? 0) === 1) {
+      return true;
+    }
+    ambiguous.push({
+      playerIdentityId: mapping.playerIdentityId,
+      playerName: mapping.playerName,
+      birthDate: mapping.birthDate,
+      reason: `SoFIFA player ${playerId} matched more than one archive identity`,
+      candidates: [
+        {
+          playerId,
+          matchedName: mapping.sofifaName,
+          score: mapping.matchScore,
+        },
+      ],
+    });
+    return false;
+  });
 
   await mkdir(OUTPUT_DIRECTORY, { recursive: true });
   await writeFile(
     OUTPUT_FILE,
     `${JSON.stringify(
       {
-        version: 1,
+        version: 2,
         generatedAt: new Date().toISOString(),
         source: {
           name: "FIFA 23 complete player dataset",
@@ -410,7 +437,7 @@ const main = async () => {
           matching:
             "Real-face rows only; exact birth date and unique normalized-name/nationality evidence.",
         },
-        mappings,
+        mappings: uniqueMappings,
       },
       null,
       2,
@@ -422,7 +449,7 @@ const main = async () => {
       {
         generatedAt: new Date().toISOString(),
         activeIdentities: targetByIdentity.size,
-        mappedIdentities: mappings.length,
+        mappedIdentities: uniqueMappings.length,
         unresolvedIdentities: unresolved.length,
         ambiguousIdentities: ambiguous.length,
         unresolved,
@@ -433,7 +460,7 @@ const main = async () => {
     )}\n`,
   );
   console.log(
-    `SoFIFA map: ${mappings.length}/${targetByIdentity.size} identities; ${unresolved.length} no real-face DOB match; ${ambiguous.length} ambiguous.`,
+    `SoFIFA map: ${uniqueMappings.length}/${targetByIdentity.size} identities; ${unresolved.length} no real-face DOB match; ${ambiguous.length} ambiguous.`,
   );
 };
 

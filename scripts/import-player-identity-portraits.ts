@@ -142,6 +142,7 @@ type SoFifaCacheEntry = {
 };
 
 type SoFifaPlayerMap = {
+  version: number;
   mappings: Array<{
     playerIdentityId: string;
     sofifaPlayerId: string;
@@ -203,10 +204,9 @@ const SOFIFA_CACHE_FILE = path.join(
 const ARCHIVE = tournamentArchiveJson as TournamentArchive;
 const SOFIFA_PLAYER_MAP = soFifaPlayerMapJson as SoFifaPlayerMap;
 const SOFIFA_MAPPING_BY_IDENTITY = new Map(
-  SOFIFA_PLAYER_MAP.mappings.map((mapping) => [
-    mapping.playerIdentityId,
-    mapping,
-  ]),
+  (SOFIFA_PLAYER_MAP.version >= 2 ? SOFIFA_PLAYER_MAP.mappings : []).map(
+    (mapping) => [mapping.playerIdentityId, mapping],
+  ),
 );
 const CHECK_ONLY = process.argv.includes("--check");
 const ALLOW_PARTIAL = process.argv.includes("--allow-partial");

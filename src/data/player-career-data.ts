@@ -1,4 +1,5 @@
 import generatedJson from "@/data/player-career.generated.json";
+import displayAccoladesJson from "@/data/player-career-accolades-by-identity.generated.json";
 import type {
   PlayerAccolade,
   PlayerCareerStats,
@@ -19,8 +20,26 @@ type GeneratedCareerArchive = {
 };
 
 const generated = generatedJson as unknown as GeneratedCareerArchive;
+const displayAccolades = displayAccoladesJson as unknown as {
+  version: number;
+  generatedAt: string;
+  identities: Record<
+    string,
+    {
+      verificationStatus:
+        | "verified"
+        | "partially-verified"
+        | "unresolved"
+        | "verified-no-recorded-major-accolades";
+      accolades: PlayerAccolade[];
+    }
+  >;
+};
 
 export const playerCareerDataGeneratedAt = generated.generatedAt;
 export const playerCareerDataByIdentityId = new Map(
   Object.entries(generated.players),
+);
+export const playerDisplayAccoladesByIdentityId = new Map(
+  Object.entries(displayAccolades.identities),
 );
