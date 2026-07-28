@@ -3,7 +3,6 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import {
-  Crown,
   FastForward,
   Pause,
   Play,
@@ -59,10 +58,12 @@ export function MatchTimeline({
   onSkip: () => void;
 }) {
   const reduceMotion = useReducedMotion();
+  const opponentDisplayName =
+    opponent.kind === "all-stars" ? "All Stars" : opponent.nationName;
   const opponentName =
     opponent.kind === "all-stars" || opponent.tournamentYear === null
-      ? opponent.nationName
-      : `${opponent.nationName} ${opponent.tournamentYear}`;
+      ? opponentDisplayName
+      : `${opponentDisplayName} ${opponent.tournamentYear}`;
   const opponentLogo =
     championLogoByCode[opponent.nationCode] ??
     championLogoByNation[normalizeNationName(opponent.nationName)];
@@ -174,7 +175,7 @@ export function MatchTimeline({
           : null;
   const decidedOnPenalties =
     Boolean(penaltyScore) && result.score.user === result.score.opponent && winnerSide !== null;
-  const finalWinnerName = winnerSide === "user" ? "Trophy XI" : opponent.nationName;
+  const finalWinnerName = winnerSide === "user" ? "Trophy XI" : opponentDisplayName;
   const decisiveGoal = winnerSide
     ? [...result.events]
         .reverse()
@@ -275,11 +276,27 @@ export function MatchTimeline({
                   ? "FEATURED CHALLENGE"
                   : `WORLD CHAMPION · ${opponent.tournamentYear ?? ""}`}
               </small>
-              <b>{opponent.nationName}</b>
+              <b>{opponentDisplayName}</b>
             </div>
             <span className={styles.crest} data-side="opponent" aria-hidden>
               {opponent.kind === "all-stars" ? (
-                <Crown size={22} />
+                <span
+                  role="img"
+                  aria-label="All Stars logo"
+                  style={{
+                    display: "grid",
+                    placeItems: "center",
+                    width: "100%",
+                    height: "100%",
+                    lineHeight: 1,
+                    fontSize: "2rem",
+                    color: "#e4bb4f",
+                    transform: "translateY(-1px)",
+                    textShadow: "0 0 12px rgba(228, 187, 79, 0.24)",
+                  }}
+                >
+                  ✦
+                </span>
               ) : opponentLogo ? (
                 <Image
                   className={styles.opponentLogo}

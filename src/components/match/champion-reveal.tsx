@@ -157,6 +157,8 @@ export function ChampionReveal({
   const opponentLogo =
     championLogoByCode[opponent.nationCode] ??
     championLogoByNation[normalizeNationName(opponent.nationName)];
+  const opponentDisplayName =
+    opponent.kind === "all-stars" ? "All Stars" : opponent.nationName;
   const userEraLabel = formatUserEra(userEra);
 
   return (
@@ -202,9 +204,10 @@ export function ChampionReveal({
               ? "FEATURED CHALLENGE · MYTHIC"
               : `WORLD CHAMPION · ${opponent.tournamentYear}`
           }
-          name={opponent.nationName}
+          name={opponentDisplayName}
           countryLogo={opponentLogo}
           fallbackCrest={flagForCountry(opponent.nationCode)}
+          isAllStars={opponent.kind === "all-stars"}
           launching={launching}
           ready={ready}
           reduceMotion={Boolean(reduceMotion)}
@@ -311,7 +314,7 @@ export function ChampionReveal({
       {squadView && (
         <RevealSquadDrawer
           side={squadView}
-          heading={squadView === "user" ? "Trophy XI" : `${opponent.nationName} ${opponent.tournamentYear ?? ""}`}
+          heading={squadView === "user" ? "Trophy XI" : opponent.kind === "all-stars" ? "All Stars" : `${opponent.nationName} ${opponent.tournamentYear ?? ""}`}
           subheading={squadView === "user" ? "YOUR FINAL XI" : `WORLD CHAMPION · ${opponent.tournamentYear ?? ""}`}
           formation={
             squadView === "user"
@@ -351,6 +354,7 @@ function TeamIdentity({
   name,
   countryLogo,
   fallbackCrest,
+  isAllStars = false,
   launching,
   ready,
   reduceMotion,
@@ -360,6 +364,7 @@ function TeamIdentity({
   name: string;
   countryLogo?: string;
   fallbackCrest?: string;
+  isAllStars?: boolean;
   launching: boolean;
   ready: boolean;
   reduceMotion: boolean;
@@ -378,6 +383,25 @@ function TeamIdentity({
         <div className={styles.crestInner}>
           {side === "user" ? (
             <RegalXiMark />
+          ) : isAllStars ? (
+            <span
+              role="img"
+              aria-label="All Stars logo"
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "grid",
+                placeItems: "center",
+                width: "100%",
+                height: "100%",
+                lineHeight: 1,
+                fontSize: "2rem",
+                color: "#f4f1df",
+                transform: "translateY(-1px)",
+              }}
+            >
+              ✦
+            </span>
           ) : countryLogo ? (
             <img className={styles.countryLogo} src={countryLogo} alt={`${name} crest`} />
           ) : (

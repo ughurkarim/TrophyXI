@@ -928,3 +928,1865 @@
     transition: none;
   }
 }
+
+
+/* =========================================================
+   COMPACT FINAL RECORD — dark / moody / trophy-gold direction
+   ========================================================= */
+
+.main {
+  width: min(100% - 40px, 1320px);
+  padding-top: 22px;
+  padding-bottom: 54px;
+}
+
+/* HERO — much tighter, darker, more like the reveal/live-match screens */
+.hero {
+  padding: 24px 30px 22px;
+  border-color: rgba(226, 190, 89, .27);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(223, 181, 64, .105), transparent 27%),
+    radial-gradient(circle at 15% 52%, rgba(162, 121, 31, .045), transparent 31%),
+    radial-gradient(circle at 86% 55%, rgba(162, 121, 31, .04), transparent 29%),
+    radial-gradient(circle at 12% 18%, rgba(236, 203, 105, .25) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78% 32%, rgba(214, 169, 58, .18) 0 1px, transparent 1.5px),
+    linear-gradient(145deg, #0d0e0b 0%, #080a08 52%, #050705 100%);
+  background-size: auto, auto, auto, 113px 113px, 157px 157px, auto;
+  box-shadow:
+    inset 0 1px rgba(255, 245, 198, .04),
+    0 0 36px rgba(198, 148, 37, .055),
+    0 24px 72px rgba(0, 0, 0, .34);
+}
+
+.heroWin,
+.heroLoss {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(229, 187, 69, .13), transparent 28%),
+    radial-gradient(circle at 16% 58%, rgba(171, 125, 31, .045), transparent 31%),
+    radial-gradient(circle at 84% 55%, rgba(171, 125, 31, .04), transparent 30%),
+    radial-gradient(circle at 12% 18%, rgba(236, 203, 105, .25) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78% 32%, rgba(214, 169, 58, .18) 0 1px, transparent 1.5px),
+    linear-gradient(145deg, #0d0e0b 0%, #080a08 52%, #050705 100%);
+  background-size: auto, auto, auto, 113px 113px, 157px 157px, auto;
+}
+
+.hero::before {
+  inset: 10px;
+  border-color: rgba(255, 236, 170, .04);
+  border-radius: 12px;
+}
+
+.hero::after {
+  top: -205px;
+  width: min(560px, 78%);
+  height: 300px;
+  border-color: rgba(224, 187, 82, .075);
+}
+
+.heroHeader h1 {
+  margin-top: 8px;
+  color: #f1cf67;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 3.4vw, 3.25rem);
+  font-weight: 690;
+  letter-spacing: .035em;
+  line-height: .95;
+  text-shadow:
+    0 0 18px rgba(222, 174, 53, .14),
+    0 0 34px rgba(183, 125, 22, .08);
+}
+
+.heroLoss .heroHeader h1 {
+  color: #d9c58d;
+}
+
+.heroOutcomeMeta {
+  margin: 8px 0 0;
+  color: #747d76;
+  font-family: var(--font-mono), monospace;
+  font-size: .47rem;
+  font-weight: 650;
+  letter-spacing: .18em;
+}
+
+/* SCOREBOARD */
+.scoreboard {
+  width: min(100%, 900px);
+  gap: 24px;
+  margin: 22px auto 16px;
+}
+
+.scoreTeam {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.scoreTeamUser {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.scoreTeamOpponent {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.scoreTeamCopy {
+  min-width: 0;
+}
+
+.scoreTeamCopy > span {
+  margin-bottom: 4px;
+}
+
+.scoreTeamCopy > b {
+  max-width: 230px;
+  overflow: hidden;
+  font-size: clamp(.78rem, 1.15vw, 1rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scoreTeamCopy > em {
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  color: #768078;
+  font-family: var(--font-mono), monospace;
+  font-size: .45rem;
+  font-style: normal;
+  letter-spacing: .035em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.heroCrest {
+  display: grid !important;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  place-items: center;
+  margin: 0 !important;
+  overflow: hidden;
+  border: 1px solid rgba(224, 188, 87, .42);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(226, 183, 67, .12), transparent 56%),
+    #090c09;
+  box-shadow:
+    inset 0 0 0 5px rgba(216, 174, 67, .025),
+    0 0 18px rgba(205, 159, 50, .08);
+}
+
+.heroCrest > b {
+  color: #e5bd50;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.heroCountryLogo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.allStarsMark {
+  display: grid;
+  place-items: center;
+  color: #e6bd4e !important;
+  font-size: 1.55rem !important;
+  line-height: 1;
+  text-shadow: 0 0 13px rgba(226, 184, 72, .22);
+}
+
+.score {
+  gap: 13px;
+}
+
+.score strong {
+  font-size: clamp(4.4rem, 7.2vw, 6.25rem);
+  line-height: .76;
+}
+
+.score i {
+  color: rgba(227, 194, 101, .44);
+  font-size: .88rem;
+}
+
+.penalties {
+  margin-top: -3px;
+}
+
+/* Bring the important match story up into the hero instead of burying it. */
+.decisiveMoment {
+  display: grid;
+  width: min(100%, 560px);
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 13px;
+  row-gap: 2px;
+  padding: 9px 13px;
+  margin: 0 auto 14px;
+  border: 1px solid rgba(218, 181, 80, .13);
+  border-radius: 9px;
+  background:
+    linear-gradient(90deg, rgba(213, 174, 66, .055), transparent 72%),
+    rgba(255, 255, 255, .012);
+}
+
+.decisiveMoment > span {
+  grid-row: 1 / span 2;
+  color: var(--gold);
+  font-family: var(--font-mono), monospace;
+  font-size: .43rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  white-space: nowrap;
+}
+
+.decisiveMoment > b {
+  overflow: hidden;
+  color: #d9ddd9;
+  font-size: .63rem;
+  font-weight: 620;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.decisiveMoment > p {
+  margin: 0;
+  overflow: hidden;
+  color: #747e76;
+  font-size: .53rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.heroActions {
+  gap: 8px;
+}
+
+.actionButton {
+  min-width: 136px;
+  min-height: 40px;
+  padding-inline: 17px;
+  font-size: .7rem;
+}
+
+/* PANELS — darker, less dashboard-like, tighter */
+.reportGrid,
+.lowerGrid {
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.reportGrid {
+  grid-template-columns: minmax(0, 1.42fr) minmax(320px, .58fr);
+}
+
+.panel,
+.teamCard {
+  padding: 18px;
+  border-color: rgba(214, 176, 75, .18);
+  border-radius: 13px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(213, 169, 54, .045), transparent 28%),
+    linear-gradient(145deg, rgba(19, 18, 13, .94), rgba(6, 8, 6, .985)),
+    #070907;
+  box-shadow:
+    inset 0 1px rgba(255, 244, 196, .025),
+    0 18px 52px rgba(0, 0, 0, .22);
+}
+
+.panelHeading {
+  padding-bottom: 12px;
+}
+
+.panelHeading h2 {
+  margin-top: 5px;
+  font-size: clamp(1.25rem, 1.8vw, 1.65rem);
+}
+
+.ratingStack {
+  gap: 0;
+  padding: 10px 0 8px;
+}
+
+.ratingRow {
+  min-height: 34px;
+  grid-template-columns: 38px minmax(0, 1fr) 30px;
+  gap: 8px;
+  padding: 3px 5px;
+}
+
+.ratingRow b {
+  margin-bottom: 4px;
+  font-size: .59rem;
+}
+
+.fitSummary {
+  gap: 5px;
+}
+
+.fitSummary div {
+  padding: 8px;
+}
+
+.translationNote {
+  margin-top: 9px;
+  font-size: .56rem;
+}
+
+.managerInsight {
+  padding: 9px 10px;
+  margin-top: 9px;
+}
+
+.managerInsight p {
+  margin-top: 4px;
+  font-size: .58rem;
+}
+
+/* TEAM SHEETS — remove the giant gap and reduce pitch footprint */
+.teamSheets {
+  margin-top: 28px;
+}
+
+.sectionHeading {
+  margin-bottom: 15px;
+}
+
+.sectionHeading h2 {
+  margin-top: 6px;
+  font-size: clamp(1.65rem, 2.6vw, 2.35rem);
+}
+
+.teamGrid {
+  gap: 14px;
+}
+
+.teamCard {
+  padding: 17px;
+}
+
+.opponentTeamCard {
+  border-color: rgba(224, 187, 82, .23);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(214, 170, 55, .055), transparent 29%),
+    linear-gradient(145deg, rgba(22, 20, 13, .96), rgba(6, 8, 6, .985));
+}
+
+.teamIdentity {
+  gap: 10px;
+}
+
+.teamIdentity > span {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+}
+
+.teamIdentityLogo {
+  overflow: hidden;
+}
+
+.teamIdentityLogo img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.teamIdentity h3 {
+  font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+}
+
+.teamOverall b {
+  font-size: 1.45rem;
+}
+
+.teamMeta {
+  gap: 5px;
+  margin-top: 13px;
+}
+
+.teamMeta div {
+  padding: 8px;
+}
+
+.pitchFrame {
+  width: min(100%, 285px);
+  margin-top: 15px;
+}
+
+.tacticalSummary {
+  padding-top: 10px;
+  margin-top: 12px;
+  font-size: .58rem;
+}
+
+/* CONTRIBUTIONS */
+.contributions {
+  margin-top: 14px;
+}
+
+.contributionGrid {
+  gap: 5px;
+  margin-top: 12px;
+}
+
+.contributionRow {
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  gap: 7px;
+  padding: 8px 9px;
+}
+
+.contributionRow > b {
+  font-size: .61rem;
+}
+
+.contributionRow > strong {
+  font-size: .59rem;
+}
+
+.contributionRow > p {
+  font-size: .43rem;
+}
+
+/* TIMELINE + SHARE */
+.lowerGrid {
+  grid-template-columns: minmax(0, 1.38fr) minmax(320px, .62fr);
+}
+
+.eventRow {
+  grid-template-columns: 48px minmax(0, 1fr) 36px;
+  gap: 10px;
+  padding: 9px 3px;
+}
+
+.eventRow b {
+  margin-bottom: 2px;
+  font-size: .65rem;
+}
+
+.eventRow p {
+  font-size: .56rem;
+}
+
+.shareActions {
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.shareButton {
+  min-height: 40px;
+}
+
+/* Tablet */
+@media (max-width: 980px) {
+  .main {
+    width: min(100% - 30px, 1320px);
+    padding-top: 18px;
+    padding-bottom: 46px;
+  }
+
+  .hero {
+    padding: 22px 20px 20px;
+  }
+
+  .reportGrid,
+  .lowerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .teamSheets {
+    margin-top: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .main {
+    width: min(100% - 22px, 1320px);
+  }
+
+  .hero {
+    padding: 24px 14px 20px;
+  }
+
+  .heroHeader h1 {
+    font-size: 2.15rem;
+  }
+
+  .scoreboard {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+    margin: 24px auto 18px;
+  }
+
+  .scoreTeam {
+    gap: 6px;
+  }
+
+  .heroCrest {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .heroCountryLogo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .scoreTeamCopy > b {
+    max-width: 100px;
+    font-size: .62rem;
+  }
+
+  .scoreTeamCopy > em {
+    display: none;
+  }
+
+  .score strong {
+    font-size: 3.55rem;
+  }
+
+  .decisiveMoment {
+    grid-template-columns: 1fr;
+  }
+
+  .decisiveMoment > span {
+    grid-row: auto;
+    white-space: normal;
+  }
+
+  .decisiveMoment > b,
+  .decisiveMoment > p {
+    white-space: normal;
+  }
+
+  .teamGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pitchFrame {
+    width: min(100%, 270px);
+  }
+}
+
+
+/* =========================================================
+   V2 — outcome color + cleaner hero + working main actions
+   ========================================================= */
+
+/* Remove the scattered gold-dot particle layers from the hero. */
+.hero,
+.heroWin,
+.heroLoss {
+  background-size: auto !important;
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 50% 16%, rgba(218, 181, 73, .085), transparent 29%),
+    linear-gradient(145deg, #0d0e0b 0%, #080a08 54%, #050705 100%) !important;
+}
+
+/* Win = restrained emerald/green aura. */
+.heroWin {
+  border-color: rgba(111, 208, 146, .30) !important;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(56, 160, 94, .19), transparent 31%),
+    radial-gradient(circle at 22% 62%, rgba(43, 118, 76, .065), transparent 30%),
+    linear-gradient(145deg, #0b0f0c 0%, #070a08 54%, #040604 100%) !important;
+  box-shadow:
+    inset 0 1px rgba(215, 255, 227, .035),
+    0 0 18px rgba(61, 171, 101, .10),
+    0 0 46px rgba(42, 126, 76, .08),
+    0 24px 72px rgba(0, 0, 0, .34) !important;
+}
+
+.heroWin .heroHeader h1 {
+  color: #7bd69a !important;
+  text-shadow:
+    0 0 14px rgba(87, 209, 126, .28),
+    0 0 30px rgba(41, 145, 78, .14) !important;
+}
+
+/* Defeat = deep crimson aura, not a bright arcade red. */
+.heroLoss {
+  border-color: rgba(202, 78, 78, .32) !important;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(151, 43, 43, .20), transparent 31%),
+    radial-gradient(circle at 22% 62%, rgba(103, 29, 29, .075), transparent 30%),
+    linear-gradient(145deg, #100a0a 0%, #0a0707 54%, #050404 100%) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 220, 220, .03),
+    0 0 18px rgba(185, 55, 55, .11),
+    0 0 48px rgba(122, 30, 30, .09),
+    0 24px 72px rgba(0, 0, 0, .35) !important;
+}
+
+.heroLoss .heroHeader h1 {
+  color: #dc6f6f !important;
+  text-shadow:
+    0 0 14px rgba(210, 72, 72, .30),
+    0 0 30px rgba(131, 36, 36, .16) !important;
+}
+
+/* Let the score stay neutral/ivory so the result color remains sophisticated. */
+.heroWin .score strong,
+.heroLoss .score strong {
+  color: #f0eee6;
+}
+
+/* Make hero sharing read more like a real clickable action. */
+.tertiaryAction {
+  color: #c6ccc7;
+  opacity: 1;
+}
+
+.tertiaryAction:hover {
+  color: var(--gold-bright);
+}
+
+
+/* V3 — soften victory / defeat aura slightly. */
+.heroWin {
+  border-color: rgba(111, 208, 146, .25) !important;
+  box-shadow:
+    inset 0 1px rgba(215, 255, 227, .03),
+    0 0 13px rgba(61, 171, 101, .075),
+    0 0 34px rgba(42, 126, 76, .055),
+    0 24px 72px rgba(0, 0, 0, .34) !important;
+}
+
+.heroWin .heroHeader h1 {
+  text-shadow:
+    0 0 11px rgba(87, 209, 126, .21),
+    0 0 23px rgba(41, 145, 78, .10) !important;
+}
+
+.heroLoss {
+  border-color: rgba(202, 78, 78, .27) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 220, 220, .026),
+    0 0 13px rgba(185, 55, 55, .08),
+    0 0 34px rgba(122, 30, 30, .06),
+    0 24px 72px rgba(0, 0, 0, .35) !important;
+}
+
+.heroLoss .heroHeader h1 {
+  text-shadow:
+    0 0 11px rgba(210, 72, 72, .22),
+    0 0 23px rgba(131, 36, 36, .11) !important;
+}
+
+
+/* =========================================================
+   V4 — POST-MATCH ANALYSIS
+   Dense comparison layout + stronger illuminated numbers/bars
+   ========================================================= */
+
+.reportGrid {
+  grid-template-columns: minmax(0, 1.48fr) minmax(330px, .52fr);
+  gap: 14px;
+}
+
+.statsPanel,
+.ratingsPanel {
+  min-height: 0;
+}
+
+.statsPanel .panelHeading,
+.ratingsPanel .panelHeading {
+  padding-bottom: 11px;
+}
+
+.statsPanel .panelHeading h2,
+.ratingsPanel .panelHeading h2 {
+  font-size: clamp(1.28rem, 1.75vw, 1.58rem);
+}
+
+/* ---------- THE NUMBERS ---------- */
+
+.statComparison {
+  padding-top: 8px;
+}
+
+.statTeams {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 132px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 5px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, .052);
+}
+
+.statTeams b,
+.statTeams span {
+  font-family: var(--font-mono), monospace;
+  font-size: .44rem;
+  font-weight: 700;
+  letter-spacing: .10em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.statTeams b:first-child {
+  color: #65c997;
+}
+
+.statTeams b:last-child {
+  overflow: hidden;
+  color: #e7c252;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.statTeams span {
+  color: #59615b;
+  text-align: center;
+}
+
+.statRows {
+  display: grid;
+}
+
+.statRow {
+  display: grid;
+  min-height: 48px;
+  grid-template-columns: 74px minmax(0, 1fr) 74px;
+  align-items: center;
+  gap: 15px;
+  padding: 5px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, .043);
+}
+
+.statRow:last-child {
+  border-bottom: 0;
+}
+
+.statRow > strong {
+  color: #9ca59f;
+  font-family: var(--font-mono), monospace;
+  font-size: .78rem;
+  font-weight: 670;
+  letter-spacing: -.02em;
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease;
+}
+
+.statRow > strong:first-child {
+  text-align: right;
+}
+
+.statRow > strong:last-child {
+  text-align: left;
+}
+
+.statRow > strong[data-state="better"] {
+  color: #f3d661;
+  font-size: .86rem;
+  font-weight: 760;
+  text-shadow:
+    0 0 8px rgba(241, 204, 76, .50),
+    0 0 18px rgba(219, 166, 42, .23);
+}
+
+.statRow > strong:first-child[data-state="better"] {
+  color: #74daa4;
+  text-shadow:
+    0 0 8px rgba(92, 218, 151, .46),
+    0 0 18px rgba(52, 166, 107, .22);
+}
+
+.statRow > strong[data-state="even"] {
+  color: #d6d4c9;
+  text-shadow: 0 0 8px rgba(225, 205, 139, .10);
+}
+
+.statCenter {
+  min-width: 0;
+}
+
+.statCenter > span {
+  display: block;
+  margin-bottom: 6px;
+  color: #9ba39d;
+  font-size: .61rem;
+  font-weight: 560;
+  line-height: 1;
+  text-align: center;
+}
+
+.statTrack {
+  display: grid;
+  height: 8px;
+  grid-template-columns: minmax(0, 1fr) 8px minmax(0, 1fr);
+  align-items: center;
+}
+
+.statTrack > em {
+  width: 2px;
+  height: 2px;
+  justify-self: center;
+  border-radius: 50%;
+  background: rgba(234, 205, 116, .32);
+  box-shadow: 0 0 6px rgba(225, 185, 75, .16);
+}
+
+.statTrack > i {
+  display: flex;
+  height: 3px;
+  overflow: visible;
+  background: rgba(255, 255, 255, .045);
+}
+
+.statTrackUser {
+  justify-content: flex-end;
+  border-radius: 999px 0 0 999px;
+}
+
+.statTrackOpponent {
+  justify-content: flex-start;
+  border-radius: 0 999px 999px 0;
+}
+
+.statTrack > i > b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition:
+    width 280ms ease,
+    filter 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.statTrackUser > b {
+  background: linear-gradient(90deg, #2d8d65, #63d29b);
+  box-shadow:
+    0 0 5px rgba(73, 206, 143, .38),
+    0 0 12px rgba(60, 180, 119, .18);
+}
+
+.statTrackOpponent > b {
+  background: linear-gradient(90deg, #b98b23, #f0cb55);
+  box-shadow:
+    0 0 5px rgba(238, 194, 69, .43),
+    0 0 13px rgba(218, 163, 40, .21);
+}
+
+.statTrack > i[data-state="better"] > b {
+  height: 4px;
+  filter: brightness(1.18);
+}
+
+.statTrackUser[data-state="better"] > b {
+  box-shadow:
+    0 0 7px rgba(91, 223, 157, .58),
+    0 0 18px rgba(55, 188, 122, .29);
+}
+
+.statTrackOpponent[data-state="better"] > b {
+  box-shadow:
+    0 0 7px rgba(251, 210, 83, .62),
+    0 0 19px rgba(224, 170, 43, .31);
+}
+
+/* ---------- FINAL RATINGS ---------- */
+
+.ratingsHeading {
+  align-items: center;
+}
+
+.overallRating {
+  display: grid;
+  width: 98px;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  column-gap: 8px;
+  row-gap: 5px;
+}
+
+.overallRating > span {
+  align-self: center;
+  color: #a7832c;
+  font-family: var(--font-mono), monospace;
+  font-size: .48rem;
+  font-weight: 750;
+  letter-spacing: .11em;
+}
+
+.overallRating > strong {
+  color: #f3d45d;
+  font-family: var(--font-display), sans-serif;
+  font-size: 2.25rem;
+  font-weight: 680;
+  letter-spacing: -.055em;
+  line-height: .82;
+  text-align: right;
+  text-shadow:
+    0 0 8px rgba(247, 210, 82, .52),
+    0 0 20px rgba(215, 157, 34, .24);
+}
+
+.overallRating > i {
+  grid-column: 1 / -1;
+  display: block;
+  height: 3px;
+  overflow: visible;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .055);
+}
+
+.overallRating > i > b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9e741c, #f4d45c);
+  box-shadow:
+    0 0 6px rgba(245, 204, 70, .55),
+    0 0 16px rgba(218, 161, 34, .26);
+}
+
+.ratingsPanel .ratingStack {
+  gap: 0;
+  padding: 8px 0 7px;
+}
+
+.ratingsPanel .ratingRow {
+  min-height: 37px;
+  grid-template-columns: 39px minmax(0, 1fr) 34px;
+  gap: 9px;
+  padding: 4px 5px;
+}
+
+.ratingsPanel .ratingRow > span {
+  color: #c39931;
+  font-size: .48rem;
+}
+
+.ratingsPanel .ratingRow b {
+  margin-bottom: 5px;
+  color: #aeb5b0;
+  font-size: .60rem;
+}
+
+.ratingsPanel .ratingRow i {
+  height: 3px;
+  overflow: visible;
+  background: rgba(255, 255, 255, .055);
+}
+
+.ratingsPanel .ratingRow i span {
+  background: linear-gradient(90deg, #a77b20, #f0cf58);
+  box-shadow:
+    0 0 6px rgba(243, 204, 74, .50),
+    0 0 15px rgba(215, 158, 36, .23);
+}
+
+.ratingsPanel .ratingRow > strong {
+  color: #f1d15a;
+  font-size: .82rem;
+  font-weight: 760;
+  text-shadow:
+    0 0 7px rgba(244, 204, 72, .44),
+    0 0 15px rgba(213, 157, 35, .18);
+}
+
+.ratingsPanel .fitSummary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 3px;
+}
+
+.ratingsPanel .fitSummary div {
+  padding: 8px 9px;
+  border-color: rgba(220, 181, 76, .16);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(218, 172, 53, .055), transparent 75%),
+    rgba(218, 172, 53, .018);
+}
+
+.ratingsPanel .fitSummary dd {
+  color: #f0ce55;
+  font-size: .76rem;
+  font-weight: 720;
+  text-shadow: 0 0 8px rgba(237, 194, 65, .28);
+}
+
+.ratingsPanel .translationNote {
+  margin-top: 8px;
+}
+
+.ratingsPanel .managerInsight {
+  padding: 9px 10px;
+  margin-top: 8px;
+}
+
+@media (max-width: 980px) {
+  .reportGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ratingsPanel {
+    display: block;
+  }
+}
+
+@media (max-width: 700px) {
+  .statTeams {
+    grid-template-columns: 72px minmax(0, 1fr) 92px;
+  }
+
+  .statRow {
+    grid-template-columns: 52px minmax(0, 1fr) 52px;
+    gap: 9px;
+    padding-inline: 2px;
+  }
+
+  .statRow > strong {
+    font-size: .68rem;
+  }
+
+  .statRow > strong[data-state="better"] {
+    font-size: .73rem;
+  }
+
+  .overallRating {
+    width: 82px;
+  }
+
+  .overallRating > strong {
+    font-size: 1.9rem;
+  }
+}
+
+
+/* =========================================================
+   V5 — merge final ratings into one compact strip
+   ========================================================= */
+
+.reportGrid {
+  grid-template-columns: 1fr !important;
+}
+
+.statsPanel {
+  width: 100%;
+}
+
+.ratingsPanel {
+  display: none !important;
+}
+
+.ratingStrip {
+  display: grid;
+  grid-template-columns:
+    auto
+    minmax(86px, 1.1fr)
+    repeat(4, minmax(72px, 1fr))
+    repeat(3, minmax(62px, .72fr));
+  align-items: stretch;
+  gap: 7px;
+  padding: 10px 0 0;
+  margin-top: 7px;
+  border-top: 1px solid rgba(221, 184, 81, .12);
+}
+
+.ratingStripLabel {
+  align-self: center;
+  padding-right: 8px;
+  color: var(--gold);
+  font-family: var(--font-mono), monospace;
+  font-size: .43rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  white-space: nowrap;
+}
+
+.ratingStripItem {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px 8px;
+  border: 1px solid rgba(220, 181, 76, .12);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(218, 172, 53, .045), transparent 76%),
+    rgba(218, 172, 53, .012);
+}
+
+.ratingStripItem > span {
+  color: #9d7a27;
+  font-family: var(--font-mono), monospace;
+  font-size: .43rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+}
+
+.ratingStripItem > strong {
+  justify-self: end;
+  color: #efd05a;
+  font-family: var(--font-display), sans-serif;
+  font-size: .96rem;
+  font-weight: 720;
+  line-height: 1;
+  text-shadow:
+    0 0 6px rgba(242, 202, 72, .38),
+    0 0 14px rgba(213, 157, 35, .16);
+}
+
+.ratingStripItem > i {
+  grid-column: 1 / -1;
+  display: block;
+  height: 2px;
+  overflow: visible;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .05);
+}
+
+.ratingStripItem > i > b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9c721d, #f2d25b);
+  box-shadow:
+    0 0 5px rgba(244, 204, 73, .46),
+    0 0 12px rgba(213, 157, 35, .19);
+}
+
+.ratingStripOverall {
+  border-color: rgba(232, 192, 81, .22);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(235, 189, 69, .11), transparent 78%),
+    rgba(225, 177, 57, .02);
+}
+
+.ratingStripOverall > span {
+  color: #c3982d;
+}
+
+.ratingStripOverall > strong {
+  color: #f6d85f;
+  font-size: 1.28rem;
+  text-shadow:
+    0 0 8px rgba(247, 209, 79, .54),
+    0 0 18px rgba(214, 157, 34, .24);
+}
+
+.ratingStripOverall > i {
+  height: 3px;
+}
+
+.ratingStripOverall > i > b {
+  box-shadow:
+    0 0 7px rgba(247, 208, 75, .58),
+    0 0 17px rgba(216, 159, 34, .27);
+}
+
+@media (max-width: 1100px) {
+  .ratingStrip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .ratingStripLabel {
+    grid-column: 1 / -1;
+    padding: 0 0 1px;
+  }
+}
+
+@media (max-width: 700px) {
+  .ratingStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ratingStripLabel {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* =========================================================
+   V6 — result-page team-sheet pitch spacing
+   Move every line upward; keep GK lower so it does not crowd CBs.
+   Scoped to Final Record team sheets only.
+   ========================================================= */
+
+.pitchFrame :global(.pitch-node) {
+  transform: translate(-50%, calc(-50% - 13px));
+}
+
+/* Goalkeeper comes up only a little, preserving separation from the CB line. */
+.pitchFrame :global(.pitch-node[data-slot-position="GK"]) {
+  transform: translate(-50%, calc(-50% - 6px));
+}
+
+
+/* =========================================================
+   V7 — TEAM SHEETS POLISH
+   Slightly larger pitch, tighter cards, cleaner labels,
+   subtle winner state, smaller section headline.
+   ========================================================= */
+
+.teamSheets {
+  margin-top: 24px;
+}
+
+.sectionHeading {
+  margin-bottom: 12px;
+}
+
+.sectionHeading h2 {
+  margin-top: 5px;
+  font-size: clamp(1.42rem, 2.15vw, 1.9rem);
+  letter-spacing: -0.045em;
+}
+
+.teamGrid {
+  gap: 14px;
+}
+
+.teamCard {
+  padding: 15px 16px 13px;
+}
+
+.teamHeader {
+  gap: 12px;
+}
+
+.teamIdentity {
+  gap: 9px;
+}
+
+.teamIdentity > span {
+  width: 36px;
+  height: 36px;
+  flex-basis: 36px;
+}
+
+.teamIdentity h3 {
+  font-size: clamp(1rem, 1.55vw, 1.34rem);
+}
+
+.teamMeta {
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.teamMeta div {
+  padding: 7px 9px;
+}
+
+/* Enlarge the pitch without making the cards feel taller. */
+.pitchFrame {
+  width: min(100%, 304px);
+  margin-top: 10px;
+}
+
+.pitchFrame :global(.pitch) {
+  border-radius: 12px;
+}
+
+/* Keep the formation geometry, but make crowded name plates cleaner. */
+.pitchFrame :global(.pitch-node__name) {
+  max-width: 62px;
+  padding: 2px 3px;
+  font-size: clamp(.35rem, .53vw, .44rem);
+  line-height: 1.12;
+}
+
+.pitchFrame :global(.pitch-node__name small) {
+  margin-top: 1px;
+  font-size: .31rem;
+}
+
+/* Preserve the lift from V6: outfield moves more than GK. */
+.pitchFrame :global(.pitch-node) {
+  transform: translate(-50%, calc(-50% - 13px));
+}
+
+.pitchFrame :global(.pitch-node[data-slot-position="GK"]) {
+  transform: translate(-50%, calc(-50% - 6px));
+}
+
+.tacticalSummary {
+  padding-top: 8px;
+  margin-top: 9px;
+  font-size: .56rem;
+  line-height: 1.42;
+}
+
+/* OVR treatment stays prominent but uses less empty space. */
+.teamOverall {
+  min-width: 68px;
+}
+
+.teamOverallMeta {
+  display: flex;
+  min-height: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.teamOverallMeta > span {
+  color: #747d76;
+  font-family: var(--font-mono), monospace;
+  font-size: .43rem;
+  letter-spacing: .1em;
+}
+
+.teamOverall > b {
+  margin-top: 2px;
+  font-size: 1.62rem;
+  text-shadow:
+    0 0 7px rgba(241, 202, 70, .34),
+    0 0 15px rgba(204, 148, 29, .12);
+}
+
+.winnerBadge {
+  color: #f0cc59;
+  font-family: var(--font-mono), monospace;
+  font-size: .39rem;
+  font-weight: 760;
+  letter-spacing: .09em;
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(239, 195, 65, .28);
+}
+
+/* Winner recognition is deliberately restrained — a memory of the result,
+   not another hero-state glow. */
+.winnerTeamCard {
+  border-color: rgba(231, 193, 86, .32);
+  box-shadow:
+    inset 0 1px rgba(255, 244, 196, .03),
+    inset 0 0 24px rgba(219, 171, 51, .018),
+    0 0 13px rgba(216, 166, 45, .055),
+    0 18px 48px rgba(0, 0, 0, .22);
+}
+
+.winnerTeamCard::before {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 12%;
+  left: 12%;
+  height: 1px;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(242, 211, 117, .30),
+    transparent
+  );
+  box-shadow: 0 0 10px rgba(228, 183, 61, .10);
+}
+
+@media (max-width: 700px) {
+  .sectionHeading h2 {
+    font-size: 1.55rem;
+  }
+
+  .teamCard {
+    padding: 14px;
+  }
+
+  .pitchFrame {
+    width: min(100%, 292px);
+  }
+}
+
+
+/* =========================================================
+   V8 — SHARE-FOCUSED FINAL SECTION
+   Remove the permanent timeline and make sharing the final destination.
+   ========================================================= */
+
+.shareExperience {
+  position: relative;
+  overflow: hidden;
+  padding: 22px;
+  margin-top: 16px;
+  border-color: rgba(225, 187, 81, .24);
+  background:
+    radial-gradient(circle at 26% 48%, rgba(198, 154, 45, .075), transparent 34%),
+    radial-gradient(circle at 83% 30%, rgba(198, 154, 45, .035), transparent 30%),
+    linear-gradient(135deg, rgba(20, 18, 12, .97), rgba(5, 7, 5, .995));
+  box-shadow:
+    inset 0 1px rgba(255, 243, 191, .035),
+    0 20px 58px rgba(0, 0, 0, .27);
+}
+
+.shareExperience::before {
+  position: absolute;
+  top: 0;
+  right: 8%;
+  left: 8%;
+  height: 1px;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(241, 207, 111, .32),
+    transparent
+  );
+  box-shadow: 0 0 14px rgba(223, 177, 53, .12);
+}
+
+.shareExperienceWin {
+  background:
+    radial-gradient(circle at 80% 28%, rgba(55, 139, 86, .065), transparent 29%),
+    radial-gradient(circle at 24% 46%, rgba(198, 154, 45, .075), transparent 34%),
+    linear-gradient(135deg, rgba(17, 18, 12, .97), rgba(5, 8, 6, .995));
+}
+
+.shareExperienceLoss {
+  background:
+    radial-gradient(circle at 80% 28%, rgba(138, 47, 47, .055), transparent 29%),
+    radial-gradient(circle at 24% 46%, rgba(198, 154, 45, .07), transparent 34%),
+    linear-gradient(135deg, rgba(19, 15, 12, .97), rgba(7, 5, 5, .995));
+}
+
+.shareExperienceHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, .055);
+}
+
+.shareExperienceHeader h2 {
+  margin: 5px 0 0;
+  color: #ecece6;
+  font-size: clamp(1.45rem, 2vw, 1.8rem);
+  font-weight: 640;
+  letter-spacing: -.035em;
+}
+
+.shareExperienceHeader p {
+  max-width: 590px;
+  margin: 6px 0 0;
+  color: #78817a;
+  font-size: .62rem;
+  line-height: 1.5;
+}
+
+.shareExperienceHeader > svg {
+  flex: 0 0 auto;
+  margin-top: 4px;
+  color: #e6bc4c;
+  filter: drop-shadow(0 0 8px rgba(226, 181, 60, .20));
+}
+
+.shareExperienceBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr);
+  align-items: center;
+  gap: 24px;
+  padding-top: 18px;
+}
+
+.sharePreviewShell {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  padding: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(225, 188, 84, .16);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 50% 47%, rgba(82, 126, 93, .055), transparent 46%),
+    rgba(2, 4, 3, .66);
+}
+
+.sharePreviewGlow {
+  position: absolute;
+  inset: 12% 18%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(225, 179, 53, .035);
+  filter: blur(34px);
+}
+
+.sharePreviewShell > *:not(.sharePreviewGlow) {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 560px);
+}
+
+.shareControlPanel {
+  display: grid;
+  align-content: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.shareScoreSummary {
+  padding: 15px;
+  border: 1px solid rgba(224, 184, 76, .15);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(223, 177, 55, .055), transparent 72%),
+    rgba(255, 255, 255, .012);
+}
+
+.shareScoreSummary > span {
+  display: block;
+  color: #ae872b;
+  font-family: var(--font-mono), monospace;
+  font-size: .43rem;
+  font-weight: 750;
+  letter-spacing: .13em;
+}
+
+.shareScoreSummary > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.shareScoreSummary b {
+  overflow: hidden;
+  color: #c8cdc9;
+  font-size: .67rem;
+  font-weight: 590;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shareScoreSummary b:last-child {
+  text-align: right;
+}
+
+.shareScoreSummary strong {
+  color: #f1efe7;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.65rem;
+  font-weight: 680;
+  letter-spacing: -.055em;
+  line-height: 1;
+  text-shadow: 0 0 11px rgba(223, 179, 57, .12);
+  white-space: nowrap;
+}
+
+.shareScoreSummary strong i {
+  padding: 0 5px;
+  color: #8d7334;
+  font-size: .72rem;
+  font-style: normal;
+}
+
+.shareScoreSummary > p {
+  margin: 9px 0 0;
+  color: #747d76;
+  font-family: var(--font-mono), monospace;
+  font-size: .46rem;
+  letter-spacing: .045em;
+}
+
+.sharePrimaryActions {
+  display: grid;
+  gap: 7px;
+}
+
+.shareButton {
+  width: 100%;
+  min-height: 44px;
+  justify-content: center;
+}
+
+.sharePrimaryButton {
+  min-height: 48px;
+  box-shadow:
+    0 0 10px rgba(232, 185, 54, .17),
+    0 0 24px rgba(192, 137, 24, .08);
+}
+
+.shareTextButton {
+  color: #b9c0bb;
+  border: 1px solid rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, .012);
+}
+
+.shareTextButton:hover {
+  color: #f0cf5a;
+  border-color: rgba(229, 190, 81, .18);
+  background: rgba(213, 167, 51, .035);
+}
+
+.shareHint {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 11px;
+  border-top: 1px solid rgba(255, 255, 255, .05);
+}
+
+.shareHint > span {
+  color: #e0b748;
+  font-size: .82rem;
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(225, 180, 55, .24);
+}
+
+.shareHint p {
+  margin: 0;
+  color: #69736c;
+  font-size: .53rem;
+  line-height: 1.48;
+}
+
+@media (max-width: 980px) {
+  .shareExperienceBody {
+    grid-template-columns: 1fr;
+  }
+
+  .shareControlPanel {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr);
+    align-items: start;
+  }
+
+  .sharePrimaryActions {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .shareHint {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .shareExperience {
+    padding: 16px 14px;
+  }
+
+  .shareExperienceHeader {
+    gap: 12px;
+  }
+
+  .shareExperienceHeader p {
+    font-size: .57rem;
+  }
+
+  .shareExperienceBody {
+    gap: 14px;
+    padding-top: 14px;
+  }
+
+  .sharePreviewShell {
+    padding: 8px;
+  }
+
+  .shareControlPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .sharePrimaryActions,
+  .shareHint {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+
+/* =========================================================
+   V9 — compact share finale
+   Poster preview + two obvious actions, no redundant copy.
+   ========================================================= */
+
+.shareExperience {
+  padding: 17px 18px 18px;
+  margin-top: 14px;
+}
+
+.shareExperienceHeader {
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.shareExperienceHeader h2 {
+  margin-top: 4px;
+  font-size: clamp(1.2rem, 1.65vw, 1.5rem);
+}
+
+.shareExperienceHeader p {
+  display: none;
+}
+
+.shareExperienceHeader > svg {
+  margin-top: 0;
+}
+
+.shareExperienceBody {
+  grid-template-columns: minmax(0, 1.55fr) minmax(250px, .45fr);
+  gap: 17px;
+  padding-top: 12px;
+}
+
+.sharePreviewShell {
+  min-height: 0;
+  padding: 9px;
+  border-color: rgba(225, 188, 84, .14);
+  background:
+    radial-gradient(circle at 50% 46%, rgba(199, 157, 48, .055), transparent 47%),
+    rgba(2, 4, 3, .68);
+}
+
+.sharePreviewShell > *:not(.sharePreviewGlow) {
+  width: min(100%, 465px);
+}
+
+.sharePreviewGlow {
+  inset: 18% 24%;
+  background: rgba(225, 179, 53, .045);
+  filter: blur(28px);
+}
+
+.shareControlPanel {
+  gap: 10px;
+}
+
+.shareMiniScore {
+  display: grid;
+  place-items: center;
+  padding: 13px 12px 12px;
+  border: 1px solid rgba(225, 186, 79, .15);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(225, 177, 54, .065), transparent 68%),
+    rgba(255, 255, 255, .012);
+  text-align: center;
+}
+
+.shareMiniScore > span {
+  color: #b88e2d;
+  font-family: var(--font-mono), monospace;
+  font-size: .42rem;
+  font-weight: 760;
+  letter-spacing: .14em;
+}
+
+.shareExperienceWin .shareMiniScore > span {
+  color: #6ed397;
+  text-shadow: 0 0 8px rgba(94, 212, 144, .20);
+}
+
+.shareExperienceLoss .shareMiniScore > span {
+  color: #d66f6f;
+  text-shadow: 0 0 8px rgba(207, 78, 78, .18);
+}
+
+.shareMiniScore > strong {
+  margin-top: 5px;
+  color: #f1efe7;
+  font-family: var(--font-display), sans-serif;
+  font-size: 2.55rem;
+  font-weight: 680;
+  letter-spacing: -.065em;
+  line-height: .9;
+  text-shadow:
+    0 0 9px rgba(229, 184, 59, .12),
+    0 0 20px rgba(176, 124, 25, .06);
+}
+
+.shareMiniScore > strong i {
+  padding: 0 7px;
+  color: #836d36;
+  font-size: .9rem;
+  font-style: normal;
+  vertical-align: .35em;
+}
+
+.shareMiniScore > p {
+  margin: 8px 0 0;
+  overflow: hidden;
+  color: #8a928c;
+  font-size: .58rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shareMiniScore > p b {
+  padding: 0 3px;
+  color: #5e665f;
+  font-weight: 500;
+}
+
+.sharePrimaryActions {
+  gap: 7px;
+}
+
+.shareButton {
+  min-height: 42px;
+}
+
+.sharePrimaryButton {
+  min-height: 47px;
+  box-shadow:
+    0 0 8px rgba(232, 185, 54, .15),
+    0 0 20px rgba(192, 137, 24, .07);
+}
+
+/* Old expanded-share pieces are intentionally removed from this composition. */
+.shareScoreSummary,
+.shareTextButton,
+.shareHint {
+  display: none !important;
+}
+
+@media (max-width: 980px) {
+  .shareExperienceBody {
+    grid-template-columns: minmax(0, 1.3fr) minmax(230px, .7fr);
+  }
+
+  .shareControlPanel {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .sharePrimaryActions {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .shareExperience {
+    padding: 14px 12px;
+  }
+
+  .shareExperienceBody {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .sharePreviewShell > *:not(.sharePreviewGlow) {
+    width: min(100%, 430px);
+  }
+
+  .shareMiniScore {
+    padding: 11px;
+  }
+
+  .shareMiniScore > strong {
+    font-size: 2.15rem;
+  }
+}
