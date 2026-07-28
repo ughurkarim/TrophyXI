@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-28T07:04:14.811Z",
+  "branch": "fix/player-images-accolades-step-1",
+  "preservedCommit": "a043cf97b214b7aa751071dc95787edef8c81b7d",
+  "careerAccolades": {
+    "uniqueIdentitiesAudited": 7254,
+    "playerCardsCovered": 9626,
+    "statusCounts": {
+      "verified": 150,
+      "partially-verified": 406,
+      "unresolved": 6698,
+      "verified-no-recorded-major-accolades": 0
+    },
+    "verifiedAchievementRecords": 2525,
+    "verifiedAchievementOccurrences": 4546,
+    "multiCardIdentities": 1818,
+    "multiCardIdentitiesPreviouslyInconsistent": 252,
+    "multiCardIdentitiesCorrected": 252,
+    "perisic": {
+      "cardIds": [
+        "ivan-perisic-2014",
+        "ivan-perisic-2018",
+        "ivan-perisic-2022",
+        "ivan-perisic-2026"
+      ],
+      "canonicalCareerAccoladeHash": "ce79e6689f2c1d3411a34a3d34d47f3a0b1553c31d69cfb424f10387379e6a5c",
+      "canonicalCareerAccoladeRecords": 10,
+      "finalConsistencyStatus": "consistent"
+    }
+  },
+  "portraits": {
+    "tournamentYears": [
+      2014,
+      2018,
+      2022,
+      2026
+    ],
+    "totalCards": 3550,
+    "totalsByYear": {
+      "2014": {
+        "total": 736,
+        "verified": 374,
+        "photoPending": 362
+      },
+      "2018": {
+        "total": 736,
+        "verified": 219,
+        "photoPending": 517
+      },
+      "2022": {
+        "total": 831,
+        "verified": 364,
+        "photoPending": 467
+      },
+      "2026": {
+        "total": 1247,
+        "verified": 484,
+        "photoPending": 763
+      }
+    },
+    "newlyVerifiedPortraits": 0,
+    "replacedPortraits": 0,
+    "preservedVerifiedPortraits": 1441,
+    "photoPendingTotal": 2109,
+    "photoPendingByYear": {
+      "2014": 362,
+      "2018": 517,
+      "2022": 467,
+      "2026": 763
+    },
+    "productionRegistryChanged": false,
+    "duplicateImageProblemsFixed": 0,
+    "exactByteDuplicateGroups": 0,
+    "canonicalPixelDuplicateGroups": 0,
+    "unresolvedCrossIdentityDuplicateErrors": 0,
+    "perceptualCandidatePairs": 3321,
+    "manuallyReviewedDistanceZeroPairs": 6,
+    "automatedNonzeroCandidates": 3315,
+    "contactSheets": [
+      {
+        "tournamentYear": 2014,
+        "path": "/reports/contact-sheets/player-images-2014.png",
+        "sha256": "6e9077f04889a15871c1dfbeb6eda401794fcdde8e62ad1234ded7a9e76c1e44",
+        "regenerated": false,
+        "disposition": "Preserved because portrait coverage and labels are unchanged; the existing sheet already shows portrait or PHOTO PENDING, player name, nation, tournament year, card ID, required edition, and verification status."
+      },
+      {
+        "tournamentYear": 2018,
+        "path": "/reports/contact-sheets/player-images-2018.png",
+        "sha256": "d04876264ddd037dc1830b108e11c7256c876adcc001f0ea6b9cfd094fc9186e",
+        "regenerated": false,
+        "disposition": "Preserved because portrait coverage and labels are unchanged; the existing sheet already shows portrait or PHOTO PENDING, player name, nation, tournament year, card ID, required edition, and verification status."
+      },
+      {
+        "tournamentYear": 2022,
+        "path": "/reports/contact-sheets/player-images-2022.png",
+        "sha256": "27c837ed098302401716c627ea859ca90ba1bde2a9849677b1e17abe1ce1a59f",
+        "regenerated": false,
+        "disposition": "Preserved because portrait coverage and labels are unchanged; the existing sheet already shows portrait or PHOTO PENDING, player name, nation, tournament year, card ID, required edition, and verification status."
+      },
+      {
+        "tournamentYear": 2026,
+        "path": "/reports/contact-sheets/player-images-2026.png",
+        "sha256": "c092e60756d96d3b21d59495596410edc02cc00203bf142cda57d2b2fed55a03",
+        "regenerated": false,
+        "disposition": "Preserved because portrait coverage and labels are unchanged; the existing sheet already shows portrait or PHOTO PENDING, player name, nation, tournament year, card ID, required edition, and verification status."
+      }
+    ]
+  },
+  "gameplayProtection": {
+    "displayArtifact": "/src/data/player-career-accolades-by-identity.generated.json",
+    "frozenGameplayArtifact": "/src/data/player-career.generated.json",
+    "gameplayArtifactChanged": false
+  },
+  "reports": {
+    "careerAccoladeAudit": "/reports/step1b-career-accolade-audit.json",
+    "multiCardConsistency": "/reports/step1b-multi-card-accolade-consistency.json",
+    "portraitAudit": "/reports/step1-player-image-audit.json",
+    "portraitUnresolved": "/reports/step1-player-image-unresolved.json",
+    "portraitDuplicates": "/reports/step1-player-image-duplicates.json",
+    "careerSummary": "/reports/step1b-career-accolade-summary.json",
+    "portraitSummary": "/reports/step1b-player-portrait-summary.json",
+    "combinedSummary": "/reports/step1b-summary.json"
+  }
+}

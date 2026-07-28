@@ -165,22 +165,28 @@ describe("PlayerDetails", () => {
     expect(within(record).queryByText(/Unknown|Not sourced/i)).not.toBeInTheDocument();
   });
 
-  it("sorts Giroud's sourced honors by importance without source labels", () => {
+  it("shows Giroud's complete career honors, including titles after 2018", async () => {
+    const user = userEvent.setup();
     const player = playersById.get("olivier-giroud-2018")!;
     render(<PlayerDetails player={player} onClose={vi.fn()} />);
     const accolades = screen
       .getByText("CAREER ACCOLADES")
       .closest("section")!;
+    const showMore = within(accolades).queryByRole("button", {
+      name: /SHOW \d+ MORE/,
+    });
+    if (showMore) await user.click(showMore);
     const rows = within(accolades).getAllByRole("listitem");
     expect(rows.map((row) => row.textContent)).toEqual(
       expect.arrayContaining([
-        expect.stringContaining("WORLD CUP WINNER — 2018"),
-        expect.stringContaining("1× DOMESTIC LEAGUE CHAMPION"),
+        expect.stringContaining("WORLD CUP CHAMPION"),
+        expect.stringContaining("UEFA CHAMPIONS LEAGUE CHAMPION"),
+        expect.stringContaining("LIGUE 1 CHAMPION"),
       ]),
     );
     expect(
-      within(accolades).queryByText(/UEFA CHAMPIONS LEAGUE CHAMPION/i),
-    ).not.toBeInTheDocument();
+      within(accolades).getByText(/UEFA CHAMPIONS LEAGUE CHAMPION/i),
+    ).toBeInTheDocument();
     expect(within(accolades).queryByText(/source/i)).not.toBeInTheDocument();
     expect(within(accolades).queryByRole("link")).not.toBeInTheDocument();
   });

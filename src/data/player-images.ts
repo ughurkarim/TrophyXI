@@ -166,7 +166,7 @@ export const tournamentEditionPlayerImages: ImageAttribution[] =
       player.tournamentYear !== record.tournamentYear ||
       record.gameEdition !== required.gameEdition ||
       record.localPath !==
-        `/players/game-faces/${record.cardId}.png` ||
+        `/assets/players/game-faces/${record.cardId}.png` ||
       !record.sourcePage.includes(`/player/${record.soFifaPlayerId}`) ||
       !record.sourceImageUrl.endsWith(
         `/${required.version}_120.png`,

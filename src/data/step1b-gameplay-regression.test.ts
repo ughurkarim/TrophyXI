@@ -281,6 +281,32 @@ describe("Step 1B frozen gameplay and data baseline", () => {
     );
   });
 
+  it("keeps display-only Career Accolades outside gameplay legacy", () => {
+    const displayOnlyProbe = {
+      id: "step1b-display-isolation-probe",
+      label: "Ballon d'Or",
+      count: 256,
+      category: "individual" as const,
+      sourceName: "Step 1B isolation test",
+      verified: true,
+    };
+    for (const player of allPlayersBeforeIdentityPruning) {
+      expect(
+        calculatePlayerLegacyScore({
+          ...player,
+          careerAccolades: [displayOnlyProbe],
+        }),
+      ).toBe(calculatePlayerLegacyScore(player));
+    }
+
+    expect(() =>
+      calculatePlayerLegacyScore({
+        ...allPlayersBeforeIdentityPruning[0]!,
+        playerIdentityId: "missing-frozen-gameplay-identity",
+      }),
+    ).toThrow(/missing its frozen gameplay career record/);
+  });
+
   it(
     "preserves draft weights and deterministic starter and bench offers",
     () => {

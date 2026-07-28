@@ -272,7 +272,7 @@ const DEFAULT_LEGACY_INDEX =
   "/tmp/trophyxi-sofifa-fc24/male_players.csv";
 const DEFAULT_FC26_INDEX =
   "/tmp/trophyxi-sofifa-fc26/FC26_20250921.csv";
-const PUBLIC_DIRECTORY = path.join(ROOT, "public/players/game-faces");
+const PUBLIC_DIRECTORY = path.join(ROOT, "public/assets/players/game-faces");
 const REPORT_DIRECTORY = path.join(ROOT, "reports");
 const CONTACT_SHEET_DIRECTORY = path.join(
   REPORT_DIRECTORY,
@@ -1140,7 +1140,7 @@ const baseAuditCard = (
     sofifaPlayerId: proof?.sofifaPlayerId ?? null,
     sofifaSourcePage: proof?.sourcePage ?? null,
     sourceImageUrl: proof?.sourceImageUrl ?? null,
-    localImagePath: `/players/game-faces/${card.playerCardId}.png`,
+    localImagePath: `/assets/players/game-faces/${card.playerCardId}.png`,
     imageSha256: null,
     imageDHash: null,
     imageVisualSha256: null,

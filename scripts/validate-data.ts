@@ -1112,16 +1112,14 @@ const main = async () => {
   const messi = playersById.get("lionel-messi-2022");
   assert(
     messi?.top100Player === true &&
-      messi.careerAccolades.filter(
-        (accolade) =>
-          /golden ball/i.test(accolade.label) &&
-          /2014|2022/.test(
-            `${accolade.label} ${accolade.description ?? ""}`,
-          ),
-      ).length === 2 &&
       messi.careerAccolades.some(
         (accolade) =>
-          accolade.label === "Champions League Winner" &&
+          accolade.label === "World Cup Golden Ball" &&
+          accolade.count === 2,
+      ) &&
+      messi.careerAccolades.some(
+        (accolade) =>
+          accolade.label === "UEFA Champions League Champion" &&
           accolade.count === 4,
       ),
     "Messi is missing verified career accolades or curated Top 100 status",

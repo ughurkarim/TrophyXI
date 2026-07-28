@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-28T07:04:14.811Z",
+  "scope": {
+    "tournamentYears": [
+      2014,
+      2018,
+      2022,
+      2026
+    ],
+    "policy": "Evidence-only upgrade. No Photo Pending card is promoted without new verified identity and required-edition evidence."
+  },
+  "summary": {
+    "totalCards": 3550,
+    "verifiedPortraits": 1441,
+    "photoPending": 2109,
+    "photoPendingWithSpecificReason": 2109,
+    "newlyPromotedPortraits": 0,
+    "verifiedAssetsChanged": 0,
+    "productionRegistryChanged": false,
+    "byYear": {
+      "2014": {
+        "total": 736,
+        "verified": 374,
+        "photoPending": 362
+      },
+      "2018": {
+        "total": 736,
+        "verified": 219,
+        "photoPending": 517
+      },
+      "2022": {
+        "total": 831,
+        "verified": 364,
+        "photoPending": 467
+      },
+      "2026": {
+        "total": 1247,
+        "verified": 484,
+        "photoPending": 763
+      }
+    }
+  },
+  "unresolvedReasons": {
+    "byValidationStatus": {
+      "unresolved-edition-unavailable": 11,
+      "unresolved-identity-verification": 2045,
+      "unresolved-no-sofifa-mapping": 53
+    },
+    "everyPhotoPendingCardHasSpecificReason": true
+  },
+  "duplicateEvidence": {
+    "exactByteDuplicateGroups": 0,
+    "crossIdentityExactByteErrors": 0,
+    "canonicalPixelDuplicateGroups": 0,
+    "crossIdentityCanonicalPixelErrors": 0,
+    "perceptualCandidatePairs": 3321,
+    "manuallyReviewedDistanceZeroPairs": 6,
+    "automatedNonzeroCandidates": 3315,
+    "manualPairIds": [
+      "denzel-dumfries-2026::kylian-mbappe-2018",
+      "denzel-dumfries-2026::lutsharel-geertruida-2026",
+      "diarra-habib-2026::nicolas-pepe-2026",
+      "diarra-habib-2026::wan-bissaka-aaron-2026",
+      "kylian-mbappe-2018::lutsharel-geertruida-2026",
+      "nicolas-pepe-2026::wan-bissaka-aaron-2026"
+    ]
+  },
+  "preservationEvidence": {
+    "productionRegistryPath": "/src/data/tournament-edition-player-portraits.generated.json",
+    "productionRegistrySha256": "62ac39aa10fdd4b601a82a9c740abb384fc8ad4681c66cda6ec4223b23681054",
+    "verifiedAssetHashSetSha256": "0cff2418db897158c6f7cd1953c367c4408410e004c1141ab95a8dcedb2fb595",
+    "verifiedAssetCount": 1441,
+    "contactSheets": [
+      {
+        "tournamentYear": 2014,
+        "path": "/reports/contact-sheets/player-images-2014.png",
+        "sha256": "6e9077f04889a15871c1dfbeb6eda401794fcdde8e62ad1234ded7a9e76c1e44",
+        "regenerated": false,
+        "disposition": "Preserved because portrait coverage and labels are unchanged; the existing sheet already shows portrait or PHOTO PENDING, player name, nation, tournament year, card ID, required edition, and verification status."
+      },
+      {
+        "tournamentYear": 2018,
+        "path": "/reports/contact-sheets/player-images-2018.png",
+        "sha256": "d04876264ddd037dc1830b108e11c7256c876adcc001f0ea6b9cfd094fc9186e",
+        "regenerated": false,
+        "disposition": "Preserved because portrait coverage and labels are unchanged; the existing sheet already shows portrait or PHOTO PENDING, player name, nation, tournament year, card ID, required edition, and verification status."
+      },
+      {
+        "tournamentYear": 2022,
+        "path": "/reports/contact-sheets/player-images-2022.png",
+        "sha256": "27c837ed098302401716c627ea859ca90ba1bde2a9849677b1e17abe1ce1a59f",
+        "regenerated": false,
+        "disposition": "Preserved because portrait coverage and labels are unchanged; the existing sheet already shows portrait or PHOTO PENDING, player name, nation, tournament year, card ID, required edition, and verification status."
+      },
+      {
+        "tournamentYear": 2026,
+        "path": "/reports/contact-sheets/player-images-2026.png",
+        "sha256": "c092e60756d96d3b21d59495596410edc02cc00203bf142cda57d2b2fed55a03",
+        "regenerated": false,
+        "disposition": "Preserved because portrait coverage and labels are unchanged; the existing sheet already shows portrait or PHOTO PENDING, player name, nation, tournament year, card ID, required edition, and verification status."
+      }
+    ]
+  },
+  "artifacts": [
+    "/reports/step1-player-image-audit.json",
+    "/reports/step1-player-image-unresolved.json",
+    "/reports/step1-player-image-duplicates.json",
+    "/reports/step1b-player-portrait-summary.json"
+  ]
+}

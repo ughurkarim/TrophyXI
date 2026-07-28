@@ -12,6 +12,7 @@ import sharp from "sharp";
 import fbrefMapJson from "../data/sources/fbref/player-map.json";
 import historicalPlayersJson from "../src/data/player-tournaments.generated.json";
 import roster2026Json from "../src/data/player-tournaments-2026.generated.json";
+import identityCareerAccoladesJson from "../src/data/player-career-accolades-by-identity.generated.json";
 import { imagesById } from "../src/data/player-images";
 import {
   allPlayersBeforeIdentityPruning,
@@ -32,6 +33,10 @@ import type { PlayerAccolade } from "../src/types/game";
  */
 const ROOT = process.cwd();
 const WRITE_MERGED = process.argv.includes("--write-merged");
+const identityCareerAccolades =
+  identityCareerAccoladesJson as unknown as {
+    identities: Record<string, { accolades: PlayerAccolade[] }>;
+  };
 const TARGET_YEARS = [2014, 2018, 2022, 2026] as const;
 type TargetYear = (typeof TARGET_YEARS)[number];
 
@@ -49,6 +54,11 @@ const IMAGE_DUPLICATES_FILE = path.join(
   ROOT,
   "reports",
   "step1-player-image-duplicates.json",
+);
+const STEP1B_PORTRAIT_SUMMARY_FILE = path.join(
+  ROOT,
+  "reports",
+  "step1b-player-portrait-summary.json",
 );
 const ACCOLADE_AUDIT_FILE = path.join(
   ROOT,
@@ -197,6 +207,14 @@ const PNG_SIGNATURE = Buffer.from([
   0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
 ]);
 const SIMILAR_DHASH_DISTANCE = 4;
+const MANUALLY_REVIEWED_ZERO_DHASH_PAIR_IDS = new Set([
+  "denzel-dumfries-2026::kylian-mbappe-2018",
+  "kylian-mbappe-2018::lutsharel-geertruida-2026",
+  "denzel-dumfries-2026::lutsharel-geertruida-2026",
+  "diarra-habib-2026::nicolas-pepe-2026",
+  "diarra-habib-2026::wan-bissaka-aaron-2026",
+  "nicolas-pepe-2026::wan-bissaka-aaron-2026",
+]);
 
 type JsonRecord = Record<string, unknown>;
 
@@ -216,11 +234,14 @@ type ImageAuditCard = {
   localImagePath: string;
   imageSha256: string | null;
   imageDHash: string | null;
+  imageVisualSha256: string | null;
   width: number | null;
   height: number | null;
   format: string | null;
   imageValidationStatus: string;
   imageConfidence: string;
+  finalPortraitStatus: string;
+  unresolvedReason: string | null;
   identityEvidence: unknown;
   editionEvidence: unknown;
   sourceReuse: unknown;
@@ -268,6 +289,7 @@ type ActualImage = {
   absolutePath: string;
   sha256: string;
   dHash: string;
+  visualSha256: string;
   width: number;
   height: number;
 };
@@ -318,7 +340,7 @@ const normalizeName = (value: string) =>
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
 
-const sha256 = (value: Buffer) =>
+const sha256 = (value: Buffer | string) =>
   createHash("sha256").update(value).digest("hex");
 
 const perceptualDHash = async (value: Buffer) => {
@@ -338,6 +360,22 @@ const perceptualDHash = async (value: Buffer) => {
     }
   }
   return hash.toString(16).padStart(16, "0");
+};
+
+const canonicalPixelSha256 = async (value: Buffer) => {
+  const pixels = await sharp(value, { animated: false })
+    .rotate()
+    .ensureAlpha()
+    .resize(120, 120, {
+      fit: "contain",
+      position: "centre",
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+      kernel: sharp.kernel.lanczos3,
+    })
+    .toColourspace("srgb")
+    .raw()
+    .toBuffer();
+  return sha256(pixels);
 };
 
 const hammingDistance = (first: string, second: string) => {
@@ -540,6 +578,7 @@ const requiredArtifacts = [
   IMAGE_AUDIT_FILE,
   IMAGE_UNRESOLVED_FILE,
   IMAGE_DUPLICATES_FILE,
+  STEP1B_PORTRAIT_SUMMARY_FILE,
   ACCOLADE_AUDIT_FILE,
   GENERATED_ACCOLADES_FILE,
   GENERATED_PORTRAITS_FILE,
@@ -642,7 +681,7 @@ if (missingArtifacts.length > 0) {
       const live = targetById.get(image.playerCardId);
       if (!live) continue;
       const edition = EDITION_BY_YEAR[live.tournamentYear as TargetYear];
-      const expectedLocalPath = `/players/game-faces/${live.id}.png`;
+      const expectedLocalPath = `/assets/players/game-faces/${live.id}.png`;
       const expectedBirthDate = sourceBirthDates.get(live.id);
       check(
         image.playerIdentityId === live.playerIdentityId,
@@ -685,13 +724,35 @@ if (missingArtifacts.length > 0) {
         IMAGE_STATUS.has(image.imageValidationStatus),
         `${live.id}: unknown image status ${image.imageValidationStatus}`,
       );
+      const verified = image.imageValidationStatus === "verified";
+      check(
+        image.finalPortraitStatus ===
+          (verified ? "verified-portrait" : "photo-pending"),
+        `${live.id}: final portrait status does not match validation status`,
+      );
+      if (verified) {
+        check(
+          image.unresolvedReason === null,
+          `${live.id}: verified portrait must not retain an unresolved reason`,
+        );
+      } else {
+        check(
+          typeof image.unresolvedReason === "string" &&
+            image.unresolvedReason.trim().length > 0,
+          `${live.id}: Photo Pending portrait lacks a specific unresolved reason`,
+        );
+        check(
+          notesArray(image.notes).includes(image.unresolvedReason ?? ""),
+          `${live.id}: Photo Pending reason is not supported by its audit notes`,
+        );
+      }
 
       const absolutePath = path.join(
         ROOT,
         "public",
         expectedLocalPath.replace(/^\//, ""),
       );
-      if (image.imageValidationStatus !== "verified") {
+      if (!verified) {
         check(
           !existsSync(absolutePath),
           `${live.id}: unresolved portrait must use Photo Pending, but ${expectedLocalPath} exists`,
@@ -743,6 +804,7 @@ if (missingArtifacts.length > 0) {
 
       const actualSha256 = sha256(buffer);
       const actualDHash = await perceptualDHash(buffer);
+      const actualVisualSha256 = await canonicalPixelSha256(buffer);
       check(
         /^[a-f0-9]{64}$/.test(image.imageSha256 ?? ""),
         `${live.id}: invalid SHA-256 field`,
@@ -758,6 +820,14 @@ if (missingArtifacts.length > 0) {
       check(
         image.imageDHash === actualDHash,
         `${live.id}: perceptual dHash does not match decoded pixels`,
+      );
+      check(
+        /^[a-f0-9]{64}$/.test(image.imageVisualSha256 ?? ""),
+        `${live.id}: invalid canonical-pixel SHA-256 field`,
+      );
+      check(
+        image.imageVisualSha256 === actualVisualSha256,
+        `${live.id}: canonical-pixel SHA-256 does not match decoded pixels`,
       );
       check(image.width === width, `${live.id}: recorded width is incorrect`);
       check(image.height === height, `${live.id}: recorded height is incorrect`);
@@ -886,6 +956,7 @@ if (missingArtifacts.length > 0) {
         absolutePath,
         sha256: actualSha256,
         dHash: actualDHash,
+        visualSha256: actualVisualSha256,
         width,
         height,
       });
@@ -955,6 +1026,32 @@ if (missingArtifacts.length > 0) {
         `${card.playerCardId}: unresolved report row differs from primary image audit`,
       );
     }
+    const imageSummary = recordAt(
+      imageAudit.summary,
+      "image audit summary",
+    );
+    const finalPortraitStatuses = recordAt(
+      imageSummary.finalPortraitStatuses,
+      "image audit final portrait statuses",
+    );
+    check(
+      finalPortraitStatuses["verified-portrait"] === verifiedIds.size &&
+        finalPortraitStatuses["photo-pending"] ===
+          expectedUnresolvedIds.length &&
+        imageSummary.photoPendingWithSpecificReason ===
+          expectedUnresolvedIds.length,
+      "Image audit final portrait status summary is stale",
+    );
+    const unresolvedSummary = recordAt(
+      unresolvedAudit.summary,
+      "unresolved image audit summary",
+    );
+    check(
+      unresolvedSummary.finalPortraitStatus === "photo-pending" &&
+        unresolvedSummary.withSpecificUnresolvedReason ===
+          expectedUnresolvedIds.length,
+      "Unresolved image report does not prove a specific reason for every Photo Pending card",
+    );
 
     const exactImagesByHash = new Map<string, ActualImage[]>();
     for (const image of actualImages) {
@@ -978,6 +1075,28 @@ if (missingArtifacts.length > 0) {
       );
     }
 
+    const canonicalImagesByHash = new Map<string, ActualImage[]>();
+    for (const image of actualImages) {
+      canonicalImagesByHash.set(image.visualSha256, [
+        ...(canonicalImagesByHash.get(image.visualSha256) ?? []),
+        image,
+      ]);
+    }
+    const actualCanonicalPixelGroups = [...canonicalImagesByHash].filter(
+      ([, images]) => images.length > 1,
+    );
+    for (const [hash, images] of actualCanonicalPixelGroups) {
+      const identities = new Set(
+        images.map((image) => image.card.playerIdentityId),
+      );
+      check(
+        identities.size === 1,
+        `Unrelated players share canonical portrait pixels ${hash}: ${images
+          .map((image) => image.card.playerCardId)
+          .join(", ")}`,
+      );
+    }
+
     const duplicateAudit = recordAt(
       readJson<unknown>(IMAGE_DUPLICATES_FILE),
       "duplicate image audit",
@@ -989,6 +1108,10 @@ if (missingArtifacts.length > 0) {
     const exactGroupRows = arrayAt<JsonRecord>(
       duplicateAudit.exactDuplicateGroups,
       "exact duplicate groups",
+    );
+    const canonicalPixelGroupRows = arrayAt<JsonRecord>(
+      duplicateAudit.canonicalPixelDuplicateGroups,
+      "canonical-pixel duplicate groups",
     );
     const rejectedCrossIdentityGroups = exactGroupRows.filter(
       (group) =>
@@ -1025,6 +1148,51 @@ if (missingArtifacts.length > 0) {
         `Exact duplicate ${hash} lacks a recorded review/disposition`,
       );
     }
+    check(
+      duplicateSummary.canonicalPixelGroups ===
+        actualCanonicalPixelGroups.length,
+      "Duplicate report canonical-pixel group summary is stale",
+    );
+    const canonicalPixelGroupByHash = new Map(
+      canonicalPixelGroupRows.map((group) => [
+        String(group.visualSha256),
+        group,
+      ]),
+    );
+    for (const [hash, images] of actualCanonicalPixelGroups) {
+      const group = canonicalPixelGroupByHash.get(hash);
+      check(
+        Boolean(group),
+        `Canonical-pixel duplicate hash ${hash} is not reported`,
+      );
+      if (!group) continue;
+      const recordedIds = arrayAt<string>(
+        group.playerCardIds,
+        `Canonical-pixel duplicate ${hash} card ids`,
+      ).sort();
+      const actualIds = images
+        .map((image) => image.card.playerCardId)
+        .sort();
+      check(
+        canonicalJson(recordedIds) === canonicalJson(actualIds),
+        `Canonical-pixel duplicate ${hash} card list is incorrect`,
+      );
+      check(
+        typeof group.resolution === "string" &&
+          group.resolution.trim().length > 0 &&
+          typeof group.notes === "string" &&
+          group.notes.trim().length > 0,
+        `Canonical-pixel duplicate ${hash} lacks a disposition`,
+      );
+    }
+    check(
+      canonicalPixelGroupRows.length === actualCanonicalPixelGroups.length,
+      "Duplicate report contains stale canonical-pixel groups",
+    );
+    check(
+      duplicateSummary.crossIdentityCanonicalPixelErrors === 0,
+      "Cross-identity canonical-pixel errors remain",
+    );
 
     const computedSimilarPairs = new Map<
       string,
@@ -1067,6 +1235,9 @@ if (missingArtifacts.length > 0) {
         return [ids.join("::"), row];
       }),
     );
+    const actualImageByCardId = new Map(
+      actualImages.map((image) => [image.card.playerCardId, image]),
+    );
     for (const [pairId, pair] of computedSimilarPairs) {
       const row = similarByPair.get(pairId);
       check(Boolean(row), `Suspicious perceptual pair is unreported: ${pairId}`);
@@ -1078,29 +1249,116 @@ if (missingArtifacts.length > 0) {
     }
     for (const row of similarRows) {
       const pairId = [String(row.cardA), String(row.cardB)].sort().join("::");
+      const computed = computedSimilarPairs.get(pairId);
       check(
-        row.reviewStatus === "reviewed",
-        `${pairId}: suspicious perceptual match still awaits manual review`,
-      );
-      check(
-        row.reviewOutcome === "accepted-distinct-strict-source-ids" ||
-          row.reviewOutcome === "rejected",
-        `${pairId}: suspicious perceptual match has no valid review outcome`,
+        Boolean(computed),
+        `${pairId}: stale perceptual candidate is still reported`,
       );
       check(
         typeof row.notes === "string" && row.notes.trim().length > 0,
-        `${pairId}: suspicious perceptual review lacks notes`,
+        `${pairId}: perceptual candidate lacks notes`,
       );
-      if (computedSimilarPairs.has(pairId)) {
+      if (MANUALLY_REVIEWED_ZERO_DHASH_PAIR_IDS.has(pairId)) {
+        const reviewedAssetEvidence = recordAt(
+          row.reviewedAssetEvidence,
+          `${pairId} reviewed asset evidence`,
+        );
+        const reviewedCardA = recordAt(
+          reviewedAssetEvidence.cardA,
+          `${pairId} reviewed card A`,
+        );
+        const reviewedCardB = recordAt(
+          reviewedAssetEvidence.cardB,
+          `${pairId} reviewed card B`,
+        );
+        const actualCardA = actualImageByCardId.get(String(row.cardA));
+        const actualCardB = actualImageByCardId.get(String(row.cardB));
         check(
-          row.reviewOutcome === "accepted-distinct-strict-source-ids",
-          `${pairId}: rejected similar pair remains in verified output`,
+          computed?.distance === 0,
+          `${pairId}: persisted distance-zero review no longer has distance zero`,
+        );
+        check(
+          row.reviewStatus === "manual-reviewed" &&
+            row.reviewOutcome === "accepted-visually-distinct" &&
+            row.reviewMethod === "side-by-side-visual-inspection" &&
+            typeof row.reviewer === "string" &&
+            row.reviewer.trim().length > 0 &&
+            typeof row.reviewedAt === "string" &&
+            /^\d{4}-\d{2}-\d{2}$/.test(row.reviewedAt),
+          `${pairId}: manual visual disposition is incomplete`,
+        );
+        check(
+          reviewedCardA.playerCardId === row.cardA &&
+            reviewedCardA.imageSha256 === actualCardA?.sha256 &&
+            reviewedCardA.canonicalPixelSha256 ===
+              actualCardA?.visualSha256 &&
+            reviewedCardB.playerCardId === row.cardB &&
+            reviewedCardB.imageSha256 === actualCardB?.sha256 &&
+            reviewedCardB.canonicalPixelSha256 ===
+              actualCardB?.visualSha256,
+          `${pairId}: manual review is not tied to the current asset hashes`,
+        );
+      } else {
+        check(
+          (computed?.distance ?? 0) > 0,
+          `${pairId}: unreviewed distance-zero pair remains`,
+        );
+        check(
+          row.reviewStatus === "automated-candidate" &&
+            row.reviewOutcome === null &&
+            row.reviewMethod === "dhash-threshold-screen" &&
+            row.reviewer === null &&
+            row.reviewedAt === null &&
+            row.reviewedAssetEvidence === null,
+          `${pairId}: automated perceptual candidate is mislabeled as manually reviewed`,
         );
       }
     }
+    const manuallyReviewedRows = similarRows.filter(
+      (row) => row.reviewStatus === "manual-reviewed",
+    );
+    const automatedCandidateRows = similarRows.filter(
+      (row) => row.reviewStatus === "automated-candidate",
+    );
     check(
-      duplicateSummary.reviewedSimilarPairs === similarRows.length,
-      "Duplicate report reviewed-similar-pair summary is stale",
+      similarRows.length === computedSimilarPairs.size,
+      "Duplicate report perceptual candidate coverage is stale",
+    );
+    check(
+      manuallyReviewedRows.length ===
+        MANUALLY_REVIEWED_ZERO_DHASH_PAIR_IDS.size &&
+        [...MANUALLY_REVIEWED_ZERO_DHASH_PAIR_IDS].every((pairId) =>
+          manuallyReviewedRows.some(
+            (row) =>
+              [String(row.cardA), String(row.cardB)]
+                .sort()
+                .join("::") === pairId,
+          ),
+        ),
+      "The six genuine distance-zero manual reviews are incomplete",
+    );
+    check(
+      duplicateSummary.perceptualCandidatePairs === similarRows.length &&
+        duplicateSummary.reviewedSimilarPairs ===
+          manuallyReviewedRows.length &&
+        duplicateSummary.manuallyReviewedSimilarPairs ===
+          manuallyReviewedRows.length &&
+        duplicateSummary.automatedSimilarCandidates ===
+          automatedCandidateRows.length,
+      "Duplicate report perceptual review summary is stale",
+    );
+    check(
+      imageSummary.canonicalPixelDuplicateGroups ===
+        actualCanonicalPixelGroups.length &&
+        imageSummary.crossIdentityCanonicalPixelDuplicateErrors === 0 &&
+        imageSummary.perceptualCandidates === similarRows.length &&
+        imageSummary.suspiciousPerceptualMatchesReviewed ===
+          manuallyReviewedRows.length &&
+        imageSummary.manuallyReviewedPerceptualPairs ===
+          manuallyReviewedRows.length &&
+        imageSummary.automatedPerceptualCandidates ===
+          automatedCandidateRows.length,
+      "Primary image audit Step 1B evidence summary is stale",
     );
 
     const generatedPortraits = recordAt(
@@ -1185,6 +1443,97 @@ if (missingArtifacts.length > 0) {
       check(
         statSync(filename).size > 10_000,
         `${year} contact sheet is unexpectedly small`,
+      );
+    }
+
+    const step1bPortraitAudit = recordAt(
+      readJson<unknown>(STEP1B_PORTRAIT_SUMMARY_FILE),
+      "Step 1B portrait summary",
+    );
+    const step1bSummary = recordAt(
+      step1bPortraitAudit.summary,
+      "Step 1B portrait coverage summary",
+    );
+    check(
+      step1bSummary.totalCards === imageCards.length &&
+        step1bSummary.verifiedPortraits === verifiedIds.size &&
+        step1bSummary.photoPending === expectedUnresolvedIds.length &&
+        step1bSummary.photoPendingWithSpecificReason ===
+          expectedUnresolvedIds.length &&
+        step1bSummary.newlyPromotedPortraits === 0 &&
+        step1bSummary.verifiedAssetsChanged === 0 &&
+        step1bSummary.productionRegistryChanged === false,
+      "Step 1B portrait coverage/preservation summary is stale",
+    );
+    const step1bUnresolvedReasons = recordAt(
+      step1bPortraitAudit.unresolvedReasons,
+      "Step 1B unresolved reasons",
+    );
+    check(
+      step1bUnresolvedReasons.everyPhotoPendingCardHasSpecificReason === true,
+      "Step 1B summary does not prove specific Photo Pending reasons",
+    );
+    const step1bDuplicateEvidence = recordAt(
+      step1bPortraitAudit.duplicateEvidence,
+      "Step 1B duplicate evidence",
+    );
+    const recordedManualPairIds = arrayAt<string>(
+      step1bDuplicateEvidence.manualPairIds,
+      "Step 1B manual perceptual pair ids",
+    ).sort();
+    check(
+      step1bDuplicateEvidence.canonicalPixelDuplicateGroups ===
+        actualCanonicalPixelGroups.length &&
+        step1bDuplicateEvidence.crossIdentityCanonicalPixelErrors === 0 &&
+        step1bDuplicateEvidence.perceptualCandidatePairs ===
+          similarRows.length &&
+        step1bDuplicateEvidence.manuallyReviewedDistanceZeroPairs ===
+          manuallyReviewedRows.length &&
+        step1bDuplicateEvidence.automatedNonzeroCandidates ===
+          automatedCandidateRows.length &&
+        canonicalJson(recordedManualPairIds) ===
+          canonicalJson([...MANUALLY_REVIEWED_ZERO_DHASH_PAIR_IDS].sort()),
+      "Step 1B duplicate evidence summary is stale",
+    );
+    const preservationEvidence = recordAt(
+      step1bPortraitAudit.preservationEvidence,
+      "Step 1B preservation evidence",
+    );
+    const expectedVerifiedAssetHashSet = sha256(
+      actualImages
+        .map(
+          (image) =>
+            `${image.card.playerCardId}:${image.sha256}:${image.visualSha256}`,
+        )
+        .sort()
+        .join("\n"),
+    );
+    check(
+      preservationEvidence.productionRegistryPath ===
+        "/src/data/tournament-edition-player-portraits.generated.json" &&
+        preservationEvidence.productionRegistrySha256 ===
+          sha256(readFileSync(GENERATED_PORTRAITS_FILE)) &&
+        preservationEvidence.verifiedAssetHashSetSha256 ===
+          expectedVerifiedAssetHashSet &&
+        preservationEvidence.verifiedAssetCount === actualImages.length,
+      "Step 1B production portrait preservation evidence is stale",
+    );
+    const recordedContactSheets = arrayAt<JsonRecord>(
+      preservationEvidence.contactSheets,
+      "Step 1B contact-sheet preservation evidence",
+    );
+    for (const [year, filename] of CONTACT_SHEET_BY_YEAR) {
+      const recorded = recordedContactSheets.find(
+        (row) => row.tournamentYear === year,
+      );
+      check(
+        Boolean(recorded) &&
+          recorded?.path === `/${path.relative(ROOT, filename)}` &&
+          recorded?.sha256 === sha256(readFileSync(filename)) &&
+          recorded?.regenerated === false &&
+          typeof recorded?.disposition === "string" &&
+          recorded.disposition.includes("PHOTO PENDING"),
+        `${year}: Step 1B contact-sheet preservation evidence is stale`,
       );
     }
 
@@ -1306,9 +1655,13 @@ if (missingArtifacts.length > 0) {
         canonicalJson(generatedList) === canonicalJson(audit.correctedAccolades),
         `${live.id}: generated accolades differ from the audit`,
       );
+      const identityAccolades =
+        identityCareerAccolades.identities[live.playerIdentityId]?.accolades;
       check(
-        canonicalJson(live.careerAccolades) === canonicalJson(generatedList),
-        `${live.id}: runtime accolades differ from card-keyed audited data`,
+        Boolean(identityAccolades) &&
+          canonicalJson(live.careerAccolades) ===
+            canonicalJson(identityAccolades),
+        `${live.id}: runtime accolades differ from identity-level full-career data`,
       );
       const cardSchemaResult = playerCardSchema.safeParse({
         ...live,
@@ -1553,9 +1906,15 @@ if (missingArtifacts.length > 0) {
       accoladeId,
       expectedCount,
     ] of DOMESTIC_LEAGUE_REGRESSIONS) {
-      const accolade = liveById
-        .get(cardId)
-        ?.careerAccolades.find((candidate) => candidate.id === accoladeId);
+      const cardAccolades = isRecord(generatedAccoladeCards[cardId])
+        ? arrayAt<PlayerAccolade>(
+            generatedAccoladeCards[cardId].accolades,
+            `${cardId} generated legacy accolades`,
+          )
+        : [];
+      const accolade = cardAccolades.find(
+        (candidate) => candidate.id === accoladeId,
+      );
       const actualCount = accolade?.count ?? (accolade ? 1 : 0);
       check(
         actualCount === expectedCount,
@@ -1732,7 +2091,7 @@ if (missingArtifacts.length > 0) {
         `${liveCards.length} archive cards represented.`,
         `${targetCards.length} portrait-scope cards (${actualImages.length} verified, ${expectedUnresolvedIds.length} Photo Pending).`,
         `${accoladeCards.length} card-specific accolade audits.`,
-        `${computedSimilarPairs.size} suspicious perceptual pairs reviewed.`,
+        `${manuallyReviewedRows.length} distance-zero perceptual pairs manually reviewed; ${automatedCandidateRows.length} nonzero pairs retained as automated candidates.`,
         "No runtime SoFIFA/FBref/Transfermarkt requests detected.",
       ].join(" "),
     );
