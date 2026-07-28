@@ -1,82 +1,106 @@
 .picker {
   display: grid;
-  width: min(100%, 1180px);
-  height: min(800px, calc(100svh - 108px));
-  min-height: 590px;
+  width: min(100%, 1220px);
+  height: min(820px, calc(100svh - 104px));
+  min-height: 600px;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
   align-content: start;
-  gap: 10px;
+  gap: 9px;
   margin: 0 auto;
   overflow: hidden;
 }
 
 .intro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 430px);
+  grid-template-columns: minmax(0, 1fr) minmax(290px, 440px);
   align-items: end;
-  gap: 28px;
-  padding: 2px 4px;
+  gap: 34px;
+  padding: 2px 4px 0;
 }
 
 .intro h1 {
   margin: 3px 0 0;
-  font-size: clamp(2rem, 3vw, 2.8rem);
-  font-weight: 640;
-  letter-spacing: -0.055em;
-  line-height: 0.96;
+  font-size: clamp(2.2rem, 3.25vw, 3.15rem);
+  font-weight: 650;
+  letter-spacing: -0.058em;
+  line-height: 0.93;
 }
 
 .intro > p {
-  margin: 0;
-  color: #929c95;
-  font-size: 0.76rem;
-  line-height: 1.4;
+  margin: 0 2px 2px 0;
+  color: #a09c8f;
+  font-size: 0.75rem;
+  line-height: 1.45;
   text-align: right;
 }
 
 .context {
+  position: relative;
   display: grid;
-  min-height: 50px;
-  grid-template-columns: repeat(3, minmax(120px, 1fr)) auto;
-  align-items: center;
-  padding: 6px 10px;
-  border: 1px solid var(--border-gold-low);
+  min-height: 52px;
+  grid-template-columns: minmax(180px, 1.25fr) minmax(150px, 0.8fr) minmax(140px, 0.75fr) auto;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid rgba(214, 180, 92, 0.25);
   border-radius: 9px;
-  background: var(--gradient-surface-low);
-  box-shadow: inset 0 1px var(--inner-highlight-low);
+  background:
+    linear-gradient(90deg, rgba(25, 20, 11, 0.84), rgba(8, 9, 7, 0.94) 42%, rgba(6, 8, 6, 0.96)),
+    rgba(7, 9, 7, 0.94);
+  box-shadow:
+    inset 0 1px rgba(255, 237, 174, 0.045),
+    0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
-.context > span {
+.context::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 13% 50%, rgba(221, 177, 62, 0.09), transparent 28%),
+    linear-gradient(90deg, transparent 0 72%, rgba(214, 180, 92, 0.025));
+}
+
+.contextItem {
+  position: relative;
+  z-index: 1;
   display: grid;
   min-width: 0;
+  align-content: center;
   gap: 2px;
-  padding: 0 12px;
-  border-right: 1px solid rgba(214, 180, 92, 0.12);
-  color: #7f897f;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.4rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  padding: 7px 17px;
+  border-right: 1px solid rgba(214, 180, 92, 0.11);
 }
 
-.context strong {
+.contextItem small,
+.contextItem strong {
   overflow: hidden;
-  color: #d5d9d3;
-  font-family: var(--font-sans), sans-serif;
-  font-size: 0.65rem;
-  font-weight: 650;
-  letter-spacing: 0;
   text-overflow: ellipsis;
-  text-transform: capitalize;
   white-space: nowrap;
 }
 
-.context > small {
-  padding: 0 10px;
-  color: #8d967f;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.47rem;
-  letter-spacing: 0.05em;
+.contextItem small {
+  color: #9a8753;
+  font: 0.39rem var(--font-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.contextItem strong {
+  color: #e1dfd6;
+  font: 650 0.72rem var(--font-sans), sans-serif;
+  text-transform: capitalize;
+}
+
+.available {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  padding: 0 20px;
+  color: #c3ae6a;
+  font: 0.45rem var(--font-mono), monospace;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -84,280 +108,333 @@
 .grid {
   display: grid;
   min-height: 0;
-  align-content: start;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: minmax(118px, 1fr);
+  align-content: stretch;
   gap: 8px;
-  padding: 2px 4px 7px 2px;
+  padding: 2px 4px 5px 2px;
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-color: rgba(214, 180, 92, 0.42) rgba(255, 255, 255, 0.03);
-  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 180, 92, 0.4) rgba(255, 255, 255, 0.02);
 }
 
 .option {
+  --wash-rgb: 205, 169, 65;
+  --wash-soft: 0.16;
+  --wash-edge: 0.07;
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 112px;
-  grid-template-columns: 68px minmax(0, 1fr);
+  min-height: 118px;
+  grid-template-columns: 84px minmax(0, 1fr);
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  color: #e8e9e3;
-  border: 1px solid var(--border-gold-low);
-  border-radius: 10px;
+  gap: 11px;
+  overflow: hidden;
+  padding: 8px 11px 8px 8px;
+  color: #e8e7df;
+  border: 1px solid rgba(214, 180, 92, 0.19);
+  border-radius: 9px;
   cursor: pointer;
   text-align: left;
   background:
-    radial-gradient(circle at 12% 50%, rgba(43, 112, 77, 0.13), transparent 44%),
-    rgba(7, 10, 8, 0.9);
+    radial-gradient(circle at 14% 48%, rgba(var(--wash-rgb), var(--wash-soft)), transparent 39%),
+    radial-gradient(circle at 84% 12%, rgba(var(--wash-rgb), var(--wash-edge)), transparent 48%),
+    linear-gradient(122deg, rgba(19, 18, 12, 0.965), rgba(6, 8, 6, 0.975) 66%);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.03),
+    0 9px 20px rgba(0, 0, 0, 0.17);
   transition:
     border-color var(--duration-micro) var(--ease-premium),
-    background var(--duration-micro) var(--ease-premium),
     box-shadow var(--duration-micro) var(--ease-premium),
+    background var(--duration-micro) var(--ease-premium),
     filter var(--duration-micro) var(--ease-premium);
+}
+
+.option::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(98deg, rgba(var(--wash-rgb), 0.13), transparent 31% 71%, rgba(var(--wash-rgb), 0.04)),
+    linear-gradient(108deg, rgba(255, 228, 137, 0.025), transparent 21% 74%, rgba(255, 214, 94, 0.018)),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.008) 0 1px, transparent 1px 4px);
+  opacity: 0.78;
 }
 
 .option::after {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  border-radius: inherit;
   content: "";
   pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 226, 126, 0.015);
 }
+
+
+/* Tactical identity wash — the same idea used by manager cards.
+   The colour belongs to the tactical personality, while gold remains the selection language. */
+.option[data-style="balanced"] { --wash-rgb: 211, 174, 69; --wash-soft: 0.19; --wash-edge: 0.08; }
+.option[data-style="pressing"] { --wash-rgb: 224, 174, 42; --wash-soft: 0.22; --wash-edge: 0.10; }
+.option[data-style="possession"] { --wash-rgb: 55, 164, 145; --wash-soft: 0.20; --wash-edge: 0.09; }
+.option[data-style="fluid"] { --wash-rgb: 80, 174, 116; --wash-soft: 0.20; --wash-edge: 0.09; }
+.option[data-style="counter"] { --wash-rgb: 143, 94, 184; --wash-soft: 0.23; --wash-edge: 0.11; }
+.option[data-style="defensive"] { --wash-rgb: 83, 126, 158; --wash-soft: 0.18; --wash-edge: 0.08; }
+.option[data-style="direct"] { --wash-rgb: 185, 105, 70; --wash-soft: 0.18; --wash-edge: 0.08; }
 
 .option:hover,
 .option:focus-visible {
-  border-color: var(--border-gold-medium);
-  filter: brightness(1.04);
+  border-color: rgba(227, 190, 82, 0.48);
+  filter: brightness(1.045);
 }
 
 .option:focus-visible {
-  outline: 2px solid var(--gold-bright);
+  outline: 2px solid rgba(239, 207, 111, 0.8);
   outline-offset: 2px;
 }
 
-.option.selected {
-  border-color: var(--border-gold-high);
-  background:
-    radial-gradient(circle at 12% 50%, rgba(62, 145, 100, 0.2), transparent 46%),
-    rgba(14, 18, 12, 0.98);
-  box-shadow:
-    inset 0 1px var(--inner-highlight-medium),
-    inset 0 0 0 1px rgba(231, 189, 77, 0.12),
-    var(--aura-gold-low);
+.preferredOption {
+  border-color: rgba(220, 183, 73, 0.29);
 }
 
-.option.selected::after {
-  background: linear-gradient(112deg, transparent 25%, rgba(255, 239, 174, 0.13) 44%, transparent 60%);
-  animation: formation-glisten 560ms ease-out 1;
+.selected {
+  border-color: rgba(248, 211, 101, 0.92);
+  --wash-soft: 0.30;
+  --wash-edge: 0.16;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(var(--wash-rgb), 0.30), transparent 41%),
+    radial-gradient(circle at 71% 14%, rgba(var(--wash-rgb), 0.15), transparent 46%),
+    radial-gradient(circle at 77% 34%, rgba(225, 179, 54, 0.10), transparent 48%),
+    linear-gradient(120deg, rgba(29, 26, 14, 0.985), rgba(7, 9, 6, 0.992) 67%);
+  box-shadow:
+    inset 0 1px rgba(255, 246, 208, 0.12),
+    inset 0 0 34px rgba(var(--wash-rgb), 0.10),
+    0 0 0 1px rgba(241, 202, 89, 0.08),
+    0 0 18px rgba(var(--wash-rgb), 0.18),
+    0 0 28px rgba(202, 150, 28, 0.14),
+    0 12px 28px rgba(0, 0, 0, 0.24);
+}
+
+.selected::after {
+  background: linear-gradient(112deg, transparent 26%, rgba(255, 235, 157, 0.11) 44%, transparent 61%);
+  animation: formation-glisten 580ms ease-out 1;
+}
+
+.preferred,
+.selectedMark {
+  position: absolute;
+  z-index: 5;
+}
+
+.preferred {
+  top: 5px;
+  right: 7px;
+  padding: 3px 6px 2px;
+  color: #17140b;
+  border: 1px solid rgba(255, 232, 154, 0.62);
+  border-radius: 5px;
+  background: linear-gradient(180deg, #f1d66f, #c99a28);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  font: 800 0.3rem var(--font-mono), monospace;
+  letter-spacing: 0.07em;
+}
+
+.selectedMark {
+  top: 0;
+  left: 50%;
+  display: grid;
+  width: 30px;
+  height: 20px;
+  place-items: center;
+  color: #151208;
+  border-radius: 0 0 7px 7px;
+  background: linear-gradient(180deg, #f4d976, #d3a62f);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.26);
+  transform: translateX(-50%);
+}
+
+.pitchFrame {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 80px;
+  height: 102px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(91, 176, 126, 0.25);
+  border-radius: 7px;
+  background:
+    linear-gradient(180deg, rgba(25, 72, 49, 0.34), rgba(7, 24, 17, 0.74)),
+    rgba(7, 18, 13, 0.8);
+  box-shadow:
+    inset 0 0 24px rgba(54, 155, 100, 0.1),
+    0 0 20px rgba(25, 110, 69, 0.08);
+}
+
+.pitchFrame::before {
+  position: absolute;
+  inset: 4px;
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(157, 230, 184, 0.07);
+  border-radius: 5px;
+}
+
+.pitchGlow {
+  position: absolute;
+  inset: 14% 8%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(80, 196, 126, 0.11), transparent 67%);
+  filter: blur(5px);
 }
 
 .pitch {
+  position: relative;
+  z-index: 2;
   display: block;
-  width: 62px;
+  width: 72px;
 }
 
 .pitch :global(.pitch) {
-  width: 62px;
+  width: 72px;
   margin: 0;
-  border-radius: 7px;
-  border-color: rgba(120, 222, 167, 0.3);
-  box-shadow: 0 0 18px rgba(54, 169, 105, 0.16), inset 0 0 16px rgba(116, 224, 165, 0.06);
+  border-color: rgba(144, 222, 172, 0.31);
+  border-radius: 5px;
+  background-color: rgba(7, 28, 18, 0.34);
+  box-shadow:
+    0 0 14px rgba(50, 158, 95, 0.12),
+    inset 0 0 14px rgba(126, 218, 159, 0.045);
 }
 
 .pitch :global(.pitch-node) {
   --pitch-node-size: 6px;
 }
 
-
-/* Match Draft's selected-formation treatment:
-   the mini-pitch circles turn into illuminated Trophy XI gold nodes. */
-.option.selected .pitch :global(.pitch) {
-  position: relative;
-  isolation: isolate;
-}
-
-.option.selected .pitch :global(.pitch)::after {
-  position: absolute;
-  inset: 8% 5%;
-  z-index: -1;
-  pointer-events: none;
-  content: "";
-  border-radius: 22%;
-  opacity: 0.68;
-  background:
-    radial-gradient(circle at 50% 44%, rgba(232, 197, 89, 0.12), transparent 47%),
-    radial-gradient(circle at 50% 44%, rgba(255, 237, 161, 0.035), transparent 67%);
-  filter: blur(8px);
-}
-
-.option.selected .pitch :global(.pitch-node__disc) {
-  position: relative;
-  isolation: isolate;
-  overflow: visible;
-  border-color: rgba(255, 228, 132, 0.96) !important;
-  background:
-    radial-gradient(circle at 34% 25%, rgba(255, 250, 216, 0.38), transparent 28%),
-    radial-gradient(circle at 50% 58%, #e8bd4b 0%, #c89527 58%, #896215 100%) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.72),
-    inset 0 -2px 5px rgba(103, 67, 4, 0.2),
-    0 0 0 1px rgba(246, 214, 107, 0.22),
-    0 0 6px rgba(248, 211, 91, 0.78),
-    0 0 12px rgba(233, 187, 52, 0.52),
-    0 0 20px rgba(211, 156, 24, 0.24) !important;
-  filter: saturate(1.08) brightness(1.06);
-  animation: formationGoldPulse 2.6s ease-in-out infinite;
-}
-
-.option.selected .pitch :global(.pitch-node__disc)::before {
-  position: absolute;
-  inset: -5px;
-  z-index: -1;
-  pointer-events: none;
-  content: "";
-  border-radius: 50%;
-  opacity: 0.82;
-  background:
-    radial-gradient(
-      circle,
-      rgba(255, 226, 119, 0.44) 0%,
-      rgba(228, 179, 48, 0.22) 42%,
-      rgba(197, 137, 19, 0) 72%
-    );
-  filter: blur(2px);
-}
-
-.option.selected .pitch :global(.pitch-node__disc)::after {
-  position: absolute;
-  inset: 1px;
-  pointer-events: none;
-  content: "";
-  border: 1px solid rgba(255, 246, 196, 0.38);
-  border-radius: 50%;
-  box-shadow: inset 0 0 4px rgba(255, 244, 189, 0.1);
-}
-
-/* Formation mini-pitches remain circles only, matching the Draft picker. */
-.pitch :global(.pitch-node__disc),
-.option.selected .pitch :global(.pitch-node__disc) {
+.pitch :global(.pitch-node__disc) {
   color: transparent !important;
+  border-color: rgba(222, 224, 198, 0.66) !important;
+  background: rgba(218, 218, 185, 0.08) !important;
   font-size: 0 !important;
   text-shadow: none !important;
+  box-shadow: 0 0 4px rgba(220, 226, 198, 0.2) !important;
 }
 
-@keyframes formationGoldPulse {
-  0%,
-  100% {
-    filter: saturate(1.06) brightness(1.04);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.72),
-      inset 0 -2px 5px rgba(103, 67, 4, 0.2),
-      0 0 0 1px rgba(246, 214, 107, 0.2),
-      0 0 6px rgba(248, 211, 91, 0.7),
-      0 0 11px rgba(233, 187, 52, 0.44),
-      0 0 18px rgba(211, 156, 24, 0.18);
-  }
+.selected .pitchFrame {
+  border-color: rgba(216, 189, 92, 0.38);
+  box-shadow:
+    inset 0 0 27px rgba(68, 160, 104, 0.12),
+    0 0 18px rgba(220, 178, 55, 0.1);
+}
 
-  50% {
-    filter: saturate(1.12) brightness(1.12);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      inset 0 -2px 5px rgba(103, 67, 4, 0.18),
-      0 0 0 1px rgba(250, 221, 120, 0.3),
-      0 0 8px rgba(255, 220, 107, 0.92),
-      0 0 15px rgba(239, 194, 60, 0.64),
-      0 0 23px rgba(216, 162, 29, 0.28);
-  }
+.selected .pitch :global(.pitch-node__disc) {
+  border-color: rgba(255, 229, 135, 0.96) !important;
+  background:
+    radial-gradient(circle at 35% 27%, rgba(255, 250, 216, 0.35), transparent 28%),
+    radial-gradient(circle at 50% 58%, #e5bc4c 0%, #bd8d20 62%, #7f5b13 100%) !important;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.55),
+    0 0 6px rgba(248, 211, 91, 0.68),
+    0 0 12px rgba(223, 169, 40, 0.35) !important;
 }
 
 .copy {
+  position: relative;
+  z-index: 2;
   display: grid;
   min-width: 0;
   align-content: center;
   gap: 3px;
+  padding-top: 1px;
 }
 
 .title {
   display: flex;
   min-width: 0;
   align-items: center;
-  justify-content: space-between;
-  gap: 5px;
 }
 
 .title strong {
   overflow: hidden;
+  color: #f0eee6;
   font-family: var(--font-display), sans-serif;
-  font-size: 1rem;
+  font-size: 1.02rem;
+  font-weight: 700;
   line-height: 1;
+  letter-spacing: -0.025em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.title i {
-  display: grid;
-  width: 19px;
-  height: 19px;
-  flex: 0 0 auto;
-  place-items: center;
-  color: #09120c;
-  border-radius: 50%;
-  background: var(--gold-bright);
+.identity {
+  overflow: hidden;
+  color: #978f75;
+  font: 0.34rem var(--font-mono), monospace;
+  letter-spacing: 0.055em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.copy > small,
-.tendencies {
-  color: #7d887f;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.39rem;
-  font-style: normal;
-  letter-spacing: 0.05em;
+.ratingRow {
+  display: flex;
+  width: min(100%, 112px);
+  min-height: 25px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 2px;
+  padding: 2px 7px;
+  border: 1px solid rgba(214, 180, 92, 0.14);
+  border-radius: 4px;
+  background: rgba(4, 6, 4, 0.34);
+}
+
+.ratingLabel {
+  color: #716d60;
+  font: 0.31rem var(--font-mono), monospace;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.fits {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px;
+.ratingRow b {
+  color: #e7c452;
+  font: 700 0.87rem var(--font-display), sans-serif;
+  line-height: 1;
 }
 
-.fits > span {
-  display: flex;
-  min-width: 0;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 4px;
-  padding: 3px 5px;
-  color: #8d968e;
-  border: 1px solid rgba(214, 180, 92, 0.12);
-  border-radius: 5px;
+.tendencyLabels,
+.tendencies,
+.eraFit {
   font-family: var(--font-mono), monospace;
-  font-size: 0.37rem;
+  text-transform: uppercase;
 }
 
-.fits b {
-  color: #ead488;
-  font-size: 0.72rem;
+.tendencyLabels {
+  margin-top: 1px;
+  color: #66695f;
+  font-size: 0.29rem;
+  letter-spacing: 0.09em;
 }
 
-.recommended {
+.tendencies {
+  color: #9a9a89;
+  font-size: 0.36rem;
+  letter-spacing: 0.075em;
+}
+
+.eraFit {
   position: absolute;
-  top: 6px;
-  right: 7px;
-  padding: 2px 5px;
-  color: #19170e;
-  border-radius: 999px;
-  background: #e8cf77;
-  font: 700 0.31rem var(--font-mono), monospace;
+  right: 0;
+  bottom: 0;
+  color: #6f756c;
+  font-size: 0.29rem;
   letter-spacing: 0.06em;
 }
 
-@keyframes formation-glisten {
-  from { transform: translateX(-110%); }
-  to { transform: translateX(110%); }
+.eraFit b {
+  color: #a99a64;
+  font-size: 0.38rem;
 }
 
 .confirm {
@@ -369,7 +446,19 @@
   padding: 9px 10px 9px 16px;
   border: 1px solid rgba(214, 180, 92, 0.22);
   border-radius: 10px;
-  background: rgba(8, 11, 8, 0.94);
+  background:
+    linear-gradient(90deg, rgba(14, 13, 9, 0.97), rgba(6, 8, 6, 0.97)),
+    rgba(7, 9, 7, 0.97);
+  box-shadow:
+    0 -8px 24px rgba(0, 0, 0, 0.15),
+    inset 0 1px rgba(255, 255, 255, 0.025);
+}
+
+.confirmReady {
+  border-color: rgba(226, 190, 79, 0.34);
+  background:
+    radial-gradient(circle at 11% 50%, rgba(214, 173, 54, 0.07), transparent 25%),
+    linear-gradient(90deg, rgba(17, 15, 9, 0.98), rgba(6, 8, 6, 0.98));
 }
 
 .confirm > div {
@@ -381,15 +470,15 @@
 }
 
 .confirm span {
-  color: #7f897f;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.43rem;
-  letter-spacing: 0.07em;
+  color: #9a8753;
+  font: 0.4rem var(--font-mono), monospace;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
 .confirm strong {
   overflow: hidden;
+  color: #e4e2da;
   font-family: var(--font-display), sans-serif;
   font-size: 1rem;
   text-overflow: ellipsis;
@@ -399,8 +488,8 @@
 .confirm small {
   grid-column: 1 / -1;
   overflow: hidden;
-  color: #858f87;
-  font-size: 0.58rem;
+  color: #858a82;
+  font-size: 0.55rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -413,9 +502,27 @@
   white-space: nowrap;
 }
 
-@media (max-width: 1040px) {
+@keyframes formation-glisten {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(110%); }
+}
+
+@media (max-width: 1100px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .option {
+    grid-template-columns: 78px minmax(0, 1fr);
+  }
+
+  .pitchFrame {
+    width: 74px;
+  }
+
+  .pitch,
+  .pitch :global(.pitch) {
+    width: 67px;
   }
 }
 
@@ -435,6 +542,19 @@
     text-align: left;
   }
 
+  .context {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contextItem:nth-of-type(2) {
+    border-right: 0;
+  }
+
+  .available {
+    min-height: 42px;
+    border-top: 1px solid rgba(214, 180, 92, 0.1);
+  }
+
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     overflow: visible;
@@ -442,29 +562,31 @@
 }
 
 @media (max-width: 620px) {
-  .context {
-    grid-template-columns: 1fr;
-  }
-
-  .context > span {
-    min-height: 40px;
-    justify-content: center;
-    border-right: 0;
-    border-bottom: 1px solid rgba(214, 180, 92, 0.1);
-  }
-
-  .context > small {
-    min-height: 40px;
-    align-content: center;
-  }
-
+  .context,
   .grid,
   .confirm {
     grid-template-columns: 1fr;
   }
 
+  .contextItem {
+    min-height: 42px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(214, 180, 92, 0.09);
+  }
+
   .option {
-    min-height: 116px;
+    min-height: 128px;
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+
+  .pitchFrame {
+    width: 82px;
+    height: 108px;
+  }
+
+  .pitch,
+  .pitch :global(.pitch) {
+    width: 74px;
   }
 
   .continue {
@@ -473,24 +595,1214 @@
   }
 }
 
-@media (max-height: 680px) and (min-width: 821px) {
+@media (max-height: 700px) and (min-width: 821px) {
   .picker {
-    height: calc(100svh - 98px);
+    height: calc(100svh - 96px);
     min-height: 0;
+    gap: 7px;
   }
 
   .intro > p {
     display: none;
   }
+
+  .intro h1 {
+    font-size: clamp(2rem, 2.8vw, 2.7rem);
+  }
+
+  .context {
+    min-height: 46px;
+  }
+
+  .grid {
+    grid-auto-rows: minmax(108px, 1fr);
+    gap: 7px;
+  }
+
+  .option {
+    min-height: 108px;
+  }
+
+  .pitchFrame {
+    height: 94px;
+  }
+
+  .confirm {
+    min-height: 60px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .option.selected::after,
-  .option.selected .pitch :global(.pitch-node__disc) {
+  .selected::after {
     animation: none;
   }
 
   .option {
     transition: none;
   }
+}
+
+/* V2 — brighter FIFA-15-inspired bronze + emerald presentation */
+.context {
+  border-color: rgba(226, 184, 62, 0.38);
+  background:
+    radial-gradient(circle at 10% 50%, rgba(226, 177, 46, 0.16), transparent 30%),
+    linear-gradient(90deg, rgba(35, 25, 10, 0.90), rgba(10, 10, 7, 0.93) 45%, rgba(8, 9, 7, 0.93));
+  box-shadow:
+    inset 0 1px rgba(255, 238, 177, 0.08),
+    inset 0 0 34px rgba(201, 148, 28, 0.035),
+    0 14px 30px rgba(0, 0, 0, 0.23);
+}
+
+.contextItem small { color: #c7a64a; }
+.contextItem strong { color: #f0eee6; font-size: 0.76rem; }
+.available { color: #d0ae4d; }
+
+.grid {
+  gap: 10px;
+}
+
+.option {
+  min-height: 122px;
+  grid-template-columns: 94px minmax(0, 1fr);
+  gap: 13px;
+  padding: 8px 13px 8px 9px;
+  border-color: rgba(225, 184, 63, 0.30);
+  background:
+    radial-gradient(circle at 15% 50%, rgba(49, 143, 88, 0.24), transparent 34%),
+    radial-gradient(circle at 86% 0%, rgba(214, 158, 30, 0.075), transparent 38%),
+    linear-gradient(118deg, rgba(24, 21, 13, 0.94), rgba(7, 9, 7, 0.93) 68%);
+  box-shadow:
+    inset 0 1px rgba(255, 239, 178, 0.06),
+    inset 0 0 32px rgba(214, 165, 39, 0.02),
+    0 12px 25px rgba(0, 0, 0, 0.22);
+}
+
+.option::before {
+  background:
+    linear-gradient(108deg, rgba(255, 230, 145, 0.07), transparent 22% 70%, rgba(255, 205, 74, 0.035)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.011) 0 1px, transparent 1px 4px);
+  opacity: 0.9;
+}
+
+.option:hover,
+.option:focus-visible {
+  border-color: rgba(245, 206, 91, 0.68);
+  filter: brightness(1.095) saturate(1.04);
+  box-shadow:
+    inset 0 1px rgba(255, 241, 188, 0.09),
+    0 0 0 1px rgba(223, 177, 52, 0.05),
+    0 14px 30px rgba(0, 0, 0, 0.28),
+    0 0 22px rgba(198, 142, 20, 0.08);
+}
+
+.preferredOption {
+  border-color: rgba(241, 199, 72, 0.48);
+  background:
+    radial-gradient(circle at 16% 50%, rgba(50, 154, 93, 0.28), transparent 35%),
+    radial-gradient(circle at 76% 14%, rgba(231, 183, 54, 0.12), transparent 40%),
+    linear-gradient(118deg, rgba(31, 26, 13, 0.96), rgba(8, 10, 7, 0.94) 69%);
+}
+
+.selected {
+  border-color: rgba(255, 218, 104, 0.98);
+  background:
+    radial-gradient(circle at 17% 50%, rgba(65, 173, 107, 0.34), transparent 37%),
+    radial-gradient(circle at 72% 17%, rgba(244, 196, 59, 0.19), transparent 43%),
+    linear-gradient(118deg, rgba(39, 31, 13, 0.99), rgba(9, 11, 7, 0.98) 68%);
+  box-shadow:
+    inset 0 1px rgba(255, 248, 216, 0.18),
+    inset 0 0 34px rgba(238, 192, 62, 0.085),
+    0 0 0 1px rgba(255, 214, 92, 0.12),
+    0 0 30px rgba(222, 165, 32, 0.25),
+    0 16px 34px rgba(0, 0, 0, 0.31);
+}
+
+.preferred {
+  top: 6px;
+  right: 7px;
+  padding: 3px 7px;
+  color: #171106;
+  border-color: rgba(255, 239, 171, 0.8);
+  background: linear-gradient(180deg, #ffe47c 0%, #d7a62b 100%);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.35),
+    0 0 14px rgba(234, 185, 52, 0.22),
+    0 5px 12px rgba(0,0,0,.3);
+  font-size: 0.31rem;
+}
+
+.pitchFrame {
+  width: 90px;
+  height: 108px;
+  border-color: rgba(83, 211, 137, 0.48);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(77, 212, 133, 0.13), transparent 62%),
+    linear-gradient(180deg, rgba(18, 88, 55, 0.63), rgba(5, 38, 24, 0.88));
+  box-shadow:
+    inset 0 0 30px rgba(66, 205, 126, 0.18),
+    inset 0 1px rgba(180, 255, 211, 0.06),
+    0 0 18px rgba(43, 171, 101, 0.19),
+    0 8px 16px rgba(0,0,0,.24);
+}
+
+.pitchFrame::before {
+  border-color: rgba(172, 244, 199, 0.13);
+}
+
+.pitchGlow {
+  inset: 10% 5%;
+  background: radial-gradient(circle, rgba(86, 225, 144, 0.20), transparent 68%);
+  filter: blur(7px);
+}
+
+.pitch,
+.pitch :global(.pitch) {
+  width: 80px;
+}
+
+.pitch :global(.pitch) {
+  border-color: rgba(170, 241, 197, 0.48);
+  background-color: rgba(3, 43, 25, 0.27);
+  box-shadow:
+    0 0 18px rgba(57, 201, 117, 0.22),
+    inset 0 0 17px rgba(149, 239, 182, 0.075);
+}
+
+.pitch :global(.pitch-node) { --pitch-node-size: 6.5px; }
+.pitch :global(.pitch-node__disc) {
+  border-color: rgba(246, 235, 191, 0.88) !important;
+  background: rgba(239, 226, 172, 0.11) !important;
+  box-shadow:
+    0 0 4px rgba(246, 226, 161, 0.35),
+    0 0 8px rgba(92, 220, 145, 0.16) !important;
+}
+
+.selected .pitchFrame,
+.preferredOption .pitchFrame {
+  border-color: rgba(99, 227, 153, 0.62);
+  box-shadow:
+    inset 0 0 32px rgba(74, 213, 132, 0.22),
+    0 0 22px rgba(55, 189, 113, 0.22),
+    0 0 18px rgba(220, 177, 51, 0.08);
+}
+
+.title strong {
+  color: #fffaf0;
+  font-size: 1.18rem;
+  letter-spacing: -0.035em;
+  text-shadow: 0 1px 12px rgba(255, 239, 187, 0.04);
+}
+
+.identity {
+  color: #b1a57f;
+  font-size: 0.37rem;
+}
+
+.ratingRow {
+  width: min(100%, 122px);
+  min-height: 27px;
+  border-color: rgba(223, 180, 57, 0.27);
+  background:
+    linear-gradient(90deg, rgba(8, 9, 6, 0.62), rgba(18, 15, 7, 0.54));
+  box-shadow: inset 0 1px rgba(255, 240, 185, 0.025);
+}
+
+.ratingLabel {
+  color: #93865d;
+  font-size: 0.32rem;
+}
+
+.ratingRow b {
+  color: #ffd950;
+  font-size: 1.02rem;
+  text-shadow: 0 0 12px rgba(238, 191, 50, 0.15);
+}
+
+.tendencyLabels { color: #817b68; font-size: 0.30rem; }
+.tendencies { color: #c0b99d; font-size: 0.38rem; }
+.eraFit { color: #8e8978; }
+.eraFit b { color: #d4bb68; }
+
+.confirm {
+  border-color: rgba(229, 185, 57, 0.36);
+  background:
+    radial-gradient(circle at 10% 50%, rgba(221, 171, 38, 0.105), transparent 28%),
+    linear-gradient(90deg, rgba(24, 19, 9, 0.98), rgba(7, 9, 7, 0.97));
+  box-shadow:
+    0 -10px 28px rgba(0, 0, 0, 0.2),
+    inset 0 1px rgba(255, 242, 191, 0.05);
+}
+
+.confirm strong { color: #f4f0e5; font-size: 1.08rem; }
+.confirm span { color: #b49a48; }
+
+@media (max-width: 1100px) {
+  .option { grid-template-columns: 84px minmax(0, 1fr); }
+  .pitchFrame { width: 80px; height: 102px; }
+  .pitch, .pitch :global(.pitch) { width: 72px; }
+}
+
+
+/* V4 — lively stadium / glistening pass.
+   Intentionally layered on top of V3 so the working layout stays intact. */
+
+/* Selected-manager context now carries the manager's tactical-color wash. */
+.context {
+  --manager-wash: 207, 168, 66;
+  min-height: 64px;
+  grid-template-columns: minmax(260px, 1.35fr) minmax(170px, .8fr) minmax(220px, 1fr) minmax(118px, .48fr);
+  isolation: isolate;
+  border-color: rgba(226, 184, 62, 0.43);
+  background:
+    radial-gradient(circle at 10% 50%, rgba(var(--manager-wash), 0.20), transparent 29%),
+    radial-gradient(circle at 47% -15%, rgba(235, 186, 55, 0.075), transparent 42%),
+    linear-gradient(90deg, rgba(34, 25, 10, 0.92), rgba(9, 10, 8, 0.94) 46%, rgba(7, 8, 7, 0.94));
+  box-shadow:
+    inset 0 1px rgba(255, 240, 184, 0.11),
+    inset 0 0 42px rgba(var(--manager-wash), 0.055),
+    0 12px 30px rgba(0, 0, 0, 0.24),
+    0 0 22px rgba(191, 135, 20, 0.055);
+}
+
+.context[data-manager-style="balanced"]   { --manager-wash: 211, 174, 69; }
+.context[data-manager-style="pressing"]   { --manager-wash: 224, 174, 42; }
+.context[data-manager-style="possession"] { --manager-wash: 55, 164, 145; }
+.context[data-manager-style="fluid"]      { --manager-wash: 80, 174, 116; }
+.context[data-manager-style="counter"]    { --manager-wash: 143, 94, 184; }
+.context[data-manager-style="defensive"]  { --manager-wash: 83, 126, 158; }
+.context[data-manager-style="direct"]     { --manager-wash: 185, 105, 70; }
+
+.context::before {
+  z-index: 0;
+  background:
+    radial-gradient(circle at 12% 50%, rgba(var(--manager-wash), 0.18), transparent 28%),
+    linear-gradient(90deg, rgba(var(--manager-wash), 0.08), transparent 35% 72%, rgba(214, 180, 92, 0.025));
+}
+
+.context::after {
+  position: absolute;
+  top: -55%;
+  bottom: -55%;
+  left: -18%;
+  z-index: 0;
+  width: 24%;
+  content: "";
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 231, 151, 0.02) 25%,
+    rgba(255, 236, 170, 0.13) 48%,
+    rgba(255, 220, 113, 0.035) 62%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  transform: skewX(-14deg);
+  animation: context-shimmer 8.5s ease-in-out infinite 1.8s;
+}
+
+.managerContext {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding-block: 5px;
+}
+
+.managerPortrait {
+  position: relative;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+}
+
+.managerPortrait::before {
+  position: absolute;
+  inset: -4px;
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(239, 200, 87, 0.5);
+  border-radius: 50%;
+  box-shadow:
+    0 0 14px rgba(222, 170, 41, 0.22),
+    0 0 26px rgba(var(--manager-wash), 0.11);
+}
+
+.managerPortrait :global(.circular-portrait) {
+  width: 44px;
+  height: 44px;
+}
+
+.managerCopy {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 1px;
+}
+
+.contextItem em,
+.available em {
+  overflow: hidden;
+  color: rgba(170, 174, 164, 0.72);
+  font: normal 0.38rem var(--font-mono), monospace;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.styleValue {
+  color: rgb(var(--manager-wash)) !important;
+  text-shadow: 0 0 14px rgba(var(--manager-wash), 0.18);
+}
+
+.available {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 1px;
+  padding: 7px 18px;
+}
+
+.available small {
+  color: #9a8753;
+  font-size: 0.35rem;
+}
+
+.available strong {
+  color: #e7c452;
+  font: 700 1.08rem/1 var(--font-display), sans-serif;
+}
+
+.available em {
+  color: #918d7d;
+}
+
+/* More stadium sparkle without turning every card neon. */
+.option {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 14% 48%, rgba(var(--wash-rgb), calc(var(--wash-soft) + 0.03)), transparent 40%),
+    radial-gradient(circle at 84% 12%, rgba(var(--wash-rgb), var(--wash-edge)), transparent 47%),
+    radial-gradient(circle at 74% -12%, rgba(229, 180, 47, 0.07), transparent 35%),
+    linear-gradient(122deg, rgba(22, 19, 11, 0.97), rgba(6, 8, 6, 0.975) 67%);
+}
+
+.option::after {
+  z-index: 4;
+  inset: -40% auto -40% -42%;
+  width: 22%;
+  border-radius: 0;
+  opacity: 0;
+  box-shadow: none;
+  background: linear-gradient(
+    102deg,
+    transparent,
+    rgba(255, 236, 168, 0.02) 20%,
+    rgba(255, 236, 168, 0.12) 48%,
+    rgba(255, 218, 106, 0.025) 67%,
+    transparent
+  );
+  filter: blur(5px);
+  transform: skewX(-15deg);
+}
+
+.preferredOption::after {
+  opacity: 0;
+  animation: card-shimmer 9s ease-in-out infinite 2.4s;
+}
+
+.selected::after {
+  inset: -45% auto -45% -36%;
+  width: 28%;
+  opacity: 0;
+  background: linear-gradient(
+    104deg,
+    transparent,
+    rgba(255, 241, 185, 0.04) 24%,
+    rgba(255, 240, 176, 0.25) 49%,
+    rgba(255, 209, 80, 0.07) 65%,
+    transparent
+  );
+  filter: blur(5px);
+  animation: selected-shimmer 4.6s ease-in-out infinite 0.8s;
+}
+
+/* Tactical pitch gets a glossy glass / floodlight pass. */
+.pitchFrame {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.pitchFrame::after {
+  position: absolute;
+  top: -30%;
+  bottom: -30%;
+  left: -55%;
+  z-index: 3;
+  width: 30%;
+  content: "";
+  pointer-events: none;
+  opacity: 0.5;
+  background: linear-gradient(
+    104deg,
+    transparent,
+    rgba(194, 255, 218, 0.02) 20%,
+    rgba(221, 255, 235, 0.14) 48%,
+    rgba(108, 236, 161, 0.035) 68%,
+    transparent
+  );
+  filter: blur(3px);
+  transform: skewX(-14deg);
+  animation: pitch-glass-pass 7.6s ease-in-out infinite 1.2s;
+}
+
+.option:hover .pitchFrame,
+.selected .pitchFrame {
+  box-shadow:
+    inset 0 0 33px rgba(71, 204, 126, 0.20),
+    inset 0 1px rgba(190, 255, 217, 0.08),
+    0 0 23px rgba(51, 177, 103, 0.23),
+    0 10px 18px rgba(0, 0, 0, 0.25);
+}
+
+.pitch :global(.pitch-node__disc) {
+  box-shadow:
+    0 0 4px rgba(224, 231, 202, 0.30),
+    0 0 8px rgba(109, 209, 145, 0.10) !important;
+}
+
+.selected .pitch :global(.pitch-node__disc) {
+  animation: selected-node-breathe 2.8s ease-in-out infinite;
+}
+
+/* Stronger gold framing, still using tactical wash inside the card. */
+.selected {
+  box-shadow:
+    inset 0 1px rgba(255, 249, 219, 0.19),
+    inset 0 0 42px rgba(var(--wash-rgb), 0.12),
+    0 0 0 1px rgba(255, 216, 94, 0.12),
+    0 0 22px rgba(var(--wash-rgb), 0.20),
+    0 0 34px rgba(216, 158, 27, 0.18),
+    0 15px 34px rgba(0, 0, 0, 0.31);
+}
+
+.confirmReady {
+  background:
+    radial-gradient(circle at 12% 50%, rgba(223, 177, 52, 0.12), transparent 27%),
+    radial-gradient(circle at 70% 50%, rgba(223, 177, 52, 0.035), transparent 28%),
+    linear-gradient(90deg, rgba(24, 19, 8, 0.985), rgba(6, 8, 6, 0.98));
+  box-shadow:
+    inset 0 1px rgba(255, 239, 182, 0.07),
+    0 0 28px rgba(195, 139, 18, 0.075),
+    0 -8px 24px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes context-shimmer {
+  0%, 66%, 100% { left: -24%; opacity: 0; }
+  72% { opacity: 0.75; }
+  86% { left: 112%; opacity: 0.42; }
+  92% { left: 120%; opacity: 0; }
+}
+
+@keyframes card-shimmer {
+  0%, 72%, 100% { left: -42%; opacity: 0; }
+  77% { opacity: 0.62; }
+  89% { left: 120%; opacity: 0.28; }
+  94% { left: 126%; opacity: 0; }
+}
+
+@keyframes selected-shimmer {
+  0%, 56%, 100% { left: -38%; opacity: 0; }
+  64% { opacity: 0.9; }
+  85% { left: 118%; opacity: 0.4; }
+  92% { left: 126%; opacity: 0; }
+}
+
+@keyframes pitch-glass-pass {
+  0%, 64%, 100% { left: -58%; opacity: 0; }
+  70% { opacity: 0.58; }
+  87% { left: 126%; opacity: 0.35; }
+  92% { left: 132%; opacity: 0; }
+}
+
+@keyframes selected-node-breathe {
+  0%, 100% {
+    filter: brightness(1);
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.58),
+      0 0 6px rgba(248, 211, 91, 0.64),
+      0 0 12px rgba(223, 169, 40, 0.32) !important;
+  }
+  50% {
+    filter: brightness(1.12);
+    box-shadow:
+      inset 0 1px rgba(255, 255, 255, 0.72),
+      0 0 8px rgba(255, 221, 108, 0.86),
+      0 0 16px rgba(230, 176, 43, 0.48) !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .context {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .managerContext {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 620px) {
+  .context {
+    grid-template-columns: 1fr;
+  }
+
+  .managerContext {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .context::after,
+  .preferredOption::after,
+  .selected::after,
+  .pitchFrame::after,
+  .selected .pitch :global(.pitch-node__disc) {
+    animation: none !important;
+  }
+}
+
+
+/* V5 — gold manager banner, visible stadium, unclipped selected formation. */
+
+/* The manager summary always belongs to Trophy XI gold.
+   Tactical style no longer recolors this banner. */
+.context {
+  --manager-wash: 218, 172, 55 !important;
+  border-color: rgba(226, 184, 62, 0.46);
+  background:
+    radial-gradient(circle at 11% 50%, rgba(218, 172, 55, 0.17), transparent 29%),
+    radial-gradient(circle at 45% -30%, rgba(239, 193, 67, 0.055), transparent 44%),
+    linear-gradient(
+      90deg,
+      rgba(35, 25, 9, 0.78),
+      rgba(9, 9, 7, 0.78) 47%,
+      rgba(6, 7, 6, 0.80)
+    );
+  box-shadow:
+    inset 0 1px rgba(255, 241, 188, 0.10),
+    inset 0 0 38px rgba(207, 151, 25, 0.045),
+    0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.context::before {
+  background:
+    radial-gradient(circle at 12% 50%, rgba(222, 174, 47, 0.14), transparent 29%),
+    linear-gradient(90deg, rgba(207, 151, 25, 0.05), transparent 36% 72%, rgba(214, 180, 92, 0.02));
+}
+
+.managerPortrait::before {
+  border-color: rgba(239, 200, 87, 0.66);
+  box-shadow:
+    0 0 14px rgba(222, 170, 41, 0.20),
+    0 0 25px rgba(205, 151, 27, 0.10);
+}
+
+/* User asked for the tactical style itself to read white.
+   The small symbol carries the identity without recoloring the banner. */
+.styleValue {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  color: #f1efe7 !important;
+  text-shadow: none !important;
+  text-transform: capitalize;
+}
+
+.styleValue i {
+  display: inline-grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  color: #e7bd50;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.92rem;
+  font-style: normal;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(220, 170, 40, 0.24);
+}
+
+/* Let the existing stadium asset remain part of the screen.
+   The picker itself adds no opaque page-level background. */
+.picker {
+  background: transparent;
+}
+
+/* Slightly more translucent cards so the stadium atmosphere can breathe through. */
+.option {
+  background:
+    radial-gradient(circle at 14% 48%, rgba(var(--wash-rgb), var(--wash-soft)), transparent 40%),
+    radial-gradient(circle at 84% 12%, rgba(var(--wash-rgb), var(--wash-edge)), transparent 47%),
+    linear-gradient(122deg, rgba(22, 19, 11, 0.88), rgba(6, 8, 6, 0.90) 67%);
+}
+
+.confirm {
+  background:
+    linear-gradient(90deg, rgba(17, 14, 8, 0.87), rgba(5, 7, 5, 0.89)),
+    rgba(7, 9, 7, 0.88);
+}
+
+/* Give selected cards real breathing room inside the scroll container.
+   This fixes the top/border/glow looking sliced when a formation is selected. */
+.grid {
+  gap: 10px;
+  padding: 9px 11px 11px;
+  scrollbar-gutter: stable;
+}
+
+.option {
+  overflow: hidden;
+}
+
+.selected {
+  transform: translateZ(0);
+  box-shadow:
+    inset 0 1px rgba(255, 249, 219, 0.20),
+    inset 0 0 36px rgba(var(--wash-rgb), 0.10),
+    inset 0 0 0 1px rgba(255, 218, 106, 0.20),
+    0 0 0 1px rgba(255, 216, 94, 0.10),
+    0 0 14px rgba(216, 158, 27, 0.14),
+    0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+/* Keep the selected check tab fully inside the card.
+   It still reads as the FIFA-style tab, but can no longer be clipped by the grid. */
+.selectedMark {
+  top: 0;
+  height: 21px;
+  border-radius: 0 0 7px 7px;
+}
+
+/* The shimmer stays soft and internal rather than creating a hard clipped stripe. */
+.selected::after {
+  inset: -30% auto -30% -34%;
+  width: 24%;
+  border-radius: 999px;
+  filter: blur(7px);
+}
+
+@media (max-width: 820px) {
+  .grid {
+    padding-inline: 6px;
+  }
+}
+
+
+/* V6 — static fit, cleaner manager summary, elegant preferred badge */
+
+.picker {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.intro {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.intro > p {
+  max-width: none;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.context {
+  min-height: 58px;
+}
+
+.managerContext {
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.managerPortrait {
+  width: 42px;
+  height: 42px;
+}
+
+.managerPortrait::before {
+  inset: -2px;
+  border-color: rgba(233, 194, 82, 0.42);
+  box-shadow:
+    0 0 8px rgba(219, 166, 38, 0.10),
+    0 0 14px rgba(205, 151, 27, 0.05);
+}
+
+.managerPortraitIcon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  color: #e9c45e;
+  border: 1px solid rgba(233, 196, 94, 0.48);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, rgba(255, 242, 190, 0.08), transparent 34%), linear-gradient(180deg, rgba(31, 24, 12, 0.92), rgba(10, 10, 8, 0.96));
+  box-shadow:
+    inset 0 1px rgba(255, 247, 215, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.managerPortrait :global(.circular-portrait) {
+  display: none;
+}
+
+.preferred {
+  top: 8px;
+  right: 9px;
+  padding: 3px 8px 2px;
+  color: #f1d98a;
+  border: 1px solid rgba(224, 187, 78, 0.32);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(57, 45, 18, 0.92), rgba(27, 22, 11, 0.95));
+  box-shadow:
+    inset 0 1px rgba(255, 241, 191, 0.07),
+    0 4px 10px rgba(0, 0, 0, 0.18);
+  font-size: 0.31rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.grid {
+  overflow: visible;
+  overscroll-behavior: auto;
+  grid-auto-rows: minmax(106px, auto);
+  gap: 8px;
+  padding: 8px 6px 8px 2px;
+}
+
+.option {
+  min-height: 106px;
+  padding: 7px 11px 7px 8px;
+}
+
+.pitchFrame {
+  width: 84px;
+  height: 98px;
+}
+
+.pitch,
+.pitch :global(.pitch) {
+  width: 74px;
+}
+
+.title strong {
+  font-size: 1.08rem;
+}
+
+.identity {
+  font-size: 0.35rem;
+}
+
+.ratingRow {
+  min-height: 25px;
+}
+
+.confirm {
+  min-height: 62px;
+}
+
+@media (min-width: 821px) {
+  .intro > p {
+    margin-bottom: 4px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .intro > p {
+    white-space: normal;
+    max-width: 36ch;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .picker {
+    overflow: visible;
+  }
+
+  .grid {
+    overflow: visible;
+  }
+
+  .intro > p {
+    white-space: normal;
+    font-size: 0.76rem;
+  }
+}
+
+
+/* V7 — uniform formation cards + real manager portrait + shared manager tactical icons */
+
+/* Formation cards should not randomly tint purple/green/orange by tactical style.
+   Keep the tactical board green; keep the card body consistently black/bronze. */
+.option,
+.option[data-style="balanced"],
+.option[data-style="pressing"],
+.option[data-style="possession"],
+.option[data-style="fluid"],
+.option[data-style="counter"],
+.option[data-style="defensive"],
+.option[data-style="direct"] {
+  --wash-rgb: 211, 174, 69;
+  --wash-soft: 0.10;
+  --wash-edge: 0.045;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(207, 165, 57, 0.075), transparent 37%),
+    radial-gradient(circle at 87% 3%, rgba(222, 177, 54, 0.035), transparent 38%),
+    linear-gradient(118deg, rgba(22, 20, 13, 0.91), rgba(6, 8, 7, 0.93) 68%);
+}
+
+/* Preferred cards can feel a touch more prestigious without changing hue. */
+.preferredOption {
+  background:
+    radial-gradient(circle at 15% 50%, rgba(220, 176, 58, 0.095), transparent 38%),
+    radial-gradient(circle at 78% 10%, rgba(237, 194, 68, 0.06), transparent 40%),
+    linear-gradient(118deg, rgba(27, 23, 13, 0.93), rgba(7, 9, 7, 0.93) 69%);
+}
+
+/* Selected formation is universally gold rather than tactical-color tinted. */
+.selected,
+.option.selected[data-style="balanced"],
+.option.selected[data-style="pressing"],
+.option.selected[data-style="possession"],
+.option.selected[data-style="fluid"],
+.option.selected[data-style="counter"],
+.option.selected[data-style="defensive"],
+.option.selected[data-style="direct"] {
+  background:
+    radial-gradient(circle at 17% 50%, rgba(223, 179, 58, 0.13), transparent 39%),
+    radial-gradient(circle at 72% 16%, rgba(246, 199, 62, 0.12), transparent 44%),
+    linear-gradient(118deg, rgba(34, 28, 13, 0.96), rgba(8, 10, 7, 0.95) 69%);
+  box-shadow:
+    inset 0 1px rgba(255, 248, 215, 0.17),
+    inset 0 0 34px rgba(232, 188, 60, 0.065),
+    inset 0 0 0 1px rgba(255, 218, 106, 0.16),
+    0 0 0 1px rgba(255, 216, 94, 0.09),
+    0 0 15px rgba(216, 158, 27, 0.14),
+    0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+/* Restore the actual manager profile photo, but keep it to ONE clean circle. */
+.managerPortrait {
+  position: relative;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+}
+
+.managerPortrait::before {
+  display: none;
+}
+
+.managerPortraitIcon {
+  display: none;
+}
+
+.managerPortrait :global(.circular-portrait) {
+  width: 44px !important;
+  height: 44px !important;
+  border: 1px solid rgba(234, 195, 83, 0.58) !important;
+  border-radius: 50% !important;
+  box-shadow:
+    0 0 8px rgba(220, 169, 39, 0.09),
+    0 4px 12px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Use the exact same Lucide tactical icon family as Manager Selection. */
+.styleValue i {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  color: #e2ba50;
+  border: 1px solid rgba(224, 184, 70, 0.25);
+  border-radius: 50%;
+  background: rgba(31, 25, 11, 0.46);
+  text-shadow: none;
+}
+
+/* The old top-center tab sits on top of formation names.
+   Make selection a compact corner badge instead. */
+.selectedMark {
+  top: 7px;
+  left: 8px;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(255, 236, 166, 0.62);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #f4d976, #d2a32b);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.30),
+    0 0 10px rgba(224, 171, 35, 0.16),
+    0 4px 9px rgba(0, 0, 0, 0.20);
+  transform: none;
+}
+
+/* Slightly move preferred inward so both states read cleanly together. */
+.preferred {
+  top: 8px;
+  right: 9px;
+}
+
+
+/* V8 — smaller tactical identity badge, no checkmark, stronger era-like neon selection */
+
+.styleValue {
+  gap: 6px;
+}
+
+.styleValue i {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  color: #dcb54a;
+  border: 1px solid rgba(220, 181, 74, 0.22);
+  background: rgba(24, 20, 10, 0.32);
+}
+
+.styleValue i :global(svg) {
+  width: 10px;
+  height: 10px;
+}
+
+/* Rely on the border/glow only for selection, like Era chips. */
+.selectedMark {
+  display: none !important;
+}
+
+.selected,
+.option.selected[data-style="balanced"],
+.option.selected[data-style="pressing"],
+.option.selected[data-style="possession"],
+.option.selected[data-style="fluid"],
+.option.selected[data-style="counter"],
+.option.selected[data-style="defensive"],
+.option.selected[data-style="direct"] {
+  border-color: rgba(248, 212, 106, 0.95);
+  box-shadow:
+    inset 0 1px rgba(255, 248, 215, 0.16),
+    inset 0 0 26px rgba(232, 188, 60, 0.05),
+    inset 0 0 0 1px rgba(255, 223, 130, 0.28),
+    0 0 0 1px rgba(255, 216, 94, 0.18),
+    0 0 10px rgba(255, 208, 89, 0.18),
+    0 0 20px rgba(228, 176, 46, 0.16),
+    0 0 34px rgba(189, 138, 22, 0.12),
+    0 12px 28px rgba(0, 0, 0, 0.24);
+}
+
+.selected::after {
+  opacity: 0.35;
+  background: linear-gradient(112deg, transparent 28%, rgba(255, 237, 171, 0.09) 46%, transparent 63%);
+}
+
+/* Slightly cleaner portrait presentation so the manager profile reads more clearly. */
+.managerPortrait {
+  width: 46px;
+  height: 46px;
+}
+
+.managerPortrait :global(.circular-portrait) {
+  width: 46px !important;
+  height: 46px !important;
+  border-color: rgba(234, 195, 83, 0.62) !important;
+  box-shadow:
+    0 0 6px rgba(220, 169, 39, 0.07),
+    0 4px 10px rgba(0, 0, 0, 0.16) !important;
+}
+
+
+/* V9 — manager portrait guaranteed visible + quieter luxury gold banner */
+
+.context {
+  border-color: rgba(218, 178, 67, 0.28);
+  background:
+    radial-gradient(circle at 9% 50%, rgba(214, 169, 48, 0.075), transparent 25%),
+    linear-gradient(
+      90deg,
+      rgba(24, 20, 11, 0.82),
+      rgba(9, 9, 7, 0.79) 46%,
+      rgba(6, 7, 6, 0.80)
+    );
+  box-shadow:
+    inset 0 1px rgba(255, 241, 188, 0.055),
+    inset 0 0 24px rgba(207, 151, 25, 0.018),
+    0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+.context::before {
+  background:
+    radial-gradient(circle at 10% 50%, rgba(220, 174, 49, 0.055), transparent 24%),
+    linear-gradient(90deg, rgba(207, 151, 25, 0.018), transparent 35% 74%, rgba(214, 180, 92, 0.012));
+}
+
+/* Remove the recurring shimmer from the manager banner; keep it calm/elegant. */
+.context::after {
+  display: none;
+  animation: none;
+}
+
+.managerContext {
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 11px;
+}
+
+.managerPortrait {
+  position: relative;
+  z-index: 3;
+  display: grid !important;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  overflow: visible;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.managerPortrait::before,
+.managerPortrait::after {
+  display: none !important;
+}
+
+/* CircularPortrait's real root class is global; explicitly reveal it and its mask. */
+.managerPortrait :global(.circular-portrait) {
+  position: relative !important;
+  display: block !important;
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
+  overflow: hidden !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  border: 1px solid rgba(224, 184, 71, 0.50) !important;
+  border-radius: 50% !important;
+  background: rgba(10, 10, 8, 0.92) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 225, 126, 0.025),
+    0 0 7px rgba(213, 162, 35, 0.055),
+    0 4px 10px rgba(0, 0, 0, 0.18) !important;
+}
+
+.managerPortrait :global(.circular-portrait__mask) {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+  border-radius: 50% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.managerPortrait :global(.circular-portrait__mask img) {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Strip away the component's extra decorative rim here so it is one clean portrait circle. */
+.managerPortrait :global(.circular-portrait__rim) {
+  display: none !important;
+}
+
+.managerCopy {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* V10 — final polish: larger manager portrait, softer banner wash, sharper selection */
+
+.context {
+  border-color: rgba(218, 178, 67, 0.24);
+  background:
+    radial-gradient(circle at 8.5% 50%, rgba(214, 169, 48, 0.058), transparent 23%),
+    linear-gradient(
+      90deg,
+      rgba(22, 19, 11, 0.80),
+      rgba(9, 9, 7, 0.79) 43%,
+      rgba(6, 7, 6, 0.80)
+    );
+  box-shadow:
+    inset 0 1px rgba(255, 241, 188, 0.045),
+    inset 0 0 20px rgba(207, 151, 25, 0.012),
+    0 9px 22px rgba(0, 0, 0, 0.15);
+}
+
+.context::before {
+  background:
+    radial-gradient(circle at 9% 50%, rgba(220, 174, 49, 0.038), transparent 22%),
+    linear-gradient(
+      90deg,
+      rgba(207, 151, 25, 0.012),
+      transparent 33% 76%,
+      rgba(214, 180, 92, 0.008)
+    );
+}
+
+.managerContext {
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.managerPortrait {
+  width: 50px;
+  height: 50px;
+}
+
+.managerPortrait :global(.circular-portrait) {
+  width: 50px !important;
+  height: 50px !important;
+  min-width: 50px !important;
+  min-height: 50px !important;
+  border-color: rgba(224, 184, 71, 0.46) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 225, 126, 0.018),
+    0 0 5px rgba(213, 162, 35, 0.04),
+    0 4px 9px rgba(0, 0, 0, 0.17) !important;
+}
+
+/* Keep the inner gold edge crisp, but pull back the large outer halo. */
+.selected,
+.option.selected[data-style="balanced"],
+.option.selected[data-style="pressing"],
+.option.selected[data-style="possession"],
+.option.selected[data-style="fluid"],
+.option.selected[data-style="counter"],
+.option.selected[data-style="defensive"],
+.option.selected[data-style="direct"] {
+  border-color: rgba(248, 212, 106, 0.92);
+  box-shadow:
+    inset 0 1px rgba(255, 248, 215, 0.15),
+    inset 0 0 22px rgba(232, 188, 60, 0.045),
+    inset 0 0 0 1px rgba(255, 223, 130, 0.30),
+    0 0 0 1px rgba(255, 216, 94, 0.16),
+    0 0 8px rgba(255, 208, 89, 0.13),
+    0 0 15px rgba(228, 176, 46, 0.10),
+    0 11px 26px rgba(0, 0, 0, 0.23);
+}
+
+.selected::after {
+  opacity: 0.26;
 }
