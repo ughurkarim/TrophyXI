@@ -49,12 +49,38 @@ export function TacticalPitch({
       </div>
       {formation.slots.map((slot, index) => {
         const isGoalkeeper = slot.position === "GK";
-        const freeSelectionYOffset = goalkeeperYCap !== undefined ? 0 : 0;
-        const cappedY =
-          isGoalkeeper && goalkeeperYCap !== undefined
+        const clamp = (value: number, min: number, max: number) =>
+          Math.max(min, Math.min(max, value));
+        const freeSelectionLayout = goalkeeperYCap !== undefined;
+        const visualX =
+          freeSelectionLayout && !isGoalkeeper
+            ? clamp(50 + (slot.x - 50) * 1.12, 8, 92)
+            : slot.x;
+        const centerMidLift =
+          slot.label === "LCM" || slot.label === "RCM" ? 5.0 : 0;
+        const centerBackLift =
+          slot.position === "CB" ||
+          slot.position === "LCB" ||
+          slot.position === "RCB"
+            ? 2.0
+            : 0;
+        const centralCenterBackLift =
+          slot.position === "CB" && Math.abs(slot.x - 50) <= 12 ? 0.0 : 0;
+        const visualY = isGoalkeeper
+          ? goalkeeperYCap !== undefined
             ? Math.min(slot.y, goalkeeperYCap)
+            : slot.y
+          : freeSelectionLayout
+            ? clamp(
+                50 +
+                  (slot.y - 50) * 1.12 -
+                  centerMidLift -
+                  centerBackLift -
+                  centralCenterBackLift,
+                9,
+                74,
+              )
             : slot.y;
-        const visualY = Math.max(0, cappedY - freeSelectionYOffset);
         const isLowCenterBack =
           slot.y >= 75 &&
           (slot.position === "CB" ||
@@ -149,7 +175,7 @@ export function TacticalPitch({
             type="button"
             key={slot.id}
             className={className}
-            style={{ left: `${slot.x}%`, top: `${visualY}%` }}
+            style={{ left: `${visualX}%`, top: `${visualY}%` }}
             data-slot-x={slot.x}
             data-slot-y={slot.y}
             data-slot-position={slot.position}
@@ -189,7 +215,7 @@ export function TacticalPitch({
           <div
             key={slot.id}
             className={className}
-            style={{ left: `${slot.x}%`, top: `${visualY}%` }}
+            style={{ left: `${visualX}%`, top: `${visualY}%` }}
             data-slot-x={slot.x}
             data-slot-y={slot.y}
             data-slot-position={slot.position}

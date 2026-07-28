@@ -1,12 +1,26 @@
 "use client";
 
-import { Dices, Eye, Move, Search, Trash2, X } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  CircleDot,
+  Eye,
+  Grid3X3,
+  Move,
+  Scale,
+  Search,
+  Shield,
+  Target,
+  Trash2,
+  Waves,
+  X,
+  Zap,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { PlayerDetails } from "@/components/cards/player-details";
 import { OpponentSelection } from "@/components/draft/opponent-selection";
-import { TeamRatings } from "@/components/draft/team-ratings";
 import { GameHeader } from "@/components/navigation/game-header";
 import { TacticalPitch } from "@/components/pitch/tactical-pitch";
 import { SaveNotice } from "@/components/providers/save-notice";
@@ -31,6 +45,18 @@ const normalizeSearchText = (value: string) =>
     .replace(/[\u0300-\u036f]/g, "")
     .toLocaleLowerCase();
 
+function TacticalIcon({ style, size = 14 }: { style: string; size?: number }) {
+  const normalized = style.toLocaleLowerCase();
+
+  if (normalized === "pressing") return <Zap size={size} aria-hidden />;
+  if (normalized === "counter") return <ArrowRight size={size} aria-hidden />;
+  if (normalized === "defensive") return <Shield size={size} aria-hidden />;
+  if (normalized === "direct") return <Target size={size} aria-hidden />;
+  if (normalized === "fluid") return <Waves size={size} aria-hidden />;
+  if (normalized === "possession") return <CircleDot size={size} aria-hidden />;
+  return <Scale size={size} aria-hidden />;
+}
+
 export default function FreeSelectionPage() {
   const router = useRouter();
   const hydrated = useGameStore((state) => state.hasHydrated);
@@ -47,7 +73,6 @@ export default function FreeSelectionPage() {
   const placeSelectedPlayer = useGameStore((state) => state.placeSelectedPlayer);
   const assignFreeBenchPlayer = useGameStore((state) => state.assignFreeBenchPlayer);
   const removeFreePlayer = useGameStore((state) => state.removeFreePlayer);
-  const randomizeFreeSquad = useGameStore((state) => state.randomizeFreeSquad);
   const finalizeFreeSelection = useGameStore((state) => state.finalizeFreeSelection);
   const editFreeSelection = useGameStore((state) => state.editFreeSelection);
   const [targetId, setTargetId] = useState<string | null>(null);
@@ -59,8 +84,6 @@ export default function FreeSelectionPage() {
   const [viewAll, setViewAll] = useState(false);
   const [inspected, setInspected] = useState<PlayerTournamentCard | null>(null);
   const [filledTarget, setFilledTarget] = useState<{ targetId: string; player: PlayerTournamentCard } | null>(null);
-  const [showSquad, setShowSquad] = useState(false);
-  const [showRandomize, setShowRandomize] = useState(false);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -161,7 +184,7 @@ export default function FreeSelectionPage() {
   }
 
   if (draftPhase === "opponent") {
-    return <div className={`game-page game-page--stadium ${era.themeClass}`}><GameHeader step="OPPONENT / 05" /><SaveNotice /><main className="container game-main"><OpponentSelection eraId={eraId} onContinue={() => router.push("/match")} onEditSquad={editFreeSelection} /></main></div>;
+    return <div className={`game-page game-page--stadium ${era.themeClass} ${styles.screen}`}><GameHeader step="OPPONENT / 05" /><SaveNotice /><main className="container game-main"><OpponentSelection eraId={eraId} onContinue={() => router.push("/match")} onEditSquad={editFreeSelection} /></main></div>;
   }
 
   const activePreview = targetSlot ? fitPreviews.find((preview) => preview.slotId === targetSlot.id) : undefined;
@@ -224,32 +247,126 @@ export default function FreeSelectionPage() {
   };
 
   return (
-    <div className={`game-page game-page--stadium ${era.themeClass}`}>
+    <div className={`game-page game-page--stadium ${era.themeClass} ${styles.screen}`}>
       <GameHeader step="FREE SELECTION / 04" />
       <SaveNotice />
       <main className={`container ${styles.main}`}>
         <header className={styles.heading}>
-          <div><p className="eyebrow eyebrow--gold">FREE SELECTION</p><h1>BUILD YOUR SQUAD</h1><p>Select a position, choose from the best tournament cards available, and complete your XI and bench.</p></div>
-          <div className={styles.headingActions}><Button variant="ghost" onClick={() => setShowSquad(true)}>VIEW SQUAD</Button><Button variant="secondary" onClick={() => picks.length + benchPicks.length ? setShowRandomize(true) : randomizeFreeSquad()}><Dices size={15} aria-hidden /> RANDOMIZE SQUAD</Button></div>
-        </header>
+          <div className={styles.headingCopy}>
+            <p className="eyebrow eyebrow--gold">FREE SELECTION</p>
+            <h1>BUILD YOUR SQUAD</h1>
+            <p>Select a position, choose from the best tournament cards available, and complete your XI and bench.</p>
+          </div>
 
-        <section className={styles.statusBar} aria-label="Squad status">
-          <span>MANAGER <b>{manager.managerName}</b></span><span>STYLE <b>{manager.style}</b></span><span>FORMATION <b>{formation.name}</b></span><span>ERA <b>{era.label}</b></span><span>SQUAD <b>{lineup.length + bench.length}/14</b></span><span>STARTERS <b>{lineup.length}/11</b></span><span>BENCH <b>{bench.length}/3</b></span>
-        </section>
+          <section className={styles.statsPanel} aria-label="Team stats">
+            <div className={styles.statsHeadline}>
+              <span className={styles.statsKicker}>TEAM STATS</span>
+              <div className={styles.statsNumbers}>
+                {[
+                  ["ATK", ratings.attack],
+                  ["MID", ratings.midfield],
+                  ["DEF", ratings.defense],
+                  ["CHEM", ratings.chemistry],
+                  ["OVR", ratings.overall],
+                ].map(([label, value]) => (
+                  <span className={styles.statsNumber} data-emphasis={label === "OVR" || undefined} key={label}>
+                    <strong>{value}</strong>
+                    <small>{label}</small>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.statsModels}>
+              <span className={styles.statsModel}>
+                <span>
+                  <small>LEGACY</small>
+                  <b>{Math.round(ratings.legacyScore ?? 0)}</b>
+                  <em>+{Math.max(0, Math.min(4, ratings.legacyBonus ?? 0))} OVR</em>
+                </span>
+                <i aria-hidden>
+                  <b style={{ width: `${Math.max(0, Math.min(100, Math.round(ratings.legacyScore ?? 0)))}%` }} />
+                </i>
+              </span>
+
+              <span className={styles.statsModel}>
+                <span>
+                  <small>CHEMISTRY</small>
+                  <b>{ratings.chemistry}</b>
+                  <em>{ratings.chemistry >= 75 ? "STRONG" : ratings.chemistry >= 40 ? "BUILDING" : "DISCONNECTED"}</em>
+                </span>
+                <i aria-hidden>
+                  <b style={{ width: `${Math.max(0, Math.min(100, Math.round(ratings.chemistry)))}%` }} />
+                </i>
+              </span>
+            </div>
+          </section>
+
+          <section className={styles.summaryPanel} aria-label="Squad context">
+            <div className={styles.summaryGrid}>
+              <span className={`${styles.summaryCard} ${styles.summaryManager}`}>
+                <span className={styles.summaryPortrait}>
+                  <CircularPortrait
+                    imageId={manager.imageId}
+                    subjectName={manager.managerName}
+                    era={manager.era}
+                    countryCode={manager.countryCode}
+                    tournamentYear={manager.tournamentYear}
+                    size="compact"
+                  />
+                </span>
+                <span>
+                  <small>MANAGER</small>
+                  <b>{manager.managerName}</b>
+                </span>
+              </span>
+              <span className={styles.summaryCard}>
+                <span className={styles.summaryIcon} aria-hidden>
+                  <TacticalIcon style={manager.style} size={13} />
+                </span>
+                <span>
+                  <small>STYLE</small>
+                  <b>{manager.style}</b>
+                </span>
+              </span>
+              <span className={styles.summaryCard}>
+                <span className={styles.summaryIcon} aria-hidden>
+                  <Grid3X3 size={14} />
+                </span>
+                <span>
+                  <small>FORMATION</small>
+                  <b>{formation.name}</b>
+                </span>
+              </span>
+              <span className={styles.summaryCard}>
+                <span className={styles.summaryIcon} aria-hidden>
+                  <CalendarDays size={14} />
+                </span>
+                <span>
+                  <small>ERA</small>
+                  <b>{era.label}</b>
+                </span>
+              </span>
+            </div>
+          </section>
+        </header>
 
         <section className={styles.workspace} aria-label="Squad building workspace">
           <section className={styles.pitchPanel}>
+            <span className={styles.formationLabel}>{formation.name}</span>
             <div className={styles.pitchAura}>
               <TacticalPitch formation={formation} lineup={lineup} picks={picks} fitPreviews={selectedPlayer ? fitPreviews : []} activeSlotId={targetSlot?.id} selectedSlotId={targetSlot?.id} goalkeeperYCap={86} onSelectSlot={selectTarget} onSelectFilledSlot={selectFilledTarget} />
             </div>
-            <div className={styles.benchSlots} aria-label="Bench slots">
+            <div className={styles.benchStrip}>
+              <span className={styles.benchLabel}>BENCH</span>
+              <div className={styles.benchSlots} aria-label="Bench slots">
               {benchSlots.map((slotId, index) => {
                 const pick = benchPicks.find((candidate) => candidate.slotId === slotId);
                 const player = pick ? playersById.get(pick.cardId) : undefined;
                 return <button type="button" key={slotId} className={[targetId === slotId ? styles.activeBench : "", !player ? styles.emptyBench : ""].filter(Boolean).join(" ")} onClick={() => player ? selectFilledTarget(slotId, player) : selectTarget(slotId)}><span className={styles.benchNumber}>B{index + 1}</span>{player ? <><CircularPortrait imageId={player.imageId} subjectName={player.playerName} era={player.era} statusTier={player.statusTier} countryCode={player.countryCode} tournamentYear={player.tournamentYear} size="compact" /><span className={styles.benchIdentity} title={`${player.playerName} · ${player.overall} · ${player.tournamentYear}`}><b>{player.playerName.split(" ").at(-1)}</b><small>{player.primaryPosition} · {player.overall} OVR · {player.tournamentYear}</small></span></> : <span className={styles.benchIdentity}><b>OPEN BENCH</b><small>SELECT ANY PLAYER</small></span>}</button>;
               })}
+              </div>
             </div>
-            {lineup.length >= 4 ? <TeamRatings ratings={ratings} /> : <p className={styles.ratingsPending}>TEAM RATINGS ACTIVATE AFTER FOUR STARTERS</p>}
           </section>
 
           <aside className={styles.playerPanel}>
@@ -277,21 +394,33 @@ export default function FreeSelectionPage() {
                     <span className="sr-only">Search players</span>
                     <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search player or nation" />
                   </label>
-                  <select aria-label="Tournament year" value={year} onChange={(event) => setYear(event.target.value ? Number(event.target.value) : "")}>
-                    <option value="">All years</option>
-                    {[...new Set(draftEligiblePlayers.map((player) => player.tournamentYear))].sort((a,b) => b-a).map((value) => <option key={value}>{value}</option>)}
-                  </select>
-                  <select aria-label="Player nation" value={nation} onChange={(event) => setNation(event.target.value)}>
-                    <option value="">All nations</option>
-                    {nationOptions.map(([code,name]) => <option key={code} value={code}>{name}</option>)}
-                  </select>
-                  <select aria-label="Card rarity" value={tier} onChange={(event) => setTier(event.target.value as PlayerStatusTier | "")}>
-                    <option value="">All rarities</option>
-                    {tierOptions.map((value) => <option key={value}>{value.replace("-", " ")}</option>)}
-                  </select>
-                  <select aria-label="Minimum rating" value={minimumRating} onChange={(event) => setMinimumRating(event.target.value ? Number(event.target.value) : "")}>
-                    <option value="">Any rating</option><option value="85">85+</option><option value="90">90+</option><option value="95">95+</option>
-                  </select>
+                  <label className={styles.selectShell}>
+                    <select aria-label="Tournament year" value={year} onChange={(event) => setYear(event.target.value ? Number(event.target.value) : "")}>
+                      <option value="">All years</option>
+                      {[...new Set(draftEligiblePlayers.map((player) => player.tournamentYear))].sort((a,b) => b-a).map((value) => <option key={value}>{value}</option>)}
+                    </select>
+                    <span className={styles.selectChevron} aria-hidden>⌄</span>
+                  </label>
+                  <label className={styles.selectShell}>
+                    <select aria-label="Player nation" value={nation} onChange={(event) => setNation(event.target.value)}>
+                      <option value="">All nations</option>
+                      {nationOptions.map(([code,name]) => <option key={code} value={code}>{name}</option>)}
+                    </select>
+                    <span className={styles.selectChevron} aria-hidden>⌄</span>
+                  </label>
+                  <label className={styles.selectShell}>
+                    <select aria-label="Card rarity" value={tier} onChange={(event) => setTier(event.target.value as PlayerStatusTier | "")}>
+                      <option value="">All rarities</option>
+                      {tierOptions.map((value) => <option key={value}>{value.replace("-", " ")}</option>)}
+                    </select>
+                    <span className={styles.selectChevron} aria-hidden>⌄</span>
+                  </label>
+                  <label className={styles.selectShell}>
+                    <select aria-label="Minimum rating" value={minimumRating} onChange={(event) => setMinimumRating(event.target.value ? Number(event.target.value) : "")}>
+                      <option value="">Any rating</option><option value="85">85+</option><option value="90">90+</option><option value="95">95+</option>
+                    </select>
+                    <span className={styles.selectChevron} aria-hidden>⌄</span>
+                  </label>
                   <label className={styles.viewAll} title="Sort the current eligible players by overall rating">
                     <input type="checkbox" checked={viewAll} onChange={(event) => setViewAll(event.target.checked)} />
                     <span>BY OVR</span>
@@ -320,7 +449,6 @@ export default function FreeSelectionPage() {
                         <small>
                           {flagForCountry(selectedPlayer.countryCode)} {selectedPlayer.countryCode}
                           {" · "}{selectedPlayer.tournamentYear}
-                          {" · "}{selectedPlayer.overall} OVR
                         </small>
                       </div>
                       <dl className={styles.placeMetrics}>
@@ -339,8 +467,8 @@ export default function FreeSelectionPage() {
                           <dd>{selectedCandidate.chemistryGain >= 0 ? "+" : ""}{selectedCandidate.chemistryGain}</dd>
                         </div>
                         <div>
-                          <dt>MGR</dt>
-                          <dd>{selectedCandidate.managerFitGain >= 0 ? "+" : ""}{selectedCandidate.managerFitGain}</dd>
+                          <dt>OVR</dt>
+                          <dd>{selectedPlayer.overall}</dd>
                         </div>
                       </dl>
                       <div className={styles.placeActions}>
@@ -368,14 +496,12 @@ export default function FreeSelectionPage() {
                 </div>
 
                 <div className={styles.resultsHeader}>
-                  <span><b>{candidates.length}</b> cards</span>
                   <small>{viewAll ? "HIGHEST OVR FIRST" : targetBench ? "BEST BENCH IMPACT FIRST" : "BEST SQUAD IMPACT FIRST"}</small>
                 </div>
 
                 <div className={styles.playerResults} aria-live="polite">
                   {candidates.map((candidate, index) => {
                     const isSelectedCard = selectedPlayerId === candidate.player.id;
-                    const positionDepth = new Set([candidate.player.primaryPosition, ...candidate.player.eligiblePositions]).size;
                     return (
                       <article
                         className={styles.recommendation}
@@ -390,7 +516,7 @@ export default function FreeSelectionPage() {
                           aria-label={`Select ${candidate.player.playerName} ${candidate.player.tournamentYear} for ${targetSlot?.label ?? "bench"}`}
                           aria-pressed={isSelectedCard}
                         />
-                        <div className={styles.candidateMain}>
+                        <div className={`${styles.candidateMain} ${targetBench ? styles.candidateMainBench : ""}`}>
                           <span className={styles.rank}>{String(index + 1).padStart(2, "0")}</span>
                           <CircularPortrait
                             imageId={candidate.player.imageId}
@@ -402,37 +528,39 @@ export default function FreeSelectionPage() {
                             size="compact"
                           />
                           <span className={styles.candidateIdentity}>
-                            <span>{flagForCountry(candidate.player.countryCode)} {candidate.player.countryCode} · {candidate.player.tournamentYear}</span>
-                            <b>{candidate.player.playerName}</b>
-                            <small>{candidate.player.primaryPosition} · {candidate.player.statusTier.replace("-", " ")}</small>
+                            <b>
+                              {candidate.player.playerName}
+                              {index === 0 && <em>{viewAll ? "TOP OVR" : "BEST"}</em>}
+                            </b>
+                            <span>{flagForCountry(candidate.player.countryCode)} {candidate.player.countryCode} · {candidate.player.tournamentYear} · {candidate.player.primaryPosition} · {candidate.player.statusTier.replace("-", " ")}</span>
+                          </span>
+                          {targetSlot && (
+                            <span className={styles.candidateStat}>
+                              <small>FIT</small>
+                              <b data-tone={candidate.positionFit >= 90 ? "great" : candidate.positionFit >= 70 ? "good" : "risk"}>
+                                {candidate.positionFit}%
+                              </b>
+                            </span>
+                          )}
+                          <span className={styles.candidateStat}>
+                            <small>TEAM</small>
+                            <b>{candidate.overallGain >= 0 ? "+" : ""}{candidate.overallGain}</b>
+                          </span>
+                          <span className={styles.candidateStat}>
+                            <small>CHEM</small>
+                            <b>{candidate.chemistryGain >= 0 ? "+" : ""}{candidate.chemistryGain}</b>
                           </span>
                           <span className={styles.candidateRating}>
                             <strong>{candidate.player.overall}</strong>
                             <small>OVR</small>
                           </span>
-                        </div>
-                        <div className={styles.candidateImpact}>
-                          {targetSlot ? (
-                            <span data-tone={candidate.positionFit >= 90 ? "great" : candidate.positionFit >= 70 ? "good" : "risk"}>
-                              {candidate.positionFit}% FIT
-                            </span>
-                          ) : (
-                            <span>{positionDepth} POS</span>
-                          )}
-                          <span data-positive={candidate.overallGain > 0}>
-                            {candidate.overallGain >= 0 ? "+" : ""}{candidate.overallGain} OVR
-                          </span>
-                          <span data-positive={candidate.chemistryGain > 0}>
-                            {candidate.chemistryGain >= 0 ? "+" : ""}{candidate.chemistryGain} CHEM
-                          </span>
-                          {index === 0 && <span className={styles.best}>{viewAll ? "TOP OVR" : "BEST"}</span>}
                           <button
                             type="button"
                             className={styles.inspectCandidate}
                             onClick={() => setInspected(candidate.player)}
-                            aria-label={`Inspect ${candidate.player.playerName} ${candidate.player.tournamentYear}`}
+                            aria-label={`View profile for ${candidate.player.playerName} ${candidate.player.tournamentYear}`}
                           >
-                            <Eye size={12} aria-hidden />
+                            <Eye size={13} aria-hidden />
                           </button>
                         </div>
                       </article>
@@ -442,13 +570,15 @@ export default function FreeSelectionPage() {
                 </div>
               </>
             )}
-            <footer className={styles.panelFooter}><Button disabled={!canContinue} onClick={finalizeFreeSelection}>CHOOSE OPPONENT</Button></footer>
           </aside>
         </section>
-      </main>
 
-      {showSquad && <div className="drawer-backdrop" role="presentation" onMouseDown={() => setShowSquad(false)}><aside className={styles.squadDrawer} role="dialog" aria-modal="true" aria-label="Your fourteen" onMouseDown={(event) => event.stopPropagation()}><header><div><span className="eyebrow eyebrow--gold">YOUR FOURTEEN</span><h2>SQUAD {lineup.length + bench.length}/14</h2></div><button type="button" className="icon-button" onClick={() => setShowSquad(false)} aria-label="Close squad"><X size={17} /></button></header>{[{label:"STARTING XI",items:picks.map((pick) => ({ key:pick.slotId, slot:formation.slots.find((slot) => slot.id === pick.slotId)?.label ?? "XI", player:playersById.get(pick.cardId) }))},{label:"BENCH",items:benchPicks.map((pick,index) => ({ key:pick.slotId, slot:`B${index+1}`, player:playersById.get(pick.cardId) }))}].map((section) => <section key={section.label}><span className="eyebrow">{section.label}</span>{section.items.map(({key,slot,player}) => player && <button type="button" key={key} onClick={() => setInspected(player)}><CircularPortrait imageId={player.imageId} subjectName={player.playerName} era={player.era} statusTier={player.statusTier} countryCode={player.countryCode} tournamentYear={player.tournamentYear} size="compact" /><span><b>{player.playerName}</b><small>{flagForCountry(player.countryCode)} {player.tournamentYear}</small></span><strong>{player.overall}</strong><i>{slot}</i></button>)}</section>)}</aside></div>}
-      {showRandomize && <div className="dialog-backdrop" role="presentation"><div className="dialog" role="dialog" aria-modal="true" aria-labelledby="randomize-title"><span className="eyebrow eyebrow--gold">REPLACE CURRENT SQUAD</span><h2 id="randomize-title">Randomize all fourteen players?</h2><p>Your manually selected players will be replaced with a new valid, identity-safe squad.</p><div className="dialog__actions"><Button variant="secondary" onClick={() => setShowRandomize(false)}>KEEP CURRENT SQUAD</Button><Button onClick={() => { randomizeFreeSquad(); setShowRandomize(false); setTargetId(null); }}>RANDOMIZE SQUAD</Button></div></div></div>}
+        <footer className={styles.pageFooter}>
+          <Button className={styles.continueButton} disabled={!canContinue} onClick={finalizeFreeSelection}>
+            CONTINUE TO SQUAD <span aria-hidden>→</span>
+          </Button>
+        </footer>
+      </main>
       {inspected && <PlayerDetails player={inspected} onClose={() => setInspected(null)} />}
     </div>
   );
