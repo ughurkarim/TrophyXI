@@ -396,7 +396,9 @@ function TeamIdentity({
                 height: "100%",
                 lineHeight: 1,
                 fontSize: "2rem",
-                color: "#f4f1df",
+                color: "#e8c763",
+                textShadow:
+                  "0 0 6px rgba(235, 195, 80, 0.42), 0 0 16px rgba(218, 171, 53, 0.18)",
                 transform: "translateY(-1px)",
               }}
             >

@@ -805,8 +805,11 @@ export default function WorldCupRunPage() {
                         data-best-third={isBestThirdQualifier}
                       >
                         <b>{standing.rank}</b>
-                        <span className={styles.tableTeam}>
-                          <i>{flagForCountry(team.countryCode)}</i>
+                        <span
+                          className={styles.tableTeam}
+                          data-trophy-xi={team.countryCode === "TXI"}
+                        >
+                          <i><TeamMark team={team} compact /></i>
                           <strong>{team.name}</strong>
                           <small className={isBestThirdQualifier ? styles.bestThirdTag : ""}>
                             {isBestThirdQualifier ? "BEST 3RD · THROUGH" : team.countryCode}
@@ -866,7 +869,7 @@ export default function WorldCupRunPage() {
                     data-user={routeFixture.homeTeamId === run.userTeamId}
                   >
                     <span>
-                      {flagForCountry(teams.get(routeFixture.homeTeamId)!.countryCode)}
+                      <TeamMark team={teams.get(routeFixture.homeTeamId)!} compact />
                       <strong>{teams.get(routeFixture.homeTeamId)!.name}</strong>
                     </span>
                     <small>
@@ -924,7 +927,7 @@ export default function WorldCupRunPage() {
                     data-user={routeFixture.awayTeamId === run.userTeamId}
                   >
                     <span>
-                      {flagForCountry(teams.get(routeFixture.awayTeamId)!.countryCode)}
+                      <TeamMark team={teams.get(routeFixture.awayTeamId)!} compact />
                       <strong>{teams.get(routeFixture.awayTeamId)!.name}</strong>
                     </span>
                     <small>
@@ -1014,6 +1017,26 @@ type Team = {
   rating: number;
 };
 
+function TeamMark({
+  team,
+  compact = false,
+}: {
+  team: Team;
+  compact?: boolean;
+}) {
+  if (team.countryCode === "TXI") {
+    if (compact) return null;
+
+    return (
+      <b className={styles.trophyXiMainMark} aria-label="Trophy XI">
+        XI
+      </b>
+    );
+  }
+
+  return <>{flagForCountry(team.countryCode)}</>;
+}
+
 function TeamIdentity({ team, home = false }: { team: Team; home?: boolean }) {
   return (
     <div
@@ -1021,7 +1044,7 @@ function TeamIdentity({ team, home = false }: { team: Team; home?: boolean }) {
       data-home={home}
       style={{ "--nation-accent": accentFor(team.countryCode) } as CSSProperties}
     >
-      <span>{flagForCountry(team.countryCode)}</span>
+      <span><TeamMark team={team} /></span>
       <div>
         <strong>{team.name}</strong>
         <small>
@@ -1054,11 +1077,11 @@ function CompactFixture({
     >
       <small>MD {fixture.matchday}</small>
       <span data-user-team={home.id === userTeamId}>
-        {flagForCountry(home.countryCode)} {home.name}
+        <TeamMark team={home} compact /> {home.name}
       </span>
       <b>{fixture.result ? `${fixture.result.homeGoals}–${fixture.result.awayGoals}` : "—"}</b>
       <span data-user-team={away.id === userTeamId}>
-        {flagForCountry(away.countryCode)} {away.name}
+        <TeamMark team={away} compact /> {away.name}
       </span>
     </article>
   );
@@ -1254,12 +1277,12 @@ function BracketFixture({
     >
       <small>MATCH {String(index + 1).padStart(2, "0")}</small>
       <div data-winner={winner === home.id} data-eliminated={Boolean(winner && winner !== home.id)}>
-        <span>{flagForCountry(home.countryCode)}</span>
+        <span><TeamMark team={home} compact /></span>
         <strong>{home.name}</strong>
         <b>{fixture.result?.homeGoals ?? "–"}</b>
       </div>
       <div data-winner={winner === away.id} data-eliminated={Boolean(winner && winner !== away.id)}>
-        <span>{flagForCountry(away.countryCode)}</span>
+        <span><TeamMark team={away} compact /></span>
         <strong>{away.name}</strong>
         <b>{fixture.result?.awayGoals ?? "–"}</b>
       </div>

@@ -4928,3 +4928,300 @@
     transform: none;
   }
 }
+
+/* =========================================================
+   TROPHY XI MONOGRAM
+   Use the XI identity instead of the generic star/flag mark.
+   ========================================================= */
+
+.trophyXiMainMark {
+  color: #edc95d;
+  display: inline-block;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.52em;
+  font-style: normal;
+  font-weight: 780;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  text-shadow:
+    0 0 7px rgba(242, 204, 91, 0.48),
+    0 0 18px rgba(215, 163, 39, 0.19);
+  transform: translateX(-0.04em);
+}
+
+.trophyXiMiniMark {
+  align-items: center;
+  color: #e5c15a;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 790;
+  justify-content: center;
+  letter-spacing: -0.07em;
+  line-height: 1;
+  min-width: 14px;
+  text-shadow:
+    0 0 5px rgba(235, 195, 80, 0.32),
+    0 0 10px rgba(208, 155, 35, 0.12);
+}
+
+/* Keep the small XI mark aligned naturally anywhere a national flag appears. */
+.compactFixture .trophyXiMiniMark,
+.routeTeam .trophyXiMiniMark {
+  margin-right: 0.08rem;
+}
+
+.tableTeam i .trophyXiMiniMark,
+.bracketFixture .trophyXiMiniMark {
+  font-size: 0.54rem;
+}
+
+
+/* =========================================================
+   TROPHY XI MARK — match the Opponent Reveal crest
+   ========================================================= */
+
+/* Large fixture crest: same regal serif XI + concentric gold rings. */
+.teamIdentity[data-home="true"] > span {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(224, 180, 63, .08), transparent 55%),
+    #080b0a;
+  border-color: rgba(224, 181, 65, .34);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 164, .035),
+    inset 0 -12px 22px rgba(0, 0, 0, .26),
+    0 0 12px rgba(205, 154, 39, .05);
+}
+
+.trophyXiMainMark {
+  position: relative;
+  display: grid;
+  width: 68%;
+  height: 68%;
+  place-items: center;
+  border: 1px solid rgba(224, 181, 65, .32);
+  border-radius: 50%;
+  color: #efcb61;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: .46em;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: -.082em;
+  line-height: 1;
+  text-shadow:
+    0 1px 0 rgba(255, 242, 179, .38),
+    0 0 2px rgba(255, 239, 163, .42),
+    0 0 5px rgba(235, 190, 64, .18);
+  transform: none;
+}
+
+.trophyXiMainMark::before,
+.trophyXiMainMark::after {
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.trophyXiMainMark::before {
+  inset: -8px;
+  border: 1px solid rgba(205, 157, 44, .40);
+  border-top-color: rgba(255, 229, 140, .72);
+}
+
+.trophyXiMainMark::after {
+  inset: 7px;
+  border: 1px solid rgba(224, 181, 65, .15);
+}
+
+/* Small XI marks: centered, clean and deliberately NO glow. */
+.trophyXiMiniMark {
+  display: inline-grid;
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+  place-items: center;
+  margin: 0 4px 0 0;
+  padding: 0;
+  color: #dfbd58;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: .57rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: -.075em;
+  line-height: 16px;
+  text-align: center;
+  text-shadow: none;
+  transform: none;
+  vertical-align: middle;
+}
+
+/* Standings: occupy the exact same visual slot as a flag. */
+.tableTeam i:has(.trophyXiMiniMark) {
+  display: grid;
+  width: 1.15rem;
+  height: 1.15rem;
+  place-items: center;
+  line-height: 1;
+}
+
+.tableTeam i .trophyXiMiniMark {
+  width: 1.15rem;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  font-size: .58rem;
+  line-height: 1.15rem;
+}
+
+/* Fixture rows: vertically center XI on the same baseline as the country flags/text. */
+.compactFixture .trophyXiMiniMark,
+.routeTeam .trophyXiMiniMark,
+.bracketFixture .trophyXiMiniMark {
+  position: relative;
+  top: 0;
+  margin-right: .28rem;
+  vertical-align: -0.12em;
+  text-shadow: none;
+}
+
+
+/* =========================================================
+   TROPHY XI MARK — final polish
+   Larger main XI, quieter rings, better mini-mark alignment.
+   ========================================================= */
+
+/* Enlarge the central XI about 14% without changing the crest footprint. */
+.trophyXiMainMark {
+  width: 68%;
+  height: 68%;
+  font-size: .525em;
+}
+
+/* Quiet the concentric-ring treatment so the crest reads closer to Opponent Reveal. */
+.trophyXiMainMark::before {
+  inset: -8px;
+  border-color: rgba(205, 157, 44, .30);
+  border-top-color: rgba(255, 229, 140, .56);
+}
+
+.trophyXiMainMark::after {
+  inset: 8px;
+  border-color: rgba(224, 181, 65, .09);
+}
+
+/* Small XI: sit a touch lower and closer to the Trophy XI label. */
+.trophyXiMiniMark {
+  position: relative;
+  top: 1px;
+  margin-right: 2px;
+  text-shadow: none;
+}
+
+/* Keep standings alignment centered in the same slot as flags. */
+.tableTeam i .trophyXiMiniMark {
+  top: 1px;
+  margin: 0;
+}
+
+/* Fixture/bracket rows: slightly tighter gap and 1px lower baseline. */
+.compactFixture .trophyXiMiniMark,
+.routeTeam .trophyXiMiniMark,
+.bracketFixture .trophyXiMiniMark {
+  top: 1px;
+  margin-right: .16rem;
+  vertical-align: middle;
+  text-shadow: none;
+}
+
+
+/* =========================================================
+   TROPHY XI MARK — clean final version
+   One outer ring only; no mini XI marks anywhere.
+   ========================================================= */
+
+/* The fixture circle itself is the one and only ring. */
+.trophyXiMainMark {
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  font-size: .525em;
+}
+
+.trophyXiMainMark::before,
+.trophyXiMainMark::after {
+  display: none !important;
+  border: 0 !important;
+  content: none !important;
+}
+
+/* Small Trophy XI marks are intentionally gone everywhere. */
+.trophyXiMiniMark {
+  display: none !important;
+}
+
+/* Remove the empty icon slot in standings when the row is Trophy XI. */
+.tableTeam[data-trophy-xi="true"] {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.tableTeam[data-trophy-xi="true"] > i {
+  display: none;
+}
+
+/* No extra spacing is introduced where the compact mark used to render. */
+.compactFixture .trophyXiMiniMark,
+.routeTeam .trophyXiMiniMark,
+.bracketFixture .trophyXiMiniMark {
+  display: none !important;
+  margin: 0 !important;
+}
+
+
+/* =========================================================
+   TROPHY XI CREST — FORCE A SINGLE RING ONLY
+   ========================================================= */
+
+/* This outer container is the ONLY visible circle. */
+.teamIdentity[data-home="true"] > span {
+  border: 1px solid rgba(224, 181, 65, .52) !important;
+  outline: 0 !important;
+  background: #080b0a !important;
+  box-shadow: none !important;
+}
+
+/* Kill any decorative rings that may exist on the outer container. */
+.teamIdentity[data-home="true"] > span::before,
+.teamIdentity[data-home="true"] > span::after {
+  display: none !important;
+  content: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+/* XI itself has absolutely no circle/ring around it. */
+.teamIdentity[data-home="true"] .trophyXiMainMark {
+  width: auto !important;
+  height: auto !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Kill both inner pseudo-ring layers from all previous overrides. */
+.teamIdentity[data-home="true"] .trophyXiMainMark::before,
+.teamIdentity[data-home="true"] .trophyXiMainMark::after {
+  display: none !important;
+  content: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: none !important;
+}

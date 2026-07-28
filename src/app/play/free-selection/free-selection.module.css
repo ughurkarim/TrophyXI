@@ -3485,3 +3485,81 @@ button.statusStat:hover {
     font-size: .90rem;
   }
 }
+
+/* =========================================================
+   BENCH EMPHASIS — current Free Selection build
+   Empty bench slots read as required without overpowering the pitch.
+   ========================================================= */
+
+.emptyBench {
+  position: relative;
+  grid-template-columns: 22px minmax(0, 1fr) !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(226, 184, 63, .085),
+      rgba(226, 184, 63, .028) 55%,
+      rgba(226, 184, 63, .012)
+    ) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(234, 198, 91, .18),
+    inset 0 0 18px rgba(215, 166, 43, .035),
+    0 0 10px rgba(215, 166, 43, .04);
+}
+
+.emptyBench .benchNumber {
+  color: #e5c75f;
+  font-weight: 800;
+  text-shadow:
+    0 0 6px rgba(239, 201, 83, .30),
+    0 0 12px rgba(201, 145, 29, .12);
+}
+
+.emptyBench .benchIdentity b {
+  color: #dbc978;
+  font-size: .48rem;
+  font-weight: 720;
+  letter-spacing: .025em;
+  text-shadow: 0 0 7px rgba(225, 184, 65, .13);
+}
+
+.emptyBench .benchIdentity small {
+  color: #96895e;
+}
+
+.emptyBench:hover {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(235, 196, 75, .13),
+      rgba(225, 181, 57, .05) 58%,
+      rgba(225, 181, 57, .018)
+    ) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(244, 211, 111, .30),
+    inset 0 0 20px rgba(221, 173, 48, .055),
+    0 0 13px rgba(220, 172, 46, .10);
+}
+
+.benchSlots .emptyBench.activeBench {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(241, 202, 82, .17),
+      rgba(225, 178, 52, .07) 60%,
+      rgba(225, 178, 52, .025)
+    ) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(248, 219, 129, .50),
+    inset 0 0 20px rgba(225, 177, 52, .075),
+    0 0 10px rgba(238, 197, 70, .20),
+    0 0 22px rgba(204, 149, 33, .09);
+}
+
+.benchSlots .emptyBench.activeBench .benchNumber,
+.benchSlots .emptyBench.activeBench .benchIdentity b {
+  color: #f4d96f;
+  text-shadow:
+    0 0 7px rgba(246, 211, 94, .40),
+    0 0 15px rgba(214, 157, 35, .16);
+}
