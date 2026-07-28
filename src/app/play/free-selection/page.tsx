@@ -110,6 +110,9 @@ export default function FreeSelectionPage() {
   const selectedPlayer = selectedPlayerId ? playersById.get(selectedPlayerId) : undefined;
   const targetSlot = formation?.slots.find((slot) => slot.id === targetId);
   const targetBench = benchSlots.includes(targetId as BenchSlotId) ? targetId as BenchSlotId : null;
+  const targetDisplayLabel = targetSlot?.label ?? (
+    targetBench ? `B${benchSlots.indexOf(targetBench) + 1}` : undefined
+  );
   const usedIdentityIds = useMemo(() => new Set([...lineup, ...bench].map((player) => player.playerIdentityId)), [bench, lineup]);
 
   const candidates = useMemo(() => {
@@ -184,7 +187,7 @@ export default function FreeSelectionPage() {
   }
 
   if (draftPhase === "opponent") {
-    return <div className={`game-page game-page--stadium ${era.themeClass} ${styles.screen}`}><GameHeader step="OPPONENT / 05" /><SaveNotice /><main className="container game-main"><OpponentSelection eraId={eraId} onContinue={() => router.push("/match")} onEditSquad={editFreeSelection} /></main></div>;
+    return <div className={`game-page game-page--stadium ${era.themeClass}`}><GameHeader step="OPPONENT / 05" /><SaveNotice /><main className="container game-main"><OpponentSelection eraId={eraId} onContinue={() => router.push("/match")} onEditSquad={editFreeSelection} /></main></div>;
   }
 
   const activePreview = targetSlot ? fitPreviews.find((preview) => preview.slotId === targetSlot.id) : undefined;
@@ -373,12 +376,12 @@ export default function FreeSelectionPage() {
             {!targetSlot && !targetBench ? (
               <div className={styles.emptyState}><span className="eyebrow eyebrow--gold">POSITION FIRST</span><h2>Select a position on the pitch.</h2><p>The strongest available tournament cards will appear automatically.</p><div><b>{needs.length} starter roles remain</b><span>{needs.slice(0, 8).join(" · ")}{needs.length > 8 ? "…" : ""}</span><b>{3 - bench.length} bench places remain</b></div></div>
             ) : filledTarget ? (
-              <div className={styles.filledActions}><span className="eyebrow eyebrow--gold">FILLED POSITION · {targetSlot?.label ?? targetBench?.toLocaleUpperCase()}</span><CircularPortrait imageId={filledTarget.player.imageId} subjectName={filledTarget.player.playerName} era={filledTarget.player.era} statusTier={filledTarget.player.statusTier} countryCode={filledTarget.player.countryCode} tournamentYear={filledTarget.player.tournamentYear} size="standard" /><h2>{filledTarget.player.playerName}</h2><p>{flagForCountry(filledTarget.player.countryCode)} {filledTarget.player.countryName} · {filledTarget.player.tournamentYear} · {filledTarget.player.overall} OVR</p><div><Button variant="secondary" onClick={() => setInspected(filledTarget.player)}><Eye size={14} aria-hidden /> INSPECT</Button><Button variant="secondary" onClick={() => { removeFreePlayer(filledTarget.player.id); setFilledTarget(null); }}>REPLACE</Button><Button variant="secondary" onClick={() => { const player = filledTarget.player; removeFreePlayer(player.id); selectPlayer(player.id); setTargetId(null); setFilledTarget(null); }}><Move size={14} aria-hidden /> MOVE</Button><Button variant="ghost" onClick={() => { removeFreePlayer(filledTarget.player.id); setTargetId(null); setFilledTarget(null); }}><Trash2 size={14} aria-hidden /> REMOVE</Button></div></div>
+              <div className={styles.filledActions}><span className="eyebrow eyebrow--gold">FILLED POSITION · {targetDisplayLabel}</span><CircularPortrait imageId={filledTarget.player.imageId} subjectName={filledTarget.player.playerName} era={filledTarget.player.era} statusTier={filledTarget.player.statusTier} countryCode={filledTarget.player.countryCode} tournamentYear={filledTarget.player.tournamentYear} size="standard" /><h2>{filledTarget.player.playerName}</h2><p>{flagForCountry(filledTarget.player.countryCode)} {filledTarget.player.countryName} · {filledTarget.player.tournamentYear} · {filledTarget.player.overall} OVR</p><div><Button variant="secondary" onClick={() => setInspected(filledTarget.player)}><Eye size={14} aria-hidden /> INSPECT</Button><Button variant="secondary" onClick={() => { removeFreePlayer(filledTarget.player.id); setFilledTarget(null); }}>REPLACE</Button><Button variant="secondary" onClick={() => { const player = filledTarget.player; removeFreePlayer(player.id); selectPlayer(player.id); setTargetId(null); setFilledTarget(null); }}><Move size={14} aria-hidden /> MOVE</Button><Button variant="ghost" onClick={() => { removeFreePlayer(filledTarget.player.id); setTargetId(null); setFilledTarget(null); }}><Trash2 size={14} aria-hidden /> REMOVE</Button></div></div>
             ) : (
               <>
                 <div className={styles.panelHeading}>
                   <div className={styles.positionLockup}>
-                    <span className={styles.positionBadge}>{targetSlot?.label ?? targetBench?.toLocaleUpperCase()}</span>
+                    <span className={styles.positionBadge}>{targetDisplayLabel}</span>
                     <div>
                       <span className="eyebrow eyebrow--gold">{targetBench ? "BENCH SEARCH" : "SELECTED POSITION"}</span>
                       <h2>{targetSlot?.label ?? "Any player"}</h2>
@@ -472,7 +475,7 @@ export default function FreeSelectionPage() {
                         </div>
                       </dl>
                       <div className={styles.placeActions}>
-                        <small>Click {targetSlot?.label ?? targetBench?.toLocaleUpperCase()} or press Place</small>
+                        <small>Click {targetDisplayLabel} or press Place</small>
                         <Button disabled={!canPlaceSelected} onClick={placePlayer}>PLACE</Button>
                       </div>
                     </>
@@ -483,7 +486,7 @@ export default function FreeSelectionPage() {
                         <span>PLAYER SLOT</span>
                         <b>Select a player</b>
                         <small>
-                          Choose a card below, then click {targetSlot?.label ?? targetBench?.toLocaleUpperCase()} or press Place.
+                          Choose a card below, then click {targetDisplayLabel} or press Place.
                         </small>
                       </div>
                       <div className={styles.placePlaceholderRule} aria-hidden />

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Check, Crown, Eye, Sparkles, Swords, X } from "lucide-react";
+import { Check, Crown, Eye, Swords, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { managerGradeLabel } from "@/data/managers";
@@ -48,10 +48,6 @@ export function OpponentSelection({
         <div>
           <span className="eyebrow eyebrow--gold">WORLD CUP GAUNTLET</span>
           <h2 id="opponent-heading">Choose your opponent.</h2>
-          <p>
-            Face one of fifteen World Cup champions or the ultimate All-Stars
-            challenge.
-          </p>
         </div>
         <strong>{historicalOpponents.length} CHAMPIONS</strong>
       </div>
@@ -62,9 +58,6 @@ export function OpponentSelection({
             <span className="eyebrow eyebrow--gold">FEATURED CHALLENGE</span>
             <h3 id="featured-heading">World Cup All-Stars</h3>
           </div>
-          <span className="mythic-badge">
-            <Sparkles size={14} aria-hidden /> MYTHIC
-          </span>
         </div>
         <button
           type="button"
@@ -283,14 +276,18 @@ function OpponentCard({
       className={`opponent-card opponent-card--champion ${
         styles.historicalCard
       } ${selected ? "opponent-card--selected" : ""}`}
+      role="button"
+      tabIndex={0}
+      aria-pressed={selected}
+      aria-label={`Select ${opponent.nationName} ${opponent.tournamentYear}, ${opponent.difficulty} difficulty`}
+      onClick={onSelect}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSelect();
+        }
+      }}
     >
-      <button
-        type="button"
-        className={styles.cardPick}
-        onClick={onSelect}
-        aria-pressed={selected}
-        aria-label={`Select ${opponent.nationName} ${opponent.tournamentYear}, ${opponent.difficulty} difficulty`}
-      />
       <div className={styles.championImage} aria-hidden>
         {presentation?.image ? (
           <Image
@@ -328,23 +325,22 @@ function OpponentCard({
         </dl>
         <Ratings opponent={opponent} />
       </div>
-      <div className={styles.cardActions}>
-<div className={styles.cardActions}>
-  <SelectedMark
-    selected={selected}
-    className={styles.cardSelectionMark}
-  />
-
-  <button
-    type="button"
-    className={styles.viewXi}
-    onClick={onViewSquad}
-    aria-label={`View ${opponent.nationName} ${opponent.tournamentYear} lineup`}
-  >
-    View XI
-  </button>
-</div>
-</div>
+      <SelectedMark
+        selected={selected}
+        className={styles.cardSelectionMark}
+      />
+      <button
+        type="button"
+        className={styles.viewXi}
+        onClick={(event) => {
+          event.stopPropagation();
+          onViewSquad();
+        }}
+        onKeyDown={(event) => event.stopPropagation()}
+        aria-label={`View ${opponent.nationName} ${opponent.tournamentYear} lineup`}
+      >
+        View XI
+      </button>
     </article>
   );
 }

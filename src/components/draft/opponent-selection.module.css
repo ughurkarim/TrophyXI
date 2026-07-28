@@ -436,8 +436,10 @@
 }
 
 .viewXi {
-  position: static;
-  flex: 0 0 auto;
+  position: absolute;
+  z-index: 4;
+  right: 14px;
+  bottom: 12px;
   min-height: 25px;
   padding: 0 7px;
   color: #c6b46e;
@@ -463,9 +465,9 @@
 }
 
 .cardSelectionMark {
-  position: static;
-  flex: 0 0 auto;
-  margin: 0;
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
 }
 
 .footer.footer {
@@ -828,17 +830,908 @@
   }
 }
 
-.cardActions {
-  position: absolute;
-  z-index: 4;
-  right: 5px;
-  bottom: 5px;
 
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
+/* Opponent V2 — scrollable cinematic polish.
+   Keep the long list + sticky action bar, but remove the visual problems around it. */
 
-  width: max-content;
-  white-space: nowrap;
+.selection {
+  padding-bottom: 104px;
+}
+
+/* Make the champion count feel intentional instead of floating by itself. */
+.selection :global(.opponent-selection__heading) {
+  align-items: flex-end;
+}
+
+.selection :global(.opponent-selection__heading > strong) {
+  padding: 7px 11px;
+  color: #d5b957;
+  border: 1px solid rgba(213, 185, 87, .16);
+  border-radius: 999px;
+  background: rgba(7, 9, 7, .54);
+  font-family: var(--font-mono), monospace;
+  font-size: .56rem;
+  font-weight: 750;
+  letter-spacing: .075em;
+}
+
+/* FEATURED ALL-STARS
+   Fill the empty right side and make "selected" meaningfully different. */
+.featuredCard.featuredCard {
+  height: 274px;
+  min-height: 274px;
+  padding: 20px 22px;
+  border-color: rgba(211, 174, 73, .24);
+  background:
+    radial-gradient(circle at 16% 45%, rgba(211, 170, 58, .075), transparent 28%),
+    radial-gradient(circle at 82% 15%, rgba(211, 170, 58, .025), transparent 32%),
+    linear-gradient(125deg, rgba(13, 14, 10, .94), rgba(5, 7, 6, .97) 58%);
+  box-shadow:
+    inset 0 1px rgba(255, 244, 199, .025),
+    0 16px 42px rgba(0, 0, 0, .22);
+}
+
+.featuredCard.featuredCard:hover,
+.featuredCard.featuredCard:focus-visible {
+  border-color: rgba(237, 207, 112, .48);
+  box-shadow:
+    inset 0 1px rgba(255, 244, 199, .04),
+    0 0 18px rgba(203, 166, 74, .07),
+    0 18px 44px rgba(0, 0, 0, .26);
+}
+
+.featuredCard.featuredSelected {
+  border-color: rgba(244, 214, 117, .88);
+  background:
+    radial-gradient(circle at 8% 52%, rgba(235, 197, 92, .18), transparent 24%),
+    linear-gradient(125deg, rgba(92, 67, 20, .24), rgba(7, 9, 7, .97) 54%);
+  box-shadow:
+    inset 0 0 0 1px rgba(244, 214, 117, .08),
+    0 0 22px rgba(203, 166, 74, .10),
+    0 18px 46px rgba(0, 0, 0, .28);
+}
+
+.featuredBody {
+  display: grid;
+  height: 100%;
+  grid-template-columns: minmax(0, 1.14fr) minmax(330px, .86fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-areas:
+    "title title"
+    "subtitle ratings"
+    "manager manager";
+  column-gap: 26px;
+  row-gap: 8px;
+  align-items: start;
+}
+
+.featuredTitle {
+  grid-area: title;
+  min-height: 25px;
+  padding-right: 108px;
+}
+
+.subtitle {
+  grid-area: subtitle;
+  align-self: center;
+  min-height: 0;
+  margin: 0 !important;
+  font-size: .68rem !important;
+}
+
+.featuredRatings.featuredRatings {
+  grid-area: ratings;
+  width: 100%;
+  max-width: none;
+  align-self: center;
+  margin: 0;
+}
+
+.managerProfile {
+  grid-area: manager;
+  align-self: stretch;
+  min-height: 0;
+  padding: 11px 14px 10px;
+  border-color: rgba(226, 191, 93, .11);
+  background:
+    linear-gradient(180deg, rgba(6, 8, 6, .56), rgba(4, 6, 5, .44));
+}
+
+.managerHeading {
+  justify-content: flex-start;
+  gap: 13px;
+}
+
+.managerHeading strong {
+  color: #d9c36f;
+  font-size: .66rem;
+}
+
+.managerMetrics {
+  gap: 5px;
+  margin: 8px 0 7px;
+}
+
+.managerMetrics > div {
+  min-height: 36px;
+  padding: 4px 3px;
+  background: rgba(220, 181, 77, .018);
+}
+
+.managerMetrics dd b {
+  font-size: .74rem;
+}
+
+.managerTactics {
+  justify-content: flex-start;
+  gap: 28px;
+  font-size: .46rem;
+}
+
+/* Historical section heading is secondary to the actual cards. */
+.selection :global(.historical-opponents > .opponent-section-heading) {
+  align-items: end;
+  margin-bottom: 11px;
+}
+
+.selection :global(.historical-opponents > .opponent-section-heading > b) {
+  color: #bfa552;
+  font-family: var(--font-mono), monospace;
+  font-size: .52rem;
+  letter-spacing: .07em;
+}
+
+/* Selected card: refined border, not a giant glow. */
+.historicalCard:global(.opponent-card--selected) {
+  border-color: rgba(241, 210, 111, .86);
+  box-shadow:
+    inset 0 0 0 1px rgba(241, 210, 111, .055),
+    0 0 18px rgba(216, 178, 75, .075),
+    0 20px 48px rgba(0,0,0,.34);
+}
+
+/* Selected label and VIEW XI were competing for the same bottom-right space. */
+.cardSelectionMark {
+  right: 70px;
+  bottom: 17px;
+  font-size: .42rem;
+}
+
+.viewXi {
+  right: 12px;
+  bottom: 11px;
+  min-height: 24px;
+}
+
+/* Keep the sticky bar — just make it obstruct less of the long card list. */
+.footer.footer {
+  height: 70px;
+  min-height: 70px;
+  bottom: 10px;
+  padding: 11px 14px;
+  margin-top: 18px;
+  border-color: rgba(199, 161, 66, .19);
+  background: rgba(7, 9, 7, .88);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.34),
+    inset 0 1px rgba(255,255,255,.018);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.footerCopy {
+  min-height: 32px;
+}
+
+.footerCopy :global(.eyebrow) {
+  font-size: .48rem;
+}
+
+.footerCopy b {
+  margin-top: 2px;
+  font-size: .86rem;
+}
+
+.footerActions {
+  gap: 7px;
+}
+
+.footerActions :global(.button) {
+  min-height: 38px;
+}
+
+.tunnelButton {
+  min-width: 166px;
+}
+
+/* Give the final row enough runway to scroll completely above the sticky footer. */
+.selection :global(.historical-opponents) {
+  padding-bottom: 12px;
+}
+
+@media (max-width: 900px) {
+  .featuredCard.featuredCard {
+    height: auto;
+    min-height: 300px;
+  }
+
+  .featuredBody {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "subtitle"
+      "ratings"
+      "manager";
+  }
+}
+
+
+/* V4 — reimplemented requested opponent-selection polish. */
+
+/* Removed intro copy in TSX; keep header tight. */
+.selection :global(.opponent-selection__heading) {
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.selection :global(.opponent-featured .opponent-section-heading) {
+  justify-content: flex-start;
+}
+
+/* Champion art should feel embedded in the FIFA-15 card surface rather than
+   like a cutout pasted on top. */
+.championImage {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 42% 28%, rgba(236, 198, 96, .24), transparent 28%),
+    radial-gradient(circle at 34% 72%, rgba(91, 119, 67, .16), transparent 43%),
+    linear-gradient(90deg, rgba(20, 29, 20, .92), rgba(8, 11, 8, .56) 58%, rgba(7, 9, 7, .12));
+}
+
+.championImage::before {
+  inset: 8% -18% -10%;
+  border-color: rgba(229, 195, 102, .10);
+  box-shadow:
+    0 0 38px rgba(210, 169, 62, .08),
+    inset 0 0 34px rgba(210, 169, 62, .06);
+}
+
+.championImage::after {
+  z-index: 2;
+  background:
+    linear-gradient(0deg, rgba(4, 7, 5, .90) 0%, rgba(4, 7, 5, .34) 18%, transparent 48%),
+    linear-gradient(90deg, transparent 35%, rgba(7, 10, 8, .20) 58%, rgba(7, 10, 8, .78) 100%);
+}
+
+.championPlayer {
+  z-index: 1;
+  object-fit: contain;
+  object-position: center bottom;
+  transform: scale(.96) translateY(1.5%);
+  transform-origin: center bottom;
+  filter:
+    drop-shadow(0 18px 24px rgba(0, 0, 0, .52))
+    drop-shadow(0 0 12px rgba(223, 183, 77, .07))
+    saturate(.94)
+    contrast(1.03);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 82%, rgba(0,0,0,.82) 92%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 0%, #000 82%, rgba(0,0,0,.82) 92%, transparent 100%);
+}
+
+.historicalCard:hover .championPlayer,
+.historicalCard:focus-within .championPlayer {
+  transform: scale(.985) translateY(.5%);
+  filter:
+    drop-shadow(0 20px 27px rgba(0, 0, 0, .58))
+    drop-shadow(0 0 16px rgba(223, 183, 77, .12))
+    saturate(.99)
+    brightness(1.035);
+}
+
+/* Strong, tasteful neon-gold selection — brighter than hover, still not yellow neon. */
+.historicalCard:global(.opponent-card--selected) {
+  border-color: rgba(248, 221, 130, .96);
+  box-shadow:
+    inset 0 0 0 1px rgba(248, 221, 130, .20),
+    0 0 0 1px rgba(248, 221, 130, .10),
+    0 0 18px rgba(232, 191, 78, .24),
+    0 0 38px rgba(210, 164, 45, .18),
+    0 24px 56px rgba(0, 0, 0, .40);
+}
+
+.historicalCard:global(.opponent-card--selected)::after {
+  background:
+    linear-gradient(125deg,
+      rgba(255, 235, 158, .62),
+      rgba(245, 212, 111, .17) 24%,
+      transparent 49%,
+      rgba(245, 212, 111, .14) 76%,
+      rgba(255, 235, 158, .50)
+    ) border-box;
+}
+
+.historicalCard:global(.opponent-card--selected) .championPlayer {
+  transform: scale(.985) translateY(.5%);
+  filter:
+    drop-shadow(0 20px 28px rgba(0, 0, 0, .58))
+    drop-shadow(0 0 17px rgba(235, 195, 88, .14))
+    saturate(1)
+    brightness(1.04);
+}
+
+.featuredCard.featuredSelected {
+  border-color: rgba(248, 221, 130, .96);
+  box-shadow:
+    inset 0 0 0 1px rgba(248, 221, 130, .18),
+    0 0 18px rgba(232, 191, 78, .22),
+    0 0 36px rgba(210, 164, 45, .16),
+    0 20px 48px rgba(0, 0, 0, .34);
+}
+
+.cardSelectionMark {
+  text-shadow: 0 0 10px rgba(235, 194, 83, .32);
+}
+
+
+/* V7 — champion cards are fully clickable.
+   Player artwork stays dark, mysterious and subdued until selected. */
+
+.historicalCard {
+  cursor: pointer;
+}
+
+.historicalCard:focus-visible {
+  outline: 1px solid rgba(242, 215, 125, .72);
+  outline-offset: 3px;
+}
+
+/* Old invisible pick overlay is no longer used. */
+.cardPick {
+  display: none !important;
+}
+
+/* Moody base treatment — preserve existing image fit/positioning. */
+.championImage {
+  background:
+    radial-gradient(circle at 47% 40%, rgba(176, 143, 55, .11), transparent 31%),
+    radial-gradient(circle at 50% 92%, rgba(41, 62, 39, .16), transparent 46%),
+    linear-gradient(100deg, rgba(14, 18, 13, .96), rgba(5, 8, 6, .34));
+}
+
+.championImage::before {
+  border-color: rgba(200, 165, 73, .055);
+  box-shadow:
+    0 0 34px rgba(185, 143, 39, .055),
+    inset 0 0 38px rgba(185, 143, 39, .04);
+}
+
+/* Dark vignette over the cutout while the opponent is idle. */
+.championImage::after {
+  z-index: 2;
+  background:
+    radial-gradient(
+      ellipse at 47% 42%,
+      transparent 18%,
+      rgba(4, 7, 5, .08) 48%,
+      rgba(3, 5, 4, .38) 82%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(3, 5, 4, .68) 0%,
+      rgba(3, 5, 4, .18) 29%,
+      transparent 58%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(4, 7, 5, .07) 0%,
+      rgba(4, 7, 5, .03) 50%,
+      rgba(4, 7, 5, .58) 100%
+    );
+  transition: opacity 260ms ease, background 260ms ease;
+}
+
+.championPlayer {
+  /* Do not change geometry here — only tone. */
+  transform: none;
+  filter:
+    brightness(.58)
+    saturate(.62)
+    contrast(1.13)
+    sepia(.05)
+    drop-shadow(0 18px 24px rgba(0, 0, 0, .68));
+  transition:
+    filter 280ms ease,
+    transform 300ms cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Hover gives only a hint of life; selection is the real reveal. */
+.historicalCard:hover:not(:global(.opponent-card--selected)) .championPlayer,
+.historicalCard:focus-visible:not(:global(.opponent-card--selected)) .championPlayer {
+  transform: translateY(-2px);
+  filter:
+    brightness(.70)
+    saturate(.76)
+    contrast(1.10)
+    drop-shadow(0 20px 26px rgba(0, 0, 0, .68))
+    drop-shadow(0 0 10px rgba(212, 171, 63, .07));
+}
+
+/* Selected opponent comes alive: richer kit color, brighter skin/trophy,
+   warmer card lighting, but still premium rather than fluorescent. */
+.historicalCard:global(.opponent-card--selected) .championPlayer {
+  transform: translateY(-3px) scale(1.012);
+  filter:
+    brightness(1.03)
+    saturate(1.06)
+    contrast(1.04)
+    drop-shadow(0 21px 28px rgba(0, 0, 0, .62))
+    drop-shadow(0 0 18px rgba(233, 193, 80, .16));
+}
+
+.historicalCard:global(.opponent-card--selected) .championImage {
+  background:
+    radial-gradient(circle at 47% 40%, rgba(239, 199, 91, .26), transparent 33%),
+    radial-gradient(circle at 50% 94%, rgba(79, 106, 59, .18), transparent 48%),
+    linear-gradient(100deg, rgba(24, 28, 17, .94), rgba(6, 9, 7, .24));
+}
+
+.historicalCard:global(.opponent-card--selected) .championImage::after {
+  opacity: .34;
+}
+
+/* Era-like neon gold selection edge. */
+.historicalCard:global(.opponent-card--selected) {
+  border-color: rgba(250, 220, 118, .96);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 231, 145, .12),
+    0 0 0 1px rgba(244, 207, 94, .09),
+    0 0 10px rgba(240, 198, 70, .32),
+    0 0 25px rgba(218, 166, 42, .22),
+    0 20px 52px rgba(0, 0, 0, .42);
+}
+
+.historicalCard:global(.opponent-card--selected)::after {
+  background:
+    linear-gradient(
+      125deg,
+      rgba(255, 231, 145, .54),
+      rgba(250, 215, 105, .14) 24%,
+      transparent 48%,
+      rgba(246, 207, 92, .10) 76%,
+      rgba(255, 230, 136, .46)
+    ) border-box;
+}
+
+/* Keep the dedicated View XI control clearly above the card click target. */
+.viewXi {
+  z-index: 5;
+}
+
+
+/* V8 — slightly brighter idle players + near-black FIFA 15 gold-particle cards.
+   Geometry is untouched. */
+
+/* Strip the remaining green cast from the champion cards. */
+.historicalCard {
+  background:
+    radial-gradient(ellipse at 18% 42%, rgba(190, 149, 48, .075), transparent 29%),
+    radial-gradient(ellipse at 78% 115%, rgba(160, 119, 29, .035), transparent 38%),
+    linear-gradient(145deg, #0d0e0b 0%, #070806 48%, #030403 100%);
+}
+
+/* More visible, restrained gold dust on the black surface. */
+.historicalCard::before {
+  background:
+    radial-gradient(circle at 11% 17%, rgba(242, 205, 101, .40) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 31% 71%, rgba(205, 159, 54, .28) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 52% 27%, rgba(238, 195, 79, .24) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 81% 66%, rgba(213, 165, 55, .20) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 91% 20%, rgba(245, 211, 118, .17) 0 1px, transparent 1.4px),
+    linear-gradient(110deg, transparent 9%, rgba(213, 168, 62, .032) 31%, transparent 55%);
+  background-size:
+    88px 88px,
+    121px 121px,
+    153px 153px,
+    111px 111px,
+    184px 184px,
+    auto;
+  opacity: .72;
+}
+
+/* Player side is now black with only a restrained warm aura. */
+.championImage {
+  background:
+    radial-gradient(circle at 46% 39%, rgba(205, 161, 54, .10), transparent 32%),
+    radial-gradient(circle at 45% 85%, rgba(148, 108, 28, .045), transparent 46%),
+    linear-gradient(100deg, rgba(9, 10, 8, .98), rgba(4, 5, 4, .70));
+}
+
+.championImage::before {
+  border-color: rgba(204, 164, 66, .045);
+  box-shadow:
+    0 0 30px rgba(191, 145, 38, .045),
+    inset 0 0 34px rgba(191, 145, 38, .028);
+}
+
+/* Lift idle players enough to read their faces/kits, while keeping them moody. */
+.championPlayer {
+  filter:
+    brightness(.69)
+    saturate(.70)
+    contrast(1.11)
+    sepia(.035)
+    drop-shadow(0 18px 24px rgba(0, 0, 0, .66))
+    drop-shadow(0 0 10px rgba(197, 151, 45, .035));
+}
+
+/* Hover = a little more life, still clearly below selected. */
+.historicalCard:hover:not(:global(.opponent-card--selected)) .championPlayer,
+.historicalCard:focus-visible:not(:global(.opponent-card--selected)) .championPlayer {
+  filter:
+    brightness(.79)
+    saturate(.82)
+    contrast(1.08)
+    drop-shadow(0 20px 26px rgba(0, 0, 0, .66))
+    drop-shadow(0 0 12px rgba(211, 168, 59, .08));
+}
+
+/* Selected cards retain the same bright reveal but gain warmer particle atmosphere. */
+.historicalCard:global(.opponent-card--selected) {
+  background:
+    radial-gradient(ellipse at 18% 42%, rgba(231, 184, 67, .14), transparent 31%),
+    radial-gradient(ellipse at 76% 110%, rgba(188, 142, 37, .055), transparent 40%),
+    linear-gradient(145deg, #12120c 0%, #080906 47%, #030403 100%);
+}
+
+.historicalCard:global(.opponent-card--selected)::before {
+  opacity: .96;
+}
+
+.historicalCard:global(.opponent-card--selected) .championImage {
+  background:
+    radial-gradient(circle at 46% 39%, rgba(236, 192, 74, .22), transparent 34%),
+    radial-gradient(circle at 45% 88%, rgba(176, 130, 34, .07), transparent 48%),
+    linear-gradient(100deg, rgba(15, 15, 10, .98), rgba(5, 6, 4, .62));
+}
+
+
+/* V9 — mock-inspired historical champion polish.
+   Keep Trophy XI's existing structure/typography and small SELECTED label.
+   No ribbon. No per-player resizing. */
+
+/* One continuous black/gold card surface.
+   The warm artwork light now belongs to the CARD rather than ending at the
+   player-column boundary, which removes the obvious internal vertical seam. */
+.historicalCard {
+  background:
+    radial-gradient(ellipse at 17% 43%, rgba(201, 157, 49, .095), transparent 31%),
+    radial-gradient(ellipse at 43% 8%, rgba(205, 164, 62, .030), transparent 31%),
+    radial-gradient(ellipse at 82% 112%, rgba(171, 127, 31, .030), transparent 38%),
+    linear-gradient(112deg, #0d0e0b 0%, #080906 46%, #050705 72%, #030403 100%);
+}
+
+/* Keep the player column transparent so it no longer reads as a second panel. */
+.championImage {
+  background: transparent;
+}
+
+/* Soft FIFA-style halo/ring behind the player without creating a box edge. */
+.championImage::before {
+  inset: 7% -18% -10%;
+  border-color: rgba(216, 176, 74, .050);
+  background:
+    radial-gradient(
+      ellipse at 45% 46%,
+      rgba(210, 166, 58, .105) 0%,
+      rgba(169, 126, 35, .040) 43%,
+      transparent 72%
+    );
+  box-shadow:
+    0 0 34px rgba(195, 150, 39, .045),
+    inset 0 0 34px rgba(195, 150, 39, .025);
+}
+
+/* Moody vignette only. Crucially, there is no dark right-edge curtain anymore. */
+.championImage::after {
+  background:
+    radial-gradient(
+      ellipse at 46% 43%,
+      transparent 20%,
+      rgba(3, 5, 4, .055) 54%,
+      rgba(3, 5, 4, .28) 88%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(3, 5, 4, .67) 0%,
+      rgba(3, 5, 4, .15) 29%,
+      transparent 58%
+    );
+}
+
+/* The mock works because the player does NOT change size when chosen.
+   Use lighting only so every PNG keeps exactly the same fit. */
+.historicalCard:hover:not(:global(.opponent-card--selected)) .championPlayer,
+.historicalCard:focus-visible:not(:global(.opponent-card--selected)) .championPlayer {
+  transform: none;
+  filter:
+    brightness(.80)
+    saturate(.82)
+    contrast(1.08)
+    drop-shadow(0 20px 26px rgba(0, 0, 0, .66))
+    drop-shadow(0 0 12px rgba(211, 168, 59, .08));
+}
+
+.historicalCard:global(.opponent-card--selected) .championPlayer {
+  transform: none;
+  filter:
+    brightness(1.08)
+    saturate(1.09)
+    contrast(1.035)
+    drop-shadow(0 21px 29px rgba(0, 0, 0, .60))
+    drop-shadow(0 0 21px rgba(239, 199, 82, .20));
+}
+
+/* Selected card gets the hotter luminous rim from the mock, but stays tasteful. */
+.historicalCard:global(.opponent-card--selected) {
+  border-color: #f4d568;
+  background:
+    radial-gradient(ellipse at 17% 43%, rgba(236, 190, 70, .175), transparent 34%),
+    radial-gradient(ellipse at 47% -6%, rgba(244, 205, 93, .060), transparent 34%),
+    radial-gradient(ellipse at 83% 112%, rgba(194, 145, 36, .040), transparent 40%),
+    linear-gradient(112deg, #12120c 0%, #090a06 46%, #050705 73%, #030403 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 237, 164, .19),
+    inset 0 0 18px rgba(232, 191, 78, .045),
+    0 0 0 1px rgba(244, 207, 94, .12),
+    0 0 9px rgba(247, 207, 76, .42),
+    0 0 22px rgba(225, 174, 46, .28),
+    0 0 42px rgba(185, 128, 22, .14),
+    0 22px 54px rgba(0, 0, 0, .44);
+}
+
+/* Let more of the selected portrait/trophy through instead of dimming it. */
+.historicalCard:global(.opponent-card--selected) .championImage {
+  background: transparent;
+}
+
+.historicalCard:global(.opponent-card--selected) .championImage::before {
+  border-color: rgba(241, 204, 105, .075);
+  background:
+    radial-gradient(
+      ellipse at 45% 46%,
+      rgba(239, 194, 76, .225) 0%,
+      rgba(201, 150, 39, .075) 44%,
+      transparent 74%
+    );
+  box-shadow:
+    0 0 42px rgba(225, 176, 55, .085),
+    inset 0 0 40px rgba(225, 176, 55, .045);
+}
+
+.historicalCard:global(.opponent-card--selected) .championImage::after {
+  opacity: .18;
+}
+
+/* Brighter edge sweep, no diagonal SELECTED ribbon. */
+.historicalCard:global(.opponent-card--selected)::after {
+  background:
+    linear-gradient(
+      124deg,
+      rgba(255, 240, 174, .72),
+      rgba(250, 217, 111, .22) 19%,
+      transparent 43%,
+      transparent 61%,
+      rgba(247, 210, 96, .17) 80%,
+      rgba(255, 235, 153, .63)
+    ) border-box;
+}
+
+/* In the mock the selected OVERALL tile gets a restrained gold emphasis.
+   Reproduce that without changing layout. */
+.historicalCard:global(.opponent-card--selected)
+  :global(.opponent-card__ratings span:last-child) {
+  border-color: rgba(238, 201, 88, .42);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(239, 197, 77, .12), transparent 70%),
+    rgba(208, 164, 49, .040);
+  box-shadow:
+    inset 0 0 12px rgba(230, 187, 67, .045),
+    0 0 10px rgba(222, 176, 55, .055);
+}
+
+.historicalCard:global(.opponent-card--selected)
+  :global(.opponent-card__ratings span:last-child b) {
+  color: #f3d36b;
+}
+
+/* Refine the existing small SELECTED treatment rather than adding the ribbon. */
+.historicalCard:global(.opponent-card--selected) .cardSelectionMark {
+  color: #f1d36b;
+  text-shadow:
+    0 0 8px rgba(239, 198, 76, .38),
+    0 0 16px rgba(207, 153, 35, .14);
+}
+
+/* Slightly richer idle art, still clearly darker than selected. */
+.championPlayer {
+  filter:
+    brightness(.72)
+    saturate(.72)
+    contrast(1.10)
+    sepia(.025)
+    drop-shadow(0 18px 24px rgba(0, 0, 0, .66))
+    drop-shadow(0 0 10px rgba(197, 151, 45, .040));
+}
+
+
+/* V10 — per-player fit + restore selected-player scale.
+   Order follows historicalOpponents newest-first:
+   1  2026 Yamal
+   2  2022 Messi
+   3  2018 Mbappé
+   4  2014 Götze
+   5  2010 Iniesta
+   6  2006 Pirlo
+   7  2002 Ronaldo Nazário
+   8  1998 Zidane
+   9  1994 Romário
+   10 1990 Matthäus
+   11 1986 Maradona
+   12 1982 Rossi
+   13 1978 Passarella
+   14 1974 Beckenbauer
+   15 1970 Pelé
+*/
+
+/* Default: normal size idle, tiny lift on hover, slight scale-up when selected. */
+.championGrid > .historicalCard {
+  --art-idle-scale: 1;
+  --art-hover-scale: 1.01;
+  --art-selected-scale: 1.025;
+}
+
+/* Götze — bring in noticeably. */
+.championGrid > .historicalCard:nth-child(4) {
+  --art-idle-scale: .94;
+  --art-hover-scale: .95;
+  --art-selected-scale: .965;
+}
+
+/* Iniesta — bring in noticeably. */
+.championGrid > .historicalCard:nth-child(5) {
+  --art-idle-scale: .945;
+  --art-hover-scale: .955;
+  --art-selected-scale: .97;
+}
+
+/* Pirlo — bring in noticeably. */
+.championGrid > .historicalCard:nth-child(6) {
+  --art-idle-scale: .945;
+  --art-hover-scale: .955;
+  --art-selected-scale: .97;
+}
+
+/* R9 — bring in noticeably. */
+.championGrid > .historicalCard:nth-child(7) {
+  --art-idle-scale: .945;
+  --art-hover-scale: .955;
+  --art-selected-scale: .97;
+}
+
+/* Zidane — only a tiny reduction. */
+.championGrid > .historicalCard:nth-child(8) {
+  --art-idle-scale: .985;
+  --art-hover-scale: .995;
+  --art-selected-scale: 1.01;
+}
+
+/* Romário — reduce enough to give the trophy/body breathing room. */
+.championGrid > .historicalCard:nth-child(9) {
+  --art-idle-scale: .95;
+  --art-hover-scale: .96;
+  --art-selected-scale: .975;
+}
+
+/* Matthäus — intentionally larger; his source cutout is undersized in the card. */
+.championGrid > .historicalCard:nth-child(10) {
+  --art-idle-scale: 1.10;
+  --art-hover-scale: 1.115;
+  --art-selected-scale: 1.135;
+}
+
+/* Rossi — only a tiny reduction. */
+.championGrid > .historicalCard:nth-child(12) {
+  --art-idle-scale: .985;
+  --art-hover-scale: .995;
+  --art-selected-scale: 1.01;
+}
+
+/* Beckenbauer — bring the tall/wide cutout in. */
+.championGrid > .historicalCard:nth-child(14) {
+  --art-idle-scale: .945;
+  --art-hover-scale: .955;
+  --art-selected-scale: .97;
+}
+
+/* Apply the per-card fit without changing the existing bottom anchoring. */
+.championGrid > .historicalCard .championPlayer {
+  transform: scale(var(--art-idle-scale));
+  transform-origin: center bottom;
+}
+
+/* Hover stays subtle and respects each player's custom fit. */
+.championGrid
+  > .historicalCard:hover:not(:global(.opponent-card--selected))
+  .championPlayer,
+.championGrid
+  > .historicalCard:focus-visible:not(:global(.opponent-card--selected))
+  .championPlayer {
+  transform: translateY(-1px) scale(var(--art-hover-scale));
+}
+
+/* Restore the "chosen player comes forward" effect.
+   This is scaling only — no per-player shrinking when selected. */
+.championGrid
+  > .historicalCard:global(.opponent-card--selected)
+  .championPlayer {
+  transform: translateY(-2px) scale(var(--art-selected-scale));
+}
+
+
+/* V11 — final player-art positioning + remove transparent-head fade. */
+
+/* The earlier champion art mask faded the TOP of the PNG, which made heads/hair
+   look semi-transparent. Keep the full transparent cutout completely opaque. */
+.championPlayer {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Horizontal art offset defaults. */
+.championGrid > .historicalCard {
+  --art-x: 0px;
+}
+
+/* Matthäus — keep his larger scale from V10 and move him farther right. */
+.championGrid > .historicalCard:nth-child(10) {
+  --art-x: 18px;
+}
+
+/* Maradona — make him noticeably larger and move him slightly right. */
+.championGrid > .historicalCard:nth-child(11) {
+  --art-x: 8px;
+  --art-idle-scale: 1.075;
+  --art-hover-scale: 1.09;
+  --art-selected-scale: 1.115;
+}
+
+/* Apply horizontal positioning while preserving each player's custom scale. */
+.championGrid > .historicalCard .championPlayer {
+  transform:
+    translateX(var(--art-x))
+    scale(var(--art-idle-scale));
+  transform-origin: center bottom;
+}
+
+/* Hover: same custom position, tiny lift/scale. */
+.championGrid
+  > .historicalCard:hover:not(:global(.opponent-card--selected))
+  .championPlayer,
+.championGrid
+  > .historicalCard:focus-visible:not(:global(.opponent-card--selected))
+  .championPlayer {
+  transform:
+    translateX(var(--art-x))
+    translateY(-1px)
+    scale(var(--art-hover-scale));
+}
+
+/* Selected: same custom position, selected scale comes forward. */
+.championGrid
+  > .historicalCard:global(.opponent-card--selected)
+  .championPlayer {
+  transform:
+    translateX(var(--art-x))
+    translateY(-2px)
+    scale(var(--art-selected-scale));
 }
