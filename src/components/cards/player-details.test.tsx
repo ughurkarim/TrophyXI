@@ -174,11 +174,13 @@ describe("PlayerDetails", () => {
     const rows = within(accolades).getAllByRole("listitem");
     expect(rows.map((row) => row.textContent)).toEqual(
       expect.arrayContaining([
-        expect.stringContaining("1× WORLD CUP CHAMPION"),
-        expect.stringContaining("1× UEFA CHAMPIONS LEAGUE CHAMPION"),
-        expect.stringContaining("2× DOMESTIC LEAGUE CHAMPION"),
+        expect.stringContaining("WORLD CUP WINNER — 2018"),
+        expect.stringContaining("1× DOMESTIC LEAGUE CHAMPION"),
       ]),
     );
+    expect(
+      within(accolades).queryByText(/UEFA CHAMPIONS LEAGUE CHAMPION/i),
+    ).not.toBeInTheDocument();
     expect(within(accolades).queryByText(/source/i)).not.toBeInTheDocument();
     expect(within(accolades).queryByRole("link")).not.toBeInTheDocument();
   });

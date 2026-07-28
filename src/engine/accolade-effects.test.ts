@@ -17,6 +17,7 @@ const playerWithChampionCount = (count: number) => {
   )!;
   return {
     ...base,
+    playerIdentityId: "accolade-effect-test-player",
     achievements: [],
     top100Player: false,
     careerAccolades: [{ ...source, count }],

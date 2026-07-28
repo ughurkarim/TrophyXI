@@ -9,11 +9,40 @@ import {
   importedPlayerIdentityPortraitRecords,
   type PlayerIdentityPortraitRecord,
 } from "@/data/player-identity-portraits";
+import auditedTournamentPortraitsJson from "@/data/tournament-edition-player-portraits.generated.json";
 import { allPlayersBeforeIdentityPruning } from "@/data/players";
 import { userSuppliedPlayerImages } from "@/data/user-player-portraits";
 import type { ImageAttribution } from "@/types/game";
 
 type GameFaceKind = ImageAttribution["kind"];
+type AuditedTournamentPortraitRegistry = {
+  version: number;
+  generatedAt: string;
+  portraits: Array<{
+    cardId: string;
+    playerIdentityId: string;
+    tournamentYear: number;
+    gameEdition: string;
+    soFifaPlayerId: string;
+    sourcePage: string;
+    sourceImageUrl: string;
+    localPath: string;
+    sha256: string;
+    cacheVersion: string;
+  }>;
+};
+
+const STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR = new Map<
+  number,
+  { gameEdition: string; launchYear: number; version: number }
+>([
+  [2014, { gameEdition: "FIFA 14", launchYear: 2013, version: 14 }],
+  [2018, { gameEdition: "FIFA 18", launchYear: 2017, version: 18 }],
+  [2022, { gameEdition: "FIFA 23", launchYear: 2022, version: 23 }],
+  [2026, { gameEdition: "EA SPORTS FC 26", launchYear: 2025, version: 26 }],
+]);
+const auditedTournamentPortraits =
+  auditedTournamentPortraitsJson as AuditedTournamentPortraitRegistry;
 const archivedPlayersById = new Map(
   allPlayersBeforeIdentityPruning.map((player) => [player.id, player]),
 );
@@ -91,7 +120,7 @@ const buildAttribution = (
   };
 };
 
-export const tournamentEditionPlayerImages =
+const legacyTournamentEditionPlayerImages =
   playerLocalPortraitRecords
     .filter((record) => record.portraitScope === "card-specific")
     .map(buildAttribution);
@@ -111,9 +140,9 @@ export const importedPlayerIdentityImages =
           record.sourceImageUrl.endsWith("/26_120.png")),
     )
     .map(buildAttribution);
-const directPlayerImageById = new Map(
+const legacyDirectPlayerImageById = new Map(
   [
-    ...tournamentEditionPlayerImages,
+    ...legacyTournamentEditionPlayerImages,
     ...historicalPlayerImages,
     ...importedPlayerIdentityImages,
     ...userSuppliedPlayerImages.filter(
@@ -121,16 +150,82 @@ const directPlayerImageById = new Map(
     ),
   ].map((image) => [image.id, image]),
 );
+const legacyDirectPlayerImages = [...legacyDirectPlayerImageById.values()];
+
+export const tournamentEditionPlayerImages: ImageAttribution[] =
+  auditedTournamentPortraits.portraits.map((record) => {
+    const player = archivedPlayersById.get(record.cardId);
+    const required = STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.get(
+      record.tournamentYear,
+    );
+    if (
+      auditedTournamentPortraits.version !== 1 ||
+      !player ||
+      !required ||
+      player.playerIdentityId !== record.playerIdentityId ||
+      player.tournamentYear !== record.tournamentYear ||
+      record.gameEdition !== required.gameEdition ||
+      record.localPath !==
+        `/players/game-faces/${record.cardId}.png` ||
+      !record.sourcePage.includes(`/player/${record.soFifaPlayerId}`) ||
+      !record.sourceImageUrl.endsWith(
+        `/${required.version}_120.png`,
+      )
+    ) {
+      throw new Error(
+        `${record.cardId}: audited tournament portrait registry mismatch`,
+      );
+    }
+    return {
+      id: record.cardId,
+      kind: "player",
+      subjectName: player.playerName,
+      tournamentYear: player.tournamentYear,
+      file: record.localPath,
+      cacheVersion: record.cacheVersion,
+      sourceFile: record.sourceImageUrl,
+      sourcePage: record.sourcePage,
+      author: "EA SPORTS game-face asset",
+      license: "Cleared for Trophy XI project use",
+      licenseUrl: null,
+      changes:
+        "Retrieved independently from the required game-edition endpoint and stored as a card-specific PNG after name, date-of-birth, nationality, source-ID, format, and duplicate validation.",
+      fallback: false,
+      representedTeam: player.countryName,
+      photographedYear: null,
+      exactTournamentImage: true,
+      isNationalTeamKit: false,
+      photoContext: "tournament-edition-game-face",
+      cropFocus: { x: 50, y: 20 },
+      gameEdition: record.gameEdition,
+      gameEditionLaunchYear: required.launchYear,
+      sourceWebsite: "SoFIFA",
+      retrievedOn: auditedTournamentPortraits.generatedAt.slice(0, 10),
+      matchQuality: "edition-verified",
+      requiredAttribution: `${record.gameEdition} player game face sourced through SoFIFA.`,
+    };
+  });
+
+const directPlayerImageById = new Map(
+  [
+    ...legacyDirectPlayerImages.filter(
+      (image) =>
+        !STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(
+          image.tournamentYear,
+        ),
+    ),
+    ...tournamentEditionPlayerImages,
+  ].map((image) => [image.id, image]),
+);
 const directPlayerImages = [...directPlayerImageById.values()];
 
 /**
- * Every locally verified face can represent another tournament card for the
- * same person. The closest available tournament year wins; ties prefer the
- * newer portrait and then a stable card id. Reused images are explicitly
- * labeled as identity-only fallbacks rather than exact-tournament photos.
+ * Preserve the pre-audit source pool when resolving non-target identity
+ * fallbacks. Strict-edition target portraits do not become fallback sources,
+ * so this Step 1 change cannot alter another tournament card's portrait.
  */
 const directPortraitsByIdentity = new Map<string, ImageAttribution[]>();
-for (const image of directPlayerImages) {
+for (const image of legacyDirectPlayerImages) {
   const sourceCard = archivedPlayersById.get(image.id);
   if (!sourceCard) continue;
   directPortraitsByIdentity.set(sourceCard.playerIdentityId, [
@@ -142,7 +237,11 @@ for (const image of directPlayerImages) {
 export const identityFallbackPlayerImages =
   allPlayersBeforeIdentityPruning.flatMap((player) => {
     if (directPlayerImageById.has(player.imageId)) return [];
-    if (player.tournamentYear === 2026) return [];
+    if (
+      STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(player.tournamentYear)
+    ) {
+      return [];
+    }
     const source = [
       ...(directPortraitsByIdentity.get(player.playerIdentityId) ?? []),
     ].sort(

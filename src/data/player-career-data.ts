@@ -1,4 +1,5 @@
 import generatedJson from "@/data/player-career.generated.json";
+import cardAccoladesJson from "@/data/player-accolades-by-card.generated.json";
 import type {
   PlayerAccolade,
   PlayerCareerStats,
@@ -19,8 +20,22 @@ type GeneratedCareerArchive = {
 };
 
 const generated = generatedJson as unknown as GeneratedCareerArchive;
+const cardAccolades = cardAccoladesJson as unknown as {
+  version: number;
+  generatedAt: string;
+  cards: Record<
+    string,
+    {
+      cutoffDate: string;
+      accolades: PlayerAccolade[];
+    }
+  >;
+};
 
 export const playerCareerDataGeneratedAt = generated.generatedAt;
 export const playerCareerDataByIdentityId = new Map(
   Object.entries(generated.players),
+);
+export const playerAccoladesByCardId = new Map(
+  Object.entries(cardAccolades.cards),
 );
