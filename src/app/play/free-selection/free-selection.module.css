@@ -3668,3 +3668,139 @@ button.statusStat:hover {
     letter-spacing: .11em;
   }
 }
+
+/* v30 — keep Free Selection search results expanded from the top.
+   The right panel has five stacked sections, so the actual results list
+   must own the only flexible row. */
+.playerPanel {
+  grid-template-rows:
+    auto
+    auto
+    auto
+    auto
+    minmax(0, 1fr) !important;
+}
+
+.resultsHeader {
+  grid-row: 4;
+  align-self: start;
+  min-height: 0;
+  margin: 0;
+}
+
+.playerResults {
+  grid-row: 5;
+  min-height: 0;
+  align-self: stretch;
+  align-content: start;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.emptyState,
+.filledActions {
+  grid-row: 1 / -1;
+}
+
+/* v31 — Free Selection candidate rows use each player's actual rarity color.
+   CSS-only mapping reads the status class already rendered by CircularPortrait,
+   so no page.tsx change is required. */
+.recommendation {
+  --candidate-tier: #ffe26f;
+  --candidate-tier-rgb: 255, 226, 111;
+}
+
+.recommendation:has(:global(.circular-portrait--legend)) {
+  --candidate-tier: #ffe26f;
+  --candidate-tier-rgb: 255, 226, 111;
+}
+
+.recommendation:has(:global(.circular-portrait--icon)) {
+  --candidate-tier: #ff6ef1;
+  --candidate-tier-rgb: 255, 110, 241;
+}
+
+.recommendation:has(:global(.circular-portrait--elite)) {
+  --candidate-tier: #bd7cf4;
+  --candidate-tier-rgb: 189, 124, 244;
+}
+
+.recommendation:has(:global(.circular-portrait--standout)) {
+  --candidate-tier: #45d39a;
+  --candidate-tier-rgb: 69, 211, 154;
+}
+
+.recommendation:has(:global(.circular-portrait--reliable)) {
+  --candidate-tier: #58a1eb;
+  --candidate-tier-rgb: 88, 161, 235;
+}
+
+.recommendation:has(:global(.circular-portrait--role-player)) {
+  --candidate-tier: #c7ccd4;
+  --candidate-tier-rgb: 199, 204, 212;
+}
+
+.recommendation:has(:global(.circular-portrait--limited)) {
+  --candidate-tier: #b87333;
+  --candidate-tier-rgb: 184, 115, 51;
+}
+
+/* Default row: visible tier edge without turning every result into a selected card. */
+.recommendation {
+  border-color: rgba(var(--candidate-tier-rgb), .34) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--candidate-tier-rgb), .025),
+    0 0 8px rgba(var(--candidate-tier-rgb), .025);
+}
+
+.recommendation:hover {
+  border-color: rgba(var(--candidate-tier-rgb), .58) !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(var(--candidate-tier-rgb), .055),
+      rgba(7, 9, 7, .80) 52%
+    ) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--candidate-tier-rgb), .055),
+    0 0 11px rgba(var(--candidate-tier-rgb), .075);
+}
+
+/* BEST remains a gold label, but the card itself keeps its rarity color. */
+.recommendation[data-best="true"] {
+  border-color: rgba(var(--candidate-tier-rgb), .48) !important;
+}
+
+.recommendation[data-selected="true"] {
+  border-color: rgba(var(--candidate-tier-rgb), .88) !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(var(--candidate-tier-rgb), .12),
+      rgba(9, 11, 9, .87) 52%
+    ) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--candidate-tier-rgb), .11),
+    0 0 10px rgba(var(--candidate-tier-rgb), .13),
+    0 0 20px rgba(var(--candidate-tier-rgb), .06) !important;
+}
+
+/* Match portrait and OVR accents to the same tier. */
+.recommendation :global(.circular-portrait) {
+  --era-accent: var(--candidate-tier) !important;
+  border-color: rgba(var(--candidate-tier-rgb), .76) !important;
+  box-shadow:
+    0 0 7px rgba(var(--candidate-tier-rgb), .13) !important;
+}
+
+.recommendation :global(.circular-portrait__mask) {
+  border-color: rgba(var(--candidate-tier-rgb), .92) !important;
+  box-shadow:
+    inset 0 0 9px rgba(0, 0, 0, .18),
+    0 0 7px rgba(var(--candidate-tier-rgb), .16) !important;
+}
+
+.recommendation .candidateRating strong {
+  color: var(--candidate-tier) !important;
+  text-shadow: 0 0 8px rgba(var(--candidate-tier-rgb), .10);
+}

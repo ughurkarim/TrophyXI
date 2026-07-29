@@ -10415,12 +10415,12 @@
       {
         "cardId": "ezri-konsa-2026",
         "playerIdentityId": "ezri-konsa",
-        "playerName": "Ezri KONSA",
+        "playerName": "Ezri Konsa",
         "teamCode": "ENG",
         "shirtNumber": 2,
         "primaryPosition": "CB",
         "fifaPlayerId": "403049",
-        "fifaPlayerName": "Ezri KONSA",
+        "fifaPlayerName": "Ezri Konsa",
         "tournamentFinish": "third place",
         "tournamentEvidence": {
           "matchesPlayed": 8,
@@ -10615,7 +10615,7 @@
           "savePercentage": null,
           "impactPercentile": 0.894
         },
-        "overall": 95,
+        "overall": 92,
         "ratingBasis": "manual-elite-anchor",
         "ratingRationale": "Bronze Boot winner with seven goals during England’s third-place run. FIFA records 698.74 minutes across 8 matches, 7 goals, and 1 assists for a third place team."
       },
@@ -11512,7 +11512,7 @@
           "savePercentage": 5.5,
           "impactPercentile": 0.128
         },
-        "overall": 95,
+        "overall": 93,
         "ratingBasis": "manual-elite-anchor",
         "ratingRationale": "Golden Glove winner and champion after seven clean sheets and one goal conceded. FIFA records 857.42 minutes across 8 matches, 0 goals, and 0 assists for a champion team."
       },

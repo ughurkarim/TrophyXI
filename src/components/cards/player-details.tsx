@@ -6,7 +6,11 @@ import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { PlayerAccolades } from "@/components/cards/player-accolades";
 import { PlayerPortrait } from "@/components/cards/player-portrait";
 import { players } from "@/data/players";
-import { cn, flagForCountry } from "@/lib/utils";
+import {
+  cn,
+  flagForCountry,
+  formatPlayerDisplayName,
+} from "@/lib/utils";
 import type { PlayerTournamentCard } from "@/types/game";
 import styles from "./player-details.module.css";
 
@@ -117,6 +121,11 @@ export function PlayerDetails({
   const [selectedVersionId, setSelectedVersionId] = useState(player.id);
   const activePlayer =
     versions.find((version) => version.id === selectedVersionId) ?? player;
+  const activePlayerName = formatPlayerDisplayName(activePlayer.playerName);
+  const activePlayerForDisplay =
+    activePlayerName === activePlayer.playerName
+      ? activePlayer
+      : { ...activePlayer, playerName: activePlayerName };
   const activeFitContext = activePlayer.id === player.id ? fitContext : undefined;
   const tournamentStats = (
     activePlayer.primaryPosition === "GK"
@@ -170,13 +179,13 @@ export function PlayerDetails({
           <X size={18} aria-hidden />
         </button>
         <div className={cn("player-drawer__hero", styles.hero)}>
-          <PlayerPortrait player={activePlayer} />
+          <PlayerPortrait player={activePlayerForDisplay} />
           <div className={styles.heroCopy}>
             <span className="eyebrow eyebrow--gold">
               {flagForCountry(activePlayer.countryCode)}{" "}
               {activePlayer.countryName} · {activePlayer.tournamentYear}
             </span>
-            <h2 id="player-detail-title">{activePlayer.playerName}</h2>
+            <h2 id="player-detail-title">{activePlayerName}</h2>
             <p>
               {activePlayer.archetype} · {activePlayer.primaryPosition}
             </p>
@@ -195,19 +204,20 @@ export function PlayerDetails({
           <div className={styles.versionList}>
             {versions.map((version) => {
               const current = version.id === activePlayer.id;
+              const versionName = formatPlayerDisplayName(version.playerName);
               return (
                 <button
                   type="button"
                   key={version.id}
                   className={cn(styles.version, current && styles.currentVersion)}
                   aria-pressed={current}
-                  aria-label={`Open ${version.playerName} ${version.tournamentYear} card, rated ${version.overall}`}
+                  aria-label={`Open ${versionName} ${version.tournamentYear} card, rated ${version.overall}`}
                   onClick={() => setSelectedVersionId(version.id)}
                 >
                   <span className={styles.versionPortrait} aria-hidden>
                     <CircularPortrait
                       imageId={version.imageId}
-                      subjectName={version.playerName}
+                      subjectName={versionName}
                       era={version.era}
                       statusTier={version.statusTier}
                       countryCode={version.countryCode}
@@ -352,7 +362,7 @@ export function PlayerDetails({
           </div>
         </section>
 
-        <PlayerAccolades player={activePlayer} />
+        <PlayerAccolades player={activePlayerForDisplay} />
       </aside>
     </div>
   );
