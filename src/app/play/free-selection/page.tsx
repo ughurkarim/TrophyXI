@@ -358,7 +358,7 @@ export default function FreeSelectionPage() {
           <section className={styles.pitchPanel}>
             <span className={styles.formationLabel}>{formation.name}</span>
             <div className={styles.pitchAura}>
-              <TacticalPitch formation={formation} lineup={lineup} picks={picks} fitPreviews={selectedPlayer ? fitPreviews : []} activeSlotId={targetSlot?.id} selectedSlotId={targetSlot?.id} goalkeeperYCap={86} onSelectSlot={selectTarget} onSelectFilledSlot={selectFilledTarget} />
+              <TacticalPitch formation={formation} lineup={lineup} picks={picks} fitPreviews={selectedPlayer ? fitPreviews : []} activeSlotId={targetSlot?.id} selectedSlotId={targetSlot?.id} goalkeeperYCap={88} layoutMode="free-selection" onSelectSlot={selectTarget} onSelectFilledSlot={selectFilledTarget} />
             </div>
             <div className={styles.benchStrip}>
               <span className={styles.benchLabel}>BENCH</span>
