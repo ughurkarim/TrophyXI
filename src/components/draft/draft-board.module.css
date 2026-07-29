@@ -1187,3 +1187,392 @@
     justify-self: stretch;
   }
 }
+/* Draft-card polish: normalized portraits, centered selection badge, readable fit pills,
+   and a clearer tournament-record action. */
+.cardGrid :global(.player-card__portrait) {
+  min-height: 164px;
+  place-items: center;
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait) {
+  --portrait-size: clamp(118px, 9vw, 144px);
+  margin-inline: auto;
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait__mask img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  object-position: 50% 100%;
+  transform: scale(0.93);
+  transform-origin: 50% 100%;
+}
+
+.cardGrid :global(.player-card__selected) {
+  display: grid;
+  width: 38px;
+  height: 24px;
+  min-height: 24px;
+  place-items: center;
+  gap: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.cardGrid :global(.player-card__selected svg) {
+  display: block;
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  transform: none;
+}
+
+.cardGrid :global(.player-card__fit) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  padding-top: 11px;
+}
+
+.cardGrid :global(.player-card__fit span) {
+  min-width: 0;
+  min-height: 34px;
+  gap: 4px;
+  padding: 0 5px;
+  overflow: hidden;
+  border-radius: 10px;
+  font-size: clamp(0.36rem, 0.46vw, 0.44rem);
+  font-weight: 720;
+  letter-spacing: 0.035em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.cardGrid :global(.player-card__fit span b) {
+  flex: 0 0 auto;
+  color: color-mix(
+    in srgb,
+    var(--tier-accent, var(--gold-bright)) 78%,
+    white
+  );
+  font-size: 0.49rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.cardGrid :global(.player-card__inspect) {
+  display: inline-flex;
+  width: 100%;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 10px;
+  margin-top: 10px;
+  color: #e3cf86;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--tier-accent, var(--gold-bright)) 30%,
+      transparent
+    );
+  border-radius: 10px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(
+        in srgb,
+        var(--tier-accent, var(--gold-bright)) 9%,
+        transparent
+      ),
+      transparent
+    ),
+    rgba(8, 10, 8, 0.78);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 194, 0.055),
+    0 8px 20px rgba(0, 0, 0, 0.18);
+  font-size: 0.48rem;
+  font-weight: 780;
+  letter-spacing: 0.085em;
+  line-height: 1;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.cardGrid :global(.player-card__inspect)::after {
+  content: "→";
+  color: var(--tier-accent, var(--gold-bright));
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.cardGrid :global(.player-card__inspect:hover),
+.cardGrid :global(.player-card__inspect:focus-visible) {
+  color: #fff0b6;
+  border-color: color-mix(
+    in srgb,
+    var(--tier-accent, var(--gold-bright)) 58%,
+    transparent
+  );
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(
+        in srgb,
+        var(--tier-accent, var(--gold-bright)) 15%,
+        transparent
+      ),
+      transparent
+    ),
+    rgba(10, 12, 9, 0.92);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 194, 0.08),
+    0 0 18px
+      color-mix(
+        in srgb,
+        var(--tier-accent, var(--gold-bright)) 16%,
+        transparent
+      ),
+    0 9px 22px rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1220px) {
+  .cardGrid :global(.player-card__portrait .circular-portrait) {
+    --portrait-size: clamp(116px, 13vw, 140px);
+  }
+}
+
+/* Keep one portrait ring on draft cards: the tier-colored outer rim. */
+.cardGrid :global(.player-card__portrait .circular-portrait__mask) {
+  border: 0;
+}
+
+/* v15: keep the full portrait visible and round only the choices background layer. */
+.cardGrid :global(.player-card__portrait .circular-portrait__mask) {
+  inset: 2px;
+  border: 0;
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(31, 36, 31, 0.98),
+    rgba(6, 9, 7, 0.99) 78%
+  );
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait__mask img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  object-position: 50% 100%;
+  transform: scale(1.02);
+  transform-origin: 50% 100%;
+}
+
+/* The choices section keeps its card glow overflow; only its background gets rounded. */
+.board :global(.draft-choices) {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 620px;
+  padding: 20px 18px 22px;
+  overflow: visible;
+  border: 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.board :global(.draft-choices)::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  border: 1px solid rgba(203, 166, 74, 0.17);
+  border-radius: var(--radius-md, 18px);
+  background: linear-gradient(
+    145deg,
+    rgba(25, 24, 17, 0.92),
+    rgba(7, 9, 7, 0.96)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 241, 184, 0.035),
+    0 22px 70px rgba(0, 0, 0, 0.36);
+}
+
+@media (max-width: 720px) {
+  .board :global(.draft-choices) {
+    padding: 16px 10px 18px;
+  }
+}
+
+/* v16: rarity borders, bottom-aligned portraits, compact fit pills, and no record arrow. */
+.cardGrid :global(.player-card) {
+  border-color: var(--tier-accent, var(--gold-bright));
+  box-shadow:
+    0 0 0 1px color-mix(
+      in srgb,
+      var(--tier-accent, var(--gold-bright)) 20%,
+      transparent
+    ),
+    0 0 18px color-mix(
+      in srgb,
+      var(--tier-accent, var(--gold-bright)) 12%,
+      transparent
+    ),
+    0 18px 42px rgba(0, 0, 0, 0.34);
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait__mask img) {
+  object-fit: contain;
+  object-position: 50% 100%;
+  transform: translateY(4px) scale(1.08);
+  transform-origin: 50% 100%;
+}
+
+.cardGrid :global(.player-card__fit span) {
+  gap: 3px;
+  padding-inline: 3px;
+  font-size: clamp(0.31rem, 0.34vw, 0.36rem);
+  letter-spacing: 0.015em;
+}
+
+.cardGrid :global(.player-card__fit span b) {
+  font-size: 0.42rem;
+}
+
+.cardGrid :global(.player-card__inspect) {
+  padding-inline: 8px;
+  font-size: 0.45rem;
+  letter-spacing: 0.075em;
+}
+
+.cardGrid :global(.player-card__inspect)::after {
+  display: none;
+  content: none;
+}
+
+.board :global(.draft-choices) {
+  padding-bottom: 38px;
+}
+
+@media (max-width: 720px) {
+  .board :global(.draft-choices) {
+    padding-bottom: 28px;
+  }
+}
+
+/* v17: reduce portrait size and center portraits cleanly inside each draft card. */
+.cardGrid :global(.player-card__portrait) {
+  min-height: 156px;
+  display: grid;
+  place-items: center;
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait) {
+  --portrait-size: clamp(108px, 8vw, 128px);
+  margin-inline: auto;
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait__mask img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  object-position: 50% 100%;
+  transform: translateY(1px) scale(0.96);
+  transform-origin: 50% 100%;
+}
+
+@media (max-width: 1220px) {
+  .cardGrid :global(.player-card__portrait .circular-portrait) {
+    --portrait-size: clamp(104px, 11vw, 124px);
+  }
+}
+
+/* v18: make draft cards more compact and clean up the card shadow/glow. */
+.cardGrid :global(.player-card) {
+  min-height: 388px;
+  padding: 18px 10px 10px;
+  box-shadow:
+    0 0 0 1px color-mix(
+      in srgb,
+      var(--tier-accent, var(--gold-bright)) 18%,
+      transparent
+    ),
+    0 0 10px color-mix(
+      in srgb,
+      var(--tier-accent, var(--gold-bright)) 7%,
+      transparent
+    ),
+    0 12px 28px rgba(0, 0, 0, 0.26);
+}
+
+.cardGrid :global(.player-card__portrait) {
+  min-height: 144px;
+  margin-bottom: 2px;
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait) {
+  --portrait-size: clamp(112px, 8.4vw, 132px);
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait__mask img) {
+  transform: translateY(2px) scale(0.99);
+}
+
+.cardGrid :global(.player-card__fit) {
+  gap: 6px;
+  padding-top: 9px;
+}
+
+.cardGrid :global(.player-card__inspect) {
+  min-height: 36px;
+  margin-top: 8px;
+}
+
+.board :global(.draft-choices) {
+  padding-bottom: 28px;
+}
+
+@media (max-width: 1220px) {
+  .cardGrid :global(.player-card__portrait .circular-portrait) {
+    --portrait-size: clamp(108px, 10.5vw, 126px);
+  }
+}
+
+@media (max-width: 720px) {
+  .board :global(.draft-choices) {
+    padding-bottom: 22px;
+  }
+}
+
+/* v19: remove the rectangular portrait-area backdrop and make fit pills neon gold. */
+.cardGrid :global(.player-card__portrait) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.cardGrid :global(.player-card__fit span) {
+  color: #ffe48a;
+  border-color: rgba(244, 205, 78, 0.62);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(244, 205, 78, 0.11),
+      rgba(244, 205, 78, 0.035)
+    ),
+    rgba(7, 9, 7, 0.9);
+  box-shadow:
+    inset 0 0 11px rgba(255, 221, 100, 0.07),
+    0 0 8px rgba(244, 205, 78, 0.24);
+  text-shadow: 0 0 7px rgba(255, 222, 104, 0.42);
+}
+
+.cardGrid :global(.player-card__fit span b) {
+  color: #fff0a6;
+  text-shadow:
+    0 0 5px rgba(255, 232, 133, 0.8),
+    0 0 10px rgba(244, 205, 78, 0.42);
+}
