@@ -1,0 +1,27 @@
+.page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(180deg, #0c100d 0%, #080b09 42%, #060806 100%);
+}
+
+.page::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    rgba(216, 171, 69, 0.025) 0%,
+    transparent 24%,
+    transparent 76%,
+    rgba(216, 171, 69, 0.018) 100%
+  );
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding-top: 104px;
+  }
+}
