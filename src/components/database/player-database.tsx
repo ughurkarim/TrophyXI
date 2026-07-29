@@ -1,16 +1,30 @@
 "use client";
 
-import { Search, SlidersHorizontal } from "lucide-react";
-import type { ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { Check, ChevronDown, Grid3X3, Search, X } from "lucide-react";
+import type {
+  KeyboardEvent as ReactKeyboardEvent,
+  OptionHTMLAttributes,
+  ReactNode,
+} from "react";
+import {
+  Children,
+  isValidElement,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { TrophyMark } from "@/components/brand/mark";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { PlayerDetails } from "@/components/cards/player-details";
 import { Button } from "@/components/ui/button";
 import { draftEligiblePlayers } from "@/data/players";
 import { flagForCountry } from "@/lib/utils";
 import type { PlayerTournamentCard } from "@/types/game";
+import styles from "./player-database.module.css";
 
-const PAGE_SIZE = 48;
+const PAGE_SIZE = 50;
 
 type SortId = "rating" | "name" | "newest" | "oldest";
 
@@ -44,6 +58,14 @@ export function PlayerDatabase() {
   const [inspected, setInspected] =
     useState<PlayerTournamentCard | null>(null);
 
+  const identityCount = useMemo(
+    () =>
+      new Set(
+        draftEligiblePlayers.map((player) => player.playerIdentityId),
+      ).size,
+    [],
+  );
+
   const filtered = useMemo(() => {
     const normalizedQuery = normalizeSearchText(query.trim());
     const matching = draftEligiblePlayers.filter((player) => {
@@ -61,6 +83,7 @@ export function PlayerDatabase() {
         (!era || player.era === era)
       );
     });
+
     return [...matching].sort((first, second) => {
       if (sort === "name") {
         return (
@@ -68,21 +91,25 @@ export function PlayerDatabase() {
           second.tournamentYear - first.tournamentYear
         );
       }
+
       if (sort === "newest") {
         return (
           second.tournamentYear - first.tournamentYear ||
           second.overall - first.overall
         );
       }
+
       if (sort === "oldest") {
         return (
           first.tournamentYear - second.tournamentYear ||
           second.overall - first.overall
         );
       }
+
       return (
         second.overall - first.overall ||
-        first.playerName.localeCompare(second.playerName)
+        first.playerName.localeCompare(second.playerName) ||
+        second.tournamentYear - first.tournamentYear
       );
     });
   }, [era, nation, position, query, rating, sort, tier, year]);
@@ -100,54 +127,71 @@ export function PlayerDatabase() {
     draftEligiblePlayers.map((player) => player.primaryPosition),
   );
 
+  const updateFilter = (setter: (value: string) => void, value: string) => {
+    setter(value);
+    setVisibleCount(PAGE_SIZE);
+  };
+
   return (
     <>
-      <section className="database-shell" aria-labelledby="database-title">
-        <div className="database-heading">
-          <div>
-            <p className="eyebrow eyebrow--gold">THE COMPLETE CARD ARCHIVE</p>
-            <h1 id="database-title">Player Database</h1>
-            <p>
-              Search and compare every playable tournament version in the
-              active Trophy XI archive.
-            </p>
+      <section className={styles.shell} aria-labelledby="database-title">
+        <header className={styles.hero}>
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>THE COMPLETE CARD ARCHIVE</p>
+            <h1 id="database-title" aria-label="Player Database">
+              <span>Player</span>
+              <strong>Database</strong>
+            </h1>
           </div>
-          <dl className="database-metrics">
-            <div>
-              <dt>Cards</dt>
-              <dd>{draftEligiblePlayers.length}</dd>
-            </div>
-            <div>
-              <dt>Identities</dt>
-              <dd>
-                {
-                  new Set(
-                    draftEligiblePlayers.map(
-                      (player) => player.playerIdentityId,
-                    ),
-                  ).size
-                }
-              </dd>
-            </div>
-          </dl>
-        </div>
 
-        <div className="database-filters">
-          <label className="database-search">
-            <span>Player</span>
+          <div className={styles.archiveVisual}>
+            <div className={styles.metrics} aria-label="Archive totals">
+              <div className={styles.metric}>
+                <span>Cards</span>
+                <strong>{draftEligiblePlayers.length}</strong>
+                <small>Total tournament cards</small>
+              </div>
+              <div className={styles.metricMark} aria-hidden>
+                <TrophyMark />
+              </div>
+              <div className={styles.metric}>
+                <span>Identities</span>
+                <strong>{identityCount}</strong>
+                <small>Unique players</small>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className={styles.filters}>
+          <label className={styles.searchField}>
+            <span>Search</span>
             <div>
-              <Search size={16} aria-hidden />
+              <Search size={18} aria-hidden />
               <input
+                aria-label="Search player or nation"
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) =>
+                  updateFilter(setQuery, event.target.value)
+                }
                 placeholder="Search player or nation"
               />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => updateFilter(setQuery, "")}
+                  aria-label="Clear player search"
+                >
+                  <X size={16} aria-hidden />
+                </button>
+              )}
             </div>
           </label>
+
           <DatabaseSelect
             label="Nation"
             value={nation}
-            onChange={setNation}
+            onChange={(value) => updateFilter(setNation, value)}
           >
             <option value="">All nations</option>
             {nations.map((entry) => {
@@ -159,35 +203,53 @@ export function PlayerDatabase() {
               );
             })}
           </DatabaseSelect>
-          <DatabaseSelect label="Year" value={year} onChange={setYear}>
+
+          <DatabaseSelect
+            label="Year"
+            value={year}
+            onChange={(value) => updateFilter(setYear, value)}
+          >
             <option value="">All years</option>
             {years.map((value) => (
               <option key={value}>{value}</option>
             ))}
           </DatabaseSelect>
+
           <DatabaseSelect
             label="Position"
             value={position}
-            onChange={setPosition}
+            onChange={(value) => updateFilter(setPosition, value)}
           >
             <option value="">All positions</option>
             {positions.map((value) => (
               <option key={value}>{value}</option>
             ))}
           </DatabaseSelect>
+
           <DatabaseSelect
             label="Rating"
             value={rating}
-            onChange={setRating}
+            onChange={(value) => updateFilter(setRating, value)}
           >
             <option value="">All ratings</option>
-            {["95-99", "90-94", "85-89", "80-84", "75-79", "70-74", "65-69"].map(
-              (value) => (
-                <option key={value}>{value}</option>
-              ),
-            )}
+            {[
+              "95-99",
+              "90-94",
+              "85-89",
+              "80-84",
+              "75-79",
+              "70-74",
+              "65-69",
+            ].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
           </DatabaseSelect>
-          <DatabaseSelect label="Tier" value={tier} onChange={setTier}>
+
+          <DatabaseSelect
+            label="Tier"
+            value={tier}
+            onChange={(value) => updateFilter(setTier, value)}
+          >
             <option value="">All tiers</option>
             {[
               "legend",
@@ -203,18 +265,25 @@ export function PlayerDatabase() {
               </option>
             ))}
           </DatabaseSelect>
-          <DatabaseSelect label="Era" value={era} onChange={setEra}>
+
+          <DatabaseSelect
+            label="Era"
+            value={era}
+            onChange={(value) => updateFilter(setEra, value)}
+          >
             <option value="">All eras</option>
             {["1970s", "1980s", "1990s", "2000s", "2010s", "2020s"].map(
-              (value) => (
-                <option key={value}>{value}</option>
-              ),
+              (value) => <option key={value}>{value}</option>,
             )}
           </DatabaseSelect>
+
           <DatabaseSelect
-            label="Sort"
+            label="Sort by"
             value={sort}
-            onChange={(value) => setSort(value as SortId)}
+            onChange={(value) => {
+              setSort(value as SortId);
+              setVisibleCount(PAGE_SIZE);
+            }}
           >
             <option value="rating">Rating</option>
             <option value="name">Name</option>
@@ -223,26 +292,32 @@ export function PlayerDatabase() {
           </DatabaseSelect>
         </div>
 
-        <div className="database-results-heading" role="status" aria-live="polite">
+        <div className={styles.resultsHeading} role="status" aria-live="polite">
           <span>
-            <SlidersHorizontal size={14} aria-hidden /> {filtered.length} cards
+            <Grid3X3 size={15} aria-hidden /> {filtered.length} cards found
           </span>
           <small>
-            Showing {Math.min(visible.length, filtered.length)} of{" "}
-            {filtered.length}
+            Showing {Math.min(visible.length, filtered.length)} of {filtered.length}
           </small>
         </div>
 
-        <div className="database-grid">
-          {visible.map((player) => {
-            return (
-              <button
-                type="button"
-                className={`database-card database-card--${player.statusTier}`}
-                key={player.id}
-                onClick={() => setInspected(player)}
-                aria-label={`View ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`}
-              >
+        <div className={styles.grid}>
+          {visible.map((player) => (
+            <button
+              type="button"
+              className={styles.card}
+              data-tier={player.statusTier}
+              key={player.id}
+              onClick={() => setInspected(player)}
+              aria-label={`View ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`}
+            >
+              <span className={styles.ratingBlock}>
+                <small>{player.primaryPosition}</small>
+                <strong>{player.overall}</strong>
+                <span>OVR</span>
+              </span>
+
+              <span className={styles.portraitStage}>
                 <CircularPortrait
                   imageId={player.imageId}
                   subjectName={player.playerName}
@@ -252,32 +327,31 @@ export function PlayerDatabase() {
                   tournamentYear={player.tournamentYear}
                   size="standard"
                 />
-                <div>
-                  <span>
-                    {player.primaryPosition} · {player.overall} OVR
-                  </span>
-                  <h2 title={player.playerName}>{player.playerName}</h2>
-                  <p>
-                    {player.countryCode} {flagForCountry(player.countryCode)} ·{" "}
-                    {player.countryName}
-                  </p>
-                  <small>
-                    {player.tournamentYear} ·{" "}
-                    {player.statusTier.replace("-", " ")}
-                  </small>
-                </div>
-              </button>
-            );
-          })}
+              </span>
+
+              <span className={styles.identity}>
+                <h2 title={player.playerName}>{player.playerName}</h2>
+                <span>
+                  <i aria-hidden>{flagForCountry(player.countryCode)}</i>
+                  {player.countryName}
+                </span>
+              </span>
+
+              <span className={styles.cardFooter}>
+                <span>{player.tournamentYear}</span>
+                <i aria-hidden>•</i>
+                <span>{player.statusTier.replace("-", " ")}</span>
+              </span>
+            </button>
+          ))}
         </div>
 
         {visible.length === 0 && (
-          <p className="database-empty">
-            No tournament cards match these filters.
-          </p>
+          <p className={styles.empty}>No tournament cards match these filters.</p>
         )}
+
         {visibleCount < filtered.length && (
-          <div className="database-load-more">
+          <div className={styles.loadMore}>
             <Button
               variant="secondary"
               onClick={() =>
@@ -311,16 +385,157 @@ function DatabaseSelect({
   onChange: (value: string) => void;
   children: ReactNode;
 }) {
+  const [open, setOpen] = useState(false);
+  const labelId = useId();
+  const listboxId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const options = Children.toArray(children).flatMap((child) => {
+    if (!isValidElement<OptionHTMLAttributes<HTMLOptionElement>>(child)) {
+      return [];
+    }
+
+    const optionLabel = Children.toArray(child.props.children).join("");
+    const optionValue =
+      child.props.value === undefined || child.props.value === null
+        ? optionLabel
+        : String(child.props.value);
+
+    return [{ label: optionLabel, value: optionValue }];
+  });
+
+  const selected =
+    options.find((option) => option.value === value) ?? options[0];
+
+  useEffect(() => {
+    if (!open) return;
+
+    const closeOnOutsidePress = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      triggerRef.current?.focus();
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePress);
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsidePress);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const frame = requestAnimationFrame(() => {
+      const optionButtons = rootRef.current?.querySelectorAll<HTMLButtonElement>(
+        '[role="option"]',
+      );
+      const selectedIndex = Math.max(
+        0,
+        options.findIndex((option) => option.value === value),
+      );
+      optionButtons?.[selectedIndex]?.focus();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [open, options, value]);
+
+  const moveOptionFocus = (
+    event: ReactKeyboardEvent<HTMLButtonElement>,
+    direction: 1 | -1,
+  ) => {
+    event.preventDefault();
+    const optionButtons = Array.from(
+      rootRef.current?.querySelectorAll<HTMLButtonElement>('[role="option"]') ??
+        [],
+    );
+    const currentIndex = optionButtons.indexOf(event.currentTarget);
+    const nextIndex =
+      (currentIndex + direction + optionButtons.length) % optionButtons.length;
+    optionButtons[nextIndex]?.focus();
+  };
+
   return (
-    <label>
-      <span>{label}</span>
-      <select
-        aria-label={label}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
+    <div className={styles.selectField} ref={rootRef}>
+      <span id={labelId}>{label}</span>
+      <button
+        ref={triggerRef}
+        type="button"
+        className={styles.selectTrigger}
+        aria-labelledby={labelId}
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listboxId}
+        onClick={() => setOpen((current) => !current)}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            setOpen(true);
+          }
+        }}
       >
-        {children}
-      </select>
-    </label>
+        <span>{selected?.label ?? label}</span>
+        <ChevronDown size={16} aria-hidden />
+      </button>
+
+      {open && (
+        <div
+          id={listboxId}
+          className={styles.selectMenu}
+          role="listbox"
+          aria-labelledby={labelId}
+        >
+          {options.map((option) => {
+            const isSelected = option.value === value;
+            return (
+              <button
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                className={styles.selectOption}
+                data-selected={isSelected || undefined}
+                key={`${label}-${option.value}`}
+                onClick={() => {
+                  onChange(option.value);
+                  setOpen(false);
+                  triggerRef.current?.focus();
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowDown") {
+                    moveOptionFocus(event, 1);
+                  } else if (event.key === "ArrowUp") {
+                    moveOptionFocus(event, -1);
+                  } else if (event.key === "Home") {
+                    event.preventDefault();
+                    rootRef.current
+                      ?.querySelector<HTMLButtonElement>('[role="option"]')
+                      ?.focus();
+                  } else if (event.key === "End") {
+                    event.preventDefault();
+                    const optionButtons = rootRef.current?.querySelectorAll<HTMLButtonElement>(
+                      '[role="option"]',
+                    );
+                    optionButtons?.[optionButtons.length - 1]?.focus();
+                  }
+                }}
+              >
+                <span>{option.label}</span>
+                {isSelected && <Check size={14} aria-hidden />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }

@@ -7354,3 +7354,67 @@ button.squad-chip:focus-visible {
     filter: none !important;
   }
 }
+/* ========================================================================== 
+   DATABASE PLAYER INFO — MATCH DATABASE PORTRAIT TREATMENT
+   One clean circle, face-filling crop, no secondary rim.
+   ========================================================================== */
+.player-drawer .circular-portrait {
+  overflow: visible;
+  border: 0;
+  filter:
+    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.46))
+    drop-shadow(
+      0 0 11px
+        color-mix(
+          in srgb,
+          var(--era-accent, var(--drawer-tier, var(--gold))) 20%,
+          transparent
+        )
+    );
+}
+
+.player-drawer .circular-portrait__mask {
+  inset: 0;
+  border: 2px solid
+    color-mix(
+      in srgb,
+      var(--era-accent, var(--drawer-tier, var(--gold))) 86%,
+      #f3e4b2
+    );
+  background: radial-gradient(
+    circle at 50% 40%,
+    color-mix(
+      in srgb,
+      var(--era-accent, var(--drawer-tier, var(--gold))) 10%,
+      #20241f
+    ),
+    #080a09 76%
+  );
+  box-shadow:
+    inset 0 0 18px rgba(0, 0, 0, 0.32),
+    0 0 9px
+      color-mix(
+        in srgb,
+        var(--era-accent, var(--drawer-tier, var(--gold))) 38%,
+        transparent
+      ),
+    0 0 18px
+      color-mix(
+        in srgb,
+        var(--era-accent, var(--drawer-tier, var(--gold))) 14%,
+        transparent
+      );
+}
+
+.player-drawer .circular-portrait__mask img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center 56%;
+  transform: scale(1.06);
+  transform-origin: center center;
+}
+
+.player-drawer .circular-portrait__rim {
+  display: none;
+}
