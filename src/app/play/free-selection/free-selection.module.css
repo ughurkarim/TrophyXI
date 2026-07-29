@@ -3563,3 +3563,108 @@ button.statusStat:hover {
     0 0 7px rgba(246, 211, 94, .40),
     0 0 15px rgba(214, 157, 35, .16);
 }
+@media (min-width: 1181px) {
+  .playerResults {
+    grid-auto-rows: calc((100% - 12px) / 4);
+    gap: 4px;
+  }
+
+  .recommendation,
+  .candidateMain {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .candidateMain {
+    padding-block: 7px;
+  }
+
+  .candidateMain :global(.circular-portrait) {
+    --portrait-size: 46px;
+  }
+
+  .candidateIdentity > b {
+    color: #f0efe9;
+    font-size: .68rem;
+    font-weight: 720;
+  }
+
+  .candidateIdentity > span {
+    color: #969d97;
+    font-size: .30rem;
+  }
+
+  .candidateStat small,
+  .candidateRating small {
+    color: #858c86;
+    font-size: .26rem;
+  }
+
+  .candidateStat b {
+    color: #e4cd76;
+    font-size: .52rem;
+  }
+
+  .candidateStat b[data-tone="great"] {
+    color: #aee6c1;
+  }
+
+  .candidateStat b[data-tone="good"] {
+    color: #ead77e;
+  }
+
+  .candidateStat b[data-tone="risk"] {
+    color: #e1a097;
+  }
+
+  .candidateRating strong {
+    color: #f0d87d;
+    font-size: 1.18rem;
+  }
+
+  .rank {
+    color: #747b75;
+  }
+
+  .recommendation[data-selected="true"] {
+    border-color: rgba(240, 204, 101, .72);
+    background:
+      linear-gradient(
+        90deg,
+        rgba(224, 183, 70, .11),
+        rgba(11, 13, 10, .84) 50%
+      );
+    box-shadow:
+      inset 0 0 0 1px rgba(244, 212, 116, .08),
+      0 0 12px rgba(214, 170, 56, .06);
+  }
+}
+
+@media (min-width: 1181px) {
+  /* Nudge only the player identity block slightly to the right. */
+  .candidateIdentity {
+    transform: translateX(4px);
+  }
+
+  /* FIT / TEAM / CHEM labels and values. */
+  .candidateStat {
+    gap: 4px;
+  }
+
+  .candidateStat small {
+    font-size: .45rem;
+    letter-spacing: .10em;
+  }
+
+  .candidateStat b {
+    font-size: .68rem;
+    line-height: 1;
+  }
+}
+
+@media (min-width: 1181px) {
+  .candidateRating small {
+    font-size: .50rem;
+    letter-spacing: .11em;
+  }
+}
