@@ -5,6 +5,7 @@ import { historicalOpponentsById } from "@/data/opponents";
 import { playersById } from "@/data/players";
 import { simulateMatch } from "@/engine/simulation";
 import { testLineup } from "@/engine/ratings.test";
+import type { PlayerTournamentCard, Position } from "@/types/game";
 
 export const testBench = [
   "pele-1970",
@@ -19,6 +20,29 @@ const input = {
   opponent: historicalOpponentsById.get("west-germany-1974")!,
   seed: 8675309,
 } as const;
+
+const goalkeeperBench = [
+  "gianluigi-buffon-2006",
+  "diego-maradona-1986",
+  "zico-1982",
+].map((id) => playersById.get(id)!);
+
+const testCardAt = (
+  id: string,
+  primaryPosition: Position,
+  eligiblePositions: Position[],
+): PlayerTournamentCard => ({
+  ...playersById.get("pele-1970")!,
+  id,
+  playerIdentityId: id,
+  primaryPosition,
+  eligiblePositions,
+});
+
+const resultsForSeeds = (bench: PlayerTournamentCard[], count = 40) =>
+  Array.from({ length: count }, (_, index) =>
+    simulateMatch({ ...input, bench, seed: index + 1 }),
+  );
 
 describe("match simulation", () => {
   it("is deterministic for identical complete inputs", () => {
@@ -115,6 +139,101 @@ describe("match simulation", () => {
     }
     const minutes = result.playerMinutes.filter((player) => !player.started);
     expect(minutes[0].minutes).toBeGreaterThanOrEqual(minutes[2].minutes);
+  });
+
+  it("only substitutes into a primary or secondary tactical position", () => {
+    const primaryOnly = testCardAt(
+      "primary-position-sub-test",
+      "ST",
+      [],
+    );
+    const bench = [
+      primaryOnly,
+      playersById.get("gianluigi-buffon-2006")!,
+      playersById.get("iker-casillas-2010")!,
+    ];
+    const result = resultsForSeeds(bench).find((candidate) =>
+      candidate.substitutions.some(
+        (substitution) => substitution.playerInId === primaryOnly.id,
+      ),
+    );
+    const substitution = result?.substitutions.find(
+      (candidate) => candidate.playerInId === primaryOnly.id,
+    );
+    const assignedPositions = new Map(
+      input.formation.slots.map((slot, index) => [
+        input.lineup[index].id,
+        slot.position,
+      ]),
+    );
+
+    expect(substitution).toBeDefined();
+    expect(substitution?.position).toBe("ST");
+    expect(substitution?.position).toBe(
+      assignedPositions.get(substitution?.playerOutId ?? ""),
+    );
+  });
+
+  it("allows a listed secondary position without falling back to another role", () => {
+    const secondaryOnly = testCardAt(
+      "secondary-position-sub-test",
+      "AM",
+      ["RW"],
+    );
+    const bench = [
+      secondaryOnly,
+      playersById.get("gianluigi-buffon-2006")!,
+      playersById.get("iker-casillas-2010")!,
+    ];
+    const result = resultsForSeeds(bench).find((candidate) =>
+      candidate.substitutions.some(
+        (substitution) => substitution.playerInId === secondaryOnly.id,
+      ),
+    );
+
+    expect(result).toBeDefined();
+    expect(
+      result!.substitutions.find(
+        (substitution) => substitution.playerInId === secondaryOnly.id,
+      )?.position,
+    ).toBe("RW");
+  });
+
+  it("leaves incompatible and backup-goalkeeper bench cards unused", () => {
+    const incompatible = testCardAt(
+      "incompatible-position-sub-test",
+      "LWB",
+      [],
+    );
+    const bench = [
+      incompatible,
+      playersById.get("gianluigi-buffon-2006")!,
+      playersById.get("iker-casillas-2010")!,
+    ];
+
+    for (const result of resultsForSeeds(bench)) {
+      expect(
+        result.substitutions.some((substitution) =>
+          bench.some(
+            (player) =>
+              player.id === substitution.playerInId &&
+              (player.primaryPosition === "GK" ||
+                player.id === incompatible.id),
+          ),
+        ),
+      ).toBe(false);
+    }
+  });
+
+  it("does not use a second goalkeeper as a normal tactical substitute", () => {
+    for (const result of resultsForSeeds(goalkeeperBench)) {
+      expect(
+        result.substitutions.some(
+          (substitution) =>
+            substitution.playerInId === goalkeeperBench[0].id,
+        ),
+      ).toBe(false);
+    }
   });
 
   it("resolves a forced 90-minute tie through extra time", () => {

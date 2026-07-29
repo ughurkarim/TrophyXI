@@ -10,6 +10,7 @@ import {
   getPlacementPenaltyPercent,
   getPositionFit,
 } from "@/engine/draft";
+import type { PlayerTournamentCard } from "@/types/game";
 
 export const testLineup = [
   "manuel-neuer-2014",
@@ -41,11 +42,11 @@ describe("team ratings", () => {
     expect(ratings.positionFit).toBeLessThanOrEqual(100);
     expect(ratings.eraFit).toBeLessThanOrEqual(100);
     expect(ratings.managerFit).toBeLessThanOrEqual(100);
-    expect(ratings.playerQuality).toBeGreaterThan(0);
-    expect(ratings.coreOverall).toBeGreaterThan(0);
-    expect(ratings.legacyScore).toBeGreaterThanOrEqual(0);
-    expect(ratings.legacyBonus).toBeGreaterThanOrEqual(0);
-    expect(ratings.legacyBonus).toBeLessThanOrEqual(4);
+    expect(ratings.playerQuality!).toBeGreaterThan(0);
+    expect(ratings.coreOverall!).toBeGreaterThan(0);
+    expect(ratings.legacyScore!).toBeGreaterThanOrEqual(0);
+    expect(ratings.legacyBonus!).toBeGreaterThanOrEqual(0);
+    expect(ratings.legacyBonus!).toBeLessThanOrEqual(4);
     expect(ratings.overall).toBe(
       Math.min(99, Math.round((ratings.coreOverall ?? 0) + (ratings.legacyBonus ?? 0))),
     );
@@ -98,6 +99,41 @@ describe("team ratings", () => {
     expect(natural.positionFit).toBeGreaterThan(awkward.positionFit);
     expect(natural.overall).toBeGreaterThan(awkward.overall);
   });
+
+  it("penalizes a backup goalkeeper that cannot cover an outfield bench role", () => {
+    const formation = getFormation("4-3-3");
+    const balancedBench = [
+      playersById.get("pele-1970")!,
+      playersById.get("diego-maradona-1986")!,
+      playersById.get("zico-1982")!,
+    ];
+    const backupKeeper: PlayerTournamentCard = {
+      ...balancedBench[0],
+      id: "backup-goalkeeper-rating-test",
+      playerIdentityId: "backup-goalkeeper-rating-test",
+      primaryPosition: "GK",
+      eligiblePositions: ["GK"],
+    };
+    const keeperHeavyBench = [
+      backupKeeper,
+      balancedBench[1],
+      balancedBench[2],
+    ];
+
+    const balanced = calculateTeamRatings(testLineup, formation, {
+      bench: balancedBench,
+    });
+    const keeperHeavy = calculateTeamRatings(testLineup, formation, {
+      bench: keeperHeavyBench,
+    });
+
+    expect(keeperHeavy.benchDepth).toBeLessThan(balanced.benchDepth);
+    expect(keeperHeavy.benchVersatility).toBeLessThan(
+      balanced.benchVersatility,
+    );
+    expect(keeperHeavy.playerQuality!).toBeLessThan(balanced.playerQuality!);
+  });
+
   it("uses identity-level career legacy across tournament card versions", () => {
     const messi2014 = playersById.get("lionel-messi-2014")!;
     const messi2022 = playersById.get("lionel-messi-2022")!;

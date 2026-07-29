@@ -55,9 +55,28 @@ type SimulationPlayer = {
   tournamentYear: number;
   primaryPosition: Position;
   eligiblePositions: Position[];
+  assignedPosition: Position;
   overall: number;
   attributes: Pick<PlayerAttributes, "attack" | "creativity" | "clutch">;
 };
+
+const simulationPlayerForCard = (
+  player: PlayerTournamentCard,
+  assignedPosition: Position,
+): SimulationPlayer => ({
+  id: player.id,
+  playerName: player.playerName,
+  tournamentYear: player.tournamentYear,
+  primaryPosition: player.primaryPosition,
+  eligiblePositions: player.eligiblePositions,
+  assignedPosition,
+  overall: player.overall,
+  attributes: {
+    attack: player.attributes.attack,
+    creativity: player.attributes.creativity,
+    clutch: player.attributes.clutch,
+  },
+});
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
@@ -143,22 +162,23 @@ const substitutionPosition = (
   lineup: SimulationPlayer[],
   alreadyRemoved: Set<string>,
 ) => {
-  const compatible = lineup.filter(
-    (starter) =>
-      !alreadyRemoved.has(starter.id) &&
-      starter.primaryPosition !== "GK" &&
-      (substitute.eligiblePositions.includes(starter.primaryPosition) ||
-        starter.eligiblePositions.includes(substitute.primaryPosition)),
-  );
-  return (
-    compatible.sort((first, second) => first.overall - second.overall)[0] ??
-    lineup
-      .filter(
-        (starter) =>
-          !alreadyRemoved.has(starter.id) && starter.primaryPosition !== "GK",
-      )
-      .sort((first, second) => first.overall - second.overall)[0]
-  );
+  // Goalkeeper injuries and dismissals are not modeled, so carrying a second
+  // goalkeeper consumes a bench place without creating a normal tactical sub.
+  if (substitute.primaryPosition === "GK") return undefined;
+
+  const playablePositions = new Set<Position>([
+    substitute.primaryPosition,
+    ...substitute.eligiblePositions,
+  ]);
+
+  return lineup
+    .filter(
+      (starter) =>
+        !alreadyRemoved.has(starter.id) &&
+        starter.assignedPosition !== "GK" &&
+        playablePositions.has(starter.assignedPosition),
+    )
+    .sort((first, second) => first.overall - second.overall)[0];
 };
 
 const createSubstitutions = ({
@@ -223,7 +243,7 @@ const createSubstitutions = ({
         minute,
         playerInId: substitute.id,
         playerOutId: outgoing.id,
-        position: outgoing.primaryPosition as Position,
+        position: outgoing.assignedPosition,
         benchSlot,
         reason: aggressive
           ? "Attacking response while chasing the match"
@@ -270,6 +290,7 @@ const historicalSimulationPlayer = (
     tournamentYear: opponent.tournamentYear ?? 2026,
     primaryPosition: player.position,
     eligiblePositions: compatibleHistoricalPositions(player.position),
+    assignedPosition: player.position,
     overall,
     attributes: {
       attack: clamp(overall + (attackingPosition ? 5 : -12), 45, 99),
@@ -317,6 +338,21 @@ export const simulateMatch = ({
     opponent.kind === "all-stars"
       ? calculateWorldCupAllStarsRatings(eraId, opponent)
       : null;
+  const userSimulationLineup = lineup.map((player, index) => {
+    const pick = picks?.find((candidate) => candidate.cardId === player.id);
+    const assignedSlot = pick
+      ? formation.slots.find((slot) => slot.id === pick.slotId)
+      : formation.slots[index];
+
+    return simulationPlayerForCard(
+      player,
+      assignedSlot?.position ?? player.primaryPosition,
+    );
+  });
+  const userSimulationBench = bench.map((player) =>
+    simulationPlayerForCard(player, player.primaryPosition),
+  );
+
   const opponentRatings = allStarsRatings
     ? {
         attack: allStarsRatings.attack,
@@ -332,13 +368,17 @@ export const simulateMatch = ({
         chemistry: 86,
         overall: opponent.ratings.overall,
       };
-  const opponentLineup: SimulationPlayer[] =
+  const opponentLineup: SimulationPlayer[] = (
     opponent.kind === "all-stars"
       ? getWorldCupAllStarsLineup(opponent)
       : opponent.startingLineup.map((player, index) =>
           historicalSimulationPlayer(opponent, player, index),
-        );
-  const opponentBench: SimulationPlayer[] =
+        )
+  ).map((player) => ({
+    ...player,
+    assignedPosition: player.primaryPosition,
+  }));
+  const opponentBench: SimulationPlayer[] = (
     opponent.kind === "all-stars"
       ? getWorldCupAllStarsBench(opponent)
       : opponent.substitutes.map((player, index) =>
@@ -347,7 +387,11 @@ export const simulateMatch = ({
             player,
             opponent.startingLineup.length + index,
           ),
-        );
+        )
+  ).map((player) => ({
+    ...player,
+    assignedPosition: player.primaryPosition,
+  }));
   const opponentManager = opponent.allStars?.manager;
   const eraFitApplies = eraId !== "all";
   const managerEraFit =
@@ -439,8 +483,8 @@ export const simulateMatch = ({
   }
 
   const substitutions = createSubstitutions({
-    lineup,
-    bench,
+    lineup: userSimulationLineup,
+    bench: userSimulationBench,
     manager,
     managerEraFit,
     trailing: userGoals < opponentGoals,

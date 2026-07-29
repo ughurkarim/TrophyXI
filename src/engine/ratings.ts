@@ -12,6 +12,7 @@ import type {
   Formation,
   ManagerTournamentCard,
   PlayerTournamentCard,
+  Position,
   TeamRatings,
 } from "@/types/game";
 
@@ -25,6 +26,59 @@ const topAverage = (values: number[], count: number) =>
 
 const roundRating = (value: number) =>
   Math.round(Math.max(0, Math.min(99, value)));
+
+const positionsFor = (player: PlayerTournamentCard) =>
+  new Set<Position>([player.primaryPosition, ...player.eligiblePositions]);
+
+const benchProfileFor = (
+  bench: PlayerTournamentCard[],
+  formation: Formation,
+) => {
+  const formationOutfieldPositions = new Set<Position>(
+    formation.slots
+      .map((slot) => slot.position)
+      .filter((position): position is Position => position !== "GK"),
+  );
+
+  const players = bench.map((player) => {
+    if (player.primaryPosition === "GK") {
+      return {
+        usability: 0.22,
+        coveredPositions: [] as Position[],
+      };
+    }
+
+    const coveredPositions = [...positionsFor(player)].filter((position) =>
+      formationOutfieldPositions.has(position),
+    );
+    const usability =
+      coveredPositions.length === 0
+        ? 0.25
+        : Math.min(1, 0.72 + coveredPositions.length * 0.1);
+
+    return { usability, coveredPositions };
+  });
+
+  const coveredPositions = new Set(
+    players.flatMap((player) => player.coveredPositions),
+  );
+  const coverageRatio = formationOutfieldPositions.size
+    ? coveredPositions.size / formationOutfieldPositions.size
+    : 0;
+  const roleBreadth = average(
+    players.map((player) => Math.min(1, player.coveredPositions.length / 3)),
+  );
+  const goalkeeperCount = bench.filter(
+    (player) => player.primaryPosition === "GK",
+  ).length;
+
+  return {
+    players,
+    versatility: roundRating(
+      45 + coverageRatio * 40 + roleBreadth * 20 - goalkeeperCount * 12,
+    ),
+  };
+};
 
 export type RatingContext = {
   picks?: DraftPick[];
@@ -106,6 +160,7 @@ export const calculateTeamRatings = (
     (placementMultiplier.get(player.id) ?? 1) *
     (eraMultiplier.get(player.id) ?? 1);
   const bench = context.bench ?? [];
+  const benchProfile = benchProfileFor(bench, formation);
   const attack =
     topAverage(
       outfield.map(
@@ -158,7 +213,12 @@ export const calculateTeamRatings = (
   const chemistry = calculateChemistry(lineup, formation, context);
 
   const starterQuality = average(lineup.map((player) => player.overall));
-  const benchQuality = average(bench.map((player) => player.overall));
+  const benchQuality = average(
+    bench.map(
+      (player, index) =>
+        player.overall * (benchProfile.players[index]?.usability ?? 0),
+    ),
+  );
   const playerQuality =
     bench.length > 0
       ? starterQuality * 0.92 + benchQuality * 0.08
@@ -201,20 +261,18 @@ export const calculateTeamRatings = (
     ? roundRating(
         bench.reduce(
           (sum, player, index) =>
-            sum + player.overall * (benchWeights[index] ?? 0.1),
+            sum +
+            player.overall *
+              (benchProfile.players[index]?.usability ?? 0) *
+              (benchWeights[index] ?? 0.1),
           0,
-        ) / benchWeights.slice(0, bench.length).reduce((sum, value) => sum + value, 0),
+        ) /
+          benchWeights
+            .slice(0, bench.length)
+            .reduce((sum, value) => sum + value, 0),
       )
     : 0;
-  const benchVersatility = bench.length
-    ? roundRating(
-        average(
-          bench.map((player) =>
-            Math.min(99, 68 + player.eligiblePositions.length * 6),
-          ),
-        ),
-      )
-    : 0;
+  const benchVersatility = bench.length ? benchProfile.versatility : 0;
   const tacticalBalance = chemistry.formationBalance;
   const timelessness = roundRating(
     average(lineup.map((player) => player.eraTranslation.timelessness)),

@@ -147,7 +147,8 @@ export default function WorldCupRunPage() {
   >({});
   const [deferredElimination, setDeferredElimination] = useState(false);
   const [deferredFixtureId, setDeferredFixtureId] = useState<string | null>(null);
-  const [showChampionCelebration, setShowChampionCelebration] = useState(true);
+  const [championCelebrationDismissed, setChampionCelebrationDismissed] =
+    useState(false);
 
   const dismissDeferredElimination = () => {
     setDeferredElimination(false);
@@ -155,10 +156,25 @@ export default function WorldCupRunPage() {
   };
 
   useEffect(() => {
-    if (run?.status === "champion") {
-      setShowChampionCelebration(true);
+    if (run?.status !== "champion") {
+      setChampionCelebrationDismissed(false);
     }
-  }, [run?.currentStage, run?.status]);
+  }, [run?.status]);
+
+  useEffect(() => {
+    if (
+      !hydrated ||
+      gameMode !== "world-cup-run" ||
+      !run ||
+      !matchResult
+    ) {
+      return;
+    }
+
+    // Clear the completed match only after this page has mounted. Clearing it
+    // on the Result page makes that page render its empty-state for one frame.
+    continueWorldCupRun();
+  }, [continueWorldCupRun, gameMode, hydrated, matchResult, run]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -584,7 +600,7 @@ export default function WorldCupRunPage() {
               />
             </div>
           </section>
-        ) : run.status === "champion" && showChampionCelebration ? (
+        ) : run.status === "champion" && !championCelebrationDismissed ? (
           <section className={`${styles.terminal} ${styles.championState}`}>
             <div className={styles.winAtmosphere} aria-hidden />
 
@@ -626,7 +642,7 @@ export default function WorldCupRunPage() {
                 <Button
                   className={styles.winSecondaryAction}
                   variant="secondary"
-                  onClick={() => setShowChampionCelebration(false)}
+                  onClick={() => setChampionCelebrationDismissed(true)}
                 >
                   VIEW WORLD CUP RUN
                 </Button>
@@ -943,7 +959,7 @@ export default function WorldCupRunPage() {
                   <Button
                     className={styles.nextAction}
                     variant="secondary"
-                    onClick={() => setShowChampionCelebration(true)}
+                    onClick={() => setChampionCelebrationDismissed(false)}
                   >
                     <ArrowLeft size={15} aria-hidden /> GO BACK
                   </Button>

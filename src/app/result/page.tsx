@@ -94,9 +94,6 @@ export default function ResultPage() {
   const gameMode = useGameStore((state) => state.gameMode);
   const draftSeed = useGameStore((state) => state.draftSeed);
   const prepareRematch = useGameStore((state) => state.prepareRematch);
-  const continueWorldCupRun = useGameStore(
-    (state) => state.continueWorldCupRun,
-  );
   const worldCupRunOpponents = useGameStore(
     (state) => state.worldCupRunOpponents,
   );
@@ -426,10 +423,7 @@ export default function ResultPage() {
             {gameMode === "world-cup-run" ? (
               <Button
                 className={styles.actionButton}
-                onClick={() => {
-                  continueWorldCupRun();
-                  router.push("/play/world-cup-run");
-                }}
+                onClick={() => router.replace("/play/world-cup-run")}
               >
                 <Trophy size={16} aria-hidden /> Continue tournament
               </Button>
