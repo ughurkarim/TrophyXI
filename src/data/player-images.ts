@@ -10,7 +10,11 @@ import {
   type PlayerIdentityPortraitRecord,
 } from "@/data/player-identity-portraits";
 import auditedTournamentPortraitsJson from "@/data/tournament-edition-player-portraits.generated.json";
-import { allPlayersBeforeIdentityPruning } from "@/data/players";
+import {
+  allPlayersBeforeIdentityPruning,
+  getPlayablePlayerCardIds,
+  getPlayablePlayers,
+} from "@/data/players";
 import { userSuppliedPlayerImages } from "@/data/user-player-portraits";
 import type { ImageAttribution } from "@/types/game";
 
@@ -46,6 +50,11 @@ const auditedTournamentPortraits =
 const archivedPlayersById = new Map(
   allPlayersBeforeIdentityPruning.map((player) => [player.id, player]),
 );
+const playablePlayers = getPlayablePlayers();
+const playablePlayerCardIds = getPlayablePlayerCardIds();
+const playablePlayersById = new Map(
+  playablePlayers.map((player) => [player.id, player]),
+);
 
 export const gameFacePathFor = (
   kind: GameFaceKind,
@@ -53,6 +62,9 @@ export const gameFacePathFor = (
   tournamentYear: number,
 ) =>
   `/assets/${kind === "player" ? "players" : "managers"}/${tournamentYear}/${cardId}.png`;
+
+export const playablePlayerGameFacePathFor = (cardId: string) =>
+  `/players/game-faces/${cardId}.png`;
 
 const buildAttribution = (
   record: LocalPortraitManifestRecord | PlayerIdentityPortraitRecord,
@@ -120,10 +132,6 @@ const buildAttribution = (
   };
 };
 
-const legacyTournamentEditionPlayerImages =
-  playerLocalPortraitRecords
-    .filter((record) => record.portraitScope === "card-specific")
-    .map(buildAttribution);
 export const historicalPlayerImages = playerLocalPortraitRecords
   .filter(
     (record) =>
@@ -140,142 +148,76 @@ export const importedPlayerIdentityImages =
           record.sourceImageUrl.endsWith("/26_120.png")),
     )
     .map(buildAttribution);
-const legacyDirectPlayerImageById = new Map(
-  [
-    ...legacyTournamentEditionPlayerImages,
-    ...historicalPlayerImages,
-    ...importedPlayerIdentityImages,
-    ...userSuppliedPlayerImages.filter(
-      (image) => image.tournamentYear !== 2026,
-    ),
-  ].map((image) => [image.id, image]),
-);
-const legacyDirectPlayerImages = [...legacyDirectPlayerImageById.values()];
 
 export const tournamentEditionPlayerImages: ImageAttribution[] =
-  auditedTournamentPortraits.portraits.map((record) => {
-    const player = archivedPlayersById.get(record.cardId);
-    const required = STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.get(
-      record.tournamentYear,
-    );
-    if (
-      auditedTournamentPortraits.version !== 1 ||
-      !player ||
-      !required ||
-      player.playerIdentityId !== record.playerIdentityId ||
-      player.tournamentYear !== record.tournamentYear ||
-      record.gameEdition !== required.gameEdition ||
-      record.localPath !==
-        `/assets/players/game-faces/${record.cardId}.png` ||
-      !record.sourcePage.includes(`/player/${record.soFifaPlayerId}`) ||
-      !record.sourceImageUrl.endsWith(
-        `/${required.version}_120.png`,
-      )
-    ) {
-      throw new Error(
-        `${record.cardId}: audited tournament portrait registry mismatch`,
+  auditedTournamentPortraits.portraits
+    .filter((record) => playablePlayerCardIds.has(record.cardId))
+    .map((record) => {
+      const player = playablePlayersById.get(record.cardId);
+      const required = STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.get(
+        record.tournamentYear,
       );
-    }
-    return {
-      id: record.cardId,
-      kind: "player",
-      subjectName: player.playerName,
-      tournamentYear: player.tournamentYear,
-      file: record.localPath,
-      cacheVersion: record.cacheVersion,
-      sourceFile: record.sourceImageUrl,
-      sourcePage: record.sourcePage,
-      author: "EA SPORTS game-face asset",
-      license: "Cleared for Trophy XI project use",
-      licenseUrl: null,
-      changes:
-        "Retrieved independently from the required game-edition endpoint and stored as a card-specific PNG after name, date-of-birth, nationality, source-ID, format, and duplicate validation.",
-      fallback: false,
-      representedTeam: player.countryName,
-      photographedYear: null,
-      exactTournamentImage: true,
-      isNationalTeamKit: false,
-      photoContext: "tournament-edition-game-face",
-      cropFocus: { x: 50, y: 20 },
-      gameEdition: record.gameEdition,
-      gameEditionLaunchYear: required.launchYear,
-      sourceWebsite: "SoFIFA",
-      retrievedOn: auditedTournamentPortraits.generatedAt.slice(0, 10),
-      matchQuality: "edition-verified",
-      requiredAttribution: `${record.gameEdition} player game face sourced through SoFIFA.`,
-    };
-  });
-
-const directPlayerImageById = new Map(
-  [
-    ...legacyDirectPlayerImages.filter(
-      (image) =>
-        !STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(
-          image.tournamentYear,
-        ),
-    ),
-    ...tournamentEditionPlayerImages,
-  ].map((image) => [image.id, image]),
-);
-const directPlayerImages = [...directPlayerImageById.values()];
-
-/**
- * Preserve the pre-audit source pool when resolving non-target identity
- * fallbacks. Strict-edition target portraits do not become fallback sources,
- * so this Step 1 change cannot alter another tournament card's portrait.
- */
-const directPortraitsByIdentity = new Map<string, ImageAttribution[]>();
-for (const image of legacyDirectPlayerImages) {
-  const sourceCard = archivedPlayersById.get(image.id);
-  if (!sourceCard) continue;
-  directPortraitsByIdentity.set(sourceCard.playerIdentityId, [
-    ...(directPortraitsByIdentity.get(sourceCard.playerIdentityId) ?? []),
-    image,
-  ]);
-}
-
-export const identityFallbackPlayerImages =
-  allPlayersBeforeIdentityPruning.flatMap((player) => {
-    if (directPlayerImageById.has(player.imageId)) return [];
-    if (
-      STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(player.tournamentYear)
-    ) {
-      return [];
-    }
-    const source = [
-      ...(directPortraitsByIdentity.get(player.playerIdentityId) ?? []),
-    ].sort(
-      (first, second) =>
-        Math.abs(first.tournamentYear - player.tournamentYear) -
-          Math.abs(second.tournamentYear - player.tournamentYear) ||
-        second.tournamentYear - first.tournamentYear ||
-        first.id.localeCompare(second.id),
-    )[0];
-    if (!source) return [];
-    return [
-      {
-        ...source,
-        id: player.imageId,
+      const exactCardPath = playablePlayerGameFacePathFor(record.cardId);
+      if (
+        auditedTournamentPortraits.version !== 1 ||
+        !player ||
+        !required ||
+        player.playerIdentityId !== record.playerIdentityId ||
+        player.tournamentYear !== record.tournamentYear ||
+        record.gameEdition !== required.gameEdition ||
+        // The generated registry keeps its established metadata path. Runtime
+        // points at the already-existing exact-card public copy; no asset is
+        // moved, renamed, or consolidated here.
+        ![
+          exactCardPath,
+          `/assets/players/game-faces/${record.cardId}.png`,
+        ].includes(record.localPath) ||
+        !record.sourcePage.includes(`/player/${record.soFifaPlayerId}`) ||
+        !record.sourceImageUrl.endsWith(`/${required.version}_120.png`)
+      ) {
+        throw new Error(
+          `${record.cardId}: audited tournament portrait registry mismatch`,
+        );
+      }
+      return {
+        id: record.cardId,
+        kind: "player",
         subjectName: player.playerName,
         tournamentYear: player.tournamentYear,
-        cacheVersion: `${source.cacheVersion}-${player.imageId}`,
-        changes: `${source.changes} Reused as an identity-only fallback for the ${player.tournamentYear} tournament card; it is not represented as an exact-tournament photograph.`,
-        fallback: true,
+        file: exactCardPath,
+        cacheVersion: record.cacheVersion,
+        sourceFile: record.sourceImageUrl,
+        sourcePage: record.sourcePage,
+        author: "EA SPORTS game-face asset",
+        license: "Cleared for Trophy XI project use",
+        licenseUrl: null,
+        changes:
+          "Retrieved independently from the required game-edition endpoint and stored as a card-specific PNG after name, date-of-birth, nationality, source-ID, format, and duplicate validation.",
+        fallback: false,
         representedTeam: player.countryName,
         photographedYear: null,
-        exactTournamentImage: false,
-        photoContext: "other-licensed-face" as const,
-        gameEdition: null,
-        gameEditionLaunchYear: null,
-        matchQuality: "identity-only-permissioned",
-      },
-    ];
-  });
+        exactTournamentImage: true,
+        isNationalTeamKit: false,
+        photoContext: "tournament-edition-game-face",
+        cropFocus: { x: 50, y: 20 },
+        gameEdition: record.gameEdition,
+        gameEditionLaunchYear: required.launchYear,
+        sourceWebsite: "SoFIFA",
+        retrievedOn: auditedTournamentPortraits.generatedAt.slice(0, 10),
+        matchQuality: "edition-verified",
+        requiredAttribution: `${record.gameEdition} player game face sourced through SoFIFA.`,
+      };
+    });
 
-export const playerImages = [
-  ...directPlayerImages,
-  ...identityFallbackPlayerImages,
-];
+/**
+ * Playable cards render only independently audited, card-specific game faces.
+ * A missing exact-year image deliberately stays absent from this map so the
+ * shared portrait component renders Photo Pending. Cross-year identity
+ * fallbacks remain disabled.
+ */
+export const identityFallbackPlayerImages: ImageAttribution[] = [];
+
+export const playerImages = tournamentEditionPlayerImages;
 
 export const managerImages = [
   ...managerLocalPortraitRecords.map(buildAttribution),

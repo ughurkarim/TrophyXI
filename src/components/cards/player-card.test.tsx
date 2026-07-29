@@ -20,7 +20,7 @@ describe("PlayerCard rarity treatment", () => {
     expect(container.querySelector(".portrait-year")).not.toBeInTheDocument();
   });
 
-  it("uses Messi's card-specific 2006 portrait", () => {
+  it("uses Photo Pending when Messi's exact 2006 image is unavailable", () => {
     const player = players.find(
       (candidate) => candidate.id === "lionel-messi-2006",
     )!;
@@ -28,12 +28,13 @@ describe("PlayerCard rarity treatment", () => {
       <PlayerCard player={player} onSelect={vi.fn()} />,
     );
 
-    expect(container.querySelector("img")).toHaveAttribute(
-      "src",
-      expect.stringMatching(
-        /^\/assets\/players\/2006\/lionel-messi-2006\.png\?v=/,
-      ),
-    );
+    expect(container.querySelector("img")).not.toBeInTheDocument();
+    expect(
+      container.querySelector(".circular-portrait__pending"),
+    ).toHaveTextContent("PHOTO PENDING");
+    expect(
+      container.querySelector(".circular-portrait__pending"),
+    ).toHaveTextContent("🇦🇷 2006");
   });
 
   it("applies the selected full-card tier contract for every rarity", () => {

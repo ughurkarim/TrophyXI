@@ -28,6 +28,7 @@
     "players:generate:2026": "tsx scripts/generate-2026-player-roster.ts",
     "players:validate:2026": "tsx scripts/generate-2026-player-roster.ts --check",
     "players:validate:archive": "tsx scripts/validate-player-archive.ts",
+    "players:validate:playable": "tsx scripts/validate-playable-players.ts",
     "opponents:import": "tsx scripts/import-world-cup-teams.ts",
     "opponents:validate": "tsx scripts/validate-world-cup-teams.ts",
     "validate:data": "tsx scripts/validate-data.ts"

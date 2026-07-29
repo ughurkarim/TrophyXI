@@ -86,7 +86,7 @@ describe("TacticalPitch", () => {
     expect(filled).toHaveClass("pitch-node--filled");
   });
 
-  it("renders Messi's exact 2006 image in a filled XI node", () => {
+  it("renders Photo Pending when Messi's exact 2006 image is unavailable", () => {
     const messi = playersById.get("lionel-messi-2006")!;
     render(
       <TacticalPitch
@@ -96,14 +96,11 @@ describe("TacticalPitch", () => {
       />,
     );
 
-    expect(
-      screen.getByRole("img", { name: /lionel messi 2006 portrait/i }),
-    ).toHaveAttribute(
-      "src",
-      expect.stringMatching(
-        /^\/assets\/players\/2006\/lionel-messi-2006\.png\?v=/,
-      ),
-    );
+    const pending = screen.getByRole("img", {
+      name: /lionel messi 2006 portrait, photo pending/i,
+    });
+    expect(pending).toHaveTextContent("PHOTO PENDING");
+    expect(pending).toHaveTextContent("🇦🇷 2006");
   });
 
   it("renders labeled green, yellow, red, and incompatible fit previews", () => {

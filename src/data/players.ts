@@ -462,6 +462,21 @@ const tournamentRatingOverrides: Record<string, number> = {
 "vinicius-junior-2026": 87,
 };
 
+const tournamentPositionOverrides: Partial<
+  Record<
+    string,
+    {
+      primaryPosition: Position;
+      eligiblePositions: Position[];
+    }
+  >
+> = {
+  "siphiwe-tshabalala-2010": {
+    primaryPosition: "LW",
+    eligiblePositions: ["LW", "RM"],
+  },
+};
+
 export const playerStatusFor = (overall: number): PlayerStatusTier => {
   if (overall >= 98) return "legend";
   if (overall >= 94) return "icon";
@@ -2014,6 +2029,7 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
       .map((tournament) => {
         const id = `${identityId}-${tournament.tournamentYear}`;
         const exactSeed = seedById.get(id);
+        const positionOverride = tournamentPositionOverrides[id];
         const reference =
           exactSeed ??
           (identitySeeds?.length
@@ -2051,8 +2067,11 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
           id,
           nation,
           tournamentYear: tournament.tournamentYear,
-          primaryPosition: tournament.primaryPosition,
-          eligiblePositions: tournament.eligiblePositions,
+          primaryPosition:
+            positionOverride?.primaryPosition ?? tournament.primaryPosition,
+          eligiblePositions:
+            positionOverride?.eligiblePositions ??
+            tournament.eligiblePositions,
           overall: finalOverall,
           finalOverall,
           archetype:
@@ -2551,14 +2570,21 @@ for (const player of allPlayersBeforeIdentityPruning) {
   );
 }
 
-// The complete sourced archive remains intact above. The playable pool removes
-// an identity iff every one of its tournament cards is below 80, and therefore
-// keeps every card for every retained identity.
+const explicitlyPlayablePlayerCardIds = new Set([
+  "siphiwe-tshabalala-2010",
+]);
+
+export const isPlayablePlayerCard = (
+  player: PlayerTournamentCard,
+): boolean =>
+  (maximumOverallByPlayerIdentity.get(player.playerIdentityId) ?? 0) >=
+    80 || explicitlyPlayablePlayerCardIds.has(player.id);
+
+// The complete sourced archive remains intact above. The playable pool keeps
+// every tournament card for identities with an 80+ version, plus narrow
+// card-specific additions required by an active game mode.
 export const players: PlayerTournamentCard[] =
-  allPlayersBeforeIdentityPruning.filter(
-    (player) =>
-      (maximumOverallByPlayerIdentity.get(player.playerIdentityId) ?? 0) >= 80,
-  );
+  allPlayersBeforeIdentityPruning.filter(isPlayablePlayerCard);
 
 export const playersById = new Map(players.map((player) => [player.id, player]));
 export const draftEligiblePlayers = players.filter(
@@ -2567,3 +2593,20 @@ export const draftEligiblePlayers = players.filter(
 export const playersByIdentity = new Map(
   players.map((player) => [player.playerIdentityId, player]),
 );
+
+const playablePlayersByCardId = new Map(
+  draftEligiblePlayers.map((player) => [player.id, player]),
+);
+
+/**
+ * Draft, Free Selection, World Cup Run, the searchable player database, and
+ * World Cup All-Stars all resolve player cards from this same active pool.
+ * Returning the card map's values preserves separate tournament versions while
+ * deduplicating by the card-specific ID.
+ */
+export const getPlayablePlayers = (): PlayerTournamentCard[] => [
+  ...playablePlayersByCardId.values(),
+];
+
+export const getPlayablePlayerCardIds = (): ReadonlySet<string> =>
+  new Set(playablePlayersByCardId.keys());

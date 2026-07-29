@@ -34,12 +34,8 @@ describe("PlayerDatabase", () => {
     for (const portrait of within(playerRecord).getAllByRole("img", {
       name: /lionel messi 2006 portrait/i,
     })) {
-      expect(portrait).toHaveAttribute(
-        "src",
-        expect.stringMatching(
-          /^\/assets\/players\/2006\/lionel-messi-2006\.png\?v=/,
-        ),
-      );
+      expect(portrait).toHaveTextContent("PHOTO PENDING");
+      expect(portrait).toHaveTextContent("🇦🇷 2006");
     }
     fireEvent.click(
       screen.getByRole("button", { name: /close player record/i }),
@@ -51,5 +47,14 @@ describe("PlayerDatabase", () => {
     expect(
       screen.getAllByRole("button", { name: /view cristiano ronaldo/i }),
     ).toHaveLength(6);
+
+    fireEvent.change(screen.getByPlaceholderText("Search player or nation"), {
+      target: { value: "Siphiwe Tshabalala" },
+    });
+    expect(
+      screen.getByRole("button", {
+        name: /view siphiwe tshabalala 2010/i,
+      }),
+    ).toBeVisible();
   });
 });

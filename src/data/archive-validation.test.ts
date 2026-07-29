@@ -11,19 +11,17 @@ import {
 } from "@/data/player-identity-portraits";
 import {
   gameFacePathFor,
-  historicalPlayerImages,
   identityFallbackPlayerImages,
   imageAttributions,
   imagesById,
   managerImages,
   playerImages,
   tournamentEditionPlayerImages,
-  userSuppliedPlayerImages,
 } from "@/data/player-images";
 import {
   allPlayersBeforeIdentityPruning,
   draftEligiblePlayers,
-  maximumOverallByPlayerIdentity,
+  isPlayablePlayerCard,
   players,
 } from "@/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "@/types/game";
@@ -126,12 +124,7 @@ describe("expanded archive contracts", () => {
     );
     const expectedPlayableIds = new Set(
       allPlayersBeforeIdentityPruning
-        .filter(
-          (player) =>
-            (maximumOverallByPlayerIdentity.get(
-              player.playerIdentityId,
-            ) ?? 0) >= 80,
-        )
+        .filter(isPlayablePlayerCard)
         .map((player) => player.id),
     );
     expect(new Set(players.map((player) => player.id))).toEqual(
@@ -140,13 +133,9 @@ describe("expanded archive contracts", () => {
     for (const player of allPlayersBeforeIdentityPruning) {
       expect(
         players.some(
-          (candidate) =>
-            candidate.playerIdentityId === player.playerIdentityId,
+          (candidate) => candidate.id === player.id,
         ),
-      ).toBe(
-        (maximumOverallByPlayerIdentity.get(player.playerIdentityId) ?? 0) >=
-          80,
-      );
+      ).toBe(isPlayablePlayerCard(player));
     }
   });
 
@@ -279,78 +268,24 @@ describe("expanded archive contracts", () => {
     ).toHaveLength(
       players.filter((player) => !imagesById.has(player.imageId)).length,
     );
+    expect(identityFallbackPlayerImages).toEqual([]);
     expect(
-      historicalPlayerImages,
-    ).toHaveLength(56);
-    expect(
-      historicalPlayerImages
-        .every(
-          (image) =>
-            image.tournamentYear <= 2002 &&
-            image.photographedYear === null &&
-            image.exactTournamentImage === false,
-        ),
+      [
+        "mario-kempes-1982",
+        "gerd-muller-1974",
+        "teofilo-cubillas-1978",
+        "franz-beckenbauer-1970",
+        "franz-beckenbauer-1974",
+        "gianluigi-buffon-2010",
+        "sergio-ramos-2010",
+        "lionel-messi-2006",
+      ].every((id) => !imagesById.has(id)),
     ).toBe(true);
-    expect(userSuppliedPlayerImages).toHaveLength(55);
-    expect(
-      userSuppliedPlayerImages.every(
-        (image) =>
-          image.photographedYear === null &&
-          image.exactTournamentImage === false &&
-          image.matchQuality === "user-supplied-permissioned",
-      ),
-    ).toBe(true);
-    expect(
-      identityFallbackPlayerImages.every(
-        (image) =>
-          image.fallback &&
-          image.gameEdition === null &&
-          ["identity-only-permissioned", "user-supplied-permissioned"].includes(
-            image.matchQuality,
-          ),
-      ),
-    ).toBe(true);
-    expect(imagesById.get("mario-kempes-1982")).toMatchObject({
-      file: "/assets/players/1974/mario-kempes-74.png",
-      fallback: true,
-      exactTournamentImage: false,
-    });
-    expect(imagesById.get("gerd-muller-1974")).toMatchObject({
-      file: "/assets/players/1970/gerd-muller-1970.png",
-      fallback: true,
-      exactTournamentImage: false,
-    });
-    expect(imagesById.get("teofilo-cubillas-1978")).toMatchObject({
-      file: "/assets/players/1970/teofilo-cubillas-1970.png",
-      fallback: true,
-      exactTournamentImage: false,
-    });
-    expect(imagesById.get("franz-beckenbauer-1970")).toMatchObject({
-      file: "/assets/players/1970/franz-beckenbauer-1970.png",
+    expect(imagesById.get("lionel-messi-2014")).toMatchObject({
+      file: "/players/game-faces/lionel-messi-2014.png",
       fallback: false,
-      exactTournamentImage: false,
+      exactTournamentImage: true,
     });
-    expect(imagesById.get("franz-beckenbauer-1974")).toMatchObject({
-      file: "/assets/players/1970/franz-beckenbauer-1970.png",
-      fallback: true,
-      exactTournamentImage: false,
-    });
-    expect(imagesById.has("sofyan-amrabat-2018")).toBe(false);
-    expect(imagesById.get("gianluigi-buffon-2010")).toMatchObject({
-      file: "/assets/players/2014/gianluigi-buffon-2014.png",
-      fallback: true,
-      exactTournamentImage: false,
-    });
-    expect(imagesById.get("sergio-ramos-2010")).toMatchObject({
-      file: "/assets/players/2014/sergio-ramos-2014.png",
-      fallback: true,
-      exactTournamentImage: false,
-    });
-    const messi2006 = imagesById.get("lionel-messi-2006");
-    expect(messi2006?.file).toBe(
-      "/assets/players/2006/lionel-messi-2006.png",
-    );
-    expect(messi2006?.cacheVersion).toBe("ce83969b96dab437");
   });
 
   it("uses only audited strict-edition game faces for target cards", () => {
@@ -394,7 +329,7 @@ describe("expanded archive contracts", () => {
           Boolean(required) &&
           !portrait.fallback &&
           portrait.file ===
-            `/assets/players/game-faces/${portrait.id}.png` &&
+            `/players/game-faces/${portrait.id}.png` &&
           portrait.exactTournamentImage &&
           portrait.gameEdition === required?.edition &&
           portrait.gameEditionLaunchYear === required?.launchYear &&
@@ -402,12 +337,7 @@ describe("expanded archive contracts", () => {
         );
       }),
     ).toBe(true);
-    expect(
-      identityFallbackPlayerImages.every(
-        (portrait) =>
-          !requiredEditionByYear.has(portrait.tournamentYear),
-      ),
-    ).toBe(true);
+    expect(identityFallbackPlayerImages).toEqual([]);
   });
 
   it("enforces the 99 cap and broad tournament-card rating distribution", () => {
@@ -742,29 +672,11 @@ describe("expanded archive contracts", () => {
     ).toBe(false);
   });
 
-  it("resolves every historical card once an identity has any local portrait", () => {
-    const cardsByIdentity = new Map<string, typeof players>();
-    for (const player of allPlayersBeforeIdentityPruning) {
-      const cards = cardsByIdentity.get(player.playerIdentityId) ?? [];
-      cards.push(player);
-      cardsByIdentity.set(player.playerIdentityId, cards);
-    }
-
-    for (const [identityId, cards] of cardsByIdentity) {
-      const historicalCards = cards.filter(
-        (player) =>
-          ![2014, 2018, 2022, 2026].includes(player.tournamentYear),
-      );
-      if (
-        !historicalCards.some((player) => imagesById.has(player.imageId))
-      ) {
-        continue;
-      }
-      expect(
-        historicalCards.every((player) => imagesById.has(player.imageId)),
-        `${identityId} does not resolve an exact or closest-year portrait for every historical card`,
-      ).toBe(true);
-    }
+  it("never resolves a historical card with another tournament year's face", () => {
+    expect(identityFallbackPlayerImages).toEqual([]);
+    expect(imagesById.has("cristiano-ronaldo-2006")).toBe(false);
+    expect(imagesById.has("pele-1970")).toBe(false);
+    expect(imagesById.has("siphiwe-tshabalala-2010")).toBe(false);
   });
 
   it("produces three deterministic manager identities in every environment", () => {

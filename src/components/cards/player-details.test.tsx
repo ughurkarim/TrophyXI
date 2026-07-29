@@ -76,7 +76,15 @@ describe("PlayerDetails", () => {
     expect(
       screen.getAllByText(/Tournament version|Current version/).length,
     ).toBeGreaterThan(0);
-    expect(screen.queryByText(/Photo|Pending/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: /lionel messi 2014 portrait/i }),
+    ).toHaveAttribute(
+      "src",
+      expect.stringMatching(
+        /^\/players\/game-faces\/lionel-messi-2014\.png\?v=/,
+      ),
+    );
+    expect(screen.getAllByText("PHOTO PENDING").length).toBeGreaterThan(0);
   });
 
   it("limits accolades to six rows until SHOW MORE is used", async () => {

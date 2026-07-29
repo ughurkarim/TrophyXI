@@ -22,19 +22,17 @@ import {
   worldCupAllStars,
 } from "../src/data/opponents";
 import {
-  historicalPlayerImages,
   identityFallbackPlayerImages,
   imageAttributions,
   imagesById,
   managerImages,
   playerImages,
   tournamentEditionPlayerImages,
-  userSuppliedPlayerImages,
 } from "../src/data/player-images";
 import {
   allPlayersBeforeIdentityPruning,
   draftEligiblePlayers,
-  maximumOverallByPlayerIdentity,
+  isPlayablePlayerCard,
   players as playablePlayers,
   playersById,
 } from "../src/data/players";
@@ -855,10 +853,7 @@ const main = async () => {
       playerIdentities.size === expectedPlayerIdentityCount,
     `Player archive must exactly match sourced rosters; expected ${expectedHistoricalCardCount + completed2026Roster.players.length} cards / ${expectedPlayerIdentityCount} identities, found ${players.length} / ${playerIdentities.size}`,
   );
-  const expectedPlayablePlayers = players.filter(
-    (player) =>
-      (maximumOverallByPlayerIdentity.get(player.playerIdentityId) ?? 0) >= 80,
-  );
+  const expectedPlayablePlayers = players.filter(isPlayablePlayerCard);
   const playableIds = new Set(playablePlayers.map((player) => player.id));
   assert(
     playablePlayers.length === expectedPlayablePlayers.length &&
@@ -866,20 +861,19 @@ const main = async () => {
         expectedPlayablePlayers.some((candidate) => candidate.id === player.id),
       ) &&
       expectedPlayablePlayers.every((player) => playableIds.has(player.id)),
-    "Playable pruning must remove an identity iff its maximum card overall is below 80",
+    "Playable pool does not match the active card selector",
   );
   for (const [identityId, versions] of versionsByIdentity) {
     const playableVersions = playablePlayers.filter(
       (player) => player.playerIdentityId === identityId,
     );
-    const identityMaximum = Math.max(
-      ...versions.map((player) => player.overall),
-    );
+    const expectedVersions = versions.filter(isPlayablePlayerCard);
     assert(
-      identityMaximum < 80
-        ? playableVersions.length === 0
-        : playableVersions.length === versions.length,
-      `${identityId} violates identity-wide pruning completeness`,
+      playableVersions.length === expectedVersions.length &&
+        expectedVersions.every((player) =>
+          playableVersions.some((candidate) => candidate.id === player.id),
+        ),
+      `${identityId} violates active player-card selection`,
     );
   }
   const historicalRatingFingerprint = createHash("sha256")
@@ -965,46 +959,28 @@ const main = async () => {
       Boolean(representative.careerStats),
       `${identityId} is missing career context`,
     );
-    const historicalVersions = versions.filter(
-      (player) =>
-        !STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(player.tournamentYear),
-    );
-    if (
-      historicalVersions.some((player) => imagesById.has(player.imageId))
-    ) {
-      assert(
-        historicalVersions.every((player) =>
-          imagesById.has(player.imageId),
-        ),
-        `${identityId} does not resolve an exact or closest-year portrait for every historical card`,
-      );
-    }
   }
   assert(
-    identityFallbackPlayerImages.every(
-      (image) =>
-        !STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(image.tournamentYear),
-    ) &&
-      playerImages
-        .filter((image) =>
-          STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.has(image.tournamentYear),
-        )
-        .every(
-          (image) => {
-            const required = STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.get(
-              image.tournamentYear,
-            );
-            return Boolean(
-              required &&
-                !image.fallback &&
-                image.exactTournamentImage &&
-                image.gameEdition === required.gameEdition &&
-                image.gameEditionLaunchYear === required.launchYear &&
-                image.matchQuality === "edition-verified",
-            );
-          },
-        ),
-    "A strict-edition card face is not verified for its required game or Photo Pending",
+    identityFallbackPlayerImages.length === 0 &&
+      playerImages.length === tournamentEditionPlayerImages.length &&
+      new Set(playerImages.map((image) => image.id)).size ===
+        playerImages.length &&
+      playerImages.every((image) => {
+        const required = STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.get(
+          image.tournamentYear,
+        );
+        return Boolean(
+          required &&
+            playableIds.has(image.id) &&
+            image.file === `/players/game-faces/${image.id}.png` &&
+            !image.fallback &&
+            image.exactTournamentImage &&
+            image.gameEdition === required.gameEdition &&
+            image.gameEditionLaunchYear === required.launchYear &&
+            image.matchQuality === "edition-verified",
+        );
+      }),
+    "A playable player face is not an exact card-specific local image",
   );
   const expectedTournamentCardIds = new Set(
     Object.entries(playerTournaments.identities).flatMap(
@@ -1059,15 +1035,20 @@ const main = async () => {
       const card = archivedPlayersById.get(
         `${identityId}-${tournament.tournamentYear}`,
       );
+      const isTshabalala2010 =
+        card?.id === "siphiwe-tshabalala-2010";
       assert(
         Boolean(
           card &&
             card.tournamentStats.appearances === tournament.appearances &&
             card.tournamentStats.starts === tournament.starts &&
             card.tournamentStats.goals === tournament.goals &&
-            card.primaryPosition === tournament.primaryPosition &&
-            card.eligiblePositions.join("|") ===
-              tournament.eligiblePositions.join("|") &&
+            (isTshabalala2010
+              ? card.primaryPosition === "LW" &&
+                card.eligiblePositions.join("|") === "LW|RM"
+              : card.primaryPosition === tournament.primaryPosition &&
+                card.eligiblePositions.join("|") ===
+                  tournament.eligiblePositions.join("|")) &&
             tournament.awards.every((award) =>
               card.achievements.some(
                 (achievement) => achievement.label === award.label,
@@ -1088,17 +1069,6 @@ const main = async () => {
         ?.map((player) => player.tournamentYear)
         .join("|") === expectedYears.join("|"),
       `${identityId} does not have all six tournament versions`,
-    );
-    const availablePortraitYears = expectedYears.filter(
-      (year) =>
-        year !== 2026 &&
-        !(identityId === "lionel-messi" && year === 2006),
-    );
-    assert(
-      availablePortraitYears.every((year) =>
-        imagesById.has(`${identityId}-${year}`),
-      ),
-      `${identityId} does not have every available local portrait`,
     );
   }
   assert(
@@ -1269,22 +1239,17 @@ const main = async () => {
             image.file === `/assets/managers/${image.id}.png`,
           `${image.id} manager portrait must use its one canonical identity path`,
         );
-      } else if (image.fallback) {
-        const targetCard = archivedPlayersById.get(image.id);
+      } else {
+        const card = playersById.get(image.id);
         assert(
           Boolean(
-            targetCard &&
-              image.gameEdition === null &&
-              !image.exactTournamentImage &&
-              image.matchQuality !== "edition-verified",
+            card &&
+              !image.fallback &&
+              image.exactTournamentImage &&
+              image.file === `/players/game-faces/${image.id}.png` &&
+              card.tournamentYear === image.tournamentYear,
           ),
-          `${image.id} has invalid identity-fallback portrait metadata`,
-        );
-      } else {
-        const card = archivedPlayersById.get(image.id);
-        assert(
-          Boolean(card && card.tournamentYear === image.tournamentYear),
-          `${image.id} direct portrait has no matching tournament card`,
+          `${image.id} is not an exact playable-card portrait`,
         );
       }
 
@@ -1368,7 +1333,7 @@ const main = async () => {
     `Source archive: ${players.length} cards / ${playerIdentities.size} identities`,
   );
   console.log(
-    `Playable players after identity pruning: ${draftEligiblePlayers.length} cards / ${new Set(draftEligiblePlayers.map((player) => player.playerIdentityId)).size} identities; tournament-edition game faces: ${tournamentEditionPlayerImages.length}; historical identity portraits: ${historicalPlayerImages.length}; user-supplied portraits: ${userSuppliedPlayerImages.length}; identity fallbacks: ${identityFallbackPlayerImages.length}; photo-pending placeholders: ${draftEligiblePlayers.filter((player) => !imagesById.has(player.imageId)).length}`,
+    `Playable players: ${draftEligiblePlayers.length} cards / ${new Set(draftEligiblePlayers.map((player) => player.playerIdentityId)).size} identities; exact card-specific faces: ${playerImages.length}; Photo Pending: ${draftEligiblePlayers.filter((player) => !imagesById.has(player.imageId)).length}`,
   );
   console.log(
     `Positions: ${counts.goalkeepers} GK / ${counts.defenders} DEF / ${counts.midfielders} MID / ${counts.attackers} FWD`,
@@ -1384,7 +1349,7 @@ const main = async () => {
     )}`,
   );
   console.log(
-    `Tournament-edition faces: ${tournamentEditionPlayerImages.length} players; exact-year faces: ${managerImages.length} managers; historical identity portraits: ${historicalPlayerImages.length}; user-supplied portraits: ${userSuppliedPlayerImages.length}; identity fallbacks: ${identityFallbackPlayerImages.length}`,
+    `Exact-year faces: ${playerImages.length} playable players / ${managerImages.length} managers; identity fallbacks: ${identityFallbackPlayerImages.length}`,
   );
   console.log(
     `Photo Pending: ${draftEligiblePlayers.filter((player) => !imagesById.has(player.imageId)).length} players / ${draftEligibleManagers.filter((manager) => !imagesById.has(manager.imageId)).length} managers`,
@@ -1462,7 +1427,7 @@ const main = async () => {
     `Career accolades: ${draftEligiblePlayers.flatMap((player) => player.careerAccolades).length} card records across ${playerCareerDataByIdentityId.size} normalized identities`,
   );
   console.log(
-    `Local portraits: ${localPortraitRecords.length} manifest records / ${playerImages.length} resolved player cards / ${managerImages.length} managers`,
+    `Runtime portraits: ${playerImages.length} exact playable-player cards / ${managerImages.length} managers`,
   );
 
   if (failures.length > 0) {

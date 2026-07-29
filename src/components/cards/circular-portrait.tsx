@@ -61,11 +61,11 @@ export function CircularPortrait({
             role="img"
             aria-label={`${subjectName}${
               tournamentYear ? ` ${tournamentYear}` : ""
-            } portrait`}
+            } portrait, photo pending`}
           >
             <UserRound aria-hidden />
             <b>{initials || "XI"}</b>
-            <small>IDENTITY</small>
+            <small>PHOTO PENDING</small>
             <i>
               {countryCode ? flagForCountry(countryCode) : "✦"}{" "}
               {tournamentYear ?? ""}
