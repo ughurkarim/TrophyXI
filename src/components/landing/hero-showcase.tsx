@@ -57,23 +57,24 @@ function RivalCard({
       <AnimatePresence initial={false}>
         <motion.div
           key={player.id}
-          className={`hero-rival-card hero-rival-card--${side}`}
+          className={`${styles.rivalCard} hero-rival-card hero-rival-card--${side}`}
           data-card-id={player.id}
+          data-side={side}
           initial={
             reduceMotion
               ? false
-              : { opacity: 0, y: 28, filter: "blur(7px)" }
+              : { opacity: 0, y: 18, scale: 0.97 }
           }
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={
             reduceMotion
               ? { opacity: 0 }
-              : { opacity: 0, y: -24, filter: "blur(7px)" }
+              : { opacity: 0, y: -16, scale: 0.98 }
           }
           transition={
             reduceMotion
               ? { duration: 0 }
-              : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+              : { duration: 0.22, ease: [0.22, 1, 0.36, 1] }
           }
         >
           <PlayerCard

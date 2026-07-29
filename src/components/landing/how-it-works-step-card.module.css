@@ -28,25 +28,46 @@
   content: "";
   opacity: 0;
   pointer-events: none;
-  background: radial-gradient(
-    190px circle at var(--step-glow-x) var(--step-glow-y),
-    rgba(242, 215, 125, 0.18),
-    rgba(214, 180, 92, 0.075) 38%,
-    transparent 72%
-  );
-  transition: opacity 220ms ease;
+  background:
+    radial-gradient(
+      178px circle at var(--step-glow-x) var(--step-glow-y),
+      rgba(255, 233, 153, 0.30) 0%,
+      rgba(236, 193, 76, 0.16) 31%,
+      rgba(190, 132, 30, 0.06) 56%,
+      transparent 74%
+    ),
+    linear-gradient(
+      128deg,
+      transparent 18%,
+      rgba(255, 221, 122, 0.035) 48%,
+      transparent 76%
+    );
+  filter: saturate(1.08);
+  transition:
+    opacity 220ms ease,
+    filter 220ms ease;
 }
 
 .card::after {
   position: absolute;
   top: 0;
-  right: 22px;
-  left: 22px;
+  right: 18px;
+  left: 18px;
   height: 2px;
   content: "";
   opacity: 0;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  box-shadow: 0 0 16px rgba(214, 180, 92, 0.42);
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(196, 139, 28, 0.34) 18%,
+      rgba(244, 207, 103, 0.92) 50%,
+      rgba(196, 139, 28, 0.34) 82%,
+      transparent 100%
+    );
+  box-shadow:
+    0 0 10px rgba(244, 207, 103, 0.48),
+    0 0 25px rgba(205, 151, 38, 0.22);
   transition: opacity 180ms ease;
 }
 
@@ -60,13 +81,24 @@
 .card:hover,
 .card:focus-visible {
   z-index: 1;
-  border-color: var(--border-gold-medium);
+  border-color: rgba(239, 201, 98, 0.48);
   background:
-    radial-gradient(circle at 50% 0%, rgba(231, 189, 77, 0.055), transparent 58%),
-    rgba(255, 255, 255, 0.025);
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(242, 198, 74, 0.105),
+      transparent 56%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(218, 170, 50, 0.055),
+      rgba(255, 255, 255, 0.018) 46%,
+      rgba(150, 98, 16, 0.024)
+    );
   box-shadow:
-    inset 0 0 0 1px rgba(242, 215, 125, 0.08),
-    0 14px 35px rgba(0, 0, 0, 0.22);
+    inset 0 0 0 1px rgba(248, 220, 131, 0.13),
+    inset 0 18px 42px rgba(228, 180, 60, 0.025),
+    0 0 24px rgba(218, 168, 48, 0.085),
+    0 14px 35px rgba(0, 0, 0, 0.24);
 }
 
 .meta {
@@ -83,6 +115,9 @@
   font-weight: 720;
   letter-spacing: -0.07em;
   line-height: 1;
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease;
 }
 
 .meta i {
@@ -95,6 +130,32 @@
   border-radius: 12px;
   background: rgba(214, 180, 92, 0.06);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.card:hover .meta span,
+.card:focus-visible .meta span {
+  color: #f4d97c;
+  text-shadow:
+    0 0 12px rgba(239, 198, 83, 0.24),
+    0 0 28px rgba(190, 128, 20, 0.10);
+}
+
+.card:hover .meta i,
+.card:focus-visible .meta i {
+  color: #ffe7a0;
+  border-color: rgba(243, 207, 105, 0.52);
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 230, 144, 0.14), transparent 68%),
+    rgba(212, 161, 42, 0.095);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.08),
+    0 0 14px rgba(232, 187, 70, 0.16),
+    0 0 28px rgba(190, 129, 22, 0.07);
 }
 
 .card h3 {
@@ -137,12 +198,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card::before {
-    background: radial-gradient(
-      210px circle at 50% 34%,
-      rgba(242, 215, 125, 0.16),
-      rgba(214, 180, 92, 0.07) 40%,
-      transparent 72%
-    );
+    background:
+      radial-gradient(
+        210px circle at 50% 34%,
+        rgba(255, 232, 151, 0.24),
+        rgba(231, 184, 65, 0.12) 38%,
+        rgba(177, 116, 19, 0.045) 58%,
+        transparent 74%
+      );
     transition: none;
   }
 

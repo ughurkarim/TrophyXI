@@ -4047,7 +4047,7 @@ button.squad-chip:focus-visible {
 }
 
 .player-status--icon {
-  --tier-color: #c6b8ff;
+  --tier-color: #ff6ef1;
 }
 
 .player-status--elite {
@@ -4063,11 +4063,11 @@ button.squad-chip:focus-visible {
 }
 
 .player-status--role-player {
-  --tier-color: #d1894d;
+  --tier-color: #c7ccd4;
 }
 
 .player-status--limited {
-  --tier-color: #969aa1;
+  --tier-color: #b87333;
 }
 
 .player-drawer {
@@ -4090,7 +4090,8 @@ button.squad-chip:focus-visible {
 }
 
 .player-drawer--icon {
-  --drawer-tier: #c6b8ff;
+  --drawer-tier: #ff6ef1
+;
 }
 
 .player-drawer--elite {
@@ -4106,11 +4107,11 @@ button.squad-chip:focus-visible {
 }
 
 .player-drawer--role-player {
-  --drawer-tier: #d1894d;
+  --drawer-tier: #c7ccd4;
 }
 
 .player-drawer--limited {
-  --drawer-tier: #969aa1;
+  --drawer-tier: #b87333;
 }
 
 .player-card--tier-legend {
@@ -4118,7 +4119,10 @@ button.squad-chip:focus-visible {
 }
 
 .player-card--tier-icon {
-  --tier-accent: #c6b8ff;
+  --tier-accent: #ff6ef1
+;
+  --card-accent: #ff6ef1
+;
 }
 
 .player-card--tier-elite {
@@ -4134,11 +4138,13 @@ button.squad-chip:focus-visible {
 }
 
 .player-card--tier-role-player {
-  --tier-accent: #d1894d;
+  --tier-accent: #c7ccd4;
+  --card-accent: #c7ccd4;
 }
 
 .player-card--tier-limited {
-  --tier-accent: #969aa1;
+  --tier-accent: #b87333;
+  --card-accent: #b87333;
 }
 
 .player-card--selected {
@@ -4159,7 +4165,8 @@ button.squad-chip:focus-visible {
 }
 
 .circular-portrait--icon {
-  --era-accent: #c6b8ff;
+  --era-accent: #ff6ef1
+;
 }
 
 .circular-portrait--elite {
@@ -4175,11 +4182,11 @@ button.squad-chip:focus-visible {
 }
 
 .circular-portrait--role-player {
-  --era-accent: #d1894d;
+  --era-accent: #c7ccd4;
 }
 
 .circular-portrait--limited {
-  --era-accent: #969aa1;
+  --era-accent: #b87333;
 }
 
 .modeled-tag-list {
@@ -4618,7 +4625,7 @@ button.squad-chip:focus-visible {
 
 .circular-portrait__mask {
   position: absolute;
-  inset: 2px;
+  inset: 0;
   width: auto;
   height: auto;
   aspect-ratio: 1 / 1;
@@ -4635,14 +4642,7 @@ button.squad-chip:focus-visible {
 }
 
 .circular-portrait__rim {
-  position: absolute;
-  inset: -4px;
-  pointer-events: none;
-  border: 1px solid color-mix(in srgb, var(--era-accent, var(--gold)) 72%, transparent);
-  border-radius: 50%;
-  box-shadow:
-    inset 0 0 13px rgba(242, 215, 125, 0.15),
-    0 0 20px color-mix(in srgb, var(--era-accent, var(--gold)) 20%, transparent);
+  display: none;
 }
 
 .player-card:hover .circular-portrait,
@@ -6627,7 +6627,8 @@ button.squad-chip:focus-visible {
 }
 
 .database-card--icon {
-  --database-tier: #c6b8ff;
+  --database-tier: #ff6ef1
+;
 }
 
 .database-card--elite {
@@ -6643,11 +6644,11 @@ button.squad-chip:focus-visible {
 }
 
 .database-card--role-player {
-  --database-tier: #d1894d;
+  --database-tier: #c7ccd4;
 }
 
 .database-card--limited {
-  --database-tier: #969aa1;
+  --database-tier: #b87333;
 }
 
 .database-card > div {
@@ -7013,7 +7014,8 @@ button.squad-chip:focus-visible {
 }
 
 .selected-player-summary--icon {
-  --summary-accent: #d7ceff;
+  --summary-accent: #ff6ef1
+;
 }
 
 .selected-player-summary--elite {
@@ -7029,11 +7031,11 @@ button.squad-chip:focus-visible {
 }
 
 .selected-player-summary--role-player {
-  --summary-accent: #d1894d;
+  --summary-accent: #c7ccd4;
 }
 
 .selected-player-summary--limited {
-  --summary-accent: #969aa1;
+  --summary-accent: #b87333;
 }
 
 .selected-player-summary > .text-button {

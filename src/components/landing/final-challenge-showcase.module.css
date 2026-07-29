@@ -1,11 +1,9 @@
 .section {
   position: relative;
-  padding: clamp(10px, 1.2vw, 18px) 0 clamp(34px, 3.4vw, 54px);
+  padding: clamp(8px, 1vw, 14px) 0 clamp(28px, 3vw, 44px);
   overflow: hidden;
   isolation: isolate;
-  background:
-    radial-gradient(circle at 72% 48%, rgba(116, 89, 29, .035), transparent 30%),
-    linear-gradient(180deg, #020302, #010201);
+  background: #010201;
 }
 
 .backdrop {
@@ -13,35 +11,49 @@
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(112deg, rgba(255,255,255,.012) 0 28%, transparent 28% 100%),
-    radial-gradient(circle at 70% 32%, rgba(178, 139, 42, .025), transparent 26%),
+    radial-gradient(circle at 70% 34%, rgba(178, 139, 42, .025), transparent 28%),
     #010201;
 }
 
 .panel {
   position: relative;
   display: grid;
-  min-height: clamp(620px, 72vh, 690px);
+  min-height: clamp(540px, 62vh, 600px);
   grid-template-columns: minmax(0, 1.03fr) minmax(460px, .97fr);
   overflow: hidden;
   border: 1px solid rgba(191, 154, 54, .22);
   border-radius: 26px;
-  background:
-    linear-gradient(112deg, rgba(9,10,8,.994), rgba(3,4,3,.998) 48%, rgba(2,3,2,.999));
+  background: #010201;
   box-shadow:
     inset 0 1px rgba(255,255,255,.018),
-    inset 0 0 88px rgba(0,0,0,.46),
-    0 26px 74px rgba(0,0,0,.42);
+    inset 0 0 88px rgba(0,0,0,.34),
+    0 26px 74px rgba(0,0,0,.38);
 }
 
-.panel::before {
+.sectionBackground {
+  z-index: 0;
+  object-fit: contain;
+  object-position: right center;
+  image-rendering: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* The image keeps its native aspect ratio. This layer only protects the copy. */
+.imageBlend {
   position: absolute;
+  z-index: 1;
   inset: 0;
-  content: "";
   pointer-events: none;
   background:
-    linear-gradient(108deg, rgba(0,0,0,.52) 0 31%, transparent 31%),
-    linear-gradient(90deg, transparent 49.9%, rgba(255,255,255,.025) 50%, transparent 50.1%);
+    linear-gradient(
+      90deg,
+      rgba(2, 3, 2, .98) 0%,
+      rgba(2, 3, 2, .94) 27%,
+      rgba(2, 3, 2, .72) 43%,
+      rgba(2, 3, 2, .28) 55%,
+      transparent 67%
+    );
 }
 
 .copy {
@@ -76,9 +88,9 @@
 
 .copy h2 span::after {
   position: absolute;
-  left: 0;
   right: 20%;
   bottom: -.14em;
+  left: 0;
   height: 1px;
   content: "";
   opacity: .35;
@@ -190,332 +202,42 @@
   background: #806926;
 }
 
-/* Reward stage */
-
-.trophyStage {
-  position: relative;
-  z-index: 2;
-  min-width: 0;
-  overflow: hidden;
-  border-left: 1px solid rgba(255,255,255,.026);
-  background:
-    radial-gradient(circle at 64% 34%, rgba(195, 153, 44, .045), transparent 26%),
-    radial-gradient(circle at 63% 55%, rgba(158, 118, 29, .026), transparent 34%),
-    linear-gradient(180deg, #030403, #010201);
-  transition: background 420ms ease;
-}
-
-.stageGeometry {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  opacity: .62;
-  background:
-    linear-gradient(104deg, transparent 0 18%, rgba(255,255,255,.018) 18.1% 18.35%, transparent 18.5%),
-    linear-gradient(72deg, transparent 0 72%, rgba(155,119,34,.035) 72.1% 72.5%, transparent 72.7%),
-    linear-gradient(112deg, rgba(11,12,10,.8) 0 31%, transparent 31.2% 100%);
-  pointer-events: none;
-}
-
-.directionalLight {
-  position: absolute;
-  z-index: 1;
-  top: -16%;
-  left: 56%;
-  width: 24%;
-  height: 84%;
-  transform: translateX(-50%) rotate(4deg);
-  opacity: .075;
-  background:
-    linear-gradient(180deg, rgba(246, 217, 126, .22), rgba(207,160,47,.045) 49%, transparent 100%);
-  clip-path: polygon(37% 0, 63% 0, 100% 100%, 0 100%);
-  filter: blur(12px);
-  transition: opacity 420ms ease;
-  pointer-events: none;
-}
-
-.goldField {
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  top: 42%;
-  width: 40%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  opacity: .18;
-  transform: translate(-8%, -50%);
-  background:
-    radial-gradient(circle, rgba(209, 166, 53, .11), rgba(154,114,26,.022) 43%, transparent 70%);
-  filter: blur(30px);
-  transition: opacity 420ms ease, transform 420ms ease;
-  pointer-events: none;
-}
-
-.rewardLabel {
-  position: absolute;
-  z-index: 6;
-  top: 8%;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  transform: translateX(-50%);
-  color: #706e5f;
-  font: 800 .36rem/1 var(--font-mono), monospace;
-  letter-spacing: .2em;
-  white-space: nowrap;
-}
-
-.rewardLabel i {
-  width: 24px;
-  height: 1px;
-  opacity: .45;
-  background: linear-gradient(90deg, #90752e, transparent);
-}
-
-.glory {
-  position: absolute;
-  z-index: 1;
-  top: 47%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: rgba(203, 165, 57, .012);
-  font: 900 clamp(5.5rem, 8vw, 9.4rem)/1 var(--font-display), sans-serif;
-  letter-spacing: .18em;
-  text-indent: .18em;
-  user-select: none;
-  pointer-events: none;
-  transition:
-    color 520ms ease,
-    text-shadow 520ms ease;
-}
-
-.trophyWrap {
-  position: absolute;
-  z-index: 4;
-  top: 50%;
-  left: 50%;
-  display: grid;
-  width: min(54%, 330px);
-  aspect-ratio: .72;
-  place-items: center;
-  transform: translate(-50%, -48%);
-}
-
-.trophyAura {
-  position: absolute;
-  inset: 16% 10% 8%;
-  border-radius: 50%;
-  opacity: .34;
-  background:
-    radial-gradient(circle at 55% 38%, rgba(226,190,84,.095), rgba(151,109,25,.024) 37%, transparent 70%);
-  filter: blur(19px);
-  transition:
-    opacity 500ms ease,
-    transform 500ms ease;
-}
-
-.trophyArt {
-  position: relative;
-  z-index: 3;
-  width: 72%;
-  height: 79%;
-  overflow: hidden;
-  transform: translateY(0) scale(1);
-  filter:
-    brightness(.68)
-    saturate(.86)
-    contrast(1.12)
-    drop-shadow(0 17px 24px rgba(0,0,0,.54))
-    drop-shadow(4px 0 10px rgba(185, 144, 40, .07));
-  transition:
-    transform 520ms cubic-bezier(.2,.75,.2,1),
-    filter 520ms ease;
-}
-
-.trophyImage {
-  object-fit: contain;
-  object-position: center;
-  user-select: none;
-  opacity: .94;
-}
-
-.metalSweep {
-  position: absolute;
-  z-index: 5;
-  top: 7%;
-  left: -40%;
-  width: 16%;
-  height: 46%;
-  transform: rotate(18deg);
-  opacity: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 244, 199, .12),
-      rgba(255, 221, 111, .26),
-      transparent
-    );
-  filter: blur(5px);
-}
-
-.rewardBase {
-  position: absolute;
-  z-index: 4;
-  left: 50%;
-  bottom: 10.5%;
-  width: min(38%, 240px);
-  height: 28px;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.baseLine {
-  display: none;
-}
-
-.reflection {
-  position: absolute;
-  left: -8%;
-  right: -8%;
-  top: 2px;
-  height: 28px;
-  border-radius: 50%;
-  opacity: .15;
-  background:
-    radial-gradient(ellipse, rgba(197,157,48,.11), rgba(117,85,19,.022) 42%, transparent 72%);
-  filter: blur(12px);
-  transition:
-    opacity 500ms ease,
-    transform 500ms ease;
-}
-
-.rewardFooter {
-  position: absolute;
-  z-index: 6;
-  left: 7%;
-  right: 7%;
-  bottom: 5.5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  color: #565b56;
-  font: 760 .31rem/1 var(--font-mono), monospace;
-  letter-spacing: .11em;
-}
-
-.rewardFooter b {
-  color: #7f7140;
-  font-weight: 780;
-}
-
-/* "Gold wakes up" only when the player approaches the prize. */
-
-.trophyStage:hover {
-  background:
-    radial-gradient(circle at 64% 34%, rgba(206, 164, 52, .075), transparent 28%),
-    radial-gradient(circle at 62% 52%, rgba(168, 125, 28, .04), transparent 36%),
-    linear-gradient(180deg, #040403, #010201);
-}
-
-.trophyStage:hover .directionalLight {
-  opacity: .1;
-}
-
-.trophyStage:hover .goldField {
-  opacity: .3;
-  transform: translate(-8%, -50%) scale(1.05);
-}
-
-.trophyStage:hover .glory {
-  color: rgba(203, 165, 57, .04);
-  text-shadow: 0 0 28px rgba(195,151,40,.03);
-}
-
-.trophyStage:hover .trophyAura {
-  opacity: .68;
-  transform: scale(1.04);
-}
-
-.trophyStage:hover .trophyArt {
-  transform: translateY(-2px) scale(1.016);
-  filter:
-    brightness(.9)
-    saturate(1)
-    contrast(1.1)
-    drop-shadow(0 18px 25px rgba(0,0,0,.48))
-    drop-shadow(4px 0 12px rgba(219, 176, 59, .12))
-    drop-shadow(-2px 0 7px rgba(247, 214, 115, .055));
-}
-
-.trophyStage:hover .metalSweep {
-  animation: metallicReveal .82s 80ms ease-out both;
-}
-
-.trophyStage:hover .reflection {
-  opacity: .25;
-  transform: scaleX(1.04);
-}
-
-.trophyStage:hover .rewardFooter b {
-  color: #b29642;
-}
-
-@keyframes metallicReveal {
-  0% {
-    left: -40%;
-    opacity: 0;
-  }
-  32% {
-    opacity: .32;
-  }
-  100% {
-    left: 120%;
-    opacity: 0;
-  }
-}
-
 @media (max-width: 1120px) {
   .panel {
-    grid-template-columns: minmax(0, 1fr) minmax(420px, .92fr);
+    min-height: 560px;
+    grid-template-columns: minmax(0, 1fr) minmax(390px, .9fr);
   }
 
   .copy {
     padding-inline: 34px;
   }
-
-  .trophyWrap {
-    width: min(56%, 310px);
-  }
 }
 
 @media (max-width: 900px) {
   .panel {
-    min-height: auto;
+    min-height: 650px;
     grid-template-columns: 1fr;
     border-radius: 24px;
   }
 
+  .sectionBackground {
+    object-position: 72% center;
+  }
+
+  .imageBlend {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(2,3,2,.98) 0%,
+        rgba(2,3,2,.90) 48%,
+        rgba(2,3,2,.46) 72%,
+        rgba(2,3,2,.16) 100%
+      );
+  }
+
   .copy {
+    width: min(78%, 690px);
     padding: 40px 30px 30px;
-  }
-
-  .trophyStage {
-    min-height: 420px;
-    border-top: 1px solid rgba(255,255,255,.025);
-    border-left: 0;
-  }
-
-  .trophyWrap {
-    width: min(48%, 285px);
-  }
-
-  .glory {
-    font-size: clamp(5rem, 16vw, 8rem);
   }
 }
 
@@ -525,10 +247,27 @@
   }
 
   .panel {
+    min-height: 690px;
     border-radius: 20px;
   }
 
+  .sectionBackground {
+    object-position: 78% center;
+  }
+
+  .imageBlend {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(2,3,2,.99) 0%,
+        rgba(2,3,2,.94) 58%,
+        rgba(2,3,2,.60) 84%,
+        rgba(2,3,2,.30) 100%
+      );
+  }
+
   .copy {
+    width: 100%;
     padding: 34px 20px 24px;
   }
 
@@ -555,48 +294,11 @@
   .challengeMeta {
     flex-wrap: wrap;
   }
-
-  .trophyStage {
-    min-height: 350px;
-  }
-
-  .trophyWrap {
-    width: min(55%, 235px);
-  }
-
-  .rewardLabel {
-    top: 7%;
-    font-size: .3rem;
-  }
-
-  .glory {
-    font-size: clamp(4.5rem, 21vw, 6.5rem);
-  }
-
-  .rewardFooter {
-    justify-content: center;
-  }
-
-  .rewardFooter b {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .primaryAction::before,
-  .metalSweep {
-    display: none;
-  }
-
   .primaryAction,
-  .secondaryAction,
-  .directionalLight,
-  .goldField,
-  .glory,
-  .trophyAura,
-  .trophyArt,
-  .baseLine,
-  .reflection {
+  .secondaryAction {
     transition: none;
   }
 }

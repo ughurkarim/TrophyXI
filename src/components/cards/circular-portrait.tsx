@@ -73,7 +73,6 @@ export function CircularPortrait({
           </span>
         )}
       </span>
-      <span className="circular-portrait__rim" aria-hidden />
     </span>
   );
 }
