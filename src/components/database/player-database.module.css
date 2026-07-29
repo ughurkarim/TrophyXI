@@ -466,31 +466,31 @@
 }
 
 .card[data-tier="legend"] {
-  --tier: #f0d06f;
+  --tier: #ffe26f;
 }
 
 .card[data-tier="icon"] {
-  --tier: #a56dff;
+  --tier: #ff6ef1;
 }
 
 .card[data-tier="elite"] {
-  --tier: #c28cff;
+  --tier: #bd7cf4;
 }
 
 .card[data-tier="standout"] {
-  --tier: #22c891;
+  --tier: #45d39a;
 }
 
 .card[data-tier="reliable"] {
-  --tier: #4f9ce9;
+  --tier: #58a1eb;
 }
 
 .card[data-tier="role-player"] {
-  --tier: #d79732;
+  --tier: #c7ccd4;
 }
 
 .card[data-tier="limited"] {
-  --tier: #a8adb2;
+  --tier: #b87333;
 }
 
 .ratingBlock {

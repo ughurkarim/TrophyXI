@@ -1576,3 +1576,20 @@
     0 0 5px rgba(255, 232, 133, 0.8),
     0 0 10px rgba(244, 205, 78, 0.42);
 }
+
+/* v36: use the same portrait crop as the database.
+   This final override replaces older draft-only contain/bottom-align rules
+   so faces remain centered and are not cut off. Pending placeholders are unchanged. */
+.cardGrid :global(.player-card__portrait .circular-portrait__mask) {
+  inset: 0 !important;
+  overflow: hidden;
+}
+
+.cardGrid :global(.player-card__portrait .circular-portrait__mask img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 0% !important;
+  transform: scale(1) !important;
+  transform-origin: center center !important;
+}
