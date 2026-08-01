@@ -15,10 +15,11 @@ import {
   getPlayablePlayerCardIds,
   getPlayablePlayers,
 } from "@/data/players";
-import { userSuppliedPlayerImages } from "@/data/user-player-portraits";
+import { playerGameFacePath } from "@/lib/assets";
 import type { ImageAttribution } from "@/types/game";
 
 type GameFaceKind = ImageAttribution["kind"];
+
 type AuditedTournamentPortraitRegistry = {
   version: number;
   generatedAt: string;
@@ -56,15 +57,83 @@ const playablePlayersById = new Map(
   playablePlayers.map((player) => [player.id, player]),
 );
 
+
+type PlayablePlayerCard = (typeof playablePlayers)[number];
+
+const playablePlayerCardsByIdentityId = new Map<
+  string,
+  PlayablePlayerCard[]
+>();
+
+for (const player of playablePlayers) {
+  const cards =
+    playablePlayerCardsByIdentityId.get(player.playerIdentityId) ?? [];
+  cards.push(player);
+  playablePlayerCardsByIdentityId.set(player.playerIdentityId, cards);
+}
+
+/**
+ * Returns true when imageId belongs to a playable player card rather than
+ * a manager or another registered image.
+ */
+export const isPlayablePlayerCardId = (cardId: string): boolean =>
+  playablePlayersById.has(cardId);
+
+/**
+ * Player portrait lookup order:
+ *
+ * 1. The exact tournament-card PNG.
+ * 2. Other cards for the same player identity, nearest tournament year first.
+ * 3. On an equal year distance, the earlier tournament year first.
+ *
+ * The browser tries each canonical PNG path in order. This does not copy files
+ * in S3 and never falls back to a different player identity.
+ */
+export const playablePlayerGameFaceCandidatesFor = (
+  cardId: string,
+): string[] => {
+  const target = playablePlayersById.get(cardId);
+  if (!target) return [];
+
+  const samePlayerCards =
+    playablePlayerCardsByIdentityId.get(target.playerIdentityId) ?? [];
+
+  const orderedCards = [...samePlayerCards].sort((a, b) => {
+    if (a.id === target.id) return -1;
+    if (b.id === target.id) return 1;
+
+    const aDistance = Math.abs(
+      a.tournamentYear - target.tournamentYear,
+    );
+    const bDistance = Math.abs(
+      b.tournamentYear - target.tournamentYear,
+    );
+
+    if (aDistance !== bDistance) return aDistance - bDistance;
+
+    if (a.tournamentYear !== b.tournamentYear) {
+      return a.tournamentYear - b.tournamentYear;
+    }
+
+    return a.id.localeCompare(b.id);
+  });
+
+  return [...new Set(
+    orderedCards.map((player) => playerGameFacePath(player.id)),
+  )];
+};
+
 export const gameFacePathFor = (
   kind: GameFaceKind,
   cardId: string,
   tournamentYear: number,
 ) =>
-  `/assets/${kind === "player" ? "players" : "managers"}/${tournamentYear}/${cardId}.png`;
+  kind === "player"
+    ? playablePlayerGameFacePathFor(cardId)
+    : `/assets/managers/${tournamentYear}/${cardId}.png`;
 
 export const playablePlayerGameFacePathFor = (cardId: string) =>
-  `/players/game-faces/${cardId}.png`;
+  playerGameFacePath(cardId);
 
 const buildAttribution = (
   record: LocalPortraitManifestRecord | PlayerIdentityPortraitRecord,
@@ -79,10 +148,15 @@ const buildAttribution = (
   }
   const subjectName = player?.playerName ?? manager!.managerName;
   const tournamentYear = player?.tournamentYear ?? manager!.tournamentYear;
-  const isVerified2026GameFace =
+  const isExactPlayerCard =
     kind === "player" &&
+    (record.portraitScope === "card-specific" ||
+      record.portraitScope === "card-exact");
+  const isVerified2026GameFace =
+    isExactPlayerCard &&
     tournamentYear === 2026 &&
     "sourceImageUrl" in record &&
+    typeof record.sourceImageUrl === "string" &&
     record.sourceImageUrl.endsWith("/26_120.png");
   if (
     tournamentYear !== record.tournamentYear ||
@@ -112,9 +186,9 @@ const buildAttribution = (
     fallback: false,
     representedTeam: player?.countryName ?? manager!.teamName,
     photographedYear: null,
-    exactTournamentImage: isVerified2026GameFace,
+    exactTournamentImage: isExactPlayerCard,
     isNationalTeamKit: false,
-    photoContext: isVerified2026GameFace
+    photoContext: isExactPlayerCard
       ? "tournament-edition-game-face"
       : "other-licensed-face",
     cropFocus: { x: 50, y: 20 },
@@ -125,29 +199,26 @@ const buildAttribution = (
     matchQuality:
       isVerified2026GameFace
         ? "edition-verified"
-        : record.portraitScope === "card-specific"
+        : record.portraitScope === "card-specific" ||
+            record.portraitScope === "card-exact"
           ? "manually-reviewed-edition"
           : "identity-only-permissioned",
     requiredAttribution: "Local portrait from the Trophy XI project archive.",
   };
 };
 
-export const historicalPlayerImages = playerLocalPortraitRecords
-  .filter(
+export const exactLocalPlayerImages: ImageAttribution[] = [
+  ...playerLocalPortraitRecords.filter(
     (record) =>
-      record.portraitScope === "identity-only" &&
-      record.tournamentYear !== 2026,
-  )
-  .map(buildAttribution);
-export const importedPlayerIdentityImages =
-  importedPlayerIdentityPortraitRecords
-    .filter(
-      (record) =>
-        archivedPlayersById.has(record.id) &&
-        (record.tournamentYear !== 2026 ||
-          record.sourceImageUrl.endsWith("/26_120.png")),
-    )
-    .map(buildAttribution);
+      record.portraitScope === "card-specific" &&
+      playablePlayerCardIds.has(record.id),
+  ),
+  ...importedPlayerIdentityPortraitRecords.filter(
+    (record) =>
+      record.portraitScope === "card-exact" &&
+      playablePlayerCardIds.has(record.id),
+  ),
+].map(buildAttribution);
 
 export const tournamentEditionPlayerImages: ImageAttribution[] =
   auditedTournamentPortraits.portraits
@@ -158,27 +229,75 @@ export const tournamentEditionPlayerImages: ImageAttribution[] =
         record.tournamentYear,
       );
       const exactCardPath = playablePlayerGameFacePathFor(record.cardId);
-      if (
-        auditedTournamentPortraits.version !== 1 ||
-        !player ||
-        !required ||
-        player.playerIdentityId !== record.playerIdentityId ||
-        player.tournamentYear !== record.tournamentYear ||
-        record.gameEdition !== required.gameEdition ||
-        // The generated registry keeps its established metadata path. Runtime
-        // points at the already-existing exact-card public copy; no asset is
-        // moved, renamed, or consolidated here.
-        ![
-          exactCardPath,
-          `/assets/players/game-faces/${record.cardId}.png`,
-        ].includes(record.localPath) ||
-        !record.sourcePage.includes(`/player/${record.soFifaPlayerId}`) ||
-        !record.sourceImageUrl.endsWith(`/${required.version}_120.png`)
-      ) {
-        throw new Error(
-          `${record.cardId}: audited tournament portrait registry mismatch`,
+      const mismatches: string[] = [];
+
+      if (auditedTournamentPortraits.version !== 1) {
+        mismatches.push(
+          `registry version: expected 1, received ${auditedTournamentPortraits.version}`,
         );
       }
+
+      if (!player) {
+        mismatches.push("player missing from playablePlayersById");
+      }
+
+      if (!required) {
+        mismatches.push(`unsupported tournament year: ${record.tournamentYear}`);
+      }
+
+      if (player && player.playerIdentityId !== record.playerIdentityId) {
+        mismatches.push(
+          `identity: player=${player.playerIdentityId}, registry=${record.playerIdentityId}`,
+        );
+      }
+
+      if (player && player.tournamentYear !== record.tournamentYear) {
+        mismatches.push(
+          `year: player=${player.tournamentYear}, registry=${record.tournamentYear}`,
+        );
+      }
+
+      if (required && record.gameEdition !== required.gameEdition) {
+        mismatches.push(
+          `edition: expected=${required.gameEdition}, registry=${record.gameEdition}`,
+        );
+      }
+
+      if (record.localPath !== exactCardPath) {
+        mismatches.push(
+          `path: expected=${exactCardPath}, registry=${record.localPath}`,
+        );
+      }
+
+      if (
+        !record.sourcePage.includes(`/player/${record.soFifaPlayerId}`)
+      ) {
+        mismatches.push(
+          `source page does not contain /player/${record.soFifaPlayerId}: ${record.sourcePage}`,
+        );
+      }
+
+      if (
+        required &&
+        !record.sourceImageUrl.endsWith(`/${required.version}_120.png`)
+      ) {
+        mismatches.push(
+          `source image: expected version ${required.version}, received ${record.sourceImageUrl}`,
+        );
+      }
+
+      if (mismatches.length > 0) {
+        throw new Error(
+          `${record.cardId}: audited tournament portrait registry mismatch\n${mismatches.join("\n")}`,
+        );
+      }
+
+      if (!player || !required) {
+        throw new Error(
+          `${record.cardId}: player or required edition unexpectedly missing`,
+        );
+      }
+
       return {
         id: record.cardId,
         kind: "player",
@@ -217,7 +336,19 @@ export const tournamentEditionPlayerImages: ImageAttribution[] =
  */
 export const identityFallbackPlayerImages: ImageAttribution[] = [];
 
-export const playerImages = tournamentEditionPlayerImages;
+const combinedPlayerImagesById = new Map<string, ImageAttribution>();
+
+// Exact-year historical/local card portraits, such as Pelé 1970.
+for (const image of exactLocalPlayerImages) {
+  combinedPlayerImagesById.set(image.id, image);
+}
+
+// Audited game-face records take precedence when both sources contain a card.
+for (const image of tournamentEditionPlayerImages) {
+  combinedPlayerImagesById.set(image.id, image);
+}
+
+export const playerImages = [...combinedPlayerImagesById.values()];
 
 export const managerImages = [
   ...managerLocalPortraitRecords.map(buildAttribution),
@@ -230,5 +361,3 @@ export const imagesById = new Map(
 );
 
 export const hasRealPortrait = (imageId: string) => imagesById.has(imageId);
-
-export { userSuppliedPlayerImages };

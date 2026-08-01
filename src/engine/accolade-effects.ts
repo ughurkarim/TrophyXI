@@ -315,8 +315,9 @@ const accoladeItemsFor = (
 };
 
 /**
- * The card UI uses the audited identity-level full-career list.
- * Tournament-specific `achievements` remain separate card-level data.
+ * The card UI uses the audited current-career list shared by every card for
+ * the same player identity. Tournament-specific `achievements` remain
+ * separate card data.
  */
 export const getPlayerAccoladeItems = (player: PlayerTournamentCard) =>
   accoladeItemsFor(player, player.careerAccolades);

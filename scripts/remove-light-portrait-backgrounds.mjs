@@ -4,8 +4,8 @@ import sharp from "sharp";
 
 const ROOT = process.cwd();
 const portraits = [
-  ["assets/players/1986/andreas-brehme-1986.jpeg", "assets/players/1986/andreas-brehme-1986.png"],
-  ["assets/players/1986/preben-elkjær-1986.jpeg", "assets/players/1986/preben-elkj-r-1986.png"],
+  ["assets/players/1986/andreas-brehme-1986.jpeg", "public/players/game-faces/andreas-brehme-1986.png"],
+  ["assets/players/1986/preben-elkjær-1986.jpeg", "public/players/game-faces/preben-elkj-r-1986.png"],
 ];
 
 const isLightNeutral = (data, offset) => {

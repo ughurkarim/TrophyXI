@@ -1,29 +1,6 @@
-import { readdirSync, statSync } from "node:fs";
-import path from "node:path";
 import { historicalOpponents } from "@/data/opponents";
+import { playerGameFacePath } from "@/lib/assets";
 import type { DataCitation, HistoricalWorldCupTeam } from "@/types/game";
-
-
-const winnerImageDirectory = path.join(
-  process.cwd(),
-  "assets",
-  "players",
-  "winners",
-);
-const winnerImageByYear = new Map(
-  readdirSync(winnerImageDirectory)
-    .filter((filename) => /^\d{4}\.(?:png|webp|jpe?g)$/.test(filename))
-    .map((filename) => [Number(filename.slice(0, 4)), filename]),
-);
-
-const winnerImage = (year: number) => {
-  const filename = winnerImageByYear.get(year);
-  if (!filename) return undefined;
-
-  const modifiedAt = statSync(path.join(winnerImageDirectory, filename)).mtimeMs;
-
-  return `/assets/winners/${filename}?v=${modifiedAt.toString(36)}`;
-};
 
 type ChampionPresentation = {
   id: string;
@@ -31,6 +8,7 @@ type ChampionPresentation = {
   tacticalLabel: string;
   sourceUrl: string;
   representativePlayer: string;
+  representativePlayerCardId: string;
   representativeImage?: string;
   imagePosition: string;
 };
@@ -45,6 +23,7 @@ export type LandingChampion = Pick<
   tacticalLabel: string;
   championFactSource?: DataCitation;
   representativePlayer: string;
+  representativePlayerCardId: string;
   representativeImage?: string;
   imagePosition: string;
 };
@@ -58,7 +37,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/es/articles/el-camino-de-argentina-hacia-el-titulo-de-la-copa-mundial",
     representativePlayer: "Lionel Messi",
-    representativeImage: winnerImage(2022),
+    representativePlayerCardId: "lionel-messi-2022",
     imagePosition: "47% 50%",
   },
   {
@@ -68,7 +47,7 @@ const presentations: ChampionPresentation[] = [
     tacticalLabel: "Controlled transitions",
     sourceUrl: "https://www.fifa.com/en/archive/kylian-mbappe",
     representativePlayer: "Kylian Mbappé",
-    representativeImage: winnerImage(2018),
+    representativePlayerCardId: "kylian-mbappe-2018",
     imagePosition: "50% 42%",
   },
   {
@@ -79,7 +58,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://inside.fifa.com/tournaments/mens/worldcup/2014brazil/news/germans-reign-as-brazil-thrills-the-world-2404806",
     representativePlayer: "Manuel Neuer",
-    representativeImage: winnerImage(2014),
+    representativePlayerCardId: "manuel-neuer-2014",
     imagePosition: "52% 46%",
   },
   {
@@ -90,7 +69,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-qualify-2026",
     representativePlayer: "Iker Casillas",
-    representativeImage: winnerImage(2010),
+    representativePlayerCardId: "iker-casillas-2010",
     imagePosition: "50% 47%",
   },
   {
@@ -101,7 +80,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/it/tournaments/mens/worldcup/articles/germania-italia-semifinale-2006",
     representativePlayer: "Fabio Cannavaro",
-    representativeImage: winnerImage(2006),
+    representativePlayerCardId: "fabio-cannavaro-2006",
     imagePosition: "55% 46%",
   },
   {
@@ -111,7 +90,7 @@ const presentations: ChampionPresentation[] = [
     tacticalLabel: "Front-three transitions",
     sourceUrl: "https://www.fifa.com/en/articles/brazil-26-world-cup-records",
     representativePlayer: "Ronaldo Nazário",
-    representativeImage: winnerImage(2002),
+    representativePlayerCardId: "ronaldo-2002",
     imagePosition: "50% 45%",
   },
   {
@@ -122,7 +101,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/en/tournaments/mens/worldcup/articles/france-1998-winners-champions-stats-statistics",
     representativePlayer: "Zinedine Zidane",
-    representativeImage: winnerImage(1998),
+    representativePlayerCardId: "zinedine-zidane-1998",
     imagePosition: "50% 42%",
   },
   {
@@ -133,7 +112,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/pt/articles/copa-mundo-1994-brasil-italia-final",
     representativePlayer: "Romário",
-    representativeImage: winnerImage(1994),
+    representativePlayerCardId: "romario-1994",
     imagePosition: "50% 45%",
   },
   {
@@ -144,7 +123,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/de/tournaments/mens/worldcup/articles/wm-titel-deutschland-ueberblick-ergebnisse-torschuetzen-kader",
     representativePlayer: "Lothar Matthäus",
-    representativeImage: winnerImage(1990),
+    representativePlayerCardId: "lothar-matthaus-1990",
     imagePosition: "58% 42%",
   },
   {
@@ -155,7 +134,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/es/articles/el-partido-perfecto-de-maradona-contra-inglaterra-en-mexico-1986",
     representativePlayer: "Diego Maradona",
-    representativeImage: winnerImage(1986),
+    representativePlayerCardId: "diego-maradona-1986",
     imagePosition: "50% 36%",
   },
   {
@@ -166,7 +145,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/en/tournaments/mens/worldcup/articles/paolo-rossi-italy-golden-boot-1982",
     representativePlayer: "Paolo Rossi",
-    representativeImage: winnerImage(1982),
+    representativePlayerCardId: "paolo-rossi-1982",
     imagePosition: "46% 42%",
   },
   {
@@ -177,7 +156,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/en/tournaments/mens/worldcup/articles/argentina-1978-champions-stats-statistics",
     representativePlayer: "Daniel Passarella",
-    representativeImage: winnerImage(1978),
+    representativePlayerCardId: "daniel-passarella-1978",
     imagePosition: "50% 35%",
   },
   {
@@ -187,7 +166,7 @@ const presentations: ChampionPresentation[] = [
     tacticalLabel: "Sweeper-led authority",
     sourceUrl: "https://collect.fifa.com/marketplace/pn-c2-27",
     representativePlayer: "Franz Beckenbauer",
-    representativeImage: winnerImage(1974),
+    representativePlayerCardId: "franz-beckenbauer-1974",
     imagePosition: "50% 44%",
   },
   {
@@ -198,7 +177,7 @@ const presentations: ChampionPresentation[] = [
     sourceUrl:
       "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/brazil-team-profile-history",
     representativePlayer: "Pelé",
-    representativeImage: winnerImage(1970),
+    representativePlayerCardId: "pele-1970",
     imagePosition: "50% 45%",
   },
 ];
@@ -229,7 +208,10 @@ const confirmedChampions: LandingChampion[] = presentations.map(
       championFact: presentation.championFact,
       tacticalLabel: presentation.tacticalLabel,
       representativePlayer: presentation.representativePlayer,
-      representativeImage: presentation.representativeImage,
+      representativePlayerCardId: presentation.representativePlayerCardId,
+      representativeImage: playerGameFacePath(
+        presentation.representativePlayerCardId,
+      ),
       imagePosition: presentation.imagePosition,
       championFactSource: {
         label: `${champion.nationName} ${champion.tournamentYear} champion fact`,
@@ -251,7 +233,8 @@ const confirmed2026Champion: LandingChampion = {
     "Lamine Yamal helped Spain win seven straight matches as La Roja claimed its second men’s World Cup.",
   tacticalLabel: "Relentless control",
   representativePlayer: "Lamine Yamal",
-  representativeImage: winnerImage(2026),
+  representativePlayerCardId: "lamine-yamal-2026",
+  representativeImage: playerGameFacePath("lamine-yamal-2026"),
   imagePosition: "50% 38%",
 };
 

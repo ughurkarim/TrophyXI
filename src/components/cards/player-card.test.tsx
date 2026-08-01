@@ -20,9 +20,9 @@ describe("PlayerCard rarity treatment", () => {
     expect(container.querySelector(".portrait-year")).not.toBeInTheDocument();
   });
 
-  it("uses Photo Pending when Messi's exact 2006 image is unavailable", () => {
+  it("uses Photo Pending when Tshabalala's exact 2010 image is unavailable", () => {
     const player = players.find(
-      (candidate) => candidate.id === "lionel-messi-2006",
+      (candidate) => candidate.id === "siphiwe-tshabalala-2010",
     )!;
     const { container } = render(
       <PlayerCard player={player} onSelect={vi.fn()} />,
@@ -34,7 +34,7 @@ describe("PlayerCard rarity treatment", () => {
     ).toHaveTextContent("PHOTO PENDING");
     expect(
       container.querySelector(".circular-portrait__pending"),
-    ).toHaveTextContent("🇦🇷 2006");
+    ).toHaveTextContent("🇿🇦 2010");
   });
 
   it("applies the selected full-card tier contract for every rarity", () => {

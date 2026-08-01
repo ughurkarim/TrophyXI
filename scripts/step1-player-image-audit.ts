@@ -272,7 +272,7 @@ const DEFAULT_LEGACY_INDEX =
   "/tmp/trophyxi-sofifa-fc24/male_players.csv";
 const DEFAULT_FC26_INDEX =
   "/tmp/trophyxi-sofifa-fc26/FC26_20250921.csv";
-const PUBLIC_DIRECTORY = path.join(ROOT, "public/assets/players/game-faces");
+const PUBLIC_DIRECTORY = path.join(ROOT, "public/players/game-faces");
 const REPORT_DIRECTORY = path.join(ROOT, "reports");
 const CONTACT_SHEET_DIRECTORY = path.join(
   REPORT_DIRECTORY,
@@ -1140,7 +1140,7 @@ const baseAuditCard = (
     sofifaPlayerId: proof?.sofifaPlayerId ?? null,
     sofifaSourcePage: proof?.sourcePage ?? null,
     sourceImageUrl: proof?.sourceImageUrl ?? null,
-    localImagePath: `/assets/players/game-faces/${card.playerCardId}.png`,
+    localImagePath: `/players/game-faces/${card.playerCardId}.png`,
     imageSha256: null,
     imageDHash: null,
     imageVisualSha256: null,
@@ -1198,7 +1198,7 @@ const baseAuditCard = (
     },
     exactDuplicateGroup: null,
     similarMatches: [],
-    priorImagePath: `/assets/players/${card.worldCupYear}/${card.playerCardId}.png`,
+    priorImagePath: `/players/game-faces/${card.playerCardId}.png`,
     priorImageSha256: null,
     priorImageDHash: null,
     priorVisualSha256: null,
@@ -1212,7 +1212,11 @@ const comparePriorProduction = async (
   card: AuditCard,
   strictFacts: ImageFacts,
 ) => {
-  const absolute = path.join(ROOT, card.priorImagePath.replace(/^\//, ""));
+  const absolute = path.join(
+    ROOT,
+    "public",
+    card.priorImagePath.replace(/^\//, ""),
+  );
   if (!existsSync(absolute)) {
     card.replacementClassification = "replaced";
     card.replacementReason =
@@ -1618,6 +1622,7 @@ const main = async () => {
   for (const card of auditCards) {
     const absolute = path.join(
       ROOT,
+      "public",
       card.priorImagePath.replace(/^\//, ""),
     );
     if (!existsSync(absolute)) continue;

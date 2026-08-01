@@ -1,22 +1,23 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-28T06:03:03.291Z",
+  "generatedAt": "2026-08-01T00:00:00.000Z",
   "branch": "fix/player-images-accolades-step-1",
   "preservedCommit": "a043cf97b214b7aa751071dc95787edef8c81b7d",
   "careerAccolades": {
     "uniqueIdentitiesAudited": 7254,
     "playerCardsCovered": 9626,
     "statusCounts": {
-      "verified": 150,
-      "partially-verified": 406,
-      "unresolved": 6698,
+      "verified": 1163,
+      "partially-verified": 172,
+      "unresolved": 5919,
       "verified-no-recorded-major-accolades": 0
     },
-    "verifiedAchievementRecords": 2525,
-    "verifiedAchievementOccurrences": 4546,
+    "completedReviewedIdentities": 1163,
+    "verifiedAchievementRecords": 6173,
+    "verifiedAchievementOccurrences": 10438,
     "multiCardIdentities": 1818,
-    "multiCardIdentitiesPreviouslyInconsistent": 252,
-    "multiCardIdentitiesCorrected": 252,
+    "multiCardIdentitiesPreviouslyInconsistent": 0,
+    "multiCardIdentitiesCorrected": 0,
     "perisic": {
       "cardIds": [
         "ivan-perisic-2014",
@@ -24,8 +25,8 @@
         "ivan-perisic-2022",
         "ivan-perisic-2026"
       ],
-      "canonicalCareerAccoladeHash": "ce79e6689f2c1d3411a34a3d34d47f3a0b1553c31d69cfb424f10387379e6a5c",
-      "canonicalCareerAccoladeRecords": 10,
+      "canonicalCareerAccoladeHash": "ee95dafb9006b8b9608d85d4ec9fe842a345a3da18e0ffc1c6cd794350c237bf",
+      "canonicalCareerAccoladeRecords": 11,
       "finalConsistencyStatus": "consistent"
     }
   },

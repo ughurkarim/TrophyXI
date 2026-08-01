@@ -24,9 +24,9 @@
     "cardsWithCompleteTournamentEvidence": 0,
     "cardsWithPartialTournamentEvidence": 1954,
     "cardsWithUnknownTournamentEvidence": 204,
-    "exactLocalImages": 655,
-    "photoPending": 1503,
-    "activeImageRecords": 655,
+    "exactLocalImages": 710,
+    "photoPending": 1448,
+    "activeImageRecords": 710,
     "invalidActiveImageRecords": 0,
     "activeStatRecords": 2158,
     "duplicatePlayableCardIds": 0,
@@ -28283,17 +28283,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "alain-giresse-1982",
-        "playerName": "Alain Giresse",
-        "countryCode": "FRA",
-        "tournamentYear": 1982,
-        "expectedPublicPath": "public/players/game-faces/alain-giresse-1982.png",
-        "expectedRuntimePath": "/players/game-faces/alain-giresse-1982.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "alain-giresse-1986",
         "playerName": "Alain Giresse",
         "countryCode": "FRA",
@@ -28822,17 +28811,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "andreas-brehme-1986",
-        "playerName": "Andreas Brehme",
-        "countryCode": "GER",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/andreas-brehme-1986.png",
-        "expectedRuntimePath": "/players/game-faces/andreas-brehme-1986.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "andreas-brehme-1990",
         "playerName": "Andreas Brehme",
         "countryCode": "GER",
@@ -29147,17 +29125,6 @@
         "tournamentYear": 2026,
         "expectedPublicPath": "public/players/game-faces/ao-tanaka-2026.png",
         "expectedRuntimePath": "/players/game-faces/ao-tanaka-2026.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "arie-haan-1974",
-        "playerName": "Arie Haan",
-        "countryCode": "NED",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/arie-haan-1974.png",
-        "expectedRuntimePath": "/players/game-faces/arie-haan-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -29691,17 +29658,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "berti-vogts-1978",
-        "playerName": "Berti Vogts",
-        "countryCode": "GER",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/berti-vogts-1978.png",
-        "expectedRuntimePath": "/players/game-faces/berti-vogts-1978.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "bilal-el-khannous-2022",
         "playerName": "Bilal El Khannous",
         "countryCode": "MAR",
@@ -29730,17 +29686,6 @@
         "tournamentYear": 1986,
         "expectedPublicPath": "public/players/game-faces/billy-hamilton-1986.png",
         "expectedRuntimePath": "/players/game-faces/billy-hamilton-1986.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "bobby-moore-1970",
-        "playerName": "Bobby Moore",
-        "countryCode": "ENG",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/bobby-moore-1970.png",
-        "expectedRuntimePath": "/players/game-faces/bobby-moore-1970.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -29928,17 +29873,6 @@
         "tournamentYear": 1970,
         "expectedPublicPath": "public/players/game-faces/brito-1970.png",
         "expectedRuntimePath": "/players/game-faces/brito-1970.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "bruno-conti-1982",
-        "playerName": "Bruno Conti",
-        "countryCode": "ITA",
-        "tournamentYear": 1982,
-        "expectedPublicPath": "public/players/game-faces/bruno-conti-1982.png",
-        "expectedRuntimePath": "/players/game-faces/bruno-conti-1982.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -30725,17 +30659,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "claudio-gentile-1978",
-        "playerName": "Claudio Gentile",
-        "countryCode": "ITA",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/claudio-gentile-1978.png",
-        "expectedRuntimePath": "/players/game-faces/claudio-gentile-1978.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "claudio-gentile-1982",
         "playerName": "Claudio Gentile",
         "countryCode": "ITA",
@@ -30874,39 +30797,6 @@
         "tournamentYear": 2010,
         "expectedPublicPath": "public/players/game-faces/cristian-riveros-2010.png",
         "expectedRuntimePath": "/players/game-faces/cristian-riveros-2010.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "cristian-romero-2022",
-        "playerName": "Cristian Romero",
-        "countryCode": "ARG",
-        "tournamentYear": 2022,
-        "expectedPublicPath": "public/players/game-faces/cristian-romero-2022.png",
-        "expectedRuntimePath": "/players/game-faces/cristian-romero-2022.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "cristiano-ronaldo-2006",
-        "playerName": "Cristiano Ronaldo",
-        "countryCode": "POR",
-        "tournamentYear": 2006,
-        "expectedPublicPath": "public/players/game-faces/cristiano-ronaldo-2006.png",
-        "expectedRuntimePath": "/players/game-faces/cristiano-ronaldo-2006.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "cristiano-ronaldo-2010",
-        "playerName": "Cristiano Ronaldo",
-        "countryCode": "POR",
-        "tournamentYear": 2010,
-        "expectedPublicPath": "public/players/game-faces/cristiano-ronaldo-2010.png",
-        "expectedRuntimePath": "/players/game-faces/cristiano-ronaldo-2010.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -31061,17 +30951,6 @@
         "tournamentYear": 2026,
         "expectedPublicPath": "public/players/game-faces/daniel-munoz-2026.png",
         "expectedRuntimePath": "/players/game-faces/daniel-munoz-2026.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "daniel-passarella-1978",
-        "playerName": "Daniel Passarella",
-        "countryCode": "ARG",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/daniel-passarella-1978.png",
-        "expectedRuntimePath": "/players/game-faces/daniel-passarella-1978.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -31803,17 +31682,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "dino-zoff-1974",
-        "playerName": "Dino Zoff",
-        "countryCode": "ITA",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/dino-zoff-1974.png",
-        "expectedRuntimePath": "/players/game-faces/dino-zoff-1974.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "dino-zoff-1978",
         "playerName": "Dino Zoff",
         "countryCode": "ITA",
@@ -31842,17 +31710,6 @@
         "tournamentYear": 1974,
         "expectedPublicPath": "public/players/game-faces/dirceu-1974.png",
         "expectedRuntimePath": "/players/game-faces/dirceu-1974.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "dirceu-1978",
-        "playerName": "Dirceu",
-        "countryCode": "BRA",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/dirceu-1978.png",
-        "expectedRuntimePath": "/players/game-faces/dirceu-1978.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -31941,17 +31798,6 @@
         "tournamentYear": 2018,
         "expectedPublicPath": "public/players/game-faces/dominik-livakovic-2018.png",
         "expectedRuntimePath": "/players/game-faces/dominik-livakovic-2018.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "dominik-livakovic-2022",
-        "playerName": "Dominik Livaković",
-        "countryCode": "CRO",
-        "tournamentYear": 2022,
-        "expectedPublicPath": "public/players/game-faces/dominik-livakovic-2022.png",
-        "expectedRuntimePath": "/players/game-faces/dominik-livakovic-2022.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -32293,17 +32139,6 @@
         "tournamentYear": 2010,
         "expectedPublicPath": "public/players/game-faces/emile-heskey-2010.png",
         "expectedRuntimePath": "/players/game-faces/emile-heskey-2010.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "emilio-butragueno-1986",
-        "playerName": "Emilio Butragueño",
-        "countryCode": "ESP",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/emilio-butragueno-1986.png",
-        "expectedRuntimePath": "/players/game-faces/emilio-butragueno-1986.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -32722,17 +32557,6 @@
         "tournamentYear": 2006,
         "expectedPublicPath": "public/players/game-faces/fabio-grosso-2006.png",
         "expectedRuntimePath": "/players/game-faces/fabio-grosso-2006.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "falcao-1982",
-        "playerName": "Falcão",
-        "countryCode": "BRA",
-        "tournamentYear": 1982,
-        "expectedPublicPath": "public/players/game-faces/falcao-1982.png",
-        "expectedRuntimePath": "/players/game-faces/falcao-1982.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -33299,17 +33123,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "franz-beckenbauer-1970",
-        "playerName": "Franz Beckenbauer",
-        "countryCode": "GER",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/franz-beckenbauer-1970.png",
-        "expectedRuntimePath": "/players/game-faces/franz-beckenbauer-1970.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "franz-beckenbauer-1974",
         "playerName": "Franz Beckenbauer",
         "countryCode": "GER",
@@ -33464,17 +33277,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "gaetano-scirea-1978",
-        "playerName": "Gaetano Scirea",
-        "countryCode": "ITA",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/gaetano-scirea-1978.png",
-        "expectedRuntimePath": "/players/game-faces/gaetano-scirea-1978.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "gaetano-scirea-1982",
         "playerName": "Gaetano Scirea",
         "countryCode": "ITA",
@@ -33492,17 +33294,6 @@
         "tournamentYear": 1986,
         "expectedPublicPath": "public/players/game-faces/gaetano-scirea-1986.png",
         "expectedRuntimePath": "/players/game-faces/gaetano-scirea-1986.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "gary-lineker-1986",
-        "playerName": "Gary Lineker",
-        "countryCode": "ENG",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/gary-lineker-1986.png",
-        "expectedRuntimePath": "/players/game-faces/gary-lineker-1986.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -33651,17 +33442,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "gerd-muller-1970",
-        "playerName": "Gerd Müller",
-        "countryCode": "GER",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/gerd-muller-1970.png",
-        "expectedRuntimePath": "/players/game-faces/gerd-muller-1970.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "gerd-muller-1974",
         "playerName": "Gerd Müller",
         "countryCode": "GER",
@@ -33756,17 +33536,6 @@
         "tournamentYear": 1998,
         "expectedPublicPath": "public/players/game-faces/gheorghe-hagi-1998.png",
         "expectedRuntimePath": "/players/game-faces/gheorghe-hagi-1998.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "giacinto-facchetti-1970",
-        "playerName": "Giacinto Facchetti",
-        "countryCode": "ITA",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/giacinto-facchetti-1970.png",
-        "expectedRuntimePath": "/players/game-faces/giacinto-facchetti-1970.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -34256,34 +34025,12 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "gordon-banks-1970",
-        "playerName": "Gordon Banks",
-        "countryCode": "ENG",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/gordon-banks-1970.png",
-        "expectedRuntimePath": "/players/game-faces/gordon-banks-1970.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "gregory-van-der-wiel-2010",
         "playerName": "Gregory van der Wiel",
         "countryCode": "NED",
         "tournamentYear": 2010,
         "expectedPublicPath": "public/players/game-faces/gregory-van-der-wiel-2010.png",
         "expectedRuntimePath": "/players/game-faces/gregory-van-der-wiel-2010.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "grzegorz-lato-1974",
-        "playerName": "Grzegorz Lato",
-        "countryCode": "POL",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/grzegorz-lato-1974.png",
-        "expectedRuntimePath": "/players/game-faces/grzegorz-lato-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -34971,17 +34718,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "igor-belanov-1986",
-        "playerName": "Igor Belanov",
-        "countryCode": "SUN",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/igor-belanov-1986.png",
-        "expectedRuntimePath": "/players/game-faces/igor-belanov-1986.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "igor-stimac-1998",
         "playerName": "Igor Štimac",
         "countryCode": "CRO",
@@ -35230,17 +34966,6 @@
         "tournamentYear": 1982,
         "expectedPublicPath": "public/players/game-faces/jaime-duarte-1982.png",
         "expectedRuntimePath": "/players/game-faces/jaime-duarte-1982.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "jairzinho-1970",
-        "playerName": "Jairzinho",
-        "countryCode": "BRA",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/jairzinho-1970.png",
-        "expectedRuntimePath": "/players/game-faces/jairzinho-1970.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -35565,34 +35290,12 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "jean-marie-pfaff-1986",
-        "playerName": "Jean-Marie Pfaff",
-        "countryCode": "BEL",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/jean-marie-pfaff-1986.png",
-        "expectedRuntimePath": "/players/game-faces/jean-marie-pfaff-1986.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "jean-pierre-papin-1986",
         "playerName": "Jean-Pierre Papin",
         "countryCode": "FRA",
         "tournamentYear": 1986,
         "expectedPublicPath": "public/players/game-faces/jean-pierre-papin-1986.png",
         "expectedRuntimePath": "/players/game-faces/jean-pierre-papin-1986.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "jean-tigana-1982",
-        "playerName": "Jean Tigana",
-        "countryCode": "FRA",
-        "tournamentYear": 1982,
-        "expectedPublicPath": "public/players/game-faces/jean-tigana-1982.png",
-        "expectedRuntimePath": "/players/game-faces/jean-tigana-1982.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -35829,17 +35532,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "johan-cruyff-1974",
-        "playerName": "Johan Cruyff",
-        "countryCode": "NED",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/johan-cruyff-1974.png",
-        "expectedRuntimePath": "/players/game-faces/johan-cruyff-1974.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "johan-manzambi-2026",
         "playerName": "Johan MANZAMBI",
         "countryCode": "SUI",
@@ -35857,17 +35549,6 @@
         "tournamentYear": 2018,
         "expectedPublicPath": "public/players/game-faces/johan-mojica-2018.png",
         "expectedRuntimePath": "/players/game-faces/johan-mojica-2018.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "johan-neeskens-1974",
-        "playerName": "Johan Neeskens",
-        "countryCode": "NED",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/johan-neeskens-1974.png",
-        "expectedRuntimePath": "/players/game-faces/johan-neeskens-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -36049,17 +35730,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "jorge-burruchaga-1986",
-        "playerName": "Jorge Burruchaga",
-        "countryCode": "ARG",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/jorge-burruchaga-1986.png",
-        "expectedRuntimePath": "/players/game-faces/jorge-burruchaga-1986.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "jorge-burruchaga-1990",
         "playerName": "Jorge Burruchaga",
         "countryCode": "ARG",
@@ -36132,17 +35802,6 @@
         "tournamentYear": 1982,
         "expectedPublicPath": "public/players/game-faces/jorge-valdano-1982.png",
         "expectedRuntimePath": "/players/game-faces/jorge-valdano-1982.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "jorge-valdano-1986",
-        "playerName": "Jorge Valdano",
-        "countryCode": "ARG",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/jorge-valdano-1986.png",
-        "expectedRuntimePath": "/players/game-faces/jorge-valdano-1986.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -36528,17 +36187,6 @@
         "tournamentYear": 2022,
         "expectedPublicPath": "public/players/game-faces/jules-kounde-2022.png",
         "expectedRuntimePath": "/players/game-faces/jules-kounde-2022.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "julian-alvarez-2022",
-        "playerName": "Julián Álvarez",
-        "countryCode": "ARG",
-        "tournamentYear": 2022,
-        "expectedPublicPath": "public/players/game-faces/julian-alvarez-2022.png",
-        "expectedRuntimePath": "/players/game-faces/julian-alvarez-2022.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -36951,17 +36599,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "karl-heinz-rummenigge-1978",
-        "playerName": "Karl-Heinz Rummenigge",
-        "countryCode": "GER",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/karl-heinz-rummenigge-1978.png",
-        "expectedRuntimePath": "/players/game-faces/karl-heinz-rummenigge-1978.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "karl-heinz-rummenigge-1982",
         "playerName": "Karl-Heinz Rummenigge",
         "countryCode": "GER",
@@ -37023,17 +36660,6 @@
         "tournamentYear": 2010,
         "expectedPublicPath": "public/players/game-faces/katlego-mphela-2010.png",
         "expectedRuntimePath": "/players/game-faces/katlego-mphela-2010.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "kazimierz-deyna-1974",
-        "playerName": "Kazimierz Deyna",
-        "countryCode": "POL",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/kazimierz-deyna-1974.png",
-        "expectedRuntimePath": "/players/game-faces/kazimierz-deyna-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -37545,28 +37171,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "lionel-messi-2006",
-        "playerName": "Lionel Messi",
-        "countryCode": "ARG",
-        "tournamentYear": 2006,
-        "expectedPublicPath": "public/players/game-faces/lionel-messi-2006.png",
-        "expectedRuntimePath": "/players/game-faces/lionel-messi-2006.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "lionel-messi-2010",
-        "playerName": "Lionel Messi",
-        "countryCode": "ARG",
-        "tournamentYear": 2010,
-        "expectedPublicPath": "public/players/game-faces/lionel-messi-2010.png",
-        "expectedRuntimePath": "/players/game-faces/lionel-messi-2010.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "lionel-mpasi-2026",
         "playerName": "Lionel MPASI",
         "countryCode": "COD",
@@ -37595,17 +37199,6 @@
         "tournamentYear": 1982,
         "expectedPublicPath": "public/players/game-faces/lothar-matthaus-1982.png",
         "expectedRuntimePath": "/players/game-faces/lothar-matthaus-1982.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "lothar-matthaus-1986",
-        "playerName": "Lothar Matthäus",
-        "countryCode": "GER",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/lothar-matthaus-1986.png",
-        "expectedRuntimePath": "/players/game-faces/lothar-matthaus-1986.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -38293,17 +37886,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "marco-tardelli-1978",
-        "playerName": "Marco Tardelli",
-        "countryCode": "ITA",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/marco-tardelli-1978.png",
-        "expectedRuntimePath": "/players/game-faces/marco-tardelli-1978.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "marco-tardelli-1982",
         "playerName": "Marco Tardelli",
         "countryCode": "ITA",
@@ -38398,17 +37980,6 @@
         "tournamentYear": 1970,
         "expectedPublicPath": "public/players/game-faces/mario-bertini-1970.png",
         "expectedRuntimePath": "/players/game-faces/mario-bertini-1970.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "mario-kempes-1974",
-        "playerName": "Mario Kempes",
-        "countryCode": "ARG",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/mario-kempes-1974.png",
-        "expectedRuntimePath": "/players/game-faces/mario-kempes-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -38970,17 +38541,6 @@
         "tournamentYear": 2010,
         "expectedPublicPath": "public/players/game-faces/michel-bastos-2010.png",
         "expectedRuntimePath": "/players/game-faces/michel-bastos-2010.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "michel-platini-1978",
-        "playerName": "Michel Platini",
-        "countryCode": "FRA",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/michel-platini-1978.png",
-        "expectedRuntimePath": "/players/game-faces/michel-platini-1978.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -39866,17 +39426,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "osvaldo-ardiles-1978",
-        "playerName": "Osvaldo Ardiles",
-        "countryCode": "ARG",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/osvaldo-ardiles-1978.png",
-        "expectedRuntimePath": "/players/game-faces/osvaldo-ardiles-1978.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "osvaldo-ardiles-1982",
         "playerName": "Osvaldo Ardiles",
         "countryCode": "ARG",
@@ -39982,17 +39531,6 @@
         "tournamentYear": 2002,
         "expectedPublicPath": "public/players/game-faces/paolo-maldini-2002.png",
         "expectedRuntimePath": "/players/game-faces/paolo-maldini-2002.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "paolo-rossi-1978",
-        "playerName": "Paolo Rossi",
-        "countryCode": "ITA",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/paolo-rossi-1978.png",
-        "expectedRuntimePath": "/players/game-faces/paolo-rossi-1978.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -40202,17 +39740,6 @@
         "tournamentYear": 2002,
         "expectedPublicPath": "public/players/game-faces/patrik-andersson-2002.png",
         "expectedRuntimePath": "/players/game-faces/patrik-andersson-2002.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "paul-breitner-1974",
-        "playerName": "Paul Breitner",
-        "countryCode": "GER",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/paul-breitner-1974.png",
-        "expectedRuntimePath": "/players/game-faces/paul-breitner-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -40598,17 +40125,6 @@
         "tournamentYear": 2022,
         "expectedPublicPath": "public/players/game-faces/piotr-zielinski-2022.png",
         "expectedRuntimePath": "/players/game-faces/piotr-zielinski-2022.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "preben-elkj-r-1986",
-        "playerName": "Preben Elkjær",
-        "countryCode": "DEN",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/preben-elkj-r-1986.png",
-        "expectedRuntimePath": "/players/game-faces/preben-elkj-r-1986.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -41230,17 +40746,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "rivelino-1970",
-        "playerName": "Rivelino",
-        "countryCode": "BRA",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/rivelino-1970.png",
-        "expectedRuntimePath": "/players/game-faces/rivelino-1970.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "rivelino-1974",
         "playerName": "Rivelino",
         "countryCode": "BRA",
@@ -41258,17 +40763,6 @@
         "tournamentYear": 1978,
         "expectedPublicPath": "public/players/game-faces/rivelino-1978.png",
         "expectedRuntimePath": "/players/game-faces/rivelino-1978.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "rob-rensenbrink-1974",
-        "playerName": "Rob Rensenbrink",
-        "countryCode": "NED",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/rob-rensenbrink-1974.png",
-        "expectedRuntimePath": "/players/game-faces/rob-rensenbrink-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -42022,17 +41516,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "rudi-voller-1986",
-        "playerName": "Rudi Völler",
-        "countryCode": "GER",
-        "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/rudi-voller-1986.png",
-        "expectedRuntimePath": "/players/game-faces/rudi-voller-1986.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "rudi-voller-1990",
         "playerName": "Rudi Völler",
         "countryCode": "GER",
@@ -42050,17 +41533,6 @@
         "tournamentYear": 1994,
         "expectedPublicPath": "public/players/game-faces/rudi-voller-1994.png",
         "expectedRuntimePath": "/players/game-faces/rudi-voller-1994.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "ruud-krol-1974",
-        "playerName": "Ruud Krol",
-        "countryCode": "NED",
-        "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/ruud-krol-1974.png",
-        "expectedRuntimePath": "/players/game-faces/ruud-krol-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -42248,17 +41720,6 @@
         "tournamentYear": 2022,
         "expectedPublicPath": "public/players/game-faces/selim-amallah-2022.png",
         "expectedRuntimePath": "/players/game-faces/selim-amallah-2022.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "sepp-maier-1970",
-        "playerName": "Sepp Maier",
-        "countryCode": "GER",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/sepp-maier-1970.png",
-        "expectedRuntimePath": "/players/game-faces/sepp-maier-1970.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -42545,17 +42006,6 @@
         "tournamentYear": 2018,
         "expectedPublicPath": "public/players/game-faces/sofyan-amrabat-2018.png",
         "expectedRuntimePath": "/players/game-faces/sofyan-amrabat-2018.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "sofyan-amrabat-2022",
-        "playerName": "Sofyan Amrabat",
-        "countryCode": "MAR",
-        "tournamentYear": 2022,
-        "expectedPublicPath": "public/players/game-faces/sofyan-amrabat-2022.png",
-        "expectedRuntimePath": "/players/game-faces/sofyan-amrabat-2022.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -42952,17 +42402,6 @@
         "tournamentYear": 1974,
         "expectedPublicPath": "public/players/game-faces/tarcisio-burgnich-1974.png",
         "expectedRuntimePath": "/players/game-faces/tarcisio-burgnich-1974.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "teofilo-cubillas-1970",
-        "playerName": "Teófilo Cubillas",
-        "countryCode": "PER",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/teofilo-cubillas-1970.png",
-        "expectedRuntimePath": "/players/game-faces/teofilo-cubillas-1970.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -43414,17 +42853,6 @@
         "tournamentYear": 2006,
         "expectedPublicPath": "public/players/game-faces/torsten-frings-2006.png",
         "expectedRuntimePath": "/players/game-faces/torsten-frings-2006.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "tostao-1970",
-        "playerName": "Tostão",
-        "countryCode": "BRA",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/tostao-1970.png",
-        "expectedRuntimePath": "/players/game-faces/tostao-1970.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -44145,17 +43573,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "wolfgang-overath-1970",
-        "playerName": "Wolfgang Overath",
-        "countryCode": "GER",
-        "tournamentYear": 1970,
-        "expectedPublicPath": "public/players/game-faces/wolfgang-overath-1970.png",
-        "expectedRuntimePath": "/players/game-faces/wolfgang-overath-1970.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "wolfgang-overath-1974",
         "playerName": "Wolfgang Overath",
         "countryCode": "GER",
@@ -44552,17 +43969,6 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "zbigniew-boniek-1978",
-        "playerName": "Zbigniew Boniek",
-        "countryCode": "POL",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/zbigniew-boniek-1978.png",
-        "expectedRuntimePath": "/players/game-faces/zbigniew-boniek-1978.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
         "cardId": "zbigniew-boniek-1982",
         "playerName": "Zbigniew Boniek",
         "countryCode": "POL",
@@ -44602,17 +44008,6 @@
         "tournamentYear": 2006,
         "expectedPublicPath": "public/players/game-faces/ze-roberto-2006.png",
         "expectedRuntimePath": "/players/game-faces/ze-roberto-2006.png",
-        "localFileExists": false,
-        "activeImageRecordExists": false,
-        "displayStatus": "PHOTO PENDING"
-      },
-      {
-        "cardId": "zico-1978",
-        "playerName": "Zico",
-        "countryCode": "BRA",
-        "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/zico-1978.png",
-        "expectedRuntimePath": "/players/game-faces/zico-1978.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"

@@ -962,19 +962,22 @@ const main = async () => {
   }
   assert(
     identityFallbackPlayerImages.length === 0 &&
-      playerImages.length === tournamentEditionPlayerImages.length &&
       new Set(playerImages.map((image) => image.id)).size ===
         playerImages.length &&
       playerImages.every((image) => {
+        return Boolean(
+          playableIds.has(image.id) &&
+            image.file === `/players/game-faces/${image.id}.png` &&
+            !image.fallback &&
+            image.exactTournamentImage,
+        );
+      }) &&
+      tournamentEditionPlayerImages.every((image) => {
         const required = STRICT_PLAYER_PORTRAIT_EDITION_BY_YEAR.get(
           image.tournamentYear,
         );
         return Boolean(
           required &&
-            playableIds.has(image.id) &&
-            image.file === `/players/game-faces/${image.id}.png` &&
-            !image.fallback &&
-            image.exactTournamentImage &&
             image.gameEdition === required.gameEdition &&
             image.gameEditionLaunchYear === required.launchYear &&
             image.matchQuality === "edition-verified",

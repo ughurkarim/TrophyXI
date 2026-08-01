@@ -1,0 +1,1126 @@
+{
+  "schemaVersion": 1,
+  "reviewedThrough": "2026-08-01",
+  "methodology": "Manually reviewed authoritative supplements for meaningful honors or placements absent from, incomplete on, or excluded by the checked Transfermarkt achievements page. These entries are inputs to the single canonical identity review artifact, not a second runtime accolade store.",
+  "identities": {
+    "abderrazak-khairi": {
+      "notes": [
+        "Authoritative competition and historical sources supplement the checked Transfermarkt achievements page for Khairi's FAR Rabat career."
+      ],
+      "accolades": [
+        {
+          "id": "african-cup-of-champions-clubs-winner",
+          "label": "African Cup of Champions Clubs Winner",
+          "count": 1,
+          "category": "continental",
+          "sourceName": "CAF",
+          "sourceUrl": "https://www.cafonline.com/caf-champions-league/news/far-rabat-s-long-41-year-wait-for-another-shot-at-the-trophy/",
+          "verified": true,
+          "description": "African champion with FAR Rabat in 1985."
+        },
+        {
+          "id": "moroccan-champion",
+          "label": "Moroccan Champion",
+          "count": 3,
+          "category": "domestic-league",
+          "sourceName": "National Football Teams",
+          "sourceUrl": "https://www.national-football-teams.com/player/39394/Abderrazak_Khairi.html",
+          "verified": true,
+          "description": "Botola champion with FAR Rabat in 1984, 1987 and 1989."
+        },
+        {
+          "id": "moroccan-throne-cup-winner",
+          "label": "Moroccan Throne Cup Winner",
+          "count": 3,
+          "category": "domestic-cup",
+          "sourceName": "RSSSF",
+          "sourceUrl": "https://www.rsssf.org/tablesm/marocuphist.html",
+          "verified": true,
+          "description": "Moroccan Throne Cup winner with FAR Rabat in 1984, 1985 and 1986."
+        }
+      ]
+    },
+    "aiden-oneill": {
+      "notes": [
+        "The official A-Leagues career review records all four Melbourne City team honors, including the premiership/championship distinction."
+      ],
+      "accolades": [
+        {
+          "id": "a-league-men-premiership-winner",
+          "label": "A-League Men Premiership Winner",
+          "count": 3,
+          "category": "domestic-league",
+          "sourceName": "A-Leagues",
+          "sourceUrl": "https://aleagues.com.au/news/a-leagues-melbourne-city-standard-liege-australian-football-transfer-news-socceroos/",
+          "verified": true,
+          "description": "Premiership winner with Melbourne City in 2020/21, 2021/22 and 2022/23."
+        },
+        {
+          "id": "a-league-men-championship-winner",
+          "label": "A-League Men Championship Winner",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "A-Leagues",
+          "sourceUrl": "https://aleagues.com.au/news/a-leagues-melbourne-city-standard-liege-australian-football-transfer-news-socceroos/",
+          "verified": true,
+          "description": "Grand Final champion with Melbourne City in 2020/21."
+        }
+      ]
+    },
+    "alessandro-circati": {
+      "notes": [
+        "The official league title is retained as Circati's meaningful senior club achievement."
+      ],
+      "accolades": [
+        {
+          "id": "serie-b-champion",
+          "label": "Serie B Champion",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "Lega B",
+          "sourceUrl": "https://www.legab.it/news/il-parma-vince-la-serie-bkt-2023-24",
+          "verified": true,
+          "description": "Italian second-tier champion with Parma in 2023/24."
+        }
+      ]
+    },
+    "ayyoub-bouaddi": {
+      "notes": [
+        "This is explicitly an official Ligue 1 editorial selection, not the formal UNFP Young Player of the Year award."
+      ],
+      "accolades": [
+        {
+          "id": "ligue-1-editorial-best-young-player-2025-26",
+          "label": "Ligue 1 Editorial Best Young Player — 2025/26",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "Ligue 1",
+          "sourceUrl": "https://ligue1.com/en/articles/l1_article_5161-best-of-2025-26-best-young-player",
+          "verified": true,
+          "description": "Selected by Ligue 1 editorial staff as their best young player of the 2025/26 season; this was not the formal UNFP award."
+        }
+      ]
+    },
+    "bruno-martins-indi": {
+      "notes": [
+        "The major international tournament placement is retained because no qualifying senior club title was found."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-third-place",
+          "label": "FIFA World Cup Third Place",
+          "count": 1,
+          "category": "international",
+          "sourceName": "Transfermarkt",
+          "sourceUrl": "https://www.transfermarkt.com/bruno-martins-indi/erfolge/spieler/112052",
+          "verified": true,
+          "description": "Third-place finisher with the Netherlands at the 2014 FIFA World Cup."
+        }
+      ]
+    },
+    "caceres-juan-jose": {
+      "notes": [
+        "The official senior domestic cup is retained as Cáceres's qualifying team honor."
+      ],
+      "accolades": [
+        {
+          "id": "trofeo-de-campeones-winner",
+          "label": "Trofeo de Campeones Winner",
+          "count": 1,
+          "category": "domestic-cup",
+          "sourceName": "Transfermarkt",
+          "sourceUrl": "https://www.transfermarkt.com/juan-jose-caceres/erfolge/spieler/756494",
+          "verified": true,
+          "description": "Winner with Racing Club in 2021/22."
+        }
+      ]
+    },
+    "carsten-ramelow": {
+      "notes": [
+        "The World Cup placement and major league-season selection supplement a checked Transfermarkt page otherwise filtered to no title."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-runner-up",
+          "label": "FIFA World Cup Runner-up",
+          "count": 1,
+          "category": "international",
+          "sourceName": "Transfermarkt",
+          "sourceUrl": "https://www.transfermarkt.com/carsten-ramelow/erfolge/spieler/86",
+          "verified": true,
+          "description": "Runner-up with Germany at the 2002 FIFA World Cup; started the final."
+        },
+        {
+          "id": "kicker-bundesliga-team-of-the-season",
+          "label": "kicker Bundesliga Team of the Season",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "kicker",
+          "sourceUrl": "https://web.archive.org/web/20121018190508/http://www.kicker.de/news/fussball/bundesliga/bl50/199899/startseite.html",
+          "verified": true,
+          "description": "Selected in kicker's 1998/99 Bundesliga Team of the Season."
+        }
+      ]
+    },
+    "crysencio-summerville": {
+      "notes": [
+        "Official EFL, PFA and international-youth honors complete Summerville's reviewed career record."
+      ],
+      "accolades": [
+        {
+          "id": "efl-championship-player-of-the-season",
+          "label": "EFL Championship Player of the Season",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "EFL",
+          "sourceUrl": "https://www.efl.com/news/2024/april/14/crysencio-summerville-named-the-sky-bet-championship-player-of-the-season/",
+          "verified": true,
+          "description": "Official EFL Championship Player of the Season for 2023/24."
+        },
+        {
+          "id": "pfa-championship-player-of-the-year",
+          "label": "PFA Championship Player of the Year",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "PFA",
+          "sourceUrl": "https://www.thepfa.com/news/2024/8/20/pfa-awards-championship-player-of-the-year-crysencio-summerville",
+          "verified": true,
+          "description": "PFA Championship Player of the Year for 2023/24."
+        },
+        {
+          "id": "uefa-european-under-17-champion",
+          "label": "UEFA European Under-17 Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "Transfermarkt",
+          "sourceUrl": "https://www.transfermarkt.com/crysencio-summerville/erfolge/spieler/474701",
+          "verified": true,
+          "description": "European U17 champion with the Netherlands in 2018."
+        }
+      ]
+    },
+    "dele-alli": {
+      "notes": [
+        "The two major PFA award families are recorded once each with aggregate counts."
+      ],
+      "accolades": [
+        {
+          "id": "pfa-young-player-of-the-year",
+          "label": "PFA Young Player of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "PFA",
+          "sourceUrl": "https://www.thepfa.com/news/2017/4/23/dele-alli-wins-pfa-young-player-of-the-year",
+          "verified": true,
+          "description": "Won in 2015/16 and 2016/17."
+        },
+        {
+          "id": "pfa-premier-league-team-of-the-year",
+          "label": "PFA Premier League Team of the Year",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "PFA",
+          "sourceUrl": "https://www.thepfa.com/news/2017/4/23/dele-alli-wins-pfa-young-player-of-the-year",
+          "verified": true,
+          "description": "Selected in the PFA Premier League Team of the Year in 2015/16 and 2016/17."
+        }
+      ]
+    },
+    "denis-zakaria": {
+      "notes": [
+        "The official Swiss league annual award supplies Zakaria's qualifying individual achievement."
+      ],
+      "accolades": [
+        {
+          "id": "swiss-football-league-best-youngster",
+          "label": "Swiss Football League Best Youngster",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "SRF",
+          "sourceUrl": "https://www.srf.ch/sport/fussball/super-league/super-league-hoarau-ist-spieler-des-jahres",
+          "verified": true,
+          "description": "Named Swiss Football League Best Youngster for 2016."
+        }
+      ]
+    },
+    "elliot-anderson": {
+      "notes": [
+        "The formal UEFA youth international title is retained; editorial league selections are omitted."
+      ],
+      "accolades": [
+        {
+          "id": "uefa-european-under-21-champion",
+          "label": "UEFA European Under-21 Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "UEFA",
+          "sourceUrl": "https://www.uefa.com/under21/news/029a-1e1c8234a435-fbf73cb016a8-1000--england-3-2-germany-aet-rowe-header-ensures-young-lions-re/",
+          "verified": true,
+          "description": "European U21 champion with England in 2025; started the final."
+        }
+      ]
+    },
+    "fabian-johnson": {
+      "notes": [
+        "The major UEFA U21 title is retained because no qualifying senior team or individual title was found."
+      ],
+      "accolades": [
+        {
+          "id": "uefa-european-under-21-champion",
+          "label": "UEFA European Under-21 Champion",
+          "count": 1,
+          "category": "international",
+          "sourceName": "DFB",
+          "sourceUrl": "https://datencenter.dfb.de/datencenter/europameisterschaft-1136/2009-in-schweden/finale/england-u-21-deutschland-u-21-72972",
+          "verified": true,
+          "description": "European U21 champion with Germany in 2009; played in the final."
+        }
+      ]
+    },
+    "facundo-medina": {
+      "notes": [
+        "FIFA's official 2026 squad and result records establish the major international placement after Transfermarkt's page became stale."
+      ],
+      "additionalSources": [
+        {
+          "sourceName": "FIFA Squad Lists",
+          "url": "https://fdp.fifa.org/assetspublic/ce281/pdf/SquadLists-English.pdf",
+          "reason": "FIFA's final tournament squad list names Facundo Medina in Argentina's 2026 squad."
+        }
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-runner-up",
+          "label": "FIFA World Cup Runner-up",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FIFA",
+          "sourceUrl": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/final-tournament-standings",
+          "verified": true,
+          "description": "Member of Argentina's runner-up squad at the 2026 FIFA World Cup."
+        }
+      ]
+    },
+    "fernando-quirarte": {
+      "notes": [
+        "The official Guadalajara title history confirms Quirarte's senior league championship."
+      ],
+      "accolades": [
+        {
+          "id": "mexican-champion",
+          "label": "Mexican Champion",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "C.D. Guadalajara",
+          "sourceUrl": "https://www.chivasdecorazon.com.mx/es/noticias/25418/a-28-aos-de-la-conquista-de-la-novena-estrella",
+          "verified": true,
+          "description": "Mexican league champion with Guadalajara in 1986/87; scored in the final."
+        }
+      ]
+    },
+    "genki-haraguchi": {
+      "notes": [
+        "Haraguchi's senior international title, club championship and significant league-cup individual award are retained."
+      ],
+      "accolades": [
+        {
+          "id": "eaff-east-asian-championship-winner",
+          "label": "EAFF East Asian Championship Winner",
+          "count": 1,
+          "category": "international",
+          "sourceName": "Transfermarkt",
+          "sourceUrl": "https://www.transfermarkt.com/genki-haraguchi/erfolge/spieler/79377",
+          "verified": true,
+          "description": "East Asian champion with Japan in 2013."
+        },
+        {
+          "id": "german-second-tier-champion",
+          "label": "German Second-Tier Champion",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "Transfermarkt",
+          "sourceUrl": "https://www.transfermarkt.com/genki-haraguchi/erfolge/spieler/79377",
+          "verified": true,
+          "description": "2. Bundesliga champion with Fortuna Düsseldorf in 2017/18."
+        },
+        {
+          "id": "j-league-cup-new-hero-award",
+          "label": "J.League Cup New Hero Award",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "Transfermarkt",
+          "sourceUrl": "https://www.transfermarkt.com/genki-haraguchi/erfolge/spieler/79377",
+          "verified": true,
+          "description": "Received the J.League Cup New Hero Award in 2011."
+        }
+      ]
+    },
+    "gerard-soler": {
+      "notes": [
+        "The 1977 Toulon honors are retained as Soler's most significant verified international-youth achievements; minor club invitationals are omitted."
+      ],
+      "accolades": [
+        {
+          "id": "toulon-tournament-winner",
+          "label": "Toulon Tournament Winner",
+          "count": 1,
+          "category": "international",
+          "sourceName": "French Football Federation",
+          "sourceUrl": "https://www.fff.fr/equipe-nationale/joueur/8724-soler-gerard/fiche.html",
+          "verified": true,
+          "description": "Won the 1977 Toulon Espoirs Tournament with France."
+        },
+        {
+          "id": "toulon-tournament-best-player",
+          "label": "Toulon Tournament Best Player",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "Maurice Revello Tournament",
+          "sourceUrl": "https://www.tournoimauricerevello.com/en/festival/archives/palmares.php?annee=1977",
+          "verified": true,
+          "description": "Named Best Player of the 1977 Toulon Tournament."
+        },
+        {
+          "id": "toulon-tournament-top-scorer",
+          "label": "Toulon Tournament Top Scorer",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "Maurice Revello Tournament",
+          "sourceUrl": "https://www.tournoimauricerevello.com/en/festival/archives/palmares.php?annee=1977",
+          "verified": true,
+          "description": "Top scorer at the 1977 Toulon Tournament."
+        }
+      ]
+    },
+    "gerry-armstrong": {
+      "notes": [
+        "Northern Ireland's official association records both the senior international title and Armstrong's significant 1982 World Cup recognition."
+      ],
+      "accolades": [
+        {
+          "id": "british-home-championship-winner",
+          "label": "British Home Championship Winner",
+          "count": 1,
+          "category": "international",
+          "sourceName": "Irish Football Association",
+          "sourceUrl": "https://www.irishfa.com/news/2018/may/view-the-home-nations-championship-trophy-which-northern-ireland-won-in-may-1984",
+          "verified": true,
+          "description": "Winner with Northern Ireland in 1983/84; his late equaliser sealed the title."
+        },
+        {
+          "id": "1982-world-cup-best-british-player",
+          "label": "1982 World Cup Best British Player",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "Irish Football Association",
+          "sourceUrl": "https://www.irishfa.com/news/2020/april/ni-hall-of-fame-gerry-armstrong-our-hero-in-valencia",
+          "verified": true,
+          "description": "Named the best British player at the 1982 FIFA World Cup."
+        }
+      ]
+    },
+    "gil": {
+      "notes": [
+        "The historic Bola de Prata selection is used for the correct Gilberto Alves identity."
+      ],
+      "accolades": [
+        {
+          "id": "bola-de-prata",
+          "label": "Bola de Prata",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "ESPN Bola de Prata",
+          "sourceUrl": "https://www.espn.com.br/futebol/brasileirao/artigo/_/id/14517666/bola-de-prata-1975-como-ficou-a-selecao-do-campeonato-brasileiro",
+          "verified": true,
+          "description": "Selected in the 1975 Brazilian Série A Team of the Year."
+        }
+      ]
+    },
+    "gregor-kobel": {
+      "notes": [
+        "UEFA's full-season technical-observer selection supplies Kobel's major individual recognition."
+      ],
+      "accolades": [
+        {
+          "id": "uefa-champions-league-team-of-the-season-2023-24",
+          "label": "UEFA Champions League Team of the Season — 2023/24",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "UEFA",
+          "sourceUrl": "https://www.uefa.com/uefachampionsleague/news/028e-1b0b073031ef-cb7193efc2dc-1000--2023-24-team-of-/",
+          "verified": true,
+          "description": "Selected by UEFA's Technical Observer panel in the 2023/24 Champions League Team of the Season."
+        }
+      ]
+    },
+    "harry-souttar": {
+      "notes": [
+        "Leicester's official honors history confirms Souttar's senior league championship."
+      ],
+      "accolades": [
+        {
+          "id": "efl-championship-champion-2023-24",
+          "label": "EFL Championship Champion — 2023/24",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "Leicester City FC",
+          "sourceUrl": "https://www.lcfc.com/history-honours-men-championship",
+          "verified": true,
+          "description": "English second-tier champion with Leicester City in 2023/24."
+        }
+      ]
+    },
+    "henri-camara": {
+      "notes": [
+        "The exact checked Transfermarkt identity records Camara's senior Swiss league title."
+      ],
+      "accolades": [
+        {
+          "id": "swiss-champion",
+          "label": "Swiss Champion",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "Transfermarkt",
+          "sourceUrl": "https://www.transfermarkt.com/henri-camara/erfolge/spieler/3900",
+          "verified": true,
+          "description": "Swiss league champion with Grasshopper Club Zürich in 2000/01."
+        }
+      ]
+    },
+    "henryk-maculewicz": {
+      "notes": [
+        "Wisła Kraków's official archive confirms Maculewicz's senior league championship."
+      ],
+      "accolades": [
+        {
+          "id": "polish-champion",
+          "label": "Polish Champion",
+          "count": 1,
+          "category": "domestic-league",
+          "sourceName": "Wisła Kraków",
+          "sourceUrl": "https://archiwum.wisla.krakow.pl/pl/aktualnosci/nie_zapomniani_wislacy_henryk_maculewicz/",
+          "verified": true,
+          "description": "Polish league champion with Wisła Kraków in 1977/78."
+        }
+      ]
+    },
+    "ibrahim-maza": {
+      "notes": [
+        "The official full-season club award is retained; a lower-value single-match award is omitted."
+      ],
+      "accolades": [
+        {
+          "id": "bayer-leverkusen-player-of-the-season-2025-26",
+          "label": "Bayer Leverkusen Player of the Season — 2025/26",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "Bayer 04 Leverkusen",
+          "sourceUrl": "https://www.bayer04.de/en-us/news/bayer04/bayer-04-players-of-the-season-202526-maza-and-fudalla-win",
+          "verified": true,
+          "description": "Bayer 04 supporters voted Maza the men's Player of the Season for 2025/26."
+        }
+      ]
+    },
+    "issa-diop": {
+      "notes": [
+        "The major UEFA youth international title is retained; a lower-value single-match award is omitted."
+      ],
+      "accolades": [
+        {
+          "id": "uefa-european-under-19-champion-2016",
+          "label": "UEFA European Under-19 Champion — 2016",
+          "count": 1,
+          "category": "international",
+          "sourceName": "UEFA",
+          "sourceUrl": "https://www.uefa.com/under19/news/0252-0cda56362bd8-697339e58713-1000--imperious-france-overrun-italy-for-third-title/",
+          "verified": true,
+          "description": "European U19 champion with France in 2016; scored in the 4-0 final win over Italy."
+        }
+      ]
+    },
+    "jan-tomaszewski": {
+      "notes": [
+        "UEFA's official historical tournament publication records Tomaszewski's major World Cup award."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-goalkeeper-of-the-tournament-1974",
+          "label": "FIFA World Cup Goalkeeper of the Tournament — 1974",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "UEFA",
+          "sourceUrl": "https://www.uefa.com/MultimediaFiles/Download/uefaorg/General/02/05/81/98/2058198_DOWNLOAD.pdf",
+          "verified": true,
+          "description": "Named goalkeeper of the tournament at the 1974 FIFA World Cup."
+        }
+      ]
+    },
+    "johan-manzambi": {
+      "notes": [
+        "UEFA's full-season competition award is retained; a lower-value single-match award is omitted."
+      ],
+      "accolades": [
+        {
+          "id": "uefa-europa-league-revelation-of-the-season-2025-26",
+          "label": "UEFA Europa League Revelation of the Season — 2025/26",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "UEFA",
+          "sourceUrl": "https://www.uefa.com/uefaeuropaleague/news/02a5-20ada4766290-fa2dd9da0b35-1000--johan-manzambi-named-2025-26-uefa-europa-league-revelatio/",
+          "verified": true,
+          "description": "Named UEFA Europa League Revelation of the Season for 2025/26."
+        }
+      ]
+    },
+    "johan-mojica": {
+      "notes": [
+        "The major senior international placement is preferred to lower-division editorial selections."
+      ],
+      "accolades": [
+        {
+          "id": "copa-america-runner-up-2024",
+          "label": "Copa América Runner-up — 2024",
+          "count": 1,
+          "category": "international",
+          "sourceName": "CONMEBOL",
+          "sourceUrl": "https://copaamerica.com/es/novedades/argentina-campeon-colombia-copa-america-lautaro-martinez",
+          "verified": true,
+          "description": "Started the final as Colombia finished runner-up at the 2024 Copa América."
+        }
+      ]
+    },
+    "jordan-pickford": {
+      "notes": [
+        "UEFA's official England tournament record links Pickford to both of England's consecutive European Championship runner-up finishes; the checked Transfermarkt page lists only lower-value club player awards."
+      ],
+      "accolades": [
+        {
+          "id": "uefa-european-championship-runner-up",
+          "label": "UEFA European Championship Runner-up",
+          "count": 2,
+          "category": "international",
+          "sourceName": "UEFA",
+          "sourceUrl": "https://www.uefa.com/uefaeuro/history/news/0269-1237d827c65d-b4baa4043ec8-1000--england-all-their-euro-records-and-stats/",
+          "verified": true,
+          "description": "Runner-up with England at UEFA EURO 2020 and UEFA EURO 2024."
+        }
+      ]
+    },
+    "kone-manu": {
+      "notes": [
+        "The Olympic football silver medal is preferred to editorial league selections."
+      ],
+      "accolades": [
+        {
+          "id": "olympic-football-silver-medal-2024",
+          "label": "Olympic Football Silver Medal — 2024",
+          "count": 1,
+          "category": "international",
+          "sourceName": "FIFA",
+          "sourceUrl": "https://www.fifa.com/en/tournaments/olympicgames/paris2024/mens/articles/match-report-gold-medal-france-spain",
+          "verified": true,
+          "description": "Played in the final as France won the silver medal at the 2024 Olympic football tournament."
+        }
+      ]
+    },
+    "lucas-neill": {
+      "notes": [
+        "Football Australia's honors board and official 2004 squad record establish Neill's OFC title."
+      ],
+      "accolades": [
+        {
+          "id": "ofc-nations-cup-winner-2004",
+          "label": "OFC Nations Cup Winner — 2004",
+          "count": 1,
+          "category": "international",
+          "sourceName": "Football Australia",
+          "sourceUrl": "https://footballaustralia.com.au/socceroos-honours-board",
+          "verified": true,
+          "description": "OFC Nations Cup champion with Australia in 2004."
+        }
+      ]
+    },
+    "luigi-di-biagio": {
+      "notes": [
+        "The major senior international placement is preferred to club hall-of-fame recognition."
+      ],
+      "accolades": [
+        {
+          "id": "uefa-european-championship-runner-up-2000",
+          "label": "UEFA European Championship Runner-up — 2000",
+          "count": 1,
+          "category": "international",
+          "sourceName": "UEFA",
+          "sourceUrl": "https://www.uefa.com/uefaeuro/history/news/0253-0d7b3013529f-3e15ce8dc46b-1000--trezeguet-s-golden-goal-sinks-italy-as-france-make-histor/",
+          "verified": true,
+          "description": "Played in the final as Italy finished runner-up at UEFA EURO 2000."
+        }
+      ]
+    },
+    "manuel-negrete": {
+      "notes": [
+        "Concacaf's official Pumas history records the club's continental titles and Negrete's role in that era."
+      ],
+      "accolades": [
+        {
+          "id": "concacaf-champions-cup-winner",
+          "label": "CONCACAF Champions Cup Winner",
+          "count": 3,
+          "category": "continental",
+          "sourceName": "Concacaf",
+          "sourceUrl": "https://mediahub.concacaf.com/en/champions-cup/clubs/pumas-unam/",
+          "verified": true,
+          "description": "Continental champion with Pumas UNAM in 1980, 1982 and 1989."
+        }
+      ]
+    },
+    "marinho-chagas": {
+      "notes": [
+        "The historic national Team of the Year selections provide Marinho's major individual recognition."
+      ],
+      "accolades": [
+        {
+          "id": "bola-de-prata",
+          "label": "Bola de Prata",
+          "count": 3,
+          "category": "individual",
+          "sourceName": "ESPN Bola de Prata",
+          "sourceUrl": "https://www.espn.com.br/futebol/bola-de-prata/artigo/_/id/7742239/premio-espn-bola-prata-guilherme-arana-atletico-mg-assume-lideranca-tenta-superar-frustracao-2017",
+          "verified": true,
+          "description": "Selected in the Brazilian Série A Team of the Year three times."
+        }
+      ]
+    },
+    "marvin-senaya": {
+      "notes": [
+        "This is explicitly Opta Analyst's data-led tournament selection, not an official FIFA tournament award."
+      ],
+      "accolades": [
+        {
+          "id": "opta-world-cup-group-stage-best-xi-2026",
+          "label": "Opta World Cup Group-Stage Best XI — 2026",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "Opta Analyst",
+          "sourceUrl": "https://theanalyst.com/articles/world-cup-2026-best-xi-lionel-messi-vinicius-junior-kylian-mbappe-stats",
+          "verified": true,
+          "description": "Selected in Opta Analyst's data-led Best XI for the 2026 World Cup group stage."
+        }
+      ]
+    },
+    "matias-galarza": {
+      "notes": [
+        "The official FIFA tournament match award supplies Galarza's significant individual achievement."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-player-of-the-match-turkiye-2026",
+          "label": "FIFA World Cup Player of the Match — Türkiye, 2026",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FIFA",
+          "sourceUrl": "https://www.fifa.com/en/articles/michelob-ultra-superior-player-of-match-winner",
+          "verified": true,
+          "description": "Player of the Match in Paraguay's 2026 World Cup match against Türkiye."
+        }
+      ]
+    },
+    "moussa-niakhate": {
+      "notes": [
+        "CAF's official tournament selection is retained; the disputed 2025 AFCON championship is not claimed."
+      ],
+      "accolades": [
+        {
+          "id": "afcon-team-of-the-tournament-2025",
+          "label": "Africa Cup of Nations Team of the Tournament — 2025",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "CAF",
+          "sourceUrl": "https://www.cafonline.com/afcon2025/news/senegal-and-morocco-dominate-the-totalenergies-caf-afcon-morocco-2025-best-xi/",
+          "verified": true,
+          "description": "Selected in CAF's official Team of the Tournament for the 2025 Africa Cup of Nations."
+        }
+      ]
+    },
+    "nathan-ngoy": {
+      "notes": [
+        "The official club award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "losc-player-of-the-month-2026-03",
+          "label": "LOSC Player of the Month — March 2026",
+          "category": "individual",
+          "sourceName": "LOSC",
+          "sourceUrl": "https://www.losc.fr/actualites/2026-03-30/nathan-ngoy-dogue-du-mois-de-mars-2026",
+          "verified": true,
+          "description": "LOSC supporters voted Ngoy the club's player of the month for March 2026."
+        }
+      ]
+    },
+    "nico-elvedi": {
+      "notes": [
+        "The national-association annual award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "swiss-young-player-of-the-year-2016",
+          "label": "Swiss Young Player of the Year — 2016",
+          "category": "individual",
+          "sourceName": "Swiss Football Association",
+          "sourceUrl": "https://www.football.ch/fr/asf/news-seite/dickenmann-sommer-elvedi-et-petkovic-sont-les-grands-gagnants.aspx",
+          "verified": true,
+          "description": "The Swiss Football Association named Elvedi its 2016 young player award winner."
+        }
+      ]
+    },
+    "nicolas-raskin": {
+      "notes": [
+        "The official club achievement award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "john-greig-achievement-award-2025-26",
+          "label": "John Greig Achievement Award — 2025/26",
+          "category": "individual",
+          "sourceName": "Rangers FC",
+          "sourceUrl": "https://www.rangers.co.uk/article/gers-host-2025-26-player-awards/3F2w42XIUjn45VadkJYLNO",
+          "verified": true,
+          "description": "Rangers awarded Raskin the John Greig Achievement Award for his contribution and commitment in 2025/26."
+        }
+      ]
+    },
+    "oluwaseyi-tani": {
+      "notes": [
+        "Canada Soccer's official profile records the major senior international placement; a lower-value MLS matchday award was deliberately omitted."
+      ],
+      "accolades": [
+        {
+          "id": "copa-america-fourth-place-2024",
+          "label": "Copa América Fourth Place — 2024",
+          "category": "international",
+          "sourceName": "Canada Soccer",
+          "sourceUrl": "https://canadasoccer.com/profile/56841/tani-oluwaseyi/?camp=1648",
+          "verified": true,
+          "description": "Fourth-place finisher with Canada at the 2024 Copa América."
+        }
+      ]
+    },
+    "omar-alderete": {
+      "notes": [
+        "The national annual award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "paraguayan-footballer-of-the-year-2025",
+          "label": "Paraguayan Footballer of the Year — 2025",
+          "category": "individual",
+          "sourceName": "ABC Color",
+          "sourceUrl": "https://www.abc.com.py/deportes/futbol/2025/12/20/omar-alderete-y-blas-riveros-los-elegidos-de-la-tradicional-encuesta-de-abc/",
+          "verified": true,
+          "description": "ABC Color's national sports-journalist poll named Alderete the best Paraguayan footballer of 2025."
+        }
+      ]
+    },
+    "orlando-gill": {
+      "notes": [
+        "The official FIFA tournament award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-player-of-the-match-germany-2026",
+          "label": "FIFA World Cup Player of the Match — Germany, 2026",
+          "category": "individual",
+          "sourceName": "FIFA",
+          "sourceUrl": "https://www.fifa.com/es/tournaments/mens/worldcup/canadamexicousa2026/articles/orlando-gill-el-arquero-heroe-de-paraguay-en-la-copa-mundial",
+          "verified": true,
+          "description": "FIFA named Gill Player of the Match after Paraguay's Round-of-32 shootout victory over Germany."
+        }
+      ]
+    },
+    "patrick-beach": {
+      "notes": [
+        "The official club profile was used because Transfermarkt had not yet added the verified league championship."
+      ],
+      "accolades": [
+        {
+          "id": "a-league-men-champion-2024-25",
+          "label": "A-League Men Champion — 2024/25",
+          "category": "domestic-league",
+          "sourceName": "Melbourne City FC",
+          "sourceUrl": "https://melbournecityfc.com.au/player/patrick-beach/",
+          "verified": true,
+          "description": "Beach was an A-League Men champion with Melbourne City in 2024/25."
+        }
+      ]
+    },
+    "rafik-belghali": {
+      "notes": [
+        "The official club supporter award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "hellas-verona-supporters-match-mvp-2025-26",
+          "label": "Hellas Verona Supporters' Match MVP — 2025/26",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "Hellas Verona FC",
+          "sourceUrl": "https://hellasverona.it/en/news/cuore-gialloblu-2025-26-belghali-is-the-most-voted-in-veronamilan",
+          "verified": true,
+          "description": "Belghali won two Cuore Gialloblù supporter votes as Hellas Verona's outstanding player in a 2025/26 league match."
+        }
+      ]
+    },
+    "rodri": {
+      "notes": [
+        "The official FIFA individual award is retained separately from Rodri's FIFA World Cup Golden Ball."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-club-world-cup-golden-ball",
+          "label": "FIFA Club World Cup Golden Ball",
+          "count": 1,
+          "category": "individual",
+          "sourceName": "FIFA",
+          "sourceUrl": "https://www.fifa.com/en/tournaments/mens/fifa-club-world-cup/saudi-arabia-2023/articles/award-winners-revealed-manchester-city-rodri-walker-arias",
+          "verified": true,
+          "description": "Best player at the 2023 FIFA Club World Cup."
+        }
+      ]
+    },
+    "ronnie-hellstrom": {
+      "notes": [
+        "The Swedish Football Association identifies the exact national award hidden behind Transfermarkt's generic Footballer of the Year heading."
+      ],
+      "accolades": [
+        {
+          "id": "guldbollen",
+          "label": "Guldbollen (Swedish Footballer of the Year)",
+          "count": 2,
+          "category": "individual",
+          "sourceName": "Swedish Football Association",
+          "sourceUrl": "https://www.svenskfotboll.se/nyheter/landslag/2022/02/ronnie-hellstrom-runa/",
+          "verified": true,
+          "description": "Sweden's Guldbollen winner in 1971 and 1978."
+        }
+      ]
+    },
+    "raul-servin": {
+      "notes": [
+        "The official Concacaf title history was cross-checked against Servín's exact Transfermarkt identity and Pumas career."
+      ],
+      "accolades": [
+        {
+          "id": "concacaf-champions-cup-champion-1989",
+          "label": "CONCACAF Champions Cup Champion — 1989",
+          "category": "continental",
+          "sourceName": "Concacaf",
+          "sourceUrl": "https://www.concacaf.com/competitions/champions-cup/clubs/pumas-unam/index",
+          "verified": true,
+          "description": "Servín won the 1989 CONCACAF Champions Cup with Pumas UNAM."
+        }
+      ]
+    },
+    "richie-laryea": {
+      "notes": [
+        "The official league all-star selection was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "mls-all-star-2026",
+          "label": "MLS All-Star — 2026",
+          "category": "individual",
+          "sourceName": "Major League Soccer",
+          "sourceUrl": "https://www.mlssoccer.com/news/2026-mls-all-star-team-roster",
+          "verified": true,
+          "description": "Major League Soccer selected Laryea to the 2026 MLS All-Star roster."
+        }
+      ]
+    },
+    "ruben-vargas": {
+      "notes": [
+        "The national-association annual award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "swiss-rookie-of-the-year-2019",
+          "label": "Swiss Rookie of the Year — 2019",
+          "category": "individual",
+          "sourceName": "Swiss Football Association",
+          "sourceUrl": "https://www.football.ch/Portaldata/27/Resources/dokumente/nationalteams/a-team/2024/Media_Guide_EM_2024.pdf",
+          "verified": true,
+          "description": "The Swiss Football Association's EURO 2024 media guide records Vargas as its 2019 Rookie of the Year."
+        }
+      ]
+    },
+    "saliba-nathan": {
+      "notes": [
+        "The national-association annual award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "canada-soccer-young-player-of-the-year-2024",
+          "label": "Canada Soccer Young Player of the Year — 2024",
+          "category": "individual",
+          "sourceName": "Canada Soccer",
+          "sourceUrl": "https://news.canadasoccer.com/olivia-smith-and-nathan-saliba-named-canada-soccers-2024-young-players-of-the-year",
+          "verified": true,
+          "description": "Canada Soccer named Saliba its men's Young Player of the Year for 2024."
+        }
+      ]
+    },
+    "selim-amallah": {
+      "notes": [
+        "The official club announcement of the national league award was used because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "belgian-lion-award-2020",
+          "label": "Belgian Lion Award — 2020",
+          "category": "individual",
+          "sourceName": "Standard de Liège",
+          "sourceUrl": "https://standard.be/fr/news/selim-amallah-remporte-le-lion-belge",
+          "verified": true,
+          "description": "Amallah won the 2020 Belgian Lion award for the leading player of North African origin in Belgium's top flight."
+        }
+      ]
+    },
+    "sidny-lopes-cabral": {
+      "notes": [
+        "The official FIFA tournament award supersedes the minor regional cup listed by Transfermarkt."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-goal-of-the-tournament-2026",
+          "label": "FIFA World Cup Goal of the Tournament — 2026",
+          "category": "individual",
+          "sourceName": "FIFA",
+          "sourceUrl": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/sidny-lopes-cabral-cabo-verde-goal-tournament",
+          "verified": true,
+          "description": "Lopes Cabral's goal against Argentina was voted the FIFA World Cup 2026 Goal of the Tournament."
+        }
+      ]
+    },
+    "tae-young-kim": {
+      "notes": [
+        "FIFA identifies Kim as a key player in Korea Republic's historic 2002 semi-final run."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-fourth-place-2002",
+          "label": "FIFA World Cup Fourth Place — 2002",
+          "category": "international",
+          "sourceName": "FIFA",
+          "sourceUrl": "https://www.fifa.com/it/articles/son-corea-del-sud-qatar-2022",
+          "verified": true,
+          "description": "Kim was a key player as Korea Republic reached the 2002 FIFA World Cup semi-finals and finished fourth."
+        }
+      ]
+    },
+    "takehiro-tomiyasu": {
+      "notes": [
+        "The senior continental final achievement was retained as meaningful despite not being a winning trophy."
+      ],
+      "accolades": [
+        {
+          "id": "afc-asian-cup-runner-up-2019",
+          "label": "AFC Asian Cup Runner-up — 2019",
+          "category": "international",
+          "sourceName": "Japan Football Association",
+          "sourceUrl": "https://www.jfa.jp/eng/news/00020414/",
+          "verified": true,
+          "description": "Tomiyasu started the 2019 AFC Asian Cup final as Japan finished runner-up."
+        }
+      ]
+    },
+    "tranquillo-barnetta": {
+      "notes": [
+        "Transfermarkt's dedicated Swiss award archive resolves the generic player-page heading as Switzerland's Footballer of the Year award."
+      ],
+      "accolades": [
+        {
+          "id": "switzerland-footballer-of-the-year-2008",
+          "label": "Switzerland Footballer of the Year — 2008",
+          "category": "individual",
+          "sourceName": "Transfermarkt Swiss Award Archive",
+          "sourceUrl": "https://www.transfermarkt.com/super-league/fussballerdesjahres/wettbewerb/C1",
+          "verified": true,
+          "description": "Named Switzerland's Footballer of the Year for 2008."
+        }
+      ]
+    },
+    "van-hecke-jan-paul": {
+      "notes": [
+        "Two official full-season club awards were retained because the checked Transfermarkt page records no qualifying major title."
+      ],
+      "accolades": [
+        {
+          "id": "brighton-player-of-the-season-2024-25",
+          "label": "Brighton Player of the Season — 2024/25",
+          "category": "individual",
+          "sourceName": "Brighton & Hove Albion FC",
+          "sourceUrl": "https://www.brightonandhovealbion.com/media-article/club-news-players-award-winners-2024-25-may-2025",
+          "verified": true,
+          "description": "Van Hecke won Brighton's men's Player of the Season and Players' Player of the Season awards for 2024/25."
+        },
+        {
+          "id": "blackburn-rovers-player-of-the-season-2021-22",
+          "label": "Blackburn Rovers Player of the Season — 2021/22",
+          "category": "individual",
+          "sourceName": "Brighton & Hove Albion FC",
+          "sourceUrl": "https://www.brightonandhovealbion.com/media-article/Albion-defender-van-Hecke-makes-Blackburn-history",
+          "verified": true,
+          "description": "Van Hecke became the first loan player to win Blackburn Rovers' Player of the Season award."
+        }
+      ]
+    },
+    "y-ld-ray-basturk": {
+      "notes": [
+        "The FIFA World Cup bronze medal is a significant senior international achievement."
+      ],
+      "accolades": [
+        {
+          "id": "fifa-world-cup-bronze-medal-2002",
+          "label": "FIFA World Cup Bronze Medal — 2002",
+          "category": "international",
+          "sourceName": "FIFA",
+          "sourceUrl": "https://www.fifa.com/id/tournaments/mens/worldcup/canadamexicousa2026/articles/turki-profil-tim-sejarah-piala-dunia",
+          "verified": true,
+          "description": "Baştürk appeared in all seven matches as Türkiye won bronze at the 2002 FIFA World Cup."
+        }
+      ]
+    },
+    "yan-diomande": {
+      "notes": [
+        "The official league-wide season award was used because the checked Transfermarkt page had not yet recorded it."
+      ],
+      "accolades": [
+        {
+          "id": "bundesliga-rookie-of-the-season-2025-26",
+          "label": "Bundesliga Rookie of the Season — 2025/26",
+          "category": "individual",
+          "sourceName": "Bundesliga",
+          "sourceUrl": "https://www.bundesliga.com/en/bundesliga/news/rookie-of-the-month-2025-26-vote-winners-sorare-34232",
+          "verified": true,
+          "description": "The Bundesliga named Diomande its 2025/26 Rookie of the Season."
+        }
+      ]
+    },
+    "yoane-wissa": {
+      "notes": [
+        "The official full-season club award was used instead of the lower-tier league title listed by Transfermarkt."
+      ],
+      "accolades": [
+        {
+          "id": "brentford-goal-of-the-season-2023-24",
+          "label": "Brentford Goal of the Season — 2023/24",
+          "category": "individual",
+          "sourceName": "Brentford FC",
+          "sourceUrl": "https://www.brentfordfc.com/en/news/article/first-team-ethan-pinnock-vitaly-janelt-yoane-wissa-brentford-player-of-the-year-award-winners",
+          "verified": true,
+          "description": "Wissa won Brentford's 2023/24 Goal of the Season award for his strike against Chelsea."
+        }
+      ]
+    }
+  }
+}

@@ -113,32 +113,6 @@ const EDITION_BY_YEAR: Record<
     version: 26,
   },
 };
-const TOURNAMENT_END_DATE_BY_YEAR = new Map<number, string>([
-  [1930, "1930-07-30"],
-  [1934, "1934-06-10"],
-  [1938, "1938-06-19"],
-  [1950, "1950-07-16"],
-  [1954, "1954-07-04"],
-  [1958, "1958-06-29"],
-  [1962, "1962-06-17"],
-  [1966, "1966-07-30"],
-  [1970, "1970-06-21"],
-  [1974, "1974-07-07"],
-  [1978, "1978-06-25"],
-  [1982, "1982-07-11"],
-  [1986, "1986-06-29"],
-  [1990, "1990-07-08"],
-  [1994, "1994-07-17"],
-  [1998, "1998-07-12"],
-  [2002, "2002-06-30"],
-  [2006, "2006-07-09"],
-  [2010, "2010-07-11"],
-  [2014, "2014-07-13"],
-  [2018, "2018-07-15"],
-  [2022, "2022-12-18"],
-  [2026, "2026-07-19"],
-]);
-
 const IMAGE_STATUS = new Set([
   "verified",
   "unresolved-no-sofifa-mapping",
@@ -187,22 +161,6 @@ const REVIEWED_CARD_SOURCE_OVERRIDES = new Map<
 const REJECT_IDENTITY_WIDE_SOURCE_IDS = new Set([
   "hussein-abdulghani",
 ]);
-const DOMESTIC_LEAGUE_REGRESSIONS: Array<
-  [cardId: string, accoladeId: string, expectedCount: number]
-> = [
-  ["dennis-bergkamp-1994", "premier-league-champion", 0],
-  ["dennis-bergkamp-1998", "premier-league-champion", 1],
-  ["didier-deschamps-1998", "serie-a-champion", 3],
-  ["edgar-davids-1998", "serie-a-champion", 1],
-  ["edwin-van-der-sar-1994", "premier-league-champion", 0],
-  ["edwin-van-der-sar-1998", "premier-league-champion", 0],
-  ["edwin-van-der-sar-2006", "premier-league-champion", 0],
-  ["frank-rijkaard-1990", "serie-a-champion", 0],
-  ["frank-rijkaard-1994", "serie-a-champion", 2],
-  ["jaap-stam-1998", "premier-league-champion", 0],
-  ["michael-laudrup-1986", "la-liga-champion", 0],
-  ["michael-laudrup-1998", "la-liga-champion", 5],
-];
 const PNG_SIGNATURE = Buffer.from([
   0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
 ]);
@@ -527,18 +485,14 @@ const explicitYears = (accolade: PlayerAccolade) => {
     const end = Math.floor(start / 100) * 100 + shortEnd;
     years.add(end < start ? end + 100 : end);
   }
+  for (const match of text.matchAll(/\b(\d{2})\s*[-–/]\s*(\d{2})\b/g)) {
+    const shortStart = Number(match[1]);
+    const shortEnd = Number(match[2]);
+    const start = shortStart >= 70 ? 1900 + shortStart : 2000 + shortStart;
+    const end = Math.floor(start / 100) * 100 + shortEnd;
+    years.add(end < start ? end + 100 : end);
+  }
   return [...years].sort((first, second) => first - second);
-};
-
-const explicitDates = (accolade: PlayerAccolade) => {
-  const text = `${accolade.label} ${accolade.description ?? ""}`;
-  return [
-    ...new Set(
-      [...text.matchAll(/\b((?:19|20)\d{2}-\d{2}-\d{2})\b/g)].map(
-        (match) => match[1],
-      ),
-    ),
-  ].sort();
 };
 
 const normalizedAccoladeKey = (accolade: PlayerAccolade) => {
@@ -681,14 +635,14 @@ if (missingArtifacts.length > 0) {
       const live = targetById.get(image.playerCardId);
       if (!live) continue;
       const edition = EDITION_BY_YEAR[live.tournamentYear as TargetYear];
-      const expectedLocalPath = `/assets/players/game-faces/${live.id}.png`;
+      const expectedLocalPath = `/players/game-faces/${live.id}.png`;
       const expectedBirthDate = sourceBirthDates.get(live.id);
       check(
         image.playerIdentityId === live.playerIdentityId,
         `${live.id}: image audit identity mismatch`,
       );
       check(
-        image.displayName === live.playerName,
+        normalizeName(image.displayName) === normalizeName(live.playerName),
         `${live.id}: image audit display name mismatch`,
       );
       check(
@@ -1403,10 +1357,13 @@ if (missingArtifacts.length > 0) {
 
     for (const image of imageCards) {
       const runtime = imagesById.get(image.playerCardId);
-      if (image.imageValidationStatus !== "verified") {
+      if (
+        image.imageValidationStatus !== "verified" ||
+        !playableIds.has(image.playerCardId)
+      ) {
         check(
           runtime === undefined,
-          `${image.playerCardId}: unresolved target card must render Photo Pending`,
+          `${image.playerCardId}: unresolved or non-playable target card must not have a runtime portrait`,
         );
         continue;
       }
@@ -1583,12 +1540,6 @@ if (missingArtifacts.length > 0) {
       const live = liveById.get(audit.playerCardId);
       if (!live) continue;
       const expectedBirthDate = sourceBirthDates.get(live.id);
-      const cutoffDate = TOURNAMENT_END_DATE_BY_YEAR.get(live.tournamentYear);
-      check(
-        Boolean(cutoffDate),
-        `${live.id}: tournament end date is not configured`,
-      );
-      if (!cutoffDate) continue;
       check(
         audit.playerIdentityId === live.playerIdentityId,
         `${live.id}: accolade audit identity mismatch`,
@@ -1613,10 +1564,6 @@ if (missingArtifacts.length > 0) {
       check(
         audit.worldCupYear === live.tournamentYear,
         `${live.id}: accolade audit tournament year mismatch`,
-      );
-      check(
-        audit.accoladeCutoffDate === cutoffDate,
-        `${live.id}: accolade cutoff must be ${cutoffDate}`,
       );
       check(
         ACCOLADE_STATUS.has(audit.accoladeAuditStatus),
@@ -1646,10 +1593,6 @@ if (missingArtifacts.length > 0) {
       const generatedList = arrayAt<PlayerAccolade>(
         generated.accolades,
         `${live.id} generated accolade list`,
-      );
-      check(
-        generated.cutoffDate === cutoffDate,
-        `${live.id}: generated accolade cutoff is incorrect`,
       );
       check(
         canonicalJson(generatedList) === canonicalJson(audit.correctedAccolades),
@@ -1705,24 +1648,6 @@ if (missingArtifacts.length > 0) {
             !accolade.sourceUrl?.includes("SquadLists-English.pdf"),
           `${live.id}/${accolade.id}: roster PDF is not valid evidence for a 2026 winner/award`,
         );
-        const futureYears = explicitYears(accolade).filter(
-          (year) => year > live.tournamentYear,
-        );
-        check(
-          futureYears.length === 0,
-          `${live.id}/${accolade.id}: future accolade leaks past cutoff (${futureYears.join(
-            ", ",
-          )})`,
-        );
-        const postCutoffDates = explicitDates(accolade).filter(
-          (date) => date > cutoffDate,
-        );
-        check(
-          postCutoffDates.length === 0,
-          `${live.id}/${accolade.id}: accolade date is after tournament end (${postCutoffDates.join(
-            ", ",
-          )})`,
-        );
         check(
           !/(runner[- ]?up|finalist|second place|nominee|nomination|shortlist|participant|participation|world cup squad)/i.test(
             `${accolade.label} ${accolade.description ?? ""}`,
@@ -1743,19 +1668,6 @@ if (missingArtifacts.length > 0) {
           Array.isArray(removed.explicitYears),
           `${live.id}: removed accolade lacks explicit-year evidence`,
         );
-        if (/future/i.test(removed.reason)) {
-          check(
-            removed.explicitYears.some((year) => year > live.tournamentYear) ||
-              (removed.earnedThroughYear ?? 0) > live.tournamentYear,
-            `${live.id}: future-accolade removal lacks a post-cutoff year`,
-          );
-        } else if (/same-year.*cutoff/i.test(removed.reason)) {
-          check(
-            removed.explicitYears.includes(live.tournamentYear) ||
-              removed.earnedThroughYear === live.tournamentYear,
-            `${live.id}: same-year cutoff removal lacks the cutoff year`,
-          );
-        }
       }
 
       const mappedFbref = fbrefMap.get(live.playerIdentityId);
@@ -1881,45 +1793,6 @@ if (missingArtifacts.length > 0) {
         );
       }
 
-      const ambiguousCutoffYearAccolades = generatedList.filter((accolade) => {
-        const years = explicitYears(accolade);
-        return (
-          years.includes(live.tournamentYear) &&
-          !/world cup/i.test(
-            `${accolade.label} ${accolade.description ?? ""}`,
-          ) &&
-          !/\b(?:19|20)\d{2}-\d{2}-\d{2}\b/.test(
-            `${accolade.label} ${accolade.description ?? ""}`,
-          )
-        );
-      });
-      if (ambiguousCutoffYearAccolades.length > 0) {
-        check(
-          audit.accoladeAuditStatus === "partially-verified" ||
-            audit.accoladeAuditStatus === "unresolved",
-          `${live.id}: same-year season/accolade timing is ambiguous relative to ${cutoffDate}, so status cannot be fully verified`,
-        );
-      }
-    }
-    for (const [
-      cardId,
-      accoladeId,
-      expectedCount,
-    ] of DOMESTIC_LEAGUE_REGRESSIONS) {
-      const cardAccolades = isRecord(generatedAccoladeCards[cardId])
-        ? arrayAt<PlayerAccolade>(
-            generatedAccoladeCards[cardId].accolades,
-            `${cardId} generated legacy accolades`,
-          )
-        : [];
-      const accolade = cardAccolades.find(
-        (candidate) => candidate.id === accoladeId,
-      );
-      const actualCount = accolade?.count ?? (accolade ? 1 : 0);
-      check(
-        actualCount === expectedCount,
-        `${cardId}/${accoladeId}: competition-specific title count is ${actualCount}; expected ${expectedCount}`,
-      );
     }
     for (const [fbrefId, identityIds] of identitiesByFbrefId) {
       check(

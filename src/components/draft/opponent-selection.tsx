@@ -9,7 +9,7 @@ import { historicalOpponents, worldCupAllStars } from "@/data/opponents";
 import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
-import { assetUrl } from "@/lib/assets";
+import { assetUrl, playerGameFacePath } from "@/lib/assets";
 import type {
   DraftEraId,
   HistoricalLineupPlayer,
@@ -271,6 +271,8 @@ function OpponentCard({
   onViewSquad: () => void;
 }) {
   const presentation = championPresentationFor(opponent);
+  const [imageFailed, setImageFailed] = useState(false);
+  const hasImage = Boolean(presentation?.image) && !imageFailed;
   return (
     <article
       className={`opponent-card opponent-card--champion ${
@@ -289,13 +291,14 @@ function OpponentCard({
       }}
     >
       <div className={styles.championImage} aria-hidden>
-        {presentation?.image ? (
+        {hasImage && presentation?.image ? (
           <Image
             src={presentation.image}
             alt=""
             fill
             sizes="(max-width: 720px) 94vw, (max-width: 1100px) 48vw, 300px"
             className={styles.championPlayer}
+            onError={() => setImageFailed(true)}
           />
         ) : (
           <span>PHOTO PENDING</span>
@@ -439,23 +442,23 @@ function OpponentSquadDrawer({
 
 const championPresentations: Record<
   number,
-  { player: string; image: string; blurb: string }
+  { player: string; playerCardId: string; blurb: string }
 > = {
-  2026: { player: "Lamine Yamal", image: "/assets/players/opponent/yamalwin1.png", blurb: "Yamal's fearless right-wing creativity drove Spain through seven straight wins and to a second world title." },
-  2022: { player: "Lionel Messi", image: "/assets/players/opponent/messiwin1.png", blurb: "Messi led Argentina through an opening shock and lifted the trophy after a final for the ages." },
-  2018: { player: "Kylian Mbappé", image: "/assets/players/opponent/mbappewin1.png", blurb: "Kylian Mbappé became the second teenager to score in a World Cup final as France claimed its second title." },
-  2014: { player: "Mario Götze", image: "/assets/players/opponent/gotzewin2.png", blurb: "Götze's extra-time finish sealed Germany's fourth title at the end of a relentless campaign." },
-  2010: { player: "Andrés Iniesta", image: "/assets/players/opponent/iniestawin1.png", blurb: "Iniesta's extra-time strike completed Spain's control-heavy recovery from defeat in their opening match." },
-  2006: { player: "Andrea Pirlo", image: "/assets/players/opponent/pirlowin1.png", blurb: "Pirlo orchestrated Italy's unbeaten run and set the tempo for a side that conceded only twice." },
-  2002: { player: "Ronaldo Nazário", image: "/assets/players/opponent/ronaldowin1.png", blurb: "Ronaldo scored eight as Brazil won seven straight matches and secured a fifth star." },
-  1998: { player: "Zinedine Zidane", image: "/assets/players/opponent/zidanewin1.png", blurb: "Zidane's two final headers turned France's home tournament into a first world title." },
-  1994: { player: "Romário", image: "/assets/players/opponent/romariowin1.png", blurb: "Romário's movement and finishing ended Brazil's 24-year wait for the trophy." },
-  1990: { player: "Lothar Matthäus", image: "/assets/players/opponent/matthauswin1.png", blurb: "Matthäus drove West Germany's structured control on the road to a third title." },
-  1986: { player: "Diego Maradona", image: "/assets/players/opponent/maradonawin1.png", blurb: "Maradona delivered one of football's defining individual tournament campaigns." },
-  1982: { player: "Paolo Rossi", image: "/assets/players/opponent/rossiwin1.png", blurb: "Rossi's six goals powered Italy's knockout surge and earned him the Golden Boot." },
-  1978: { player: "Daniel Passarella", image: "/assets/players/opponent/passarella1.png", blurb: "Passarella captained Argentina's intense home triumph and first world championship." },
-  1974: { player: "Franz Beckenbauer", image: "/assets/players/opponent/beckenbauerwin1.png", blurb: "Beckenbauer's sweeper authority guided West Germany through a comeback in the final." },
-  1970: { player: "Pelé", image: "/assets/players/opponent/pelewin1.png", blurb: "Pelé completed his third triumph as Brazil won every match with fluid attacking brilliance." },
+  2026: { player: "Lamine Yamal", playerCardId: "lamine-yamal-2026", blurb: "Yamal's fearless right-wing creativity drove Spain through seven straight wins and to a second world title." },
+  2022: { player: "Lionel Messi", playerCardId: "lionel-messi-2022", blurb: "Messi led Argentina through an opening shock and lifted the trophy after a final for the ages." },
+  2018: { player: "Kylian Mbappé", playerCardId: "kylian-mbappe-2018", blurb: "Kylian Mbappé became the second teenager to score in a World Cup final as France claimed its second title." },
+  2014: { player: "Mario Götze", playerCardId: "mario-gotze-2014", blurb: "Götze's extra-time finish sealed Germany's fourth title at the end of a relentless campaign." },
+  2010: { player: "Andrés Iniesta", playerCardId: "andres-iniesta-2010", blurb: "Iniesta's extra-time strike completed Spain's control-heavy recovery from defeat in their opening match." },
+  2006: { player: "Andrea Pirlo", playerCardId: "andrea-pirlo-2006", blurb: "Pirlo orchestrated Italy's unbeaten run and set the tempo for a side that conceded only twice." },
+  2002: { player: "Ronaldo Nazário", playerCardId: "ronaldo-2002", blurb: "Ronaldo scored eight as Brazil won seven straight matches and secured a fifth star." },
+  1998: { player: "Zinedine Zidane", playerCardId: "zinedine-zidane-1998", blurb: "Zidane's two final headers turned France's home tournament into a first world title." },
+  1994: { player: "Romário", playerCardId: "romario-1994", blurb: "Romário's movement and finishing ended Brazil's 24-year wait for the trophy." },
+  1990: { player: "Lothar Matthäus", playerCardId: "lothar-matthaus-1990", blurb: "Matthäus drove West Germany's structured control on the road to a third title." },
+  1986: { player: "Diego Maradona", playerCardId: "diego-maradona-1986", blurb: "Maradona delivered one of football's defining individual tournament campaigns." },
+  1982: { player: "Paolo Rossi", playerCardId: "paolo-rossi-1982", blurb: "Rossi's six goals powered Italy's knockout surge and earned him the Golden Boot." },
+  1978: { player: "Daniel Passarella", playerCardId: "daniel-passarella-1978", blurb: "Passarella captained Argentina's intense home triumph and first world championship." },
+  1974: { player: "Franz Beckenbauer", playerCardId: "franz-beckenbauer-1974", blurb: "Beckenbauer's sweeper authority guided West Germany through a comeback in the final." },
+  1970: { player: "Pelé", playerCardId: "pele-1970", blurb: "Pelé completed his third triumph as Brazil won every match with fluid attacking brilliance." },
 };
 
 const championPresentationFor = (
@@ -474,6 +477,6 @@ const championPresentationFor = (
 
   return {
     ...presentation,
-    image: assetUrl(presentation.image),
+    image: assetUrl(playerGameFacePath(presentation.playerCardId)),
   };
 };

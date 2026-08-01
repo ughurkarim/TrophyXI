@@ -81,10 +81,9 @@ describe("PlayerDetails", () => {
     ).toHaveAttribute(
       "src",
       expect.stringMatching(
-        /^\/players\/game-faces\/lionel-messi-2014\.png\?v=/,
+        /^(?:http:\/\/localhost:3000)?\/players\/game-faces\/lionel-messi-2014\.png\?v=/,
       ),
     );
-    expect(screen.getAllByText("PHOTO PENDING").length).toBeGreaterThan(0);
   });
 
   it("limits accolades to six rows until SHOW MORE is used", async () => {

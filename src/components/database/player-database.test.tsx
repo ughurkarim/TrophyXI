@@ -34,8 +34,12 @@ describe("PlayerDatabase", () => {
     for (const portrait of within(playerRecord).getAllByRole("img", {
       name: /lionel messi 2006 portrait/i,
     })) {
-      expect(portrait).toHaveTextContent("PHOTO PENDING");
-      expect(portrait).toHaveTextContent("🇦🇷 2006");
+      expect(portrait).toHaveAttribute(
+        "src",
+        expect.stringMatching(
+          /^(?:http:\/\/localhost:3000)?\/players\/game-faces\/lionel-messi-2006\.png\?v=/,
+        ),
+      );
     }
     fireEvent.click(
       screen.getByRole("button", { name: /close player record/i }),
@@ -56,5 +60,19 @@ describe("PlayerDatabase", () => {
         name: /view siphiwe tshabalala 2010/i,
       }),
     ).toBeVisible();
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /view siphiwe tshabalala 2010/i,
+      }),
+    );
+    const pendingRecord = screen.getByRole("dialog", {
+      name: /siphiwe tshabalala/i,
+    });
+    for (const portrait of within(pendingRecord).getAllByRole("img", {
+      name: /siphiwe tshabalala 2010 portrait, photo pending/i,
+    })) {
+      expect(portrait).toHaveTextContent("PHOTO PENDING");
+      expect(portrait).toHaveTextContent("🇿🇦 2010");
+    }
   });
 });

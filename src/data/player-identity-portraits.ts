@@ -7,11 +7,11 @@ export type PlayerIdentityPortraitRecord = {
   tournamentYear: number;
   localPath: string;
   sourceFile: string;
-  portraitScope: "identity-only";
+  portraitScope: "card-exact" | "identity-only";
   cacheVersion: string;
   changes: string;
-  sourcePage: string;
-  sourceImageUrl: string;
+  sourcePage: string | null;
+  sourceImageUrl: string | null;
 };
 
 export type CanonicalPlayerIdentityPortrait = {

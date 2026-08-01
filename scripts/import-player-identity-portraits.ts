@@ -4,7 +4,6 @@ import {
   appendFile,
   mkdir,
   readFile,
-  readdir,
   writeFile,
 } from "node:fs/promises";
 import path from "node:path";
@@ -155,7 +154,12 @@ type SoFifaPlayerMap = {
 };
 
 const ROOT = process.cwd();
-const PLAYER_DIRECTORY = path.join(ROOT, "assets", "players");
+const PLAYER_DIRECTORY = path.join(
+  ROOT,
+  "public",
+  "players",
+  "game-faces",
+);
 const SOURCE_DIRECTORY = path.join(
   ROOT,
   "assets",
@@ -201,6 +205,11 @@ const SOFIFA_CACHE_FILE = path.join(
   "game-faces",
   "import-cache.json",
 );
+
+const repositoryPathForAsset = (assetPath: string) =>
+  assetPath.startsWith("/players/game-faces/")
+    ? path.join(ROOT, "public", assetPath.slice(1))
+    : path.join(ROOT, assetPath.replace(/^\//, ""));
 const ARCHIVE = tournamentArchiveJson as TournamentArchive;
 const SOFIFA_PLAYER_MAP = soFifaPlayerMapJson as SoFifaPlayerMap;
 const SOFIFA_MAPPING_BY_IDENTITY = new Map(
@@ -233,7 +242,6 @@ const SEARCH_LIMIT = searchLimitArgument
   : Number.POSITIVE_INFINITY;
 const USER_AGENT =
   "TrophyXI-portrait-archive/1.0 (local educational project; portrait metadata import)";
-const IMAGE_EXTENSIONS = ["png", "webp", "jpg", "jpeg", "avif"] as const;
 const PRESCRIBED_GAME_EDITION_BY_YEAR = new Map([
   [2010, 10],
   [2014, 14],
@@ -246,7 +254,6 @@ const DOWNLOAD_CONCURRENCY = 1;
 const API_REQUEST_INTERVAL_MS = 10_000;
 const DOWNLOAD_REQUEST_INTERVAL_MS = 1_100;
 const WIKIMEDIA_DOWNLOAD_INTERVAL_MS = 5_000;
-const availablePortraitFilesByYear = new Map<number, Promise<Set<string>>>();
 const apiRequestSchedule = { nextAt: 0, gate: Promise.resolve() };
 const downloadRequestSchedule = { nextAt: 0, gate: Promise.resolve() };
 const wikimediaDownloadSchedule = { nextAt: 0, gate: Promise.resolve() };
@@ -647,64 +654,20 @@ const searchMediaForPlayer = async (
 const findExistingCandidates = async (cards: PlayerCard[]) => {
   const candidates: PortraitCandidate[] = [];
   for (const card of cards) {
-    const directory = path.join(PLAYER_DIRECTORY, String(card.tournamentYear));
-    if (!existsSync(directory)) continue;
-
-    const availablePromise =
-      availablePortraitFilesByYear.get(card.tournamentYear) ??
-      readdir(directory).then((files) => new Set(files));
-    availablePortraitFilesByYear.set(card.tournamentYear, availablePromise);
-    const available = await availablePromise;
-
     const canonicalFilename = `${card.id}.png`;
-    const canonicalAbsolutePath = path.join(directory, canonicalFilename);
+    const canonicalAbsolutePath = path.join(
+      PLAYER_DIRECTORY,
+      canonicalFilename,
+    );
 
-    // Prefer the canonical card-specific PNG when it already exists.
-    if (available.has(canonicalFilename)) {
+    if (existsSync(canonicalAbsolutePath)) {
       candidates.push({
         cardId: card.id,
         tournamentYear: card.tournamentYear,
-        localPath: `/assets/players/${card.tournamentYear}/${canonicalFilename}`,
+        localPath: `/players/game-faces/${canonicalFilename}`,
         absolutePath: canonicalAbsolutePath,
       });
-      continue;
     }
-
-    // Accept only the SAME card/year under a legacy extension or a
-    // diacritic-equivalent filename. Never match a different tournament year.
-    let legacyFilename = IMAGE_EXTENSIONS
-      .map((extension) => `${card.id}.${extension}`)
-      .find((filename) => available.has(filename));
-
-    if (!legacyFilename) {
-      legacyFilename = [...available].find((filename) => {
-        const extension = path.extname(filename).slice(1).toLocaleLowerCase("en");
-        if (!IMAGE_EXTENSIONS.includes(extension as (typeof IMAGE_EXTENSIONS)[number])) {
-          return false;
-        }
-        const stem = filename.slice(0, -path.extname(filename).length);
-        return normalized(stem) === card.id;
-      });
-    }
-
-    if (!legacyFilename) continue;
-
-    const legacyAbsolutePath = path.join(directory, legacyFilename);
-
-    // Normalize legacy .webp/.jpg/accented filenames to the one canonical
-    // runtime path expected by gameFacePathFor().
-    await sharp(legacyAbsolutePath, { animated: false })
-      .rotate()
-      .png({ compressionLevel: 9, palette: false })
-      .toFile(canonicalAbsolutePath);
-
-    available.add(canonicalFilename);
-    candidates.push({
-      cardId: card.id,
-      tournamentYear: card.tournamentYear,
-      localPath: `/assets/players/${card.tournamentYear}/${canonicalFilename}`,
-      absolutePath: canonicalAbsolutePath,
-    });
   }
   return candidates;
 };
@@ -795,12 +758,8 @@ const importRemotePortrait = async ({
   await writeFile(sourceAbsolutePath, buffer);
 
   const runtimeFilename = `${player.id}.png`;
-  const runtimeDirectory = path.join(
-    PLAYER_DIRECTORY,
-    String(player.tournamentYear),
-  );
-  const runtimeAbsolutePath = path.join(runtimeDirectory, runtimeFilename);
-  await mkdir(runtimeDirectory, { recursive: true });
+  const runtimeAbsolutePath = path.join(PLAYER_DIRECTORY, runtimeFilename);
+  await mkdir(PLAYER_DIRECTORY, { recursive: true });
   await sharp(buffer, { animated: false })
     .rotate()
     .resize({
@@ -814,7 +773,7 @@ const importRemotePortrait = async ({
   return {
     sourceFile,
     runtimeAbsolutePath,
-    localPath: `/assets/players/${player.tournamentYear}/${runtimeFilename}`,
+    localPath: `/players/game-faces/${runtimeFilename}`,
     sourceImageUrl,
   };
 };
@@ -937,7 +896,7 @@ const main = async () => {
     }
     if (
       previousImported?.localPath === canonical.localPath &&
-      existsSync(path.join(ROOT, previousImported.sourceFile.replace(/^\//, "")))
+      existsSync(repositoryPathForAsset(previousImported.sourceFile))
     ) {
       retainedImportedCoverage.push({
         ...previousImported,

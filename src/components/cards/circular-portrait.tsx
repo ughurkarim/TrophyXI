@@ -2,12 +2,22 @@
 
 import Image from "next/image";
 import { UserRound } from "lucide-react";
-import { imagesById } from "@/data/player-images";
+import { useMemo, useState } from "react";
+import {
+  imagesById,
+  isPlayablePlayerCardId,
+  playablePlayerGameFaceCandidatesFor,
+} from "@/data/player-images";
 import { assetUrl } from "@/lib/assets";
 import { flagForCountry } from "@/lib/utils";
 import type { PlayerStatusTier } from "@/types/game";
 
 export type PortraitSize = "compact" | "standard" | "featured" | "hero";
+
+type FailedSourcesState = {
+  imageId: string;
+  sources: string[];
+};
 
 export function CircularPortrait({
   imageId,
@@ -26,7 +36,36 @@ export function CircularPortrait({
   tournamentYear?: number;
   size?: PortraitSize;
 }) {
-  const image = imagesById.get(imageId);
+  const registeredImage = imagesById.get(imageId);
+  const isPlayer = isPlayablePlayerCardId(imageId);
+
+  const imageSources = useMemo(() => {
+    if (isPlayer) {
+      return playablePlayerGameFaceCandidatesFor(imageId).map((path) =>
+        assetUrl(path),
+      );
+    }
+
+    if (!registeredImage) return [];
+
+    return [
+      `${assetUrl(registeredImage.file)}?v=${encodeURIComponent(
+        registeredImage.cacheVersion,
+      )}`,
+    ];
+  }, [imageId, isPlayer, registeredImage]);
+
+  const [failedState, setFailedState] = useState<FailedSourcesState>({
+    imageId,
+    sources: [],
+  });
+
+  const failedSources =
+    failedState.imageId === imageId ? failedState.sources : [];
+
+  const visibleImageSource =
+    imageSources.find((source) => !failedSources.includes(source)) ?? null;
+
   const initials = subjectName
     .split(/\s+/)
     .filter(Boolean)
@@ -36,24 +75,43 @@ export function CircularPortrait({
     .join("")
     .slice(0, 2)
     .toLocaleUpperCase();
+
+  const markSourceFailed = (source: string) => {
+    setFailedState((current) => {
+      const currentSources =
+        current.imageId === imageId ? current.sources : [];
+
+      if (currentSources.includes(source)) {
+        return { imageId, sources: currentSources };
+      }
+
+      return {
+        imageId,
+        sources: [...currentSources, source],
+      };
+    });
+  };
+
   return (
     <span
       className={`circular-portrait circular-portrait--${size}${
         statusTier ? ` circular-portrait--${statusTier}` : ""
-      }${image ? "" : " circular-portrait--pending"}`}
+      }${visibleImageSource ? "" : " circular-portrait--pending"}`}
       data-era={era}
     >
       <span className="circular-portrait__mask">
-        {image ? (
+        {visibleImageSource ? (
           <Image
-            src={`${assetUrl(image.file)}?v=${encodeURIComponent(
-              image.cacheVersion,
-            )}`}
-            alt={`${subjectName}${tournamentYear ? ` ${tournamentYear}` : ""} portrait`}
+            key={visibleImageSource}
+            src={visibleImageSource}
+            alt={`${subjectName}${
+              tournamentYear ? ` ${tournamentYear}` : ""
+            } portrait`}
             fill
             unoptimized
             sizes="(max-width: 700px) 96px, 128px"
             style={{ objectPosition: "center top" }}
+            onError={() => markSourceFailed(visibleImageSource)}
           />
         ) : (
           <span

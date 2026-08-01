@@ -1,24 +1,14 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import historicalJson from "../src/data/player-tournaments.generated.json";
 import roster2026Json from "../src/data/player-tournaments-2026.generated.json";
-import identityPortraitJson from "../src/data/player-identity-portraits.generated.json";
 import { imagesById, playerImages } from "../src/data/player-images";
 import {
   allPlayersBeforeIdentityPruning as players,
   players as playablePlayers,
 } from "../src/data/players";
 import { PLAYER_WORLD_CUP_YEARS } from "../src/types/game";
-
-const gameFaceCachePath = path.join(
-  process.cwd(),
-  "scripts/cache/game-faces/import-cache.json",
-);
-
-const gameFaceCacheJson = existsSync(gameFaceCachePath)
-  ? JSON.parse(readFileSync(gameFaceCachePath, "utf8"))
-  : {};
 
 type HistoricalArchive = {
   identities: Record<
@@ -33,19 +23,8 @@ type Roster2026Archive = {
     teamCode: string;
   }>;
 };
-type IdentityPortraitArchive = {
-  identityPortraits: Array<{
-    sourceCardId: string;
-    sourceTournamentYear: number;
-    sourceKind: string;
-    sourceImageUrl: string | null;
-  }>;
-};
-
 const historical = historicalJson as unknown as HistoricalArchive;
 const roster2026 = roster2026Json as unknown as Roster2026Archive;
-const identityPortraits =
-  identityPortraitJson as unknown as IdentityPortraitArchive;
 const ROOT = process.cwd();
 const archivedPlayersById = new Map(
   players.map((player) => [player.id, player]),
@@ -174,55 +153,23 @@ const main = async () => {
 
   const brokenImagePaths = playerImages
     .filter((image) => {
-      const absolutePath = path.join(ROOT, image.file.replace(/^\//, ""));
+      const relativePath = image.file.replace(/^\//, "");
+      const absolutePath = path.join(ROOT, "public", relativePath);
       return !existsSync(absolutePath);
     })
     .map((image) => ({ id: image.id, file: image.file }));
-  const gameFaceCache = gameFaceCacheJson as Record<
-    string,
-    { status: string; sourceUrl?: string }
-  >;
-  const prescribedGameEditionByYear = new Map([
-    [2010, 10],
-    [2014, 14],
-    [2018, 18],
-    [2022, 23],
-    [2026, 26],
-  ]);
-  const exactImportedPortraitIds = new Set(
-    identityPortraits.identityPortraits
-      .filter((portrait) => {
-        const edition = portrait.sourceImageUrl?.match(
-          /\/(\d{2})_120\.png$/,
-        )?.[1];
-        return (
-          portrait.sourceKind === "sofifa-game-face" &&
-          Number(edition) ===
-            prescribedGameEditionByYear.get(portrait.sourceTournamentYear)
-        );
-      })
-      .map((portrait) => portrait.sourceCardId),
-  );
-  const exactYearFaceIds = players
-    .filter((player) => {
-      const cached = gameFaceCache[player.id];
-      const edition = cached?.sourceUrl?.match(/\/(\d{2})_120\.png$/)?.[1];
-      return (
-        imagesById.has(player.imageId) &&
-        (((cached?.status === "success" || cached?.status === "skipped") &&
-          Number(edition) ===
-            prescribedGameEditionByYear.get(player.tournamentYear)) ||
-          exactImportedPortraitIds.has(player.id))
-      );
-    })
-    .map((player) => player.id);
-  const exactYearFaceIdSet = new Set(exactYearFaceIds);
-  const fallbackYearFaceIds = players
+  const exactYearFaceIds = playerImages
     .filter(
-      (player) =>
-        imagesById.has(player.imageId) && !exactYearFaceIdSet.has(player.id),
+      (image) =>
+        image.exactTournamentImage &&
+        !image.fallback &&
+        image.file === `/players/game-faces/${image.id}.png`,
     )
-    .map((player) => player.id);
+    .map((image) => image.id);
+  const exactYearFaceIdSet = new Set(exactYearFaceIds);
+  const fallbackYearFaceIds = playerImages
+    .filter((image) => !exactYearFaceIdSet.has(image.id))
+    .map((image) => image.id);
   const imageAssignments = new Map<string, Set<string>>();
   for (const image of playerImages) {
     const identityId = archivedPlayersById.get(image.id)?.playerIdentityId;

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { playablePlayerGameFacePathFor } from "@/data/player-images";
@@ -58,8 +58,37 @@ describe("CircularPortrait", () => {
     expect(portrait).toHaveAttribute(
       "src",
       expect.stringMatching(
-        /^\/players\/game-faces\/cristiano-ronaldo-2018\.png\?v=/,
+        /^(?:http:\/\/localhost:3000)?\/players\/game-faces\/cristiano-ronaldo-2018\.png\?v=/,
       ),
+    );
+  });
+
+  it("falls back to Photo Pending when an exact image fails to load", () => {
+    render(
+      <CircularPortrait
+        imageId="cristiano-ronaldo-2018"
+        subjectName="Cristiano Ronaldo"
+        era="2010s"
+        statusTier="elite"
+        countryCode="POR"
+        tournamentYear={2018}
+      />,
+    );
+
+    fireEvent.error(
+      screen.getByRole("img", {
+        name: /cristiano ronaldo 2018 portrait/i,
+      }),
+    );
+
+    const pending = screen.getByRole("img", {
+      name: /cristiano ronaldo 2018 portrait, photo pending/i,
+    });
+    expect(pending).toHaveTextContent("CR");
+    expect(pending).toHaveTextContent("PHOTO PENDING");
+    expect(pending).toHaveTextContent("🇵🇹 2018");
+    expect(pending.closest(".circular-portrait")).toHaveClass(
+      "circular-portrait--pending",
     );
   });
 

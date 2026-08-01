@@ -17,15 +17,15 @@ const FOREGROUND_ALPHA_THRESHOLD = 8;
 const importedMode = process.argv.includes("--imported");
 
 const fixedPortraits = [
-  ["assets/players/1978/marco-tardelli-1978.webp", "assets/players/1978/marco-tardelli-1978.png"],
-  ["assets/players/1978/zico-1978.jpeg", "assets/players/1978/zico-1978.png"],
-  ["assets/players/1982/jean-tigana-1982.jpeg", "assets/players/1982/jean-tigana-1982.png"],
-  ["assets/players/1986/gary-lineker-1986.jpeg", "assets/players/1986/gary-lineker-1986.png"],
-  ["assets/players/1986/andreas-brehme-1986.jpeg", "assets/players/1986/andreas-brehme-1986.png"],
-  ["assets/players/1986/igor-belanov-1986.jpeg", "assets/players/1986/igor-belanov-1986.png"],
-  ["assets/players/1986/jorge-burruchaga-1986.jpeg", "assets/players/1986/jorge-burruchaga-1986.png"],
-  ["assets/players/1986/jorge-valdano-1986.webp", "assets/players/1986/jorge-valdano-1986.png"],
-  ["assets/players/1986/preben-elkjær-1986.jpeg", "assets/players/1986/preben-elkj-r-1986.png"],
+  ["assets/players/1978/marco-tardelli-1978.webp", "public/players/game-faces/marco-tardelli-1978.png"],
+  ["assets/players/1978/zico-1978.jpeg", "public/players/game-faces/zico-1978.png"],
+  ["assets/players/1982/jean-tigana-1982.jpeg", "public/players/game-faces/jean-tigana-1982.png"],
+  ["assets/players/1986/gary-lineker-1986.jpeg", "public/players/game-faces/gary-lineker-1986.png"],
+  ["assets/players/1986/andreas-brehme-1986.jpeg", "public/players/game-faces/andreas-brehme-1986.png"],
+  ["assets/players/1986/igor-belanov-1986.jpeg", "public/players/game-faces/igor-belanov-1986.png"],
+  ["assets/players/1986/jorge-burruchaga-1986.jpeg", "public/players/game-faces/jorge-burruchaga-1986.png"],
+  ["assets/players/1986/jorge-valdano-1986.webp", "public/players/game-faces/jorge-valdano-1986.png"],
+  ["assets/players/1986/preben-elkjær-1986.jpeg", "public/players/game-faces/preben-elkj-r-1986.png"],
   ["assets/managers/Roberto Martínez.jpeg", "assets/managers/roberto-martinez.png"],
 ];
 

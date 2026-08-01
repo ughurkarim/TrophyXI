@@ -65,9 +65,9 @@ The current archive contains:
 
 - 9,627 tournament cards across 7,255 stable player identities
 - all player cards are draft eligible; artwork availability never changes
-  card eligibility, and neutral identity markers cover cards without portraits
-- identity-level historical and user-supplied portraits fill missing card
-  views from the closest available portrait
+  card eligibility, and PHOTO PENDING markers cover cards without portraits
+- player portraits resolve only from the exact year-specific card ID under
+  `public/players/game-faces`; no identity or adjacent-year fallback is used
 - every men’s World Cup from 1970 through the completed 2026 archive
 - 47 manager cards across 47 identities with OFF, DEF, Leadership, Game
   Management, and selected-era Manager Era Fit
@@ -109,7 +109,7 @@ to the historical opponent.
 - `scripts/generate-fbref-player-map.ts`: cached Wikipedia/Wikidata-to-FBref identity resolver
 - `scripts/generate-sofifa-player-map.ts`: birth-date/name/nation-safe SoFIFA identity resolver
 - `scripts/normalize-local-career-archive.ts`: career and tournament-accolade normalizer
-- `scripts/import-player-identity-portraits.ts`: cached, source-prioritized, paced, resumable missing-portrait importer
+- `scripts/audit-player-game-faces.ts`: exact-card migration, canonical-path, duplicate, unused, and missing-image audit
 - `scripts/validate-player-archive.ts`: per-tournament roster, identity, accolade, and image audit
 - `scripts/import-world-cup-teams.ts`: vendored participant ingestion
 - `scripts/validate-data.ts`: executable content and feasibility contract

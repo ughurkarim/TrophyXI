@@ -6,34 +6,35 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   allowedDevOrigins: ["127.0.0.1"],
   outputFileTracingIncludes: {
-  "/assets/players/[year]/[filename]": ["./assets/players/**/*"],
-  "/assets/managers/[filename]": ["./assets/managers/*.png"],
-},
-images: {
-  localPatterns: [
-    {
-      pathname: "/assets/players/**",
-    },
-    {
-      pathname: "/assets/winners/**",
-    },
-    {
-      pathname: "/assets/managers/**",
-    },
-  ],
+    "/assets/managers/[filename]": ["./assets/managers/*.png"],
+  },
+  images: {
+    localPatterns: [
+      {
+        pathname: "/players/game-faces/**",
+      },
+      {
+        pathname: "/assets/managers/**",
+      },
+    ],
 
-  remotePatterns: [
-    {
-      protocol: "https",
-      hostname: "assets.trophyxi.com",
-      pathname: "/assets/**",
-    },
-    {
-      protocol: "https",
-      hostname: "upload.wikimedia.org",
-    },
-  ],
-},
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "assets.trophyxi.com",
+        pathname: "/assets/**",
+      },
+      {
+        protocol: "https",
+        hostname: "assets.trophyxi.com",
+        pathname: "/players/game-faces/**",
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+      },
+    ],
+  },
 };
 
 export default withSentryConfig(nextConfig, {

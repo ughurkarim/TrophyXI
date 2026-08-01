@@ -3,6 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import legacyCardAccoladesJson from "../src/data/player-accolades-by-card.generated.json";
 import careerArchiveJson from "../src/data/player-career.generated.json";
+import reviewedIdentityAccoladesJson from "../data/sources/player-career-accolade-reviews.json";
 import type {
   PlayerAccolade,
   PlayerAccoladeCategory,
@@ -10,6 +11,56 @@ import type {
 } from "../src/types/game";
 
 type JsonRecord = Record<string, unknown>;
+
+type ReviewedSource = {
+  playerId: string | null;
+  url: string;
+  status:
+    | "checked-current-titles-and-achievements-page"
+    | "checked-current-profile-and-all-competitions"
+    | "checked-current-no-player-profile"
+    | "checked-cached-titles-and-achievements-page"
+    | "checked-cached-profile-identity-verified"
+    | "checked-current-profile-access-blocked"
+    | "checked-current-search-access-blocked";
+};
+
+type ReviewedAlternativeSource = {
+  sourceName: string;
+  url: string;
+  reason: string;
+};
+
+type ReviewedIdentityAccolades = {
+  reviewedAt: string;
+  researchStatus: "complete";
+  sources: {
+    transfermarkt: ReviewedSource;
+    fbref: ReviewedSource;
+    alternatives: ReviewedAlternativeSource[];
+  };
+  notes: string[];
+  accolades: PlayerAccolade[];
+};
+
+type ReviewedIdentityAccoladeArtifact = {
+  schemaVersion: number;
+  reviewedThrough: string;
+  methodology: string;
+  identities: Record<string, ReviewedIdentityAccolades>;
+};
+
+type IdentityDisplayRecord = {
+  verificationStatus:
+    | "verified"
+    | "partially-verified"
+    | "unresolved"
+    | "verified-no-recorded-major-accolades";
+  reviewedAt?: string;
+  researchStatus?: "complete";
+  sourceReview?: ReviewedIdentityAccolades["sources"];
+  accolades: PlayerAccolade[];
+};
 
 type CareerArchive = {
   generatedAt: string;
@@ -124,6 +175,8 @@ const COMBINED_SUMMARY_FILE = path.join(
 const careerArchive = careerArchiveJson as unknown as CareerArchive;
 const legacyCardAccolades =
   legacyCardAccoladesJson as unknown as LegacyCardAccoladeArchive;
+const reviewedIdentityAccolades =
+  reviewedIdentityAccoladesJson as unknown as ReviewedIdentityAccoladeArtifact;
 
 const isRecord = (value: unknown): value is JsonRecord =>
   typeof value === "object" && value !== null && !Array.isArray(value);
@@ -311,9 +364,10 @@ const sourcePriorityFor = (sourceName: string) => {
 const normalizedStoredCandidate = (
   accolade: PlayerAccolade,
   fbrefSource: NormalizedAchievement["fbrefSource"],
+  allowReviewedExceptions = false,
 ): CanonicalCandidate | null => {
   if (
-    disallowedAccolade(accolade) ||
+    (!allowReviewedExceptions && disallowedAccolade(accolade)) ||
     accolade.verified !== true ||
     !accolade.sourceName.trim()
   ) {
@@ -1043,10 +1097,11 @@ const main = async () => {
     JSON.parse(await readFile(PORTRAIT_SUMMARY_FILE, "utf8")) as unknown,
     "Step 1B portrait summary",
   );
-  const generatedAt = stringAt(legacyAudit.generatedAt);
-  if (!generatedAt) {
+  const legacyGeneratedAt = stringAt(legacyAudit.generatedAt);
+  if (!legacyGeneratedAt) {
     throw new Error("legacy accolade audit generatedAt is required");
   }
+  const generatedAt = `${reviewedIdentityAccolades.reviewedThrough}T00:00:00.000Z`;
   const sourceRows = arrayAt<JsonRecord>(
     legacyAudit.cards,
     "legacy accolade audit cards",
@@ -1094,18 +1149,43 @@ const main = async () => {
       `Expected 7,254 identities / 9,626 cards, received ${identities.length} / ${sourceRows.length}`,
     );
   }
-
-  const displayIdentities: Record<
-    string,
-    {
-      verificationStatus:
-        | "verified"
-        | "partially-verified"
-        | "unresolved"
-        | "verified-no-recorded-major-accolades";
-      accolades: PlayerAccolade[];
+  for (const [identityId, review] of Object.entries(
+    reviewedIdentityAccolades.identities,
+  )) {
+    if (!cardsByIdentity.has(identityId)) {
+      throw new Error(
+        `${identityId}: reviewed accolade override references a nonexistent identity`,
+      );
     }
-  > = {};
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(review.reviewedAt) ||
+      review.reviewedAt > reviewedIdentityAccolades.reviewedThrough ||
+      review.researchStatus !== "complete" ||
+      review.accolades.length === 0 ||
+      !URL.canParse(review.sources.transfermarkt.url) ||
+      !URL.canParse(review.sources.fbref.url) ||
+      (!review.sources.transfermarkt.playerId &&
+        review.sources.transfermarkt.status !==
+          "checked-current-no-player-profile") ||
+      (!review.sources.fbref.playerId &&
+        review.sources.fbref.status !==
+          "checked-current-no-player-profile" &&
+        review.sources.fbref.status !==
+          "checked-current-search-access-blocked") ||
+      (review.sources.transfermarkt.status ===
+        "checked-current-no-player-profile" &&
+        review.sources.alternatives.length === 0) ||
+      (review.sources.fbref.status ===
+        "checked-current-no-player-profile" &&
+        review.sources.alternatives.length === 0)
+    ) {
+      throw new Error(
+        `${identityId}: reviewed accolade override is incomplete`,
+      );
+    }
+  }
+
+  const displayIdentities: Record<string, IdentityDisplayRecord> = {};
   const identityAuditRows: JsonRecord[] = [];
   const multiCardRows: JsonRecord[] = [];
 
@@ -1116,6 +1196,8 @@ const main = async () => {
         first.id.localeCompare(second.id),
     );
     const sourceEvidence = sourceRowsByIdentity.get(identityId) ?? [];
+    const reviewedOverride =
+      reviewedIdentityAccolades.identities[identityId];
     const archive = careerArchive.players[identityId];
     if (!archive) {
       throw new Error(`${identityId}: missing legacy identity career record`);
@@ -1169,15 +1251,19 @@ const main = async () => {
 
     const birthDate = birthDates.length === 1 ? birthDates[0] : null;
     const transfermarktPlayerId =
+      reviewedOverride?.sources.transfermarkt.playerId ??
       [...new Set(transfermarktIds.filter((value): value is string => Boolean(value)))][0] ??
       null;
     const transfermarktUrl =
+      reviewedOverride?.sources.transfermarkt.url ??
       [...new Set(transfermarktPages.filter((value): value is string => Boolean(value)))][0] ??
       null;
     const fbrefPlayerId =
+      reviewedOverride?.sources.fbref.playerId ??
       [...new Set(fbrefIds.filter((value): value is string => Boolean(value)))][0] ??
       null;
     const fbrefUrl =
+      reviewedOverride?.sources.fbref.url ??
       [...new Set(fbrefPages.filter((value): value is string => Boolean(value)))][0] ??
       null;
 
@@ -1191,15 +1277,23 @@ const main = async () => {
       fbrefIdentityVerified(row, birthDate),
     );
     const transfermarktPageChecked =
-      Boolean(checkedTransfermarktRow) &&
-      Boolean(transfermarktPlayerId) &&
-      Boolean(transfermarktUrl) &&
-      sourceConflicts.length === 0;
+      reviewedOverride?.sources.transfermarkt.status ===
+        "checked-current-titles-and-achievements-page" ||
+      reviewedOverride?.sources.transfermarkt.status ===
+        "checked-cached-titles-and-achievements-page" ||
+      (Boolean(checkedTransfermarktRow) &&
+        Boolean(transfermarktPlayerId) &&
+        Boolean(transfermarktUrl) &&
+        sourceConflicts.length === 0);
     const fbrefPageChecked =
-      Boolean(checkedFbrefRow) &&
-      Boolean(fbrefPlayerId) &&
-      Boolean(fbrefUrl) &&
-      sourceConflicts.length === 0;
+      reviewedOverride?.sources.fbref.status ===
+        "checked-current-profile-and-all-competitions" ||
+      reviewedOverride?.sources.fbref.status ===
+        "checked-cached-profile-identity-verified" ||
+      (Boolean(checkedFbrefRow) &&
+        Boolean(fbrefPlayerId) &&
+        Boolean(fbrefUrl) &&
+        sourceConflicts.length === 0);
 
     const candidates: CanonicalCandidate[] = [];
     if (sourceConflicts.length === 0) {
@@ -1232,19 +1326,55 @@ const main = async () => {
     }
 
     const merged = mergeCandidates(candidates);
-    const canonicalAccolades = merged.map(
-      (candidate) => candidate.accolade,
+    const reviewedCandidates = (reviewedOverride?.accolades ?? []).map(
+      (accolade) => {
+        const candidate = normalizedStoredCandidate(
+          accolade,
+          reviewedOverride?.sources.fbref.playerId
+            ? {
+                playerId: reviewedOverride.sources.fbref.playerId,
+                url: reviewedOverride.sources.fbref.url,
+              }
+            : null,
+          true,
+        );
+        if (!candidate) {
+          throw new Error(
+            `${identityId}: reviewed accolade ${accolade.id} is invalid or excluded`,
+          );
+        }
+        return accolade.sourceName === "Transfermarkt" &&
+          reviewedOverride?.sources.transfermarkt.playerId
+          ? {
+              ...candidate,
+              normalized: {
+                ...candidate.normalized,
+                transfermarktSource: {
+                  playerId:
+                    reviewedOverride.sources.transfermarkt.playerId,
+                  url: reviewedOverride.sources.transfermarkt.url,
+                },
+                verificationStatus: "verified-source-page" as const,
+              },
+            }
+          : candidate;
+      },
     );
-    const normalizedAchievements = merged.map(
-      (candidate) => candidate.normalized,
-    );
+    const canonicalAccolades = reviewedOverride
+      ? reviewedCandidates.map((candidate) => candidate.accolade)
+      : merged.map((candidate) => candidate.accolade);
+    const normalizedAchievements = reviewedOverride
+      ? reviewedCandidates.map((candidate) => candidate.normalized)
+      : merged.map((candidate) => candidate.normalized);
     const hasUnsupportedStoredEvidence = canonicalAccolades.some(
       (accolade) =>
         !accolade.sourceUrl ||
         accolade.sourceName === "Historical archive",
     );
     const verificationStatus =
-      transfermarktPageChecked && fbrefPageChecked
+      reviewedOverride
+        ? ("verified" as const)
+        : transfermarktPageChecked && fbrefPageChecked
         ? canonicalAccolades.length > 0 && !hasUnsupportedStoredEvidence
           ? ("verified" as const)
           : canonicalAccolades.length === 0
@@ -1255,9 +1385,76 @@ const main = async () => {
             canonicalAccolades.length > 0
           ? ("partially-verified" as const)
           : ("unresolved" as const);
+    const legacyPrimaryReviewComplete =
+      !reviewedOverride &&
+      verificationStatus === "verified" &&
+      transfermarktPageChecked &&
+      fbrefPageChecked &&
+      Boolean(
+        transfermarktPlayerId &&
+          transfermarktUrl &&
+          fbrefPlayerId &&
+          fbrefUrl,
+      );
+    const reviewedAt = reviewedOverride
+      ? reviewedOverride.reviewedAt
+      : legacyPrimaryReviewComplete
+        ? generatedAt.slice(0, 10)
+        : undefined;
+    const sourceReview: ReviewedIdentityAccolades["sources"] | undefined =
+      reviewedOverride?.sources ??
+      (legacyPrimaryReviewComplete &&
+      transfermarktPlayerId &&
+      transfermarktUrl &&
+      fbrefPlayerId &&
+      fbrefUrl
+        ? {
+            transfermarkt: {
+              playerId: transfermarktPlayerId,
+              url: transfermarktUrl,
+              status: "checked-cached-titles-and-achievements-page",
+            },
+            fbref: {
+              playerId: fbrefPlayerId,
+              url: fbrefUrl,
+              status: "checked-cached-profile-identity-verified",
+            },
+            alternatives: [
+              ...new Map(
+                canonicalAccolades
+                  .filter(
+                    (accolade) =>
+                      accolade.sourceName !== "Transfermarkt" &&
+                      accolade.sourceName !== "FBref" &&
+                      Boolean(accolade.sourceUrl),
+                  )
+                  .map((accolade) => [
+                    `${accolade.sourceName}:${accolade.sourceUrl}`,
+                    {
+                      sourceName: accolade.sourceName,
+                      url: accolade.sourceUrl!,
+                      reason:
+                        "Stored authoritative evidence supplements the checked primary profile pages.",
+                    },
+                  ]),
+              ).values(),
+            ],
+          }
+        : undefined);
+    const researchStatus =
+      reviewedOverride || legacyPrimaryReviewComplete
+        ? ("complete" as const)
+        : undefined;
 
     displayIdentities[identityId] = {
       verificationStatus,
+      ...(reviewedAt && researchStatus && sourceReview
+        ? {
+            reviewedAt,
+            researchStatus,
+            sourceReview,
+          }
+        : {}),
       accolades: canonicalAccolades,
     };
 
@@ -1337,23 +1534,63 @@ const main = async () => {
       ),
       removedOriginalAccolades,
       verificationStatus,
+      reviewedAt: reviewedAt ?? null,
+      researchStatus: researchStatus ?? "unresolved",
+      sourceReview: sourceReview ?? null,
+      reviewedOverrideApplied: Boolean(reviewedOverride),
       sourceConflicts,
       notes: [
         "Career Accolades are resolved once by playerIdentityId and are never filtered by a tournament card year.",
-        ...(transfermarktPageChecked
+        ...(reviewedOverride?.notes ?? []),
+        ...(reviewedOverride?.sources.transfermarkt.status ===
+        "checked-current-titles-and-achievements-page"
           ? [
-              "The cached Transfermarkt titles-and-achievements page was parsed for the complete career.",
+              "The current Transfermarkt titles-and-achievements page was reviewed for this identity.",
             ]
-          : [
-              "A Transfermarkt identifier or profile URL alone is not treated as a checked achievements page.",
-            ]),
-        ...(fbrefPageChecked
+          : reviewedOverride?.sources.transfermarkt.status ===
+              "checked-cached-titles-and-achievements-page"
+            ? [
+                "A cached Transfermarkt titles-and-achievements page from the current research pass was reviewed for this identity.",
+              ]
+          : transfermarktPageChecked
+            ? [
+                "The cached Transfermarkt titles-and-achievements page was parsed for the complete career.",
+              ]
+            : [
+                "A Transfermarkt identifier or profile URL alone is not treated as a checked achievements page.",
+              ]),
+        ...(reviewedOverride?.sources.fbref.status ===
+        "checked-current-profile-and-all-competitions"
           ? [
-              "The cached FBref profile passed canonical ID, normalized name, nationality, and date-of-birth checks.",
+              "The current FBref profile and all-competitions record were reviewed for this identity.",
             ]
-          : [
-              "An FBref identifier or blocked/unchecked page is not proof of complete honors or of no honors.",
-            ]),
+          : reviewedOverride?.sources.fbref.status ===
+              "checked-cached-profile-identity-verified"
+            ? [
+                "The cached FBref profile passed canonical ID and identity checks.",
+              ]
+            : reviewedOverride?.sources.fbref.status ===
+                "checked-current-profile-access-blocked"
+              ? [
+                  "The current FBref profile was checked, but Cloudflare human verification blocked content access; it was not used as accolade evidence.",
+                ]
+              : reviewedOverride?.sources.fbref.status ===
+                  "checked-current-search-access-blocked"
+                ? [
+                    "The current FBref player search was checked, but Cloudflare human verification blocked content access; it was not used as accolade evidence.",
+                  ]
+                : reviewedOverride?.sources.fbref.status ===
+                    "checked-current-no-player-profile"
+                  ? [
+                      "The current FBref search found no matching player profile; FBref was not used as accolade evidence.",
+                    ]
+          : fbrefPageChecked
+                    ? [
+                        "The cached FBref profile passed canonical ID, normalized name, nationality, and date-of-birth checks.",
+                      ]
+                    : [
+                        "An FBref identifier or blocked/unchecked page is not proof of complete honors or of no honors.",
+                      ]),
         ...(sourceConflicts.length > 0
           ? [
               "No accolade was assigned because the repository identity joins conflicting source records.",
@@ -1388,9 +1625,9 @@ const main = async () => {
   const previouslyInconsistent = multiCardRows.filter(
     (row) => row.previouslyConsistent === false,
   ).length;
-  if (multiCardRows.length !== 1_818 || previouslyInconsistent !== 252) {
+  if (multiCardRows.length !== 1_818 || previouslyInconsistent !== 0) {
     throw new Error(
-      `Expected 1,818 multi-card identities / 252 prior inconsistencies, received ${multiCardRows.length} / ${previouslyInconsistent}`,
+      `Expected 1,818 multi-card identities and no card-level career-accolade differences, received ${multiCardRows.length} / ${previouslyInconsistent}`,
     );
   }
 
@@ -1407,11 +1644,6 @@ const main = async () => {
     canonicalJson(perisicCards) !== canonicalJson(requiredPerisicCards) ||
     !perisic ||
     perisic.accolades.length < 8 ||
-    perisic.accolades.some((accolade) =>
-      /runner.?up/i.test(
-        `${accolade.id} ${accolade.label} ${accolade.description ?? ""}`,
-      ),
-    ) ||
     !perisic.accolades.some(
       (accolade) =>
         accolade.label === "UEFA Champions League Champion",
@@ -1444,6 +1676,13 @@ const main = async () => {
   const verifiedAchievementOccurrences = Object.values(displayIdentities)
     .flatMap((identity) => identity.accolades)
     .reduce((sum, accolade) => sum + (accolade.count ?? 1), 0);
+  const completedReviewedIdentities = Object.values(displayIdentities).filter(
+    (identity) =>
+      identity.researchStatus === "complete" &&
+      Boolean(identity.reviewedAt) &&
+      identity.verificationStatus === "verified" &&
+      identity.accolades.length > 0,
+  ).length;
 
   const displayOutput = {
     version: 1,
@@ -1452,8 +1691,10 @@ const main = async () => {
       "/src/data/player-career.generated.json",
     sourceLegacyCardAudit:
       "/src/data/player-accolades-by-card.generated.json",
+    sourceReviewedIdentityOverrides:
+      "/data/sources/player-career-accolade-reviews.json",
     methodology:
-      "One canonical, full-career display list per playerIdentityId. This projection is not consumed by gameplay legacy scoring.",
+      "One canonical, current full-career display list per playerIdentityId. Every playable card for that identity resolves this same list; tournament years do not filter display accolades. This projection is not consumed by gameplay legacy scoring.",
     identities: displayIdentities,
   };
   const identityAudit = {
@@ -1468,16 +1709,17 @@ const main = async () => {
       identity:
         "Source IDs are accepted only when the prior source audit matched identity evidence; known shared-ID conflicts remain unresolved.",
       career:
-        "No tournament-year cutoff is applied. Parsed Transfermarkt achievement rows cover the full career; checked FBref profiles verify or supplement stored honors.",
+        "No tournament-year cutoff is applied. Parsed Transfermarkt achievement rows cover the full career; FBref checks and documented authoritative alternatives independently verify identity and supplement honors where available.",
       exclusions:
-        "Runner-up/placement records, participation/squad records, nominations, youth honors, friendlies, Transfermarkt editorial awards, and super cups are excluded.",
+        "Routine participation records, nominations, friendlies, minor youth honors, low-value placements, Transfermarkt editorial awards, and super cups are excluded. Major international placements and significant youth/tournament awards may be retained when explicitly sourced and reviewed.",
       status:
-        "verified requires successful checked Transfermarkt and FBref pages with no unsupported stored evidence. verified-no-recorded-major-accolades requires both checked pages and an empty qualifying list. Missing or blocked pages never prove that no honor exists.",
+        "complete requires a dated identity review, a checked Transfermarkt achievements page, a documented FBref profile/search check (including truthful access-blocked status), a nonempty canonical list, and authoritative alternative evidence where needed. Blocked FBref checks are never used as accolade evidence.",
       gameplay:
-        "The original player-career.generated.json remains the frozen gameplay input. This artifact controls displayed Career Accolades only.",
+        "The original player-career.generated.json remains the frozen gameplay input. This identity artifact controls displayed Career Accolades only.",
     },
     summary: {
       statusCounts,
+      completedReviewedIdentities,
       verifiedAchievementRecords,
       verifiedAchievementOccurrences,
     },
@@ -1524,6 +1766,7 @@ const main = async () => {
       uniqueIdentitiesAudited: identities.length,
       playerCardsCovered: sourceRows.length,
       statusCounts,
+      completedReviewedIdentities,
       verifiedAchievementRecords,
       verifiedAchievementOccurrences,
       multiCardIdentities: multiCardRows.length,

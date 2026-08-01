@@ -387,7 +387,7 @@ const files = {
     "data",
     "tournament-edition-player-portraits.generated.json",
   ),
-  publicPortraits: path.join(ROOT, "public", "assets", "players", "game-faces"),
+  publicPortraits: path.join(ROOT, "public", "players", "game-faces"),
 };
 
 const EXPECTED = {
@@ -705,7 +705,6 @@ const validateCareerAccolades = async () => {
         ),
       `${identityId}: display and audit canonical accolades disagree`,
     );
-
     for (const card of identityCards) {
       check(
         canonicalJson(card.careerAccolades) ===
@@ -1656,7 +1655,7 @@ const validatePortraits = async () => {
     check(
       portrait.localPath === auditCard.localImagePath &&
         portrait.localPath ===
-          `/assets/players/game-faces/${portrait.cardId}.png`,
+          `/players/game-faces/${portrait.cardId}.png`,
       `${portrait.cardId}: registry local path is not canonical`,
     );
     check(

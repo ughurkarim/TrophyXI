@@ -86,21 +86,21 @@ describe("TacticalPitch", () => {
     expect(filled).toHaveClass("pitch-node--filled");
   });
 
-  it("renders Photo Pending when Messi's exact 2006 image is unavailable", () => {
-    const messi = playersById.get("lionel-messi-2006")!;
+  it("renders Photo Pending when Tshabalala's exact 2010 image is unavailable", () => {
+    const tshabalala = playersById.get("siphiwe-tshabalala-2010")!;
     render(
       <TacticalPitch
         formation={getFormation("4-3-3")}
-        lineup={[messi]}
-        picks={[{ slotId: "rw", cardId: messi.id }]}
+        lineup={[tshabalala]}
+        picks={[{ slotId: "lw", cardId: tshabalala.id }]}
       />,
     );
 
     const pending = screen.getByRole("img", {
-      name: /lionel messi 2006 portrait, photo pending/i,
+      name: /siphiwe tshabalala 2010 portrait, photo pending/i,
     });
     expect(pending).toHaveTextContent("PHOTO PENDING");
-    expect(pending).toHaveTextContent("🇦🇷 2006");
+    expect(pending).toHaveTextContent("🇿🇦 2010");
   });
 
   it("renders labeled green, yellow, red, and incompatible fit previews", () => {

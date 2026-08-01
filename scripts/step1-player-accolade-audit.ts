@@ -20,6 +20,16 @@ import type {
   PlayerTournamentCard,
 } from "../src/types/game";
 
+/**
+ * Legacy per-card evidence audit.
+ *
+ * Its output remains available as research input for the identity generator,
+ * but it is not the runtime display model. Player cards resolve the canonical
+ * current-career record for playerIdentityId instead. Historical tournament-end
+ * date fields remain in the output only for schema compatibility and never
+ * filter or reconstruct accolades.
+ */
+
 type CsvRow = Record<string, string>;
 
 type CareerArchive = {
@@ -150,9 +160,6 @@ type TransfermarktIdentityMatch = {
 type RemovedAccolade = {
   accolade: PlayerAccolade;
   reason:
-    | "earned-after-card-cutoff"
-    | "same-year-date-unverified-relative-to-world-cup-cutoff"
-    | "undated-aggregate-could-not-be-sliced"
     | "unverifiable-source"
     | "non-winning-result"
     | "normalized-duplicate";
@@ -216,7 +223,7 @@ const FIFA_2026_FINAL_REPORT =
 const FIFA_2026_AWARDS =
   "https://www.fifa.com/fr/tournaments/mens/worldcup/canadamexicousa2026/articles/recompenses-coupe-du-monde-2026-rodri-kylian-mbappe-pau-cubarsi-unai-simon";
 
-const WORLD_CUP_CUTOFF_BY_YEAR: Record<number, string> = {
+const LEGACY_TOURNAMENT_END_DATE_BY_YEAR: Record<number, string> = {
   1970: "1970-06-21",
   1974: "1974-07-07",
   1978: "1978-06-25",
@@ -746,59 +753,6 @@ const temporalEvidenceFor = (value: string): TemporalEvidence => {
         ? Math.max(...unique.map((period) => period.endYear))
         : null,
   };
-};
-
-const isWorldCupTournamentAccolade = (
-  accolade: PlayerAccolade,
-  year: number,
-) => {
-  const value = normalizeText(
-    `${accolade.label} ${accolade.description ?? ""}`,
-  );
-  return (
-    value.includes("world cup") &&
-    value.includes(String(year)) &&
-    /winner|champion|runner up|golden|silver|bronze|young player|all star/.test(
-      value,
-    )
-  );
-};
-
-const temporalDecision = (
-  accolade: PlayerAccolade,
-  periods: TemporalPeriod[],
-  cardYear: number,
-):
-  | { result: "include" }
-  | {
-      result: "exclude";
-      reason:
-        | "earned-after-card-cutoff"
-        | "same-year-date-unverified-relative-to-world-cup-cutoff";
-      detail: string;
-    } => {
-  const after = periods.filter((period) => period.endYear > cardYear);
-  if (after.length > 0) {
-    return {
-      result: "exclude",
-      reason: "earned-after-card-cutoff",
-      detail: `Temporal evidence ends in ${Math.max(...after.map((period) => period.endYear))}, after the ${cardYear} card cutoff.`,
-    };
-  }
-  const ambiguousSameYear = periods.filter(
-    (period) =>
-      period.endYear === cardYear &&
-      period.kind === "calendar-year" &&
-      !isWorldCupTournamentAccolade(accolade, cardYear),
-  );
-  if (ambiguousSameYear.length > 0) {
-    return {
-      result: "exclude",
-      reason: "same-year-date-unverified-relative-to-world-cup-cutoff",
-      detail: `The source supplies only calendar year ${cardYear}, not a date proving the honor preceded the World Cup cutoff.`,
-    };
-  }
-  return { result: "include" };
 };
 
 const normalizeHonorTitle = (value: string) =>
@@ -1444,7 +1398,6 @@ const reconstructFromTransfermarkt = (
   accolade: PlayerAccolade,
   transfermarktTitles: ParsedSourceTitle[],
   transfermarktPage: string,
-  cardYear: number,
 ) => {
   const matches = transfermarktTitles.filter((title) =>
     parsedTitleMatchesAccolade(title, accolade),
@@ -1469,16 +1422,7 @@ const reconstructFromTransfermarkt = (
         ]),
     ).values(),
   ];
-  const included = allSeasons.filter((season) => {
-    if (season.endYear < cardYear) return true;
-    if (season.endYear > cardYear) return false;
-    if (season.kind === "season") return true;
-    const synthetic: PlayerAccolade = {
-      ...accolade,
-      description: `${accolade.description ?? ""} ${season.raw}`,
-    };
-    return isWorldCupTournamentAccolade(synthetic, cardYear);
-  });
+  const included = allSeasons;
   if (included.length === 0) {
     return {
       candidate: null,
@@ -1497,7 +1441,7 @@ const reconstructFromTransfermarkt = (
     sourceName: "Transfermarkt",
     sourceUrl: transfermarktPage,
     verified: true,
-    description: `Verified title rows through the ${cardYear} World Cup cutoff: ${evidence}.`,
+    description: `Verified full-career title rows: ${evidence}.`,
   };
   return {
     candidate: {
@@ -1517,14 +1461,12 @@ const reconstructFromTransfermarkt = (
   };
 };
 
-const processCardAccolades = ({
-  card,
+const processCareerAccolades = ({
   originalAccolades,
   fbrefAudit,
   transfermarktTitles,
   transfermarktPage,
 }: {
-  card: PlayerTournamentCard;
   originalAccolades: PlayerAccolade[];
   fbrefAudit: FbrefProfileAudit | null;
   transfermarktTitles: ParsedSourceTitle[];
@@ -1570,55 +1512,11 @@ const processCardAccolades = ({
         accolade,
         transfermarktTitles,
         transfermarktPage,
-        card.tournamentYear,
       );
       if (rebuilt.candidate) {
         candidates.push(rebuilt.candidate);
         continue;
       }
-    }
-
-    if (temporal.periods.length === 0) {
-      const rebuilt =
-        transfermarktPage && transfermarktTitles.length > 0
-          ? reconstructFromTransfermarkt(
-              accolade,
-              transfermarktTitles,
-              transfermarktPage,
-              card.tournamentYear,
-            )
-          : null;
-      if (rebuilt?.candidate) {
-        candidates.push(rebuilt.candidate);
-        continue;
-      }
-      removed.push({
-        accolade,
-        reason: "undated-aggregate-could-not-be-sliced",
-        explicitYears: [],
-        earnedThroughYear: null,
-        detail:
-          rebuilt && rebuilt.matchedTitles.length > 0
-            ? "The checked Transfermarkt title group has no dated rows at or before this card cutoff."
-            : "No checked source supplied the individual title seasons needed to compute a cutoff-safe count.",
-      });
-      continue;
-    }
-
-    const decision = temporalDecision(
-      accolade,
-      temporal.periods,
-      card.tournamentYear,
-    );
-    if (decision.result === "exclude") {
-      removed.push({
-        accolade,
-        reason: decision.reason,
-        explicitYears: temporal.explicitYears,
-        earnedThroughYear: temporal.earnedThroughYear,
-        detail: decision.detail,
-      });
-      continue;
     }
 
     const localSource = sourceIsLocalArchive(accolade.sourceName);
@@ -1635,7 +1533,6 @@ const processCardAccolades = ({
               accolade,
               transfermarktTitles,
               transfermarktPage,
-              card.tournamentYear,
             )
           : null;
       if (rebuilt?.candidate) {
@@ -1653,6 +1550,21 @@ const processCardAccolades = ({
             : "The record has no source URL or matching checked local source row.",
       });
       continue;
+    }
+
+    if (temporal.periods.length === 0) {
+      const rebuilt =
+        transfermarktPage && transfermarktTitles.length > 0
+          ? reconstructFromTransfermarkt(
+              accolade,
+              transfermarktTitles,
+              transfermarktPage,
+            )
+          : null;
+      if (rebuilt?.candidate) {
+        candidates.push(rebuilt.candidate);
+        continue;
+      }
     }
 
     candidates.push({
@@ -1952,19 +1864,19 @@ const main = async () => {
       rejectsIdentityWideSources
         ? []
         : (careerArchive.players[card.playerIdentityId]?.accolades ?? []);
-    const processed = processCardAccolades({
-      card,
+    const processed = processCareerAccolades({
       originalAccolades,
       fbrefAudit: cardFbrefAudit,
       transfermarktTitles: cardTransfermarktTitles,
       transfermarktPage: cardTransfermarktPage,
     });
-    const cutoffDate = WORLD_CUP_CUTOFF_BY_YEAR[card.tournamentYear];
-    if (!cutoffDate) {
-      throw new Error(`${card.id} has no World Cup cutoff date`);
+    const legacyTournamentEndDate =
+      LEGACY_TOURNAMENT_END_DATE_BY_YEAR[card.tournamentYear];
+    if (!legacyTournamentEndDate) {
+      throw new Error(`${card.id} has no legacy tournament-end date metadata`);
     }
     generatedCards[card.id] = {
-      cutoffDate,
+      cutoffDate: legacyTournamentEndDate,
       accolades: processed.correctedAccolades,
     };
     originalAccoladeOccurrences += originalAccolades.length;
@@ -2025,12 +1937,12 @@ const main = async () => {
     }
     if (processed.removedAccolades.length > 0) {
       unresolvedIssues.push(
-        `${processed.removedAccolades.length} original accolade record(s) were omitted because they were future-dated, cutoff-ambiguous, duplicate, or insufficiently sourced.`,
+        `${processed.removedAccolades.length} original accolade record(s) were omitted because they were non-qualifying, duplicate, or insufficiently sourced.`,
       );
     }
     if (originalAccolades.length === 0) {
       unresolvedIssues.push(
-        "An empty local accolade array is not evidence that the player had no qualifying honors by this cutoff.",
+        "An empty local accolade array is not evidence that the player has no qualifying full-career honors.",
       );
     }
     unresolvedIssues.push(
@@ -2130,7 +2042,7 @@ const main = async () => {
         name: card.countryName,
       },
       worldCupYear: card.tournamentYear,
-      accoladeCutoffDate: cutoffDate,
+      accoladeCutoffDate: legacyTournamentEndDate,
       fbrefPlayerId: cardFbrefMapping?.fbrefId ?? null,
       fbrefPage: cardFbrefMapping?.sourceUrl ?? null,
       fbrefCachedProfile: cardFbrefAudit?.cachePath ?? null,
@@ -2174,13 +2086,14 @@ const main = async () => {
         : {
             preserved: true,
             reason:
-              "Top 100 Player is outside the earned-accolade time-slice.",
+              "Top 100 Player is a retrospective identity curation marker, not an earned accolade.",
             source: null,
           },
       notes: [
-        "Only the existing accolade schema is emitted to production.",
+        "Only the existing PlayerAccolade schema is emitted to this legacy research projection.",
         "No new accolade family was inferred from a source page.",
-        "Undated whole-career aggregates are omitted unless checked title rows establish a cutoff-safe count.",
+        "accoladeCutoffDate is deprecated tournament-end metadata retained for schema compatibility; it never filters or reconstructs accolades.",
+        "Verified career accolades are retained regardless of the tournament year on this card.",
         ...(cardOverride ? [cardOverride.reason] : []),
         ...(rejectedIdentityReason ? [rejectedIdentityReason] : []),
         ...(datesByIdentity.get(card.playerIdentityId)?.size &&
@@ -2198,53 +2111,30 @@ const main = async () => {
     });
   }
 
-  const expectedMessiCopaDelReyCounts: Record<string, number> = {
-    "lionel-messi-2014": 2,
-    "lionel-messi-2018": 6,
-    "lionel-messi-2022": 7,
-  };
-  for (const [cardId, expectedCount] of Object.entries(
-    expectedMessiCopaDelReyCounts,
-  )) {
-    const accolade = generatedCards[cardId]?.accolades.find(
-      (candidate) => candidate.id === "domestic-cup-winner",
+  for (const [identityId, cards] of cardsByIdentity) {
+    const accoladeHashes = new Set(
+      cards.map((card) =>
+        canonicalAccoladeArray(generatedCards[card.id]?.accolades ?? []),
+      ),
     );
-    if (accolade?.count !== expectedCount) {
+    if (accoladeHashes.size !== 1) {
       throw new Error(
-        `${cardId} must contain ${expectedCount} cutoff-safe Copa del Rey wins, received ${accolade?.count ?? "none"}`,
+        `${identityId} must emit one identical full-career accolade list for all cards.`,
       );
-    }
-    if (/super cup|supercup/i.test(accolade.description ?? "")) {
-      throw new Error(`${cardId} incorrectly includes a Super Cup`);
     }
   }
 
-  const leagueRegressionCounts: Array<
-    [cardId: string, accoladeId: string, expectedCount: number]
-  > = [
-    ["dennis-bergkamp-1994", "premier-league-champion", 0],
-    ["dennis-bergkamp-1998", "premier-league-champion", 1],
-    ["didier-deschamps-1998", "serie-a-champion", 3],
-    ["edgar-davids-1998", "serie-a-champion", 1],
-    ["edwin-van-der-sar-1994", "premier-league-champion", 0],
-    ["edwin-van-der-sar-1998", "premier-league-champion", 0],
-    ["edwin-van-der-sar-2006", "premier-league-champion", 0],
-    ["frank-rijkaard-1990", "serie-a-champion", 0],
-    ["frank-rijkaard-1994", "serie-a-champion", 2],
-    ["jaap-stam-1998", "premier-league-champion", 0],
-    ["michael-laudrup-1986", "la-liga-champion", 0],
-    ["michael-laudrup-1998", "la-liga-champion", 5],
-  ];
-  for (const [cardId, accoladeId, expectedCount] of leagueRegressionCounts) {
-    const accolade = generatedCards[cardId]?.accolades.find(
-      (candidate) => candidate.id === accoladeId,
+  const rodri2022PostCardYearAccolade = generatedCards[
+    "rodri-2022"
+  ]?.accolades.find(
+    (accolade) =>
+      accolade.id === "world-cup-2026-world-cup-golden-ball" &&
+      /2026/.test(`${accolade.label} ${accolade.description ?? ""}`),
+  );
+  if (!rodri2022PostCardYearAccolade) {
+    throw new Error(
+      "rodri-2022 must retain Rodri's verified 2026 World Cup Golden Ball; card years cannot filter career accolades.",
     );
-    const actualCount = accolade?.count ?? (accolade ? 1 : 0);
-    if (actualCount !== expectedCount) {
-      throw new Error(
-        `${cardId}/${accoladeId} must contain ${expectedCount} competition-specific title rows, received ${actualCount}.`,
-      );
-    }
   }
 
   const auditByCardId = new Map(
@@ -2370,11 +2260,13 @@ const main = async () => {
           scope:
             "Every card in allPlayersBeforeIdentityPruning; playable cards are a reported subset.",
           cutoff:
-            "End date of the card's World Cup. A calendar-year-only honor in the same year is omitted unless it is inherently tied to that World Cup.",
+            "Deprecated tournament-end metadata retained for backward-compatible research output only; it never filters or reconstructs accolades.",
+          filteringPolicy:
+            "none-current-full-career: every card for an identity receives the same verified current-career accolade list.",
           aggregates:
-            "Undated identity-wide totals are omitted unless parsed, checked title rows establish the count through the cutoff.",
+            "Checked Transfermarkt title rows reconstruct full-career counts. Authoritatively sourced undated career aggregates are retained.",
           additions:
-            "No new accolade family is inferred. Checked title rows are used only to time-slice an existing record.",
+            "No new accolade family is inferred. Checked title rows only verify or reconstruct an existing full-career record.",
           top100:
             "Preserved unchanged as a retrospective Trophy XI identity curation marker outside earned accolades.",
         },
@@ -2450,7 +2342,7 @@ const main = async () => {
             correctedAccoladeOccurrences -
             reconstructedAccoladeOccurrences,
           removedOriginalAccoladeOccurrences,
-          reconstructedCutoffSafeOccurrences:
+          reconstructedFullCareerOccurrences:
             reconstructedAccoladeOccurrences,
           occurrenceLevelCorrections:
             removedOriginalAccoladeOccurrences +
@@ -2471,15 +2363,17 @@ const main = async () => {
         methodology: {
           identity:
             "Transfermarkt matching requires date of birth, normalized full-name or name-token signature, and nationality/context; position is only a deterministic tie-break. Cached FBref external links can corroborate but do not replace those checks.",
-          cutoffDates: WORLD_CUP_CUTOFF_BY_YEAR,
+          cutoffDates: LEGACY_TOURNAMENT_END_DATE_BY_YEAR,
+          cutoffDateUsage:
+            "Deprecated tournament-end metadata retained for backward-compatible report consumers only; it is never used to select, omit, or reconstruct accolades.",
           futureRecords:
-            "Records with an explicit season/year after the card year are removed. Same-card-year calendar honors are removed when no exact date proves they preceded the World Cup cutoff. Tournament-tied World Cup honors remain eligible.",
+            "Verified career honors are retained regardless of the tournament year on a card, including honors earned after that tournament.",
           aggregates:
-            "Whole-career counts without dated rows are never copied to a historical card. When a checked Transfermarkt titles page supplies rows for an existing accolade family, the count is recomputed through the cutoff; otherwise the record is omitted.",
+            "When a checked Transfermarkt titles page supplies rows for an existing accolade family, all full-career rows are counted. Authoritatively sourced undated career aggregates are retained.",
           duplicates:
             "Competition aliases and winner/champion variants are normalized only to remove records with the same accolade family and exact season set.",
           noInvention:
-            "Source pages do not create new accolade families; they only verify or time-slice records already present in the local career archive.",
+            "Source pages do not create new accolade families; they only verify or reconstruct full-career records already present in the local career archive.",
           statusRigor:
             "Empty local arrays and mapped source IDs are never treated as proof of no accolades. Incomplete source-page coverage remains partially-verified or unresolved.",
           top100:

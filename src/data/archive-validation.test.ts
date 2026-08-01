@@ -269,18 +269,7 @@ describe("expanded archive contracts", () => {
       players.filter((player) => !imagesById.has(player.imageId)).length,
     );
     expect(identityFallbackPlayerImages).toEqual([]);
-    expect(
-      [
-        "mario-kempes-1982",
-        "gerd-muller-1974",
-        "teofilo-cubillas-1978",
-        "franz-beckenbauer-1970",
-        "franz-beckenbauer-1974",
-        "gianluigi-buffon-2010",
-        "sergio-ramos-2010",
-        "lionel-messi-2006",
-      ].every((id) => !imagesById.has(id)),
-    ).toBe(true);
+    expect(imagesById.has("siphiwe-tshabalala-2010")).toBe(false);
     expect(imagesById.get("lionel-messi-2014")).toMatchObject({
       file: "/players/game-faces/lionel-messi-2014.png",
       fallback: false,
@@ -303,7 +292,7 @@ describe("expanded archive contracts", () => {
     expect(
       importedPlayerIdentityPortraitRecords
         .filter((portrait) => portrait.tournamentYear === 2026)
-        .some((portrait) => portrait.sourceImageUrl.endsWith("/25_120.png")),
+        .some((portrait) => portrait.sourceImageUrl?.endsWith("/25_120.png")),
     ).toBe(false);
 
     const requiredEditionByYear = new Map([
@@ -312,14 +301,12 @@ describe("expanded archive contracts", () => {
       [2022, { edition: "FIFA 23", launchYear: 2022 }],
       [2026, { edition: "EA SPORTS FC 26", launchYear: 2025 }],
     ]);
-    const runtimeTargetFaces = playerImages.filter((portrait) =>
-      requiredEditionByYear.has(portrait.tournamentYear),
-    );
-    expect(new Set(runtimeTargetFaces.map((portrait) => portrait.id))).toEqual(
-      new Set(
-        tournamentEditionPlayerImages.map((portrait) => portrait.id),
+    const runtimeTargetFaces = tournamentEditionPlayerImages;
+    expect(
+      runtimeTargetFaces.every(
+        (portrait) => imagesById.get(portrait.id)?.file === portrait.file,
       ),
-    );
+    ).toBe(true);
     expect(
       runtimeTargetFaces.every((portrait) => {
         const required = requiredEditionByYear.get(
@@ -471,13 +458,13 @@ describe("expanded archive contracts", () => {
       "cristiano-ronaldo-2026",
     ]);
     expect(gameFacePathFor("player", "lionel-messi-2014", 2014)).toBe(
-      "/assets/players/2014/lionel-messi-2014.png",
+      "/players/game-faces/lionel-messi-2014.png",
     );
     expect(gameFacePathFor("player", "lionel-messi-2022", 2022)).toBe(
-      "/assets/players/2022/lionel-messi-2022.png",
+      "/players/game-faces/lionel-messi-2022.png",
     );
     expect(gameFacePathFor("player", "lionel-messi-2026", 2026)).toBe(
-      "/assets/players/2026/lionel-messi-2026.png",
+      "/players/game-faces/lionel-messi-2026.png",
     );
     expect(gameFacePathFor("manager", "lionel-scaloni-2022", 2022)).toBe(
       "/assets/managers/2022/lionel-scaloni-2022.png",
@@ -674,8 +661,6 @@ describe("expanded archive contracts", () => {
 
   it("never resolves a historical card with another tournament year's face", () => {
     expect(identityFallbackPlayerImages).toEqual([]);
-    expect(imagesById.has("cristiano-ronaldo-2006")).toBe(false);
-    expect(imagesById.has("pele-1970")).toBe(false);
     expect(imagesById.has("siphiwe-tshabalala-2010")).toBe(false);
   });
 

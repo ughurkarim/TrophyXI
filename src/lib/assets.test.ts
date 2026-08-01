@@ -10,27 +10,29 @@ describe("assetUrl", () => {
     vi.stubEnv("NEXT_PUBLIC_ASSET_BASE_URL", undefined);
     vi.resetModules();
 
-    const { assetUrl } = await import("@/lib/assets");
+    const { playerGameFaceAssetUrl } = await import("@/lib/assets");
 
-    expect(assetUrl("/assets/players/2006/lionel-messi-2006.png")).toBe(
-      "/assets/players/2006/lionel-messi-2006.png",
+    expect(playerGameFaceAssetUrl("lionel-messi-2006")).toBe(
+      "/players/game-faces/lionel-messi-2006.png",
     );
   });
 
-  it("delivers stored player and manager paths from the asset domain", async () => {
+  it("uses the canonical player object key on the asset domain", async () => {
     vi.stubEnv(
       "NEXT_PUBLIC_ASSET_BASE_URL",
       "https://assets.trophyxi.example/",
     );
     vi.resetModules();
 
-    const { assetUrl } = await import("@/lib/assets");
-
-    expect(assetUrl("/assets/players/2022/lionel-messi-2022.png")).toBe(
-      "https://assets.trophyxi.example/assets/players/2022/lionel-messi-2022.png",
+    const { managerAssetUrl, playerGameFaceAssetUrl } = await import(
+      "@/lib/assets"
     );
-    expect(assetUrl("/assets/managers/lionel-scaloni-2022.png")).toBe(
-      "https://assets.trophyxi.example/assets/managers/lionel-scaloni-2022.png",
+
+    expect(playerGameFaceAssetUrl("lionel-messi-2022")).toBe(
+      "https://assets.trophyxi.example/players/game-faces/lionel-messi-2022.png",
+    );
+    expect(managerAssetUrl(2022, "lionel-scaloni-2022.png")).toBe(
+      "https://assets.trophyxi.example/assets/managers/2022/lionel-scaloni-2022.png",
     );
   });
 });

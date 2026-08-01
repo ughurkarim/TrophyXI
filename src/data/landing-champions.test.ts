@@ -1,5 +1,3 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { landingChampions } from "@/data/landing-champions";
 
@@ -31,9 +29,8 @@ describe("landing champions", () => {
       nationName: "Spain",
       status: "confirmed",
       representativePlayer: "Lamine Yamal",
-      representativeImage: expect.stringMatching(
-        /^\/assets\/winners\/2026\.jpeg\?v=.+$/,
-      ),
+      representativePlayerCardId: "lamine-yamal-2026",
+      representativeImage: "/players/game-faces/lamine-yamal-2026.png",
     });
     expect(
       landingChampions
@@ -48,20 +45,10 @@ describe("landing champions", () => {
     ).toBe(true);
     expect(
       landingChampions.every(
-          (champion) =>
-            champion.representativeImage?.startsWith(
-              `/assets/winners/${champion.tournamentYear}.`,
-            ) &&
-            existsSync(
-              path.join(
-                process.cwd(),
-                "assets",
-                "players",
-                "winners",
-                path.basename(champion.representativeImage.split("?")[0]),
-              ),
-            ),
-        ),
+        (champion) =>
+          champion.representativeImage ===
+          `/players/game-faces/${champion.representativePlayerCardId}.png`,
+      ),
     ).toBe(true);
     expect(
       landingChampions.some((champion) =>
