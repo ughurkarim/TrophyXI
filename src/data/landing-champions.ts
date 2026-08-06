@@ -1,5 +1,4 @@
 import { historicalOpponents } from "@/data/opponents";
-import { playerGameFacePath } from "@/lib/assets";
 import type { DataCitation, HistoricalWorldCupTeam } from "@/types/game";
 
 type ChampionPresentation = {
@@ -11,6 +10,24 @@ type ChampionPresentation = {
   representativePlayerCardId: string;
   representativeImage?: string;
   imagePosition: string;
+};
+
+const winnerImageByYear: Record<number, string> = {
+  1970: "players/winners/1970.png",
+  1974: "players/winners/1974.jpeg",
+  1978: "players/winners/1978.jpeg",
+  1982: "players/winners/1982.jpg",
+  1986: "players/winners/1986.jpeg",
+  1990: "players/winners/1990.jpg",
+  1994: "players/winners/1994.webp",
+  1998: "players/winners/1998.jpeg",
+  2002: "players/winners/2002.webp",
+  2006: "players/winners/2006.webp",
+  2010: "players/winners/2010.jpeg",
+  2014: "players/winners/2014.jpg",
+  2018: "players/winners/2018.jpeg",
+  2022: "players/winners/2022.webp",
+  2026: "players/winners/2026.jpeg",
 };
 
 export type LandingChampion = Pick<
@@ -209,9 +226,7 @@ const confirmedChampions: LandingChampion[] = presentations.map(
       tacticalLabel: presentation.tacticalLabel,
       representativePlayer: presentation.representativePlayer,
       representativePlayerCardId: presentation.representativePlayerCardId,
-      representativeImage: playerGameFacePath(
-        presentation.representativePlayerCardId,
-      ),
+      representativeImage: winnerImageByYear[champion.tournamentYear],
       imagePosition: presentation.imagePosition,
       championFactSource: {
         label: `${champion.nationName} ${champion.tournamentYear} champion fact`,
@@ -234,7 +249,7 @@ const confirmed2026Champion: LandingChampion = {
   tacticalLabel: "Relentless control",
   representativePlayer: "Lamine Yamal",
   representativePlayerCardId: "lamine-yamal-2026",
-  representativeImage: playerGameFacePath("lamine-yamal-2026"),
+  representativeImage: winnerImageByYear[2026],
   imagePosition: "50% 38%",
 };
 
