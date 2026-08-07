@@ -2,14 +2,30 @@ import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import tournamentArchiveJson from "../src/data/player-tournaments.generated.json";
+import requestedIdentityJson from "../src/data/requested-player-identities.generated.json";
 import type { Position } from "../src/types/game";
 
 type CsvRow = Record<string, string>;
+type HistoricalTournament = {
+  playerId: string;
+  playerName: string;
+  teamCode: string;
+  tournamentYear: number;
+  primaryPosition: Position;
+  eligiblePositions: Position[];
+};
+
 type HistoricalArchive = {
-  identities: Record<
-    string,
-    { playerId: string; playerName: string; teamCode: string }[]
-  >;
+  identities: Record<string, HistoricalTournament[]>;
+};
+
+type RequestedIdentityArchive = {
+  identities: {
+    identityId: string;
+    primaryPosition: Position;
+    eligiblePositions?: Position[];
+    positionSource?: "reviewed-correction" | "match-derived" | "broad-squad-fallback";
+  }[];
 };
 type GeneratedPlayer = {
   identityId: string;
@@ -154,6 +170,87 @@ const positionsFor = (code: string): Position[] => {
   return ["ST", "CF", "LW", "RW"];
 };
 
+type SourcePositionGroup = "GK" | "DF" | "MF" | "FW";
+
+const sourceGroupForPosition = (position: Position): SourcePositionGroup => {
+  if (position === "GK") return "GK";
+  if (["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB"].includes(position)) {
+    return "DF";
+  }
+  if (["DM", "CM", "AM", "LM", "RM"].includes(position)) return "MF";
+  return "FW";
+};
+
+const conservativeEligiblePositionsFor = (position: Position): Position[] => {
+  if (position === "GK") return ["GK"];
+  if (position === "LB") return ["LB", "LWB"];
+  if (position === "LWB") return ["LWB", "LB"];
+  if (position === "RB") return ["RB", "RWB"];
+  if (position === "RWB") return ["RWB", "RB"];
+  if (position === "LCB") return ["LCB", "CB"];
+  if (position === "RCB") return ["RCB", "CB"];
+  if (position === "CB") return ["CB"];
+  if (position === "DM") return ["DM", "CM"];
+  if (position === "CM") return ["CM", "DM", "AM"];
+  if (position === "AM") return ["AM", "CM"];
+  if (position === "LM") return ["LM", "LW"];
+  if (position === "RM") return ["RM", "RW"];
+  if (position === "LW") return ["LW", "LM"];
+  if (position === "RW") return ["RW", "RM"];
+  if (position === "CF") return ["CF", "ST"];
+  return ["ST", "CF"];
+};
+
+const requestedPositionByIdentity = new Map(
+  (requestedIdentityJson as unknown as RequestedIdentityArchive).identities.map(
+    (identity) => [identity.identityId, identity] as const,
+  ),
+);
+
+const precisePositionProfileFor = (
+  identityId: string,
+  sourceCode: string,
+  historical: HistoricalArchive,
+): { primaryPosition: Position; eligiblePositions: Position[] } | undefined => {
+  const sourceGroup = sourceCode as SourcePositionGroup;
+  const historicalTournament = [...(historical.identities[identityId] ?? [])]
+    .sort((first, second) => second.tournamentYear - first.tournamentYear)
+    .find((tournament) =>
+      sourceGroupForPosition(tournament.primaryPosition) === sourceGroup
+    );
+
+  if (historicalTournament) {
+    const eligiblePositions = [
+      historicalTournament.primaryPosition,
+      ...historicalTournament.eligiblePositions,
+    ].filter(
+      (position, index, all) =>
+        all.indexOf(position) === index &&
+        sourceGroupForPosition(position) === sourceGroup,
+    );
+    return {
+      primaryPosition: historicalTournament.primaryPosition,
+      eligiblePositions,
+    };
+  }
+
+  const requestedIdentity = requestedPositionByIdentity.get(identityId);
+  if (
+    requestedIdentity &&
+    requestedIdentity.positionSource !== "broad-squad-fallback" &&
+    sourceGroupForPosition(requestedIdentity.primaryPosition) === sourceGroup
+  ) {
+    return {
+      primaryPosition: requestedIdentity.primaryPosition,
+      eligiblePositions:
+        requestedIdentity.eligiblePositions ??
+        conservativeEligiblePositionsFor(requestedIdentity.primaryPosition),
+    };
+  }
+
+  return undefined;
+};
+
 const reviewedHistoricalIdentityByPlayer: Record<string, string> = {
   "QAT/pedro-miguel": "ro-ro",
   "KSA/feras-albrikan": "firas-al-buraikan",
@@ -249,18 +346,29 @@ const main = async () => {
       );
     }
     const normalizedIdentityId = normalize(playerName);
+    const identityId =
+      historicalMatch?.identityId ??
+      (historical.identities[normalizedIdentityId]
+        ? `${normalizedIdentityId}-${teamCode.toLocaleLowerCase()}`
+        : normalizedIdentityId);
+    const precisePositionProfile = precisePositionProfileFor(
+      identityId,
+      row.POS,
+      historical,
+    );
+    const broadPositions = positionsFor(row.POS);
     return {
-      identityId:
-        historicalMatch?.identityId ??
-        (historical.identities[normalizedIdentityId]
-          ? `${normalizedIdentityId}-${teamCode.toLocaleLowerCase()}`
-          : normalizedIdentityId),
+      identityId,
       playerName,
       teamCode,
       teamName,
       shirtNumber: Number(row["#"]),
-      primaryPosition: positionsFor(row.POS)[0],
-      eligiblePositions: positionsFor(row.POS),
+      // FIFA's squad PDF exposes only GK/DF/MF/FW. Prefer the latest compatible
+      // tournament-specific role for linked players (then the requested-identity
+      // audit) instead of inventing CB/CM/ST as every outfielder's primary role.
+      primaryPosition: precisePositionProfile?.primaryPosition ?? broadPositions[0],
+      eligiblePositions:
+        precisePositionProfile?.eligiblePositions ?? broadPositions,
       birthDate,
       club: row.CLUB,
       sourcePlayerName: row["PLAYER NAME"],

@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { players } from "../src/data/players";
@@ -12,6 +13,8 @@ type RequestedIdentity = {
   countryCode: string;
   referenceYear: number;
   primaryPosition: Position;
+  eligiblePositions: Position[];
+  positionSource: "reviewed-correction" | "match-derived" | "broad-squad-fallback";
   featuredYears: number[];
   priority: "essential" | "cult";
 };
@@ -23,6 +26,11 @@ const outputFile = path.join(
   "src",
   "data",
   "requested-player-identities.generated.json",
+);
+const positionCorrectionsFile = path.join(
+  root,
+  "data",
+  "player-position-corrections.csv",
 );
 const requestFile = process.argv.find((argument) => argument.startsWith("--request="))
   ?.slice("--request=".length);
@@ -105,8 +113,85 @@ const projectCodeFor = (code: string) =>
     ZAF: "RSA",
   })[code as keyof Record<string, string>] ?? code;
 
-const positionFor = (code: string): Position =>
-  code === "GK" ? "GK" : code === "DF" ? "CB" : code === "MF" ? "CM" : "ST";
+const mappedPosition = (
+  rawCode: string,
+  fallback: Position = "CM",
+): Position => {
+  const position = (
+    {
+      GK: "GK",
+      LB: "LB",
+      LWB: "LWB",
+      RB: "RB",
+      RWB: "RWB",
+      CB: "CB",
+      SW: "CB",
+      DM: "DM",
+      CM: "CM",
+      AM: "AM",
+      LM: "LM",
+      RM: "RM",
+      LW: "LW",
+      LF: "LW",
+      RW: "RW",
+      RF: "RW",
+      CF: "CF",
+      SS: "CF",
+      ST: "ST",
+    } as Record<string, Position>
+  )[rawCode];
+  if (position) return position;
+  if (rawCode === "DF") return "CB";
+  if (rawCode === "MF") return "CM";
+  if (rawCode === "FW") return "ST";
+  return fallback;
+};
+
+const positionProfileForReference = (
+  playerId: string,
+  tournamentYear: number,
+  squadRow: CsvRow,
+  appearances: CsvRow[],
+): {
+  primaryPosition: Position;
+  eligiblePositions: Position[];
+  positionSource: "match-derived" | "broad-squad-fallback";
+} => {
+  const fallbackPosition = mappedPosition(squadRow.position_code);
+  const positionCounts = new Map<Position, number>();
+  for (const row of appearances) {
+    if (
+      row.player_id !== playerId ||
+      Number(row.tournament_id.replace("WC-", "")) !== tournamentYear
+    ) {
+      continue;
+    }
+    const position = mappedPosition(row.position_code, fallbackPosition);
+    positionCounts.set(position, (positionCounts.get(position) ?? 0) + 1);
+  }
+  const rankedPositions = [...positionCounts.entries()].sort(
+    (first, second) => second[1] - first[1],
+  );
+  if (rankedPositions.length === 0) {
+    return {
+      primaryPosition: fallbackPosition,
+      eligiblePositions: [fallbackPosition],
+      positionSource: "broad-squad-fallback",
+    };
+  }
+  const primaryPosition = rankedPositions[0][0];
+  return {
+    primaryPosition,
+    eligiblePositions: rankedPositions
+      .map(([position]) => position)
+      .filter(
+        (position, index, all) =>
+          all.indexOf(position) === index &&
+          (primaryPosition === "GK" ? position === "GK" : position !== "GK"),
+      ),
+    positionSource: "match-derived",
+  };
+};
 
 const reviewedPlayerIdByName: Record<string, string> = {
   "simao-sabrosa": "P-32279",
@@ -142,11 +227,29 @@ const excludedNonParticipants = new Set([
 
 const main = async () => {
 const request = await readFile(requestFile, "utf8");
-const squads = parseCsv(await readFile(path.join(sourceDirectory, "squads.csv"), "utf8"))
-  .filter((row) => {
-    const year = Number(row.tournament_id.replace("WC-", ""));
-    return year >= 1970 && year <= 2022;
-  });
+const [squadsCsv, appearancesCsv] = await Promise.all([
+  readFile(path.join(sourceDirectory, "squads.csv"), "utf8"),
+  readFile(path.join(sourceDirectory, "player_appearances.csv"), "utf8"),
+]);
+const squads = parseCsv(squadsCsv).filter((row) => {
+  const year = Number(row.tournament_id.replace("WC-", ""));
+  return year >= 1970 && year <= 2022;
+});
+const appearances = parseCsv(appearancesCsv);
+const positionCorrections = existsSync(positionCorrectionsFile)
+  ? parseCsv(await readFile(positionCorrectionsFile, "utf8"))
+  : [];
+const positionCorrectionByCard = new Map(
+  positionCorrections.map((row) => [
+    `${row.identityId}:${row.referenceYear}`,
+    {
+      primaryPosition: row.newPosition as Position,
+      eligiblePositions: (row.eligiblePositions || row.newPosition)
+        .split("|")
+        .filter(Boolean) as Position[],
+    },
+  ] as const),
+);
 
 const existingByNormalizedName = new Map<string, (typeof players)[number]>();
 for (const player of players) {
@@ -222,13 +325,32 @@ for (const [requestedId, entry] of requested) {
     unresolved.push(`${entry.playerName} (no squad row)`);
     continue;
   }
+  const referenceYear = Number(reference.tournament_id.replace("WC-", ""));
+  const reviewedCorrection =
+    positionCorrectionByCard.get(`${identityId}:${referenceYear}`) ??
+    positionCorrectionByCard.get(`${requestedId}:${referenceYear}`);
+  const derivedProfile = positionProfileForReference(
+    playerId,
+    referenceYear,
+    reference,
+    appearances,
+  );
   resolved.push({
     identityId,
     playerId,
     playerName: existing?.playerName ?? entry.playerName,
     countryCode: projectCodeFor(reference.team_code),
-    referenceYear: Number(reference.tournament_id.replace("WC-", "")),
-    primaryPosition: positionFor(reference.position_code),
+    referenceYear,
+    // A reviewed correction is authoritative. Otherwise use tournament
+    // appearance roles, and only fall back to the broad squad category when no
+    // appearance position exists.
+    primaryPosition:
+      reviewedCorrection?.primaryPosition ?? derivedProfile.primaryPosition,
+    eligiblePositions:
+      reviewedCorrection?.eligiblePositions ?? derivedProfile.eligiblePositions,
+    positionSource: reviewedCorrection
+      ? "reviewed-correction"
+      : derivedProfile.positionSource,
     featuredYears: [...entry.featuredYears].sort((first, second) => first - second),
     priority: entry.priority,
   });

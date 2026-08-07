@@ -1912,6 +1912,8 @@ type RequestedIdentityArchive = {
     countryCode: string;
     referenceYear: number;
     primaryPosition: Position;
+    eligiblePositions?: Position[];
+    positionSource?: "reviewed-correction" | "match-derived" | "broad-squad-fallback";
     featuredYears: number[];
     priority: "essential" | "cult";
   }[];
@@ -1929,6 +1931,31 @@ const existingArchiveSeeds = [
 const existingArchiveSeedIds = new Set(
   existingArchiveSeeds.map((seed) => seed.id),
 );
+
+// Card-specific Trophy XI seeds are reviewed modeling decisions. Keep their
+// positions authoritative over the raw tournament position feed. Requested
+// expansion seeds are intentionally excluded because their identity-level
+// positions may be coarse fallbacks rather than card-specific reviews.
+const reviewedArchiveSeedById = new Map(
+  existingArchiveSeeds.map((seed) => [seed.id, seed] as const),
+);
+const reviewedRequestedPositionByCardId = new Map<
+  string,
+  { primaryPosition: Position; eligiblePositions: Position[] }
+>(
+  requestedIdentities
+    .filter((identity) => identity.positionSource === "reviewed-correction")
+    .flatMap((identity) =>
+      identity.featuredYears.map((tournamentYear) => [
+        `${identity.identityId}-${tournamentYear}`,
+        {
+          primaryPosition: identity.primaryPosition,
+          eligiblePositions:
+            identity.eligiblePositions ?? eligibleFor(identity.primaryPosition),
+        },
+      ] as const),
+    ),
+);
 const requestedExpansionSeeds: CardSeed[] = requestedIdentities.flatMap(
   (identity, identityIndex) =>
     identity.featuredYears.flatMap((tournamentYear, yearIndex) => {
@@ -1945,7 +1972,8 @@ const requestedExpansionSeeds: CardSeed[] = requestedIdentities.flatMap(
           nation: identity.countryCode,
           tournamentYear,
           primaryPosition: identity.primaryPosition,
-          eligiblePositions: eligibleFor(identity.primaryPosition),
+          eligiblePositions:
+            identity.eligiblePositions ?? eligibleFor(identity.primaryPosition),
           overall: rawOverall,
           archetype:
             identity.priority === "essential"
@@ -2029,6 +2057,8 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
       .map((tournament) => {
         const id = `${identityId}-${tournament.tournamentYear}`;
         const exactSeed = seedById.get(id);
+        const reviewedSeed = reviewedArchiveSeedById.get(id);
+        const reviewedRequestedPosition = reviewedRequestedPositionByCardId.get(id);
         const positionOverride = tournamentPositionOverrides[id];
         const reference =
           exactSeed ??
@@ -2068,9 +2098,14 @@ const sourcedTournamentSeeds: CardSeed[] = Object.entries(
           nation,
           tournamentYear: tournament.tournamentYear,
           primaryPosition:
-            positionOverride?.primaryPosition ?? tournament.primaryPosition,
+            positionOverride?.primaryPosition ??
+            reviewedSeed?.primaryPosition ??
+            reviewedRequestedPosition?.primaryPosition ??
+            tournament.primaryPosition,
           eligiblePositions:
             positionOverride?.eligiblePositions ??
+            reviewedSeed?.eligiblePositions ??
+            reviewedRequestedPosition?.eligiblePositions ??
             tournament.eligiblePositions,
           overall: finalOverall,
           finalOverall,

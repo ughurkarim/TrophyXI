@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-22T04:14:32.109Z",
+  "generatedAt": "2026-08-07T06:28:04.835291Z",
   "identities": [
     {
       "identityId": "achraf-hakimi",
@@ -8,11 +8,16 @@
       "playerName": "Achraf Hakimi",
       "countryCode": "MAR",
       "referenceYear": 2022,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RB",
+        "RWB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "adriano",
@@ -20,11 +25,16 @@
       "playerName": "Adriano",
       "countryCode": "BRA",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "adrien-rabiot",
@@ -36,7 +46,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ahmed-musa",
@@ -44,12 +58,16 @@
       "playerName": "Ahmed Musa",
       "countryCode": "NGA",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "alberto-gilardino",
@@ -57,11 +75,16 @@
       "playerName": "Alberto Gilardino",
       "countryCode": "ITA",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "aleksandar-kolarov",
@@ -69,11 +92,15 @@
       "playerName": "Aleksandar Kolarov",
       "countryCode": "SRB",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "aleksandar-mitrovic",
@@ -81,11 +108,15 @@
       "playerName": "Aleksandar Mitrović",
       "countryCode": "SRB",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "aleksandr-golovin",
@@ -93,11 +124,17 @@
       "playerName": "Aleksandr Golovin",
       "countryCode": "RUS",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "AM",
+        "LW",
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "aleksandr-samedov",
@@ -105,11 +142,16 @@
       "playerName": "Aleksandr Samedov",
       "countryCode": "RUS",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RW",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "alessandro-del-piero",
@@ -121,7 +163,12 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "alexander-frei",
@@ -129,11 +176,15 @@
       "playerName": "Alexander Frei",
       "countryCode": "SUI",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "alexis-mac-allister",
@@ -145,7 +196,13 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "LW",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "alexis-sanchez",
@@ -153,11 +210,16 @@
       "playerName": "Alexis Sánchez",
       "countryCode": "CHI",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "alireza-beiranvand",
@@ -170,7 +232,11 @@
         2018,
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "alisson",
@@ -183,7 +249,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "alphonso-davies",
@@ -191,11 +261,16 @@
       "playerName": "Alphonso Davies",
       "countryCode": "CAN",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "LM",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LM",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "alvaro-morata",
@@ -207,7 +282,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "anatoliy-tymoshchuk",
@@ -219,7 +299,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "andre-ayew",
@@ -227,13 +311,19 @@
       "playerName": "André Ayew",
       "countryCode": "GHA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014,
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "RW",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "andre-carrillo",
@@ -241,11 +331,15 @@
       "playerName": "André Carrillo",
       "countryCode": "PER",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "andre-schurrle",
@@ -253,11 +347,16 @@
       "playerName": "André Schürrle",
       "countryCode": "GER",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CM",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "andres-guardado",
@@ -270,7 +369,11 @@
         2010,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "andres-iniesta",
@@ -278,11 +381,18 @@
       "playerName": "Andrés Iniesta",
       "countryCode": "ESP",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "LW",
+        "LM",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "andriy-shevchenko",
@@ -290,11 +400,15 @@
       "playerName": "Andriy Shevchenko",
       "countryCode": "UKR",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "angel-di-maria",
@@ -302,14 +416,19 @@
       "playerName": "Ángel Di María",
       "countryCode": "ARG",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2010,
         2014,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "antoine-griezmann",
@@ -317,13 +436,18 @@
       "playerName": "Antoine Griezmann",
       "countryCode": "FRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "AM",
       "featuredYears": [
         2014,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "antolin-alcaraz",
@@ -335,7 +459,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "antonio-rudiger",
@@ -347,7 +475,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "antonio-valencia",
@@ -355,11 +487,15 @@
       "playerName": "Antonio Valencia",
       "countryCode": "ECU",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ao-tanaka",
@@ -371,7 +507,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "arjen-robben",
@@ -379,13 +519,18 @@
       "playerName": "Arjen Robben",
       "countryCode": "NED",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006,
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "arne-friedrich",
@@ -393,11 +538,15 @@
       "playerName": "Arne Friedrich",
       "countryCode": "GER",
       "referenceYear": 2006,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "artem-dzyuba",
@@ -405,11 +554,16 @@
       "playerName": "Artem Dzyuba",
       "countryCode": "RUS",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "artur-boruc",
@@ -421,7 +575,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "arturo-vidal",
@@ -429,11 +587,16 @@
       "playerName": "Arturo Vidal",
       "countryCode": "CHI",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "aruna-dindane",
@@ -445,7 +608,12 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "asamoah-gyan",
@@ -453,12 +621,16 @@
       "playerName": "Asamoah Gyan",
       "countryCode": "GHA",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ashley-cole",
@@ -466,12 +638,16 @@
       "playerName": "Ashley Cole",
       "countryCode": "ENG",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "aurelien-tchouameni",
@@ -483,7 +659,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "axel-witsel",
@@ -495,7 +675,12 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "aziz-behich",
@@ -503,12 +688,16 @@
       "playerName": "Aziz Behich",
       "countryCode": "AUS",
       "referenceYear": 2022,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2018,
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "azzedine-ounahi",
@@ -520,7 +709,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "bastian-schweinsteiger",
@@ -533,7 +726,11 @@
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "benedikt-howedes",
@@ -541,11 +738,15 @@
       "playerName": "Benedikt Höwedes",
       "countryCode": "GER",
       "referenceYear": 2014,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "benjamin-pavard",
@@ -553,11 +754,15 @@
       "playerName": "Benjamin Pavard",
       "countryCode": "FRA",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "bernardo-silva",
@@ -565,12 +770,18 @@
       "playerName": "Bernardo Silva",
       "countryCode": "POR",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CM",
       "featuredYears": [
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "AM",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "blaise-matuidi",
@@ -578,12 +789,17 @@
       "playerName": "Blaise Matuidi",
       "countryCode": "FRA",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "breel-embolo",
@@ -591,11 +807,15 @@
       "playerName": "Breel Embolo",
       "countryCode": "SUI",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "brett-emerton",
@@ -603,11 +823,16 @@
       "playerName": "Brett Emerton",
       "countryCode": "AUS",
       "referenceYear": 2006,
-      "primaryPosition": "CB",
+      "primaryPosition": "CM",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "brett-holman",
@@ -619,7 +844,12 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "bruno-fernandes",
@@ -627,11 +857,17 @@
       "playerName": "Bruno Fernandes",
       "countryCode": "POR",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "CM",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "bruno-guimaraes",
@@ -643,7 +879,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "bruno-petkovic",
@@ -655,7 +895,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "bryan-ruiz",
@@ -663,11 +908,17 @@
       "playerName": "Bryan Ruiz",
       "countryCode": "CRC",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "AM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "bukayo-saka",
@@ -675,11 +926,15 @@
       "playerName": "Bukayo Saka",
       "countryCode": "ENG",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "carles-puyol",
@@ -691,7 +946,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "carlos-bocanegra",
@@ -699,11 +958,16 @@
       "playerName": "Carlos Bocanegra",
       "countryCode": "USA",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LB",
+        "CB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "carlos-tevez",
@@ -711,12 +975,16 @@
       "playerName": "Carlos Tevez",
       "countryCode": "ARG",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "carlos-vela",
@@ -724,11 +992,16 @@
       "playerName": "Carlos Vela",
       "countryCode": "MEX",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "AM",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "casemiro",
@@ -741,7 +1014,12 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "celso-borges",
@@ -753,7 +1031,12 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "cesc-fabregas",
@@ -765,7 +1048,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "charles-aranguiz",
@@ -777,7 +1064,12 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "RM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "cho-gue-sung",
@@ -785,11 +1077,16 @@
       "playerName": "Cho Gue-sung",
       "countryCode": "KOR",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "chris-wood",
@@ -801,7 +1098,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "christian-cueva",
@@ -809,11 +1110,15 @@
       "playerName": "Christian Cueva",
       "countryCode": "PER",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "christian-pulisic",
@@ -821,11 +1126,16 @@
       "playerName": "Christian Pulisic",
       "countryCode": "USA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "claudio-bravo",
@@ -837,7 +1147,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "clint-dempsey",
@@ -845,12 +1159,16 @@
       "playerName": "Clint Dempsey",
       "countryCode": "USA",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "cody-gakpo",
@@ -858,11 +1176,16 @@
       "playerName": "Cody Gakpo",
       "countryCode": "NED",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "costinha",
@@ -874,7 +1197,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "craig-goodwin",
@@ -882,11 +1209,18 @@
       "playerName": "Craig Goodwin",
       "countryCode": "AUS",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "RM",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM",
+        "LW",
+        "LM",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "cristian-romero",
@@ -898,7 +1232,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "cristiano-ronaldo",
@@ -906,13 +1244,17 @@
       "playerName": "Cristiano Ronaldo",
       "countryCode": "POR",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "cuauhtemoc-blanco",
@@ -924,7 +1266,12 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "daichi-kamada",
@@ -932,11 +1279,17 @@
       "playerName": "Daichi Kamada",
       "countryCode": "JPN",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "AM",
+        "RW",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "daley-blind",
@@ -944,11 +1297,17 @@
       "playerName": "Daley Blind",
       "countryCode": "NED",
       "referenceYear": 2014,
-      "primaryPosition": "CB",
+      "primaryPosition": "LWB",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LWB",
+        "LB",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "dani-alves",
@@ -956,11 +1315,16 @@
       "playerName": "Dani Alves",
       "countryCode": "BRA",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "RM",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RM",
+        "CB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "dani-olmo",
@@ -968,11 +1332,15 @@
       "playerName": "Dani Olmo",
       "countryCode": "ESP",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "daniele-de-rossi",
@@ -980,11 +1348,16 @@
       "playerName": "Daniele De Rossi",
       "countryCode": "ITA",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "danijel-subasic",
@@ -996,7 +1369,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "darijo-srna",
@@ -1004,11 +1381,15 @@
       "playerName": "Darijo Srna",
       "countryCode": "CRO",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "darwin-nunez",
@@ -1016,11 +1397,16 @@
       "playerName": "Darwin Núñez",
       "countryCode": "URU",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "david-beckham",
@@ -1028,11 +1414,15 @@
       "playerName": "David Beckham",
       "countryCode": "ENG",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "david-luiz",
@@ -1044,7 +1434,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "david-odonkor",
@@ -1056,7 +1450,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "david-ospina",
@@ -1069,7 +1467,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "david-villa",
@@ -1077,12 +1479,17 @@
       "playerName": "David Villa",
       "countryCode": "ESP",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "dayot-upamecano",
@@ -1094,7 +1501,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "declan-rice",
@@ -1102,11 +1513,16 @@
       "playerName": "Declan Rice",
       "countryCode": "ENG",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "dejan-lovren",
@@ -1118,7 +1534,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "dejan-stankovic",
@@ -1130,7 +1550,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "dele-alli",
@@ -1142,7 +1566,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "denis-cheryshev",
@@ -1150,11 +1578,16 @@
       "playerName": "Denis Cheryshev",
       "countryCode": "RUS",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LW",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "denzel-dumfries",
@@ -1162,11 +1595,15 @@
       "playerName": "Denzel Dumfries",
       "countryCode": "NED",
       "referenceYear": 2022,
-      "primaryPosition": "CB",
+      "primaryPosition": "RM",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "didier-drogba",
@@ -1174,12 +1611,16 @@
       "playerName": "Didier Drogba",
       "countryCode": "CIV",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "didier-zokora",
@@ -1191,7 +1632,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "diego-forlan",
@@ -1199,11 +1644,16 @@
       "playerName": "Diego Forlán",
       "countryCode": "URU",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "diego-godin",
@@ -1217,7 +1667,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "diogo-costa",
@@ -1229,7 +1683,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "dirk-kuyt",
@@ -1237,11 +1695,16 @@
       "playerName": "Dirk Kuyt",
       "countryCode": "NED",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "dominik-livakovic",
@@ -1253,7 +1716,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "dries-mertens",
@@ -1261,11 +1728,16 @@
       "playerName": "Dries Mertens",
       "countryCode": "BEL",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "dusan-vlahovic",
@@ -1277,7 +1749,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "eden-hazard",
@@ -1285,12 +1762,17 @@
       "playerName": "Eden Hazard",
       "countryCode": "BEL",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "edinson-cavani",
@@ -1305,7 +1787,12 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "eduardo-vargas",
@@ -1313,11 +1800,16 @@
       "playerName": "Eduardo Vargas",
       "countryCode": "CHI",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "elano",
@@ -1329,7 +1821,12 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "RM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "emiliano-martinez",
@@ -1341,7 +1838,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "emmanuel-emenike",
@@ -1349,11 +1850,15 @@
       "playerName": "Emmanuel Emenike",
       "countryCode": "NGA",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "enner-valencia",
@@ -1361,12 +1866,18 @@
       "playerName": "Enner Valencia",
       "countryCode": "ECU",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014,
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "AM",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "enzo-fernandez",
@@ -1378,7 +1889,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "eric-maxim-choupo-moting",
@@ -1386,11 +1902,16 @@
       "playerName": "Eric Maxim Choupo-Moting",
       "countryCode": "CMR",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "esteban-cambiasso",
@@ -1398,11 +1919,17 @@
       "playerName": "Esteban Cambiasso",
       "countryCode": "ARG",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LM",
+        "CM",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ezequiel-garay",
@@ -1414,7 +1941,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ezequiel-lavezzi",
@@ -1426,7 +1957,14 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "CF",
+        "RW",
+        "LW"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "fabian-johnson",
@@ -1434,11 +1972,16 @@
       "playerName": "Fabian Johnson",
       "countryCode": "USA",
       "referenceYear": 2014,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RB",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "fabio-grosso",
@@ -1446,11 +1989,15 @@
       "playerName": "Fabio Grosso",
       "countryCode": "ITA",
       "referenceYear": 2006,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "federico-valverde",
@@ -1462,7 +2009,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "felipe-melo",
@@ -1470,11 +2021,17 @@
       "playerName": "Felipe Melo",
       "countryCode": "BRA",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LM",
+        "CM",
+        "DM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "fernandinho",
@@ -1486,7 +2043,12 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "fernando-muslera",
@@ -1499,7 +2061,11 @@
         2010,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "fernando-torres",
@@ -1507,12 +2073,16 @@
       "playerName": "Fernando Torres",
       "countryCode": "ESP",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "filippo-inzaghi",
@@ -1524,7 +2094,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "florent-malouda",
@@ -1532,11 +2106,16 @@
       "playerName": "Florent Malouda",
       "countryCode": "FRA",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LW",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "franck-ribery",
@@ -1544,11 +2123,18 @@
       "playerName": "Franck Ribéry",
       "countryCode": "FRA",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "LW",
+        "CM",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "frank-lampard",
@@ -1561,7 +2147,11 @@
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "frenkie-de-jong",
@@ -1573,7 +2163,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "gabriel-heinze",
@@ -1585,7 +2179,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "gary-medel",
@@ -1597,7 +2195,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "gavi",
@@ -1609,7 +2211,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "genki-haraguchi",
@@ -1617,11 +2223,15 @@
       "playerName": "Genki Haraguchi",
       "countryCode": "JPN",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "gerard-pique",
@@ -1633,7 +2243,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "gervinho",
@@ -1641,11 +2255,17 @@
       "playerName": "Gervinho",
       "countryCode": "CIV",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RW",
+        "ST",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "giorgian-de-arrascaeta",
@@ -1657,7 +2277,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "giorgos-samaras",
@@ -1665,11 +2290,16 @@
       "playerName": "Giorgos Samaras",
       "countryCode": "GRC",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "giovani-dos-santos",
@@ -1677,12 +2307,16 @@
       "playerName": "Giovani dos Santos",
       "countryCode": "MEX",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "giovanni-van-bronckhorst",
@@ -1690,11 +2324,15 @@
       "playerName": "Giovanni van Bronckhorst",
       "countryCode": "NED",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "goncalo-ramos",
@@ -1706,7 +2344,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "gonzalo-higuain",
@@ -1714,12 +2357,17 @@
       "playerName": "Gonzalo Higuaín",
       "countryCode": "ARG",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "gonzalo-montiel",
@@ -1731,7 +2379,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB",
+        "RB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "granit-xhaka",
@@ -1745,7 +2398,12 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "guillermo-ochoa",
@@ -1758,7 +2416,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "gylfi-sigur-sson",
@@ -1766,11 +2428,17 @@
       "playerName": "Gylfi Sigurðsson",
       "countryCode": "ISL",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "DM",
+        "CM",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "hakim-ziyech",
@@ -1778,12 +2446,17 @@
       "playerName": "Hakim Ziyech",
       "countryCode": "MAR",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "hannes-or-halldorsson",
@@ -1795,7 +2468,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "harry-kane",
@@ -1803,12 +2480,16 @@
       "playerName": "Harry Kane",
       "countryCode": "ENG",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "harry-kewell",
@@ -1816,11 +2497,17 @@
       "playerName": "Harry Kewell",
       "countryCode": "AUS",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "ST",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "harry-maguire",
@@ -1833,7 +2520,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "harry-souttar",
@@ -1845,7 +2536,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "hector-herrera",
@@ -1857,7 +2552,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "hernan-crespo",
@@ -1865,11 +2564,15 @@
       "playerName": "Hernán Crespo",
       "countryCode": "ARG",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "hidetoshi-nakata",
@@ -1881,7 +2584,12 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "RM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "hirving-lozano",
@@ -1889,11 +2597,15 @@
       "playerName": "Hirving Lozano",
       "countryCode": "MEX",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "hugo-lloris",
@@ -1907,7 +2619,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "hulk",
@@ -1915,11 +2631,16 @@
       "playerName": "Hulk",
       "countryCode": "BRA",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "hwang-hee-chan",
@@ -1931,7 +2652,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "idrissa-gueye",
@@ -1943,7 +2669,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "igor-akinfeev",
@@ -1955,7 +2685,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "iker-casillas",
@@ -1968,7 +2702,11 @@
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ilkay-gundogan",
@@ -1980,7 +2718,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "inaki-williams",
@@ -1988,11 +2731,15 @@
       "playerName": "Iñaki Williams",
       "countryCode": "GHA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "islam-slimani",
@@ -2000,11 +2747,17 @@
       "playerName": "Islam Slimani",
       "countryCode": "ALG",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "ST",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ismaila-sarr",
@@ -2012,11 +2765,17 @@
       "playerName": "Ismaïla Sarr",
       "countryCode": "SEN",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "LM",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LM",
+        "RW",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ivan-perisic",
@@ -2024,13 +2783,18 @@
       "playerName": "Ivan Perišić",
       "countryCode": "CRO",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2014,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ivan-rakitic",
@@ -2043,7 +2807,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "jackson-irvine",
@@ -2055,7 +2823,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "jackson-martinez",
@@ -2063,11 +2836,16 @@
       "playerName": "Jackson Martínez",
       "countryCode": "COL",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jamal-musiala",
@@ -2075,11 +2853,16 @@
       "playerName": "Jamal Musiala",
       "countryCode": "GER",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "james-rodriguez",
@@ -2087,12 +2870,17 @@
       "playerName": "James Rodríguez",
       "countryCode": "COL",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jan-koller",
@@ -2100,11 +2888,15 @@
       "playerName": "Jan Koller",
       "countryCode": "CZE",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jan-vertonghen",
@@ -2116,7 +2908,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "javier-hernandez",
@@ -2124,12 +2920,16 @@
       "playerName": "Javier Hernández",
       "countryCode": "MEX",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "javier-mascherano",
@@ -2142,7 +2942,12 @@
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "javier-saviola",
@@ -2150,11 +2955,15 @@
       "playerName": "Javier Saviola",
       "countryCode": "ARG",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jefferson-montero",
@@ -2162,11 +2971,15 @@
       "playerName": "Jefferson Montero",
       "countryCode": "ECU",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jermaine-jones",
@@ -2178,7 +2991,12 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "jerome-boateng",
@@ -2190,7 +3008,12 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB",
+        "RB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "jesse-lingard",
@@ -2202,7 +3025,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "joao-felix",
@@ -2210,11 +3037,16 @@
       "playerName": "João Félix",
       "countryCode": "POR",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "joe-cole",
@@ -2222,11 +3054,15 @@
       "playerName": "Joe Cole",
       "countryCode": "ENG",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "joel-campbell",
@@ -2234,11 +3070,15 @@
       "playerName": "Joel Campbell",
       "countryCode": "CRC",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "john-brooks",
@@ -2250,7 +3090,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "john-mensah",
@@ -2262,7 +3106,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "john-stones",
@@ -2274,7 +3122,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "john-terry",
@@ -2287,7 +3139,11 @@
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "jonathan-david",
@@ -2295,11 +3151,17 @@
       "playerName": "Jonathan David",
       "countryCode": "CAN",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "LW",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jordan-henderson",
@@ -2307,11 +3169,15 @@
       "playerName": "Jordan Henderson",
       "countryCode": "ENG",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jordan-pickford",
@@ -2324,7 +3190,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "jordi-alba",
@@ -2332,11 +3202,15 @@
       "playerName": "Jordi Alba",
       "countryCode": "ESP",
       "referenceYear": 2022,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jose-maria-gimenez",
@@ -2349,7 +3223,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "joshua-kimmich",
@@ -2361,7 +3239,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "RB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "josko-gvardiol",
@@ -2373,7 +3256,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "juan-cuadrado",
@@ -2381,12 +3268,16 @@
       "playerName": "Juan Cuadrado",
       "countryCode": "COL",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "juan-fernando-quintero",
@@ -2399,7 +3290,12 @@
         2014,
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "juan-pablo-sorin",
@@ -2407,11 +3303,15 @@
       "playerName": "Juan Pablo Sorín",
       "countryCode": "ARG",
       "referenceYear": 2006,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "juan-sebastian-veron",
@@ -2419,11 +3319,15 @@
       "playerName": "Juan Sebastián Verón",
       "countryCode": "ARG",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "jude-bellingham",
@@ -2435,7 +3339,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "julian-alvarez",
@@ -2443,11 +3351,17 @@
       "playerName": "Julián Álvarez",
       "countryCode": "ARG",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "LW",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "julian-green",
@@ -2459,7 +3373,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "julio-cesar",
@@ -2472,7 +3390,11 @@
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "julio-cruz",
@@ -2484,7 +3406,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "junichi-inamoto",
@@ -2496,7 +3422,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "justo-villar",
@@ -2508,7 +3438,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "kai-havertz",
@@ -2516,11 +3450,16 @@
       "playerName": "Kai Havertz",
       "countryCode": "GER",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "kaka",
@@ -2528,11 +3467,15 @@
       "playerName": "Kaká",
       "countryCode": "BRA",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "kalidou-koulibaly",
@@ -2544,7 +3487,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "kaoru-mitoma",
@@ -2556,7 +3503,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "karim-benzema",
@@ -2564,11 +3515,16 @@
       "playerName": "Karim Benzema",
       "countryCode": "FRA",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "katlego-mphela",
@@ -2576,11 +3532,15 @@
       "playerName": "Katlego Mphela",
       "countryCode": "RSA",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "keisuke-honda",
@@ -2588,12 +3548,16 @@
       "playerName": "Keisuke Honda",
       "countryCode": "JPN",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2010,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "kevin-de-bruyne",
@@ -2606,7 +3570,13 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "RW",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "kevin-prince-boateng",
@@ -2618,7 +3588,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "keylor-navas",
@@ -2630,7 +3604,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ki-sung-yueng",
@@ -2642,7 +3620,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "kieran-trippier",
@@ -2650,11 +3632,15 @@
       "playerName": "Kieran Trippier",
       "countryCode": "ENG",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "RM",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "kim-min-jae",
@@ -2666,7 +3652,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "kingsley-coman",
@@ -2678,7 +3668,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "kostas-manolas",
@@ -2690,7 +3685,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "kwadwo-asamoah",
@@ -2698,12 +3697,16 @@
       "playerName": "Kwadwo Asamoah",
       "countryCode": "GHA",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "LB",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "kyle-walker",
@@ -2715,7 +3718,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "kylian-mbappe",
@@ -2723,12 +3730,16 @@
       "playerName": "Kylian Mbappé",
       "countryCode": "FRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "landon-donovan",
@@ -2736,11 +3747,17 @@
       "playerName": "Landon Donovan",
       "countryCode": "USA",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LM",
+        "RM",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "lautaro-martinez",
@@ -2752,7 +3769,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "lee-chung-yong",
@@ -2760,11 +3782,17 @@
       "playerName": "Lee Chung-yong",
       "countryCode": "KOR",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM",
+        "RW",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "lee-kang-in",
@@ -2776,7 +3804,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "lee-young-pyo",
@@ -2784,12 +3816,16 @@
       "playerName": "Lee Young-pyo",
       "countryCode": "KOR",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "lionel-messi",
@@ -2797,14 +3833,19 @@
       "playerName": "Lionel Messi",
       "countryCode": "ARG",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "lisandro-martinez",
@@ -2816,7 +3857,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "luca-toni",
@@ -2824,11 +3869,15 @@
       "playerName": "Luca Toni",
       "countryCode": "ITA",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "lucas-hernandez",
@@ -2836,11 +3885,15 @@
       "playerName": "Lucas Hernández",
       "countryCode": "FRA",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "lucas-neill",
@@ -2852,7 +3905,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "lucas-torreira",
@@ -2864,7 +3921,12 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "DM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "lucio",
@@ -2876,7 +3938,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "luis-fabiano",
@@ -2884,11 +3950,16 @@
       "playerName": "Luís Fabiano",
       "countryCode": "BRA",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "luis-suarez",
@@ -2896,14 +3967,18 @@
       "playerName": "Luis Suárez",
       "countryCode": "URU",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "luiz-gustavo",
@@ -2911,11 +3986,16 @@
       "playerName": "Luiz Gustavo",
       "countryCode": "BRA",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "DM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "luka-modric",
@@ -2929,7 +4009,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "lukas-podolski",
@@ -2937,11 +4021,15 @@
       "playerName": "Lukas Podolski",
       "countryCode": "GER",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "maarten-stekelenburg",
@@ -2953,7 +4041,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "maicon",
@@ -2961,11 +4053,15 @@
       "playerName": "Maicon",
       "countryCode": "BRA",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "makoto-hasebe",
@@ -2978,7 +4074,11 @@
         2010,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "manuel-neuer",
@@ -2992,7 +4092,11 @@
         2014,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "marcelo",
@@ -3000,12 +4104,16 @@
       "playerName": "Marcelo",
       "countryCode": "BRA",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "marcelo-brozovic",
@@ -3013,12 +4121,16 @@
       "playerName": "Marcelo Brozović",
       "countryCode": "CRO",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "marco-materazzi",
@@ -3030,7 +4142,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "marcos-rojo",
@@ -3042,7 +4158,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "marcus-rashford",
@@ -3054,7 +4174,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "LW"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "marek-hamsik",
@@ -3062,11 +4187,18 @@
       "playerName": "Marek Hamšík",
       "countryCode": "SVK",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LM",
+        "CM",
+        "RM",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mario-fernandes",
@@ -3074,11 +4206,16 @@
       "playerName": "Mário Fernandes",
       "countryCode": "RUS",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RB",
+        "RWB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mario-gotze",
@@ -3086,11 +4223,16 @@
       "playerName": "Mario Götze",
       "countryCode": "GER",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mario-mandzukic",
@@ -3098,12 +4240,16 @@
       "playerName": "Mario Mandžukić",
       "countryCode": "CRO",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mark-paston",
@@ -3115,7 +4261,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "mark-van-bommel",
@@ -3123,11 +4273,16 @@
       "playerName": "Mark van Bommel",
       "countryCode": "NED",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mark-viduka",
@@ -3135,11 +4290,15 @@
       "playerName": "Mark Viduka",
       "countryCode": "AUS",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "marouane-fellaini",
@@ -3151,7 +4310,12 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "marquinhos",
@@ -3163,7 +4327,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "martin-skrtel",
@@ -3175,7 +4343,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "mateo-kovacic",
@@ -3188,7 +4360,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "mathew-leckie",
@@ -3196,13 +4372,19 @@
       "playerName": "Mathew Leckie",
       "countryCode": "AUS",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "RM",
       "featuredYears": [
         2014,
         2018,
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM",
+        "LM",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mathieu-valbuena",
@@ -3210,11 +4392,15 @@
       "playerName": "Mathieu Valbuena",
       "countryCode": "FRA",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mats-hummels",
@@ -3226,7 +4412,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "matt-turner",
@@ -3238,7 +4428,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "mauro-camoranesi",
@@ -3246,11 +4440,17 @@
       "playerName": "Mauro Camoranesi",
       "countryCode": "ITA",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM",
+        "CM",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "maxi-rodriguez",
@@ -3258,11 +4458,17 @@
       "playerName": "Maxi Rodríguez",
       "countryCode": "ARG",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM",
+        "LW",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mbaye-niang",
@@ -3270,11 +4476,15 @@
       "playerName": "M’Baye Niang",
       "countryCode": "SEN",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mehdi-benatia",
@@ -3286,7 +4496,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "mehdi-taremi",
@@ -3294,11 +4508,15 @@
       "playerName": "Mehdi Taremi",
       "countryCode": "IRN",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "memphis-depay",
@@ -3306,12 +4524,17 @@
       "playerName": "Memphis Depay",
       "countryCode": "NED",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mesut-ozil",
@@ -3319,12 +4542,18 @@
       "playerName": "Mesut Özil",
       "countryCode": "GER",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "LW",
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "michael-bradley",
@@ -3332,12 +4561,17 @@
       "playerName": "Michael Bradley",
       "countryCode": "USA",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "AM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "michael-essien",
@@ -3349,7 +4583,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "michel-bastos",
@@ -3357,11 +4595,15 @@
       "playerName": "Michel Bastos",
       "countryCode": "BRA",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "miguel-layun",
@@ -3369,11 +4611,15 @@
       "playerName": "Miguel Layún",
       "countryCode": "MEX",
       "referenceYear": 2014,
-      "primaryPosition": "CB",
+      "primaryPosition": "LWB",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LWB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "miguel-monteiro",
@@ -3381,11 +4627,15 @@
       "playerName": "Miguel Monteiro",
       "countryCode": "POR",
       "referenceYear": 2006,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "milan-baros",
@@ -3393,11 +4643,15 @@
       "playerName": "Milan Baroš",
       "countryCode": "CZE",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mile-jedinak",
@@ -3410,7 +4664,11 @@
         2014,
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "milos-krasic",
@@ -3418,11 +4676,15 @@
       "playerName": "Milos Krasić",
       "countryCode": "SRB",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "miroslav-klose",
@@ -3430,12 +4692,16 @@
       "playerName": "Miroslav Klose",
       "countryCode": "GER",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mohamed-salah",
@@ -3443,11 +4709,15 @@
       "playerName": "Mohamed Salah",
       "countryCode": "EGY",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "mohammed-al-owais",
@@ -3459,7 +4729,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "mohammed-kudus",
@@ -3471,7 +4745,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "RW"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "moises-caicedo",
@@ -3483,7 +4762,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "morteza-pouraliganji",
@@ -3495,7 +4778,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "moussa-wague",
@@ -3503,11 +4790,17 @@
       "playerName": "Moussa Wagué",
       "countryCode": "SEN",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RB",
+        "LB",
+        "CB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "nahuel-molina",
@@ -3515,11 +4808,16 @@
       "playerName": "Nahuel Molina",
       "countryCode": "ARG",
       "referenceYear": 2022,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RB",
+        "RWB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "nayef-aguerd",
@@ -3531,7 +4829,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "nelson-haedo-valdez",
@@ -3539,11 +4841,17 @@
       "playerName": "Nelson Haedo Valdez",
       "countryCode": "PAR",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "AM",
+        "ST"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "nemanja-matic",
@@ -3555,7 +4863,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "neymar",
@@ -3563,13 +4875,17 @@
       "playerName": "Neymar",
       "countryCode": "BRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "AM",
       "featuredYears": [
         2014,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ngolo-kante",
@@ -3581,7 +4897,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "nicolas-otamendi",
@@ -3593,7 +4913,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "niko-kovac",
@@ -3605,7 +4929,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "nordin-amrabat",
@@ -3613,11 +4941,15 @@
       "playerName": "Nordin Amrabat",
       "countryCode": "MAR",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "noussair-mazraoui",
@@ -3625,11 +4957,16 @@
       "playerName": "Noussair Mazraoui",
       "countryCode": "MAR",
       "referenceYear": 2022,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB",
+        "LWB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "nuno-gomes",
@@ -3641,7 +4978,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "oliver-kahn",
@@ -3653,7 +4994,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "olivier-giroud",
@@ -3661,13 +5006,17 @@
       "playerName": "Olivier Giroud",
       "countryCode": "FRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "oribe-peralta",
@@ -3675,11 +5024,15 @@
       "playerName": "Oribe Peralta",
       "countryCode": "MEX",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "oscar",
@@ -3687,11 +5040,17 @@
       "playerName": "Oscar",
       "countryCode": "BRA",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM",
+        "CM",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ousmane-dembele",
@@ -3699,11 +5058,16 @@
       "playerName": "Ousmane Dembélé",
       "countryCode": "FRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "pablo-zabaleta",
@@ -3711,11 +5075,16 @@
       "playerName": "Pablo Zabaleta",
       "countryCode": "ARG",
       "referenceYear": 2014,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RB",
+        "RWB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "paolo-guerrero",
@@ -3723,11 +5092,16 @@
       "playerName": "Paolo Guerrero",
       "countryCode": "PER",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "park-ji-sung",
@@ -3735,12 +5109,17 @@
       "playerName": "Park Ji-sung",
       "countryCode": "KOR",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LM",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "paul-pogba",
@@ -3753,7 +5132,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "pauleta",
@@ -3761,11 +5144,15 @@
       "playerName": "Pauleta",
       "countryCode": "POR",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "paulinho",
@@ -3778,7 +5165,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "pavel-nedved",
@@ -3790,7 +5181,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "pedri",
@@ -3802,7 +5197,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "pepe",
@@ -3815,7 +5214,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "per-mertesacker",
@@ -3827,7 +5230,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "pervis-estupinan",
@@ -3835,11 +5242,16 @@
       "playerName": "Pervis Estupiñán",
       "countryCode": "ECU",
       "referenceYear": 2022,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LB",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "petr-cech",
@@ -3851,7 +5263,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "phil-foden",
@@ -3859,11 +5275,17 @@
       "playerName": "Phil Foden",
       "countryCode": "ENG",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "CM",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "philipp-lahm",
@@ -3871,12 +5293,17 @@
       "playerName": "Philipp Lahm",
       "countryCode": "GER",
       "referenceYear": 2014,
-      "primaryPosition": "CB",
+      "primaryPosition": "DM",
       "featuredYears": [
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM",
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "philippe-coutinho",
@@ -3884,11 +5311,15 @@
       "playerName": "Philippe Coutinho",
       "countryCode": "BRA",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "piotr-zielinski",
@@ -3896,11 +5327,18 @@
       "playerName": "Piotr Zieliński",
       "countryCode": "POL",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "AM",
+        "RM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "radamel-falcao",
@@ -3908,11 +5346,15 @@
       "playerName": "Radamel Falcao",
       "countryCode": "COL",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "rafael-leao",
@@ -3924,7 +5366,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "rafael-marquez",
@@ -3937,7 +5383,11 @@
         2010,
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "rafael-van-der-vaart",
@@ -3945,11 +5395,16 @@
       "playerName": "Rafael van der Vaart",
       "countryCode": "NED",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "rafik-halliche",
@@ -3961,7 +5416,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "raheem-sterling",
@@ -3969,11 +5428,15 @@
       "playerName": "Raheem Sterling",
       "countryCode": "ENG",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "rais-mbolhi",
@@ -3985,7 +5448,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ramin-rezaeian",
@@ -3993,11 +5460,16 @@
       "playerName": "Ramin Rezaeian",
       "countryCode": "IRN",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RB",
+        "CB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "randal-kolo-muani",
@@ -4005,11 +5477,15 @@
       "playerName": "Randal Kolo Muani",
       "countryCode": "FRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "raphael-varane",
@@ -4023,7 +5499,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "raphinha",
@@ -4031,11 +5511,16 @@
       "playerName": "Raphinha",
       "countryCode": "BRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ricardo-quaresma",
@@ -4047,7 +5532,12 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "RM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ricardo-rodriguez",
@@ -4055,12 +5545,16 @@
       "playerName": "Ricardo Rodríguez",
       "countryCode": "SUI",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "richard-kingson",
@@ -4072,7 +5566,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "richarlison",
@@ -4080,11 +5578,15 @@
       "playerName": "Richarlison",
       "countryCode": "BRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "rio-ferdinand",
@@ -4096,7 +5598,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ritsu-doan",
@@ -4108,7 +5614,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "RW"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "robert-lewandowski",
@@ -4116,12 +5627,16 @@
       "playerName": "Robert Lewandowski",
       "countryCode": "POL",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "robert-vittek",
@@ -4129,11 +5644,15 @@
       "playerName": "Robert Vittek",
       "countryCode": "SVK",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "roberto-ayala",
@@ -4145,7 +5664,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "roberto-firmino",
@@ -4157,7 +5680,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "robin-van-persie",
@@ -4165,13 +5692,17 @@
       "playerName": "Robin van Persie",
       "countryCode": "NED",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006,
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "robinho",
@@ -4179,11 +5710,15 @@
       "playerName": "Robinho",
       "countryCode": "BRA",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "rodri",
@@ -4191,11 +5726,15 @@
       "playerName": "Rodri",
       "countryCode": "ESP",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "CB",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "rodrigo-de-paul",
@@ -4207,7 +5746,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "RM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "rodrygo",
@@ -4219,7 +5763,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "romain-saiss",
@@ -4231,7 +5780,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "romelu-lukaku",
@@ -4239,12 +5792,16 @@
       "playerName": "Romelu Lukaku",
       "countryCode": "BEL",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ron-vlaar",
@@ -4256,7 +5813,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ronaldinho",
@@ -4264,11 +5825,16 @@
       "playerName": "Ronaldinho",
       "countryCode": "BRA",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM",
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "roque-santa-cruz",
@@ -4280,7 +5846,14 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST",
+        "CF",
+        "AM",
+        "RW"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "ruud-van-nistelrooy",
@@ -4288,11 +5861,15 @@
       "playerName": "Ruud van Nistelrooy",
       "countryCode": "NED",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ryan-nelsen",
@@ -4304,7 +5881,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "sadio-mane",
@@ -4312,11 +5893,17 @@
       "playerName": "Sadio Mané",
       "countryCode": "SEN",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "RM",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RM",
+        "LW",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "saleh-al-shehri",
@@ -4324,11 +5911,15 @@
       "playerName": "Saleh Al-Shehri",
       "countryCode": "KSA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "salem-al-dawsari",
@@ -4336,11 +5927,16 @@
       "playerName": "Salem Al-Dawsari",
       "countryCode": "KSA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LW",
+        "LM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "salomon-kalou",
@@ -4348,11 +5944,16 @@
       "playerName": "Salomon Kalou",
       "countryCode": "CIV",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "LW",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sami-khedira",
@@ -4365,7 +5966,11 @@
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "samuel-etoo",
@@ -4373,11 +5978,16 @@
       "playerName": "Samuel Eto’o",
       "countryCode": "CMR",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "samuel-umtiti",
@@ -4389,7 +5999,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "serge-gnabry",
@@ -4397,11 +6011,16 @@
       "playerName": "Serge Gnabry",
       "countryCode": "GER",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sergej-milinkovic-savic",
@@ -4414,7 +6033,12 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "sergio-aguero",
@@ -4422,12 +6046,17 @@
       "playerName": "Sergio Agüero",
       "countryCode": "ARG",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sergio-busquets",
@@ -4435,12 +6064,16 @@
       "playerName": "Sergio Busquets",
       "countryCode": "ESP",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2010,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sergio-ramos",
@@ -4448,11 +6081,15 @@
       "playerName": "Sergio Ramos",
       "countryCode": "ESP",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sergio-romero",
@@ -4464,7 +6101,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "shane-smeltz",
@@ -4472,11 +6113,16 @@
       "playerName": "Shane Smeltz",
       "countryCode": "NZL",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "shinji-kagawa",
@@ -4484,11 +6130,15 @@
       "playerName": "Shinji Kagawa",
       "countryCode": "JPN",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "shinji-okazaki",
@@ -4500,7 +6150,12 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "ST",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "shunsuke-nakamura",
@@ -4508,11 +6163,16 @@
       "playerName": "Shunsuke Nakamura",
       "countryCode": "JPN",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "AM",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "simao-sabrosa",
@@ -4524,7 +6184,12 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST",
+        "LW"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "sime-vrsaljko",
@@ -4532,11 +6197,15 @@
       "playerName": "Šime Vrsaljko",
       "countryCode": "CRO",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "siphiwe-tshabalala",
@@ -4544,11 +6213,16 @@
       "playerName": "Siphiwe Tshabalala",
       "countryCode": "RSA",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM",
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sofiane-feghouli",
@@ -4556,11 +6230,17 @@
       "playerName": "Sofiane Feghouli",
       "countryCode": "ALG",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RW",
+        "AM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sofyan-amrabat",
@@ -4568,11 +6248,16 @@
       "playerName": "Sofyan Amrabat",
       "countryCode": "MAR",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sokratis-papastathopoulos",
@@ -4584,7 +6269,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "son-heung-min",
@@ -4592,12 +6281,17 @@
       "playerName": "Son Heung-min",
       "countryCode": "KOR",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "stefan-de-vrij",
@@ -4609,7 +6303,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "stephen-appiah",
@@ -4621,7 +6319,12 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "RM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "stephen-eustaquio",
@@ -4633,7 +6336,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "steven-gerrard",
@@ -4641,12 +6348,18 @@
       "playerName": "Steven Gerrard",
       "countryCode": "ENG",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LM",
+        "CM",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "steven-pienaar",
@@ -4654,11 +6367,16 @@
       "playerName": "Steven Pienaar",
       "countryCode": "RSA",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "sulley-muntari",
@@ -4671,7 +6389,12 @@
         2006,
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "takashi-inui",
@@ -4679,11 +6402,16 @@
       "playerName": "Takashi Inui",
       "countryCode": "JPN",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "LW",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "takehiro-tomiyasu",
@@ -4695,7 +6423,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "takumi-minamino",
@@ -4707,7 +6439,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "teofilo-gutierrez",
@@ -4715,11 +6451,15 @@
       "playerName": "Teófilo Gutiérrez",
       "countryCode": "COL",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "theo-hernandez",
@@ -4727,11 +6467,15 @@
       "playerName": "Theo Hernández",
       "countryCode": "FRA",
       "referenceYear": 2022,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "thiago-silva",
@@ -4745,7 +6489,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "thibaut-courtois",
@@ -4758,7 +6506,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "thomas-meunier",
@@ -4766,11 +6518,15 @@
       "playerName": "Thomas Meunier",
       "countryCode": "BEL",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "RM",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "thomas-muller",
@@ -4778,13 +6534,18 @@
       "playerName": "Thomas Müller",
       "countryCode": "GER",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "CF",
       "featuredYears": [
         2010,
         2014,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF",
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "tim-borowski",
@@ -4796,7 +6557,12 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "tim-cahill",
@@ -4804,13 +6570,17 @@
       "playerName": "Tim Cahill",
       "countryCode": "AUS",
       "referenceYear": 2014,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006,
         2010,
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "tim-howard",
@@ -4823,7 +6593,11 @@
         2010,
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "timothy-weah",
@@ -4831,11 +6605,16 @@
       "playerName": "Timothy Weah",
       "countryCode": "USA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "toby-alderweireld",
@@ -4847,7 +6626,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "tomas-rosicky",
@@ -4859,7 +6642,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "toni-kroos",
@@ -4871,7 +6658,13 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "AM",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "torsten-frings",
@@ -4883,7 +6676,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "tranquillo-barnetta",
@@ -4891,11 +6688,15 @@
       "playerName": "Tranquillo Barnetta",
       "countryCode": "SUI",
       "referenceYear": 2006,
-      "primaryPosition": "CM",
+      "primaryPosition": "RM",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "tyler-adams",
@@ -4903,11 +6704,16 @@
       "playerName": "Tyler Adams",
       "countryCode": "USA",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "unai-simon",
@@ -4919,7 +6725,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "victor-moses",
@@ -4927,11 +6737,15 @@
       "playerName": "Victor Moses",
       "countryCode": "NGA",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "vincent-aboubakar",
@@ -4943,7 +6757,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "ST",
+        "CF"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "vincent-enyeama",
@@ -4955,7 +6774,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "vincent-kompany",
@@ -4968,7 +6791,11 @@
         2014,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "vinicius-junior",
@@ -4976,11 +6803,15 @@
       "playerName": "Vinícius Júnior",
       "countryCode": "BRA",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "LW",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "virgil-van-dijk",
@@ -4992,7 +6823,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "vladimir-stojkovic",
@@ -5004,7 +6839,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "wahbi-khazri",
@@ -5012,11 +6851,15 @@
       "playerName": "Wahbi Khazri",
       "countryCode": "TUN",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "wataru-endo",
@@ -5028,7 +6871,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "wayne-rooney",
@@ -5036,12 +6883,16 @@
       "playerName": "Wayne Rooney",
       "countryCode": "ENG",
       "referenceYear": 2010,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "wesley-sneijder",
@@ -5049,13 +6900,18 @@
       "playerName": "Wesley Sneijder",
       "countryCode": "NED",
       "referenceYear": 2014,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2006,
         2010,
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM",
+        "CM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "weston-mckennie",
@@ -5067,7 +6923,12 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "RM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "william-gallas",
@@ -5079,7 +6940,11 @@
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "willian",
@@ -5087,11 +6952,15 @@
       "playerName": "Willian",
       "countryCode": "BRA",
       "referenceYear": 2018,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "willy-sagnol",
@@ -5099,11 +6968,15 @@
       "playerName": "Willy Sagnol",
       "countryCode": "FRA",
       "referenceYear": 2006,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2006
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "winston-reid",
@@ -5111,11 +6984,15 @@
       "playerName": "Winston Reid",
       "countryCode": "NZL",
       "referenceYear": 2010,
-      "primaryPosition": "CB",
+      "primaryPosition": "RB",
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "RB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "wojciech-szczesny",
@@ -5127,7 +7004,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "xabi-alonso",
@@ -5135,12 +7016,18 @@
       "playerName": "Xabi Alonso",
       "countryCode": "ESP",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "LM",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LM",
+        "CM",
+        "DM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "xavi",
@@ -5148,12 +7035,18 @@
       "playerName": "Xavi",
       "countryCode": "ESP",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "AM",
       "featuredYears": [
         2006,
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "AM",
+        "CM",
+        "RM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "xherdan-shaqiri",
@@ -5161,13 +7054,18 @@
       "playerName": "Xherdan Shaqiri",
       "countryCode": "SUI",
       "referenceYear": 2022,
-      "primaryPosition": "CM",
+      "primaryPosition": "RW",
       "featuredYears": [
         2014,
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "RW",
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "yacine-brahimi",
@@ -5179,7 +7077,12 @@
       "featuredYears": [
         2014
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM",
+        "AM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "yann-sommer",
@@ -5192,7 +7095,11 @@
         2018,
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "yassine-bounou",
@@ -5204,7 +7111,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "GK"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "yasuhito-endo",
@@ -5216,7 +7127,11 @@
       "featuredYears": [
         2010
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "yaya-toure",
@@ -5224,11 +7139,15 @@
       "playerName": "Yaya Touré",
       "countryCode": "CIV",
       "referenceYear": 2010,
-      "primaryPosition": "CM",
+      "primaryPosition": "DM",
       "featuredYears": [
         2010
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "DM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "yeltsin-tejeda",
@@ -5240,7 +7159,11 @@
       "featuredYears": [
         2014
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "yerry-mina",
@@ -5252,7 +7175,11 @@
       "featuredYears": [
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CB"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "youssef-en-nesyri",
@@ -5260,11 +7187,15 @@
       "playerName": "Youssef En-Nesyri",
       "countryCode": "MAR",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "youssef-msakni",
@@ -5272,11 +7203,15 @@
       "playerName": "Youssef Msakni",
       "countryCode": "TUN",
       "referenceYear": 2022,
-      "primaryPosition": "ST",
+      "primaryPosition": "AM",
       "featuredYears": [
         2022
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "AM"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "yunus-musah",
@@ -5288,7 +7223,11 @@
       "featuredYears": [
         2022
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "yuto-nagatomo",
@@ -5296,12 +7235,16 @@
       "playerName": "Yūto Nagatomo",
       "countryCode": "JPN",
       "referenceYear": 2018,
-      "primaryPosition": "CB",
+      "primaryPosition": "LB",
       "featuredYears": [
         2010,
         2018
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "LB"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "yuya-osako",
@@ -5309,11 +7252,16 @@
       "playerName": "Yuya Osako",
       "countryCode": "JPN",
       "referenceYear": 2018,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2018
       ],
-      "priority": "cult"
+      "priority": "cult",
+      "eligiblePositions": [
+        "CF",
+        "ST"
+      ],
+      "positionSource": "reviewed-correction"
     },
     {
       "identityId": "ze-roberto",
@@ -5325,7 +7273,12 @@
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CM",
+        "LM"
+      ],
+      "positionSource": "match-derived"
     },
     {
       "identityId": "zlatan-ibrahimovic",
@@ -5333,15 +7286,20 @@
       "playerName": "Zlatan Ibrahimović",
       "countryCode": "SWE",
       "referenceYear": 2006,
-      "primaryPosition": "ST",
+      "primaryPosition": "CF",
       "featuredYears": [
         2006
       ],
-      "priority": "essential"
+      "priority": "essential",
+      "eligiblePositions": [
+        "CF"
+      ],
+      "positionSource": "reviewed-correction"
     }
   ],
   "excludedNonParticipants": [
     "samuel-etoo:2006",
     "youssef-msakni:2018"
-  ]
+  ],
+  "positionMethod": "Reviewed position corrections first; otherwise tournament appearance-derived position; broad squad category only when no precise evidence exists."
 }
