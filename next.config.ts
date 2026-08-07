@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   outputFileTracingIncludes: {
     "/assets/managers/[filename]": ["./assets/managers/*.png"],
+    "/assets/opponent/[filename]": ["./assets/players/opponent/*.png"],
   },
   images: {
     localPatterns: [
@@ -15,6 +16,9 @@ const nextConfig: NextConfig = {
       },
       {
         pathname: "/assets/managers/**",
+      },
+      {
+        pathname: "/assets/opponent/**",
       },
     ],
 
