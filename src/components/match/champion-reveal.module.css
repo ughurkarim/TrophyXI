@@ -1513,3 +1513,151 @@
     box-shadow: none;
   }
 }
+
+/* Pressing ENTER FINAL keeps the mobile matchup composition physically fixed.
+   Desktop retains its existing outward team/VS launch transition. */
+@media (max-width: 767px) {
+  .reveal.reveal {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: calc(100dvh - 64px - env(safe-area-inset-top));
+    padding-bottom: 18px;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .versusStage.versusStage,
+  .team,
+  .opponent,
+  .teamCopy,
+  .comparison,
+  .metricList,
+  .dossierGrid,
+  .infoCard,
+  .tacticalIdentity,
+  .formationFacts,
+  .action.action {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .team,
+  .opponent {
+    justify-self: stretch;
+    transform: none;
+  }
+
+  .teamCopy h1,
+  .teamCopy h2,
+  .teamCopy p,
+  .tacticalIdentity h3,
+  .tacticalIdentity p {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .teamCopy h1,
+  .teamCopy h2 {
+    font-size: clamp(1.65rem, 8.4vw, 2.2rem);
+    line-height: 0.96;
+  }
+
+  .team[data-long-name="true"] .teamCopy h2 {
+    font-size: clamp(1.4rem, 7.2vw, 1.85rem);
+    line-height: 1;
+  }
+
+  .teamCopy p {
+    margin-bottom: 5px;
+    font-size: 0.47rem;
+    letter-spacing: 0.1em;
+    line-height: 1.35;
+  }
+
+  .versusCenter {
+    gap: 6px;
+    margin-inline: 0;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .finalKicker {
+    bottom: auto;
+    left: auto;
+    max-width: min(100%, 270px);
+    position: static;
+    transform: none;
+    white-space: normal;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    font-size: clamp(0.56rem, 2.6vw, 0.68rem);
+    letter-spacing: 0.16em;
+  }
+
+  .comparison {
+    padding-inline: 12px;
+  }
+
+  .metricTitle {
+    grid-template-columns: minmax(24px, 1fr) auto minmax(24px, 1fr);
+    gap: 8px;
+  }
+
+  .metricTitle i {
+    width: 100%;
+  }
+
+  .metricRow {
+    grid-template-columns:
+      28px
+      minmax(0, 1fr)
+      minmax(56px, 68px)
+      minmax(0, 1fr)
+      28px;
+    gap: clamp(3px, 1vw, 6px);
+  }
+
+  .metricRow > b {
+    font-size: 0.76rem;
+  }
+
+  .metricRow > span {
+    font-size: 0.5rem;
+    letter-spacing: 0.045em;
+  }
+
+  .tacticalCard {
+    display: none;
+  }
+
+  .squadActions,
+  .squadButton.squadButton {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .squadButton.squadButton {
+    gap: 6px;
+    padding-right: 8px;
+    font-size: 0.58rem;
+  }
+
+  .reveal[data-transitioning="true"] .team,
+  .reveal[data-transitioning="true"] .versusMark.versusMark {
+    transform: none !important;
+  }
+
+  .reveal[data-transitioning="true"] .versusMark.versusMark {
+    opacity: 1 !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .squadActions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

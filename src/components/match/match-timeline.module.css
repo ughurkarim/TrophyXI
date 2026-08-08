@@ -585,6 +585,10 @@
     0 0 18px rgba(210, 170, 61, 0.055);
 }
 
+.mobileFinalOutcome {
+  display: none;
+}
+
 
 .finalDetail.finalDetail {
   margin-top: 8px;
@@ -1446,6 +1450,29 @@
 
   .pitchLineup li > b {
     font-size: 0.52rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktopFinalOutcome {
+    display: none;
+  }
+
+  .mobileFinalOutcome {
+    display: inline;
+  }
+
+  .livePill[data-complete="true"] {
+    border-color: rgba(232, 195, 88, 0.46);
+    color: #f0d57d;
+    background: rgba(186, 139, 31, 0.11);
+    box-shadow: 0 0 14px rgba(219, 178, 61, 0.08);
+  }
+
+  .finalVerdict.finalVerdict {
+    font-size: clamp(1.08rem, 5.4vw, 1.42rem);
+    line-height: 1.03;
+    text-wrap: balance;
   }
 }
 

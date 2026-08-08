@@ -166,13 +166,31 @@ type GameStore = {
 };
 
 const browserStorage: StateStorage = {
-  getItem: (name) =>
-    typeof window === "undefined" ? null : window.localStorage.getItem(name),
+  getItem: (name) => {
+    if (typeof window === "undefined") return null;
+    try {
+      return window.localStorage.getItem(name);
+    } catch {
+      // Safari can deny storage access even when localStorage exists. In that
+      // case the game remains fully usable with its in-memory state.
+      return null;
+    }
+  },
   setItem: (name, value) => {
-    if (typeof window !== "undefined") window.localStorage.setItem(name, value);
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(name, value);
+    } catch {
+      // A failed save must not interrupt navigation or gameplay.
+    }
   },
   removeItem: (name) => {
-    if (typeof window !== "undefined") window.localStorage.removeItem(name);
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.removeItem(name);
+    } catch {
+      // Clearing an unavailable store is already effectively complete.
+    }
   },
 };
 
@@ -1738,8 +1756,13 @@ export const useGameStore = create<GameStore>()(
         saveNotice: state.saveNotice,
       }),
       onRehydrateStorage: () => (state) => {
-        state?.repairHydratedState();
-        state?.setHasHydrated(true);
+        try {
+          state?.repairHydratedState();
+        } finally {
+          // Zustand supplies no state when reading, parsing, or migrating a
+          // persisted save fails. Release every hydration gate either way.
+          useGameStore.setState({ hasHydrated: true });
+        }
       },
     },
   ),

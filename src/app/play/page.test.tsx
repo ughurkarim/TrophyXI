@@ -25,7 +25,7 @@ describe("PlayPage", () => {
     render(<PlayPage />);
 
     const confirm = screen.getByRole("button", {
-      name: "CONTINUE",
+      name: "SELECT A MODE",
     });
     const freeSelection = screen.getByRole("button", {
       name: /free selection/i,
@@ -44,7 +44,7 @@ describe("PlayPage", () => {
       persistedBeforeSelection,
     );
 
-    await user.click(screen.getByRole("button", { name: "CONTINUE" }));
+    await user.click(screen.getByRole("button", { name: "BUILD YOUR XI" }));
 
     expect(useGameStore.getState().gameMode).toBe("free-selection");
     expect(router.push).toHaveBeenCalledWith("/play/era");
@@ -77,5 +77,21 @@ describe("PlayPage", () => {
     ).not.toBeInTheDocument();
     expect(screen.queryByText(/archive xi/i)).not.toBeInTheDocument();
     expect(router.push).not.toHaveBeenCalled();
+  });
+
+  it("marks World Cup Run as the fan favorite without preselecting it", () => {
+    const { container } = render(<PlayPage />);
+
+    expect(screen.getAllByText("FAN FAVORITE")).toHaveLength(2);
+    const worldCupCards = Array.from(
+      container.querySelectorAll('[data-mode="world-cup-run"]'),
+    );
+    expect(worldCupCards).toHaveLength(2);
+    for (const card of worldCupCards) {
+      expect(card).toHaveTextContent("FAN FAVORITE");
+      expect(card).toHaveAttribute("aria-pressed", "false");
+    }
+    expect(screen.queryByText(/recommended/i)).not.toBeInTheDocument();
+    expect(useGameStore.getState().gameMode).toBeNull();
   });
 });

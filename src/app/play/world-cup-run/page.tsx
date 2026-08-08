@@ -37,6 +37,7 @@ import {
 import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
 import styles from "./world-cup-run.module.css";
+import { getMobileTournamentProgressStage } from "./world-cup-run-presentation";
 
 const stageLabels: Record<WorldCupRunStage, string> = {
   group: "GROUP STAGE",
@@ -294,7 +295,7 @@ export default function WorldCupRunPage() {
 
   if (!run) {
     return (
-      <div className={`game-page game-page--stadium ${styles.shell}`}>
+      <div className={`game-page game-page--stadium ${styles.shell} ${styles.launchShell}`}>
         <GameHeader step="WORLD CUP RUN" />
         <SaveNotice />
         <main
@@ -443,6 +444,19 @@ export default function WorldCupRunPage() {
       : run.currentStage;
   const currentStageIndex =
     displayStage === "complete" ? stageOrder.length : stageOrder.indexOf(displayStage);
+  const eliminatedStage = (run.eliminatedStage ?? "group") as Exclude<
+    WorldCupRunStage,
+    "complete"
+  >;
+  const mobileProgressStage = getMobileTournamentProgressStage({
+    currentStage: displayStage,
+    status: run.status,
+    eliminatedStage: run.eliminatedStage,
+  });
+  const mobileProgressStageIndex =
+    mobileProgressStage === "complete"
+      ? stageOrder.length
+      : stageOrder.indexOf(mobileProgressStage);
 
   const currentRoundPending =
     run.currentStage !== "complete" &&
@@ -462,10 +476,6 @@ export default function WorldCupRunPage() {
     userStanding.rank === 3 &&
     bestThirdQualifierIds.has(run.userTeamId);
   const champion = run.championTeamId ? teams.get(run.championTeamId) : null;
-  const eliminatedStage = (run.eliminatedStage ?? "group") as Exclude<
-    WorldCupRunStage,
-    "complete"
-  >;
   const lossScreen = lossPresentation[eliminatedStage];
 
   return (
@@ -475,6 +485,10 @@ export default function WorldCupRunPage() {
       <main
         className={`container ${styles.main}`}
         data-knockout={run.currentStage !== "group"}
+        data-terminal={
+          tournamentOver ||
+          (run.status === "champion" && !championCelebrationDismissed)
+        }
       >
         <header
           className={styles.header}
@@ -518,6 +532,8 @@ export default function WorldCupRunPage() {
           <button
             className={styles.restart}
             type="button"
+            aria-label="Restart World Cup Run"
+            title="Restart World Cup Run"
             onClick={() => {
               if (window.confirm("Restart this tournament with a new field?")) restartWorldCupRun();
             }}
@@ -530,12 +546,15 @@ export default function WorldCupRunPage() {
           className={styles.progress}
           aria-label="Tournament progress"
           data-champion={run.status === "champion"}
+          data-eliminated={run.status === "eliminated"}
         >
           {stageOrder.map((stage, index) => (
             <div
               key={stage}
               data-active={stage === displayStage}
               data-complete={index < currentStageIndex}
+              data-mobile-active={stage === mobileProgressStage}
+              data-mobile-complete={index < mobileProgressStageIndex}
             >
               <span>{index + 1}</span>
               <b>{stage === "group" ? "GROUPS" : shortStageLabels[stage]}</b>
@@ -547,37 +566,46 @@ export default function WorldCupRunPage() {
           <section
             className={`${styles.terminal} ${styles.lossState}`}
             data-stage={eliminatedStage}
+            data-testid="world-cup-loss"
           >
             <div className={styles.lossAtmosphere} aria-hidden />
             <div className={styles.lossCopy}>
-              <p className={styles.lossEyebrow}>{lossScreen.eyebrow}</p>
+              <p className={styles.lossEyebrow}>
+                <span className={styles.desktopEndgameCopy}>{lossScreen.eyebrow}</span>
+                <span className={styles.mobileEndgameCopy}>{stageLabels[eliminatedStage]}</span>
+              </p>
               <h2>{lossScreen.headline}</h2>
               <p className={styles.lossBody}>
-                {eliminatedStage === "group"
-                  ? `Trophy XI finished ${userStanding.rank} in Group ${userGroup.id}. Your squad and tournament record remain saved.`
-                  : eliminatedStage === "final"
-                    ? (() => {
-                        const finalFixture = run.fixtures.find(
-                          (fixture) =>
-                            fixture.stage === "final" &&
-                            [fixture.homeTeamId, fixture.awayTeamId].includes(run.userTeamId),
-                        );
+                <span className={styles.desktopEndgameCopy}>
+                  {eliminatedStage === "group"
+                    ? `Trophy XI finished ${userStanding.rank} in Group ${userGroup.id}. Your squad and tournament record remain saved.`
+                    : eliminatedStage === "final"
+                      ? (() => {
+                          const finalFixture = run.fixtures.find(
+                            (fixture) =>
+                              fixture.stage === "final" &&
+                              [fixture.homeTeamId, fixture.awayTeamId].includes(run.userTeamId),
+                          );
 
-                        if (!finalFixture?.result?.penalties) {
-                          return "The final hurdle proves one step too far. Your squad and tournament record remain saved.";
-                        }
+                          if (!finalFixture?.result?.penalties) {
+                            return "The final hurdle proves one step too far. Your squad and tournament record remain saved.";
+                          }
 
-                        const userAtHome = finalFixture.homeTeamId === run.userTeamId;
-                        const userPenalties = userAtHome
-                          ? finalFixture.result.penalties[0]
-                          : finalFixture.result.penalties[1];
-                        const opponentPenalties = userAtHome
-                          ? finalFixture.result.penalties[1]
-                          : finalFixture.result.penalties[0];
+                          const userAtHome = finalFixture.homeTeamId === run.userTeamId;
+                          const userPenalties = userAtHome
+                            ? finalFixture.result.penalties[0]
+                            : finalFixture.result.penalties[1];
+                          const opponentPenalties = userAtHome
+                            ? finalFixture.result.penalties[1]
+                            : finalFixture.result.penalties[0];
 
-                        return `Trophy XI fall ${userPenalties}–${opponentPenalties} on penalties. Your squad and tournament record remain saved.`;
-                      })()
-                    : "A memorable World Cup run comes to a close. Your squad and tournament record remain saved."}
+                          return `Trophy XI fall ${userPenalties}–${opponentPenalties} on penalties. Your squad and tournament record remain saved.`;
+                        })()
+                      : "A memorable World Cup run comes to a close. Your squad and tournament record remain saved."}
+                </span>
+                <span className={styles.mobileEndgameCopy}>
+                  Your squad and tournament record remain saved.
+                </span>
               </p>
 
               <div className={styles.lossActions}>
@@ -594,6 +622,7 @@ export default function WorldCupRunPage() {
                 src={lossScreen.image}
                 alt=""
                 className={styles.lossPlayer}
+                data-testid="world-cup-loss-player"
                 onError={(event) => {
                   event.currentTarget.style.display = "none";
                 }}
@@ -601,20 +630,29 @@ export default function WorldCupRunPage() {
             </div>
           </section>
         ) : run.status === "champion" && !championCelebrationDismissed ? (
-          <section className={`${styles.terminal} ${styles.championState}`}>
+          <section
+            className={`${styles.terminal} ${styles.championState}`}
+            data-testid="world-cup-victory"
+          >
             <div className={styles.winAtmosphere} aria-hidden />
 
             <div className={styles.winCopy}>
               <p className={styles.winEyebrow}>WORLD CHAMPIONS</p>
               <h2>
                 <span className={styles.winHeadlineLead}>Trophy XI</span>
-                <span className={styles.winHeadlineAccent}>reach football&apos;s summit.</span>
+                <span className={styles.winHeadlineAccent}>
+                  <span>reach football&apos;s</span> <span>summit.</span>
+                </span>
               </h2>
               <p className={styles.winBody}>
                 Football&apos;s greatest prize belongs to Trophy XI.
               </p>
 
-              <div className={styles.winStats} aria-label="World Cup run summary">
+              <div
+                className={styles.winStats}
+                aria-label="World Cup run summary"
+                data-testid="world-cup-victory-stats"
+              >
                 <article>
                   <Play size={19} aria-hidden />
                   <strong>{completedUserFixtures.length}</strong>
@@ -655,6 +693,7 @@ export default function WorldCupRunPage() {
                 src={winImage.src}
                 alt=""
                 className={styles.winPlayer}
+                data-testid="world-cup-victory-art"
                 onError={(event) => {
                   event.currentTarget.style.display = "none";
                 }}
@@ -662,9 +701,12 @@ export default function WorldCupRunPage() {
             </div>
           </section>
         ) : !knockoutView ? (
-          <div className={styles.groupDashboard}>
+          <div className={styles.groupDashboard} data-testid="world-cup-group-dashboard">
             <div className={styles.groupPrimaryRail}>
-              <section className={`${styles.panel} ${styles.nextPanel}`}>
+              <section
+                className={`${styles.panel} ${styles.nextPanel}`}
+                data-testid="world-cup-next-fixture"
+              >
                 <div className={styles.panelTopline}>
                   <span><Zap size={13} /> NEXT FIXTURE</span>
                   <b>{nextFixture ? `MATCHDAY ${nextFixture.matchday}` : "GROUP COMPLETE"}</b>
@@ -729,7 +771,10 @@ export default function WorldCupRunPage() {
                 </div>
               </section>
 
-              <section className={`${styles.panel} ${styles.groupRoadPanel}`}>
+              <section
+                className={`${styles.panel} ${styles.groupRoadPanel}`}
+                data-testid="world-cup-group-road"
+              >
                 <div className={styles.panelTopline}>
                   <span>ROAD TO THE KNOCKOUTS</span>
                   <b>3 GROUP MATCHES</b>
@@ -785,7 +830,10 @@ export default function WorldCupRunPage() {
               </section>
             </div>
 
-            <section className={`${styles.panel} ${styles.standingsPanel}`}>
+            <section
+              className={`${styles.panel} ${styles.standingsPanel}`}
+              data-testid="world-cup-standings"
+            >
               <div className={styles.panelTopline}>
                 <span>GROUP {userGroup.id} · STANDINGS</span>
                 <b>TOP 2 + BEST 3RDS ADVANCE</b>
@@ -1008,11 +1056,23 @@ export default function WorldCupRunPage() {
                 </div>
                 <span><i /> TROPHY XI PATH · FULL BRACKET</span>
               </div>
-              <FullBracket
+              <div className={styles.desktopBracket}>
+                <FullBracket
+                  fixtures={run.fixtures}
+                  teams={teams}
+                  userTeamId={run.userTeamId}
+                  revealedFixtures={revealedFixtures}
+                />
+              </div>
+              <MobileKnockoutBracket
                 fixtures={run.fixtures}
                 teams={teams}
                 userTeamId={run.userTeamId}
-                revealedFixtures={revealedFixtures}
+                currentStage={
+                  displayStage === "complete"
+                    ? "final"
+                    : displayStage as WorldCupRunKnockoutStage
+                }
               />
             </section>
           </div>
@@ -1111,6 +1171,146 @@ const previousKnockoutStage: Partial<
   "semi-final": "quarter-final",
   final: "semi-final",
 };
+
+const knockoutRoundMatchCounts: Record<WorldCupRunKnockoutStage, number> = {
+  "round-of-32": 16,
+  "round-of-16": 8,
+  "quarter-final": 4,
+  "semi-final": 2,
+  final: 1,
+};
+
+function MobileKnockoutBracket({
+  fixtures,
+  teams,
+  userTeamId,
+  currentStage,
+}: {
+  fixtures: WorldCupRunFixture[];
+  teams: Map<string, Team>;
+  userTeamId: string;
+  currentStage: WorldCupRunKnockoutStage;
+}) {
+  const [inspectedStage, setInspectedStage] =
+    useState<WorldCupRunKnockoutStage | null>(null);
+  const selectedStage = inspectedStage ?? currentStage;
+  const currentStageIndex = WORLD_CUP_RUN_KNOCKOUT_STAGES.indexOf(currentStage);
+  const selectedFixtures = fixtures.filter(
+    (fixture) => fixture.stage === selectedStage,
+  );
+  const previousStage = previousKnockoutStage[selectedStage];
+
+  return (
+    <div
+      className={styles.mobileBracketBrowser}
+      data-testid="mobile-knockout-bracket"
+      data-stage={selectedStage}
+    >
+      <nav className={styles.roundNav} aria-label="Browse knockout rounds">
+        {WORLD_CUP_RUN_KNOCKOUT_STAGES.map((stage, index) => {
+          const roundFixtures = fixtures.filter((fixture) => fixture.stage === stage);
+          const complete =
+            index < currentStageIndex ||
+            (roundFixtures.length === knockoutRoundMatchCounts[stage] &&
+              roundFixtures.every((fixture) => Boolean(fixture.result)));
+
+          return (
+            <button
+              key={stage}
+              type="button"
+              aria-pressed={selectedStage === stage}
+              data-complete={complete}
+              data-current={currentStage === stage}
+              data-selected={selectedStage === stage}
+              onClick={() => setInspectedStage(stage)}
+            >
+              <span>{shortStageLabels[stage]}</span>
+              <small>{stageLabels[stage]}</small>
+            </button>
+          );
+        })}
+      </nav>
+
+      <header className={styles.mobileRoundHeading}>
+        <div>
+          <span>SELECTED ROUND</span>
+          <h4>{stageLabels[selectedStage]}</h4>
+        </div>
+        <b>{knockoutRoundMatchCounts[selectedStage]} MATCH{selectedStage === "final" ? "" : "ES"}</b>
+        {selectedStage === "final" && <Trophy size={22} aria-hidden />}
+      </header>
+
+      <div className={styles.mobileRoundMatches}>
+        {Array.from({ length: knockoutRoundMatchCounts[selectedStage] }, (_, index) => {
+          const fixture = selectedFixtures[index];
+          const feeder = index * 2 + 1;
+
+          if (!fixture) {
+            const firstFeederLabel = previousStage
+              ? `Winner ${shortStageLabels[previousStage]} M${feeder}`
+              : `Qualified team ${feeder}`;
+            const secondFeederLabel = previousStage
+              ? `Winner ${shortStageLabels[previousStage]} M${feeder + 1}`
+              : `Qualified team ${feeder + 1}`;
+
+            return (
+              <article
+                key={`${selectedStage}-${index}`}
+                className={styles.mobileKnockoutMatch}
+                data-placeholder="true"
+                data-final={selectedStage === "final"}
+              >
+                <small>MATCH {String(index + 1).padStart(2, "0")} · UPCOMING</small>
+                <div><span>◇</span><strong>{firstFeederLabel}</strong><b>–</b></div>
+                <div><span>◇</span><strong>{secondFeederLabel}</strong><b>–</b></div>
+              </article>
+            );
+          }
+
+          const home = teams.get(fixture.homeTeamId)!;
+          const away = teams.get(fixture.awayTeamId)!;
+          const winner = winnerFor(fixture);
+          const involvesUser = [fixture.homeTeamId, fixture.awayTeamId].includes(userTeamId);
+
+          return (
+            <article
+              key={fixture.id}
+              className={styles.mobileKnockoutMatch}
+              data-complete={Boolean(fixture.result)}
+              data-final={selectedStage === "final"}
+              data-user={involvesUser}
+            >
+              <small>
+                MATCH {String(index + 1).padStart(2, "0")} · {fixture.result ? "FULL TIME" : "UPCOMING"}
+              </small>
+              <div
+                data-user-team={home.id === userTeamId}
+                data-winner={winner === home.id}
+                data-eliminated={Boolean(winner && winner !== home.id)}
+              >
+                <span><TeamMark team={home} /></span>
+                <strong>{home.name}</strong>
+                <b>{fixture.result?.homeGoals ?? "–"}</b>
+              </div>
+              <div
+                data-user-team={away.id === userTeamId}
+                data-winner={winner === away.id}
+                data-eliminated={Boolean(winner && winner !== away.id)}
+              >
+                <span><TeamMark team={away} /></span>
+                <strong>{away.name}</strong>
+                <b>{fixture.result?.awayGoals ?? "–"}</b>
+              </div>
+              {fixture.result?.penalties && (
+                <em>PENALTIES {fixture.result.penalties[0]}–{fixture.result.penalties[1]}</em>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function FullBracket({
   fixtures,

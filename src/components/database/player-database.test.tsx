@@ -4,6 +4,52 @@ import { PlayerDatabase } from "@/components/database/player-database";
 import { draftEligiblePlayers } from "@/data/players";
 
 describe("PlayerDatabase", () => {
+  it("applies mobile filters through the compact sheet and exposes removable chips", () => {
+    render(<PlayerDatabase />);
+
+    fireEvent.click(screen.getByTestId("mobile-filter-toggle"));
+    const filterSheet = screen.getByTestId("mobile-filter-sheet");
+    fireEvent.click(
+      within(filterSheet).getByRole("combobox", {
+        name: "Nation",
+        hidden: true,
+      }),
+    );
+    fireEvent.click(
+      within(filterSheet).getByRole("option", {
+        name: "ARG · Argentina",
+        hidden: true,
+      }),
+    );
+    fireEvent.click(
+      within(filterSheet).getByRole("button", {
+        name: "Apply filters",
+        hidden: true,
+      }),
+    );
+
+    expect(
+      screen.getByRole("button", {
+        name: "Remove Argentina filter",
+        hidden: true,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent(/cards found/i);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Remove Argentina filter",
+        hidden: true,
+      }),
+    );
+    expect(
+      screen.queryByRole("button", {
+        name: "Remove Argentina filter",
+        hidden: true,
+      }),
+    ).not.toBeInTheDocument();
+  });
+
   it("searches the expanded archive and exposes every Messi and Ronaldo version", () => {
     render(<PlayerDatabase />);
 

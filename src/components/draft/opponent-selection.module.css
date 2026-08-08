@@ -1735,3 +1735,506 @@
     translateY(-2px)
     scale(var(--art-selected-scale));
 }
+
+/* Mobile opponent gallery — deliberately isolated below the 768px desktop
+   boundary. The source images, resolver, and desktop card geometry stay intact. */
+@media (max-width: 767px) {
+  .selection {
+    width: 100%;
+    padding-bottom: calc(124px + env(safe-area-inset-bottom));
+  }
+
+  .selection :global(.opponent-selection__heading) {
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .selection :global(.opponent-selection__heading h2) {
+    display: none;
+  }
+
+  .selection :global(.opponent-selection__heading > strong) {
+    align-self: center;
+    padding: 5px 8px;
+  }
+
+  .selection :global(.opponent-featured),
+  .selection :global(.historical-opponents) {
+    margin-top: 9px;
+  }
+
+  .selection :global(.opponent-section-heading) {
+    gap: 5px;
+    margin-bottom: 7px;
+  }
+
+  .selection :global(.opponent-section-heading h3) {
+    margin-top: 3px;
+    font-size: clamp(1.15rem, 5.7vw, 1.45rem);
+  }
+
+  /* Keep the All-Stars challenge distinct without making it a screen-sized
+     prelude to the champion list. */
+  .featuredCard.featuredCard {
+    height: auto;
+    min-height: 220px;
+    padding: 11px 12px;
+  }
+
+  .featuredBody {
+    display: grid;
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "title"
+      "subtitle"
+      "ratings"
+      "manager";
+    gap: 5px;
+  }
+
+  .featuredTitle {
+    min-height: 24px;
+    padding-right: 86px;
+  }
+
+  .subtitle {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0 !important;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .featuredRatings.featuredRatings {
+    margin: 0;
+  }
+
+  .managerProfile {
+    min-height: 0;
+    padding: 7px 8px;
+  }
+
+  .managerHeading {
+    align-items: baseline;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .managerHeading strong {
+    min-width: 0;
+    overflow: hidden;
+    font-size: .61rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .managerMetrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3px;
+    margin: 5px 0 0;
+  }
+
+  .managerMetrics[data-has-era-fit="true"] {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .managerMetrics[data-has-era-fit="true"] > div {
+    grid-column: span 2;
+  }
+
+  .managerMetrics[data-has-era-fit="true"] > div:nth-child(n + 4) {
+    grid-column: span 3;
+  }
+
+  .managerMetrics > div {
+    min-height: 34px;
+    padding: 4px 2px;
+  }
+
+  .managerMetrics dt {
+    display: -webkit-box;
+    min-height: 2.1em;
+    overflow: hidden;
+    font-size: .42rem;
+    line-height: 1.08;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .managerMetrics dd {
+    gap: 2px;
+  }
+
+  .managerMetrics dd b {
+    font-size: .7rem;
+  }
+
+  .managerMetrics dd small {
+    font-size: .41rem;
+  }
+
+  .managerTactics {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    margin-top: 5px;
+    font-size: .42rem;
+    line-height: 1.25;
+  }
+
+  .featuredSelectionMark {
+    top: 13px;
+    right: 12px;
+    min-width: 78px;
+    font-size: .42rem;
+  }
+
+  .championGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .historicalCard {
+    --mobile-art-left: 0%;
+    --mobile-art-scale: 1;
+    --mobile-art-width: 100%;
+    --mobile-art-x: 0px;
+    --mobile-art-y: 0px;
+    --mobile-object-position: center bottom;
+    height: 232px;
+    min-height: 232px;
+    grid-template-columns: minmax(112px, 40%) minmax(0, 60%);
+    contain: layout paint;
+  }
+
+  .championImage {
+    min-height: 232px;
+    overflow: hidden;
+  }
+
+  .championImage::before {
+    inset: 8% -16% -8%;
+  }
+
+  .championImage::after {
+    z-index: 2;
+    background:
+      linear-gradient(0deg, rgba(3, 5, 4, .76) 0%, rgba(3, 5, 4, .12) 23%, transparent 40%),
+      linear-gradient(90deg, transparent 54%, rgba(4, 6, 4, .25) 72%, #050705 100%);
+  }
+
+  .championPlayer {
+    left: var(--mobile-art-left) !important;
+    width: var(--mobile-art-width) !important;
+    max-width: none !important;
+    object-fit: contain;
+    object-position: var(--mobile-object-position);
+    transform:
+      translate3d(var(--mobile-art-x), var(--mobile-art-y), 0)
+      scale(var(--mobile-art-scale)) !important;
+    transform-origin: center bottom;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 74%,
+      rgba(0, 0, 0, .86) 88%,
+      transparent 100%
+    ) !important;
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 74%,
+      rgba(0, 0, 0, .86) 88%,
+      transparent 100%
+    ) !important;
+  }
+
+  .historicalCard:hover:not(:global(.opponent-card--selected)) .championPlayer,
+  .historicalCard:focus-visible:not(:global(.opponent-card--selected)) .championPlayer {
+    transform:
+      translate3d(var(--mobile-art-x), var(--mobile-art-y), 0)
+      scale(var(--mobile-art-scale)) !important;
+  }
+
+  .historicalCard:global(.opponent-card--selected) .championPlayer {
+    transform:
+      translate3d(var(--mobile-art-x), var(--mobile-art-y), 0)
+      scale(var(--mobile-art-scale)) !important;
+    filter:
+      brightness(1.08)
+      saturate(1.1)
+      contrast(1.04)
+      drop-shadow(0 18px 25px rgba(0, 0, 0, .58))
+      drop-shadow(0 0 18px rgba(239, 199, 82, .24));
+  }
+
+  /* Per-source mobile composition. These values alter framing only; they do
+     not alter the presentation mapping or any image asset. */
+  .historicalCard[data-year="2026"] {
+    --mobile-art-scale: 1.02;
+    --mobile-art-y: 3px;
+  }
+
+  .historicalCard[data-year="2022"] {
+    --mobile-art-scale: .94;
+    --mobile-art-y: 4px;
+  }
+
+  .historicalCard[data-year="2018"] {
+    --mobile-art-scale: 1.03;
+    --mobile-art-y: 3px;
+  }
+
+  .historicalCard[data-year="2014"] {
+    --mobile-art-scale: .95;
+    --mobile-art-y: 4px;
+  }
+
+  .historicalCard[data-year="2010"] {
+    --mobile-art-scale: .95;
+    --mobile-art-y: 4px;
+  }
+
+  .historicalCard[data-year="2006"] {
+    --mobile-art-scale: .94;
+    --mobile-art-y: 4px;
+  }
+
+  .historicalCard[data-year="2002"] {
+    --mobile-art-scale: 1.01;
+    --mobile-art-y: 3px;
+  }
+
+  .historicalCard[data-year="1998"] {
+    --mobile-art-scale: 1.08;
+    --mobile-art-x: 3px;
+    --mobile-art-y: 3px;
+  }
+
+  .historicalCard[data-year="1994"] {
+    --mobile-art-scale: .98;
+    --mobile-art-y: 4px;
+  }
+
+  .historicalCard[data-year="1990"] {
+    --mobile-art-scale: 1.1;
+    --mobile-art-x: 3px;
+    --mobile-art-y: 4px;
+  }
+
+  .historicalCard[data-year="1986"] {
+    --mobile-art-scale: 1.02;
+    --mobile-art-y: 4px;
+  }
+
+  .historicalCard[data-year="1982"] {
+    --mobile-art-scale: .94;
+    --mobile-art-y: 5px;
+  }
+
+  .historicalCard[data-year="1978"] {
+    --mobile-art-scale: 1.06;
+    --mobile-art-x: 2px;
+    --mobile-art-y: 4px;
+  }
+
+  .historicalCard[data-year="1974"] {
+    --mobile-art-scale: .92;
+    --mobile-art-y: 7px;
+  }
+
+  .historicalCard[data-year="1970"] {
+    --mobile-art-scale: 1;
+    --mobile-art-y: 4px;
+  }
+
+  .cardContent {
+    padding: 10px 9px 48px 5px;
+    background: linear-gradient(90deg, rgba(5, 7, 5, .58), rgba(4, 6, 4, .84) 12%, rgba(3, 4, 3, .94));
+  }
+
+  .cardContent::before {
+    top: 36px;
+    right: 8%;
+  }
+
+  .championLabel {
+    gap: 3px;
+    margin-top: 7px;
+    font-size: .38rem;
+  }
+
+  .championLabel svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .cardContent h3 {
+    margin: 3px 0 0;
+    font-size: clamp(1.05rem, 5.1vw, 1.28rem);
+    line-height: 1.03;
+  }
+
+  .playerName {
+    overflow: hidden;
+    font-size: .58rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .championBlurb {
+    min-height: 2.55em;
+    margin: 4px 0 5px !important;
+    font-size: .53rem !important;
+    line-height: 1.28;
+    -webkit-line-clamp: 2;
+  }
+
+  .cardTactics {
+    gap: 5px;
+    margin-top: auto;
+  }
+
+  .cardTactics dt {
+    font-size: .34rem;
+  }
+
+  .cardTactics dd {
+    font-size: .47rem;
+  }
+
+  .historicalCard :global(.opponent-card__ratings) {
+    gap: 2px;
+    margin-top: 5px;
+  }
+
+  .historicalCard :global(.opponent-card__ratings span) {
+    min-width: 0;
+    padding: 3px 0;
+    font-size: .32rem;
+  }
+
+  .historicalCard :global(.opponent-card__ratings b) {
+    font-size: .49rem;
+  }
+
+  .viewXi {
+    display: none;
+  }
+
+  .cardSelectionMark {
+    top: 8px;
+    right: auto;
+    bottom: auto;
+    left: 8px;
+    padding: 4px 6px;
+    border: 1px solid rgba(244, 213, 104, .3);
+    border-radius: 999px;
+    background: rgba(4, 6, 4, .78);
+    font-size: .38rem;
+  }
+
+  .cardSelectionMark svg {
+    display: none;
+  }
+
+  .selection :global(.historical-opponents) {
+    padding-bottom: 16px;
+    scroll-padding-bottom: calc(124px + env(safe-area-inset-bottom));
+  }
+
+  /* Sticky mobile action bar. Copy gets its own row, so long opponent names
+     never steal width from either action. */
+  .footer.footer {
+    position: sticky;
+    z-index: 20;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    display: grid;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    box-sizing: border-box;
+    padding:
+      9px
+      max(10px, env(safe-area-inset-right))
+      9px
+      max(10px, env(safe-area-inset-left));
+    overflow: hidden;
+  }
+
+  .footerCopy {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .footerCopy :global(.eyebrow) {
+    white-space: nowrap;
+  }
+
+  .footerCopy b {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    font-size: clamp(.7rem, 3.2vw, .82rem);
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .footerActions {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(82px, .72fr) minmax(0, 1.28fr);
+    gap: 6px;
+  }
+
+  .footerActions > *,
+  .footerActions :global(.button) {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding-inline: clamp(7px, 2.8vw, 13px);
+    overflow: hidden;
+    font-size: clamp(.64rem, 2.7vw, .7rem);
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .footerActions svg {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+  }
+
+  .tunnelButton {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .footerActions > .tunnelButton:first-child {
+    grid-column: 1 / -1;
+  }
+
+  /* Free Selection retains Edit squad. On narrow screens the two secondary
+     controls share a row and the primary CTA receives the full next row. */
+  .footerWithEdit .footerActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footerWithEdit .tunnelButton {
+    grid-column: 1 / -1;
+  }
+}

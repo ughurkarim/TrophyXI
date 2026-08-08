@@ -425,7 +425,9 @@ export default function ResultPage() {
                 className={styles.actionButton}
                 onClick={() => router.replace("/play/world-cup-run")}
               >
-                <Trophy size={16} aria-hidden /> Continue tournament
+                <Trophy size={16} aria-hidden />
+                <span className={styles.desktopActionLabel}>Continue tournament</span>
+                <span className={styles.mobileActionLabel}>View World Cup Run</span>
               </Button>
             ) : (
               <>

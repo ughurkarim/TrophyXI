@@ -76,6 +76,10 @@ export function MatchTimeline({
   const complete = index >= result.events.length - 1;
 
   useEffect(() => {
+    // Keep the desktop broadcast framed, but never lock the mobile document:
+    // Safari must be able to scroll any broadcast content taller than 100dvh.
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+
     const html = document.documentElement;
     const body = document.body;
     const previousHtmlOverflow = html.style.overflow;
@@ -352,7 +356,14 @@ export function MatchTimeline({
                     {winnerSide ? (
                       <>
                         <span className={styles.finalWinnerName}>{finalWinnerName}</span>
-                        {decidedOnPenalties ? " WIN ON PENALTIES" : " WIN THE FINAL"}
+                        <span className={styles.desktopFinalOutcome}>
+                          {decidedOnPenalties ? " WIN ON PENALTIES" : " WIN THE FINAL"}
+                        </span>
+                        <span className={styles.mobileFinalOutcome}>
+                          {winnerSide === "user"
+                            ? " WIN THE WORLD CUP"
+                            : " ARE WORLD CHAMPIONS"}
+                        </span>
                       </>
                     ) : (
                       "THE FINAL ENDS LEVEL"

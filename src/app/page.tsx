@@ -8,6 +8,7 @@ import {
 } from "@/components/landing/how-it-works-step-card";
 import { Footer } from "@/components/navigation/footer";
 import { SiteHeader } from "@/components/navigation/site-header";
+import { MobileLanding } from "@/components/mobile/mobile-landing";
 import { ButtonLink } from "@/components/ui/button";
 import { landingChampions } from "@/data/landing-champions";
 import { players } from "@/data/players";
@@ -48,8 +49,10 @@ const steps = [
 export default function LandingPage() {
   return (
     <>
-      <SiteHeader fixed />
-      <main>
+      <MobileLanding />
+      <div className={styles.desktopLanding} data-testid="desktop-landing">
+        <SiteHeader fixed />
+        <main>
         <section className="hero">
           <HeroShowcase>
             <div className="hero__copy">
@@ -124,8 +127,9 @@ export default function LandingPage() {
         </section>
 
         <FinalChallengeShowcase />
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

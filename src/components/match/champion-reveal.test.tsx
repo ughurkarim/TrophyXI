@@ -44,7 +44,30 @@ const renderReveal = (
 describe("ChampionReveal match transition", () => {
   afterEach(() => {
     motionPreference.reduced = false;
+    vi.restoreAllMocks();
     vi.useRealTimers();
+  });
+
+  it("does not lock document scrolling for the mobile reveal", () => {
+    vi.spyOn(window, "matchMedia").mockImplementation(
+      (query) =>
+        ({
+          matches: query === "(max-width: 767px)",
+          media: query,
+          onchange: null,
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          dispatchEvent: vi.fn(),
+        }) as MediaQueryList,
+    );
+
+    renderReveal();
+
+    expect(document.documentElement.style.overflow).not.toBe("hidden");
+    expect(document.body.style.overflow).not.toBe("hidden");
+    expect(document.body.style.overscrollBehavior).not.toBe("none");
   });
 
   it("runs the broadcast-settle transition before simulation begins", () => {

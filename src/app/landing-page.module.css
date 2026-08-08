@@ -516,3 +516,12 @@
     filter: none;
   }
 }
+.desktopLanding {
+  display: contents;
+}
+
+@media (max-width: 767px) {
+  .desktopLanding {
+    display: none;
+  }
+}

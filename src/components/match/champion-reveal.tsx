@@ -82,6 +82,11 @@ export function ChampionReveal({
   const formation = formationId ? getFormation(formationId) : null;
 
   useEffect(() => {
+    // The desktop reveal is a single-screen cinematic. On phones the dossier
+    // is intentionally taller than the visual viewport and must use normal
+    // document scrolling; locking html/body prevents real Safari touch scroll.
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+
     const html = document.documentElement;
     const body = document.body;
     const previousHtmlOverflow = html.style.overflow;
@@ -189,6 +194,7 @@ export function ChampionReveal({
           <span className={styles.finalKicker}>THE WORLD CUP FINAL</span>
           <motion.div
             className={`versus-mark ${styles.versusMark}`}
+            data-testid="final-versus-mark"
             initial={reduceMotion ? false : { scale: 0.7, opacity: 0 }}
             animate={launching ? { scale: 0.55, opacity: 0 } : { scale: 1, opacity: 1 }}
             transition={{ delay: reduceMotion ? 0 : 0.18, duration: reduceMotion ? 0 : 0.28 }}
@@ -372,6 +378,7 @@ function TeamIdentity({
   return (
     <motion.article
       className={`${styles.team} ${side === "opponent" ? styles.opponent : styles.user}`}
+      data-testid={`${side}-final-team`}
       data-long-name={side === "opponent" && name.length >= 11 ? "true" : "false"}
       animate={{
         opacity: launching ? 0.72 : ready ? 1 : 0.36,

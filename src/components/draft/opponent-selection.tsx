@@ -42,6 +42,7 @@ export function OpponentSelection({
     <section
       className={`opponent-selection ${styles.selection}`}
       aria-labelledby="opponent-heading"
+      data-testid="opponent-selection"
     >
       <div className="opponent-selection__heading">
         <div>
@@ -96,6 +97,7 @@ export function OpponentSelection({
               <dl
                 className={styles.managerMetrics}
                 aria-label={`${allStarsManager.managerName} manager profile`}
+                data-has-era-fit={eraId !== "all"}
               >
                 {[
                   { label: "OFF", value: allStarsManager.grades.offense },
@@ -168,10 +170,15 @@ export function OpponentSelection({
         </div>
       </section>
 
-      <div className={`opponent-selection__continue ${styles.footer}`}>
+      <div
+        className={`opponent-selection__continue ${styles.footer} ${
+          onEditSquad ? styles.footerWithEdit : ""
+        }`}
+        data-testid="opponent-action-bar"
+      >
         <div className={styles.footerCopy} aria-live="polite">
           <span className="eyebrow">SELECTED OPPONENT</span>
-          <b>
+          <b data-testid="selected-opponent-name">
             {selected?.kind === "all-stars"
               ? "World Cup All-Stars · Mythic"
               : selected
@@ -179,11 +186,12 @@ export function OpponentSelection({
                 : "Choose one opponent"}
           </b>
         </div>
-        <div className={styles.footerActions}>
+        <div className={styles.footerActions} data-testid="opponent-actions">
           {selected && (
             <Button
               variant="secondary"
               onClick={() => setViewingSquad(selected)}
+              data-testid="footer-view-xi"
             >
               <Eye size={15} aria-hidden /> View XI
             </Button>
@@ -197,6 +205,7 @@ export function OpponentSelection({
             className={styles.tunnelButton}
             onClick={onContinue}
             disabled={!selected}
+            data-testid="enter-tunnel"
           >
             Enter the tunnel <Swords size={16} aria-hidden />
           </Button>
@@ -281,6 +290,8 @@ function OpponentCard({
       tabIndex={0}
       aria-pressed={selected}
       aria-label={`Select ${opponent.nationName} ${opponent.tournamentYear}, ${opponent.difficulty} difficulty`}
+      data-testid={`champion-card-${opponent.tournamentYear}`}
+      data-year={opponent.tournamentYear}
       onClick={onSelect}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -289,7 +300,11 @@ function OpponentCard({
         }
       }}
     >
-      <div className={styles.championImage} aria-hidden>
+      <div
+        className={styles.championImage}
+        aria-hidden
+        data-testid={`champion-art-${opponent.tournamentYear}`}
+      >
         {hasImage && presentation?.image ? (
           <Image
             src={presentation.image}

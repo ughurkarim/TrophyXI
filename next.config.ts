@@ -1,10 +1,26 @@
 import { withSentryConfig } from "@sentry/nextjs";
+import { hostname, networkInterfaces } from "node:os";
 import type { NextConfig } from "next";
+
+const localDevOrigins = Array.from(
+  new Set([
+    "127.0.0.1",
+    hostname(),
+    ...Object.values(networkInterfaces()).flatMap((addresses) =>
+      (addresses ?? [])
+        .filter((address) => !address.internal)
+        .map((address) => address.address),
+    ),
+  ]),
+);
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  allowedDevOrigins: ["127.0.0.1"],
+  // Next protects its development-only assets and HMR socket by Origin. Keep
+  // that protection while allowing the machine's current LAN addresses, which
+  // are recomputed whenever the dev server starts.
+  allowedDevOrigins: localDevOrigins,
   outputFileTracingIncludes: {
     "/assets/managers/[filename]": ["./assets/managers/*.png"],
     "/assets/opponent/[filename]": ["./assets/players/opponent/*.png"],

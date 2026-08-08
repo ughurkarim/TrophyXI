@@ -20,8 +20,21 @@
   );
 }
 
-@media (max-width: 720px) {
+@media (max-width: 767px) {
   .page {
-    padding-top: 104px;
+    padding-top: calc(76px + env(safe-area-inset-top));
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow: clip;
+  }
+
+  .page:has(:global(.drawer-backdrop)),
+  .page:has([data-testid="mobile-filter-sheet"]) {
+    z-index: 40;
+    overflow: visible;
+  }
+
+  .header :global(.site-header__inner) {
+    min-height: calc(64px + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
   }
 }

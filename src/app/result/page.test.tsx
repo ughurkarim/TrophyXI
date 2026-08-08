@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import ResultPage from "@/app/result/page";
 import { getFormation } from "@/data/formations";
@@ -119,6 +119,17 @@ describe("ResultPage", () => {
     expect(
       within(screen.getByTestId("match-report")).queryByText(/\bseed\b/i),
     ).not.toBeInTheDocument();
+  });
+
+  it("offers completed World Cup runs a mobile view action without changing its destination", () => {
+    useGameStore.setState({ gameMode: "world-cup-run" });
+    render(<ResultPage />);
+
+    expect(screen.getByText("Continue tournament")).toBeInTheDocument();
+    const mobileLabel = screen.getByText("View World Cup Run");
+    expect(mobileLabel).toBeInTheDocument();
+    fireEvent.click(mobileLabel.closest("button")!);
+    expect(router.replace).toHaveBeenCalledWith("/play/world-cup-run");
   });
 
   it("shows the compact report, two XIs, contributions, timeline, and share recap", () => {

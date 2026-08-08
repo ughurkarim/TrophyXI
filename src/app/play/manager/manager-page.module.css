@@ -6,6 +6,14 @@
   overflow: hidden;
 }
 
+.mobileManagerScreen {
+  display: none;
+}
+
+.desktopRespinDialog {
+  display: grid;
+}
+
 .managerScreen {
   display: grid;
   width: min(100%, 1280px);
@@ -266,5 +274,395 @@
   .respinActions :global(.respin-counter),
   .disabledCounter {
     width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktopRespinDialog {
+    display: none;
+  }
+
+  .desktopManagerScreen {
+    display: none;
+  }
+
+  .main {
+    height: auto;
+    min-height: calc(
+      100dvh - 64px - 84px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    padding: 14px 0 0;
+    overflow: visible;
+  }
+
+  .mobileManagerScreen {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    min-height: calc(
+      100dvh - 64px - 84px - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    flex-direction: column;
+  }
+
+  .mobileIntro {
+    padding: 0 2px 9px;
+  }
+
+  .mobileIntro p,
+  .mobileIntro > span,
+  .mobileManagerMeta,
+  .mobileManagerStyle,
+  .mobileManagerFormations,
+  .mobileManagerGrades small,
+  .mobileManagerAction small {
+    font-family: var(--font-mono), monospace;
+    text-transform: uppercase;
+  }
+
+  .mobileIntro p {
+    margin: 0 0 6px;
+    color: var(--gold-bright);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .mobileIntro h1 {
+    margin: 0 0 6px;
+    font-size: clamp(2.05rem, 9.2vw, 2.72rem);
+    letter-spacing: -0.065em;
+    line-height: 0.95;
+  }
+
+  .mobileIntro > span {
+    color: #909a93;
+    font-size: 0.55rem;
+    letter-spacing: 0.04em;
+  }
+
+  .mobileManagerList {
+    display: grid;
+    min-height: 0;
+    align-content: space-between;
+    gap: clamp(6px, 1dvh, 9px);
+    padding: 2px 0 calc(76px + env(safe-area-inset-bottom));
+    flex: 1;
+  }
+
+  .mobileManager {
+    position: relative;
+    display: grid;
+    width: 100%;
+    height: clamp(132px, 18dvh, 160px);
+    min-height: 132px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 241, 184, 0.09);
+    border-left: 3px solid rgba(231, 189, 77, 0.2);
+    border-radius: 15px;
+    background:
+      radial-gradient(circle at 14% 48%, rgba(66, 127, 91, 0.1), transparent 33%),
+      linear-gradient(108deg, rgba(14, 19, 16, 0.99), rgba(5, 8, 6, 0.995) 70%);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
+    transition: border-color 180ms ease, background 180ms ease, box-shadow 200ms ease, filter 180ms ease;
+  }
+
+  .mobileManager[data-selected="true"] {
+    border-color: rgba(255, 226, 117, 0.94);
+    border-left-color: var(--gold-bright);
+    background:
+      radial-gradient(circle at 14% 48%, rgba(231, 189, 77, 0.2), transparent 40%),
+      linear-gradient(108deg, rgba(34, 34, 20, 0.995), rgba(8, 11, 8, 0.995) 72%);
+    box-shadow:
+      0 0 0 1px rgba(244, 216, 107, 0.1),
+      0 0 34px rgba(231, 189, 77, 0.18),
+      0 15px 32px rgba(0, 0, 0, 0.42),
+      inset 0 1px rgba(255, 248, 213, 0.06);
+    filter: brightness(1.035);
+  }
+
+  .mobileManagerSelect {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    align-items: center;
+    grid-template-columns: clamp(72px, 22vw, 92px) minmax(0, 1fr) clamp(72px, 22vw, 92px);
+    gap: clamp(6px, 1.8vw, 9px);
+    padding: 7px 8px;
+    color: var(--white);
+    border: 0;
+    text-align: left;
+    background: transparent;
+  }
+
+  .mobileManagerLead {
+    display: grid;
+    min-width: 0;
+    place-items: center;
+    align-content: center;
+    gap: 3px;
+  }
+
+  .mobileManagerMeta {
+    color: var(--gold-muted);
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
+  }
+
+  .mobileManager :global(.circular-portrait) {
+    --portrait-size: clamp(70px, 21vw, 88px);
+    margin: 0;
+    opacity: 0.76;
+    filter: grayscale(0.8) saturate(0.35) brightness(0.7) contrast(1.08);
+    transition: filter 180ms ease, opacity 180ms ease;
+  }
+
+  .mobileManager[data-selected="true"] :global(.circular-portrait) {
+    opacity: 1;
+    filter:
+      grayscale(0)
+      saturate(1.18)
+      brightness(1.05)
+      drop-shadow(0 10px 16px rgba(0, 0, 0, 0.46))
+      drop-shadow(0 0 11px rgba(244, 216, 107, 0.34));
+  }
+
+  .mobileManagerCopy {
+    display: grid;
+    min-width: 0;
+    align-self: stretch;
+    align-content: start;
+    gap: 2px;
+    padding: clamp(8px, 1.6dvh, 13px) 0 43px;
+  }
+
+  .mobileManagerCopy > strong {
+    display: -webkit-box;
+    overflow: hidden;
+    font-family: var(--font-display), sans-serif;
+    font-size: clamp(0.9rem, 4vw, 1.08rem);
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .mobileManagerStyle {
+    color: var(--gold-bright);
+    font-size: clamp(0.4rem, 1.7vw, 0.48rem);
+    letter-spacing: 0.055em;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .mobileManagerFormations {
+    overflow: hidden;
+    color: #b7b29e;
+    font-size: clamp(0.44rem, 1.75vw, 0.5rem);
+    letter-spacing: 0.025em;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileManagerFormations small {
+    color: var(--gold-muted);
+    font-size: inherit;
+  }
+
+  .mobileManager blockquote {
+    overflow: hidden;
+    margin: 2px 0 0;
+    color: #929c95;
+    font-size: clamp(0.55rem, 2.25vw, 0.64rem);
+    font-style: normal;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileManagerGrades {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: center;
+    padding-left: 6px;
+    border-left: 1px solid rgba(255, 255, 255, 0.075);
+  }
+
+  .mobileManagerEraFit {
+    display: flex;
+    min-height: 28px;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid rgba(244, 216, 107, 0.12);
+  }
+
+  .mobileManagerGrades > span:not(.mobileManagerEraFit) {
+    display: grid;
+    min-height: 29px;
+    place-items: center;
+    align-content: center;
+    gap: 3px;
+  }
+
+  .mobileManagerGrades small {
+    color: #a7aea9;
+    font-size: clamp(0.45rem, 1.7vw, 0.5rem);
+    font-weight: 700;
+    letter-spacing: 0.055em;
+  }
+
+  .mobileManagerGrades b {
+    color: var(--gold-bright);
+    font-size: clamp(0.68rem, 2.7vw, 0.78rem);
+  }
+
+  .mobileManagerEraFit small {
+    color: #d2c9aa;
+  }
+
+  .mobileManagerEraFit b {
+    font-size: clamp(0.84rem, 3.5vw, 0.96rem);
+  }
+
+  .mobileProfile {
+    position: absolute;
+    z-index: 2;
+    bottom: 3px;
+    left: calc(8px + clamp(72px, 22vw, 92px) + clamp(6px, 1.8vw, 9px));
+    display: flex;
+    width: max-content;
+    min-height: 44px;
+    align-items: center;
+    gap: 5px;
+    padding: 0 5px;
+    color: #aeb7b0;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-mono), monospace;
+    font-size: 0.47rem;
+    letter-spacing: 0.065em;
+    text-transform: uppercase;
+  }
+
+  .mobileProfile:focus-visible {
+    outline: 1px solid rgba(244, 216, 107, 0.72);
+    outline-offset: -3px;
+  }
+
+  .mobileManagerAction {
+    position: fixed;
+    z-index: 110;
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(78px + env(safe-area-inset-bottom));
+    left: max(12px, env(safe-area-inset-left));
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    padding: 9px;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 241, 184, 0.15);
+    border-radius: 16px;
+    background: rgba(7, 10, 8, 0.96);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobileManagerAction > button:first-child {
+    display: flex;
+    min-width: 48px;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 3px;
+    color: var(--gold-bright);
+    border: 1px solid rgba(231, 189, 77, 0.26);
+    border-radius: 12px;
+    flex-direction: column;
+    background: rgba(231, 189, 77, 0.055);
+    font-family: var(--font-mono), monospace;
+    font-size: 0.42rem;
+    text-transform: uppercase;
+  }
+
+  .mobileManagerAction > button:first-child:disabled {
+    color: #555e58;
+  }
+
+  .mobileManagerAction > span {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+  }
+
+  .mobileManagerAction small {
+    overflow: hidden;
+    color: #727b74;
+    font-size: 0.43rem;
+    letter-spacing: 0.05em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileManagerAction strong {
+    overflow: hidden;
+    color: var(--gold-bright);
+    font-size: 0.7rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileManagerAction :global(.button) {
+    min-width: 120px;
+    min-height: 48px;
+    padding-inline: 12px;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 720px) {
+  .main {
+    padding-top: 10px;
+  }
+
+  .mobileIntro {
+    padding-bottom: 7px;
+  }
+
+  .mobileIntro p,
+  .mobileIntro h1 {
+    margin-bottom: 4px;
+  }
+
+  .mobileManager {
+    height: 130px;
+    min-height: 130px;
+  }
+
+  .mobileManagerCopy {
+    padding-top: 7px;
+  }
+}
+
+@media (max-width: 350px) {
+  .mobileManagerAction {
+    right: max(9px, env(safe-area-inset-right));
+    left: max(9px, env(safe-area-inset-left));
+    grid-template-columns: 46px minmax(0, 1fr) auto;
+    gap: 6px;
+    padding: 7px;
+  }
+
+  .mobileManagerAction :global(.button) {
+    min-width: 108px;
+    padding-inline: 8px;
   }
 }

@@ -28,6 +28,7 @@ import {
 import { OpponentSelection } from "@/components/draft/opponent-selection";
 import { TeamRatings } from "@/components/draft/team-ratings";
 import { TacticalPitch } from "@/components/pitch/tactical-pitch";
+import { MobileRespinDialog } from "@/components/mobile/mobile-respin-dialog";
 import { Button } from "@/components/ui/button";
 import { calculateEraFitDetails, getDraftEra } from "@/data/eras";
 import { getFormation } from "@/data/formations";
@@ -496,7 +497,7 @@ export function DraftBoard() {
                   benchPicks.find((pick) => pick.slotId === slotId)?.cardId ?? "",
                 );
                 return (
-                  <div key={slotId}>
+                  <div key={slotId} data-filled={Boolean(player)}>
                     <span>BENCH {index + 1}</span>
                     <b>{player?.playerName ?? "Open"}</b>
                   </div>
@@ -538,13 +539,25 @@ export function DraftBoard() {
             ) : (
               <>
                 <div
-                  className={`draft-choices__heading ${styles.choiceHeadingRow}`}
+                  className={`draft-choices__heading ${styles.choiceHeadingRow} ${styles.benchChoiceHeading}`}
                 >
                   <div>
-                    <span className="eyebrow eyebrow--gold">
+                    <span
+                      className={`eyebrow eyebrow--gold ${styles.desktopBenchHeading}`}
+                    >
                       BENCH SPIN / 05 · ROUND {benchPicks.length + 1}
                     </span>
-                    <h2>Choose a tactical alternative</h2>
+                    <h2 className={styles.desktopBenchHeading}>
+                      Choose a tactical alternative
+                    </h2>
+                    <span className={styles.mobileBenchHeading}>
+                      BENCH {benchPicks.length + 1}
+                    </span>
+                    <h2 className={styles.mobileBenchHeading}>
+                      Choose your{" "}
+                      {(["first", "second", "third"] as const)[benchPicks.length]}{" "}
+                      substitute.
+                    </h2>
                   </div>
                   <RespinRow
                     canRespin={canRespin}
@@ -678,43 +691,55 @@ export function DraftBoard() {
       )}
 
       {showRespin && (
-        <div className="dialog-backdrop" role="presentation">
+        <>
           <div
-            className="dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="respin-title"
+            className={`dialog-backdrop ${styles.desktopPlayerRespinDialog}`}
+            role="presentation"
           >
-            <span className="eyebrow eyebrow--gold">
-              {respinLabel(respinsRemaining)}
-            </span>
-            <h2 id="respin-title">Reject all five player cards?</h2>
-            <p>
-              All five choices will be replaced. The current round and your
-              other respins remain unchanged.
-            </p>
-            <div className="dialog__actions">
-              <Button
-                variant="secondary"
-                onClick={() => setShowRespin(false)}
-                autoFocus
-              >
-                Keep options
-              </Button>
-              <Button
-                onClick={() => {
-                  respinPlayers();
-                  setShowRespin(false);
-                }}
-              >
-                Confirm player respin
-              </Button>
+            <div
+              className="dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="respin-title"
+            >
+              <span className="eyebrow eyebrow--gold">
+                {respinLabel(respinsRemaining)}
+              </span>
+              <h2 id="respin-title">Reject all five player cards?</h2>
+              <p>
+                All five choices will be replaced. The current round and your
+                other respins remain unchanged.
+              </p>
+              <div className="dialog__actions">
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowRespin(false)}
+                  autoFocus
+                >
+                  Keep options
+                </Button>
+                <Button
+                  onClick={() => {
+                    respinPlayers();
+                    setShowRespin(false);
+                  }}
+                >
+                  Confirm player respin
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+          <MobileRespinDialog
+            kind="player"
+            remaining={respinsRemaining}
+            onCancel={() => setShowRespin(false)}
+            onConfirm={() => {
+              respinPlayers();
+              setShowRespin(false);
+            }}
+          />
+        </>
       )}
-
-
 
       {inspected && (
         <PlayerDetails

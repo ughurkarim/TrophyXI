@@ -1,6 +1,13 @@
 "use client";
 
-import { Check, ChevronDown, Grid3X3, Search, X } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  Grid3X3,
+  Search,
+  SlidersHorizontal,
+  X,
+} from "lucide-react";
 import type {
   KeyboardEvent as ReactKeyboardEvent,
   OptionHTMLAttributes,
@@ -25,6 +32,26 @@ import type { PlayerTournamentCard } from "@/types/game";
 import styles from "./player-database.module.css";
 
 const PAGE_SIZE = 50;
+
+const ratingRanges = [
+  "95-99",
+  "90-94",
+  "85-89",
+  "80-84",
+  "75-79",
+  "70-74",
+  "65-69",
+];
+const statusTiers = [
+  "legend",
+  "icon",
+  "elite",
+  "standout",
+  "reliable",
+  "role-player",
+  "limited",
+];
+const eras = ["1970s", "1980s", "1990s", "2000s", "2010s", "2020s"];
 
 type SortId = "rating" | "name" | "newest" | "oldest";
 
@@ -55,6 +82,7 @@ export function PlayerDatabase() {
   const [era, setEra] = useState("");
   const [sort, setSort] = useState<SortId>("rating");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [inspected, setInspected] =
     useState<PlayerTournamentCard | null>(null);
 
@@ -132,10 +160,82 @@ export function PlayerDatabase() {
     setVisibleCount(PAGE_SIZE);
   };
 
+  useEffect(() => {
+    if (!filtersOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setFiltersOpen(false);
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [filtersOpen]);
+
+  const clearAllFilters = () => {
+    setNation("");
+    setYear("");
+    setPosition("");
+    setRating("");
+    setTier("");
+    setEra("");
+    setVisibleCount(PAGE_SIZE);
+  };
+
+  const activeFilters: Array<{
+    key: string;
+    label: string;
+    clear: () => void;
+  }> = [];
+  if (nation) {
+    const nationName = nations
+      .find((entry) => entry.startsWith(`${nation}|`))
+      ?.split("|")[1];
+    activeFilters.push({
+      key: "nation",
+      label: nationName ?? nation,
+      clear: () => updateFilter(setNation, ""),
+    });
+  }
+  if (year) {
+    activeFilters.push({
+      key: "year",
+      label: year,
+      clear: () => updateFilter(setYear, ""),
+    });
+  }
+  if (position) {
+    activeFilters.push({
+      key: "position",
+      label: position,
+      clear: () => updateFilter(setPosition, ""),
+    });
+  }
+  if (rating) {
+    activeFilters.push({
+      key: "rating",
+      label: `Rating ${rating}`,
+      clear: () => updateFilter(setRating, ""),
+    });
+  }
+  if (tier) {
+    activeFilters.push({
+      key: "tier",
+      label: tier.replace("-", " "),
+      clear: () => updateFilter(setTier, ""),
+    });
+  }
+  if (era) {
+    activeFilters.push({
+      key: "era",
+      label: era,
+      clear: () => updateFilter(setEra, ""),
+    });
+  }
+
   return (
     <>
       <section className={styles.shell} aria-labelledby="database-title">
-        <header className={styles.hero}>
+        <header className={styles.hero} data-testid="database-hero">
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}>THE COMPLETE CARD ARCHIVE</p>
             <h1 id="database-title" aria-label="Player Database">
@@ -145,7 +245,11 @@ export function PlayerDatabase() {
           </div>
 
           <div className={styles.archiveVisual}>
-            <div className={styles.metrics} aria-label="Archive totals">
+            <div
+              className={styles.metrics}
+              aria-label="Archive totals"
+              data-testid="archive-summary"
+            >
               <div className={styles.metric}>
                 <span>Cards</span>
                 <strong>{draftEligiblePlayers.length}</strong>
@@ -163,7 +267,7 @@ export function PlayerDatabase() {
           </div>
         </header>
 
-        <div className={styles.filters}>
+        <div className={styles.filters} data-testid="database-controls">
           <label className={styles.searchField}>
             <span>Search</span>
             <div>
@@ -188,111 +292,152 @@ export function PlayerDatabase() {
             </div>
           </label>
 
-          <DatabaseSelect
-            label="Nation"
-            value={nation}
-            onChange={(value) => updateFilter(setNation, value)}
-          >
-            <option value="">All nations</option>
-            {nations.map((entry) => {
-              const [code, name] = entry.split("|");
-              return (
-                <option key={code} value={code}>
-                  {code} · {name}
+          <div className={styles.desktopFilterFields}>
+            <DatabaseSelect
+              label="Nation"
+              value={nation}
+              onChange={(value) => updateFilter(setNation, value)}
+            >
+              <option value="">All nations</option>
+              {nations.map((entry) => {
+                const [code, name] = entry.split("|");
+                return (
+                  <option key={code} value={code}>
+                    {code} · {name}
+                  </option>
+                );
+              })}
+            </DatabaseSelect>
+
+            <DatabaseSelect
+              label="Year"
+              value={year}
+              onChange={(value) => updateFilter(setYear, value)}
+            >
+              <option value="">All years</option>
+              {years.map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </DatabaseSelect>
+
+            <DatabaseSelect
+              label="Position"
+              value={position}
+              onChange={(value) => updateFilter(setPosition, value)}
+            >
+              <option value="">All positions</option>
+              {positions.map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </DatabaseSelect>
+
+            <DatabaseSelect
+              label="Rating"
+              value={rating}
+              onChange={(value) => updateFilter(setRating, value)}
+            >
+              <option value="">All ratings</option>
+              {ratingRanges.map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </DatabaseSelect>
+
+            <DatabaseSelect
+              label="Tier"
+              value={tier}
+              onChange={(value) => updateFilter(setTier, value)}
+            >
+              <option value="">All tiers</option>
+              {statusTiers.map((value) => (
+                <option key={value} value={value}>
+                  {value.replace("-", " ")}
                 </option>
-              );
-            })}
-          </DatabaseSelect>
+              ))}
+            </DatabaseSelect>
 
-          <DatabaseSelect
-            label="Year"
-            value={year}
-            onChange={(value) => updateFilter(setYear, value)}
-          >
-            <option value="">All years</option>
-            {years.map((value) => (
-              <option key={value}>{value}</option>
-            ))}
-          </DatabaseSelect>
+            <DatabaseSelect
+              label="Era"
+              value={era}
+              onChange={(value) => updateFilter(setEra, value)}
+            >
+              <option value="">All eras</option>
+              {eras.map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </DatabaseSelect>
 
-          <DatabaseSelect
-            label="Position"
-            value={position}
-            onChange={(value) => updateFilter(setPosition, value)}
-          >
-            <option value="">All positions</option>
-            {positions.map((value) => (
-              <option key={value}>{value}</option>
-            ))}
-          </DatabaseSelect>
+            <DatabaseSelect
+              label="Sort by"
+              value={sort}
+              onChange={(value) => {
+                setSort(value as SortId);
+                setVisibleCount(PAGE_SIZE);
+              }}
+            >
+              <option value="rating">Rating</option>
+              <option value="name">Name</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </DatabaseSelect>
+          </div>
 
-          <DatabaseSelect
-            label="Rating"
-            value={rating}
-            onChange={(value) => updateFilter(setRating, value)}
-          >
-            <option value="">All ratings</option>
-            {[
-              "95-99",
-              "90-94",
-              "85-89",
-              "80-84",
-              "75-79",
-              "70-74",
-              "65-69",
-            ].map((value) => (
-              <option key={value}>{value}</option>
-            ))}
-          </DatabaseSelect>
+          <div className={styles.mobileControlRow}>
+            <button
+              type="button"
+              className={styles.filterToggle}
+              data-testid="mobile-filter-toggle"
+              aria-expanded={filtersOpen}
+              aria-controls="mobile-database-filters"
+              onClick={() => setFiltersOpen(true)}
+            >
+              <SlidersHorizontal size={15} aria-hidden />
+              Filters
+              {activeFilters.length > 0 && (
+                <b aria-label={`${activeFilters.length} active filters`}>
+                  {activeFilters.length}
+                </b>
+              )}
+            </button>
+            <DatabaseSelect
+              label="Sort by"
+              value={sort}
+              valuePrefix="Sort:"
+              className={styles.mobileSort}
+              onChange={(value) => {
+                setSort(value as SortId);
+                setVisibleCount(PAGE_SIZE);
+              }}
+            >
+              <option value="rating">Rating</option>
+              <option value="name">Name</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </DatabaseSelect>
+          </div>
 
-          <DatabaseSelect
-            label="Tier"
-            value={tier}
-            onChange={(value) => updateFilter(setTier, value)}
-          >
-            <option value="">All tiers</option>
-            {[
-              "legend",
-              "icon",
-              "elite",
-              "standout",
-              "reliable",
-              "role-player",
-              "limited",
-            ].map((value) => (
-              <option key={value} value={value}>
-                {value.replace("-", " ")}
-              </option>
-            ))}
-          </DatabaseSelect>
-
-          <DatabaseSelect
-            label="Era"
-            value={era}
-            onChange={(value) => updateFilter(setEra, value)}
-          >
-            <option value="">All eras</option>
-            {["1970s", "1980s", "1990s", "2000s", "2010s", "2020s"].map(
-              (value) => <option key={value}>{value}</option>,
-            )}
-          </DatabaseSelect>
-
-          <DatabaseSelect
-            label="Sort by"
-            value={sort}
-            onChange={(value) => {
-              setSort(value as SortId);
-              setVisibleCount(PAGE_SIZE);
-            }}
-          >
-            <option value="rating">Rating</option>
-            <option value="name">Name</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-          </DatabaseSelect>
+          {activeFilters.length > 0 && (
+            <div className={styles.activeChips} aria-label="Active filters">
+              {activeFilters.map((filter) => (
+                <button
+                  type="button"
+                  key={filter.key}
+                  onClick={filter.clear}
+                  aria-label={`Remove ${filter.label} filter`}
+                >
+                  <span>{filter.label}</span>
+                  <X size={12} aria-hidden />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className={styles.resultsHeading} role="status" aria-live="polite">
+        <div
+          className={styles.resultsHeading}
+          role="status"
+          aria-live="polite"
+          data-testid="database-results-heading"
+        >
           <span>
             <Grid3X3 size={15} aria-hidden /> {filtered.length} cards found
           </span>
@@ -301,12 +446,13 @@ export function PlayerDatabase() {
           </small>
         </div>
 
-        <div className={styles.grid}>
+        <div className={styles.grid} data-testid="database-grid">
           {visible.map((player) => (
             <button
               type="button"
               className={styles.card}
               data-tier={player.statusTier}
+              data-testid="database-card"
               key={player.id}
               onClick={() => setInspected(player)}
               aria-label={`View ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`}
@@ -364,6 +510,123 @@ export function PlayerDatabase() {
         )}
       </section>
 
+      {filtersOpen && (
+        <div
+          className={styles.filterBackdrop}
+          role="presentation"
+          onMouseDown={() => setFiltersOpen(false)}
+        >
+          <section
+            id="mobile-database-filters"
+            className={styles.filterSheet}
+            data-testid="mobile-filter-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-filter-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <header className={styles.filterSheetHeader}>
+              <div>
+                <span>THE CARD ARCHIVE</span>
+                <h2 id="mobile-filter-title">Filter players</h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFiltersOpen(false)}
+                aria-label="Close filter panel"
+                autoFocus
+              >
+                <X size={18} aria-hidden />
+              </button>
+            </header>
+
+            <div className={styles.filterSheetFields}>
+              <DatabaseSelect
+                label="Nation"
+                value={nation}
+                onChange={(value) => updateFilter(setNation, value)}
+              >
+                <option value="">All nations</option>
+                {nations.map((entry) => {
+                  const [code, name] = entry.split("|");
+                  return (
+                    <option key={code} value={code}>
+                      {code} · {name}
+                    </option>
+                  );
+                })}
+              </DatabaseSelect>
+
+              <DatabaseSelect
+                label="Year"
+                value={year}
+                onChange={(value) => updateFilter(setYear, value)}
+              >
+                <option value="">All years</option>
+                {years.map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
+              </DatabaseSelect>
+
+              <DatabaseSelect
+                label="Position"
+                value={position}
+                onChange={(value) => updateFilter(setPosition, value)}
+              >
+                <option value="">All positions</option>
+                {positions.map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
+              </DatabaseSelect>
+
+              <DatabaseSelect
+                label="Era"
+                value={era}
+                onChange={(value) => updateFilter(setEra, value)}
+              >
+                <option value="">All eras</option>
+                {eras.map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
+              </DatabaseSelect>
+
+              <DatabaseSelect
+                label="Rating"
+                value={rating}
+                onChange={(value) => updateFilter(setRating, value)}
+              >
+                <option value="">All ratings</option>
+                {ratingRanges.map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
+              </DatabaseSelect>
+
+              <DatabaseSelect
+                label="Tier"
+                value={tier}
+                onChange={(value) => updateFilter(setTier, value)}
+              >
+                <option value="">All tiers</option>
+                {statusTiers.map((value) => (
+                  <option key={value} value={value}>
+                    {value.replace("-", " ")}
+                  </option>
+                ))}
+              </DatabaseSelect>
+            </div>
+
+            <footer className={styles.filterSheetActions}>
+              <Button onClick={() => setFiltersOpen(false)}>
+                Apply filters
+              </Button>
+              <button type="button" onClick={clearAllFilters}>
+                Clear all
+              </button>
+            </footer>
+          </section>
+        </div>
+      )}
+
       {inspected && (
         <PlayerDetails
           player={inspected}
@@ -379,11 +642,15 @@ function DatabaseSelect({
   value,
   onChange,
   children,
+  className,
+  valuePrefix,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   children: ReactNode;
+  className?: string;
+  valuePrefix?: string;
 }) {
   const [open, setOpen] = useState(false);
   const labelId = useId();
@@ -465,7 +732,10 @@ function DatabaseSelect({
   };
 
   return (
-    <div className={styles.selectField} ref={rootRef}>
+    <div
+      className={`${styles.selectField}${className ? ` ${className}` : ""}`}
+      ref={rootRef}
+    >
       <span id={labelId}>{label}</span>
       <button
         ref={triggerRef}
@@ -484,7 +754,10 @@ function DatabaseSelect({
           }
         }}
       >
-        <span>{selected?.label ?? label}</span>
+        <span>
+          {valuePrefix ? `${valuePrefix} ` : ""}
+          {selected?.label ?? label}
+        </span>
         <ChevronDown size={16} aria-hidden />
       </button>
 

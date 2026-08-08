@@ -3478,6 +3478,10 @@
   text-transform: none;
 }
 
+.mobileEndgameCopy {
+  display: none;
+}
+
 .lossState h2 {
   color: #f0eee7;
   font-size: clamp(2.6rem, 4.7vw, 5.4rem);
@@ -5224,4 +5228,1348 @@
   outline: 0 !important;
   box-shadow: none !important;
   background: none !important;
+}
+
+/* ==========================================================================
+   WORLD CUP RUN ENTRY — MOBILE CINEMATIC COMPOSITION
+   Keep the desktop launch untouched. On phones, the shared header and launch
+   together form one dynamic-viewport screen, with the CTA anchored inside the
+   launch's bottom safe-area padding. The trophy remains part of backgroundwc.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .launchShell {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  .launch {
+    align-items: stretch;
+    display: block;
+    height: calc(100dvh - 64px - env(safe-area-inset-top));
+    max-height: calc(100dvh - 64px - env(safe-area-inset-top));
+    min-height: calc(100dvh - 64px - env(safe-area-inset-top)) !important;
+    overflow: hidden;
+    padding:
+      clamp(16px, 2.8dvh, 24px)
+      max(16px, env(safe-area-inset-right))
+      calc(14px + env(safe-area-inset-bottom))
+      max(16px, env(safe-area-inset-left));
+    width: 100%;
+  }
+
+  /* The clean layer uses the source image's wide aspect ratio. Scaling it by
+     viewport height and positioning at 80% keeps the full trophy silhouette
+     inside every supported phone width while retaining its right-side stance. */
+  .launch::after {
+    background-position: 80% 58%;
+    background-size: auto clamp(420px, 62dvh, 580px);
+    opacity: 0.84;
+  }
+
+  .launch::before {
+    background-position: 64% center;
+    filter: blur(16px) brightness(0.34) saturate(0.72);
+    opacity: 0.34;
+  }
+
+  .launchBackdrop {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(1, 7, 6, 0.72) 0%,
+        rgba(1, 7, 6, 0.28) 26%,
+        rgba(1, 7, 6, 0.05) 55%,
+        rgba(1, 7, 6, 0.30) 76%,
+        rgba(1, 7, 6, 0.76) 100%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(1, 7, 6, 0.72) 0%,
+        rgba(1, 7, 6, 0.32) 42%,
+        rgba(1, 7, 6, 0.06) 72%,
+        rgba(0, 0, 0, 0.16) 100%
+      );
+  }
+
+  .launchBackdrop::after {
+    background: radial-gradient(
+      ellipse at 76% 55%,
+      transparent 34%,
+      rgba(0, 0, 0, 0.05) 66%,
+      rgba(0, 0, 0, 0.24) 100%
+    );
+  }
+
+  .launchContent {
+    align-content: initial;
+    display: grid;
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto clamp(18px, 4.5dvh, 40px);
+    height: 100%;
+    justify-items: center;
+    max-width: none;
+    min-height: 0;
+    position: relative;
+    transform: none;
+    width: 100%;
+    z-index: 3;
+    text-align: center;
+  }
+
+  .launchKicker {
+    gap: 7px;
+    grid-template-columns: minmax(16px, 32px) auto minmax(16px, 32px);
+    max-width: 100%;
+  }
+
+  .launchKicker p {
+    font-size: clamp(0.4rem, 1.75vw, 0.48rem);
+    letter-spacing: 0.12em;
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.68rem, 13.2vw, 3.55rem);
+    line-height: 0.88;
+    margin: clamp(9px, 1.7dvh, 14px) 0 clamp(10px, 1.8dvh, 15px);
+    padding-bottom: 0.08em;
+    padding-right: 0;
+    white-space: normal;
+    width: 100%;
+  }
+
+  .launchHeadline span {
+    padding-bottom: 0.055em;
+    padding-right: 0;
+    white-space: normal;
+  }
+
+  .launchMeta {
+    display: grid;
+    gap: clamp(6px, 2vw, 9px);
+    grid-template-columns: auto 4px auto 4px auto;
+    margin-top: 0;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .launchMeta span {
+    font-size: clamp(0.38rem, 1.52vw, 0.44rem);
+    letter-spacing: 0.1em;
+  }
+
+  .launchMeta i {
+    height: 3px;
+    width: 3px;
+  }
+
+  .launchActions {
+    align-self: end;
+    grid-row: 5;
+    margin-top: 8px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .launchActions > button {
+    min-height: 52px;
+    min-width: 0;
+    width: min(100%, 360px);
+  }
+}
+
+@media (max-width: 350px) {
+  .launch {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+
+  .launchHeadline {
+    font-size: 2.55rem;
+  }
+
+  .launchMeta {
+    gap: 5px;
+  }
+
+  .launchMeta span {
+    font-size: 0.36rem;
+    letter-spacing: 0.075em;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 650px) {
+  .launch {
+    padding-top: 12px;
+  }
+
+  .launch::after {
+    background-position: 80% 60%;
+    background-size: auto 420px;
+  }
+
+  .launchHeadline {
+    font-size: clamp(2.45rem, 12.5vw, 3.15rem);
+    margin-block: 7px 9px;
+  }
+}
+
+/* ==========================================================================
+   WORLD CUP GROUP STAGE — MOBILE COMPACT DASHBOARD
+   The launch remains a locked cinematic screen. Active tournament screens
+   return to normal document flow so short iPhones can always reach every row.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .shell:not(.launchShell) {
+    height: auto;
+    max-height: none;
+    min-height: 100dvh;
+    overflow: visible !important;
+    padding-bottom: 0;
+  }
+
+  .shell:not(.launchShell) .main {
+    align-content: start;
+    gap: 6px;
+    grid-template-rows: auto auto auto;
+    height: auto;
+    margin-inline: 0;
+    max-width: none;
+    min-height: calc(100dvh - 64px - env(safe-area-inset-top));
+    overflow: visible;
+    padding:
+      7px
+      max(12px, env(safe-area-inset-right))
+      calc(12px + env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+    width: 100%;
+  }
+
+  .shell:not(.launchShell) .header {
+    align-items: center;
+    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    min-height: 42px;
+  }
+
+  .shell:not(.launchShell) .headerStatus {
+    display: none;
+  }
+
+  .shell:not(.launchShell) .titleLockup {
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .shell:not(.launchShell) .titleLockup > div {
+    min-width: 0;
+  }
+
+  .shell:not(.launchShell) .titleLockup p {
+    font-size: clamp(0.43rem, 1.75vw, 0.52rem);
+    letter-spacing: 0.12em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .shell:not(.launchShell) .titleLockup h1 {
+    font-size: clamp(1.22rem, 5.8vw, 1.55rem);
+    margin-top: 2px;
+  }
+
+  .shell:not(.launchShell) .cupMark {
+    height: 34px;
+    margin-top: 0;
+    width: 34px;
+  }
+
+  /* Preserve the existing restart confirmation; mobile renders its label
+     visually as an icon so the control can never clip into the title. */
+  .shell:not(.launchShell) .restart {
+    border-color: rgba(230, 191, 87, 0.30);
+    border-radius: 12px;
+    color: #d7ba68;
+    font-size: 0;
+    gap: 0;
+    height: 44px;
+    justify-content: center;
+    min-height: 44px;
+    overflow: visible;
+    padding: 0;
+    width: 44px;
+  }
+
+  .shell:not(.launchShell) .restart svg {
+    height: 16px;
+    margin: 0;
+    min-width: 16px;
+    width: 16px;
+  }
+
+  .shell:not(.launchShell) .progress {
+    border-radius: 10px;
+    min-height: 34px;
+  }
+
+  .shell:not(.launchShell) .progress > div {
+    gap: 0;
+    min-height: 34px;
+  }
+
+  .shell:not(.launchShell) .progress > div:not(:last-child)::after {
+    height: 45%;
+  }
+
+  .shell:not(.launchShell) .progress span {
+    font-size: 0.5rem;
+    height: 18px;
+    width: 18px;
+  }
+
+  .shell:not(.launchShell) .progress b {
+    display: none;
+  }
+
+  .groupDashboard {
+    align-content: start;
+    gap: 6px;
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    min-height: 0;
+  }
+
+  .groupPrimaryRail {
+    gap: 6px;
+  }
+
+  .groupDashboard .panel {
+    border-color: rgba(224, 181, 72, 0.22);
+    border-radius: 11px;
+    box-shadow:
+      inset 0 1px rgba(255, 240, 184, 0.035),
+      inset 0 0 24px rgba(1, 17, 13, 0.18),
+      0 10px 26px rgba(0, 0, 0, 0.20);
+  }
+
+  .groupDashboard .panelTopline {
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    min-height: 28px;
+    padding-inline: 9px;
+  }
+
+  .groupDashboard .panelTopline b {
+    font-size: 0.43rem;
+  }
+
+  .nextPanel {
+    grid-template-rows: auto auto auto;
+  }
+
+  .nextPanel::before {
+    height: 190px;
+    opacity: 0.72;
+    top: 48%;
+    width: 190px;
+  }
+
+  .fixtureHero {
+    gap: 5px;
+    min-height: clamp(88px, 12dvh, 112px);
+    padding: 7px 9px 6px;
+  }
+
+  .teamIdentity {
+    gap: 4px;
+  }
+
+  .teamIdentity > span {
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+    height: clamp(44px, 12vw, 52px);
+    width: clamp(44px, 12vw, 52px);
+  }
+
+  .teamIdentity strong {
+    font-size: clamp(0.68rem, 3vw, 0.82rem);
+    max-width: 100%;
+  }
+
+  .teamIdentity small {
+    font-size: clamp(0.4rem, 1.8vw, 0.48rem);
+    gap: 4px;
+    letter-spacing: 0.07em;
+  }
+
+  .versus {
+    gap: 3px;
+  }
+
+  .versus span {
+    font-size: 0.54rem;
+    height: 28px;
+    width: 28px;
+  }
+
+  .versus small {
+    font-size: 0.4rem;
+    letter-spacing: 0.06em;
+  }
+
+  .nextPanel .quickActions {
+    align-items: stretch;
+    flex-direction: row;
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .nextPanel .quickActions > button {
+    flex: 1 1 0;
+    font-size: clamp(0.52rem, 2.25vw, 0.64rem);
+    gap: 4px;
+    min-height: 44px;
+    min-width: 0;
+    padding-inline: 4px;
+    white-space: nowrap;
+  }
+
+  .nextPanel .quickActions > button svg {
+    height: 13px;
+    width: 13px;
+  }
+
+  .qualifiedHero {
+    min-height: 96px;
+    padding: 8px 10px;
+  }
+
+  .qualifiedHeroContent {
+    gap: 4px;
+  }
+
+  .qualifiedHero h2 {
+    font-size: 1.2rem;
+  }
+
+  .groupRoadPanel {
+    border-color: rgba(224, 181, 72, 0.16) !important;
+  }
+
+  .groupRoadPanel .panelTopline {
+    display: none;
+  }
+
+  .groupRoad {
+    padding: 5px 4px;
+  }
+
+  .groupRoadStep {
+    gap: 2px 5px;
+    grid-template-areas:
+      "matchday result"
+      "flag team";
+    grid-template-columns: auto auto;
+    justify-content: center;
+    min-height: clamp(44px, 6.5dvh, 56px);
+    padding: 3px;
+  }
+
+  .groupRoadStep small {
+    grid-area: matchday;
+    justify-self: end;
+  }
+
+  .groupRoadStep > span {
+    font-size: 1rem;
+    grid-area: flag;
+    justify-self: end;
+    line-height: 1;
+  }
+
+  .groupRoadStep strong {
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    grid-area: team;
+    justify-self: start;
+  }
+
+  .groupRoadStep i {
+    grid-area: result;
+    justify-self: start;
+  }
+
+  .groupRoadStep small,
+  .groupRoadStep i {
+    font-size: 0.45rem;
+  }
+
+  .groupRoadStep:not(:last-child)::after {
+    right: -10%;
+    top: 52%;
+    width: 20%;
+  }
+
+  .standingsPanel {
+    align-self: stretch;
+    min-height: 0;
+  }
+
+  .standingsPanel .panelTopline b {
+    display: none;
+  }
+
+  .tableHead,
+  .tableRow {
+    gap: 3px;
+    grid-template-columns: 24px minmax(0, 1fr) 22px 30px 32px;
+  }
+
+  .tableHead {
+    font-size: 0.45rem;
+    padding: 6px 6px 4px;
+  }
+
+  .tableBody {
+    padding-inline: 4px;
+  }
+
+  .tableRow {
+    font-size: 0.58rem;
+    min-height: clamp(36px, 4.7dvh, 43px);
+    padding: 3px 2px;
+  }
+
+  .tableRow::before {
+    left: -4px;
+  }
+
+  .tableRow[data-user="true"] {
+    background:
+      linear-gradient(90deg, rgba(229, 187, 79, 0.17), rgba(229, 187, 79, 0.045) 68%, transparent),
+      rgba(255, 255, 255, 0.012);
+    box-shadow:
+      inset 0 1px rgba(255, 231, 151, 0.045),
+      inset 0 0 18px rgba(220, 169, 49, 0.055);
+  }
+
+  .tableTeam {
+    gap: 5px;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .tableTeam i {
+    font-size: 0.9rem;
+  }
+
+  .tableTeam strong {
+    font-size: clamp(0.66rem, 2.8vw, 0.76rem);
+  }
+
+  .tableTeam small {
+    display: none;
+  }
+
+  .autoQualificationBreak {
+    font-size: 0.36rem;
+    gap: 4px;
+    min-height: 16px;
+    padding-inline: 6px;
+  }
+
+  .fixturesPanel {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 650px) {
+  .shell:not(.launchShell) .main {
+    gap: 4px;
+    padding-top: 4px;
+  }
+
+  .shell:not(.launchShell) .header {
+    min-height: 38px;
+  }
+
+  .shell:not(.launchShell) .cupMark {
+    height: 30px;
+    width: 30px;
+  }
+
+  .shell:not(.launchShell) .restart {
+    height: 40px;
+    min-height: 40px;
+    width: 40px;
+  }
+
+  .shell:not(.launchShell) .progress,
+  .shell:not(.launchShell) .progress > div {
+    min-height: 30px;
+  }
+
+  .fixtureHero {
+    min-height: 80px;
+  }
+
+  .groupRoadStep {
+    min-height: 42px;
+  }
+
+  .tableRow {
+    min-height: 34px;
+  }
+}
+
+/* ==========================================================================
+   WORLD CUP KNOCKOUT — MOBILE ROUND BROWSER
+   Desktop retains the complete tree. Phones inspect the same fixtures one
+   readable round at a time, with natural document scrolling.
+   ========================================================================== */
+
+.desktopBracket {
+  display: contents;
+}
+
+.mobileBracketBrowser {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .main[data-knockout="true"] .progress {
+    min-height: 42px;
+  }
+
+  .main[data-knockout="true"] .progress > div {
+    flex-direction: column;
+    gap: 2px;
+    min-height: 42px;
+  }
+
+  .main[data-knockout="true"] .progress b {
+    display: block;
+    font-size: clamp(0.3rem, 1.35vw, 0.38rem);
+    letter-spacing: 0.025em;
+    line-height: 1;
+  }
+
+  .knockoutDashboard {
+    gap: 7px;
+    grid-template-rows: auto auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  .routePanel {
+    gap: 8px;
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    overflow: visible;
+    padding: 9px;
+  }
+
+  .routePanel > div:first-child {
+    min-width: 0;
+  }
+
+  .routePanel h2 {
+    font-size: clamp(0.88rem, 4vw, 1rem);
+    margin-top: 2px;
+  }
+
+  .routeFixture {
+    gap: 6px;
+    grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr);
+    height: auto;
+    min-height: 54px;
+    width: 100%;
+  }
+
+  .routeTeam:first-child,
+  .routeTeam:last-child {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .routeTeam > span {
+    font-size: clamp(0.72rem, 3.25vw, 0.86rem);
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .routeTeam > small {
+    font-size: 0.42rem;
+    gap: 3px;
+    justify-content: center;
+  }
+
+  .routeTeam > small b {
+    font-size: 0.53rem;
+  }
+
+  .routeResult {
+    grid-template-rows: 22px 10px;
+    min-height: 34px;
+    min-width: 52px;
+  }
+
+  .routeScore {
+    font-size: 1rem;
+  }
+
+  .routePanel .quickActions {
+    display: grid;
+    gap: 6px;
+    grid-column: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0;
+    width: 100%;
+  }
+
+  .routePanel .quickActions > button {
+    font-size: clamp(0.5rem, 2.2vw, 0.62rem);
+    gap: 4px;
+    min-height: 44px;
+    padding-inline: 4px;
+  }
+
+  .routePanel .quickActions > button.nextAction,
+  .routePanel .quickActions > button.championshipAction {
+    grid-column: 1 / -1;
+    max-width: none;
+    width: 100%;
+  }
+
+  .bracketPanel {
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .bracketHeading {
+    align-items: end;
+    border-bottom: 1px solid rgba(231, 189, 77, 0.13);
+    gap: 8px;
+    min-height: 52px;
+    padding: 8px 10px;
+  }
+
+  .bracketHeading h3 {
+    font-size: clamp(0.76rem, 3.3vw, 0.9rem);
+    line-height: 1.15;
+    margin: 2px 0 0;
+  }
+
+  .bracketHeading .eyebrow {
+    font-size: 0.45rem;
+    letter-spacing: 0.11em;
+  }
+
+  .bracketHeading > span {
+    flex: 0 0 auto;
+    font-size: 0.4rem;
+    gap: 4px;
+    letter-spacing: 0.055em;
+    white-space: nowrap;
+  }
+
+  .bracketHeading i {
+    height: 5px;
+    width: 5px;
+  }
+
+  .desktopBracket {
+    display: none;
+  }
+
+  .mobileBracketBrowser {
+    display: grid;
+    min-width: 0;
+  }
+
+  .mobileBracketBrowser .roundNav {
+    background: rgba(1, 7, 6, 0.72);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    position: relative;
+  }
+
+  .mobileBracketBrowser .roundNav button {
+    align-items: center;
+    gap: 3px;
+    justify-content: center;
+    min-height: 52px;
+    min-width: 0;
+    padding: 6px 2px;
+    touch-action: manipulation;
+  }
+
+  .mobileBracketBrowser .roundNav button span {
+    font-size: clamp(0.58rem, 2.7vw, 0.72rem);
+    letter-spacing: 0.07em;
+  }
+
+  .mobileBracketBrowser .roundNav button small {
+    font-size: clamp(0.27rem, 1.15vw, 0.34rem);
+    letter-spacing: 0.025em;
+    line-height: 1;
+  }
+
+  .mobileBracketBrowser .roundNav button[data-current="true"] {
+    background:
+      radial-gradient(circle at 50% 100%, rgba(231, 189, 77, 0.13), transparent 65%),
+      rgba(226, 183, 68, 0.045);
+    box-shadow: inset 0 0 18px rgba(224, 175, 53, 0.035);
+  }
+
+  .mobileBracketBrowser .roundNav button[data-selected="true"] {
+    color: #f0cb65;
+    text-shadow: 0 0 10px rgba(233, 191, 79, 0.28);
+  }
+
+  .mobileRoundHeading {
+    align-items: center;
+    background:
+      linear-gradient(90deg, rgba(226, 183, 68, 0.07), transparent 72%),
+      rgba(4, 10, 8, 0.78);
+    border-bottom: 1px solid rgba(231, 189, 77, 0.11);
+    display: grid;
+    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    min-height: 54px;
+    padding: 8px 10px;
+  }
+
+  .mobileRoundHeading span,
+  .mobileRoundHeading b {
+    color: #8d7a47;
+    font-family: var(--font-mono);
+    font-size: 0.43rem;
+    letter-spacing: 0.1em;
+  }
+
+  .mobileRoundHeading h4 {
+    color: #eee9dd;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    margin: 2px 0 0;
+  }
+
+  .mobileRoundHeading > svg {
+    color: #ebc65d;
+    filter: drop-shadow(0 0 8px rgba(231, 187, 72, 0.28));
+  }
+
+  .mobileRoundMatches {
+    display: grid;
+    gap: 7px;
+    padding: 9px;
+  }
+
+  .mobileKnockoutMatch {
+    background:
+      linear-gradient(120deg, rgba(255, 255, 255, 0.018), transparent 55%),
+      rgba(3, 9, 7, 0.88);
+    border: 1px solid rgba(223, 183, 82, 0.14);
+    border-radius: 9px;
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    overflow: hidden;
+    padding: 7px 9px 8px;
+    position: relative;
+  }
+
+  .mobileKnockoutMatch::after {
+    background: linear-gradient(90deg, transparent, rgba(235, 195, 89, 0.4), transparent);
+    content: "";
+    height: 1px;
+    left: 15%;
+    opacity: 0.12;
+    position: absolute;
+    right: 15%;
+    top: 0;
+  }
+
+  .mobileKnockoutMatch > small {
+    color: #6e7874;
+    font-family: var(--font-mono);
+    font-size: 0.43rem;
+    letter-spacing: 0.09em;
+    margin-bottom: 3px;
+  }
+
+  .mobileKnockoutMatch > div {
+    align-items: center;
+    display: grid;
+    gap: 7px;
+    grid-template-columns: 24px minmax(0, 1fr) 28px;
+    min-height: 31px;
+  }
+
+  .mobileKnockoutMatch > div > span {
+    align-items: center;
+    display: flex;
+    font-size: 1.08rem;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .mobileKnockoutMatch > div > span .trophyXiMainMark {
+    color: #efca62;
+    font-size: 0.68rem;
+    text-shadow: 0 0 8px rgba(232, 188, 75, 0.22);
+  }
+
+  .mobileKnockoutMatch > div > strong {
+    color: #e5e2d9;
+    font-family: var(--font-body);
+    font-size: clamp(0.76rem, 3.45vw, 0.88rem);
+    line-height: 1.1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileKnockoutMatch > div > b {
+    color: #b9b3a4;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    text-align: right;
+  }
+
+  .mobileKnockoutMatch > div[data-winner="true"] > strong,
+  .mobileKnockoutMatch > div[data-winner="true"] > b {
+    color: #f0cc69;
+  }
+
+  .mobileKnockoutMatch > div[data-eliminated="true"] {
+    opacity: 0.54;
+  }
+
+  .mobileKnockoutMatch > div[data-user-team="true"] > strong,
+  .mobileKnockoutMatch > div[data-user-team="true"] > b {
+    color: #f4d778;
+    font-weight: 800;
+    text-shadow: 0 0 9px rgba(233, 190, 76, 0.22);
+  }
+
+  .mobileKnockoutMatch > em {
+    color: #c9a64e;
+    font-family: var(--font-mono);
+    font-size: 0.43rem;
+    font-style: normal;
+    letter-spacing: 0.07em;
+    margin-top: 3px;
+    text-align: right;
+  }
+
+  .mobileKnockoutMatch[data-user="true"] {
+    background:
+      radial-gradient(circle at 0% 50%, rgba(230, 184, 71, 0.12), transparent 45%),
+      linear-gradient(110deg, rgba(232, 190, 78, 0.075), transparent 68%),
+      rgba(5, 11, 8, 0.94);
+    border-color: rgba(240, 202, 104, 0.58);
+    box-shadow:
+      inset 0 1px rgba(255, 239, 181, 0.07),
+      0 0 18px rgba(226, 177, 55, 0.10);
+  }
+
+  .mobileKnockoutMatch[data-placeholder="true"] > div > strong {
+    color: #747d79;
+    font-family: var(--font-mono);
+    font-size: clamp(0.62rem, 2.8vw, 0.72rem);
+    font-weight: 500;
+  }
+
+  .mobileKnockoutMatch[data-final="true"] {
+    border-color: rgba(238, 198, 94, 0.34);
+    box-shadow:
+      inset 0 0 24px rgba(221, 169, 46, 0.035),
+      0 0 24px rgba(219, 164, 39, 0.055);
+  }
+}
+
+@media (max-width: 350px) {
+  .mobileBracketBrowser .roundNav button small {
+    display: none;
+  }
+
+  .mobileBracketBrowser .roundNav button {
+    min-height: 48px;
+  }
+
+  .bracketHeading > span {
+    font-size: 0.34rem;
+  }
+}
+
+/* ==========================================================================
+   WORLD CUP ENDGAME — MOBILE CINEMATIC PRESENTATION
+   Keep the engine and desktop presentation intact. Phones use the actual exit
+   stage for progress and let the terminal panel consume the remaining dvh.
+   ========================================================================== */
+
+@keyframes mobileVictorySweep {
+  0%,
+  18% {
+    opacity: 0;
+    transform: translateX(-46%) rotate(-8deg);
+  }
+
+  46% {
+    opacity: 0.48;
+  }
+
+  76%,
+  100% {
+    opacity: 0;
+    transform: translateX(58%) rotate(-8deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .desktopEndgameCopy {
+    display: none;
+  }
+
+  .mobileEndgameCopy {
+    display: inline;
+  }
+
+  .main[data-terminal="true"] {
+    align-content: stretch;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    min-height: calc(100dvh - 64px - env(safe-area-inset-top));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+
+  /* The engine advances currentStage after a loss. On mobile elimination
+     screens these attributes redraw the tracker from eliminatedStage only. */
+  .progress[data-eliminated="true"] > div {
+    background: transparent;
+    color: #626d69;
+    text-shadow: none;
+  }
+
+  .progress[data-eliminated="true"] > div span {
+    background: transparent;
+    border-color: currentColor;
+    box-shadow: none;
+    color: inherit;
+    text-shadow: none;
+  }
+
+  .progress[data-eliminated="true"] > div b {
+    color: inherit;
+    text-shadow: none;
+  }
+
+  .progress[data-eliminated="true"] > div[data-mobile-complete="true"] {
+    color: #9e8647;
+  }
+
+  .progress[data-eliminated="true"] > div[data-mobile-complete="true"] span {
+    background: rgba(225, 183, 77, 0.12);
+  }
+
+  .progress[data-eliminated="true"] > div[data-mobile-active="true"] {
+    background: linear-gradient(90deg, transparent, rgba(229, 185, 74, 0.075), transparent);
+    color: #f4d86b;
+    text-shadow:
+      0 0 6px rgba(244, 216, 107, 0.58),
+      0 0 14px rgba(231, 189, 77, 0.24);
+  }
+
+  .progress[data-eliminated="true"] > div[data-mobile-active="true"] span {
+    background: #e7bd4d;
+    border-color: #ffe69a;
+    box-shadow:
+      inset 0 1px rgba(255, 241, 184, 0.34),
+      0 0 7px rgba(244, 216, 107, 0.6),
+      0 0 16px rgba(231, 189, 77, 0.28);
+    color: #151006;
+    text-shadow: none;
+  }
+
+  .progress[data-eliminated="true"] > div[data-mobile-active="true"] b {
+    color: #f4d86b;
+    text-shadow:
+      0 0 6px rgba(244, 216, 107, 0.58),
+      0 0 13px rgba(231, 189, 77, 0.22);
+  }
+
+  .lossState,
+  .championState {
+    box-sizing: border-box;
+    height: 100%;
+    max-width: 100%;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .lossState {
+    background:
+      linear-gradient(180deg, rgba(3, 8, 7, 0.99) 0%, rgba(3, 8, 7, 0.92) 46%, rgba(3, 8, 7, 0.48) 100%),
+      radial-gradient(ellipse at 50% 74%, rgba(190, 139, 32, 0.09), transparent 42%),
+      rgba(3, 8, 7, 0.96);
+    grid-template-rows: auto minmax(180px, 1fr);
+  }
+
+  .lossCopy {
+    align-self: start;
+    max-width: 100%;
+    padding: 16px 14px 0;
+    width: 100%;
+  }
+
+  .lossEyebrow {
+    font-size: 0.54rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+  }
+
+  .lossState h2 {
+    font-size: clamp(2rem, 10.7vw, 2.9rem);
+    line-height: 0.96;
+    max-width: 100%;
+  }
+
+  .lossBody {
+    font-size: 0.76rem;
+    line-height: 1.42;
+    margin-top: 9px;
+    max-width: 33rem;
+  }
+
+  .lossActions {
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .lossActions > button {
+    min-height: 44px;
+  }
+
+  .lossVisual {
+    align-self: stretch;
+    min-height: 180px;
+    overflow: hidden;
+  }
+
+  .lossVisual::after {
+    background: linear-gradient(
+      180deg,
+      rgba(3, 8, 7, 0.12) 0%,
+      transparent 43%,
+      rgba(3, 8, 7, 0.78) 91%,
+      rgba(3, 8, 7, 0.98) 100%
+    );
+  }
+
+  .lossState[data-stage="group"] .lossPlayer,
+  .lossState[data-stage="round-of-32"] .lossPlayer,
+  .lossState[data-stage="round-of-16"] .lossPlayer,
+  .lossState[data-stage="quarter-final"] .lossPlayer,
+  .lossState[data-stage="semi-final"] .lossPlayer,
+  .lossState[data-stage="final"] .lossPlayer {
+    bottom: -9%;
+  }
+
+  .championState {
+    grid-template-rows: auto minmax(190px, 1fr);
+    background:
+      linear-gradient(180deg, rgba(2, 7, 6, 0.98) 0%, rgba(2, 7, 6, 0.88) 39%, rgba(2, 7, 6, 0.32) 100%),
+      radial-gradient(ellipse at 55% 70%, rgba(245, 202, 89, 0.16), transparent 43%),
+      url("/atmosphere/regal-stadium.png") 68% 64% / auto 100% no-repeat,
+      #030807;
+  }
+
+  .championState::after {
+    animation: mobileVictorySweep 5.6s ease-in-out infinite;
+    background: linear-gradient(
+      104deg,
+      transparent 39%,
+      rgba(255, 226, 137, 0.025) 44%,
+      rgba(255, 226, 137, 0.18) 50%,
+      rgba(255, 226, 137, 0.035) 56%,
+      transparent 61%
+    );
+    inset: -35% -65%;
+  }
+
+  .winAtmosphere::before {
+    background:
+      radial-gradient(circle at 13% 20%, rgba(255, 227, 137, 0.72) 0 1px, transparent 2px),
+      radial-gradient(circle at 76% 14%, rgba(255, 220, 111, 0.58) 0 1px, transparent 2px),
+      radial-gradient(circle at 87% 42%, rgba(255, 239, 170, 0.52) 0 1px, transparent 2px),
+      radial-gradient(circle at 29% 59%, rgba(240, 195, 75, 0.46) 0 1px, transparent 2px),
+      radial-gradient(circle at 63% 73%, rgba(255, 224, 122, 0.42) 0 1px, transparent 2px);
+    content: "";
+    inset: 0;
+    opacity: 0.8;
+    position: absolute;
+  }
+
+  .winCopy {
+    align-self: start;
+    max-width: 100%;
+    padding: 18px 14px 0;
+    width: 100%;
+  }
+
+  .winEyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.17em;
+    margin-bottom: 9px;
+  }
+
+  .championState h2 {
+    font-size: clamp(2.38rem, 11.7vw, 3.35rem);
+    line-height: 0.9;
+    max-width: 100%;
+  }
+
+  .winHeadlineAccent {
+    font-size: 0.66em;
+    line-height: 0.94;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .winHeadlineAccent > span {
+    display: block;
+  }
+
+  .winBody {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin-top: 10px;
+  }
+
+  .winStats {
+    display: none;
+  }
+
+  .winActions {
+    gap: 6px;
+    margin-top: 13px;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .winActions > button {
+    min-height: 48px;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .winVisual {
+    margin-top: 0;
+    min-height: 190px;
+    overflow: hidden;
+  }
+
+  .winVisualGlow {
+    background:
+      radial-gradient(
+        67% 82% at 49% 54%,
+        rgba(255, 226, 132, 0.26) 0%,
+        rgba(231, 181, 58, 0.11) 34%,
+        rgba(205, 148, 31, 0.03) 57%,
+        transparent 80%
+      );
+    filter: blur(24px);
+  }
+
+  .winPlayer {
+    bottom: -7%;
+    filter:
+      brightness(1.02)
+      contrast(1.06)
+      saturate(1.08)
+      drop-shadow(0 24px 30px rgba(0, 0, 0, 0.50))
+      drop-shadow(0 0 26px rgba(238, 194, 75, 0.20));
+    height: 116%;
+    left: 50%;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 650px) {
+  .main[data-terminal="true"] {
+    min-height: 570px;
+  }
+
+  .lossCopy,
+  .winCopy {
+    padding-top: 12px;
+  }
+
+  .lossState h2 {
+    font-size: clamp(1.9rem, 9.8vw, 2.55rem);
+  }
+
+  .championState h2 {
+    font-size: clamp(2.2rem, 10.8vw, 3rem);
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .championState::after {
+    animation: none;
+    opacity: 0.16;
+  }
+}
+
+/* Shared mobile tracker state: this intentionally comes after the group,
+   knockout, elimination, and champion variants so every screen keeps labels. */
+@media (max-width: 767px) {
+  .shell:not(.launchShell) .progress {
+    min-height: 40px;
+  }
+
+  .shell:not(.launchShell) .progress > div {
+    flex-direction: column;
+    gap: 2px;
+    min-height: 40px;
+    color: #59615c;
+  }
+
+  .shell:not(.launchShell) .progress b {
+    display: block;
+    font-size: clamp(0.34rem, 1.45vw, 0.42rem);
+    letter-spacing: 0.025em;
+    line-height: 1;
+  }
+
+  .shell:not(.launchShell) .progress > div[data-mobile-complete="true"] {
+    color: #9e8647;
+  }
+
+  .shell:not(.launchShell) .progress > div[data-mobile-active="true"] {
+    background: linear-gradient(90deg, transparent, rgba(229, 185, 74, 0.075), transparent);
+    color: #f4d86b;
+    text-shadow: 0 0 8px rgba(244, 216, 107, 0.42);
+  }
+
+  .shell:not(.launchShell) .progress > div[data-mobile-active="true"] span {
+    background: #e7bd4d;
+    border-color: #ffe69a;
+    box-shadow: 0 0 12px rgba(244, 216, 107, 0.44);
+    color: #151006;
+    text-shadow: none;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 650px) {
+  .shell:not(.launchShell) .progress,
+  .shell:not(.launchShell) .progress > div {
+    min-height: 38px;
+  }
 }

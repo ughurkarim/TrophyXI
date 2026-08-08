@@ -54,7 +54,7 @@ export default function EraPage() {
 
       <main className={`container game-main ${styles.main}`}>
         <section
-          className={`${styles.eraScreen} era-page`}
+          className={`${styles.eraScreen} ${styles.desktopEraScreen} era-page`}
           aria-labelledby="era-title"
         >
           <div className={styles.archiveHalo} aria-hidden />
@@ -156,6 +156,60 @@ export default function EraPage() {
               <ArrowRight size={16} aria-hidden />
             </Button>
           </div>
+        </section>
+
+        <section
+          className={styles.mobileEraScreen}
+          aria-labelledby="mobile-era-title"
+          data-testid="mobile-era-screen"
+        >
+          <header className={styles.mobileIntro}>
+            <p>STEP 01 · MATCH ENVIRONMENT</p>
+            <h1 id="mobile-era-title">Choose your era.</h1>
+            <span>Every player stays available. The environment changes how each quality translates.</span>
+          </header>
+
+          <div
+            className={styles.mobileEraList}
+            role="group"
+            aria-label="Choose your era"
+            data-testid="mobile-era-list"
+          >
+            {draftEras.map((era) => {
+              const isSelected = selectedEraId === era.id;
+              return (
+                <button
+                  key={`mobile-${era.id}`}
+                  type="button"
+                  className={`${styles.mobileEra} ${eraThemeClasses[era.id]}`}
+                  data-selected={isSelected ? "true" : undefined}
+                  aria-label={`Choose ${era.label}, ${era.years}`}
+                  aria-pressed={isSelected}
+                  onClick={() => selectEra(era.id)}
+                >
+                  <span className={styles.mobileEraYears}>{era.years}</span>
+                  <span className={styles.mobileEraCopy}>
+                    <small>{eraIdentity[era.id]}</small>
+                    <strong>{era.label}</strong>
+                    <span>{era.description}</span>
+                  </span>
+                  <span className={styles.mobileEraSelect} aria-hidden>
+                    {!isSelected && <ArrowRight size={17} />}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <footer className={styles.mobileCommand} data-testid="mobile-era-command">
+            <span>
+              <small>{selectedEra ? "SELECTED ERA" : "MATCH ERA"}</small>
+              <strong>{selectedEra?.label ?? "Choose one era"}</strong>
+            </span>
+            <Button disabled={!selectedEraId} onClick={() => router.push("/play/manager")}>
+              Continue <ArrowRight size={16} aria-hidden />
+            </Button>
+          </footer>
         </section>
       </main>
     </div>

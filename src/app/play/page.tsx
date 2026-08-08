@@ -5,6 +5,7 @@ import {
   Check,
   Dices,
   ListChecks,
+  Star,
   Trophy,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -26,6 +27,7 @@ type ModeConfig = {
   cta: string;
   icon: typeof Dices;
   playerImage: string;
+  fanFavorite?: boolean;
 };
 
 const modes: ModeConfig[] = [
@@ -67,8 +69,16 @@ const modes: ModeConfig[] = [
     cta: "BEGIN THE RUN",
     icon: Trophy,
     playerImage: "/modes/worldcup-player.png",
+    fanFavorite: true,
   },
 ];
+
+const mobileModes = modes.filter((mode) => mode.id !== "free-selection");
+const mobileModeDescriptions: Partial<Record<GameMode, string>> = {
+  "classic-draft": "Five-card offers. Build greatness from limited choices.",
+  "world-cup-run":
+    "Build your XI. Survive the group and conquer the knockout rounds.",
+};
 
 export default function PlayPage() {
   const router = useRouter();
@@ -98,7 +108,7 @@ export default function PlayPage() {
       <GameHeader step="MODE / 00" />
 
       <main className={`container game-main ${styles.main}`}>
-        <section className={styles.screen} aria-labelledby="mode-title">
+        <section className={`${styles.screen} ${styles.desktopScreen}`} aria-labelledby="mode-title">
           <div className={styles.atmosphere} aria-hidden />
           <div className={styles.crownGlow} aria-hidden />
 
@@ -150,6 +160,12 @@ export default function PlayPage() {
                       <Icon size={21} strokeWidth={1.65} />
                     </span>
                     <span className={styles.emotion}>{mode.emotion}</span>
+                    {mode.fanFavorite ? (
+                      <span className={styles.fanFavorite}>
+                        <Star size={10} fill="currentColor" aria-hidden />
+                        FAN FAVORITE
+                      </span>
+                    ) : null}
                   </span>
 
                   <span className={styles.copy}>
@@ -220,6 +236,67 @@ export default function PlayPage() {
               onClick={continueWithMode}
             >
               {selectedMode?.cta ?? "SELECT A MODE"}
+              <ArrowRight size={16} aria-hidden />
+            </Button>
+          </footer>
+        </section>
+
+        <section
+          className={styles.mobileScreen}
+          aria-labelledby="mobile-mode-title"
+          data-testid="mobile-mode-screen"
+        >
+          <header className={styles.mobileIntro}>
+            <p>CHOOSE YOUR PATH</p>
+            <h1 id="mobile-mode-title">How will you build your XI?</h1>
+            <span>Pick a mode, then start with the era.</span>
+          </header>
+
+          <div className={styles.mobileModes} role="group" aria-label="Choose a game mode">
+            {mobileModes.map((mode) => {
+              const Icon = mode.icon;
+              const isSelected = mode.id === pendingModeId;
+              return (
+                <button
+                  key={`mobile-${mode.id}`}
+                  type="button"
+                  className={styles.mobileMode}
+                  data-mode={mode.id}
+                  data-selected={isSelected ? "true" : undefined}
+                  aria-pressed={isSelected}
+                  onClick={() => setPendingModeId(mode.id)}
+                >
+                  <span className={styles.mobileModeIcon}><Icon size={20} aria-hidden /></span>
+                  <span
+                    className={styles.mobileModePlayer}
+                    data-testid="mobile-mode-player"
+                    aria-hidden
+                  >
+                    <img src={mode.playerImage} alt="" />
+                  </span>
+                  <span className={styles.mobileModeCopy} data-testid="mobile-mode-copy">
+                    {mode.fanFavorite ? (
+                      <span className={styles.fanFavorite}>
+                        <Star size={9} fill="currentColor" aria-hidden />
+                        FAN FAVORITE
+                      </span>
+                    ) : null}
+                    <small>{mode.emotion} · {mode.traits[0]}</small>
+                    <strong>{mode.title}</strong>
+                    <span>{mobileModeDescriptions[mode.id] ?? mode.description}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <footer className={styles.mobileAction} data-testid="mobile-mode-action">
+            <span>
+              <small>{selectedMode ? "SELECTED" : "YOUR PATH"}</small>
+              <strong>{selectedMode?.title ?? "Choose one mode"}</strong>
+            </span>
+            <Button disabled={!pendingModeId} onClick={continueWithMode}>
+              {selectedMode?.cta ?? "SELECT MODE"}
               <ArrowRight size={16} aria-hidden />
             </Button>
           </footer>

@@ -1177,6 +1177,20 @@
   font-size: .7rem;
 }
 
+.mobileActionLabel {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktopActionLabel {
+    display: none;
+  }
+
+  .mobileActionLabel {
+    display: inline;
+  }
+}
+
 /* PANELS — darker, less dashboard-like, tighter */
 .reportGrid,
 .lowerGrid {

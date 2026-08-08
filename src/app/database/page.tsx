@@ -13,7 +13,9 @@ export const metadata: Metadata = {
 export default function DatabasePage() {
   return (
     <>
-      <SiteHeader />
+      <div className={styles.header}>
+        <SiteHeader />
+      </div>
       <main className={`database-page ${styles.page}`}>
         <div className="container">
           <PlayerDatabase />

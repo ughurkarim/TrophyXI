@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { FreeFormationPicker } from "@/components/formation/free-formation-picker";
 import { FormationSelection } from "@/components/formation/formation-selection";
+import { MobileFormationPicker } from "@/components/mobile/mobile-formation-picker";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
 import { getDraftEra } from "@/data/eras";
@@ -56,17 +57,32 @@ export default function FormationPage() {
             }}
           />
         ) : (
-          <FormationSelection
-            manager={manager}
-            eraId={eraId}
-            offerIds={formationOptionIds}
-            formationRespinRemaining={formationRespinRemaining}
-            onRespin={respinFormations}
-            onContinue={(formationId) => {
-              selectFormation(formationId);
-              router.push("/play/draft");
-            }}
-          />
+          <>
+            <div className={styles.desktopFormationPicker}>
+              <FormationSelection
+                manager={manager}
+                eraId={eraId}
+                offerIds={formationOptionIds}
+                formationRespinRemaining={formationRespinRemaining}
+                onRespin={respinFormations}
+                onContinue={(formationId) => {
+                  selectFormation(formationId);
+                  router.push("/play/draft");
+                }}
+              />
+            </div>
+            <MobileFormationPicker
+              manager={manager}
+              eraId={eraId}
+              offerIds={formationOptionIds}
+              formationRespinRemaining={formationRespinRemaining}
+              onRespin={respinFormations}
+              onContinue={(formationId) => {
+                selectFormation(formationId);
+                router.push("/play/draft");
+              }}
+            />
+          </>
         )}
       </main>
     </div>

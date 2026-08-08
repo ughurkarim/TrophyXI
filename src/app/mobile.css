@@ -1,0 +1,197 @@
+/* Phone-only presentation boundary. Desktop rules intentionally live elsewhere. */
+@media (max-width: 767px) {
+  html {
+    scroll-padding-top: calc(72px + env(safe-area-inset-top));
+    scrollbar-width: none;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100dvh;
+    overscroll-behavior-y: none;
+  }
+
+  .game-page {
+    min-height: 100dvh;
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .game-header__inner {
+    min-height: calc(64px + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .game-header__utility {
+    min-width: 36px;
+  }
+
+  .game-main {
+    width: min(100% - 24px, 1240px);
+    padding-bottom: 20px;
+  }
+
+  .game-page button:not(.pitch-node):not(.player-card__pick-target),
+  .game-page a.button,
+  .site-header button,
+  .site-header a {
+    min-height: 44px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  .dialog-backdrop,
+  .drawer-backdrop {
+    align-items: flex-end;
+    padding: max(12px, env(safe-area-inset-top)) 0 0;
+  }
+
+  .dialog {
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - max(12px, env(safe-area-inset-top)));
+    padding: 24px 18px calc(22px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    border-radius: 22px 22px 0 0;
+  }
+
+  .dialog__actions .button {
+    min-height: 50px;
+  }
+
+  .player-drawer,
+  .manager-drawer {
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 100dvh;
+    padding-bottom: calc(28px + env(safe-area-inset-bottom));
+    border-radius: 0;
+  }
+
+  .player-drawer__close,
+  .manager-drawer__close {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .draft-board .draft-statusbar {
+    top: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .draft-board .draft-statusbar > div:first-child h1 {
+    font-size: clamp(1.25rem, 6.4vw, 1.75rem);
+    line-height: 1;
+  }
+
+  .draft-board .draft-layout {
+    gap: 14px;
+  }
+
+  .draft-board .draft-pitch-panel {
+    padding: 13px 10px 16px;
+  }
+
+  .draft-board .draft-pitch-panel .pitch {
+    width: min(100%, 330px);
+  }
+
+  .draft-board .pitch-node:hover,
+  .draft-board .pitch-node:focus-visible,
+  .draft-board .pitch-node:active {
+    transform: translate(-50%, -50%);
+  }
+
+  .draft-board .pitch-node[aria-disabled="false"] .pitch-node__disc {
+    box-shadow: 0 0 0 2px rgba(244, 216, 107, 0.3), 0 0 16px rgba(231, 189, 77, 0.24);
+  }
+
+  /* The Free Selection pitch uses a perspective transform. On narrow screens
+     the transformed surface can win the hit-test over its absolute buttons,
+     so only the actual formation nodes should accept pointer input. */
+  .pitch[data-layout-mode="free-selection"] {
+    pointer-events: none;
+  }
+
+  .pitch[data-layout-mode="free-selection"] .pitch-node--interactive {
+    z-index: 6;
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  .draft-board .selected-player-summary {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .draft-board .draft-choices {
+    min-height: 0;
+  }
+
+  .draft-board .draft-card-grid {
+    margin-inline: -10px;
+    padding-inline: 10px;
+    scroll-padding-inline: 10px;
+  }
+
+  .bench-slot-buttons .button,
+  .bench-reorder .icon-button {
+    min-height: 48px;
+  }
+
+  .historical-opponents > .opponent-grid {
+    scroll-padding-inline: 12px;
+    scroll-snap-type: x proximity;
+  }
+
+  .historical-opponents .opponent-card {
+    scroll-snap-align: start;
+  }
+
+  .game-page--match .game-main {
+    padding-bottom: 10px;
+  }
+
+  .game-page--match [data-testid="match-broadcast"] {
+    margin-bottom: 10px;
+  }
+
+  .game-page--result [data-testid="result-page"] {
+    padding-bottom: 22px;
+  }
+
+  .game-page--result [data-testid="result-actions"] .button {
+    width: 100%;
+    min-height: 50px;
+  }
+
+  .mobile-nav {
+    top: calc(64px + env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    left: max(12px, env(safe-area-inset-left));
+    max-height: calc(100dvh - 80px - env(safe-area-inset-top));
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 350px) {
+  .game-main {
+    width: min(100% - 18px, 1240px);
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .game-page *,
+  .game-page *::before,
+  .game-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

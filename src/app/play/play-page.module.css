@@ -10,6 +10,10 @@
     linear-gradient(180deg, rgba(2, 5, 4, 0.18), rgba(2, 4, 3, 0.5));
 }
 
+.mobileScreen {
+  display: none;
+}
+
 .main {
   min-height: calc(100svh - 82px);
   padding-block: clamp(1.15rem, 2.4vh, 2rem);
@@ -478,6 +482,31 @@
   letter-spacing: 0.2em;
 }
 
+.fanFavorite {
+  position: relative;
+  z-index: 6;
+  display: inline-flex;
+  width: max-content;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.42rem;
+  color: #f5d86f;
+  border: 1px solid rgba(245, 216, 111, 0.34);
+  border-radius: 2px;
+  background:
+    linear-gradient(180deg, rgba(245, 216, 111, 0.1), rgba(229, 189, 79, 0.035)),
+    rgba(5, 8, 6, 0.78);
+  box-shadow:
+    inset 0 1px rgba(255, 245, 203, 0.08),
+    0 0 18px rgba(229, 189, 79, 0.08);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.45rem;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .copy {
   position: relative;
   z-index: 5;
@@ -785,6 +814,251 @@
 
   .modeGridHasSelection .modeCard:not(.modeCardSelected) {
     opacity: 0.82;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktopScreen {
+    display: none;
+  }
+
+  .mobileScreen {
+    display: flex;
+    width: 100%;
+    min-height: calc(
+      100dvh - 64px - 84px - 36px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    flex-direction: column;
+    row-gap: 14px;
+  }
+
+  .main {
+    min-height: calc(
+      100dvh - 64px - 84px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    padding: 20px 0 0;
+  }
+
+  .mobileIntro {
+    padding: 0 2px 4px;
+  }
+
+  .mobileIntro p,
+  .mobileIntro > span,
+  .mobileMode small,
+  .mobileAction small {
+    font-family: var(--font-mono), monospace;
+    text-transform: uppercase;
+  }
+
+  .mobileIntro p {
+    margin: 0 0 8px;
+    color: #f3d66d;
+    font-size: 0.61rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .mobileIntro h1 {
+    margin: 0 0 8px;
+    font-size: clamp(2rem, 9vw, 2.7rem);
+    letter-spacing: -0.06em;
+    line-height: 0.98;
+  }
+
+  .mobileIntro > span {
+    color: #a0aaa3;
+    font-size: 0.59rem;
+    letter-spacing: 0.05em;
+  }
+
+  .mobileModes {
+    display: grid;
+    max-height: 390px;
+    grid-template-rows: repeat(2, minmax(158px, 1fr));
+    gap: clamp(10px, 1.35dvh, 14px);
+    flex: 1 1 auto;
+  }
+
+  .mobileMode {
+    position: relative;
+    display: grid;
+    min-height: 158px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: center;
+    gap: 11px;
+    padding: 15px 12px;
+    color: var(--white);
+    border: 1px solid rgba(255, 241, 184, 0.09);
+    border-radius: 16px;
+    text-align: left;
+    background: linear-gradient(135deg, rgba(17, 22, 18, 0.97), rgba(5, 8, 6, 0.99));
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.035), 0 14px 30px rgba(0, 0, 0, 0.26);
+    transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    isolation: isolate;
+  }
+
+  .mobileMode[data-selected="true"] {
+    border-color: rgba(255, 224, 113, 0.96);
+    background:
+      radial-gradient(circle at 15% 48%, rgba(231, 189, 77, 0.21), transparent 42%),
+      linear-gradient(135deg, rgba(70, 58, 27, 0.8), rgba(9, 13, 9, 0.99));
+    box-shadow:
+      0 0 0 1px rgba(231, 189, 77, 0.2),
+      0 0 38px rgba(231, 189, 77, 0.18),
+      inset 0 1px rgba(255, 245, 203, 0.16),
+      inset 0 0 26px rgba(231, 189, 77, 0.045);
+  }
+
+  .mobileMode[data-selected="true"] .mobileModeIcon {
+    border-color: rgba(244, 216, 107, 0.52);
+    background: rgba(231, 189, 77, 0.13);
+    box-shadow: 0 0 18px rgba(231, 189, 77, 0.08);
+  }
+
+  .mobileModeIcon {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+  }
+
+  .mobileModeIcon {
+    width: 46px;
+    height: 46px;
+    color: var(--gold-bright);
+    border: 1px solid rgba(231, 189, 77, 0.24);
+    border-radius: 13px;
+    background: rgba(231, 189, 77, 0.06);
+  }
+
+  .mobileModeCopy {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    min-width: 0;
+    gap: 4px;
+    padding-right: clamp(58px, 21vw, 92px);
+  }
+
+  .mobileModeCopy .fanFavorite {
+    display: inline-flex;
+    padding: 0.25rem 0.38rem;
+    color: #f5d86f;
+    font-size: 0.44rem;
+    letter-spacing: 0.08em;
+  }
+
+  .mobileModePlayer {
+    position: absolute;
+    z-index: 2;
+    right: 2px;
+    bottom: 0;
+    width: 44%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.78) 30%, black 52%);
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.78) 30%, black 52%);
+  }
+
+  .mobileModePlayer img {
+    width: 100%;
+    height: 100%;
+    opacity: 0.62;
+    object-fit: contain;
+    object-position: right bottom;
+    filter: grayscale(0.76) saturate(0.42) brightness(0.72) contrast(1.08);
+    transition: opacity 180ms ease, filter 180ms ease;
+  }
+
+  .mobileMode[data-mode="world-cup-run"] .mobileModePlayer {
+    right: 0;
+    width: 52%;
+  }
+
+  .mobileMode[data-mode="world-cup-run"] .mobileModePlayer img {
+    object-fit: contain;
+    object-position: right bottom;
+  }
+
+  .mobileMode[data-selected="true"] .mobileModePlayer img {
+    opacity: 0.98;
+    filter:
+      grayscale(0)
+      saturate(1.2)
+      brightness(1.06)
+      contrast(1.08)
+      drop-shadow(0 0 14px rgba(244, 216, 107, 0.26));
+  }
+
+  .mobileMode[data-selected="true"] .mobileModePlayer {
+    filter: drop-shadow(0 0 24px rgba(231, 189, 77, 0.25));
+  }
+
+  .mobileModeCopy small {
+    color: #c8a94f;
+    font-size: 0.51rem;
+    letter-spacing: 0.07em;
+  }
+
+  .mobileModeCopy strong {
+    font-family: var(--font-display), sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: -0.025em;
+  }
+
+  .mobileModeCopy > span {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #aab3ad;
+    font-size: 0.72rem;
+    line-height: 1.42;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .mobileAction {
+    position: relative;
+    z-index: 12;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    padding: 11px;
+    margin-top: auto;
+    border: 1px solid rgba(255, 241, 184, 0.14);
+    border-radius: 16px;
+    background: rgba(7, 10, 8, 0.95);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobileAction > span {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+  }
+
+  .mobileAction small {
+    color: #9aa49d;
+    font-size: 0.48rem;
+    letter-spacing: 0.08em;
+  }
+
+  .mobileAction strong {
+    overflow: hidden;
+    color: var(--gold-bright);
+    font-size: 0.72rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileAction :global(.button) {
+    min-width: 148px;
+    min-height: 48px;
+    padding-inline: 14px;
+    font-size: 0.65rem;
   }
 }
 

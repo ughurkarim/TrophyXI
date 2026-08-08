@@ -3804,3 +3804,36 @@ button.statusStat:hover {
   color: var(--candidate-tier) !important;
   text-shadow: 0 0 8px rgba(var(--candidate-tier-rgb), .10);
 }
+
+/* Phone-only Free Selection canvas. The desktop one-screen layout deliberately
+   removes intrinsic panel heights; once that layout stacks on a phone, the
+   percentage-height pitch otherwise collapses while its absolute nodes remain
+   visible outside it. Give the stacked board a real, viewport-scaled track so
+   what players see is also what the browser hit-tests. */
+@media (max-width: 767px) {
+  .pitchPanel {
+    min-height: 0;
+    height: auto;
+    grid-template-rows: clamp(430px, 126vw, 520px) 46px;
+  }
+
+  .pitchAura {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .pitchAura :global(.pitch) {
+    height: 100%;
+  }
+
+  .candidateMain {
+    grid-template-columns: 20px 38px minmax(0, 1fr) 44px 44px;
+    gap: 4px;
+  }
+
+  .inspectCandidate {
+    display: grid;
+    width: 44px;
+    height: 44px;
+  }
+}

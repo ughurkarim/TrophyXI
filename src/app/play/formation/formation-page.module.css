@@ -3,9 +3,25 @@
   padding-bottom: 12px;
 }
 
+.desktopFormationPicker { display: contents; }
+
+@media (max-width: 767px) {
+  .desktopFormationPicker { display: none; }
+}
+
 @media (max-width: 1100px) {
   .main {
     padding-top: 18px;
     padding-bottom: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .main {
+    min-height: calc(
+      100dvh - 64px - 84px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    padding-top: 12px;
+    padding-bottom: 0;
   }
 }

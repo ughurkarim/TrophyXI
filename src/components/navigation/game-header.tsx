@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Wordmark } from "@/components/brand/mark";
+import { MobileGameNav } from "@/components/mobile/mobile-game-nav";
 
 export function GameHeader({
   step,
@@ -25,6 +26,7 @@ export function GameHeader({
         </div>
         <div className="game-header__utility">{utility}</div>
       </div>
+      <MobileGameNav step={step} />
     </header>
   );
 }
