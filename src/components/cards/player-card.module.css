@@ -120,3 +120,21 @@
 .compactDraft :global(.player-card__inspect) {
   margin-top: 6px;
 }
+
+@media (max-width: 767px) {
+  .compactDraft {
+    height: auto !important;
+    min-height: 278px !important;
+  }
+
+  .compactDraft :global(.player-card__fit),
+  .compactDraft :global(.player-card__inspect) {
+    flex-shrink: 0;
+  }
+
+  .compactDraft :global(.player-card__inspect) {
+    width: 100%;
+    min-height: 40px;
+    margin-bottom: 1px;
+  }
+}

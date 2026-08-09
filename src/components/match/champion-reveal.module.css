@@ -1566,8 +1566,14 @@
   }
 
   .team[data-long-name="true"] .teamCopy h2 {
-    font-size: clamp(1.4rem, 7.2vw, 1.85rem);
-    line-height: 1;
+    font-size: clamp(1.12rem, 6.1vw, 1.62rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+
+  .team[data-very-long-name="true"] .teamCopy h2 {
+    font-size: clamp(1rem, 5.45vw, 1.42rem);
+    line-height: 1.06;
   }
 
   .teamCopy p {

@@ -44,7 +44,7 @@ export function MobileFormationPicker({
     <section className={styles.root} aria-labelledby="mobile-formation-title" data-testid="mobile-formation-picker">
       <header className={styles.intro}>
         <p>STEP 03 · TACTICAL ROOM</p>
-        <h1 id="mobile-formation-title">Choose your system.</h1>
+        <h1 id="mobile-formation-title">Choose your formation.</h1>
         <span className={styles.context}>
           <strong>{manager.managerName} · {era.label}</strong>
           <span>Choose from four offered shapes.</span>
@@ -66,7 +66,7 @@ export function MobileFormationPicker({
               onClick={() => setSelectedId(formation.id)}
             >
               <span className={styles.identityBlock}>
-                <small>SYSTEM</small>
+                <small>FORMATION</small>
                 <strong>{formation.name}</strong>
                 <span className={styles.identity}>{formation.managerStyles[0]} · {formation.tacticalDifficulty}</span>
               </span>
@@ -94,7 +94,7 @@ export function MobileFormationPicker({
           <span>{formationRespinRemaining ? "Respin" : "Used"}</span>
         </button>
         <span>
-          <small>{selected ? "SELECTED SYSTEM" : "TACTICAL SHAPE"}</small>
+          <small>{selected ? "SELECTED FORMATION" : "TACTICAL SHAPE"}</small>
           <strong>{selected?.formation.name ?? "Choose a formation"}</strong>
         </span>
         <Button disabled={!selected} onClick={() => selected && onContinue(selected.formation.id)}>

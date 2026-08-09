@@ -1362,7 +1362,14 @@
   }
 
   .scoreTeam b {
+    max-width: 100%;
+    overflow-wrap: anywhere;
     white-space: normal;
+  }
+
+  .scoreTeam[data-long-name="true"] b {
+    font-size: clamp(.7rem, 3.8vw, .86rem);
+    line-height: 1.08;
   }
 
   .crest {

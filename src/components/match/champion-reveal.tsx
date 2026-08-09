@@ -380,6 +380,7 @@ function TeamIdentity({
       className={`${styles.team} ${side === "opponent" ? styles.opponent : styles.user}`}
       data-testid={`${side}-final-team`}
       data-long-name={side === "opponent" && name.length >= 11 ? "true" : "false"}
+      data-very-long-name={side === "opponent" && name.length >= 17 ? "true" : "false"}
       animate={{
         opacity: launching ? 0.72 : ready ? 1 : 0.36,
         x: launching ? (side === "user" ? -28 : 28) : 0,

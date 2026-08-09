@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import {
   imagesById,
   isPlayablePlayerCardId,
+  playerGameFaceCacheVersionForPath,
   playablePlayerGameFaceCandidatesFor,
 } from "@/data/player-images";
 import { assetUrl } from "@/lib/assets";
@@ -41,9 +42,14 @@ export function CircularPortrait({
 
   const imageSources = useMemo(() => {
     if (isPlayer) {
-      return playablePlayerGameFaceCandidatesFor(imageId).map((path) =>
-        assetUrl(path),
-      );
+      return playablePlayerGameFaceCandidatesFor(imageId).map((path) => {
+        const source = assetUrl(path);
+        const cacheVersion = playerGameFaceCacheVersionForPath(path);
+
+        return cacheVersion
+          ? `${source}?v=${encodeURIComponent(cacheVersion)}`
+          : source;
+      });
     }
 
     if (!registeredImage) return [];

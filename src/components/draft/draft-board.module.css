@@ -1920,8 +1920,8 @@
   .option > :global(.player-card),
   .cardGrid :global(.player-card) {
     width: 100%;
-    height: clamp(250px, 31dvh, 264px) !important;
-    min-height: 250px !important;
+    height: auto !important;
+    min-height: 278px !important;
     padding: 10px 8px 8px;
     overflow: hidden;
     border-width: 1px;
@@ -2124,6 +2124,7 @@
 
   .option > :global(.player-card),
   .cardGrid :global(.player-card) {
-    height: 250px !important;
+    height: auto !important;
+    min-height: 278px !important;
   }
 }

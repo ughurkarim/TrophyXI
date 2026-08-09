@@ -6692,22 +6692,6 @@
       "sourcePlayerName": "MOHAMED ELSHENAWY"
     },
     {
-      "identityId": "yasser-ibrahim",
-      "playerName": "Yasser Ibrahim",
-      "teamCode": "EGY",
-      "teamName": "Egypt",
-      "shirtNumber": 2,
-      "primaryPosition": "CB",
-      "eligiblePositions": [
-        "CB",
-        "LB",
-        "RB"
-      ],
-      "birthDate": "1993-02-10",
-      "club": "Al Ahly FC (EGY)",
-      "sourcePlayerName": "YASSER IBRAHIM"
-    },
-    {
       "identityId": "hossam-abdelmaguid",
       "playerName": "Hossam Abdelmaguid",
       "teamCode": "EGY",
@@ -6856,22 +6840,6 @@
       "sourcePlayerName": "HAISSEM HASSAN"
     },
     {
-      "identityId": "ahmed-fatouh",
-      "playerName": "Ahmed Fatouh",
-      "teamCode": "EGY",
-      "teamName": "Egypt",
-      "shirtNumber": 13,
-      "primaryPosition": "CB",
-      "eligiblePositions": [
-        "CB",
-        "LB",
-        "RB"
-      ],
-      "birthDate": "1998-03-22",
-      "club": "Zamalek SC (EGY)",
-      "sourcePlayerName": "AHMED FATOUH"
-    },
-    {
       "identityId": "hamdy-fathy",
       "playerName": "Hamdy Fathy",
       "teamCode": "EGY",
@@ -6918,22 +6886,6 @@
       "sourcePlayerName": "MAHDY SOLIMAN"
     },
     {
-      "identityId": "mohanad-lashin",
-      "playerName": "Mohanad LASHIN",
-      "teamCode": "EGY",
-      "teamName": "Egypt",
-      "shirtNumber": 17,
-      "primaryPosition": "CM",
-      "eligiblePositions": [
-        "CM",
-        "DM",
-        "AM"
-      ],
-      "birthDate": "1996-05-29",
-      "club": "Pyramids FC (EGY)",
-      "sourcePlayerName": "MOHANAD LASHIN"
-    },
-    {
       "identityId": "nabil-donga",
       "playerName": "Nabil Donga",
       "teamCode": "EGY",
@@ -6948,22 +6900,6 @@
       "birthDate": "1996-04-06",
       "club": "Al Najmah SC (KSA)",
       "sourcePlayerName": "NABIL DONGA"
-    },
-    {
-      "identityId": "marawan-attia",
-      "playerName": "Marawan Attia",
-      "teamCode": "EGY",
-      "teamName": "Egypt",
-      "shirtNumber": 19,
-      "primaryPosition": "CM",
-      "eligiblePositions": [
-        "CM",
-        "DM",
-        "AM"
-      ],
-      "birthDate": "1998-08-01",
-      "club": "Al Ahly FC (EGY)",
-      "sourcePlayerName": "MARAWAN ATTIA"
     },
     {
       "identityId": "ibrahim-adel",
@@ -7014,20 +6950,6 @@
       "birthDate": "1999-02-07",
       "club": "Manchester City FC (ENG)",
       "sourcePlayerName": "OMAR MARMOUSH"
-    },
-    {
-      "identityId": "mostafa-shoubir",
-      "playerName": "Mostafa SHOUBIR",
-      "teamCode": "EGY",
-      "teamName": "Egypt",
-      "shirtNumber": 23,
-      "primaryPosition": "GK",
-      "eligiblePositions": [
-        "GK"
-      ],
-      "birthDate": "2000-05-15",
-      "club": "Al Ahly FC (EGY)",
-      "sourcePlayerName": "MOSTAFA SHOUBIR"
     },
     {
       "identityId": "tarek-alaa",
@@ -14739,20 +14661,6 @@
       "birthDate": "2001-06-22",
       "club": "SE Palmeiras (BRA)",
       "sourcePlayerName": "MAURICIO"
-    },
-    {
-      "identityId": "orlando-gill",
-      "playerName": "Orlando Gill",
-      "teamCode": "PAR",
-      "teamName": "Paraguay",
-      "shirtNumber": 12,
-      "primaryPosition": "GK",
-      "eligiblePositions": [
-        "GK"
-      ],
-      "birthDate": "2000-06-11",
-      "club": "CA San Lorenzo (ARG)",
-      "sourcePlayerName": "GILL Orlando"
     },
     {
       "identityId": "jose-canale",

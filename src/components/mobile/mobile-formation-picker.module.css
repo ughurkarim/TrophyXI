@@ -73,8 +73,8 @@
     position: relative;
     display: grid;
     width: 100%;
-    height: clamp(115px, 14.5dvh, 132px);
-    min-height: 115px;
+    height: auto;
+    min-height: clamp(120px, 15dvh, 136px);
     align-items: center;
     grid-template-columns: minmax(78px, 1fr) clamp(70px, 19.5vw, 84px) minmax(98px, 1.08fr);
     gap: clamp(5px, 1.7vw, 8px);
@@ -152,6 +152,7 @@
   .pitch {
     display: grid;
     width: 100%;
+    min-width: 0;
     place-self: center;
   }
 
@@ -306,8 +307,7 @@
   }
 
   .card {
-    height: 115px;
-    min-height: 115px;
+    min-height: 120px;
   }
 }
 

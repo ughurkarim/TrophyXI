@@ -273,7 +273,10 @@ export function MatchTimeline({
             </motion.strong>
           </div>
 
-          <div className={`${styles.scoreTeam} ${styles.scoreTeamRight}`}>
+          <div
+            className={`${styles.scoreTeam} ${styles.scoreTeamRight}`}
+            data-long-name={opponentDisplayName.length >= 11 ? "true" : undefined}
+          >
             <div>
               <small>
                 {opponent.kind === "all-stars"

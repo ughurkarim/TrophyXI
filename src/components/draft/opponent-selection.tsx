@@ -292,6 +292,7 @@ function OpponentCard({
       aria-label={`Select ${opponent.nationName} ${opponent.tournamentYear}, ${opponent.difficulty} difficulty`}
       data-testid={`champion-card-${opponent.tournamentYear}`}
       data-year={opponent.tournamentYear}
+      data-long-name={opponent.nationName.length >= 11 ? "true" : undefined}
       onClick={onSelect}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {

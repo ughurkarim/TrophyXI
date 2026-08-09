@@ -150,12 +150,22 @@ describe("game store integrity", () => {
       .getState()
       .selectManager(useGameStore.getState().managerOptionIds[0]);
     const original = [...useGameStore.getState().formationOptionIds];
+    const before = useGameStore.getState();
     useGameStore.getState().respinFormations();
-    const replacement = [...useGameStore.getState().formationOptionIds];
+    const after = useGameStore.getState();
+    const replacement = [...after.formationOptionIds];
     expect(replacement).toHaveLength(4);
     expect(replacement.every((id) => !original.includes(id))).toBe(true);
-    expect(useGameStore.getState().formationRespinRemaining).toBe(0);
-    expect(useGameStore.getState().playerRespinsRemaining).toBe(2);
+    expect(after.formationRespinRemaining).toBe(0);
+    expect(after.playerRespinsRemaining).toBe(2);
+    expect(after.managerId).toBe(before.managerId);
+    expect(after.eraId).toBe(before.eraId);
+    expect(after.draftSeed).toBe(before.draftSeed);
+    expect(after.managerOptionIds).toEqual(before.managerOptionIds);
+    expect(after.originalFormationOptionIds).toEqual(
+      before.originalFormationOptionIds,
+    );
+    expect(after.optionIds).toEqual(before.optionIds);
     useGameStore.getState().respinFormations();
     expect(useGameStore.getState().formationOptionIds).toEqual(replacement);
   });

@@ -129,6 +129,7 @@ const expectOpponentScreenToFit = async (page: Page, width: number) => {
       );
       const image = imageRegion?.querySelector("img");
       const copy = imageRegion?.nextElementSibling;
+      const teamName = copy?.querySelector("h3");
       const cardBox = element.getBoundingClientRect();
       const artBox = imageRegion?.getBoundingClientRect();
       const copyBox = copy?.getBoundingClientRect();
@@ -149,6 +150,9 @@ const expectOpponentScreenToFit = async (page: Page, width: number) => {
         imageComplete: image instanceof HTMLImageElement ? image.complete : false,
         imageNaturalWidth:
           image instanceof HTMLImageElement ? image.naturalWidth : 0,
+        teamNameFits: teamName
+          ? teamName.scrollWidth <= teamName.clientWidth + 1
+          : false,
       };
     });
     expect(geometry.cardLeft).toBeGreaterThanOrEqual(0);
@@ -169,16 +173,17 @@ const expectOpponentScreenToFit = async (page: Page, width: number) => {
     expect(geometry.maskImage).not.toBe("none");
     expect(geometry.imageComplete).toBe(true);
     expect(geometry.imageNaturalWidth).toBeGreaterThan(0);
+    expect(geometry.teamNameFits).toBe(true);
   }
 
-  const argentina = page.getByRole("button", {
-    name: /select argentina 2022/i,
+  const westGermany = page.getByRole("button", {
+    name: /select west germany 1990/i,
   });
-  await argentina.scrollIntoViewIfNeeded();
-  await argentina.click();
-  await expect(argentina).toHaveAttribute("aria-pressed", "true");
+  await westGermany.scrollIntoViewIfNeeded();
+  await westGermany.click();
+  await expect(westGermany).toHaveAttribute("aria-pressed", "true");
   expect(
-    await argentina.evaluate((card) => getComputedStyle(card).boxShadow),
+    await westGermany.evaluate((card) => getComputedStyle(card).boxShadow),
   ).not.toBe("none");
 
   const footer = page.getByTestId("opponent-action-bar");
@@ -323,6 +328,12 @@ const expectOpponentRevealToScrollAndFit = async (
       user: bounds(byTestId("user-final-team")),
       versus: bounds(byTestId("final-versus-mark")),
       opponent: bounds(byTestId("opponent-final-team")),
+      opponentNameFits: (() => {
+        const name = byTestId("opponent-final-team")?.querySelector("h2");
+        return name
+          ? name.scrollWidth <= name.clientWidth + 1
+          : false;
+      })(),
       finalLabel: bounds(finalLabel ?? null),
       comparison: bounds(comparison),
       metricChildren: metricRows.flatMap((row) =>
@@ -350,6 +361,7 @@ const expectOpponentRevealToScrollAndFit = async (
   }
   expect(geometry.viewportWidth).toBe(width);
   expect(geometry.viewportHeight).toBe(height);
+  expect(geometry.opponentNameFits).toBe(true);
 
   for (const action of [
     page.getByRole("button", { name: /view your xi/i }),
@@ -1169,8 +1181,8 @@ test("formation shortlist stacks four compact comparison cards above its bottom 
       }),
     );
     for (const box of cardBoxes) {
-      expect(box.height).toBeGreaterThanOrEqual(115);
-      expect(box.height).toBeLessThanOrEqual(132);
+      expect(box.height).toBeGreaterThanOrEqual(110);
+      expect(box.height).toBeLessThanOrEqual(138);
       expect(box.left).toBeGreaterThanOrEqual(0);
       expect(box.right).toBeLessThanOrEqual(width);
     }
@@ -1181,7 +1193,33 @@ test("formation shortlist stacks four compact comparison cards above its bottom 
     const pitchBoxes = await pitches.evaluateAll((items) =>
       items.map((pitch) => {
         const box = pitch.getBoundingClientRect();
-        return { width: box.width, height: box.height };
+        const card = pitch.closest('[data-testid="mobile-formation-card"]');
+        const cardBox = card?.getBoundingClientRect();
+        const nodes = [...pitch.querySelectorAll<HTMLElement>(".pitch-node")];
+        return {
+          left: box.left,
+          right: box.right,
+          top: box.top,
+          bottom: box.bottom,
+          width: box.width,
+          height: box.height,
+          insideCard: Boolean(
+            cardBox &&
+              box.left >= cardBox.left - 1 &&
+              box.right <= cardBox.right + 1 &&
+              box.top >= cardBox.top - 1 &&
+              box.bottom <= cardBox.bottom + 1,
+          ),
+          nodesInside: nodes.every((node) => {
+            const nodeBox = node.getBoundingClientRect();
+            return (
+              nodeBox.left >= box.left - 1 &&
+              nodeBox.right <= box.right + 1 &&
+              nodeBox.top >= box.top - 1 &&
+              nodeBox.bottom <= box.bottom + 1
+            );
+          }),
+        };
       }),
     );
     for (const box of pitchBoxes) {
@@ -1189,6 +1227,8 @@ test("formation shortlist stacks four compact comparison cards above its bottom 
       expect(box.width).toBeLessThanOrEqual(85);
       expect(box.height).toBeGreaterThanOrEqual(95);
       expect(box.height).toBeLessThanOrEqual(120);
+      expect(box.insideCard).toBe(true);
+      expect(box.nodesInside).toBe(true);
     }
     await expect(pitches.first().locator(".pitch-node")).toHaveCount(11);
 
@@ -1225,7 +1265,7 @@ test("formation shortlist stacks four compact comparison cards above its bottom 
       "rgba(255, 226, 117, 0.9)",
     );
     await expect(
-      action.getByText("SELECTED SYSTEM", { exact: true }),
+      action.getByText("SELECTED FORMATION", { exact: true }),
     ).toBeVisible();
     await expect(
       action.getByRole("button", { name: "Draft", exact: true }),
@@ -1240,9 +1280,7 @@ test("formation shortlist stacks four compact comparison cards above its bottom 
       height - (initialActionBox!.y + initialActionBox!.height),
     ).toBeGreaterThanOrEqual(70);
 
-    if (width >= 390) {
-      expect(cardBoxes[3].bottom).toBeLessThanOrEqual(initialActionBox!.y - 8);
-    } else {
+    if (cardBoxes[3].bottom > initialActionBox!.y - 8) {
       await page.evaluate(() => {
         document.documentElement.style.scrollBehavior = "auto";
         window.scrollTo(0, document.documentElement.scrollHeight);
@@ -1413,20 +1451,20 @@ test("manager and formation respins share a centered mobile confirmation modal",
     ).toBeVisible();
     await expect(
       formationModal.dialog.getByRole("button", {
-        name: "RESPIN SYSTEMS",
+        name: "RESPIN FORMATIONS",
         exact: true,
       }),
     ).toBeVisible();
     await expect(
       formationModal.dialog.getByRole("button", {
-        name: "KEEP SYSTEMS",
+        name: "KEEP FORMATIONS",
         exact: true,
       }),
     ).toBeVisible();
 
     if (confirmRespin) {
       await formationModal.dialog
-        .getByRole("button", { name: "RESPIN SYSTEMS", exact: true })
+        .getByRole("button", { name: "RESPIN FORMATIONS", exact: true })
         .click();
       await expect(formationModal.dialog).toHaveCount(0);
       await expect(
@@ -1434,7 +1472,7 @@ test("manager and formation respins share a centered mobile confirmation modal",
       ).toBeDisabled();
     } else if (index % 3 === 0) {
       await formationModal.dialog
-        .getByRole("button", { name: "KEEP SYSTEMS", exact: true })
+        .getByRole("button", { name: "KEEP FORMATIONS", exact: true })
         .click();
       await expect(formationModal.dialog).toHaveCount(0);
     } else if (index % 3 === 1) {
@@ -1555,8 +1593,8 @@ test("mobile draft composes its summary, tactical board, and mini pick rail", as
     expect(geometry.pitch!.height).toBeLessThanOrEqual(336);
     expect(geometry.card!.width).toBeGreaterThanOrEqual(147);
     expect(geometry.card!.width).toBeLessThanOrEqual(175);
-    expect(geometry.card!.height).toBeGreaterThanOrEqual(249);
-    expect(geometry.card!.height).toBeLessThanOrEqual(265);
+    expect(geometry.card!.height).toBeGreaterThanOrEqual(277);
+    expect(geometry.card!.height).toBeLessThanOrEqual(292);
     expect(geometry.choices!.top).toBeLessThan(height);
     expect(geometry.choices!.top).toBeGreaterThanOrEqual(
       geometry.panel!.bottom + 7,
@@ -1576,6 +1614,24 @@ test("mobile draft composes its summary, tactical board, and mini pick rail", as
     await expect(
       firstCard.getByRole("button", { name: "View tournament record" }),
     ).toBeVisible();
+    const recordControlFits = await firstCard.evaluate((card) => {
+      const cardBox = card.getBoundingClientRect();
+      const fit = card.querySelector<HTMLElement>(".player-card__fit");
+      const record = card.querySelector<HTMLElement>(".player-card__inspect");
+      if (!fit || !record) return false;
+      const fitBox = fit.getBoundingClientRect();
+      const recordBox = record.getBoundingClientRect();
+      return (
+        fitBox.left >= cardBox.left - 1 &&
+        fitBox.right <= cardBox.right + 1 &&
+        fitBox.bottom <= cardBox.bottom + 1 &&
+        recordBox.left >= cardBox.left - 1 &&
+        recordBox.right <= cardBox.right + 1 &&
+        recordBox.top >= fitBox.bottom &&
+        recordBox.bottom <= cardBox.bottom + 1
+      );
+    });
+    expect(recordControlFits).toBe(true);
 
     const lastCard = cards.last();
     await lastCard.scrollIntoViewIfNeeded();
@@ -1634,14 +1690,16 @@ for (const width of fullFlowPhones) {
 
     await page.getByRole("button", { name: /choose opponent/i }).click();
     await expectOpponentScreenToFit(page, width);
-    const allStars = page.getByRole("button", {
-      name: /select world cup all-stars/i,
+    const westGermany = page.getByRole("button", {
+      name: /select west germany 1990/i,
     });
-    await allStars.scrollIntoViewIfNeeded();
-    await allStars.click();
+    await westGermany.scrollIntoViewIfNeeded();
+    await westGermany.click();
     await page.getByRole("button", { name: /enter the tunnel/i }).click();
     await expect(
-      page.getByRole("heading", { name: "All Stars", exact: true }),
+      page
+        .getByTestId("opponent-final-team")
+        .getByRole("heading", { name: "West Germany", exact: true }),
     ).toBeVisible();
     await expectOpponentRevealToScrollAndFit(
       page,

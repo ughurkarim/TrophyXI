@@ -60,6 +60,93 @@ const playablePlayersById = new Map(
 
 type PlayablePlayerCard = (typeof playablePlayers)[number];
 
+type PreferredPlayerGameFace = {
+  sourceCardId: string;
+  cacheVersion: string;
+  sourcePath?: string;
+  exclusive?: boolean;
+};
+
+/**
+ * Curated identity portraits that intentionally replace the older card-year
+ * objects still present in the asset bucket. The content hash changes the
+ * browser-facing URL after an asset replacement; the canonical card path is
+ * still used everywhere except for Frank de Boer's currently uploaded legacy
+ * key, which contains a leading space.
+ */
+const preferredPlayerGameFacesByIdentityId = new Map<
+  string,
+  PreferredPlayerGameFace
+>([
+  ["dunga", { sourceCardId: "dunga-1994", cacheVersion: "f0ddd98474f32f7a" }],
+  [
+    "edgar-davids",
+    { sourceCardId: "edgar-davids-1998", cacheVersion: "46650a5872813f1b" },
+  ],
+  [
+    "fabio-cannavaro",
+    { sourceCardId: "fabio-cannavaro-2006", cacheVersion: "76422257fecc0330" },
+  ],
+  [
+    "fernando-muslera",
+    {
+      sourceCardId: "fernando-muslera-2026",
+      cacheVersion: "0d2c74892d8f8c84",
+      exclusive: true,
+    },
+  ],
+  [
+    "frank-de-boer",
+    {
+      sourceCardId: "frank-de-boer-1994",
+      sourcePath: "/players/game-faces/%20frank-de-boer-1994.png",
+      cacheVersion: "611681705b7fa400",
+    },
+  ],
+  [
+    "gheorghe-hagi",
+    { sourceCardId: "gheorghe-hagi-1994", cacheVersion: "dbdc273947b2f3a5" },
+  ],
+  [
+    "gianluigi-buffon",
+    { sourceCardId: "gianluigi-buffon-2006", cacheVersion: "ccfb8d16b9c72549" },
+  ],
+  [
+    "hong-myung-bo",
+    { sourceCardId: "hong-myung-bo-2002", cacheVersion: "ef16d27debf1bdba" },
+  ],
+  [
+    "jurgen-klinsmann",
+    { sourceCardId: "jurgen-klinsmann-1994", cacheVersion: "e9dd525b4c4d4075" },
+  ],
+  [
+    "laurent-blanc",
+    { sourceCardId: "laurent-blanc-1998", cacheVersion: "849fba0cd77dd13f" },
+  ],
+  [
+    "thierry-henry",
+    { sourceCardId: "thierry-henry-2002", cacheVersion: "3f92e1c5fcd46a28" },
+  ],
+  [
+    "zinedine-zidane",
+    { sourceCardId: "zinedine-zidane-1998", cacheVersion: "cbd2d0410eaae9d2" },
+  ],
+]);
+
+const preferredPlayerGameFaceCacheVersionsByPath = new Map(
+  [...preferredPlayerGameFacesByIdentityId.values()].flatMap((preferred) => {
+    const canonicalPath = playerGameFacePath(preferred.sourceCardId);
+    const preferredPath = preferred.sourcePath ?? canonicalPath;
+
+    return [
+      [preferredPath, preferred.cacheVersion],
+      ...(preferredPath === canonicalPath
+        ? []
+        : [[canonicalPath, preferred.cacheVersion]]),
+    ] as Array<[string, string]>;
+  }),
+);
+
 const playablePlayerCardsByIdentityId = new Map<
   string,
   PlayablePlayerCard[]
@@ -82,12 +169,13 @@ export const isPlayablePlayerCardId = (cardId: string): boolean =>
 /**
  * Player portrait lookup order:
  *
- * 1. The exact tournament-card PNG.
- * 2. Other cards for the same player identity, nearest tournament year first.
- * 3. On an equal year distance, the earlier tournament year first.
+ * 1. A curated identity portrait, when one has explicitly been selected.
+ * 2. The exact tournament-card PNG.
+ * 3. Other cards for the same player identity, nearest tournament year first.
+ * 4. On an equal year distance, the earlier tournament year first.
  *
- * The browser tries each canonical PNG path in order. This does not copy files
- * in S3 and never falls back to a different player identity.
+ * The browser tries each PNG candidate in order. This does not copy files in
+ * S3 and never falls back to a different player identity.
  */
 export const playablePlayerGameFaceCandidatesFor = (
   cardId: string,
@@ -97,6 +185,17 @@ export const playablePlayerGameFaceCandidatesFor = (
 
   const samePlayerCards =
     playablePlayerCardsByIdentityId.get(target.playerIdentityId) ?? [];
+  const preferred = preferredPlayerGameFacesByIdentityId.get(
+    target.playerIdentityId,
+  );
+  const preferredCanonicalPath = preferred
+    ? playerGameFacePath(preferred.sourceCardId)
+    : null;
+  const preferredPath = preferred?.sourcePath ?? preferredCanonicalPath;
+
+  if (preferred?.exclusive && preferredPath) {
+    return [preferredPath];
+  }
 
   const orderedCards = [...samePlayerCards].sort((a, b) => {
     if (a.id === target.id) return -1;
@@ -118,9 +217,13 @@ export const playablePlayerGameFaceCandidatesFor = (
     return a.id.localeCompare(b.id);
   });
 
-  return [...new Set(
-    orderedCards.map((player) => playerGameFacePath(player.id)),
-  )];
+  return [
+    ...new Set([
+      ...(preferredPath ? [preferredPath] : []),
+      ...(preferredCanonicalPath ? [preferredCanonicalPath] : []),
+      ...orderedCards.map((player) => playerGameFacePath(player.id)),
+    ]),
+  ];
 };
 
 export const gameFacePathFor = (
@@ -329,10 +432,8 @@ export const tournamentEditionPlayerImages: ImageAttribution[] =
     });
 
 /**
- * Playable cards render only independently audited, card-specific game faces.
- * A missing exact-year image deliberately stays absent from this map so the
- * shared portrait component renders Photo Pending. Cross-year identity
- * fallbacks remain disabled.
+ * This attribution registry remains exact-card only. Runtime candidate
+ * fallback is handled separately above and never changes attribution data.
  */
 export const identityFallbackPlayerImages: ImageAttribution[] = [];
 
@@ -359,5 +460,25 @@ export const imageAttributions = [...playerImages, ...managerImages];
 export const imagesById = new Map(
   imageAttributions.map((image) => [image.id, image]),
 );
+
+/**
+ * Returns the content token for a player object when one is known. The CDN
+ * currently ignores query parameters, but this still prevents Safari and
+ * other browsers from reusing a stale response after the CDN object changes.
+ */
+export const playerGameFaceCacheVersionForPath = (
+  path: string,
+): string | null => {
+  const preferredVersion = preferredPlayerGameFaceCacheVersionsByPath.get(path);
+  if (preferredVersion) return preferredVersion;
+
+  const match = /^\/players\/game-faces\/([^/?]+)\.png$/.exec(path);
+  if (!match) return null;
+
+  const registeredImage = imagesById.get(decodeURIComponent(match[1]));
+  return registeredImage?.kind === "player"
+    ? registeredImage.cacheVersion
+    : null;
+};
 
 export const hasRealPortrait = (imageId: string) => imagesById.has(imageId);

@@ -1,7 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
-import { playablePlayerGameFacePathFor } from "@/data/player-images";
+import {
+  playablePlayerGameFaceCandidatesFor,
+  playablePlayerGameFacePathFor,
+} from "@/data/player-images";
 
 describe("CircularPortrait", () => {
   it("resolves exact card-year paths without sharing tournament versions", () => {
@@ -63,7 +66,64 @@ describe("CircularPortrait", () => {
     );
   });
 
-  it("falls back to Photo Pending when an exact image fails to load", () => {
+  it("uses Muslera's 2026 portrait exclusively for every playable card", () => {
+    for (const year of [2010, 2014, 2018, 2022, 2026]) {
+      expect(
+        playablePlayerGameFaceCandidatesFor(`fernando-muslera-${year}`),
+      ).toEqual(["/players/game-faces/fernando-muslera-2026.png"]);
+    }
+  });
+
+  it.each([
+    ["gheorghe-hagi-1990", "gheorghe-hagi-1994"],
+    ["hong-myung-bo-1994", "hong-myung-bo-2002"],
+    ["dunga-1998", "dunga-1994"],
+    ["jurgen-klinsmann-1990", "jurgen-klinsmann-1994"],
+    ["gianluigi-buffon-2014", "gianluigi-buffon-2006"],
+    ["thierry-henry-2010", "thierry-henry-2002"],
+    ["fabio-cannavaro-1998", "fabio-cannavaro-2006"],
+    ["laurent-blanc-1998", "laurent-blanc-1998"],
+    ["edgar-davids-1998", "edgar-davids-1998"],
+    ["zinedine-zidane-2006", "zinedine-zidane-1998"],
+  ])("prefers the refreshed %s identity portrait", (cardId, sourceCardId) => {
+    expect(playablePlayerGameFaceCandidatesFor(cardId)[0]).toBe(
+      `/players/game-faces/${sourceCardId}.png`,
+    );
+  });
+
+  it("uses the uploaded Frank de Boer key before stale canonical objects", () => {
+    expect(
+      playablePlayerGameFaceCandidatesFor("frank-de-boer-1998").slice(0, 2),
+    ).toEqual([
+      "/players/game-faces/%20frank-de-boer-1994.png",
+      "/players/game-faces/frank-de-boer-1994.png",
+    ]);
+  });
+
+  it("adds a content token to refreshed player portrait URLs", () => {
+    render(
+      <CircularPortrait
+        imageId="fernando-muslera-2010"
+        subjectName="Fernando Muslera"
+        era="2010s"
+        countryCode="URU"
+        tournamentYear={2010}
+      />,
+    );
+
+    expect(
+      screen.getByRole("img", {
+        name: /fernando muslera 2010 portrait/i,
+      }),
+    ).toHaveAttribute(
+      "src",
+      expect.stringMatching(
+        /\/players\/game-faces\/fernando-muslera-2026\.png\?v=0d2c74892d8f8c84$/,
+      ),
+    );
+  });
+
+  it("falls back to Photo Pending after every same-player source fails", () => {
     render(
       <CircularPortrait
         imageId="cristiano-ronaldo-2018"
@@ -75,11 +135,16 @@ describe("CircularPortrait", () => {
       />,
     );
 
-    fireEvent.error(
-      screen.getByRole("img", {
-        name: /cristiano ronaldo 2018 portrait/i,
-      }),
-    );
+    const candidateCount = playablePlayerGameFaceCandidatesFor(
+      "cristiano-ronaldo-2018",
+    ).length;
+    for (let index = 0; index < candidateCount; index += 1) {
+      fireEvent.error(
+        screen.getByRole("img", {
+          name: /cristiano ronaldo 2018 portrait/i,
+        }),
+      );
+    }
 
     const pending = screen.getByRole("img", {
       name: /cristiano ronaldo 2018 portrait, photo pending/i,
@@ -92,7 +157,7 @@ describe("CircularPortrait", () => {
     );
   });
 
-  it("keeps Tshabalala playable-facing while his exact image is pending", () => {
+  it("keeps Tshabalala playable-facing after his sources fail", () => {
     render(
       <CircularPortrait
         imageId="siphiwe-tshabalala-2010"
@@ -103,6 +168,16 @@ describe("CircularPortrait", () => {
         tournamentYear={2010}
       />,
     );
+    const candidateCount = playablePlayerGameFaceCandidatesFor(
+      "siphiwe-tshabalala-2010",
+    ).length;
+    for (let index = 0; index < candidateCount; index += 1) {
+      fireEvent.error(
+        screen.getByRole("img", {
+          name: /siphiwe tshabalala 2010 portrait/i,
+        }),
+      );
+    }
     const pending = screen.getByRole("img", {
       name: /siphiwe tshabalala 2010 portrait, photo pending/i,
     });

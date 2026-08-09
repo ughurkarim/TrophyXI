@@ -28,11 +28,11 @@ const content: Record<
   formation: {
     eyebrow: "FORMATION RESPIN ×1",
     titleLead: "Replace all four",
-    titleSubject: "systems?",
+    titleSubject: "formations?",
     description:
-      "The new offer keeps the same manager, era, and player respins.",
-    confirmLabel: "RESPIN SYSTEMS",
-    cancelLabel: "KEEP SYSTEMS",
+      "Only the four formations change. Your manager, era, and other respins stay the same.",
+    confirmLabel: "RESPIN FORMATIONS",
+    cancelLabel: "KEEP FORMATIONS",
   },
   player: {
     eyebrow: "PLAYER RESPIN",
