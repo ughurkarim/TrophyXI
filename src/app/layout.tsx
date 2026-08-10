@@ -1,31 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import type { CSSProperties } from "react";
+import "@fontsource-variable/sora/wght.css";
+import "@fontsource-variable/inter/wght.css";
+import "@fontsource-variable/jetbrains-mono/wght.css";
 import { StoreHydrator } from "@/components/providers/store-hydrator";
 import "./globals.css";
 import "./mobile.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const sora = localFont({
-  src: "../../node_modules/@fontsource-variable/sora/files/sora-latin-wght-normal.woff2",
-  variable: "--font-display",
-  display: "swap",
-  weight: "100 800",
-});
-
-const inter = localFont({
-  src: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
-  variable: "--font-body",
-  display: "swap",
-  weight: "100 900",
-});
-
-const jetbrains = localFont({
-  src: "../../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2",
-  variable: "--font-mono",
-  display: "swap",
-  weight: "100 800",
-});
+const fontVariables = {
+  "--font-display": '"Sora Variable"',
+  "--font-body": '"Inter Variable"',
+  "--font-mono": '"JetBrains Mono Variable"',
+} as CSSProperties;
 
 export const metadata: Metadata = {
   title: {
@@ -59,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${inter.variable} ${jetbrains.variable}`}
+      style={fontVariables}
       data-scroll-behavior="smooth"
     >
       <body>

@@ -27,6 +27,12 @@ type RequestedIdentityArchive = {
     positionSource?: "reviewed-correction" | "match-derived" | "broad-squad-fallback";
   }[];
 };
+type PositionSource =
+  | "identity-audit"
+  | "requested"
+  | "historical"
+  | "broad-squad-fallback";
+
 type GeneratedPlayer = {
   identityId: string;
   playerName: string;
@@ -35,6 +41,7 @@ type GeneratedPlayer = {
   shirtNumber: number;
   primaryPosition: Position;
   eligiblePositions: Position[];
+  positionSource: PositionSource;
   birthDate: string;
   club: string;
   sourcePlayerName: string;
@@ -119,6 +126,17 @@ const normalize = (value: string) =>
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[’']/g, "")
     .toLocaleLowerCase("en")
+    // NFD does not decompose every Latin letter used by World Cup names.
+    // Transliterate the remaining common cases before creating stable IDs.
+    .replace(/ı/g, "i")
+    .replace(/ß/g, "ss")
+    .replace(/đ/g, "d")
+    .replace(/ł/g, "l")
+    .replace(/ø/g, "o")
+    .replace(/æ/g, "ae")
+    .replace(/œ/g, "oe")
+    .replace(/ð/g, "d")
+    .replace(/þ/g, "th")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
@@ -127,40 +145,105 @@ const isoDate = (value: string) => {
   return `${year}-${month}-${day}`;
 };
 
-const playerNameFor = (row: CsvRow) => {
+const displayLocaleFor = (teamCode: string) =>
+  teamCode === "TUR" ? "tr" : "en";
+
+const isAllCapsWord = (value: string, locale: string) => {
+  const letters = [...value].filter((character) => /\p{L}/u.test(character));
+  if (letters.length === 0) return false;
+  const joined = letters.join("");
+  return (
+    joined === joined.toLocaleUpperCase(locale) &&
+    joined !== joined.toLocaleLowerCase(locale)
+  );
+};
+
+const displayToken = (token: string, teamCode: string) => {
+  const locale = displayLocaleFor(teamCode);
+  const forceTitleCase = teamCode === "TUR";
+  return token
+    .split(/([-’'])/u)
+    .map((part) => {
+      if (part === "-" || part === "’" || part === "'") return part;
+      if (!forceTitleCase && !isAllCapsWord(part, locale)) return part;
+      const characters = [...part];
+      const [first = "", ...rest] = characters;
+      return `${first.toLocaleUpperCase(locale)}${rest
+        .join("")
+        .toLocaleLowerCase(locale)}`;
+    })
+    .join("");
+};
+
+const displayPhrase = (value: string, teamCode: string) =>
+  value
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((token) => displayToken(token, teamCode))
+    .join(" ")
+    .normalize("NFC");
+
+const playerNameFor = (row: CsvRow, teamCode: string) => {
   const common = row["PLAYER NAME"].trim();
-  const commonTokens = common.split(/\s+/);
-  const preferredGiven = row["FIRST NAME(S)"].trim().split(/\s+/)[0];
+  const commonTokens = common.split(/\s+/).filter(Boolean);
+  const preferredGiven = row["FIRST NAME(S)"].trim();
+  const preferredGivenTokens = preferredGiven.split(/\s+/).filter(Boolean);
+  const preferredGivenFirst = preferredGivenTokens[0] ?? "";
   const officialFamily = row["LAST NAME(S)"].trim();
-  const normalizedGiven = normalize(preferredGiven);
-  const displayToken = (token: string) =>
-    token
-      .split("-")
-      .map((part) =>
-        /^[A-ZÀ-ÖØ-Þ'’]+$/u.test(part)
-          ? `${part.slice(0, 1)}${part.slice(1).toLocaleLowerCase("en")}`
-          : part,
-      )
-      .join("-");
-  if (normalize(commonTokens[0]) === normalizedGiven) {
+  const normalizedGivenFirst = normalize(preferredGivenFirst);
+
+  // FIFA commonly stores surnames in all caps. Keep sourcePlayerName untouched,
+  // but never pass that casing directly into the display name.
+  const displayedFamily = displayPhrase(officialFamily, teamCode);
+  const displayedGiven = displayPhrase(preferredGiven, teamCode);
+
+  // Multi-part given names (for example Irfan Can) previously defeated the
+  // first-token-only ordering check. Reorder only when the complete suffix is
+  // demonstrably the official given-name phrase. Korean display order is kept.
+  if (teamCode !== "KOR" && preferredGivenTokens.length > 0) {
+    const suffix = commonTokens.slice(-preferredGivenTokens.length).join(" ");
+    if (
+      normalize(suffix) === normalize(preferredGiven) &&
+      commonTokens.length > preferredGivenTokens.length
+    ) {
+      const commonFamily = commonTokens
+        .slice(0, -preferredGivenTokens.length)
+        .join(" ");
+      return [
+        displayedGiven,
+        normalize(commonFamily) === normalize(officialFamily)
+          ? displayedFamily
+          : displayPhrase(commonFamily, teamCode),
+      ]
+        .join(" ")
+        .normalize("NFC");
+    }
+  }
+
+  if (normalize(commonTokens[0] ?? "") === normalizedGivenFirst) {
     const commonFamily = commonTokens.slice(1).join(" ");
     return [
-      preferredGiven,
+      displayPhrase(preferredGivenFirst, teamCode),
       normalize(commonFamily) === normalize(officialFamily)
-        ? officialFamily
-        : commonTokens.slice(1).map(displayToken).join(" "),
-    ].join(" ");
+        ? displayedFamily
+        : displayPhrase(commonFamily, teamCode),
+    ]
+      .join(" ")
+      .normalize("NFC");
   }
-  if (normalize(commonTokens.at(-1) ?? "") === normalizedGiven) {
+  if (normalize(commonTokens.at(-1) ?? "") === normalizedGivenFirst) {
     const commonFamily = commonTokens.slice(0, -1).join(" ");
     return [
-      preferredGiven,
+      displayPhrase(preferredGivenFirst, teamCode),
       normalize(commonFamily) === normalize(officialFamily)
-        ? officialFamily
-        : commonTokens.slice(0, -1).map(displayToken).join(" "),
-    ].join(" ");
+        ? displayedFamily
+        : displayPhrase(commonFamily, teamCode),
+    ]
+      .join(" ")
+      .normalize("NFC");
   }
-  return commonTokens.map(displayToken).join(" ");
+  return displayPhrase(common, teamCode);
 };
 
 const positionsFor = (code: string): Position[] => {
@@ -207,16 +290,49 @@ const requestedPositionByIdentity = new Map(
   ),
 );
 
+type PositionProfile = {
+  primaryPosition: Position;
+  eligiblePositions: Position[];
+  positionSource: PositionSource;
+};
+
 const precisePositionProfileFor = (
   identityId: string,
   sourceCode: string,
   historical: HistoricalArchive,
-): { primaryPosition: Position; eligiblePositions: Position[] } | undefined => {
+  reviewed2026PositionByIdentity: ReadonlyMap<string, PositionProfile>,
+): PositionProfile | undefined => {
   const sourceGroup = sourceCode as SourcePositionGroup;
+
+  // The checked-in generated roster can contain reviewed identity-audit
+  // positions. Preserve those across regeneration instead of collapsing them
+  // back to FIFA's coarse DF/MF/FW buckets.
+  const reviewed2026 = reviewed2026PositionByIdentity.get(identityId);
+  if (reviewed2026) {
+    return reviewed2026;
+  }
+
+  const requestedIdentity = requestedPositionByIdentity.get(identityId);
+  if (
+    requestedIdentity &&
+    (requestedIdentity.positionSource === "reviewed-correction" ||
+      requestedIdentity.positionSource === "match-derived") &&
+    sourceGroupForPosition(requestedIdentity.primaryPosition) === sourceGroup
+  ) {
+    return {
+      primaryPosition: requestedIdentity.primaryPosition,
+      eligiblePositions:
+        requestedIdentity.eligiblePositions ??
+        conservativeEligiblePositionsFor(requestedIdentity.primaryPosition),
+      positionSource: "requested",
+    };
+  }
+
   const historicalTournament = [...(historical.identities[identityId] ?? [])]
     .sort((first, second) => second.tournamentYear - first.tournamentYear)
-    .find((tournament) =>
-      sourceGroupForPosition(tournament.primaryPosition) === sourceGroup
+    .find(
+      (tournament) =>
+        sourceGroupForPosition(tournament.primaryPosition) === sourceGroup,
     );
 
   if (historicalTournament) {
@@ -231,20 +347,7 @@ const precisePositionProfileFor = (
     return {
       primaryPosition: historicalTournament.primaryPosition,
       eligiblePositions,
-    };
-  }
-
-  const requestedIdentity = requestedPositionByIdentity.get(identityId);
-  if (
-    requestedIdentity &&
-    requestedIdentity.positionSource !== "broad-squad-fallback" &&
-    sourceGroupForPosition(requestedIdentity.primaryPosition) === sourceGroup
-  ) {
-    return {
-      primaryPosition: requestedIdentity.primaryPosition,
-      eligiblePositions:
-        requestedIdentity.eligiblePositions ??
-        conservativeEligiblePositionsFor(requestedIdentity.primaryPosition),
+      positionSource: "historical",
     };
   }
 
@@ -254,6 +357,16 @@ const precisePositionProfileFor = (
 const reviewedHistoricalIdentityByPlayer: Record<string, string> = {
   "QAT/pedro-miguel": "ro-ro",
   "KSA/feras-albrikan": "firas-al-buraikan",
+};
+
+// Preserve reviewed public display names without changing stable identity/card IDs.
+const reviewed2026DisplayNameByIdentity: Record<string, string> = {
+  "gunok-mert": "Mert Günok",
+  "celik-zeki": "Zeki Çelik",
+  "akturkoglu-kerem": "Kerem Aktürkoğlu",
+  "elmali-eren": "Eren Elmalı",
+  "kahveci-irfan-can": "İrfan Can Kahveci",
+  "yilmaz-baris-alper": "Barış Alper Yılmaz",
 };
 
 const main = async () => {
@@ -267,6 +380,21 @@ const main = async () => {
     historicalPlayers.map((player) => [player.player_id, player]),
   );
   const historical = tournamentArchiveJson as unknown as HistoricalArchive;
+  const existingGenerated = existsSync(OUTPUT_FILE)
+    ? (JSON.parse(await readFile(OUTPUT_FILE, "utf8")) as GeneratedArchive)
+    : undefined;
+  const reviewed2026PositionByIdentity = new Map<string, PositionProfile>(
+    (existingGenerated?.players ?? [])
+      .filter((player) => player.positionSource === "identity-audit")
+      .map((player) => [
+        player.identityId,
+        {
+          primaryPosition: player.primaryPosition,
+          eligiblePositions: player.eligiblePositions,
+          positionSource: "identity-audit" as const,
+        },
+      ]),
+  );
   const historicalCandidatesByBirthDate = new Map<
     string,
     { identityId: string; playerName: string; teamCodes: Set<string> }[]
@@ -292,7 +420,7 @@ const main = async () => {
     const teamMatch = row.Team.match(/^(.*) \(([A-Z]{3})\)$/);
     if (!teamMatch) throw new Error(`Invalid team field: ${row.Team}`);
     const [, teamName, teamCode] = teamMatch;
-    const playerName = playerNameFor(row);
+    const playerName = playerNameFor(row, teamCode);
     const birthDate = isoDate(row.DOB);
     const candidates = (
       historicalCandidatesByBirthDate.get(birthDate) ?? []
@@ -355,20 +483,23 @@ const main = async () => {
       identityId,
       row.POS,
       historical,
+      reviewed2026PositionByIdentity,
     );
     const broadPositions = positionsFor(row.POS);
     return {
       identityId,
-      playerName,
+      playerName: (reviewed2026DisplayNameByIdentity[identityId] ?? historicalMatch?.playerName ?? playerName).normalize("NFC"),
       teamCode,
       teamName,
       shirtNumber: Number(row["#"]),
-      // FIFA's squad PDF exposes only GK/DF/MF/FW. Prefer the latest compatible
-      // tournament-specific role for linked players (then the requested-identity
-      // audit) instead of inventing CB/CM/ST as every outfielder's primary role.
+      // FIFA's squad PDF exposes only GK/DF/MF/FW. Reviewed 2026 identity-audit
+      // positions survive regeneration; requested/historical precision comes next;
+      // the broad FIFA bucket is the explicit last resort.
       primaryPosition: precisePositionProfile?.primaryPosition ?? broadPositions[0],
       eligiblePositions:
         precisePositionProfile?.eligiblePositions ?? broadPositions,
+      positionSource:
+        precisePositionProfile?.positionSource ?? "broad-squad-fallback",
       birthDate,
       club: row.CLUB,
       sourcePlayerName: row["PLAYER NAME"],
@@ -423,7 +554,7 @@ const main = async () => {
       license: "CC BY 4.0",
       accessedOn: "2026-07-26",
       modifications:
-        "Normalized official display names, positions, country codes, dates, and stable cross-tournament identities; retained the source spelling for audit.",
+        "Normalized official display names with Unicode NFC and normal surname casing; preserved reviewed 2026 position profiles before requested/historical precision; retained FIFA GK/DF/MF/FW only as an explicit broad fallback; retained source spelling for audit.",
     },
     players: players.sort(
       (first, second) =>
