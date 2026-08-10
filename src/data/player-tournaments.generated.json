@@ -13726,43 +13726,6 @@
         "awards": []
       }
     ],
-    "aruna-dindane": [
-      {
-        "playerId": "P-93241",
-        "playerName": "Aruna Dindane",
-        "tournamentYear": 2006,
-        "teamCode": "CIV",
-        "teamName": "Ivory Coast",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 1,
-        "goals": 2,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CF"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-93241",
-        "playerName": "Aruna Dindane",
-        "tournamentYear": 2010,
-        "teamCode": "CIV",
-        "teamName": "Ivory Coast",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF",
-          "RW",
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "asa-hartford": [
       {
         "playerId": "P-57616",
@@ -18796,41 +18759,6 @@
         "awards": []
       }
     ],
-    "brett-emerton": [
-      {
-        "playerId": "P-83566",
-        "playerName": "Brett Emerton",
-        "tournamentYear": 2006,
-        "teamCode": "AUS",
-        "teamName": "Australia",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "RM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-83566",
-        "playerName": "Brett Emerton",
-        "tournamentYear": 2010,
-        "teamCode": "AUS",
-        "teamName": "Australia",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "RW",
-        "eligiblePositions": [
-          "RW"
-        ],
-        "awards": []
-      }
-    ],
     "brett-holman": [
       {
         "playerId": "P-96211",
@@ -21771,24 +21699,6 @@
         "awards": []
       }
     ],
-    "carsten-jancker": [
-      {
-        "playerId": "P-45490",
-        "playerName": "Carsten Jancker",
-        "tournamentYear": 2002,
-        "teamCode": "GER",
-        "teamName": "Germany",
-        "teamPerformance": "final",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
-        ],
-        "awards": []
-      }
-    ],
     "carsten-ramelow": [
       {
         "playerId": "P-57588",
@@ -23899,43 +23809,6 @@
         "awards": []
       }
     ],
-    "christian-ziege": [
-      {
-        "playerId": "P-67544",
-        "playerName": "Christian Ziege",
-        "tournamentYear": 1998,
-        "teamCode": "GER",
-        "teamName": "Germany",
-        "teamPerformance": "quarter-finals",
-        "appearances": 4,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "LWB",
-        "eligiblePositions": [
-          "LWB",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-67544",
-        "playerName": "Christian Ziege",
-        "tournamentYear": 2002,
-        "teamCode": "GER",
-        "teamName": "Germany",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "LM",
-        "eligiblePositions": [
-          "LM",
-          "LW",
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "christoph-kramer": [
       {
         "playerId": "P-42177",
@@ -24252,44 +24125,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "chun-soo-lee": [
-      {
-        "playerId": "P-22338",
-        "playerName": "Chun-soo Lee",
-        "tournamentYear": 2002,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "ST",
-          "LW"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-22338",
-        "playerName": "Chun-soo Lee",
-        "tournamentYear": 2006,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "LW",
-        "eligiblePositions": [
-          "LW",
-          "RW",
-          "AM"
         ],
         "awards": []
       }
@@ -24694,42 +24529,6 @@
         "goals": 0,
         "primaryPosition": "ST",
         "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "claudio-lopez": [
-      {
-        "playerId": "P-60203",
-        "playerName": "Claudio López",
-        "tournamentYear": 1998,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CF"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-60203",
-        "playerName": "Claudio López",
-        "tournamentYear": 2002,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "LW",
-        "eligiblePositions": [
-          "LW",
           "ST"
         ],
         "awards": []
@@ -25622,24 +25421,6 @@
         "awards": []
       }
     ],
-    "costinha": [
-      {
-        "playerId": "P-80908",
-        "playerName": "Costinha",
-        "tournamentYear": 2006,
-        "teamCode": "POR",
-        "teamName": "Portugal",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "craig-burley": [
       {
         "playerId": "P-74264",
@@ -25908,42 +25689,6 @@
         "eligiblePositions": [
           "CM",
           "RW"
-        ],
-        "awards": []
-      }
-    ],
-    "cristian-riveros": [
-      {
-        "playerId": "P-78654",
-        "playerName": "Cristian Riveros",
-        "tournamentYear": 2006,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "LM",
-        "eligiblePositions": [
-          "LM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-78654",
-        "playerName": "Cristian Riveros",
-        "tournamentYear": 2010,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "RM",
-          "LM"
         ],
         "awards": []
       }
@@ -26245,58 +25990,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "cuauhtemoc-blanco": [
-      {
-        "playerId": "P-88428",
-        "playerName": "Cuauhtémoc Blanco",
-        "tournamentYear": 1998,
-        "teamCode": "MEX",
-        "teamName": "Mexico",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "AM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-88428",
-        "playerName": "Cuauhtémoc Blanco",
-        "tournamentYear": 2002,
-        "teamCode": "MEX",
-        "teamName": "Mexico",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-88428",
-        "playerName": "Cuauhtémoc Blanco",
-        "tournamentYear": 2010,
-        "teamCode": "MEX",
-        "teamName": "Mexico",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 1,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "AM"
         ],
         "awards": []
       }
@@ -28732,58 +28425,6 @@
         "awards": []
       }
     ],
-    "dario-simic": [
-      {
-        "playerId": "P-41724",
-        "playerName": "Dario Šimić",
-        "tournamentYear": 1998,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "RWB",
-          "RB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-41724",
-        "playerName": "Dario Šimić",
-        "tournamentYear": 2002,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-41724",
-        "playerName": "Dario Šimić",
-        "tournamentYear": 2006,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "dario-veron": [
       {
         "playerId": "P-95038",
@@ -29743,24 +29384,6 @@
         "awards": []
       }
     ],
-    "david-odonkor": [
-      {
-        "playerId": "P-24324",
-        "playerName": "David Odonkor",
-        "tournamentYear": 2006,
-        "teamCode": "GER",
-        "teamName": "Germany",
-        "teamPerformance": "third-place match",
-        "appearances": 4,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "david-oleary": [
       {
         "playerId": "P-64796",
@@ -30716,58 +30339,6 @@
         "awards": []
       }
     ],
-    "dejan-stankovic": [
-      {
-        "playerId": "P-22793",
-        "playerName": "Dejan Stanković",
-        "tournamentYear": 1998,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "RM",
-        "eligiblePositions": [
-          "RM",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-22793",
-        "playerName": "Dejan Stanković",
-        "tournamentYear": 2006,
-        "teamCode": "SCG",
-        "teamName": "Serbia and Montenegro",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "RM",
-        "eligiblePositions": [
-          "RM",
-          "LM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-22793",
-        "playerName": "Dejan Stanković",
-        "tournamentYear": 2010,
-        "teamCode": "SRB",
-        "teamName": "Serbia",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "dele-adeleye": [
       {
         "playerId": "P-42799",
@@ -30941,43 +30512,6 @@
         "eligiblePositions": [
           "CM",
           "DM"
-        ],
-        "awards": []
-      }
-    ],
-    "denilson": [
-      {
-        "playerId": "P-79146",
-        "playerName": "Denílson",
-        "tournamentYear": 1998,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "final",
-        "appearances": 7,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "AM",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-79146",
-        "playerName": "Denílson",
-        "tournamentYear": 2002,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "ST"
         ],
         "awards": []
       }
@@ -38318,26 +37852,6 @@
         "awards": []
       }
     ],
-    "enrique-vera": [
-      {
-        "playerId": "P-18210",
-        "playerName": "Enrique Vera",
-        "tournamentYear": 2010,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "RM",
-          "LM"
-        ],
-        "awards": []
-      }
-    ],
     "enrique-wolff": [
       {
         "playerId": "P-90840",
@@ -40011,42 +39525,6 @@
         "eligiblePositions": [
           "LWB",
           "LB",
-          "LM"
-        ],
-        "awards": []
-      }
-    ],
-    "eul-yong-lee": [
-      {
-        "playerId": "P-60562",
-        "playerName": "Eul-yong Lee",
-        "tournamentYear": 2002,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "third-place match",
-        "appearances": 4,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "LM",
-        "eligiblePositions": [
-          "LM",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-60562",
-        "playerName": "Eul-yong Lee",
-        "tournamentYear": 2006,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
           "LM"
         ],
         "awards": []
@@ -42446,43 +41924,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "fernando-meira": [
-      {
-        "playerId": "P-53943",
-        "playerName": "Fernando Meira",
-        "tournamentYear": 2006,
-        "teamCode": "POR",
-        "teamName": "Portugal",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "fernando-morena": [
-      {
-        "playerId": "P-36986",
-        "playerName": "Fernando Morena",
-        "tournamentYear": 1974,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CF"
         ],
         "awards": []
       }
@@ -45898,40 +45339,6 @@
         "primaryPosition": "DM",
         "eligiblePositions": [
           "DM"
-        ],
-        "awards": []
-      }
-    ],
-    "gabriel-heinze": [
-      {
-        "playerId": "P-64352",
-        "playerName": "Gabriel Heinze",
-        "tournamentYear": 2006,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "quarter-finals",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-64352",
-        "playerName": "Gabriel Heinze",
-        "tournamentYear": 2010,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "quarter-finals",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "LB",
-        "eligiblePositions": [
-          "LB"
         ],
         "awards": []
       }
@@ -49577,58 +48984,6 @@
         "awards": []
       }
     ],
-    "gilberto-silva": [
-      {
-        "playerId": "P-45956",
-        "playerName": "Gilberto Silva",
-        "tournamentYear": 2002,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "final",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-45956",
-        "playerName": "Gilberto Silva",
-        "tournamentYear": 2006,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "quarter-finals",
-        "appearances": 4,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "RM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-45956",
-        "playerName": "Gilberto Silva",
-        "tournamentYear": 2010,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "DM",
-        "eligiblePositions": [
-          "DM",
-          "LM"
-        ],
-        "awards": []
-      }
-    ],
     "gilberto-yearwood": [
       {
         "playerId": "P-06989",
@@ -51070,41 +50425,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "goran-vlaovic": [
-      {
-        "playerId": "P-96110",
-        "playerName": "Goran Vlaović",
-        "tournamentYear": 1998,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF",
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-96110",
-        "playerName": "Goran Vlaović",
-        "tournamentYear": 2002,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -55258,26 +54578,6 @@
         "awards": []
       }
     ],
-    "henri-camara": [
-      {
-        "playerId": "P-01462",
-        "playerName": "Henri Camara",
-        "tournamentYear": 2002,
-        "teamCode": "SEN",
-        "teamName": "Senegal",
-        "teamPerformance": "quarter-finals",
-        "appearances": 4,
-        "starts": 3,
-        "goals": 2,
-        "primaryPosition": "RW",
-        "eligiblePositions": [
-          "RW",
-          "ST",
-          "CF"
-        ],
-        "awards": []
-      }
-    ],
     "henri-francillon": [
       {
         "playerId": "P-46307",
@@ -55347,57 +54647,6 @@
         "eligiblePositions": [
           "RB",
           "LB"
-        ],
-        "awards": []
-      }
-    ],
-    "henrik-larsson": [
-      {
-        "playerId": "P-42895",
-        "playerName": "Henrik Larsson",
-        "tournamentYear": 1994,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 2,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-42895",
-        "playerName": "Henrik Larsson",
-        "tournamentYear": 2002,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 3,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-42895",
-        "playerName": "Henrik Larsson",
-        "tournamentYear": 2006,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
         ],
         "awards": []
       }
@@ -55901,58 +55150,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "hidetoshi-nakata": [
-      {
-        "playerId": "P-09349",
-        "playerName": "Hidetoshi Nakata",
-        "tournamentYear": 1998,
-        "teamCode": "JPN",
-        "teamName": "Japan",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "AM",
-        "eligiblePositions": [
-          "AM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-09349",
-        "playerName": "Hidetoshi Nakata",
-        "tournamentYear": 2002,
-        "teamCode": "JPN",
-        "teamName": "Japan",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "AM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-09349",
-        "playerName": "Hidetoshi Nakata",
-        "tournamentYear": 2006,
-        "teamCode": "JPN",
-        "teamName": "Japan",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "RM"
         ],
         "awards": []
       }
@@ -62508,24 +61705,6 @@
         "awards": []
       }
     ],
-    "jan-koller": [
-      {
-        "playerId": "P-81477",
-        "playerName": "Jan Koller",
-        "tournamentYear": 2006,
-        "teamCode": "CZE",
-        "teamName": "Czech Republic",
-        "teamPerformance": "group stage",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
-        ],
-        "awards": []
-      }
-    ],
     "jan-kozak": [
       {
         "playerId": "P-26673",
@@ -63768,24 +62947,6 @@
         "awards": []
       }
     ],
-    "javier-saviola": [
-      {
-        "playerId": "P-38901",
-        "playerName": "Javier Saviola",
-        "tournamentYear": 2006,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "quarter-finals",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
-        ],
-        "awards": []
-      }
-    ],
     "javier-valdivia": [
       {
         "playerId": "P-07812",
@@ -64715,41 +63876,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "jens-jeremies": [
-      {
-        "playerId": "P-65108",
-        "playerName": "Jens Jeremies",
-        "tournamentYear": 1998,
-        "teamCode": "GER",
-        "teamName": "Germany",
-        "teamPerformance": "quarter-finals",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "DM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-65108",
-        "playerName": "Jens Jeremies",
-        "tournamentYear": 2002,
-        "teamCode": "GER",
-        "teamName": "Germany",
-        "teamPerformance": "final",
-        "appearances": 7,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -66240,40 +65366,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "jin-cheul-choi": [
-      {
-        "playerId": "P-07865",
-        "playerName": "Jin-cheul Choi",
-        "tournamentYear": 2002,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-07865",
-        "playerName": "Jin-cheul Choi",
-        "tournamentYear": 2006,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -68331,40 +67423,6 @@
         "eligiblePositions": [
           "DM",
           "AM"
-        ],
-        "awards": []
-      }
-    ],
-    "john-obrien": [
-      {
-        "playerId": "P-88043",
-        "playerName": "John O'Brien",
-        "tournamentYear": 2002,
-        "teamCode": "USA",
-        "teamName": "United States",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-88043",
-        "playerName": "John O'Brien",
-        "tournamentYear": 2006,
-        "teamCode": "USA",
-        "teamName": "United States",
-        "teamPerformance": "group stage",
-        "appearances": 1,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -70639,40 +69697,6 @@
         "eligiblePositions": [
           "CB",
           "RB"
-        ],
-        "awards": []
-      }
-    ],
-    "joris-mathijsen": [
-      {
-        "playerId": "P-40197",
-        "playerName": "Joris Mathijsen",
-        "tournamentYear": 2006,
-        "teamCode": "NED",
-        "teamName": "Netherlands",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-40197",
-        "playerName": "Joris Mathijsen",
-        "tournamentYear": 2010,
-        "teamCode": "NED",
-        "teamName": "Netherlands",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -73323,40 +72347,6 @@
         "awards": []
       }
     ],
-    "juan": [
-      {
-        "playerId": "P-98607",
-        "playerName": "Juan",
-        "tournamentYear": 2006,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-98607",
-        "playerName": "Juan",
-        "tournamentYear": 2010,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "juan-antonio-pizzi": [
       {
         "playerId": "P-75598",
@@ -74963,24 +73953,6 @@
         "awards": []
       }
     ],
-    "julio-cruz": [
-      {
-        "playerId": "P-38198",
-        "playerName": "Julio Cruz",
-        "tournamentYear": 2006,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "quarter-finals",
-        "appearances": 2,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "julio-dos-santos": [
       {
         "playerId": "P-35595",
@@ -75267,24 +74239,6 @@
         "awards": []
       }
     ],
-    "jung-soo-lee": [
-      {
-        "playerId": "P-07494",
-        "playerName": "Jung-soo Lee",
-        "tournamentYear": 2010,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 2,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "jung-won-seo": [
       {
         "playerId": "P-65525",
@@ -75363,56 +74317,6 @@
         "teamPerformance": "group stage",
         "appearances": 1,
         "starts": 1,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "junichi-inamoto": [
-      {
-        "playerId": "P-46807",
-        "playerName": "Junichi Inamoto",
-        "tournamentYear": 2002,
-        "teamCode": "JPN",
-        "teamName": "Japan",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 2,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-46807",
-        "playerName": "Junichi Inamoto",
-        "tournamentYear": 2006,
-        "teamCode": "JPN",
-        "teamName": "Japan",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-46807",
-        "playerName": "Junichi Inamoto",
-        "tournamentYear": 2010,
-        "teamCode": "JPN",
-        "teamName": "Japan",
-        "teamPerformance": "round of 16",
-        "appearances": 2,
-        "starts": 0,
         "goals": 0,
         "primaryPosition": "CM",
         "eligiblePositions": [
@@ -76003,56 +74907,6 @@
         "teamPerformance": "quarter-finals",
         "appearances": 0,
         "starts": 0,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "justo-villar": [
-      {
-        "playerId": "P-94060",
-        "playerName": "Justo Villar",
-        "tournamentYear": 2002,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "round of 16",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-94060",
-        "playerName": "Justo Villar",
-        "tournamentYear": 2006,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "group stage",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-94060",
-        "playerName": "Justo Villar",
-        "tournamentYear": 2010,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
         "goals": 0,
         "primaryPosition": "GK",
         "eligiblePositions": [
@@ -77612,24 +76466,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "katlego-mphela": [
-      {
-        "playerId": "P-39078",
-        "playerName": "Katlego Mphela",
-        "tournamentYear": 2010,
-        "teamCode": "RSA",
-        "teamName": "South Africa",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
         ],
         "awards": []
       }
@@ -84349,40 +83185,6 @@
         "awards": []
       }
     ],
-    "lucas-neill": [
-      {
-        "playerId": "P-91832",
-        "playerName": "Lucas Neill",
-        "tournamentYear": 2006,
-        "teamCode": "AUS",
-        "teamName": "Australia",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-91832",
-        "playerName": "Lucas Neill",
-        "tournamentYear": 2010,
-        "teamCode": "AUS",
-        "teamName": "Australia",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "lucas-paqueta": [
       {
         "playerId": "P-05164",
@@ -84808,40 +83610,6 @@
         "eligiblePositions": [
           "CM",
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "luigi-di-biagio": [
-      {
-        "playerId": "P-42659",
-        "playerName": "Luigi Di Biagio",
-        "tournamentYear": 1998,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-42659",
-        "playerName": "Luigi Di Biagio",
-        "tournamentYear": 2002,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "round of 16",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -88944,25 +87712,6 @@
         "awards": []
       }
     ],
-    "marco-bode": [
-      {
-        "playerId": "P-03026",
-        "playerName": "Marco Bode",
-        "tournamentYear": 2002,
-        "teamCode": "GER",
-        "teamName": "Germany",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "LM"
-        ],
-        "awards": []
-      }
-    ],
     "marco-caneira": [
       {
         "playerId": "P-48643",
@@ -92127,58 +90876,6 @@
         "awards": []
       }
     ],
-    "martin-j-rgensen": [
-      {
-        "playerId": "P-68055",
-        "playerName": "Martin Jørgensen",
-        "tournamentYear": 1998,
-        "teamCode": "DEN",
-        "teamName": "Denmark",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "RW"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-68055",
-        "playerName": "Martin Jørgensen",
-        "tournamentYear": 2002,
-        "teamCode": "DEN",
-        "teamName": "Denmark",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "LW"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-68055",
-        "playerName": "Martin Jørgensen",
-        "tournamentYear": 2010,
-        "teamCode": "DEN",
-        "teamName": "Denmark",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "martin-jakubko": [
       {
         "playerId": "P-82522",
@@ -94340,42 +93037,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "mauro-camoranesi": [
-      {
-        "playerId": "P-22378",
-        "playerName": "Mauro Camoranesi",
-        "tournamentYear": 2006,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "RM",
-        "eligiblePositions": [
-          "RM",
-          "CM",
-          "AM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-22378",
-        "playerName": "Mauro Camoranesi",
-        "tournamentYear": 2010,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -97866,24 +96527,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "milan-baros": [
-      {
-        "playerId": "P-14907",
-        "playerName": "Milan Baroš",
-        "tournamentYear": 2006,
-        "teamCode": "CZE",
-        "teamName": "Czech Republic",
-        "teamPerformance": "group stage",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
         ],
         "awards": []
       }
@@ -102154,56 +100797,6 @@
         "awards": []
       }
     ],
-    "nam-il-kim": [
-      {
-        "playerId": "P-51785",
-        "playerName": "Nam-il Kim",
-        "tournamentYear": 2002,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-51785",
-        "playerName": "Nam-il Kim",
-        "tournamentYear": 2006,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-51785",
-        "playerName": "Nam-il Kim",
-        "tournamentYear": 2010,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "nampalys-mendy": [
       {
         "playerId": "P-96697",
@@ -105357,40 +103950,6 @@
         "awards": []
       }
     ],
-    "nuno-gomes": [
-      {
-        "playerId": "P-57631",
-        "playerName": "Nuno Gomes",
-        "tournamentYear": 2002,
-        "teamCode": "POR",
-        "teamName": "Portugal",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-57631",
-        "playerName": "Nuno Gomes",
-        "tournamentYear": 2006,
-        "teamCode": "POR",
-        "teamName": "Portugal",
-        "teamPerformance": "third-place match",
-        "appearances": 2,
-        "starts": 0,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "nuno-mendes": [
       {
         "playerId": "P-87003",
@@ -105401,24 +103960,6 @@
         "teamPerformance": "quarter-finals",
         "appearances": 1,
         "starts": 1,
-        "goals": 0,
-        "primaryPosition": "LB",
-        "eligiblePositions": [
-          "LB"
-        ],
-        "awards": []
-      }
-    ],
-    "nuno-valente": [
-      {
-        "playerId": "P-62437",
-        "playerName": "Nuno Valente",
-        "tournamentYear": 2006,
-        "teamCode": "POR",
-        "teamName": "Portugal",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
         "goals": 0,
         "primaryPosition": "LB",
         "eligiblePositions": [
@@ -109601,40 +108142,6 @@
         "awards": []
       }
     ],
-    "patrik-andersson": [
-      {
-        "playerId": "P-63774",
-        "playerName": "Patrik Andersson",
-        "tournamentYear": 1994,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-63774",
-        "playerName": "Patrik Andersson",
-        "tournamentYear": 2002,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "round of 16",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "patrizio-sala": [
       {
         "playerId": "P-39505",
@@ -112636,40 +111143,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "petit": [
-      {
-        "playerId": "P-92307",
-        "playerName": "Petit",
-        "tournamentYear": 2002,
-        "teamCode": "POR",
-        "teamName": "Portugal",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-92307",
-        "playerName": "Petit",
-        "tournamentYear": 2006,
-        "teamCode": "POR",
-        "teamName": "Portugal",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -118819,40 +117292,6 @@
         "awards": []
       }
     ],
-    "richard-kingson": [
-      {
-        "playerId": "P-81778",
-        "playerName": "Richard Kingson",
-        "tournamentYear": 2006,
-        "teamCode": "GHA",
-        "teamName": "Ghana",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-81778",
-        "playerName": "Richard Kingson",
-        "tournamentYear": 2010,
-        "teamCode": "GHA",
-        "teamName": "Ghana",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      }
-    ],
     "richard-morales": [
       {
         "playerId": "P-48761",
@@ -120004,62 +118443,6 @@
         "awards": []
       }
     ],
-    "robert-prosinecki": [
-      {
-        "playerId": "P-62861",
-        "playerName": "Robert Prosinečki",
-        "tournamentYear": 1990,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "quarter-finals",
-        "appearances": 3,
-        "starts": 1,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": [
-          {
-            "id": "A-8",
-            "label": "Best Young Player",
-            "shared": false
-          }
-        ]
-      },
-      {
-        "playerId": "P-62861",
-        "playerName": "Robert Prosinečki",
-        "tournamentYear": 1998,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 2,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-62861",
-        "playerName": "Robert Prosinečki",
-        "tournamentYear": 2002,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "group stage",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "AM",
-        "eligiblePositions": [
-          "AM"
-        ],
-        "awards": []
-      }
-    ],
     "robert-sanchez": [
       {
         "playerId": "P-92513",
@@ -120232,56 +118615,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "roberto-ayala": [
-      {
-        "playerId": "P-83403",
-        "playerName": "Roberto Ayala",
-        "tournamentYear": 1998,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-83403",
-        "playerName": "Roberto Ayala",
-        "tournamentYear": 2002,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-83403",
-        "playerName": "Roberto Ayala",
-        "tournamentYear": 2006,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -122950,59 +121283,6 @@
         "awards": []
       }
     ],
-    "roque-santa-cruz": [
-      {
-        "playerId": "P-34530",
-        "playerName": "Roque Santa Cruz",
-        "tournamentYear": 2002,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-34530",
-        "playerName": "Roque Santa Cruz",
-        "tournamentYear": 2006,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-34530",
-        "playerName": "Roque Santa Cruz",
-        "tournamentYear": 2010,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CF",
-          "AM",
-          "RW"
-        ],
-        "awards": []
-      }
-    ],
     "rory-fallon": [
       {
         "playerId": "P-20963",
@@ -124209,24 +122489,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "ruud-van-nistelrooy": [
-      {
-        "playerId": "P-03013",
-        "playerName": "Ruud van Nistelrooy",
-        "tournamentYear": 2006,
-        "teamCode": "NED",
-        "teamName": "Netherlands",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF"
         ],
         "awards": []
       }
@@ -129015,25 +127277,6 @@
         "awards": []
       }
     ],
-    "shane-smeltz": [
-      {
-        "playerId": "P-90145",
-        "playerName": "Shane Smeltz",
-        "tournamentYear": 2010,
-        "teamCode": "NZL",
-        "teamName": "New Zealand",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF",
-          "AM"
-        ],
-        "awards": []
-      }
-    ],
     "shaq-moore": [
       {
         "playerId": "P-48265",
@@ -132954,41 +131197,6 @@
         "awards": []
       }
     ],
-    "steven-pienaar": [
-      {
-        "playerId": "P-38095",
-        "playerName": "Steven Pienaar",
-        "tournamentYear": 2002,
-        "teamCode": "RSA",
-        "teamName": "South Africa",
-        "teamPerformance": "group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-38095",
-        "playerName": "Steven Pienaar",
-        "tournamentYear": 2010,
-        "teamCode": "RSA",
-        "teamName": "South Africa",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF",
-          "RW"
-        ],
-        "awards": []
-      }
-    ],
     "steven-reid": [
       {
         "playerId": "P-19727",
@@ -133554,73 +131762,6 @@
         "awards": []
       }
     ],
-    "sun-hong-hwang": [
-      {
-        "playerId": "P-15222",
-        "playerName": "Sun-hong Hwang",
-        "tournamentYear": 1990,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-15222",
-        "playerName": "Sun-hong Hwang",
-        "tournamentYear": 1994,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-15222",
-        "playerName": "Sun-hong Hwang",
-        "tournamentYear": 1998,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-15222",
-        "playerName": "Sun-hong Hwang",
-        "tournamentYear": 2002,
-        "teamCode": "KOR",
-        "teamName": "South Korea",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF",
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "sunday-oliseh": [
       {
         "playerId": "P-41790",
@@ -133916,41 +132057,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "sylvain-wiltord": [
-      {
-        "playerId": "P-00916",
-        "playerName": "Sylvain Wiltord",
-        "tournamentYear": 2002,
-        "teamCode": "FRA",
-        "teamName": "France",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "RW",
-        "eligiblePositions": [
-          "RW"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-00916",
-        "playerName": "Sylvain Wiltord",
-        "tournamentYear": 2006,
-        "teamCode": "FRA",
-        "teamName": "France",
-        "teamPerformance": "final",
-        "appearances": 7,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "RW"
         ],
         "awards": []
       }
@@ -136161,41 +134267,6 @@
         "primaryPosition": "DM",
         "eligiblePositions": [
           "DM"
-        ],
-        "awards": []
-      }
-    ],
-    "thomas-helveg": [
-      {
-        "playerId": "P-72404",
-        "playerName": "Thomas Helveg",
-        "tournamentYear": 1998,
-        "teamCode": "DEN",
-        "teamName": "Denmark",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-72404",
-        "playerName": "Thomas Helveg",
-        "tournamentYear": 2002,
-        "teamCode": "DEN",
-        "teamName": "Denmark",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "RB",
-        "eligiblePositions": [
-          "RB"
         ],
         "awards": []
       }
@@ -141536,41 +139607,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "vincenzo-iaquinta": [
-      {
-        "playerId": "P-38599",
-        "playerName": "Vincenzo Iaquinta",
-        "tournamentYear": 2006,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 0,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-38599",
-        "playerName": "Vincenzo Iaquinta",
-        "tournamentYear": 2010,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF",
-          "LW"
         ],
         "awards": []
       }
@@ -149221,41 +147257,6 @@
           "CM",
           "AM",
           "CF"
-        ],
-        "awards": []
-      }
-    ],
-    "zvonimir-soldo": [
-      {
-        "playerId": "P-37461",
-        "playerName": "Zvonimir Soldo",
-        "tournamentYear": 1998,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "DM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-37461",
-        "playerName": "Zvonimir Soldo",
-        "tournamentYear": 2002,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
