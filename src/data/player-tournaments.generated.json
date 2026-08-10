@@ -7540,42 +7540,6 @@
         "awards": []
       }
     ],
-    "aljosa-asanovic": [
-      {
-        "playerId": "P-21803",
-        "playerName": "Aljoša Asanović",
-        "tournamentYear": 1998,
-        "teamCode": "CRO",
-        "teamName": "Croatia",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "allal-ben-kassou": [
-      {
-        "playerId": "P-34408",
-        "playerName": "Allal Ben Kassou",
-        "tournamentYear": 1970,
-        "teamCode": "MAR",
-        "teamName": "Morocco",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      }
-    ],
     "allan-boath": [
       {
         "playerId": "P-81343",
@@ -7645,42 +7609,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "allan-nielsen": [
-      {
-        "playerId": "P-62564",
-        "playerName": "Allan Nielsen",
-        "tournamentYear": 1998,
-        "teamCode": "DEN",
-        "teamName": "Denmark",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "allan-nyom": [
-      {
-        "playerId": "P-05805",
-        "playerName": "Allan Nyom",
-        "tournamentYear": 2014,
-        "teamCode": "CMR",
-        "teamName": "Cameroon",
-        "teamPerformance": "group stage",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "RB",
-        "eligiblePositions": [
-          "RB"
         ],
         "awards": []
       }
@@ -13567,41 +13495,6 @@
         "awards": []
       }
     ],
-    "arthur-numan": [
-      {
-        "playerId": "P-92458",
-        "playerName": "Arthur Numan",
-        "tournamentYear": 1994,
-        "teamCode": "NED",
-        "teamName": "Netherlands",
-        "teamPerformance": "quarter-finals",
-        "appearances": 1,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-92458",
-        "playerName": "Arthur Numan",
-        "tournamentYear": 1998,
-        "teamCode": "NED",
-        "teamName": "Netherlands",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "LB",
-        "eligiblePositions": [
-          "LB",
-          "RB"
-        ],
-        "awards": []
-      }
-    ],
     "arthur-theate": [
       {
         "playerId": "P-75820",
@@ -17875,56 +17768,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "borislav-mihaylov": [
-      {
-        "playerId": "P-94024",
-        "playerName": "Borislav Mihaylov",
-        "tournamentYear": 1986,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-94024",
-        "playerName": "Borislav Mihaylov",
-        "tournamentYear": 1994,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-94024",
-        "playerName": "Borislav Mihaylov",
-        "tournamentYear": 1998,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
         ],
         "awards": []
       }
@@ -26571,40 +26414,6 @@
         "awards": []
       }
     ],
-    "dan-petrescu": [
-      {
-        "playerId": "P-12625",
-        "playerName": "Dan Petrescu",
-        "tournamentYear": 1994,
-        "teamCode": "ROU",
-        "teamName": "Romania",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-12625",
-        "playerName": "Dan Petrescu",
-        "tournamentYear": 1998,
-        "teamCode": "ROU",
-        "teamName": "Romania",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "RWB",
-        "eligiblePositions": [
-          "RWB"
-        ],
-        "awards": []
-      }
-    ],
     "dani": [
       {
         "playerId": "P-40352",
@@ -26815,40 +26624,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "daniel-amokachi": [
-      {
-        "playerId": "P-84893",
-        "playerName": "Daniel Amokachi",
-        "tournamentYear": 1994,
-        "teamCode": "NGA",
-        "teamName": "Nigeria",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 2,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-84893",
-        "playerName": "Daniel Amokachi",
-        "tournamentYear": 1998,
-        "teamCode": "NGA",
-        "teamName": "Nigeria",
-        "teamPerformance": "round of 16",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -37003,40 +36778,6 @@
         "awards": []
       }
     ],
-    "emil-kostadinov": [
-      {
-        "playerId": "P-23633",
-        "playerName": "Emil Kostadinov",
-        "tournamentYear": 1994,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-23633",
-        "playerName": "Emil Kostadinov",
-        "tournamentYear": 1998,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 2,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "emil-krafth": [
       {
         "playerId": "P-28801",
@@ -43812,56 +43553,6 @@
         "awards": []
       }
     ],
-    "francois-omam-biyik": [
-      {
-        "playerId": "P-77989",
-        "playerName": "François Omam-Biyik",
-        "tournamentYear": 1990,
-        "teamCode": "CMR",
-        "teamName": "Cameroon",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-77989",
-        "playerName": "François Omam-Biyik",
-        "tournamentYear": 1994,
-        "teamCode": "CMR",
-        "teamName": "Cameroon",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-77989",
-        "playerName": "François Omam-Biyik",
-        "tournamentYear": 1998,
-        "teamCode": "CMR",
-        "teamName": "Cameroon",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "francois-van-der-elst": [
       {
         "playerId": "P-43941",
@@ -48475,56 +48166,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "gianluca-pagliuca": [
-      {
-        "playerId": "P-88002",
-        "playerName": "Gianluca Pagliuca",
-        "tournamentYear": 1990,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "third-place match",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-88002",
-        "playerName": "Gianluca Pagliuca",
-        "tournamentYear": 1994,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-88002",
-        "playerName": "Gianluca Pagliuca",
-        "tournamentYear": 1998,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
         ],
         "awards": []
       }
@@ -84184,41 +83825,6 @@
         "awards": []
       }
     ],
-    "luis-garcia-postigo": [
-      {
-        "playerId": "P-46904",
-        "playerName": "Luis García Postigo",
-        "tournamentYear": 1994,
-        "teamCode": "MEX",
-        "teamName": "Mexico",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 2,
-        "primaryPosition": "AM",
-        "eligiblePositions": [
-          "AM",
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-46904",
-        "playerName": "Luis García Postigo",
-        "tournamentYear": 1998,
-        "teamCode": "MEX",
-        "teamName": "Mexico",
-        "teamPerformance": "round of 16",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "luis-garisto": [
       {
         "playerId": "P-13110",
@@ -86936,24 +86542,6 @@
         "appearances": 0,
         "starts": 0,
         "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "marc-rieper": [
-      {
-        "playerId": "P-77711",
-        "playerName": "Marc Rieper",
-        "tournamentYear": 1998,
-        "teamCode": "DEN",
-        "teamName": "Denmark",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
@@ -129835,42 +129423,6 @@
         "awards": []
       }
     ],
-    "stefan-reuter": [
-      {
-        "playerId": "P-74629",
-        "playerName": "Stefan Reuter",
-        "tournamentYear": 1990,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "CB",
-          "RWB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-74629",
-        "playerName": "Stefan Reuter",
-        "tournamentYear": 1998,
-        "teamCode": "GER",
-        "teamName": "Germany",
-        "teamPerformance": "quarter-finals",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "RWB",
-        "eligiblePositions": [
-          "RWB"
-        ],
-        "awards": []
-      }
-    ],
     "stefan-schwarz": [
       {
         "playerId": "P-63692",
@@ -130237,25 +129789,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "stephane-guivarch": [
-      {
-        "playerId": "P-26820",
-        "playerName": "Stéphane Guivarc'h",
-        "tournamentYear": 1998,
-        "teamCode": "FRA",
-        "teamName": "France",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF",
-          "ST"
         ],
         "awards": []
       }
@@ -136995,40 +136528,6 @@
         "awards": []
       }
     ],
-    "trifon-ivanov": [
-      {
-        "playerId": "P-47670",
-        "playerName": "Trifon Ivanov",
-        "tournamentYear": 1994,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-47670",
-        "playerName": "Trifon Ivanov",
-        "tournamentYear": 1998,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "troels-rasmussen": [
       {
         "playerId": "P-06115",
@@ -143504,7 +143003,7 @@
         "awards": []
       }
     ],
-    "y-ld-ray-basturk": [
+    "yildiray-basturk": [
       {
         "playerId": "P-21108",
         "playerName": "Yıldıray Baştürk",
@@ -146934,40 +146433,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "zlatko-yankov": [
-      {
-        "playerId": "P-56496",
-        "playerName": "Zlatko Yankov",
-        "tournamentYear": 1994,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-56496",
-        "playerName": "Zlatko Yankov",
-        "tournamentYear": 1998,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }

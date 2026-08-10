@@ -27444,7 +27444,7 @@
         ]
       },
       {
-        "cardId": "y-ld-ray-basturk-2002",
+        "cardId": "yildiray-basturk-2002",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -43650,12 +43650,12 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "y-ld-ray-basturk-2002",
+        "cardId": "yildiray-basturk-2002",
         "playerName": "Yıldıray Baştürk",
         "countryCode": "TUR",
         "tournamentYear": 2002,
-        "expectedPublicPath": "public/players/game-faces/y-ld-ray-basturk-2002.png",
-        "expectedRuntimePath": "/players/game-faces/y-ld-ray-basturk-2002.png",
+        "expectedPublicPath": "public/players/game-faces/yildiray-basturk-2002.png",
+        "expectedRuntimePath": "/players/game-faces/yildiray-basturk-2002.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
