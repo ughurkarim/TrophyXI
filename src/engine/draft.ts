@@ -89,6 +89,22 @@ const weightedTier = (
   return "reliable";
 };
 
+const weightedChoice = <T>(
+  items: T[],
+  random: ReturnType<typeof createSeededRandom>,
+  weightFor: (item: T) => number,
+): T | undefined => {
+  if (items.length === 0) return undefined;
+  const weights = items.map((item) => Math.max(0.0001, weightFor(item)));
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  let roll = random() * total;
+  for (let index = 0; index < items.length; index += 1) {
+    roll -= weights[index];
+    if (roll <= 0) return items[index];
+  }
+  return items.at(-1);
+};
+
 /**
  * Position Fit is deterministic and intentionally broad for outfield players.
  * Goalkeepers never cross the outfield boundary. Exact, related, declared,
@@ -186,6 +202,8 @@ export type DraftGenerationRules = {
   rejectedIdentityIds?: Iterable<string>;
   seenIdentityCounts?: Readonly<Record<string, number>>;
   recentIdentityIds?: Iterable<string>;
+  seenCardCounts?: Readonly<Record<string, number>>;
+  recentCardIds?: Iterable<string>;
   respinIndex?: number;
 };
 
@@ -217,14 +235,23 @@ const usedIdentityIdsFor = (
 const uniqueIdentityCards = (
   cards: PlayerTournamentCard[],
   random: ReturnType<typeof createSeededRandom>,
+  rules: Pick<DraftGenerationRules, "seenCardCounts" | "recentCardIds"> = {},
 ) => {
   const grouped = new Map<string, PlayerTournamentCard[]>();
+  const recentCards = new Set(rules.recentCardIds ?? []);
+  const seenCardCount = (cardId: string) => rules.seenCardCounts?.[cardId] ?? 0;
   for (const card of cards) {
     const group = grouped.get(card.playerIdentityId) ?? [];
     group.push(card);
     grouped.set(card.playerIdentityId, group);
   }
-  return [...grouped.values()].map((versions) => shuffle(versions, random)[0]);
+  return [...grouped.values()].map((versions) =>
+    weightedChoice(shuffle(versions, random), random, (card) => {
+      const seenPenalty = 1 / (1 + seenCardCount(card.id) * 0.7);
+      const recentPenalty = recentCards.has(card.id) ? 0.22 : 1;
+      return seenPenalty * recentPenalty;
+    })!,
+  );
 };
 
 export const getOpenSlots = (formation: Formation, picks: DraftPick[]) => {
@@ -322,8 +349,10 @@ export const generateDraftOptions = (
   const excluded = new Set(rules.excludedIdentityIds ?? []);
   const rejected = new Set(rules.rejectedIdentityIds ?? []);
   const recent = new Set(rules.recentIdentityIds ?? []);
+  const recentCards = new Set(rules.recentCardIds ?? []);
   const seenCount = (identityId: string) =>
     rules.seenIdentityCounts?.[identityId] ?? 0;
+  const seenCardCount = (cardId: string) => rules.seenCardCounts?.[cardId] ?? 0;
   const openSlots = getOpenSlots(formation, picks);
   if (openSlots.length === 0) return [];
 
@@ -365,67 +394,19 @@ export const generateDraftOptions = (
       formation,
       picks,
     });
-  const unseenAndNotRecent = withoutRejected.filter(
-    (card) =>
-      seenCount(card.playerIdentityId) === 0 &&
-      !recent.has(card.playerIdentityId),
+  // Exposure history is a weighting signal, not an exclusion rule. Every
+  // identity that remains legal for this round stays in the lottery. Respinned
+  // identities remain excluded only when doing so preserves a completion path.
+  const preferredPool = preservesCompletion(withoutRejected)
+    ? withoutRejected
+    : identitySafe;
+  const rankingCards = shuffle(
+    uniqueIdentityCards(preferredPool, random, rules),
+    random,
   );
-  const unseen = withoutRejected.filter(
-    (card) => seenCount(card.playerIdentityId) === 0,
-  );
-  const notRecent = withoutRejected.filter(
-    (card) => !recent.has(card.playerIdentityId),
-  );
-  const preferredPool = preservesCompletion(unseenAndNotRecent)
-    ? unseenAndNotRecent
-    : preservesCompletion(unseen)
-      ? unseen
-      : preservesCompletion(notRecent)
-        ? notRecent
-        : preservesCompletion(withoutRejected)
-          ? withoutRejected
-          : identitySafe;
-  const uniqueCards = uniqueIdentityCards(preferredPool, random);
-  // A deterministic sample keeps offer ranking responsive while preserving
-  // the full pool for identity exclusion and completion checks.
-  const shuffledUniqueCards = shuffle(uniqueCards, random);
-  const priorityRankingCards = shuffledUniqueCards.filter(
-    (card) =>
-      card.overall >= 88 || ["legend", "icon"].includes(card.statusTier),
-  );
-  const priorityRankingIds = new Set(
-    priorityRankingCards.map((card) => card.id),
-  );
-  const supplementalRankingCards = (
-    Object.keys(starterTierWeights) as PlayerStatusTier[]
-  ).flatMap((tier) =>
-    shuffledUniqueCards
-      .filter(
-        (card) =>
-          card.statusTier === tier && !priorityRankingIds.has(card.id),
-      )
-      .slice(0, 8),
-  );
-  const sampledRankingCards =
-    uniqueCards.length > 240
-      ? [...priorityRankingCards, ...supplementalRankingCards]
-      : shuffledUniqueCards;
   const openGoalkeeperSlots = openSlots.filter(
     (slot) => slot.position === "GK",
   ).length;
-  const rankingCards =
-    openGoalkeeperSlots > 0
-      ? [
-          ...new Map(
-            [
-              ...sampledRankingCards,
-              ...shuffledUniqueCards.filter(
-                (card) => card.primaryPosition === "GK",
-              ),
-            ].map((card) => [card.playerIdentityId, card]),
-          ).values(),
-        ]
-      : sampledRankingCards;
   const openOutfieldSlots = openSlots.length - openGoalkeeperSlots;
   const remainingGoalkeeperIdentities = rankingCards.filter(
     (player) => player.primaryPosition === "GK",
@@ -498,6 +479,8 @@ export const generateDraftOptions = (
         seenCount(second.playerIdentityId) ||
       Number(recent.has(first.playerIdentityId)) -
         Number(recent.has(second.playerIdentityId)) ||
+      Number(recentCards.has(first.id)) - Number(recentCards.has(second.id)) ||
+      seenCardCount(first.id) - seenCardCount(second.id) ||
       secondRank.need - firstRank.need ||
       second.overall - first.overall ||
       secondRank.best - firstRank.best ||
@@ -517,10 +500,28 @@ export const generateDraftOptions = (
       selected.push(card);
     }
   };
-  const randomFromLeadingPool = (pool: PlayerTournamentCard[]) => {
-    const leadingPool = pool.slice(0, 14);
-    return leadingPool[Math.floor(random() * leadingPool.length)];
+  const starterWeight = (card: PlayerTournamentCard) => {
+    const cardRank = rank.get(card.id)!;
+    const identitySeenPenalty =
+      1 / (1 + seenCount(card.playerIdentityId) * 0.85);
+    const recentIdentityPenalty = recent.has(card.playerIdentityId) ? 0.14 : 1;
+    const cardSeenPenalty = 1 / (1 + seenCardCount(card.id) * 0.6);
+    const recentCardPenalty = recentCards.has(card.id) ? 0.3 : 1;
+    const tacticalBoost = 1 + Math.min(24, cardRank.need) / 32;
+    const fitBoost = 0.9 + cardRank.best / 250;
+    const qualityBoost = 1 + Math.max(0, card.overall - 80) * 0.012;
+    return (
+      identitySeenPenalty *
+      recentIdentityPenalty *
+      cardSeenPenalty *
+      recentCardPenalty *
+      tacticalBoost *
+      fitBoost *
+      qualityBoost
+    );
   };
+  const randomFromFullPool = (pool: PlayerTournamentCard[]) =>
+    weightedChoice(pool, random, starterWeight);
   for (let index = 0; index < 5; index += 1) {
     const targetTier = weightedTier(random, starterTierWeights);
     const premierCount = selected.filter((card) =>
@@ -538,7 +539,7 @@ export const generateDraftOptions = (
       (card) => card.statusTier === targetTier && available(card),
     );
     const fallbackPool = ranked.filter(available);
-    add(randomFromLeadingPool(tierPool.length ? tierPool : fallbackPool));
+    add(randomFromFullPool(tierPool.length ? tierPool : fallbackPool));
   }
   if (
     new Set(
@@ -557,21 +558,23 @@ export const generateDraftOptions = (
         ["legend", "icon"].includes(card.statusTier),
       ).length -
       (outgoing && ["legend", "icon"].includes(outgoing.statusTier) ? 1 : 0);
-    const replacement = ranked.find(
-      (card) =>
-        tacticalFamilyForPosition(card.primaryPosition) !== currentFamily &&
-        (card.overall < 90 || highAfterRemoval < 2) &&
-        (!["legend", "icon"].includes(card.statusTier) ||
-          premierAfterRemoval < 2) &&
-        !selected.some(
-          (candidate) =>
-            candidate.playerIdentityId === card.playerIdentityId,
-        ),
+    const replacement = randomFromFullPool(
+      ranked.filter(
+        (card) =>
+          tacticalFamilyForPosition(card.primaryPosition) !== currentFamily &&
+          (card.overall < 90 || highAfterRemoval < 2) &&
+          (!["legend", "icon"].includes(card.statusTier) ||
+            premierAfterRemoval < 2) &&
+          !selected.some(
+            (candidate) =>
+              candidate.playerIdentityId === card.playerIdentityId,
+          ),
+      ),
     );
     if (replacement) selected[selected.length - 1] = replacement;
   }
   if (!selected.some((card) => card.overall >= 88)) {
-    const replacement = randomFromLeadingPool(
+    const replacement = randomFromFullPool(
       ranked.filter(
         (card) =>
           card.overall >= 88 &&
@@ -595,30 +598,79 @@ export const generateDraftOptions = (
   return selected;
 };
 
+export type ManagerGenerationRules = {
+  seenIdentityCounts?: Readonly<Record<string, number>>;
+  recentIdentityIds?: Iterable<string>;
+  seenCardCounts?: Readonly<Record<string, number>>;
+  recentCardIds?: Iterable<string>;
+};
+
 export const generateManagerOptions = (
   cards: ManagerTournamentCard[],
   eraId: DraftEraId,
   seed: number,
   excludedIdentityIds: Iterable<string> = [],
   respinIndex = 0,
+  rules: ManagerGenerationRules = {},
 ) => {
   const excluded = new Set(excludedIdentityIds);
+  const recentIdentities = new Set(rules.recentIdentityIds ?? []);
+  const recentCards = new Set(rules.recentCardIds ?? []);
+  const seenIdentityCount = (identityId: string) =>
+    rules.seenIdentityCounts?.[identityId] ?? 0;
+  const seenCardCount = (cardId: string) => rules.seenCardCounts?.[cardId] ?? 0;
   const eligible = cards.filter(
     (manager) => !excluded.has(manager.managerIdentityId),
   );
   const random = createSeededRandom(
     seed ^ hashString(`manager:${eraId}:${respinIndex}`),
   );
-  const seen = new Set<string>();
-  const unique = shuffle(eligible, random).filter((manager) => {
-    if (seen.has(manager.managerIdentityId)) return false;
-    seen.add(manager.managerIdentityId);
-    return true;
-  });
-  if (unique.length < 3) {
+
+  // Managers are selected identity-first so identities with more tournament
+  // cards do not receive extra lottery tickets.
+  const grouped = new Map<string, ManagerTournamentCard[]>();
+  for (const manager of eligible) {
+    const versions = grouped.get(manager.managerIdentityId) ?? [];
+    versions.push(manager);
+    grouped.set(manager.managerIdentityId, versions);
+  }
+  if (grouped.size < 3) {
     throw new Error(`Not enough manager identities for ${eraId}`);
   }
-  return unique.slice(0, 3);
+
+  const remaining = [...grouped.entries()];
+  const selected: ManagerTournamentCard[] = [];
+  while (selected.length < 3 && remaining.length > 0) {
+    const chosenIdentity = weightedChoice(
+      remaining,
+      random,
+      ([identityId]) => {
+        const seenPenalty = 1 / (1 + seenIdentityCount(identityId) * 0.85);
+        const recentPenalty = recentIdentities.has(identityId) ? 0.16 : 1;
+        return seenPenalty * recentPenalty;
+      },
+    );
+    if (!chosenIdentity) break;
+    const [identityId, versions] = chosenIdentity;
+    const chosenVersion = weightedChoice(
+      shuffle(versions, random),
+      random,
+      (manager) => {
+        const seenPenalty = 1 / (1 + seenCardCount(manager.id) * 0.7);
+        const recentPenalty = recentCards.has(manager.id) ? 0.22 : 1;
+        return seenPenalty * recentPenalty;
+      },
+    );
+    if (chosenVersion) selected.push(chosenVersion);
+    remaining.splice(
+      remaining.findIndex(([candidateId]) => candidateId === identityId),
+      1,
+    );
+  }
+  if (selected.length !== 3) {
+    throw new Error(`Manager generation did not return three identities for ${eraId}`);
+  }
+  return selected;
 };
 
 export type FormationOfferRules = {
@@ -626,6 +678,8 @@ export type FormationOfferRules = {
   respinIndex?: number;
   originalFormationIds?: FormationId[];
   excludedFormationIds?: Iterable<FormationId>;
+  seenFormationCounts?: Readonly<Record<string, number>>;
+  recentFormationIds?: Iterable<FormationId>;
 };
 
 export const generateFormationOffer = (
@@ -637,10 +691,13 @@ export const generateFormationOffer = (
 ): FormationId[] => {
   const managerEraFit = calculateManagerEraFit(manager, eraId);
   const excluded = new Set(rules.excludedFormationIds ?? []);
-  const available =
-    formations.filter((formation) => !excluded.has(formation.id)).length >= count
-      ? formations.filter((formation) => !excluded.has(formation.id))
-      : formations;
+  const recent = new Set(rules.recentFormationIds ?? []);
+  const seenCount = (formationId: FormationId) =>
+    rules.seenFormationCounts?.[formationId] ?? 0;
+  const nonExcluded = formations.filter(
+    (formation) => !excluded.has(formation.id),
+  );
+  const available = nonExcluded.length >= count ? nonExcluded : formations;
   const random = createSeededRandom(
     seed ^
       hashString(
@@ -649,53 +706,67 @@ export const generateFormationOffer = (
         ).join("|")}`,
       ),
   );
-  const preferred = shuffle(
-    available.filter((formation) =>
-      manager.preferredFormations.includes(formation.id),
-    ),
-    random,
+  const preferred = available.filter((formation) =>
+    manager.preferredFormations.includes(formation.id),
   );
-  const balanced = shuffle(
-    available.filter(
-      (formation) =>
-        formation.tendencies.attack >= 78 &&
-        formation.tendencies.defense >= 78 &&
-        !preferred.some((item) => item.id === formation.id),
-    ),
-    random,
+  const balanced = available.filter(
+    (formation) =>
+      formation.tendencies.attack >= 78 &&
+      formation.tendencies.defense >= 78 &&
+      !preferred.some((item) => item.id === formation.id),
   );
-  const contrasting = shuffle(
-    available.filter(
-      (formation) =>
-        Math.abs(formation.tendencies.attack - formation.tendencies.defense) >=
-          10 &&
-        !preferred.some((item) => item.id === formation.id),
-    ),
-    random,
+  const contrasting = available.filter(
+    (formation) =>
+      Math.abs(formation.tendencies.attack - formation.tendencies.defense) >=
+        10 &&
+      !preferred.some((item) => item.id === formation.id),
   );
-  const eraStrong = shuffle(
-    available.filter((formation) => formation.eraStrengths.includes(eraId)),
-    random,
+  const eraStrong = available.filter((formation) =>
+    formation.eraStrengths.includes(eraId),
   );
   const selected: FormationId[] = [];
+  const noveltyWeight = (formation: Formation) => {
+    const seenPenalty = 1 / (1 + seenCount(formation.id) * 0.7);
+    const recentPenalty = recent.has(formation.id) ? 0.2 : 1;
+    return seenPenalty * recentPenalty;
+  };
+  const tacticalWeight = (formation: Formation) => {
+    let boost = 1;
+    if (preferred.some((item) => item.id === formation.id)) boost *= 1.8;
+    if (eraStrong.some((item) => item.id === formation.id)) boost *= 1.35;
+    if (balanced.some((item) => item.id === formation.id)) boost *= 1.2;
+    if (contrasting.some((item) => item.id === formation.id)) boost *= 1.15;
+    return boost;
+  };
+  const choose = (pool: Formation[], tactical = false) =>
+    weightedChoice(
+      pool.filter((formation) => !selected.includes(formation.id)),
+      random,
+      (formation) =>
+        noveltyWeight(formation) * (tactical ? tacticalWeight(formation) : 1),
+    );
   const add = (formation: Formation | undefined) => {
     if (formation && !selected.includes(formation.id)) {
       selected.push(formation.id);
     }
   };
+
+  // Keep one manager/era tactical anchor, then let every legal formation
+  // compete for the remaining slots with compatibility and novelty weights.
   if (!managerEraFit.applicable || managerEraFit.score >= 84) {
-    add(preferred[0]);
+    add(choose(preferred, true) ?? choose(eraStrong, true));
   } else {
-    add(eraStrong.find((formation) => !selected.includes(formation.id)));
-    add(preferred.find((formation) => !selected.includes(formation.id)));
+    add(choose(eraStrong, true) ?? choose(preferred, true));
   }
-  add(balanced[0]);
-  add(contrasting[0]);
-  add(eraStrong.find((formation) => !selected.includes(formation.id)));
-  add(preferred.find((formation) => !selected.includes(formation.id)));
-  for (const formation of shuffle(available, random)) {
-    if (selected.length >= count) break;
-    add(formation);
+  if (selected.length === 0) add(choose(available, true));
+  while (selected.length < count) {
+    const fallback = weightedChoice(
+      available.filter((formation) => !selected.includes(formation.id)),
+      random,
+      (formation) => noveltyWeight(formation) * tacticalWeight(formation),
+    );
+    if (!fallback) break;
+    add(fallback);
   }
   return selected.slice(0, count);
 };
@@ -705,8 +776,13 @@ export const generateFormationRespin = (
   eraId: DraftEraId,
   seed: number,
   originalFormationIds: FormationId[],
+  rules: Pick<
+    FormationOfferRules,
+    "seenFormationCounts" | "recentFormationIds"
+  > = {},
 ) =>
   generateFormationOffer(manager, eraId, seed, 4, {
+    ...rules,
     offerIndex: 0,
     respinIndex: 1,
     originalFormationIds,
@@ -725,8 +801,10 @@ export const generateBenchOptions = (
   const excluded = new Set(rules.excludedIdentityIds ?? []);
   const rejected = new Set(rules.rejectedIdentityIds ?? []);
   const recent = new Set(rules.recentIdentityIds ?? []);
+  const recentCards = new Set(rules.recentCardIds ?? []);
   const seenCount = (identityId: string) =>
     rules.seenIdentityCounts?.[identityId] ?? 0;
+  const seenCardCount = (cardId: string) => rules.seenCardCounts?.[cardId] ?? 0;
   const byId = playerCardByIdFor(cards);
   const draftedBench = bench
     .map((pick) => byId.get(pick.cardId))
@@ -743,27 +821,9 @@ export const generateBenchOptions = (
   const withoutRejected = identitySafe.filter(
     (card) => !rejected.has(card.playerIdentityId),
   );
-  const unseenAndNotRecent = withoutRejected.filter(
-    (card) =>
-      seenCount(card.playerIdentityId) === 0 &&
-      !recent.has(card.playerIdentityId),
-  );
-  const unseen = withoutRejected.filter(
-    (card) => seenCount(card.playerIdentityId) === 0,
-  );
-  const notRecent = withoutRejected.filter(
-    (card) => !recent.has(card.playerIdentityId),
-  );
-  const eligible =
-    unseenAndNotRecent.length >= 5
-      ? unseenAndNotRecent
-      : unseen.length >= 5
-        ? unseen
-        : notRecent.length >= 5
-          ? notRecent
-          : withoutRejected.length >= 5
-            ? withoutRejected
-            : identitySafe;
+  // Bench exposure history also stays probabilistic rather than becoming a
+  // hard filter. Respinned identities are only reintroduced when necessary.
+  const eligible = withoutRejected.length >= 5 ? withoutRejected : identitySafe;
   const random = createSeededRandom(
     seed ^
       hashString(
@@ -772,12 +832,14 @@ export const generateBenchOptions = (
         ].join(",")}`,
       ),
   );
-  const ranked = shuffle(uniqueIdentityCards(eligible, random), random).sort(
+  const ranked = shuffle(uniqueIdentityCards(eligible, random, rules), random).sort(
     (first, second) =>
       seenCount(first.playerIdentityId) -
         seenCount(second.playerIdentityId) ||
       Number(recent.has(first.playerIdentityId)) -
         Number(recent.has(second.playerIdentityId)) ||
+      Number(recentCards.has(first.id)) - Number(recentCards.has(second.id)) ||
+      seenCardCount(first.id) - seenCardCount(second.id) ||
       second.overall - first.overall,
   );
   const selected: PlayerTournamentCard[] = [];
@@ -792,10 +854,23 @@ export const generateBenchOptions = (
       selected.push(card);
     }
   };
-  const randomFromLeadingPool = (pool: PlayerTournamentCard[]) => {
-    const leadingPool = pool.slice(0, 160);
-    return leadingPool[Math.floor(random() * leadingPool.length)];
+  const benchWeight = (card: PlayerTournamentCard) => {
+    const identitySeenPenalty =
+      1 / (1 + seenCount(card.playerIdentityId) * 0.8);
+    const recentIdentityPenalty = recent.has(card.playerIdentityId) ? 0.16 : 1;
+    const cardSeenPenalty = 1 / (1 + seenCardCount(card.id) * 0.55);
+    const recentCardPenalty = recentCards.has(card.id) ? 0.32 : 1;
+    const qualityBoost = 1 + Math.max(0, card.overall - 78) * 0.01;
+    return (
+      identitySeenPenalty *
+      recentIdentityPenalty *
+      cardSeenPenalty *
+      recentCardPenalty *
+      qualityBoost
+    );
   };
+  const randomFromFullPool = (pool: PlayerTournamentCard[]) =>
+    weightedChoice(pool, random, benchWeight);
   for (let index = 0; index < 5; index += 1) {
     const targetTier = weightedTier(random, benchTierWeights);
     const selectedHigh = selected.filter((card) => card.overall >= 90).length;
@@ -811,10 +886,10 @@ export const generateBenchOptions = (
       (card) => card.statusTier === targetTier && available(card),
     );
     const fallbackPool = ranked.filter(available);
-    add(randomFromLeadingPool(tierPool.length ? tierPool : fallbackPool));
+    add(randomFromFullPool(tierPool.length ? tierPool : fallbackPool));
   }
   if (!selected.some((card) => card.overall >= 85)) {
-    const replacement = randomFromLeadingPool(
+    const replacement = randomFromFullPool(
       ranked.filter(
         (card) =>
           card.overall >= 85 &&
@@ -841,21 +916,23 @@ export const generateBenchOptions = (
       selected[0].primaryPosition,
     );
     const outgoing = selected.at(-1);
-    const replacement = ranked.find(
-      (card) =>
-        tacticalFamilyForPosition(card.primaryPosition) !== currentFamily &&
-        !selected.some(
-          (candidate) =>
-            candidate.playerIdentityId === card.playerIdentityId,
-        ) &&
-        (card.overall < 90 ||
-          selected.filter((candidate) => candidate.overall >= 90).length -
-            (outgoing && outgoing.overall >= 90 ? 1 : 0) <
-            1) &&
-        (card.overall < 86 ||
-          selected.filter((candidate) => candidate.overall >= 86).length -
-            (outgoing && outgoing.overall >= 86 ? 1 : 0) <
-            3),
+    const replacement = randomFromFullPool(
+      ranked.filter(
+        (card) =>
+          tacticalFamilyForPosition(card.primaryPosition) !== currentFamily &&
+          !selected.some(
+            (candidate) =>
+              candidate.playerIdentityId === card.playerIdentityId,
+          ) &&
+          (card.overall < 90 ||
+            selected.filter((candidate) => candidate.overall >= 90).length -
+              (outgoing && outgoing.overall >= 90 ? 1 : 0) <
+              1) &&
+          (card.overall < 86 ||
+            selected.filter((candidate) => candidate.overall >= 86).length -
+              (outgoing && outgoing.overall >= 86 ? 1 : 0) <
+              3),
+      ),
     );
     if (replacement) selected[selected.length - 1] = replacement;
   }

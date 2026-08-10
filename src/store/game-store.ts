@@ -59,7 +59,8 @@ import type {
   PositionFitPreview,
 } from "@/types/game";
 
-const SAVE_VERSION = 13;
+const SAVE_VERSION = 15;
+const WORLD_CUP_RUN_MODEL_SAVE_VERSION = 13;
 
 export type OpponentFilters = {
   query: string;
@@ -96,10 +97,16 @@ type GameStore = {
   managerOptionIds: string[];
   managerRespinRemaining: number;
   managerRespinIndex: number;
+  seenManagerIdentityCounts: Record<string, number>;
+  recentManagerIdentityIds: string[];
+  seenManagerCardCounts: Record<string, number>;
+  recentManagerCardIds: string[];
   originalFormationOptionIds: FormationId[];
   formationOptionIds: FormationId[];
   formationRespinRemaining: number;
   formationRespinIndex: number;
+  seenFormationCounts: Record<string, number>;
+  recentFormationIds: FormationId[];
   formationId: FormationId | null;
   draftSeed: number;
   picks: DraftPick[];
@@ -115,6 +122,8 @@ type GameStore = {
   rejectedIdentityIds: string[];
   seenIdentityCounts: Record<string, number>;
   recentIdentityIds: string[];
+  seenCardCounts: Record<string, number>;
+  recentCardIds: string[];
   playerRespinsRemaining: number;
   playerRespinIndex: number;
   opponentFilters: OpponentFilters;
@@ -194,11 +203,25 @@ const browserStorage: StateStorage = {
   },
 };
 
+type ManagerExposureHistory = Pick<
+  GameStore,
+  | "seenManagerIdentityCounts"
+  | "recentManagerIdentityIds"
+  | "seenManagerCardCounts"
+  | "recentManagerCardIds"
+>;
+
+type FormationExposureHistory = Pick<
+  GameStore,
+  "seenFormationCounts" | "recentFormationIds"
+>;
+
 const managerOptionsFor = (
   eraId: DraftEraId,
   seed: number,
   excluded: Iterable<string> = [],
   respinIndex = 0,
+  history: Partial<ManagerExposureHistory> = {},
 ) =>
   generateManagerOptions(
     draftEligibleManagers,
@@ -206,15 +229,27 @@ const managerOptionsFor = (
     seed,
     excluded,
     respinIndex,
+    {
+      seenIdentityCounts: history.seenManagerIdentityCounts,
+      recentIdentityIds: history.recentManagerIdentityIds,
+      seenCardCounts: history.seenManagerCardCounts,
+      recentCardIds: history.recentManagerCardIds,
+    },
   ).map((manager) => manager.id);
 
 const formationOptionsFor = (
   managerId: string,
   eraId: DraftEraId,
   seed: number,
+  history: Partial<FormationExposureHistory> = {},
 ) => {
   const manager = managersById.get(managerId);
-  return manager ? generateFormationOffer(manager, eraId, seed) : [];
+  return manager
+    ? generateFormationOffer(manager, eraId, seed, 4, {
+        seenFormationCounts: history.seenFormationCounts,
+        recentFormationIds: history.recentFormationIds,
+      })
+    : [];
 };
 
 const playerOptionsFor = ({
@@ -224,6 +259,8 @@ const playerOptionsFor = ({
   rejectedIdentityIds,
   seenIdentityCounts,
   recentIdentityIds,
+  seenCardCounts,
+  recentCardIds,
   contextKey,
   respinIndex = 0,
 }: {
@@ -233,6 +270,8 @@ const playerOptionsFor = ({
   rejectedIdentityIds: string[];
   seenIdentityCounts: Record<string, number>;
   recentIdentityIds: string[];
+  seenCardCounts: Record<string, number>;
+  recentCardIds: string[];
   contextKey: string;
   respinIndex?: number;
 }) =>
@@ -246,6 +285,8 @@ const playerOptionsFor = ({
       rejectedIdentityIds,
       seenIdentityCounts,
       recentIdentityIds,
+      seenCardCounts,
+      recentCardIds,
       respinIndex,
     },
   ).map((card) => card.id);
@@ -257,6 +298,8 @@ const benchOptionsFor = ({
   rejectedIdentityIds,
   seenIdentityCounts,
   recentIdentityIds,
+  seenCardCounts,
+  recentCardIds,
   contextKey,
   respinIndex,
 }: {
@@ -266,6 +309,8 @@ const benchOptionsFor = ({
   rejectedIdentityIds: string[];
   seenIdentityCounts: Record<string, number>;
   recentIdentityIds: string[];
+  seenCardCounts: Record<string, number>;
+  recentCardIds: string[];
   contextKey: string;
   respinIndex: number;
 }) =>
@@ -279,6 +324,8 @@ const benchOptionsFor = ({
       rejectedIdentityIds,
       seenIdentityCounts,
       recentIdentityIds,
+      seenCardCounts,
+      recentCardIds,
       respinIndex,
     },
   ).map((card) => card.id);
@@ -320,27 +367,104 @@ const lineupFor = (picks: DraftPick[]) =>
     .filter((player): player is PlayerTournamentCard => Boolean(player));
 
 const recordOptionVisibility = (
-  state: Pick<GameStore, "seenIdentityCounts" | "recentIdentityIds">,
+  state: Pick<
+    GameStore,
+    "seenIdentityCounts" | "recentIdentityIds" | "seenCardCounts" | "recentCardIds"
+  >,
   optionIds: string[],
 ) => {
   const identities = optionIds
     .map((id) => playersById.get(id)?.playerIdentityId)
     .filter((id): id is string => Boolean(id));
-  const seenIdentityCounts = { ...state.seenIdentityCounts };
+  const seenIdentityCounts = { ...(state.seenIdentityCounts ?? {}) };
   for (const identityId of new Set(identities)) {
     seenIdentityCounts[identityId] =
       (seenIdentityCounts[identityId] ?? 0) + 1;
   }
-  const newestFirst = [
-    ...state.recentIdentityIds,
+  const seenCardCounts = { ...(state.seenCardCounts ?? {}) };
+  for (const cardId of new Set(optionIds)) {
+    seenCardCounts[cardId] = (seenCardCounts[cardId] ?? 0) + 1;
+  }
+  const newestIdentitiesFirst = [
+    ...(state.recentIdentityIds ?? []),
     ...identities,
   ].reverse();
-  const recentIdentityIds = [
-    ...new Set(newestFirst),
-  ]
-    .slice(0, 24)
+  const recentIdentityIds = [...new Set(newestIdentitiesFirst)]
+    .slice(0, 80)
     .reverse();
-  return { seenIdentityCounts, recentIdentityIds };
+  const newestCardsFirst = [
+    ...(state.recentCardIds ?? []),
+    ...optionIds,
+  ].reverse();
+  const recentCardIds = [...new Set(newestCardsFirst)]
+    .slice(0, 120)
+    .reverse();
+  return {
+    seenIdentityCounts,
+    recentIdentityIds,
+    seenCardCounts,
+    recentCardIds,
+  };
+};
+
+const recordManagerVisibility = (
+  state: ManagerExposureHistory,
+  optionIds: string[],
+) => {
+  const identities = optionIds
+    .map((id) => managersById.get(id)?.managerIdentityId)
+    .filter((id): id is string => Boolean(id));
+  const seenManagerIdentityCounts = {
+    ...(state.seenManagerIdentityCounts ?? {}),
+  };
+  for (const identityId of new Set(identities)) {
+    seenManagerIdentityCounts[identityId] =
+      (seenManagerIdentityCounts[identityId] ?? 0) + 1;
+  }
+  const seenManagerCardCounts = { ...(state.seenManagerCardCounts ?? {}) };
+  for (const cardId of new Set(optionIds)) {
+    seenManagerCardCounts[cardId] =
+      (seenManagerCardCounts[cardId] ?? 0) + 1;
+  }
+  const recentManagerIdentityIds = [
+    ...new Set(
+      [...(state.recentManagerIdentityIds ?? []), ...identities].reverse(),
+    ),
+  ]
+    .slice(0, 40)
+    .reverse();
+  const recentManagerCardIds = [
+    ...new Set(
+      [...(state.recentManagerCardIds ?? []), ...optionIds].reverse(),
+    ),
+  ]
+    .slice(0, 60)
+    .reverse();
+  return {
+    seenManagerIdentityCounts,
+    recentManagerIdentityIds,
+    seenManagerCardCounts,
+    recentManagerCardIds,
+  };
+};
+
+const recordFormationVisibility = (
+  state: FormationExposureHistory,
+  formationIds: FormationId[],
+) => {
+  const seenFormationCounts = { ...(state.seenFormationCounts ?? {}) };
+  for (const formationId of new Set(formationIds)) {
+    seenFormationCounts[formationId] =
+      (seenFormationCounts[formationId] ?? 0) + 1;
+  }
+  const recentFormationIds = [
+    ...new Set(
+      [...(state.recentFormationIds ?? []), ...formationIds].reverse(),
+    ),
+  ]
+    .slice(0, 16)
+    .reverse();
+  return { seenFormationCounts, recentFormationIds };
 };
 
 const pendingOpponentIdForRun = (run: WorldCupRunState) => {
@@ -360,10 +484,16 @@ const cleanState = {
   managerOptionIds: [] as string[],
   managerRespinRemaining: 1,
   managerRespinIndex: 0,
+  seenManagerIdentityCounts: {} as Record<string, number>,
+  recentManagerIdentityIds: [] as string[],
+  seenManagerCardCounts: {} as Record<string, number>,
+  recentManagerCardIds: [] as string[],
   originalFormationOptionIds: [] as FormationId[],
   formationOptionIds: [] as FormationId[],
   formationRespinRemaining: 1,
   formationRespinIndex: 0,
+  seenFormationCounts: {} as Record<string, number>,
+  recentFormationIds: [] as FormationId[],
   formationId: null,
   draftSeed: 2026,
   picks: [] as DraftPick[],
@@ -379,6 +509,8 @@ const cleanState = {
   rejectedIdentityIds: [] as string[],
   seenIdentityCounts: {} as Record<string, number>,
   recentIdentityIds: [] as string[],
+  seenCardCounts: {} as Record<string, number>,
+  recentCardIds: [] as string[],
   playerRespinsRemaining: 2,
   playerRespinIndex: 0,
   opponentFilters: { ...defaultOpponentFilters },
@@ -388,6 +520,51 @@ const cleanState = {
   worldCupRun: null as WorldCupRunState | null,
   worldCupRunOpponents: [] as HistoricalWorldCupTeam[],
 };
+
+const decayExposureCounts = (counts: Record<string, number>) =>
+  Object.fromEntries(
+    Object.entries(counts)
+      .map(([id, count]) => [id, Math.round(count * 850) / 1000] as const)
+      .filter(([, count]) => count >= 0.1),
+  );
+
+const exposureHistoryFor = (
+  state: Pick<
+    GameStore,
+    | "seenIdentityCounts"
+    | "recentIdentityIds"
+    | "seenCardCounts"
+    | "recentCardIds"
+    | "seenManagerIdentityCounts"
+    | "recentManagerIdentityIds"
+    | "seenManagerCardCounts"
+    | "recentManagerCardIds"
+    | "seenFormationCounts"
+    | "recentFormationIds"
+  >,
+  decay = false,
+) => ({
+  seenIdentityCounts: decay
+    ? decayExposureCounts(state.seenIdentityCounts ?? {})
+    : { ...(state.seenIdentityCounts ?? {}) },
+  recentIdentityIds: [...(state.recentIdentityIds ?? [])],
+  seenCardCounts: decay
+    ? decayExposureCounts(state.seenCardCounts ?? {})
+    : { ...(state.seenCardCounts ?? {}) },
+  recentCardIds: [...(state.recentCardIds ?? [])],
+  seenManagerIdentityCounts: decay
+    ? decayExposureCounts(state.seenManagerIdentityCounts ?? {})
+    : { ...(state.seenManagerIdentityCounts ?? {}) },
+  recentManagerIdentityIds: [...(state.recentManagerIdentityIds ?? [])],
+  seenManagerCardCounts: decay
+    ? decayExposureCounts(state.seenManagerCardCounts ?? {})
+    : { ...(state.seenManagerCardCounts ?? {}) },
+  recentManagerCardIds: [...(state.recentManagerCardIds ?? [])],
+  seenFormationCounts: decay
+    ? decayExposureCounts(state.seenFormationCounts ?? {})
+    : { ...(state.seenFormationCounts ?? {}) },
+  recentFormationIds: [...(state.recentFormationIds ?? [])],
+});
 
 const migratedEra = (value: unknown): DraftEraId | null => {
   if (
@@ -423,7 +600,7 @@ export const useGameStore = create<GameStore>()(
         set({
           ...cleanState,
           gameMode,
-          recentIdentityIds: state.recentIdentityIds,
+          ...exposureHistoryFor(state),
           saveNotice: null,
         });
       },
@@ -431,10 +608,15 @@ export const useGameStore = create<GameStore>()(
         const state = get();
         const gameMode = state.gameMode ?? "classic-draft";
         const draftSeed = createDraftSeed();
+        const history = exposureHistoryFor(state);
         const managerOptionIds =
           gameMode === "free-selection"
             ? draftEligibleManagers.map((manager) => manager.id)
-            : managerOptionsFor(eraId, draftSeed);
+            : managerOptionsFor(eraId, draftSeed, [], 0, history);
+        const managerVisibility =
+          gameMode === "free-selection"
+            ? {}
+            : recordManagerVisibility(history, managerOptionIds);
         set({
           ...cleanState,
           gameMode,
@@ -444,7 +626,8 @@ export const useGameStore = create<GameStore>()(
           managerOptionIds,
           managerRespinRemaining: gameMode === "free-selection" ? 0 : 1,
           formationRespinRemaining: gameMode === "free-selection" ? 0 : 1,
-          recentIdentityIds: state.recentIdentityIds,
+          ...history,
+          ...managerVisibility,
           saveNotice: null,
         });
       },
@@ -465,12 +648,18 @@ export const useGameStore = create<GameStore>()(
                 managerId,
                 state.eraId,
                 state.draftSeed,
+                state,
               );
+        const formationVisibility =
+          state.gameMode === "free-selection"
+            ? {}
+            : recordFormationVisibility(state, formationOptionIds);
         set({
           managerId,
           managerLocked: false,
           originalFormationOptionIds: formationOptionIds,
           formationOptionIds,
+          ...formationVisibility,
           formationRespinRemaining:
             state.gameMode === "free-selection" ? 0 : 1,
           formationRespinIndex: 0,
@@ -504,13 +693,20 @@ export const useGameStore = create<GameStore>()(
         const excludedIdentityIds = state.originalManagerOptionIds
           .map((id) => managersById.get(id)?.managerIdentityId)
           .filter((id): id is string => Boolean(id));
+        const managerOptionIds = managerOptionsFor(
+          state.eraId,
+          state.draftSeed,
+          excludedIdentityIds,
+          1,
+          state,
+        );
+        const managerVisibility = recordManagerVisibility(
+          state,
+          managerOptionIds,
+        );
         set({
-          managerOptionIds: managerOptionsFor(
-            state.eraId,
-            state.draftSeed,
-            excludedIdentityIds,
-            1,
-          ),
+          managerOptionIds,
+          ...managerVisibility,
           managerRespinRemaining: 0,
           managerRespinIndex: 1,
           managerId: null,
@@ -541,13 +737,19 @@ export const useGameStore = create<GameStore>()(
         ) {
           return;
         }
+        const formationOptionIds = generateFormationRespin(
+          manager,
+          state.eraId,
+          state.draftSeed,
+          state.originalFormationOptionIds,
+          {
+            seenFormationCounts: state.seenFormationCounts,
+            recentFormationIds: state.recentFormationIds,
+          },
+        );
         set({
-          formationOptionIds: generateFormationRespin(
-            manager,
-            state.eraId,
-            state.draftSeed,
-            state.originalFormationOptionIds,
-          ),
+          formationOptionIds,
+          ...recordFormationVisibility(state, formationOptionIds),
           formationRespinRemaining: 0,
           formationRespinIndex: 1,
         });
@@ -561,7 +763,7 @@ export const useGameStore = create<GameStore>()(
         ) {
           return;
         }
-        const seenIdentityCounts: Record<string, number> = {};
+        const history = exposureHistoryFor(state);
         const optionIds =
           state.gameMode === "free-selection"
             ? []
@@ -570,15 +772,11 @@ export const useGameStore = create<GameStore>()(
                 picks: [],
                 draftSeed: state.draftSeed,
                 rejectedIdentityIds: [],
-                seenIdentityCounts,
-                recentIdentityIds: state.recentIdentityIds,
+                ...history,
                 contextKey: `${state.eraId}:${state.managerId}:${formationId}:2`,
               });
         const visibility = recordOptionVisibility(
-          {
-            seenIdentityCounts,
-            recentIdentityIds: state.recentIdentityIds,
-          },
+          history,
           optionIds,
         );
         set({
@@ -720,6 +918,8 @@ export const useGameStore = create<GameStore>()(
               rejectedIdentityIds: state.rejectedIdentityIds,
               seenIdentityCounts: state.seenIdentityCounts,
               recentIdentityIds: state.recentIdentityIds,
+              seenCardCounts: state.seenCardCounts,
+              recentCardIds: state.recentCardIds,
               contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining}`,
               respinIndex: state.playerRespinIndex,
             });
@@ -777,6 +977,8 @@ export const useGameStore = create<GameStore>()(
                 rejectedIdentityIds: rejected,
                 seenIdentityCounts: state.seenIdentityCounts,
                 recentIdentityIds: state.recentIdentityIds,
+                seenCardCounts: state.seenCardCounts,
+                recentCardIds: state.recentCardIds,
                 contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining - 1}`,
                 respinIndex: nextIndex,
               })
@@ -787,6 +989,8 @@ export const useGameStore = create<GameStore>()(
                 rejectedIdentityIds: rejected,
                 seenIdentityCounts: state.seenIdentityCounts,
                 recentIdentityIds: state.recentIdentityIds,
+                seenCardCounts: state.seenCardCounts,
+                recentCardIds: state.recentCardIds,
                 contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining - 1}`,
                 respinIndex: nextIndex,
               });
@@ -813,6 +1017,8 @@ export const useGameStore = create<GameStore>()(
           rejectedIdentityIds: state.rejectedIdentityIds,
           seenIdentityCounts: state.seenIdentityCounts,
           recentIdentityIds: state.recentIdentityIds,
+          seenCardCounts: state.seenCardCounts,
+          recentCardIds: state.recentCardIds,
           contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
           respinIndex: state.playerRespinIndex,
         });
@@ -849,6 +1055,8 @@ export const useGameStore = create<GameStore>()(
                 rejectedIdentityIds: state.rejectedIdentityIds,
                 seenIdentityCounts: state.seenIdentityCounts,
                 recentIdentityIds: state.recentIdentityIds,
+                seenCardCounts: state.seenCardCounts,
+                recentCardIds: state.recentCardIds,
                 contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
                 respinIndex: state.playerRespinIndex,
               });
@@ -1210,16 +1418,21 @@ export const useGameStore = create<GameStore>()(
           set({
             ...cleanState,
             gameMode: state.gameMode,
-            recentIdentityIds: state.recentIdentityIds,
+            ...exposureHistoryFor(state, true),
             saveNotice: null,
           });
           return;
         }
         const draftSeed = createDraftSeed();
+        const history = exposureHistoryFor(state, true);
         const managerOptionIds =
           state.gameMode === "free-selection"
             ? draftEligibleManagers.map((manager) => manager.id)
-            : managerOptionsFor(state.eraId, draftSeed);
+            : managerOptionsFor(state.eraId, draftSeed, [], 0, history);
+        const managerVisibility =
+          state.gameMode === "free-selection"
+            ? {}
+            : recordManagerVisibility(history, managerOptionIds);
         set({
           ...cleanState,
           gameMode: state.gameMode,
@@ -1231,7 +1444,8 @@ export const useGameStore = create<GameStore>()(
             state.gameMode === "free-selection" ? 0 : 1,
           formationRespinRemaining:
             state.gameMode === "free-selection" ? 0 : 1,
-          recentIdentityIds: state.recentIdentityIds,
+          ...history,
+          ...managerVisibility,
           saveNotice: null,
         });
       },
@@ -1241,16 +1455,21 @@ export const useGameStore = create<GameStore>()(
           set({
             ...cleanState,
             gameMode: state.gameMode,
-            recentIdentityIds: state.recentIdentityIds,
+            ...exposureHistoryFor(state, true),
             saveNotice: null,
           });
           return;
         }
         const draftSeed = createDraftSeed();
+        const history = exposureHistoryFor(state, true);
         const managerOptionIds =
           state.gameMode === "free-selection"
             ? draftEligibleManagers.map((manager) => manager.id)
-            : managerOptionsFor(state.eraId, draftSeed);
+            : managerOptionsFor(state.eraId, draftSeed, [], 0, history);
+        const managerVisibility =
+          state.gameMode === "free-selection"
+            ? {}
+            : recordManagerVisibility(history, managerOptionIds);
         set({
           ...cleanState,
           gameMode: state.gameMode,
@@ -1262,7 +1481,8 @@ export const useGameStore = create<GameStore>()(
             state.gameMode === "free-selection" ? 0 : 1,
           formationRespinRemaining:
             state.gameMode === "free-selection" ? 0 : 1,
-          recentIdentityIds: state.recentIdentityIds,
+          ...history,
+          ...managerVisibility,
           saveNotice: null,
         });
       },
@@ -1365,8 +1585,12 @@ export const useGameStore = create<GameStore>()(
       },
       prepareRematch: () => set({ matchResult: null }),
       clearGame: () => {
-        const recentIdentityIds = get().recentIdentityIds;
-        set({ ...cleanState, recentIdentityIds, saveNotice: null });
+        const state = get();
+        set({
+          ...cleanState,
+          ...exposureHistoryFor(state, true),
+          saveNotice: null,
+        });
       },
       repairHydratedState: () => {
         const state = get();
@@ -1421,12 +1645,18 @@ export const useGameStore = create<GameStore>()(
           ? managersById.get(state.managerId)
           : undefined;
         if (state.managerId && !manager) {
+          const history = exposureHistoryFor(state);
           const managerOptionIds = managerOptionsFor(
             state.eraId,
             state.draftSeed,
+            [],
+            0,
+            history,
           );
           set({
             ...cleanState,
+            ...history,
+            ...recordManagerVisibility(history, managerOptionIds),
             eraId: state.eraId,
             draftSeed: state.draftSeed,
             originalManagerOptionIds: managerOptionIds,
@@ -1500,6 +1730,8 @@ export const useGameStore = create<GameStore>()(
                     rejectedIdentityIds: state.rejectedIdentityIds,
                     seenIdentityCounts: state.seenIdentityCounts,
                     recentIdentityIds: state.recentIdentityIds,
+                    seenCardCounts: state.seenCardCounts,
+                    recentCardIds: state.recentCardIds,
                     contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining}`,
                     respinIndex: state.playerRespinIndex,
                   })
@@ -1546,6 +1778,8 @@ export const useGameStore = create<GameStore>()(
                     rejectedIdentityIds: state.rejectedIdentityIds,
                     seenIdentityCounts: state.seenIdentityCounts,
                     recentIdentityIds: state.recentIdentityIds,
+                    seenCardCounts: state.seenCardCounts,
+                    recentCardIds: state.recentCardIds,
                     contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:${state.playerRespinsRemaining}`,
                     respinIndex: state.playerRespinIndex,
                   })
@@ -1557,6 +1791,8 @@ export const useGameStore = create<GameStore>()(
                       rejectedIdentityIds: state.rejectedIdentityIds,
                       seenIdentityCounts: state.seenIdentityCounts,
                       recentIdentityIds: state.recentIdentityIds,
+                      seenCardCounts: state.seenCardCounts,
+                      recentCardIds: state.recentCardIds,
                       contextKey: `${state.eraId}:${state.managerId}:${state.formationId}:bench:${state.playerRespinsRemaining}`,
                       respinIndex: state.playerRespinIndex,
                     })
@@ -1587,12 +1823,13 @@ export const useGameStore = create<GameStore>()(
             : "classic-draft";
         const draftSeed = previous.draftSeed ?? 2026;
         const invalidatedLegacyWorldCupRun =
-          persistedVersion < SAVE_VERSION && Boolean(previous.worldCupRun);
+          persistedVersion < WORLD_CUP_RUN_MODEL_SAVE_VERSION &&
+          Boolean(previous.worldCupRun);
         const removedPlayableAllStars =
           previous.playMode === "all-stars" ||
           previous.managerId === "world-cup-all-stars-coach";
         if (removedPlayableAllStars && eraId) {
-          const managerOptionIds = managerOptionsFor(eraId, draftSeed);
+          const managerOptionIds = managerOptionsFor(eraId, draftSeed, [], 0, previous);
           return {
             ...cleanState,
             gameMode: "classic-draft",
@@ -1622,7 +1859,7 @@ export const useGameStore = create<GameStore>()(
           eraId && !managerId
             ? gameMode === "free-selection"
               ? draftEligibleManagers.map((manager) => manager.id)
-              : managerOptionsFor(eraId, draftSeed)
+              : managerOptionsFor(eraId, draftSeed, [], 0, previous)
             : savedManagerOptionIds;
         const originalFormationOptionIds =
           previous.originalFormationOptionIds?.length
@@ -1630,7 +1867,7 @@ export const useGameStore = create<GameStore>()(
             : eraId && managerId
               ? gameMode === "free-selection"
                 ? formations.map((formation) => formation.id)
-                : formationOptionsFor(managerId, eraId, draftSeed)
+                : formationOptionsFor(managerId, eraId, draftSeed, previous)
               : [];
         return {
           ...cleanState,
@@ -1657,6 +1894,10 @@ export const useGameStore = create<GameStore>()(
               ? 0
               : 1,
           managerRespinIndex: previous.managerRespinIndex ?? 0,
+          seenManagerIdentityCounts: previous.seenManagerIdentityCounts ?? {},
+          recentManagerIdentityIds: previous.recentManagerIdentityIds ?? [],
+          seenManagerCardCounts: previous.seenManagerCardCounts ?? {},
+          recentManagerCardIds: previous.recentManagerCardIds ?? [],
           originalFormationOptionIds,
           formationOptionIds:
             previous.formationOptionIds?.length
@@ -1668,6 +1909,8 @@ export const useGameStore = create<GameStore>()(
               ? 0
               : 1,
           formationRespinIndex: previous.formationRespinIndex ?? 0,
+          seenFormationCounts: previous.seenFormationCounts ?? {},
+          recentFormationIds: previous.recentFormationIds ?? [],
           selectedPlayerId: null,
           selectedSlotId: null,
           projectedPositionFits: [],
@@ -1686,6 +1929,8 @@ export const useGameStore = create<GameStore>()(
           benchPicks: previous.benchPicks ?? [],
           seenIdentityCounts: previous.seenIdentityCounts ?? {},
           recentIdentityIds: previous.recentIdentityIds ?? [],
+          seenCardCounts: previous.seenCardCounts ?? {},
+          recentCardIds: previous.recentCardIds ?? [],
           worldCupRun: invalidatedLegacyWorldCupRun
             ? null
             : (previous.worldCupRun ?? null),
@@ -1726,10 +1971,16 @@ export const useGameStore = create<GameStore>()(
         managerOptionIds: state.managerOptionIds,
         managerRespinRemaining: state.managerRespinRemaining,
         managerRespinIndex: state.managerRespinIndex,
+        seenManagerIdentityCounts: state.seenManagerIdentityCounts,
+        recentManagerIdentityIds: state.recentManagerIdentityIds,
+        seenManagerCardCounts: state.seenManagerCardCounts,
+        recentManagerCardIds: state.recentManagerCardIds,
         originalFormationOptionIds: state.originalFormationOptionIds,
         formationOptionIds: state.formationOptionIds,
         formationRespinRemaining: state.formationRespinRemaining,
         formationRespinIndex: state.formationRespinIndex,
+        seenFormationCounts: state.seenFormationCounts,
+        recentFormationIds: state.recentFormationIds,
         formationId: state.formationId,
         draftSeed: state.draftSeed,
         picks: state.picks,
@@ -1745,6 +1996,8 @@ export const useGameStore = create<GameStore>()(
         rejectedIdentityIds: state.rejectedIdentityIds,
         seenIdentityCounts: state.seenIdentityCounts,
         recentIdentityIds: state.recentIdentityIds,
+        seenCardCounts: state.seenCardCounts,
+        recentCardIds: state.recentCardIds,
         playerRespinsRemaining: state.playerRespinsRemaining,
         playerRespinIndex: state.playerRespinIndex,
         opponentFilters: state.opponentFilters,

@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { getFormation } from "@/data/formations";
+import { managersById } from "@/data/managers";
 import {
   historicalOpponentArchive,
   historicalOpponents,
@@ -67,6 +68,18 @@ const prepareWorldCupSquad = () => {
 describe("game store integrity", () => {
   beforeEach(() => {
     localStorage.clear();
+    useGameStore.setState({
+      seenIdentityCounts: {},
+      recentIdentityIds: [],
+      seenCardCounts: {},
+      recentCardIds: [],
+      seenManagerIdentityCounts: {},
+      recentManagerIdentityIds: [],
+      seenManagerCardCounts: {},
+      recentManagerCardIds: [],
+      seenFormationCounts: {},
+      recentFormationIds: [],
+    });
     initialize();
   });
 
@@ -143,6 +156,76 @@ describe("game store integrity", () => {
     expect(useGameStore.getState().optionIds).toEqual(options);
   });
 
+
+  it("tracks exact tournament-card visibility as well as player identity visibility", () => {
+    const state = useGameStore.getState();
+    const firstCardId = state.optionIds[0];
+    const firstIdentityId = playersById.get(firstCardId)!.playerIdentityId;
+
+    expect(state.seenIdentityCounts[firstIdentityId]).toBeGreaterThan(0);
+    expect(state.recentIdentityIds).toContain(firstIdentityId);
+    expect(state.seenCardCounts[firstCardId]).toBeGreaterThan(0);
+    expect(state.recentCardIds).toContain(firstCardId);
+  });
+
+  it("keeps exposure history across a new draft while gradually decaying old counts", () => {
+    const before = useGameStore.getState();
+    const cardId = before.optionIds[0];
+    const identityId = playersById.get(cardId)!.playerIdentityId;
+    const identityCount = before.seenIdentityCounts[identityId];
+    const cardCount = before.seenCardCounts[cardId];
+
+    useGameStore.getState().resetDraft();
+
+    const after = useGameStore.getState();
+    expect(after.seenIdentityCounts[identityId]).toBeGreaterThan(0);
+    expect(after.seenIdentityCounts[identityId]).toBeLessThan(identityCount);
+    expect(after.seenCardCounts[cardId]).toBeGreaterThan(0);
+    expect(after.seenCardCounts[cardId]).toBeLessThan(cardCount);
+    expect(after.recentIdentityIds).toContain(identityId);
+    expect(after.recentCardIds).toContain(cardId);
+  });
+
+  it("tracks manager and formation exposure and keeps it across new drafts", () => {
+    const state = useGameStore.getState();
+    const managerCardId = state.managerOptionIds[0];
+    const managerIdentityId =
+      managersById.get(managerCardId)!.managerIdentityId;
+    const formationId = state.formationOptionIds[0];
+
+    expect(state.seenManagerIdentityCounts[managerIdentityId]).toBeGreaterThan(
+      0,
+    );
+    expect(state.recentManagerIdentityIds).toContain(managerIdentityId);
+    expect(state.seenManagerCardCounts[managerCardId]).toBeGreaterThan(0);
+    expect(state.recentManagerCardIds).toContain(managerCardId);
+    expect(state.seenFormationCounts[formationId]).toBeGreaterThan(0);
+    expect(state.recentFormationIds).toContain(formationId);
+
+    useGameStore.setState({
+      seenManagerIdentityCounts: { [managerIdentityId]: 10 },
+      seenManagerCardCounts: { [managerCardId]: 10 },
+      seenFormationCounts: { [formationId]: 10 },
+      recentManagerIdentityIds: [managerIdentityId],
+      recentManagerCardIds: [managerCardId],
+      recentFormationIds: [formationId],
+    });
+    useGameStore.getState().resetDraft();
+
+    const reset = useGameStore.getState();
+    expect(reset.seenManagerIdentityCounts[managerIdentityId]).toBeGreaterThan(
+      0,
+    );
+    expect(reset.seenManagerIdentityCounts[managerIdentityId]).toBeLessThan(10);
+    expect(reset.seenManagerCardCounts[managerCardId]).toBeGreaterThan(0);
+    expect(reset.seenManagerCardCounts[managerCardId]).toBeLessThan(10);
+    expect(reset.seenFormationCounts[formationId]).toBeGreaterThan(0);
+    expect(reset.seenFormationCounts[formationId]).toBeLessThan(10);
+    expect(reset.recentManagerIdentityIds).toContain(managerIdentityId);
+    expect(reset.recentManagerCardIds).toContain(managerCardId);
+    expect(reset.recentFormationIds).toContain(formationId);
+  });
+
   it("allows one separate deterministic formation respin", () => {
     useGameStore.getState().clearGame();
     useGameStore.getState().selectEra("2000s");
@@ -154,6 +237,9 @@ describe("game store integrity", () => {
     useGameStore.getState().respinFormations();
     const after = useGameStore.getState();
     const replacement = [...after.formationOptionIds];
+    for (const formationId of replacement) {
+      expect(after.seenFormationCounts[formationId]).toBeGreaterThan(0);
+    }
     expect(replacement).toHaveLength(4);
     expect(replacement.every((id) => !original.includes(id))).toBe(true);
     expect(after.formationRespinRemaining).toBe(0);
@@ -194,6 +280,15 @@ describe("game store integrity", () => {
     const before = [...useGameStore.getState().managerOptionIds];
     useGameStore.getState().respinManagers();
     const replacement = [...useGameStore.getState().managerOptionIds];
+    for (const managerId of replacement) {
+      const identityId = managersById.get(managerId)!.managerIdentityId;
+      expect(
+        useGameStore.getState().seenManagerIdentityCounts[identityId],
+      ).toBeGreaterThan(0);
+      expect(useGameStore.getState().seenManagerCardCounts[managerId]).toBeGreaterThan(
+        0,
+      );
+    }
     expect(before).toHaveLength(3);
     expect(replacement).toHaveLength(3);
     expect(replacement.every((id) => !before.includes(id))).toBe(true);
