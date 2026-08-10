@@ -25483,7 +25483,7 @@
         ]
       },
       {
-        "cardId": "thomas-ha-ler-1990",
+        "cardId": "thomas-hassler-1990",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -25496,7 +25496,7 @@
         ]
       },
       {
-        "cardId": "thomas-ha-ler-1994",
+        "cardId": "thomas-hassler-1994",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -25509,7 +25509,7 @@
         ]
       },
       {
-        "cardId": "thomas-ha-ler-1998",
+        "cardId": "thomas-hassler-1998",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -42561,34 +42561,34 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "thomas-ha-ler-1990",
+        "cardId": "thomas-hassler-1990",
         "playerName": "Thomas Häßler",
         "countryCode": "GER",
         "tournamentYear": 1990,
-        "expectedPublicPath": "public/players/game-faces/thomas-ha-ler-1990.png",
-        "expectedRuntimePath": "/players/game-faces/thomas-ha-ler-1990.png",
+        "expectedPublicPath": "public/players/game-faces/thomas-hassler-1990.png",
+        "expectedRuntimePath": "/players/game-faces/thomas-hassler-1990.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "thomas-ha-ler-1994",
+        "cardId": "thomas-hassler-1994",
         "playerName": "Thomas Häßler",
         "countryCode": "GER",
         "tournamentYear": 1994,
-        "expectedPublicPath": "public/players/game-faces/thomas-ha-ler-1994.png",
-        "expectedRuntimePath": "/players/game-faces/thomas-ha-ler-1994.png",
+        "expectedPublicPath": "public/players/game-faces/thomas-hassler-1994.png",
+        "expectedRuntimePath": "/players/game-faces/thomas-hassler-1994.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "thomas-ha-ler-1998",
+        "cardId": "thomas-hassler-1998",
         "playerName": "Thomas Häßler",
         "countryCode": "GER",
         "tournamentYear": 1998,
-        "expectedPublicPath": "public/players/game-faces/thomas-ha-ler-1998.png",
-        "expectedRuntimePath": "/players/game-faces/thomas-ha-ler-1998.png",
+        "expectedPublicPath": "public/players/game-faces/thomas-hassler-1998.png",
+        "expectedRuntimePath": "/players/game-faces/thomas-hassler-1998.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"

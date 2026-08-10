@@ -97676,14 +97676,14 @@
       "verificationStatus": "unresolved",
       "accolades": []
     },
-    "thomas-ha-ler": {
+    "thomas-hassler": {
       "verificationStatus": "verified",
       "reviewedAt": "2026-08-01",
       "researchStatus": "complete",
       "sourceReview": {
         "transfermarkt": {
           "playerId": "553",
-          "url": "https://www.transfermarkt.com/thomas-ha-ler/erfolge/spieler/553",
+          "url": "https://www.transfermarkt.com/thomas-hassler/erfolge/spieler/553",
           "status": "checked-cached-titles-and-achievements-page"
         },
         "fbref": {
@@ -97699,7 +97699,7 @@
           "label": "FIFA World Cup Champion",
           "category": "international",
           "sourceName": "Transfermarkt",
-          "sourceUrl": "https://www.transfermarkt.com/thomas-ha-ler/erfolge/spieler/553",
+          "sourceUrl": "https://www.transfermarkt.com/thomas-hassler/erfolge/spieler/553",
           "verified": true,
           "description": "1990."
         },
@@ -97708,7 +97708,7 @@
           "label": "UEFA European Championship Winner",
           "category": "international",
           "sourceName": "Transfermarkt",
-          "sourceUrl": "https://www.transfermarkt.com/thomas-ha-ler/erfolge/spieler/553",
+          "sourceUrl": "https://www.transfermarkt.com/thomas-hassler/erfolge/spieler/553",
           "verified": true,
           "description": "1996."
         }

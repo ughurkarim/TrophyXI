@@ -6117,40 +6117,6 @@
         "awards": []
       }
     ],
-    "alexandre-czerniatynski": [
-      {
-        "playerId": "P-88070",
-        "playerName": "Alexandre Czerniatynski",
-        "tournamentYear": 1982,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-88070",
-        "playerName": "Alexandre Czerniatynski",
-        "tournamentYear": 1994,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "round of 16",
-        "appearances": 1,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "alexandre-guimaraes": [
       {
         "playerId": "P-35501",
@@ -19261,56 +19227,6 @@
         "awards": []
       }
     ],
-    "bryan-robson": [
-      {
-        "playerId": "P-02675",
-        "playerName": "Bryan Robson",
-        "tournamentYear": 1982,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "second group stage",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 2,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-02675",
-        "playerName": "Bryan Robson",
-        "tournamentYear": 1986,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "quarter-finals",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-02675",
-        "playerName": "Bryan Robson",
-        "tournamentYear": 1990,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "third-place match",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "bryan-roy": [
       {
         "playerId": "P-03942",
@@ -22944,45 +22860,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "chris-waddle": [
-      {
-        "playerId": "P-19351",
-        "playerName": "Chris Waddle",
-        "tournamentYear": 1986,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "quarter-finals",
-        "appearances": 4,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "LM",
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-19351",
-        "playerName": "Chris Waddle",
-        "tournamentYear": 1990,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "RW",
-        "eligiblePositions": [
-          "RW",
-          "RM",
-          "LM",
-          "CM"
         ],
         "awards": []
       }
@@ -27395,41 +27272,6 @@
         "eligiblePositions": [
           "CM",
           "DM"
-        ],
-        "awards": []
-      }
-    ],
-    "daniele-massaro": [
-      {
-        "playerId": "P-31072",
-        "playerName": "Daniele Massaro",
-        "tournamentYear": 1982,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "final",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-31072",
-        "playerName": "Daniele Massaro",
-        "tournamentYear": 1994,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CF"
         ],
         "awards": []
       }
@@ -38176,58 +38018,6 @@
         "awards": []
       }
     ],
-    "eric-gerets": [
-      {
-        "playerId": "P-73390",
-        "playerName": "Eric Gerets",
-        "tournamentYear": 1982,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "second group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-73390",
-        "playerName": "Eric Gerets",
-        "tournamentYear": 1986,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "RB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-73390",
-        "playerName": "Eric Gerets",
-        "tournamentYear": 1990,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "RB"
-        ],
-        "awards": []
-      }
-    ],
     "eric-maxim-choupo-moting": [
       {
         "playerId": "P-06117",
@@ -41508,40 +41298,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "fernando-de-napoli": [
-      {
-        "playerId": "P-32608",
-        "playerName": "Fernando De Napoli",
-        "tournamentYear": 1986,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-32608",
-        "playerName": "Fernando De Napoli",
-        "tournamentYear": 1990,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -46432,56 +46188,6 @@
         "awards": []
       }
     ],
-    "georges-grun": [
-      {
-        "playerId": "P-99499",
-        "playerName": "Georges Grün",
-        "tournamentYear": 1986,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-99499",
-        "playerName": "Georges Grün",
-        "tournamentYear": 1990,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "round of 16",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-99499",
-        "playerName": "Georges Grün",
-        "tournamentYear": 1994,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "georges-heylens": [
       {
         "playerId": "P-23037",
@@ -49350,26 +49056,6 @@
         "awards": []
       }
     ],
-    "giuseppe-signori": [
-      {
-        "playerId": "P-32071",
-        "playerName": "Giuseppe Signori",
-        "tournamentYear": 1994,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "LM",
-          "CF"
-        ],
-        "awards": []
-      }
-    ],
     "giuseppe-wilson": [
       {
         "playerId": "P-97066",
@@ -51827,24 +51513,6 @@
         "eligiblePositions": [
           "ST",
           "CF"
-        ],
-        "awards": []
-      }
-    ],
-    "hakan-mild": [
-      {
-        "playerId": "P-66178",
-        "playerName": "Håkan Mild",
-        "tournamentYear": 1994,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -57534,24 +57202,6 @@
         "awards": []
       }
     ],
-    "iliyan-kiryakov": [
-      {
-        "playerId": "P-48990",
-        "playerName": "Iliyan Kiryakov",
-        "tournamentYear": 1994,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "ilkay-gundogan": [
       {
         "playerId": "P-08896",
@@ -58706,44 +58356,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "ivan-hasek": [
-      {
-        "playerId": "P-73737",
-        "playerName": "Ivan Hašek",
-        "tournamentYear": 1990,
-        "teamCode": "CSK",
-        "teamName": "Czechoslovakia",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "ivan-helguera": [
-      {
-        "playerId": "P-20643",
-        "playerName": "Iván Helguera",
-        "tournamentYear": 2002,
-        "teamCode": "ESP",
-        "teamName": "Spain",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "CB"
         ],
         "awards": []
       }
@@ -65156,24 +64768,6 @@
         "awards": []
       }
     ],
-    "joachim-bjorklund": [
-      {
-        "playerId": "P-39860",
-        "playerName": "Joachim Björklund",
-        "tournamentYear": 1994,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "joachim-fritsche": [
       {
         "playerId": "P-88482",
@@ -66593,42 +66187,6 @@
         "awards": []
       }
     ],
-    "john-barnes": [
-      {
-        "playerId": "P-38921",
-        "playerName": "John Barnes",
-        "tournamentYear": 1986,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "quarter-finals",
-        "appearances": 1,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-38921",
-        "playerName": "John Barnes",
-        "tournamentYear": 1990,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "LW",
-        "eligiblePositions": [
-          "LW",
-          "RM",
-          "LM"
-        ],
-        "awards": []
-      }
-    ],
     "john-blackley": [
       {
         "playerId": "P-36988",
@@ -67756,40 +67314,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "jonas-thern": [
-      {
-        "playerId": "P-92339",
-        "playerName": "Jonas Thern",
-        "tournamentYear": 1990,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-92339",
-        "playerName": "Jonas Thern",
-        "tournamentYear": 1994,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -70734,24 +70258,6 @@
         "awards": []
       }
     ],
-    "jose-serrizuela": [
-      {
-        "playerId": "P-80379",
-        "playerName": "José Serrizuela",
-        "tournamentYear": 1990,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "jose-van-tuyne": [
       {
         "playerId": "P-26142",
@@ -73680,109 +73186,6 @@
         "goals": 0,
         "primaryPosition": "ST",
         "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "julio-olarticoechea": [
-      {
-        "playerId": "P-46907",
-        "playerName": "Julio Olarticoechea",
-        "tournamentYear": 1982,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "second group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-46907",
-        "playerName": "Julio Olarticoechea",
-        "tournamentYear": 1986,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "final",
-        "appearances": 7,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "LM",
-          "LWB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-46907",
-        "playerName": "Julio Olarticoechea",
-        "tournamentYear": 1990,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "julio-salinas": [
-      {
-        "playerId": "P-18314",
-        "playerName": "Julio Salinas",
-        "tournamentYear": 1986,
-        "teamCode": "ESP",
-        "teamName": "Spain",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-18314",
-        "playerName": "Julio Salinas",
-        "tournamentYear": 1990,
-        "teamCode": "ESP",
-        "teamName": "Spain",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-18314",
-        "playerName": "Julio Salinas",
-        "tournamentYear": 1994,
-        "teamCode": "ESP",
-        "teamName": "Spain",
-        "teamPerformance": "quarter-finals",
-        "appearances": 4,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CF",
-        "eligiblePositions": [
-          "CF",
           "ST"
         ],
         "awards": []
@@ -78180,41 +77583,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "klas-ingesson": [
-      {
-        "playerId": "P-21234",
-        "playerName": "Klas Ingesson",
-        "tournamentYear": 1990,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-21234",
-        "playerName": "Klas Ingesson",
-        "tournamentYear": 1994,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "LM"
         ],
         "awards": []
       }
@@ -83231,25 +82599,6 @@
         "goals": 0,
         "primaryPosition": "CB",
         "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "luigi-de-agostini": [
-      {
-        "playerId": "P-35719",
-        "playerName": "Luigi De Agostini",
-        "tournamentYear": 1990,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
           "CB"
         ],
         "awards": []
@@ -89732,24 +89081,6 @@
         "awards": []
       }
     ],
-    "mark-wright": [
-      {
-        "playerId": "P-68510",
-        "playerName": "Mark Wright",
-        "tournamentYear": 1990,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "marko-babic": [
       {
         "playerId": "P-13539",
@@ -93160,41 +92491,6 @@
         "eligiblePositions": [
           "CB",
           "RB"
-        ],
-        "awards": []
-      }
-    ],
-    "mazinho": [
-      {
-        "playerId": "P-78793",
-        "playerName": "Mazinho",
-        "tournamentYear": 1990,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "round of 16",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-78793",
-        "playerName": "Mazinho",
-        "tournamentYear": 1994,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "AM"
         ],
         "awards": []
       }
@@ -99426,57 +98722,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "muller": [
-      {
-        "playerId": "P-60969",
-        "playerName": "Müller",
-        "tournamentYear": 1986,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-60969",
-        "playerName": "Müller",
-        "tournamentYear": 1990,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 3,
-        "goals": 2,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-60969",
-        "playerName": "Müller",
-        "tournamentYear": 1994,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "final",
-        "appearances": 1,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -107644,42 +106889,6 @@
         "awards": []
       }
     ],
-    "patrick-vervoort": [
-      {
-        "playerId": "P-92384",
-        "playerName": "Patrick Vervoort",
-        "tournamentYear": 1986,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "CB",
-          "LB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-92384",
-        "playerName": "Patrick Vervoort",
-        "tournamentYear": 1990,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 1,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "patrick-vieira": [
       {
         "playerId": "P-96540",
@@ -108169,25 +107378,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "paul-parker": [
-      {
-        "playerId": "P-96960",
-        "playerName": "Paul Parker",
-        "tournamentYear": 1990,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "RB",
-        "eligiblePositions": [
-          "RB",
-          "CB"
         ],
         "awards": []
       }
@@ -109211,24 +108401,6 @@
         "awards": []
       }
     ],
-    "pedro-monzon": [
-      {
-        "playerId": "P-31161",
-        "playerName": "Pedro Monzón",
-        "tournamentYear": 1990,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "final",
-        "appearances": 4,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "pedro-p-78418": [
       {
         "playerId": "P-78418",
@@ -109403,24 +108575,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "pedro-troglio": [
-      {
-        "playerId": "P-30977",
-        "playerName": "Pedro Troglio",
-        "tournamentYear": 1990,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -116773,24 +115927,6 @@
         "awards": []
       }
     ],
-    "riccardo-ferri": [
-      {
-        "playerId": "P-47366",
-        "playerName": "Riccardo Ferri",
-        "tournamentYear": 1990,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "riccardo-montolivo": [
       {
         "playerId": "P-37678",
@@ -122580,40 +121716,6 @@
         "appearances": 3,
         "starts": 2,
         "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "safet-susic": [
-      {
-        "playerId": "P-74361",
-        "playerName": "Safet Sušić",
-        "tournamentYear": 1982,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-74361",
-        "playerName": "Safet Sušić",
-        "tournamentYear": 1990,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
@@ -129423,40 +128525,6 @@
         "awards": []
       }
     ],
-    "stefan-schwarz": [
-      {
-        "playerId": "P-63692",
-        "playerName": "Stefan Schwarz",
-        "tournamentYear": 1990,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-63692",
-        "playerName": "Stefan Schwarz",
-        "tournamentYear": 1994,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "stefan-staykov": [
       {
         "playerId": "P-62720",
@@ -131171,24 +130239,6 @@
         "awards": []
       }
     ],
-    "stuart-pearce": [
-      {
-        "playerId": "P-67307",
-        "playerName": "Stuart Pearce",
-        "tournamentYear": 1990,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "LB",
-        "eligiblePositions": [
-          "LB"
-        ],
-        "awards": []
-      }
-    ],
     "suad-filekovic": [
       {
         "playerId": "P-38988",
@@ -132707,56 +131757,6 @@
         "awards": []
       }
     ],
-    "terry-butcher": [
-      {
-        "playerId": "P-49962",
-        "playerName": "Terry Butcher",
-        "tournamentYear": 1982,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "second group stage",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-49962",
-        "playerName": "Terry Butcher",
-        "tournamentYear": 1986,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-49962",
-        "playerName": "Terry Butcher",
-        "tournamentYear": 1990,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "terry-cooper": [
       {
         "playerId": "P-40921",
@@ -133720,7 +132720,7 @@
         "awards": []
       }
     ],
-    "thomas-ha-ler": [
+    "thomas-hassler": [
       {
         "playerId": "P-77552",
         "playerName": "Thomas Häßler",
@@ -136542,25 +135542,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "tsanko-tsvetanov": [
-      {
-        "playerId": "P-06964",
-        "playerName": "Tsanko Tsvetanov",
-        "tournamentYear": 1994,
-        "teamCode": "BUL",
-        "teamName": "Bulgaria",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "LB"
         ],
         "awards": []
       }
@@ -140772,40 +139753,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "walter-zenga": [
-      {
-        "playerId": "P-57440",
-        "playerName": "Walter Zenga",
-        "tournamentYear": 1986,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "round of 16",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-57440",
-        "playerName": "Walter Zenga",
-        "tournamentYear": 1990,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
         ],
         "awards": []
       }

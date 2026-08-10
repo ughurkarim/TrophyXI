@@ -57102,15 +57102,15 @@
       "finalConsistencyStatus": "consistent"
     },
     {
-      "playerIdentityId": "thomas-ha-ler",
+      "playerIdentityId": "thomas-hassler",
       "playerName": "Thomas Häßler",
       "cardIds": [
-        "thomas-ha-ler-1990",
-        "thomas-ha-ler-1994",
-        "thomas-ha-ler-1998"
+        "thomas-hassler-1990",
+        "thomas-hassler-1994",
+        "thomas-hassler-1998"
       ],
       "previousAccoladesByCard": {
-        "thomas-ha-ler-1990": [
+        "thomas-hassler-1990": [
           {
             "id": "world-cup-winner-1990",
             "label": "World Cup Winner — 1990",
@@ -57121,7 +57121,7 @@
             "description": "Member of West Germany's 1990 World Cup winning squad."
           }
         ],
-        "thomas-ha-ler-1994": [
+        "thomas-hassler-1994": [
           {
             "id": "world-cup-winner-1990",
             "label": "World Cup Winner — 1990",
@@ -57132,7 +57132,7 @@
             "description": "Member of West Germany's 1990 World Cup winning squad."
           }
         ],
-        "thomas-ha-ler-1998": [
+        "thomas-hassler-1998": [
           {
             "id": "world-cup-winner-1990",
             "label": "World Cup Winner — 1990",
@@ -57145,9 +57145,9 @@
         ]
       },
       "previousHashesByCard": {
-        "thomas-ha-ler-1990": "ff62e62596cdd44e2703f70ff07fbf316f2b2e275d4464802d74edae610fde77",
-        "thomas-ha-ler-1994": "ff62e62596cdd44e2703f70ff07fbf316f2b2e275d4464802d74edae610fde77",
-        "thomas-ha-ler-1998": "ff62e62596cdd44e2703f70ff07fbf316f2b2e275d4464802d74edae610fde77"
+        "thomas-hassler-1990": "ff62e62596cdd44e2703f70ff07fbf316f2b2e275d4464802d74edae610fde77",
+        "thomas-hassler-1994": "ff62e62596cdd44e2703f70ff07fbf316f2b2e275d4464802d74edae610fde77",
+        "thomas-hassler-1998": "ff62e62596cdd44e2703f70ff07fbf316f2b2e275d4464802d74edae610fde77"
       },
       "previousDifferences": "none",
       "previouslyConsistent": true,
