@@ -92,6 +92,60 @@ const poisson = (lambda: number, random: RandomSource, cap = 4) => {
   return Math.min(cap, count - 1);
 };
 
+const goalkeeperConversionFactor = (goalkeeping: number) =>
+  clamp(1 - (goalkeeping - 82) * 0.006, 0.92, 1.08);
+
+const substitutionImpact = ({
+  lineup,
+  bench,
+  substitutions,
+}: {
+  lineup: SimulationPlayer[];
+  bench: SimulationPlayer[];
+  substitutions: SubstitutionRecord[];
+}) =>
+  substitutions.reduce(
+    (impact, substitution) => {
+      const incoming = bench.find(
+        (player) => player.id === substitution.playerInId,
+      );
+      const outgoing = lineup.find(
+        (player) => player.id === substitution.playerOutId,
+      );
+      if (!incoming || !outgoing) return impact;
+
+      const minutesShare = clamp((90 - substitution.minute) / 44, 0.08, 1);
+      const qualityDelta = (incoming.overall - outgoing.overall) * 0.006;
+      const attackDelta =
+        (incoming.attributes.attack - outgoing.attributes.attack) * 0.0035;
+      const creativityDelta =
+        (incoming.attributes.creativity - outgoing.attributes.creativity) *
+        0.002;
+      const tacticalAttack =
+        substitution.reason === "Attacking response while chasing the match"
+          ? 0.055
+          : 0;
+      const tacticalDefense =
+        substitution.reason === "Defensive control to protect the score"
+          ? 0.055
+          : 0;
+
+      return {
+        attack:
+          impact.attack +
+          (qualityDelta * 0.45 +
+            attackDelta +
+            creativityDelta +
+            tacticalAttack) *
+            minutesShare,
+        defense:
+          impact.defense +
+          (qualityDelta * 0.4 + tacticalDefense) * minutesShare,
+      };
+    },
+    { attack: 0, defense: 0 },
+  );
+
 const createEvent = (
   event: Omit<MatchEvent, "id">,
   index: number,
@@ -408,48 +462,139 @@ export const simulateMatch = ({
       lineup.length +
     (manager?.simulationModifier.clutch ?? 0) * managerEffectiveness;
   const midfieldEdge = userRatings.midfield - opponentRatings.midfield;
-  const userPossession = Math.round(clamp(50 + midfieldEdge * 0.72 + (random() - 0.5) * 8, 32, 64));
+  const userPossession = Math.round(
+    clamp(50 + midfieldEdge * 0.72 + (random() - 0.5) * 6, 32, 64),
+  );
   const opponentPossession = 100 - userPossession;
-  const userXg = clamp(
-    1.18 +
+
+  // Build chance quality from the teams first. Manager grades already flow into
+  // the phase ratings, so they are not added a second time here.
+  const baseUserXg = clamp(
+    1.22 +
       (userRatings.attack - opponentRatings.defense) * 0.035 +
       midfieldEdge * 0.014 +
       (userRatings.chemistry - 75) * 0.006 +
       (avgClutch - 85) * 0.008 +
-      ((manager?.grades.offense ?? 78) - 78) *
-        0.006 *
-        managerEffectiveness +
-      (eraFitApplies ? (managerEraFit - 75) * 0.003 : 0) +
       (eraFitApplies ? (userRatings.eraFit - opponentEraFit) * 0.005 : 0) +
-      (random() - 0.5) * 0.42,
+      (random() - 0.5) * 0.3,
     0.35,
     3.15,
   );
-  const opponentXg = clamp(
-    1.28 +
+  const baseOpponentXg = clamp(
+    1.22 +
       (opponentRatings.attack - userRatings.defense) * 0.035 -
       midfieldEdge * 0.011 +
       (opponentRatings.chemistry - 90) * 0.005 +
-      ((manager?.grades.defense ?? 78) - 78) *
-        -0.005 *
-        managerEffectiveness -
-      (eraFitApplies ? -(managerEraFit - 75) * 0.0025 : 0) +
       (eraFitApplies ? (opponentEraFit - userRatings.eraFit) * 0.005 : 0) +
-      (random() - 0.5) * 0.42,
+      (random() - 0.5) * 0.3,
     0.35,
     3.15,
   );
 
-  let userGoals = poisson(userXg, random);
-  let opponentGoals = poisson(opponentXg, random);
+  const userGoalkeeperRating =
+    lineup.find((player) => player.primaryPosition === "GK")?.attributes
+      .goalkeeping ?? userRatings.defense;
+  const opponentGoalkeeperRating = opponentRatings.goalkeeper;
+  const userConversionFactor = goalkeeperConversionFactor(
+    opponentGoalkeeperRating,
+  );
+  const opponentConversionFactor = goalkeeperConversionFactor(
+    userGoalkeeperRating,
+  );
+
+  // Resolve the first half before deciding substitutions. This lets the score
+  // state drive the bench plan instead of generating subs after the result.
+  const firstHalfShare = 0.47;
+  const firstHalfUserXg = baseUserXg * firstHalfShare;
+  const firstHalfOpponentXg = baseOpponentXg * firstHalfShare;
+  let firstHalfUserGoals = poisson(
+    firstHalfUserXg * userConversionFactor,
+    random,
+  );
+  let firstHalfOpponentGoals = poisson(
+    firstHalfOpponentXg * opponentConversionFactor,
+    random,
+  );
+
+  const substitutions = createSubstitutions({
+    lineup: userSimulationLineup,
+    bench: userSimulationBench,
+    manager,
+    managerEraFit,
+    trailing: firstHalfUserGoals < firstHalfOpponentGoals,
+    winning: firstHalfUserGoals > firstHalfOpponentGoals,
+    extraTime: false,
+    random,
+  }).sort((first, second) => first.minute - second.minute);
+  const opponentSubstitutions = opponentLineup.length
+    ? createSubstitutions({
+        lineup: opponentLineup,
+        bench: opponentBench.slice(0, 3),
+        manager: opponentManager,
+        managerEraFit: opponentManagerEraFit,
+        trailing: firstHalfOpponentGoals < firstHalfUserGoals,
+        winning: firstHalfOpponentGoals > firstHalfUserGoals,
+        extraTime: false,
+        random,
+      }).sort((first, second) => first.minute - second.minute)
+    : [];
+
+  const userBenchImpact = substitutionImpact({
+    lineup: userSimulationLineup,
+    bench: userSimulationBench,
+    substitutions,
+  });
+  const opponentBenchImpact = substitutionImpact({
+    lineup: opponentLineup,
+    bench: opponentBench.slice(0, 3),
+    substitutions: opponentSubstitutions,
+  });
+
+  const secondHalfShare = 1 - firstHalfShare;
+  const secondHalfUserXg = clamp(
+    baseUserXg * secondHalfShare +
+      userBenchImpact.attack -
+      opponentBenchImpact.defense,
+    0.12,
+    1.95,
+  );
+  const secondHalfOpponentXg = clamp(
+    baseOpponentXg * secondHalfShare +
+      opponentBenchImpact.attack -
+      userBenchImpact.defense,
+    0.12,
+    1.95,
+  );
+  let secondHalfUserGoals = poisson(
+    secondHalfUserXg * userConversionFactor,
+    random,
+  );
+  let secondHalfOpponentGoals = poisson(
+    secondHalfOpponentXg * opponentConversionFactor,
+    random,
+  );
+
+  let userGoals = firstHalfUserGoals + secondHalfUserGoals;
+  let opponentGoals = firstHalfOpponentGoals + secondHalfOpponentGoals;
+  const userXg = firstHalfUserXg + secondHalfUserXg;
+  const opponentXg = firstHalfOpponentXg + secondHalfOpponentXg;
+
   if (knockoutMode !== "normal") {
-    const tiedScore = Math.min(2, Math.max(0, Math.round((userXg + opponentXg) / 2)));
+    const tiedScore = Math.min(
+      2,
+      Math.max(0, Math.round((userXg + opponentXg) / 2)),
+    );
+    firstHalfUserGoals = Math.min(
+      tiedScore,
+      Math.round(tiedScore * firstHalfShare),
+    );
+    firstHalfOpponentGoals = firstHalfUserGoals;
+    secondHalfUserGoals = tiedScore - firstHalfUserGoals;
+    secondHalfOpponentGoals = tiedScore - firstHalfOpponentGoals;
     userGoals = tiedScore;
     opponentGoals = tiedScore;
   }
 
-  const regularUserGoals = userGoals;
-  const regularOpponentGoals = opponentGoals;
   let extraUserGoals = 0;
   let extraOpponentGoals = 0;
   let afterExtraTime = false;
@@ -457,8 +602,12 @@ export const simulateMatch = ({
 
   if (userGoals === opponentGoals && competitionStage === "knockout") {
     afterExtraTime = true;
-    extraUserGoals = poisson(userXg * 0.27, random, 2);
-    extraOpponentGoals = poisson(opponentXg * 0.27, random, 2);
+    extraUserGoals = poisson(userXg * 0.24 * userConversionFactor, random, 2);
+    extraOpponentGoals = poisson(
+      opponentXg * 0.24 * opponentConversionFactor,
+      random,
+      2,
+    );
     if (knockoutMode === "force-penalties") {
       extraUserGoals = 0;
       extraOpponentGoals = 0;
@@ -467,43 +616,40 @@ export const simulateMatch = ({
     opponentGoals += extraOpponentGoals;
 
     if (userGoals === opponentGoals) {
-      const userEdge = clamp((avgClutch - 89) / 100, -0.04, 0.05);
+      const clutchEdge = clamp((avgClutch - 89) / 100, -0.04, 0.05);
+      const opponentKeeperEdge = clamp(
+        (opponentGoalkeeperRating - 82) * 0.0015,
+        -0.025,
+        0.025,
+      );
+      const userKeeperEdge = clamp(
+        (userGoalkeeperRating - 82) * 0.0015,
+        -0.025,
+        0.025,
+      );
+      const userPenaltyChance = clamp(
+        0.76 + clutchEdge - opponentKeeperEdge,
+        0.67,
+        0.84,
+      );
+      const opponentPenaltyChance = clamp(
+        0.75 - userKeeperEdge,
+        0.67,
+        0.82,
+      );
       let userPens = 0;
       let opponentPens = 0;
       for (let kick = 0; kick < 5; kick += 1) {
-        if (random() < 0.76 + userEdge) userPens += 1;
-        if (random() < 0.75) opponentPens += 1;
+        if (random() < userPenaltyChance) userPens += 1;
+        if (random() < opponentPenaltyChance) opponentPens += 1;
       }
       while (userPens === opponentPens) {
-        if (random() < 0.76 + userEdge) userPens += 1;
-        if (random() < 0.75) opponentPens += 1;
+        if (random() < userPenaltyChance) userPens += 1;
+        if (random() < opponentPenaltyChance) opponentPens += 1;
       }
       penalties = [userPens, opponentPens];
     }
   }
-
-  const substitutions = createSubstitutions({
-    lineup: userSimulationLineup,
-    bench: userSimulationBench,
-    manager,
-    managerEraFit,
-    trailing: userGoals < opponentGoals,
-    winning: userGoals > opponentGoals,
-    extraTime: afterExtraTime,
-    random,
-  }).sort((first, second) => first.minute - second.minute);
-  const opponentSubstitutions = opponentLineup.length
-      ? createSubstitutions({
-        lineup: opponentLineup,
-        bench: opponentBench.slice(0, 3),
-        manager: opponentManager,
-        managerEraFit: opponentManagerEraFit,
-        trailing: opponentGoals < userGoals,
-        winning: opponentGoals > userGoals,
-        extraTime: afterExtraTime,
-        random,
-      }).sort((first, second) => first.minute - second.minute)
-    : [];
   const activeLineupAt = (minute: number) => {
     const active = new Map(lineup.map((player) => [player.id, player]));
     for (const substitution of substitutions) {
@@ -573,48 +719,63 @@ export const simulateMatch = ({
     });
   }
 
-  goalMinutes(regularUserGoals, random, 9, 88).forEach((minute) => {
-    const active = activeLineupAt(minute);
-    const scorer = chooseUserScorer(active, random);
-    const assist = random() > 0.22 ? chooseUserAssist(active, scorer.id, random) : undefined;
-    goalsByPlayer.set(scorer.id, (goalsByPlayer.get(scorer.id) ?? 0) + 1);
-    if (assist) {
-      assistsByPlayer.set(assist.id, (assistsByPlayer.get(assist.id) ?? 0) + 1);
-    }
-    rawEvents.push({
-      minute,
-      minuteLabel: `${minute}’`,
-      type: "goal",
-      team: "user",
-      title: `GOAL — ${scorer.playerName} ${scorer.tournamentYear}`,
-      detail: goalCommentary(
-        `${scorer.playerName} ${scorer.tournamentYear}`,
-        assist ? `${assist.playerName} ${assist.tournamentYear}` : undefined,
-        "user",
-      ),
-      userScore: 0,
-      opponentScore: 0,
+  const addUserGoalEvents = (count: number, from: number, to: number) => {
+    goalMinutes(count, random, from, to).forEach((minute) => {
+      const active = activeLineupAt(minute);
+      const scorer = chooseUserScorer(active, random);
+      const assist =
+        random() > 0.22
+          ? chooseUserAssist(active, scorer.id, random)
+          : undefined;
+      goalsByPlayer.set(scorer.id, (goalsByPlayer.get(scorer.id) ?? 0) + 1);
+      if (assist) {
+        assistsByPlayer.set(
+          assist.id,
+          (assistsByPlayer.get(assist.id) ?? 0) + 1,
+        );
+      }
+      rawEvents.push({
+        minute,
+        minuteLabel: `${minute}’`,
+        type: "goal",
+        team: "user",
+        title: `GOAL — ${scorer.playerName} ${scorer.tournamentYear}`,
+        detail: goalCommentary(
+          `${scorer.playerName} ${scorer.tournamentYear}`,
+          assist ? `${assist.playerName} ${assist.tournamentYear}` : undefined,
+          "user",
+        ),
+        userScore: 0,
+        opponentScore: 0,
+      });
     });
-  });
+  };
 
-  goalMinutes(regularOpponentGoals, random, 9, 88).forEach((minute) => {
-    const active = activeOpponentLineupAt(minute);
-    const scorer = chooseOpponentPlayer(opponent, active, random);
-    const assist =
-      random() > 0.25
-        ? chooseOpponentPlayer(opponent, active, random, scorer.id)
-        : undefined;
-    rawEvents.push({
-      minute,
-      minuteLabel: `${minute}’`,
-      type: "goal",
-      team: "opponent",
-      title: `GOAL — ${scorer.name}`,
-      detail: goalCommentary(scorer.name, assist?.name, "opponent"),
-      userScore: 0,
-      opponentScore: 0,
+  const addOpponentGoalEvents = (count: number, from: number, to: number) => {
+    goalMinutes(count, random, from, to).forEach((minute) => {
+      const active = activeOpponentLineupAt(minute);
+      const scorer = chooseOpponentPlayer(opponent, active, random);
+      const assist =
+        random() > 0.25
+          ? chooseOpponentPlayer(opponent, active, random, scorer.id)
+          : undefined;
+      rawEvents.push({
+        minute,
+        minuteLabel: `${minute}’`,
+        type: "goal",
+        team: "opponent",
+        title: `GOAL — ${scorer.name}`,
+        detail: goalCommentary(scorer.name, assist?.name, "opponent"),
+        userScore: 0,
+        opponentScore: 0,
+      });
     });
-  });
+  };
+
+  addUserGoalEvents(firstHalfUserGoals, 9, 44);
+  addOpponentGoalEvents(firstHalfOpponentGoals, 9, 44);
+  addUserGoalEvents(secondHalfUserGoals, 46, 88);
+  addOpponentGoalEvents(secondHalfOpponentGoals, 46, 88);
 
   for (const substitution of substitutions) {
     const incoming = bench.find(

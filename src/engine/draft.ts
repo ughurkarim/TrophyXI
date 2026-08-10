@@ -57,12 +57,12 @@ const positionBand = (position: Position) => {
 };
 
 export const starterTierWeights: Record<PlayerStatusTier, number> = {
-  legend: 0.055,
-  icon: 0.12,
-  elite: 0.225,
-  standout: 0.27,
-  reliable: 0.215,
-  "role-player": 0.09,
+  legend: 0.045,
+  icon: 0.105,
+  elite: 0.25,
+  standout: 0.285,
+  reliable: 0.205,
+  "role-player": 0.085,
   limited: 0.025,
 };
 
@@ -372,6 +372,23 @@ export const generateDraftOptions = (
   const draftedPremier = draftedCards.filter((card) =>
     ["legend", "icon"].includes(card.statusTier),
   ).length;
+
+  // Premium cards should feel like an event, not an opening-round expectation.
+  // Keep them possible from the start, then gradually increase their availability
+  // as the XI takes shape. This gate also applies to quality-floor replacements so
+  // the safety net cannot quietly inject a Legend/Icon into every early offer.
+  const premierOfferChance =
+    pickIndex <= 2 ? 0.18 : pickIndex <= 5 ? 0.32 : pickIndex <= 8 ? 0.48 : 0.62;
+  const premierOfferRoll =
+    (Math.abs(
+      hashString(
+        `starter-premier:${seed}:${formation.id}:${pickIndex}:${rules.respinIndex ?? 0}`,
+      ),
+    ) % 10_000) /
+    10_000;
+  const premierOfferAllowed = premierOfferRoll < premierOfferChance;
+  const premierOfferCap = pickIndex <= 5 ? 1 : 2;
+
   const budgetRoll =
     (Math.abs(hashString(`starter-tier-budget:${seed}:${formation.id}`)) %
       10_000) /
@@ -508,8 +525,8 @@ export const generateDraftOptions = (
     const cardSeenPenalty = 1 / (1 + seenCardCount(card.id) * 0.6);
     const recentCardPenalty = recentCards.has(card.id) ? 0.3 : 1;
     const tacticalBoost = 1 + Math.min(24, cardRank.need) / 32;
-    const fitBoost = 0.9 + cardRank.best / 250;
-    const qualityBoost = 1 + Math.max(0, card.overall - 80) * 0.012;
+    const fitBoost = 0.82 + cardRank.best / 185;
+    const qualityBoost = 1 + Math.max(0, card.overall - 78) * 0.024;
     return (
       identitySeenPenalty *
       recentIdentityPenalty *
@@ -522,25 +539,71 @@ export const generateDraftOptions = (
   };
   const randomFromFullPool = (pool: PlayerTournamentCard[]) =>
     weightedChoice(pool, random, starterWeight);
+
   for (let index = 0; index < 5; index += 1) {
     const targetTier = weightedTier(random, starterTierWeights);
     const premierCount = selected.filter((card) =>
       ["legend", "icon"].includes(card.statusTier),
     ).length;
     const highCount = selected.filter((card) => card.overall >= 90).length;
+    const strongCount = selected.filter((card) => card.overall >= 88).length;
     const available = (card: PlayerTournamentCard) =>
       !selected.some(
         (candidate) =>
           candidate.playerIdentityId === card.playerIdentityId,
       ) &&
       (card.overall < 90 || highCount < 2) &&
-      (!["legend", "icon"].includes(card.statusTier) || premierCount < 2);
+      (card.overall < 88 || strongCount < 3) &&
+      (!["legend", "icon"].includes(card.statusTier) ||
+        (premierOfferAllowed && premierCount < premierOfferCap));
     const tierPool = ranked.filter(
       (card) => card.statusTier === targetTier && available(card),
     );
     const fallbackPool = ranked.filter(available);
     add(randomFromFullPool(tierPool.length ? tierPool : fallbackPool));
   }
+
+  const replacementCandidate = ({
+    minimumOverall,
+    outgoingIndex,
+    predicate = () => true,
+  }: {
+    minimumOverall: number;
+    outgoingIndex: number;
+    predicate?: (card: PlayerTournamentCard) => boolean;
+  }) => {
+    const outgoing = selected[outgoingIndex];
+    const highAfterRemoval =
+      selected.filter((card) => card.overall >= 90).length -
+      (outgoing.overall >= 90 ? 1 : 0);
+    const strongAfterRemoval =
+      selected.filter((card) => card.overall >= 88).length -
+      (outgoing.overall >= 88 ? 1 : 0);
+    const premierAfterRemoval =
+      selected.filter((card) =>
+        ["legend", "icon"].includes(card.statusTier),
+      ).length -
+      (["legend", "icon"].includes(outgoing.statusTier) ? 1 : 0);
+
+    return randomFromFullPool(
+      ranked.filter(
+        (card) =>
+          card.overall >= minimumOverall &&
+          predicate(card) &&
+          card.playerIdentityId !== outgoing.playerIdentityId &&
+          !selected.some(
+            (candidate, index) =>
+              index !== outgoingIndex &&
+              candidate.playerIdentityId === card.playerIdentityId,
+          ) &&
+          (card.overall < 90 || highAfterRemoval < 2) &&
+          (card.overall < 88 || strongAfterRemoval < 3) &&
+          (!["legend", "icon"].includes(card.statusTier) ||
+            (premierOfferAllowed && premierAfterRemoval < premierOfferCap)),
+      ),
+    );
+  };
+
   if (
     new Set(
       selected.map((card) => tacticalFamilyForPosition(card.primaryPosition)),
@@ -549,49 +612,65 @@ export const generateDraftOptions = (
     const currentFamily = tacticalFamilyForPosition(
       selected[0].primaryPosition,
     );
-    const outgoing = selected.at(-1);
-    const highAfterRemoval =
-      selected.filter((card) => card.overall >= 90).length -
-      (outgoing && outgoing.overall >= 90 ? 1 : 0);
-    const premierAfterRemoval =
-      selected.filter((card) =>
-        ["legend", "icon"].includes(card.statusTier),
-      ).length -
-      (outgoing && ["legend", "icon"].includes(outgoing.statusTier) ? 1 : 0);
-    const replacement = randomFromFullPool(
-      ranked.filter(
-        (card) =>
-          tacticalFamilyForPosition(card.primaryPosition) !== currentFamily &&
-          (card.overall < 90 || highAfterRemoval < 2) &&
-          (!["legend", "icon"].includes(card.statusTier) ||
-            premierAfterRemoval < 2) &&
-          !selected.some(
-            (candidate) =>
-              candidate.playerIdentityId === card.playerIdentityId,
-          ),
-      ),
-    );
-    if (replacement) selected[selected.length - 1] = replacement;
+    const outgoingIndex = selected.length - 1;
+    const replacement = replacementCandidate({
+      minimumOverall: 0,
+      outgoingIndex,
+      predicate: (card) =>
+        tacticalFamilyForPosition(card.primaryPosition) !== currentFamily,
+    });
+    if (replacement) selected[outgoingIndex] = replacement;
   }
-  if (!selected.some((card) => card.overall >= 88)) {
-    const replacement = randomFromFullPool(
-      ranked.filter(
-        (card) =>
-          card.overall >= 88 &&
-          !selected.some(
-            (candidate) =>
-              candidate.playerIdentityId === card.playerIdentityId,
-          ),
-      ),
-    );
-    const replaceIndex = selected
+
+  const replaceLowestBelow = (minimumOverall: number, desiredCount: number) => {
+    while (
+      selected.filter((card) => card.overall >= minimumOverall).length <
+      desiredCount
+    ) {
+      const outgoingIndex = selected
+        .map((card, index) => ({ card, index }))
+        .filter(({ card }) => card.overall < minimumOverall)
+        .sort((first, second) => first.card.overall - second.card.overall)[0]
+        ?.index;
+      if (outgoingIndex === undefined) break;
+
+      const replacement = replacementCandidate({
+        minimumOverall,
+        outgoingIndex,
+      });
+      if (!replacement) break;
+      selected[outgoingIndex] = replacement;
+    }
+  };
+
+  // Every five-card offer should have a real decision at the top instead of
+  // one obvious card and four throwaways. The floor rises slightly late in
+  // the draft, but three slots remain free to be specialists or gambles.
+  replaceLowestBelow(88, 1);
+  replaceLowestBelow(pickIndex >= 7 ? 86 : 85, 2);
+
+  // Avoid a frustrating end-state where the goalkeeper slot is still open and
+  // the final few offers never surface one. This only kicks in late.
+  if (
+    openGoalkeeperSlots > 0 &&
+    pickIndex >= 8 &&
+    !selected.some((card) => card.primaryPosition === "GK")
+  ) {
+    const outgoingIndex = selected
       .map((card, index) => ({ card, index }))
+      .filter(({ card }) => card.primaryPosition !== "GK")
       .sort((first, second) => first.card.overall - second.card.overall)[0]
       ?.index;
-    if (replacement && replaceIndex !== undefined) {
-      selected[replaceIndex] = replacement;
+    if (outgoingIndex !== undefined) {
+      const replacement = replacementCandidate({
+        minimumOverall: 0,
+        outgoingIndex,
+        predicate: (card) => card.primaryPosition === "GK",
+      });
+      if (replacement) selected[outgoingIndex] = replacement;
     }
   }
+
   if (selected.length !== 5) {
     throw new Error("Player-first draft generation did not return five cards");
   }

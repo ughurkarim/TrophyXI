@@ -44,6 +44,18 @@ const resultsForSeeds = (bench: PlayerTournamentCard[], count = 40) =>
     simulateMatch({ ...input, bench, seed: index + 1 }),
   );
 
+const userWon = (result: ReturnType<typeof simulateMatch>) =>
+  result.score.user > result.score.opponent ||
+  Boolean(
+    result.score.penalties &&
+      result.score.penalties[0] > result.score.penalties[1],
+  );
+
+const average = (values: number[]) =>
+  values.reduce((sum, value) => sum + value, 0) / Math.max(1, values.length);
+
+const clampRating = (value: number) => Math.max(45, Math.min(99, value));
+
 describe("match simulation", () => {
   it("is deterministic for identical complete inputs", () => {
     expect(simulateMatch(input)).toEqual(simulateMatch(input));
@@ -247,6 +259,114 @@ describe("match simulation", () => {
     expect(result.score.penalties).toBeDefined();
     expect(result.score.penalties?.[0]).not.toBe(result.score.penalties?.[1]);
     expect(result.events.some((event) => event.type === "penalties")).toBe(true);
+  });
+
+  it("rewards a meaningfully stronger side across a broad seed sample", () => {
+    const adjustedOpponent = (delta: number) => ({
+      ...input.opponent,
+      ratings: {
+        ...input.opponent.ratings,
+        attack: clampRating(input.opponent.ratings.attack + delta),
+        midfield: clampRating(input.opponent.ratings.midfield + delta),
+        defense: clampRating(input.opponent.ratings.defense + delta),
+        goalkeeper: clampRating(input.opponent.ratings.goalkeeper + delta),
+        overall: clampRating(input.opponent.ratings.overall + delta),
+      },
+    });
+
+    const seeds = Array.from({ length: 240 }, (_, index) => index + 1);
+    const easierWins = seeds.filter((seed) =>
+      userWon(
+        simulateMatch({
+          ...input,
+          opponent: adjustedOpponent(-6),
+          seed,
+        }),
+      ),
+    ).length;
+    const harderWins = seeds.filter((seed) =>
+      userWon(
+        simulateMatch({
+          ...input,
+          opponent: adjustedOpponent(6),
+          seed,
+        }),
+      ),
+    ).length;
+
+    expect(easierWins).toBeGreaterThan(harderWins);
+    expect(easierWins - harderWins).toBeGreaterThan(12);
+  });
+
+  it("lets bench quality change second-half chance creation", () => {
+    const weakerBench = testBench.map((player, index) => ({
+      ...player,
+      id: `${player.id}-weaker-bench-${index}`,
+      playerIdentityId: `${player.playerIdentityId}-weaker-bench-${index}`,
+      overall: clampRating(player.overall - 14),
+      attributes: {
+        ...player.attributes,
+        attack: clampRating(player.attributes.attack - 14),
+        creativity: clampRating(player.attributes.creativity - 14),
+        clutch: clampRating(player.attributes.clutch - 10),
+      },
+    }));
+
+    const seeds = Array.from({ length: 120 }, (_, index) => index + 1);
+    const strongBenchXg = average(
+      seeds.map(
+        (seed) =>
+          simulateMatch({ ...input, bench: testBench, seed }).stats
+            .expectedGoals[0],
+      ),
+    );
+    const weakBenchXg = average(
+      seeds.map(
+        (seed) =>
+          simulateMatch({ ...input, bench: weakerBench, seed }).stats
+            .expectedGoals[0],
+      ),
+    );
+
+    expect(strongBenchXg).toBeGreaterThan(weakBenchXg);
+  });
+
+  it("gives elite goalkeeping a measurable shot-stopping advantage", () => {
+    const goalkeeperIndex = input.lineup.findIndex(
+      (player) => player.primaryPosition === "GK",
+    );
+    const withGoalkeeper = (goalkeeping: number, suffix: string) =>
+      input.lineup.map((player, index) =>
+        index === goalkeeperIndex
+          ? {
+              ...player,
+              id: `${player.id}-${suffix}`,
+              playerIdentityId: `${player.playerIdentityId}-${suffix}`,
+              attributes: {
+                ...player.attributes,
+                goalkeeping,
+              },
+            }
+          : player,
+      );
+
+    const elite = withGoalkeeper(99, "elite-keeper-test");
+    const weak = withGoalkeeper(65, "weak-keeper-test");
+    const seeds = Array.from({ length: 180 }, (_, index) => index + 1);
+    const eliteGoalsAllowed = average(
+      seeds.map(
+        (seed) =>
+          simulateMatch({ ...input, lineup: elite, seed }).score.opponent,
+      ),
+    );
+    const weakGoalsAllowed = average(
+      seeds.map(
+        (seed) =>
+          simulateMatch({ ...input, lineup: weak, seed }).score.opponent,
+      ),
+    );
+
+    expect(eliteGoalsAllowed).toBeLessThan(weakGoalsAllowed);
   });
 
   it("applies manager OFF and DEF grades to the appropriate phases", () => {

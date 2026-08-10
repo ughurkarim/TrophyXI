@@ -121,6 +121,13 @@ describe("draft engine", () => {
         0,
       ),
     );
+    const earlyPremierOffers = starterOffers.filter((offer) =>
+      offer.some((player) => ["legend", "icon"].includes(player.statusTier)),
+    ).length;
+    // Opening premium cards remain exciting rather than routine. The deterministic
+    // offer gate is 18%, with a little tolerance for future pool changes.
+    expect(earlyPremierOffers).toBeLessThanOrEqual(30);
+
     const benchOffers = Array.from({ length: 100 }, (_, seed) =>
       generateBenchOptions(
         draftEligiblePlayers,
@@ -151,6 +158,12 @@ describe("draft engine", () => {
         offer.filter((player) => player.overall >= 90).length,
       ).toBeLessThanOrEqual(2);
       expect(
+        offer.filter((player) => player.overall >= 88).length,
+      ).toBeLessThanOrEqual(3);
+      expect(
+        offer.filter((player) => player.overall >= 85).length,
+      ).toBeGreaterThanOrEqual(2);
+      expect(
         offer.filter((player) =>
           ["legend", "icon"].includes(player.statusTier),
         ).length,
@@ -171,6 +184,22 @@ describe("draft engine", () => {
         .reduce((sum, player) => sum + player.overall, 0) /
       offers.flat().length;
     expect(average(benchOffers)).toBeLessThan(average(starterOffers));
+  }, 20_000);
+
+  it("ramps premium-card availability instead of front-loading legends", () => {
+    const early = Array.from({ length: 200 }, (_, seed) =>
+      generateDraftOptions(draftEligiblePlayers, formation, [], 20_000 + seed, 0),
+    );
+    const late = Array.from({ length: 200 }, (_, seed) =>
+      generateDraftOptions(draftEligiblePlayers, formation, [], 30_000 + seed, 9),
+    );
+    const hasPremier = (offer: (typeof draftEligiblePlayers)[number][]) =>
+      offer.some((player) => ["legend", "icon"].includes(player.statusTier));
+
+    const earlyPremium = early.filter(hasPremier).length;
+    const latePremium = late.filter(hasPremier).length;
+    expect(earlyPremium).toBeLessThan(latePremium);
+    expect(earlyPremium).toBeLessThanOrEqual(60);
   }, 20_000);
 
   it("prevents drafted identities and alternate versions from returning", () => {
@@ -482,6 +511,19 @@ describe("draft engine", () => {
     expect(respin).toHaveLength(4);
     expect(respin.every((id) => !remembered.has(id))).toBe(true);
   });
+
+  it("surfaces a goalkeeper in late starter offers when the GK slot is still open", () => {
+    for (let seed = 0; seed < 80; seed += 1) {
+      const offer = generateDraftOptions(
+        draftEligiblePlayers,
+        formation,
+        [],
+        120_000 + seed,
+        8,
+      );
+      expect(offer.some((player) => player.primaryPosition === "GK")).toBe(true);
+    }
+  }, 20_000);
 
   it("detects impossible remaining drafts with maximum matching", () => {
     const outfieldOnly = players
