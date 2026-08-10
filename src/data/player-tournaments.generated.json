@@ -1951,24 +1951,6 @@
         "awards": []
       }
     ],
-    "adam-musia": [
-      {
-        "playerId": "P-39234",
-        "playerName": "Adam Musiał",
-        "tournamentYear": 1974,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "adam-nawa-ka": [
       {
         "playerId": "P-42824",
@@ -5102,40 +5084,6 @@
         "teamPerformance": "round of 16",
         "appearances": 1,
         "starts": 1,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "aleksandr-chivadze": [
-      {
-        "playerId": "P-66593",
-        "playerName": "Aleksandr Chivadze",
-        "tournamentYear": 1982,
-        "teamCode": "SUN",
-        "teamName": "Soviet Union",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-66593",
-        "playerName": "Aleksandr Chivadze",
-        "tournamentYear": 1986,
-        "teamCode": "SUN",
-        "teamName": "Soviet Union",
-        "teamPerformance": "round of 16",
-        "appearances": 0,
-        "starts": 0,
         "goals": 0,
         "primaryPosition": "CB",
         "eligiblePositions": [
@@ -16302,25 +16250,6 @@
         "awards": []
       }
     ],
-    "bernd-bransch": [
-      {
-        "playerId": "P-18468",
-        "playerName": "Bernd Bransch",
-        "tournamentYear": 1974,
-        "teamCode": "DDR",
-        "teamName": "East Germany",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "RB"
-        ],
-        "awards": []
-      }
-    ],
     "bernd-forster": [
       {
         "playerId": "P-31123",
@@ -16354,42 +16283,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "bernd-holzenbein": [
-      {
-        "playerId": "P-35602",
-        "playerName": "Bernd Hölzenbein",
-        "tournamentYear": 1974,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CM",
-          "LW"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-35602",
-        "playerName": "Bernd Hölzenbein",
-        "tournamentYear": 1978,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "second group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -16475,40 +16368,6 @@
         "teamCode": "BEL",
         "teamName": "Belgium",
         "teamPerformance": "round of 16",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "bernhard-cullmann": [
-      {
-        "playerId": "P-44313",
-        "playerName": "Bernhard Cullmann",
-        "tournamentYear": 1974,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "final",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-44313",
-        "playerName": "Bernhard Cullmann",
-        "tournamentYear": 1978,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "second group stage",
         "appearances": 0,
         "starts": 0,
         "goals": 0,
@@ -18335,24 +18194,6 @@
         "awards": []
       }
     ],
-    "branko-oblak": [
-      {
-        "playerId": "P-26214",
-        "playerName": "Branko Oblak",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "branko-segota": [
       {
         "playerId": "P-92139",
@@ -20123,25 +19964,6 @@
         "awards": []
       }
     ],
-    "carlos-babington": [
-      {
-        "playerId": "P-33365",
-        "playerName": "Carlos Babington",
-        "tournamentYear": 1974,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "carlos-bacca": [
       {
         "playerId": "P-12476",
@@ -20662,40 +20484,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "carlos-juan-oblitas": [
-      {
-        "playerId": "P-50099",
-        "playerName": "Carlos Juan Oblitas",
-        "tournamentYear": 1978,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-50099",
-        "playerName": "Carlos Juan Oblitas",
-        "tournamentYear": 1982,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -21440,24 +21228,6 @@
         "awards": []
       }
     ],
-    "carpegiani": [
-      {
-        "playerId": "P-07188",
-        "playerName": "Carpegiani",
-        "tournamentYear": 1974,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "carsten-ramelow": [
       {
         "playerId": "P-57588",
@@ -21858,40 +21628,6 @@
         "primaryPosition": "RB",
         "eligiblePositions": [
           "RB"
-        ],
-        "awards": []
-      }
-    ],
-    "cesar-cueto": [
-      {
-        "playerId": "P-23639",
-        "playerName": "César Cueto",
-        "tournamentYear": 1978,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-23639",
-        "playerName": "César Cueto",
-        "tournamentYear": 1982,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -27132,25 +26868,6 @@
         "awards": []
       }
     ],
-    "daniel-veyt": [
-      {
-        "playerId": "P-24703",
-        "playerName": "Daniel Veyt",
-        "tournamentYear": 1986,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CF"
-        ],
-        "awards": []
-      }
-    ],
     "daniel-viteri": [
       {
         "playerId": "P-53809",
@@ -32223,24 +31940,6 @@
         "awards": []
       }
     ],
-    "ditmar-jakobs": [
-      {
-        "playerId": "P-91180",
-        "playerName": "Ditmar Jakobs",
-        "tournamentYear": 1986,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "divock-origi": [
       {
         "playerId": "P-77619",
@@ -33424,26 +33123,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "dragan-dzajic": [
-      {
-        "playerId": "P-88088",
-        "playerName": "Dragan Džajić",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "LW",
-        "eligiblePositions": [
-          "LW",
-          "ST",
-          "CM"
         ],
         "awards": []
       }
@@ -34970,57 +34649,6 @@
         "eligiblePositions": [
           "CM",
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "edinho": [
-      {
-        "playerId": "P-12950",
-        "playerName": "Edinho",
-        "tournamentYear": 1978,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "third-place match",
-        "appearances": 3,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-12950",
-        "playerName": "Edinho",
-        "tournamentYear": 1982,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "second group stage",
-        "appearances": 1,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-12950",
-        "playerName": "Edinho",
-        "tournamentYear": 1986,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -37291,40 +36919,6 @@
         "awards": []
       }
     ],
-    "enrico-albertosi": [
-      {
-        "playerId": "P-73673",
-        "playerName": "Enrico Albertosi",
-        "tournamentYear": 1970,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-73673",
-        "playerName": "Enrico Albertosi",
-        "tournamentYear": 1974,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      }
-    ],
     "enrico-chiesa": [
       {
         "playerId": "P-35079",
@@ -37450,43 +37044,6 @@
         "eligiblePositions": [
           "CB",
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "enver-hadziabdic": [
-      {
-        "playerId": "P-00262",
-        "playerName": "Enver Hadžiabdić",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "LB"
-        ],
-        "awards": []
-      }
-    ],
-    "enver-maric": [
-      {
-        "playerId": "P-84648",
-        "playerName": "Enver Marić",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
         ],
         "awards": []
       }
@@ -38208,40 +37765,6 @@
         "awards": []
       }
     ],
-    "erich-obermayer": [
-      {
-        "playerId": "P-61365",
-        "playerName": "Erich Obermayer",
-        "tournamentYear": 1978,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-61365",
-        "playerName": "Erich Obermayer",
-        "tournamentYear": 1982,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "erich-schaedler": [
       {
         "playerId": "P-24731",
@@ -38717,40 +38240,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "erwin-vandenbergh": [
-      {
-        "playerId": "P-06736",
-        "playerName": "Erwin Vandenbergh",
-        "tournamentYear": 1982,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-06736",
-        "playerName": "Erwin Vandenbergh",
-        "tournamentYear": 1986,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "third-place match",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -44308,40 +43797,6 @@
         "awards": []
       }
     ],
-    "friedrich-koncilia": [
-      {
-        "playerId": "P-62318",
-        "playerName": "Friedrich Koncilia",
-        "tournamentYear": 1978,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-62318",
-        "playerName": "Friedrich Koncilia",
-        "tournamentYear": 1982,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      }
-    ],
     "fritz-andre": [
       {
         "playerId": "P-67450",
@@ -44932,25 +44387,6 @@
         "eligiblePositions": [
           "ST",
           "CF"
-        ],
-        "awards": []
-      }
-    ],
-    "gabriele-oriali": [
-      {
-        "playerId": "P-75736",
-        "playerName": "Gabriele Oriali",
-        "tournamentYear": 1982,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "DM"
         ],
         "awards": []
       }
@@ -46621,40 +46057,6 @@
         "awards": []
       }
     ],
-    "gerard-janvion": [
-      {
-        "playerId": "P-34605",
-        "playerName": "Gérard Janvion",
-        "tournamentYear": 1978,
-        "teamCode": "FRA",
-        "teamName": "France",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-34605",
-        "playerName": "Gérard Janvion",
-        "tournamentYear": 1982,
-        "teamCode": "FRA",
-        "teamName": "France",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "gerard-joseph": [
       {
         "playerId": "P-42054",
@@ -46843,25 +46245,6 @@
         "eligiblePositions": [
           "CM",
           "RM"
-        ],
-        "awards": []
-      }
-    ],
-    "gerd-kische": [
-      {
-        "playerId": "P-12102",
-        "playerName": "Gerd Kische",
-        "tournamentYear": 1974,
-        "teamCode": "DDR",
-        "teamName": "East Germany",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "RB"
         ],
         "awards": []
       }
@@ -48206,25 +47589,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "gil": [
-      {
-        "playerId": "P-34545",
-        "playerName": "Gil",
-        "tournamentYear": 1978,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CM"
         ],
         "awards": []
       }
@@ -51917,25 +51281,6 @@
         "awards": []
       }
     ],
-    "hannes-lohr": [
-      {
-        "playerId": "P-12863",
-        "playerName": "Hannes Löhr",
-        "tournamentYear": 1970,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "LW",
-        "eligiblePositions": [
-          "LW",
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "hannes-or-halldorsson": [
       {
         "playerId": "P-37032",
@@ -53293,58 +52638,6 @@
         "awards": []
       }
     ],
-    "hector-chumpitaz": [
-      {
-        "playerId": "P-76522",
-        "playerName": "Héctor Chumpitaz",
-        "tournamentYear": 1970,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "quarter-finals",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-76522",
-        "playerName": "Héctor Chumpitaz",
-        "tournamentYear": 1978,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "hector-enrique": [
-      {
-        "playerId": "P-70033",
-        "playerName": "Héctor Enrique",
-        "tournamentYear": 1986,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "final",
-        "appearances": 5,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "hector-herrera": [
       {
         "playerId": "P-42911",
@@ -53528,24 +52821,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "hector-yazalde": [
-      {
-        "playerId": "P-82033",
-        "playerName": "Héctor Yazalde",
-        "tournamentYear": 1974,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "second group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 2,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -54031,24 +53306,6 @@
         "awards": []
       }
     ],
-    "henryk-maculewicz": [
-      {
-        "playerId": "P-56499",
-        "playerName": "Henryk Maculewicz",
-        "tournamentYear": 1978,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "henryk-wieczorek": [
       {
         "playerId": "P-57366",
@@ -54081,40 +53338,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "herbert-prohaska": [
-      {
-        "playerId": "P-03451",
-        "playerName": "Herbert Prohaska",
-        "tournamentYear": 1978,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-03451",
-        "playerName": "Herbert Prohaska",
-        "tournamentYear": 1982,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -57126,26 +56349,6 @@
         "awards": []
       }
     ],
-    "ilija-petkovic": [
-      {
-        "playerId": "P-46434",
-        "playerName": "Ilija Petković",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "RW",
-        "eligiblePositions": [
-          "RW",
-          "ST",
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "iliman-ndiaye": [
       {
         "playerId": "P-33958",
@@ -58210,25 +57413,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "ivan-buljan": [
-      {
-        "playerId": "P-47694",
-        "playerName": "Ivan Buljan",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "RB"
         ],
         "awards": []
       }
@@ -59853,40 +59037,6 @@
         "awards": []
       }
     ],
-    "jaime-duarte": [
-      {
-        "playerId": "P-32834",
-        "playerName": "Jaime Duarte",
-        "tournamentYear": 1978,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-32834",
-        "playerName": "Jaime Duarte",
-        "tournamentYear": 1982,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "jaime-magalhaes": [
       {
         "playerId": "P-52794",
@@ -61404,40 +60554,6 @@
         "awards": []
       }
     ],
-    "janusz-kupcewicz": [
-      {
-        "playerId": "P-15890",
-        "playerName": "Janusz Kupcewicz",
-        "tournamentYear": 1978,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "second group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-15890",
-        "playerName": "Janusz Kupcewicz",
-        "tournamentYear": 1982,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "jared-borgetti": [
       {
         "playerId": "P-81643",
@@ -62665,24 +61781,6 @@
         "eligiblePositions": [
           "CM",
           "CF"
-        ],
-        "awards": []
-      }
-    ],
-    "jean-luc-ettori": [
-      {
-        "playerId": "P-98948",
-        "playerName": "Jean-Luc Ettori",
-        "tournamentYear": 1982,
-        "teamCode": "FRA",
-        "teamName": "France",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
         ],
         "awards": []
       }
@@ -65496,24 +64594,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "joel-bats": [
-      {
-        "playerId": "P-51570",
-        "playerName": "Joël Bats",
-        "tournamentYear": 1986,
-        "teamCode": "FRA",
-        "teamName": "France",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
         ],
         "awards": []
       }
@@ -68540,25 +67620,6 @@
         "awards": []
       }
     ],
-    "jorge-mendonca": [
-      {
-        "playerId": "P-23407",
-        "playerName": "Jorge Mendonça",
-        "tournamentYear": 1978,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "jorge-nunez": [
       {
         "playerId": "P-00429",
@@ -70294,40 +69355,6 @@
         "awards": []
       }
     ],
-    "jose-velasquez": [
-      {
-        "playerId": "P-72529",
-        "playerName": "José Velásquez",
-        "tournamentYear": 1978,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-72529",
-        "playerName": "José Velásquez",
-        "tournamentYear": 1982,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "jose-zalazar": [
       {
         "playerId": "P-19175",
@@ -70379,24 +69406,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "josef-hickersberger": [
-      {
-        "playerId": "P-68078",
-        "playerName": "Josef Hickersberger",
-        "tournamentYear": 1978,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -70839,24 +69848,6 @@
         "awards": []
       }
     ],
-    "josimar": [
-      {
-        "playerId": "P-79755",
-        "playerName": "Josimar",
-        "tournamentYear": 1986,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "quarter-finals",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 2,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "josip-drmic": [
       {
         "playerId": "P-07453",
@@ -70907,24 +69898,6 @@
         "primaryPosition": "RB",
         "eligiblePositions": [
           "RB"
-        ],
-        "awards": []
-      }
-    ],
-    "josip-katalinski": [
-      {
-        "playerId": "P-20553",
-        "playerName": "Josip Katalinski",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -71124,24 +70097,6 @@
         "awards": []
       }
     ],
-    "jovan-acimovic": [
-      {
-        "playerId": "P-67954",
-        "playerName": "Jovan Aćimović",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "jozef-adamec": [
       {
         "playerId": "P-34289",
@@ -71215,7 +70170,7 @@
         "awards": []
       }
     ],
-    "jozef-m-ynarczyk": [
+    "jozef-mlynarczyk": [
       {
         "playerId": "P-50717",
         "playerName": "Józef Młynarczyk",
@@ -72084,24 +71039,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "juan-munante": [
-      {
-        "playerId": "P-91524",
-        "playerName": "Juan Muñante",
-        "tournamentYear": 1978,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -73045,24 +71982,6 @@
         "awards": []
       }
     ],
-    "julio-cesar-romero": [
-      {
-        "playerId": "P-73704",
-        "playerName": "Julio César Romero",
-        "tournamentYear": 1986,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 2,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "julio-cesar-uribe": [
       {
         "playerId": "P-23072",
@@ -73134,41 +72053,6 @@
         "eligiblePositions": [
           "CM",
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "julio-montero-castillo": [
-      {
-        "playerId": "P-83931",
-        "playerName": "Julio Montero Castillo",
-        "tournamentYear": 1970,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-83931",
-        "playerName": "Julio Montero Castillo",
-        "tournamentYear": 1974,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "group stage",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -73644,24 +72528,6 @@
         "awards": []
       }
     ],
-    "jurgen-croy": [
-      {
-        "playerId": "P-79032",
-        "playerName": "Jürgen Croy",
-        "tournamentYear": 1974,
-        "teamCode": "DDR",
-        "teamName": "East Germany",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      }
-    ],
     "jurgen-grabowski": [
       {
         "playerId": "P-48733",
@@ -73813,26 +72679,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "jurgen-sparwasser": [
-      {
-        "playerId": "P-27040",
-        "playerName": "Jürgen Sparwasser",
-        "tournamentYear": 1974,
-        "teamCode": "DDR",
-        "teamName": "East Germany",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "AM",
-          "LM"
         ],
         "awards": []
       }
@@ -76158,40 +75004,6 @@
         "awards": []
       }
     ],
-    "kent-karlsson": [
-      {
-        "playerId": "P-37942",
-        "playerName": "Kent Karlsson",
-        "tournamentYear": 1974,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-37942",
-        "playerName": "Kent Karlsson",
-        "tournamentYear": 1978,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "kent-nielsen": [
       {
         "playerId": "P-58408",
@@ -77676,25 +76488,6 @@
         "awards": []
       }
     ],
-    "klaus-fichtel": [
-      {
-        "playerId": "P-63982",
-        "playerName": "Klaus Fichtel",
-        "tournamentYear": 1970,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "klaus-fischer": [
       {
         "playerId": "P-52461",
@@ -77994,24 +76787,6 @@
         "teamPerformance": "group stage",
         "appearances": 1,
         "starts": 1,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "konrad-weise": [
-      {
-        "playerId": "P-72348",
-        "playerName": "Konrad Weise",
-        "tournamentYear": 1974,
-        "teamCode": "DDR",
-        "teamName": "East Germany",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
         "goals": 0,
         "primaryPosition": "CB",
         "eligiblePositions": [
@@ -82497,24 +81272,6 @@
         "awards": []
       }
     ],
-    "ludo-coeck": [
-      {
-        "playerId": "P-94036",
-        "playerName": "Ludo Coeck",
-        "tournamentYear": 1982,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "ludovic-assemoassa": [
       {
         "playerId": "P-00077",
@@ -82829,41 +81586,6 @@
         "goals": 0,
         "primaryPosition": "CM",
         "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "luis-cubilla": [
-      {
-        "playerId": "P-81929",
-        "playerName": "Luis Cubilla",
-        "tournamentYear": 1970,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-81929",
-        "playerName": "Luis Cubilla",
-        "tournamentYear": 1974,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "RW",
-        "eligiblePositions": [
-          "RW",
           "CM"
         ],
         "awards": []
@@ -83493,24 +82215,6 @@
         "awards": []
       }
     ],
-    "luis-pereira": [
-      {
-        "playerId": "P-87744",
-        "playerName": "Luís Pereira",
-        "tournamentYear": 1974,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "luis-ramirez-zapata": [
       {
         "playerId": "P-41807",
@@ -83718,24 +82422,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "luis-ubina": [
-      {
-        "playerId": "P-63224",
-        "playerName": "Luis Ubiña",
-        "tournamentYear": 1970,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -85404,24 +84090,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "manuel-negrete": [
-      {
-        "playerId": "P-66199",
-        "playerName": "Manuel Negrete",
-        "tournamentYear": 1986,
-        "teamCode": "MEX",
-        "teamName": "Mexico",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -89756,26 +88424,6 @@
         "awards": []
       }
     ],
-    "martin-hoffmann": [
-      {
-        "playerId": "P-57624",
-        "playerName": "Martin Hoffmann",
-        "tournamentYear": 1974,
-        "teamCode": "DDR",
-        "teamName": "East Germany",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CM",
-          "RW"
-        ],
-        "awards": []
-      }
-    ],
     "martin-hongla": [
       {
         "playerId": "P-34633",
@@ -91922,40 +90570,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "mauro-bellugi": [
-      {
-        "playerId": "P-83005",
-        "playerName": "Mauro Bellugi",
-        "tournamentYear": 1974,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "group stage",
-        "appearances": 0,
-        "starts": 0,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-83005",
-        "playerName": "Mauro Bellugi",
-        "tournamentYear": 1978,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -94152,40 +92766,6 @@
             "shared": false
           }
         ]
-      }
-    ],
-    "michel-renquin": [
-      {
-        "playerId": "P-88903",
-        "playerName": "Michel Renquin",
-        "tournamentYear": 1982,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "second group stage",
-        "appearances": 2,
-        "starts": 2,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-88903",
-        "playerName": "Michel Renquin",
-        "tournamentYear": 1986,
-        "teamCode": "BEL",
-        "teamName": "Belgium",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
       }
     ],
     "michel-salgado": [
@@ -103358,40 +101938,6 @@
         "awards": []
       }
     ],
-    "oleh-blokhin": [
-      {
-        "playerId": "P-03282",
-        "playerName": "Oleh Blokhin",
-        "tournamentYear": 1982,
-        "teamCode": "SUN",
-        "teamName": "Soviet Union",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-03282",
-        "playerName": "Oleh Blokhin",
-        "tournamentYear": 1986,
-        "teamCode": "SUN",
-        "teamName": "Soviet Union",
-        "teamPerformance": "round of 16",
-        "appearances": 2,
-        "starts": 1,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "oleh-husyev": [
       {
         "playerId": "P-82307",
@@ -104646,27 +103192,7 @@
         "awards": []
       }
     ],
-    "oscar-ortiz": [
-      {
-        "playerId": "P-34830",
-        "playerName": "Oscar Ortiz",
-        "tournamentYear": 1978,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "final",
-        "appearances": 6,
-        "starts": 4,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CM",
-          "LW"
-        ],
-        "awards": []
-      }
-    ],
-    "oscar-p-69644": [
+    "oscar-bernardi": [
       {
         "playerId": "P-69644",
         "playerName": "Oscar",
@@ -105292,40 +103818,6 @@
         "primaryPosition": "LB",
         "eligiblePositions": [
           "LB"
-        ],
-        "awards": []
-      }
-    ],
-    "ove-grahn": [
-      {
-        "playerId": "P-37575",
-        "playerName": "Ove Grahn",
-        "tournamentYear": 1970,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "group stage",
-        "appearances": 2,
-        "starts": 1,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-37575",
-        "playerName": "Ove Grahn",
-        "tournamentYear": 1974,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }
@@ -107278,24 +105770,6 @@
         "awards": []
       }
     ],
-    "paul-mariner": [
-      {
-        "playerId": "P-83210",
-        "playerName": "Paul Mariner",
-        "tournamentYear": 1982,
-        "teamCode": "ENG",
-        "teamName": "England",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "paul-mcgrath": [
       {
         "playerId": "P-96122",
@@ -108147,7 +106621,7 @@
         "awards": []
       }
     ],
-    "pawe-janas": [
+    "pawel-janas": [
       {
         "playerId": "P-43189",
         "playerName": "Paweł Janas",
@@ -113075,24 +111549,6 @@
         "awards": []
       }
     ],
-    "ramaz-shengelia": [
-      {
-        "playerId": "P-93680",
-        "playerName": "Ramaz Shengelia",
-        "tournamentYear": 1982,
-        "teamCode": "SUN",
-        "teamName": "Soviet Union",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "rami-bedoui": [
       {
         "playerId": "P-96029",
@@ -113433,40 +111889,6 @@
           "AM",
           "CM",
           "LW"
-        ],
-        "awards": []
-      }
-    ],
-    "ramon-quiroga": [
-      {
-        "playerId": "P-07978",
-        "playerName": "Ramón Quiroga",
-        "tournamentYear": 1978,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-07978",
-        "playerName": "Ramón Quiroga",
-        "tournamentYear": 1982,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
         ],
         "awards": []
       }
@@ -114215,24 +112637,6 @@
         "awards": []
       }
     ],
-    "raul-servin": [
-      {
-        "playerId": "P-89412",
-        "playerName": "Raúl Servín",
-        "tournamentYear": 1986,
-        "teamCode": "MEX",
-        "teamName": "Mexico",
-        "teamPerformance": "quarter-finals",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "ray-clemence": [
       {
         "playerId": "P-79390",
@@ -114531,43 +112935,6 @@
         "awards": []
       }
     ],
-    "reinhard-libuda": [
-      {
-        "playerId": "P-62529",
-        "playerName": "Reinhard Libuda",
-        "tournamentYear": 1970,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "RW",
-        "eligiblePositions": [
-          "RW",
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "reinhold-hintermaier": [
-      {
-        "playerId": "P-43037",
-        "playerName": "Reinhold Hintermaier",
-        "tournamentYear": 1982,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
     "remko-pasveer": [
       {
         "playerId": "P-18921",
@@ -114757,42 +113124,6 @@
         "appearances": 2,
         "starts": 2,
         "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "renato-zaccarelli": [
-      {
-        "playerId": "P-17293",
-        "playerName": "Renato Zaccarelli",
-        "tournamentYear": 1978,
-        "teamCode": "ITA",
-        "teamName": "Italy",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 2,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "rene-girard": [
-      {
-        "playerId": "P-32542",
-        "playerName": "René Girard",
-        "tournamentYear": 1982,
-        "teamCode": "FRA",
-        "teamName": "France",
-        "teamPerformance": "third-place match",
-        "appearances": 5,
-        "starts": 2,
-        "goals": 1,
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
@@ -116903,24 +115234,6 @@
         "awards": []
       }
     ],
-    "robert-gadocha": [
-      {
-        "playerId": "P-20188",
-        "playerName": "Robert Gadocha",
-        "tournamentYear": 1974,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "robert-green": [
       {
         "playerId": "P-84201",
@@ -117181,24 +115494,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "robert-sara": [
-      {
-        "playerId": "P-47233",
-        "playerName": "Robert Sara",
-        "tournamentYear": 1978,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -117488,24 +115783,6 @@
         "awards": []
       }
     ],
-    "roberto-cabanas": [
-      {
-        "playerId": "P-29440",
-        "playerName": "Roberto Cabañas",
-        "tournamentYear": 1986,
-        "teamCode": "PAR",
-        "teamName": "Paraguay",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 2,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "roberto-carlos": [
       {
         "playerId": "P-85176",
@@ -117750,25 +116027,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "roberto-matosas": [
-      {
-        "playerId": "P-83747",
-        "playerName": "Roberto Matosas",
-        "tournamentYear": 1970,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "CM"
         ],
         "awards": []
       }
@@ -118179,24 +116437,6 @@
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "rodolfo-manzo": [
-      {
-        "playerId": "P-32373",
-        "playerName": "Rodolfo Manzo",
-        "tournamentYear": 1978,
-        "teamCode": "PER",
-        "teamName": "Peru",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -119003,24 +117243,6 @@
         "primaryPosition": "RB",
         "eligiblePositions": [
           "RB"
-        ],
-        "awards": []
-      }
-    ],
-    "rolf-russmann": [
-      {
-        "playerId": "P-47205",
-        "playerName": "Rolf Rüssmann",
-        "tournamentYear": 1978,
-        "teamCode": "GER",
-        "teamName": "West Germany",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
         ],
         "awards": []
       }
@@ -119869,56 +118091,6 @@
         "awards": []
       }
     ],
-    "ronnie-hellstrom": [
-      {
-        "playerId": "P-43209",
-        "playerName": "Ronnie Hellström",
-        "tournamentYear": 1970,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "group stage",
-        "appearances": 1,
-        "starts": 1,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-43209",
-        "playerName": "Ronnie Hellström",
-        "tournamentYear": 1974,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-43209",
-        "playerName": "Ronnie Hellström",
-        "tournamentYear": 1978,
-        "teamCode": "SWE",
-        "teamName": "Sweden",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "GK",
-        "eligiblePositions": [
-          "GK"
-        ],
-        "awards": []
-      }
-    ],
     "ronnie-whelan": [
       {
         "playerId": "P-04391",
@@ -120302,24 +118474,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "ruben-ayala": [
-      {
-        "playerId": "P-30957",
-        "playerName": "Rubén Ayala",
-        "tournamentYear": 1974,
-        "teamCode": "ARG",
-        "teamName": "Argentina",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
         ],
         "awards": []
       }
@@ -124889,24 +123043,6 @@
         "awards": []
       }
     ],
-    "sergei-baltacha": [
-      {
-        "playerId": "P-47456",
-        "playerName": "Sergei Baltacha",
-        "tournamentYear": 1982,
-        "teamCode": "SUN",
-        "teamName": "Soviet Union",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "sergei-borovsky": [
       {
         "playerId": "P-10493",
@@ -128216,24 +126352,6 @@
         "appearances": 2,
         "starts": 0,
         "goals": 0,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "stanislav-karasi": [
-      {
-        "playerId": "P-80725",
-        "playerName": "Stanislav Karasi",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 4,
-        "starts": 2,
-        "goals": 2,
         "primaryPosition": "ST",
         "eligiblePositions": [
           "ST"
@@ -134875,24 +132993,6 @@
         "awards": []
       }
     ],
-    "toninho": [
-      {
-        "playerId": "P-52658",
-        "playerName": "Toninho",
-        "tournamentYear": 1978,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB"
-        ],
-        "awards": []
-      }
-    ],
     "toninho-cerezo": [
       {
         "playerId": "P-22554",
@@ -136005,7 +134105,7 @@
         "awards": []
       }
     ],
-    "uli-hoene": [
+    "uli-hoeness": [
       {
         "playerId": "P-92173",
         "playerName": "Uli Hoeneß",
@@ -136624,26 +134724,6 @@
         "eligiblePositions": [
           "CM",
           "ST"
-        ],
-        "awards": []
-      }
-    ],
-    "valdomiro": [
-      {
-        "playerId": "P-89117",
-        "playerName": "Valdomiro",
-        "tournamentYear": 1974,
-        "teamCode": "BRA",
-        "teamName": "Brazil",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "RW",
-          "CM"
         ],
         "awards": []
       }
@@ -137349,42 +135429,6 @@
         "primaryPosition": "CB",
         "eligiblePositions": [
           "CB"
-        ],
-        "awards": []
-      }
-    ],
-    "victor-esparrago": [
-      {
-        "playerId": "P-99710",
-        "playerName": "Víctor Espárrago",
-        "tournamentYear": 1970,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 3,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-99710",
-        "playerName": "Víctor Espárrago",
-        "tournamentYear": 1974,
-        "teamCode": "URU",
-        "teamName": "Uruguay",
-        "teamPerformance": "group stage",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "LM"
         ],
         "awards": []
       }
@@ -138798,25 +136842,6 @@
         "awards": []
       }
     ],
-    "vladislav-bogicevic": [
-      {
-        "playerId": "P-29556",
-        "playerName": "Vladislav Bogićević",
-        "tournamentYear": 1974,
-        "teamCode": "YUG",
-        "teamName": "Yugoslavia",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CB",
-        "eligiblePositions": [
-          "CB",
-          "DM"
-        ],
-        "awards": []
-      }
-    ],
     "vladislav-ternavsky": [
       {
         "playerId": "P-66957",
@@ -139086,7 +137111,7 @@
         "awards": []
       }
     ],
-    "w-adys-aw-zmuda": [
+    "wladyslaw-zmuda": [
       {
         "playerId": "P-48883",
         "playerName": "Władysław Żmuda",
@@ -139212,41 +137237,6 @@
         "awards": []
       }
     ],
-    "w-odzimierz-smolarek": [
-      {
-        "playerId": "P-57931",
-        "playerName": "Włodzimierz Smolarek",
-        "tournamentYear": 1982,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-57931",
-        "playerName": "Włodzimierz Smolarek",
-        "tournamentYear": 1986,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "round of 16",
-        "appearances": 4,
-        "starts": 4,
-        "goals": 1,
-        "primaryPosition": "ST",
-        "eligiblePositions": [
-          "ST",
-          "CF"
-        ],
-        "awards": []
-      }
-    ],
     "wagner-lopes": [
       {
         "playerId": "P-58318",
@@ -139315,41 +137305,6 @@
         "eligiblePositions": [
           "CB",
           "RM"
-        ],
-        "awards": []
-      }
-    ],
-    "waldemar-matysik": [
-      {
-        "playerId": "P-02493",
-        "playerName": "Waldemar Matysik",
-        "tournamentYear": 1982,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "third-place match",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
-        ],
-        "awards": []
-      },
-      {
-        "playerId": "P-02493",
-        "playerName": "Waldemar Matysik",
-        "tournamentYear": 1986,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "round of 16",
-        "appearances": 3,
-        "starts": 3,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "DM"
         ],
         "awards": []
       }
@@ -140314,25 +138269,6 @@
         "primaryPosition": "CM",
         "eligiblePositions": [
           "CM"
-        ],
-        "awards": []
-      }
-    ],
-    "wilhelm-kreuz": [
-      {
-        "playerId": "P-25569",
-        "playerName": "Wilhelm Kreuz",
-        "tournamentYear": 1978,
-        "teamCode": "AUT",
-        "teamName": "Austria",
-        "teamPerformance": "second group stage",
-        "appearances": 6,
-        "starts": 6,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "ST"
         ],
         "awards": []
       }
@@ -144076,25 +142012,6 @@
         "awards": []
       }
     ],
-    "yuri-gavrilov": [
-      {
-        "playerId": "P-18718",
-        "playerName": "Yuri Gavrilov",
-        "tournamentYear": 1982,
-        "teamCode": "SUN",
-        "teamName": "Soviet Union",
-        "teamPerformance": "second group stage",
-        "appearances": 5,
-        "starts": 5,
-        "goals": 1,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM",
-          "ST"
-        ],
-        "awards": []
-      }
-    ],
     "yuri-kovtun": [
       {
         "playerId": "P-70372",
@@ -145741,24 +143658,6 @@
         "primaryPosition": "GK",
         "eligiblePositions": [
           "GK"
-        ],
-        "awards": []
-      }
-    ],
-    "zygmunt-maszczyk": [
-      {
-        "playerId": "P-65840",
-        "playerName": "Zygmunt Maszczyk",
-        "tournamentYear": 1974,
-        "teamCode": "POL",
-        "teamName": "Poland",
-        "teamPerformance": "third-place match",
-        "appearances": 7,
-        "starts": 7,
-        "goals": 0,
-        "primaryPosition": "CM",
-        "eligiblePositions": [
-          "CM"
         ],
         "awards": []
       }

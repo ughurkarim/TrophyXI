@@ -196,7 +196,7 @@ const TRANSFERMARKT_OVERRIDES: Record<
   "mostafa-shoubir": { playerId: "661455", playerCode: "oufa-shobeir" },
   "nico-claesen": { playerId: "97099", playerCode: "nico-claesen" },
   "nyland-orjan": { playerId: "73517", playerCode: "orjan-nyland" },
-  "oscar-p-69644": { playerId: "117616", playerCode: "oscar" },
+  "oscar-bernardi": { playerId: "117616", playerCode: "oscar" },
   "ramaz-shengelia": { playerId: "131532", playerCode: "ramaz-shengelia" },
   "rene-higuita": { playerId: "55838", playerCode: "rene-higuita" },
   "saliba-nathan": { playerId: "842420", playerCode: "nathan-dylan-saliba" },

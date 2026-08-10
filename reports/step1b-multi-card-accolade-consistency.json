@@ -29882,19 +29882,19 @@
       "finalConsistencyStatus": "consistent"
     },
     {
-      "playerIdentityId": "jozef-m-ynarczyk",
+      "playerIdentityId": "jozef-mlynarczyk",
       "playerName": "Józef Młynarczyk",
       "cardIds": [
-        "jozef-m-ynarczyk-1982",
-        "jozef-m-ynarczyk-1986"
+        "jozef-mlynarczyk-1982",
+        "jozef-mlynarczyk-1986"
       ],
       "previousAccoladesByCard": {
-        "jozef-m-ynarczyk-1982": [],
-        "jozef-m-ynarczyk-1986": []
+        "jozef-mlynarczyk-1982": [],
+        "jozef-mlynarczyk-1986": []
       },
       "previousHashesByCard": {
-        "jozef-m-ynarczyk-1982": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "jozef-m-ynarczyk-1986": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        "jozef-mlynarczyk-1982": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "jozef-mlynarczyk-1986": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
       },
       "previousDifferences": "none",
       "previouslyConsistent": true,
@@ -44682,22 +44682,22 @@
       "finalConsistencyStatus": "consistent"
     },
     {
-      "playerIdentityId": "oscar-p-69644",
+      "playerIdentityId": "oscar-bernardi",
       "playerName": "Oscar",
       "cardIds": [
-        "oscar-p-69644-1978",
-        "oscar-p-69644-1982",
-        "oscar-p-69644-1986"
+        "oscar-bernardi-1978",
+        "oscar-bernardi-1982",
+        "oscar-bernardi-1986"
       ],
       "previousAccoladesByCard": {
-        "oscar-p-69644-1978": [],
-        "oscar-p-69644-1982": [],
-        "oscar-p-69644-1986": []
+        "oscar-bernardi-1978": [],
+        "oscar-bernardi-1982": [],
+        "oscar-bernardi-1986": []
       },
       "previousHashesByCard": {
-        "oscar-p-69644-1978": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "oscar-p-69644-1982": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-        "oscar-p-69644-1986": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        "oscar-bernardi-1978": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "oscar-bernardi-1982": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "oscar-bernardi-1986": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
       },
       "previousDifferences": "none",
       "previouslyConsistent": true,
@@ -59848,16 +59848,16 @@
       "finalConsistencyStatus": "consistent"
     },
     {
-      "playerIdentityId": "w-adys-aw-zmuda",
+      "playerIdentityId": "wladyslaw-zmuda",
       "playerName": "Władysław Żmuda",
       "cardIds": [
-        "w-adys-aw-zmuda-1974",
-        "w-adys-aw-zmuda-1978",
-        "w-adys-aw-zmuda-1982",
-        "w-adys-aw-zmuda-1986"
+        "wladyslaw-zmuda-1974",
+        "wladyslaw-zmuda-1978",
+        "wladyslaw-zmuda-1982",
+        "wladyslaw-zmuda-1986"
       ],
       "previousAccoladesByCard": {
-        "w-adys-aw-zmuda-1974": [
+        "wladyslaw-zmuda-1974": [
           {
             "id": "world-cup-1974-best-young-player",
             "label": "Best Young Player — 1974",
@@ -59868,7 +59868,7 @@
             "description": "Best Young Player at the 1974 World Cup."
           }
         ],
-        "w-adys-aw-zmuda-1978": [
+        "wladyslaw-zmuda-1978": [
           {
             "id": "world-cup-1974-best-young-player",
             "label": "Best Young Player — 1974",
@@ -59879,7 +59879,7 @@
             "description": "Best Young Player at the 1974 World Cup."
           }
         ],
-        "w-adys-aw-zmuda-1982": [
+        "wladyslaw-zmuda-1982": [
           {
             "id": "world-cup-1974-best-young-player",
             "label": "Best Young Player — 1974",
@@ -59890,7 +59890,7 @@
             "description": "Best Young Player at the 1974 World Cup."
           }
         ],
-        "w-adys-aw-zmuda-1986": [
+        "wladyslaw-zmuda-1986": [
           {
             "id": "world-cup-1974-best-young-player",
             "label": "Best Young Player — 1974",
@@ -59903,10 +59903,10 @@
         ]
       },
       "previousHashesByCard": {
-        "w-adys-aw-zmuda-1974": "65e19f52d5c7af42492dd6a8a6d8ddd79d22c0b5bf7d1f83e0f637049022496c",
-        "w-adys-aw-zmuda-1978": "65e19f52d5c7af42492dd6a8a6d8ddd79d22c0b5bf7d1f83e0f637049022496c",
-        "w-adys-aw-zmuda-1982": "65e19f52d5c7af42492dd6a8a6d8ddd79d22c0b5bf7d1f83e0f637049022496c",
-        "w-adys-aw-zmuda-1986": "65e19f52d5c7af42492dd6a8a6d8ddd79d22c0b5bf7d1f83e0f637049022496c"
+        "wladyslaw-zmuda-1974": "65e19f52d5c7af42492dd6a8a6d8ddd79d22c0b5bf7d1f83e0f637049022496c",
+        "wladyslaw-zmuda-1978": "65e19f52d5c7af42492dd6a8a6d8ddd79d22c0b5bf7d1f83e0f637049022496c",
+        "wladyslaw-zmuda-1982": "65e19f52d5c7af42492dd6a8a6d8ddd79d22c0b5bf7d1f83e0f637049022496c",
+        "wladyslaw-zmuda-1986": "65e19f52d5c7af42492dd6a8a6d8ddd79d22c0b5bf7d1f83e0f637049022496c"
       },
       "previousDifferences": "none",
       "previouslyConsistent": true,

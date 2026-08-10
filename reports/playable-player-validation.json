@@ -13593,7 +13593,7 @@
         ]
       },
       {
-        "cardId": "jozef-m-ynarczyk-1982",
+        "cardId": "jozef-mlynarczyk-1982",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -13606,7 +13606,7 @@
         ]
       },
       {
-        "cardId": "jozef-m-ynarczyk-1986",
+        "cardId": "jozef-mlynarczyk-1986",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -20049,7 +20049,7 @@
         ]
       },
       {
-        "cardId": "oscar-p-69644-1978",
+        "cardId": "oscar-bernardi-1978",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -20062,7 +20062,7 @@
         ]
       },
       {
-        "cardId": "oscar-p-69644-1982",
+        "cardId": "oscar-bernardi-1982",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -20075,7 +20075,7 @@
         ]
       },
       {
-        "cardId": "oscar-p-69644-1986",
+        "cardId": "oscar-bernardi-1986",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -20701,7 +20701,7 @@
         ]
       },
       {
-        "cardId": "pawe-janas-1982",
+        "cardId": "pawel-janas-1982",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -26255,7 +26255,7 @@
         ]
       },
       {
-        "cardId": "uli-hoene-1974",
+        "cardId": "uli-hoeness-1974",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -26708,7 +26708,7 @@
         ]
       },
       {
-        "cardId": "w-adys-aw-zmuda-1974",
+        "cardId": "wladyslaw-zmuda-1974",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -26721,7 +26721,7 @@
         ]
       },
       {
-        "cardId": "w-adys-aw-zmuda-1978",
+        "cardId": "wladyslaw-zmuda-1978",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -26734,7 +26734,7 @@
         ]
       },
       {
-        "cardId": "w-adys-aw-zmuda-1982",
+        "cardId": "wladyslaw-zmuda-1982",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -26747,7 +26747,7 @@
         ]
       },
       {
-        "cardId": "w-adys-aw-zmuda-1986",
+        "cardId": "wladyslaw-zmuda-1986",
         "coverage": "partial",
         "knownFieldCount": 3,
         "missingFields": [
@@ -36027,23 +36027,23 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "jozef-m-ynarczyk-1982",
+        "cardId": "jozef-mlynarczyk-1982",
         "playerName": "Józef Młynarczyk",
         "countryCode": "POL",
         "tournamentYear": 1982,
-        "expectedPublicPath": "public/players/game-faces/jozef-m-ynarczyk-1982.png",
-        "expectedRuntimePath": "/players/game-faces/jozef-m-ynarczyk-1982.png",
+        "expectedPublicPath": "public/players/game-faces/jozef-mlynarczyk-1982.png",
+        "expectedRuntimePath": "/players/game-faces/jozef-mlynarczyk-1982.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "jozef-m-ynarczyk-1986",
+        "cardId": "jozef-mlynarczyk-1986",
         "playerName": "Józef Młynarczyk",
         "countryCode": "POL",
         "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/jozef-m-ynarczyk-1986.png",
-        "expectedRuntimePath": "/players/game-faces/jozef-m-ynarczyk-1986.png",
+        "expectedPublicPath": "public/players/game-faces/jozef-mlynarczyk-1986.png",
+        "expectedRuntimePath": "/players/game-faces/jozef-mlynarczyk-1986.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -39360,34 +39360,34 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "oscar-p-69644-1978",
+        "cardId": "oscar-bernardi-1978",
         "playerName": "Oscar",
         "countryCode": "BRA",
         "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/oscar-p-69644-1978.png",
-        "expectedRuntimePath": "/players/game-faces/oscar-p-69644-1978.png",
+        "expectedPublicPath": "public/players/game-faces/oscar-bernardi-1978.png",
+        "expectedRuntimePath": "/players/game-faces/oscar-bernardi-1978.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "oscar-p-69644-1982",
+        "cardId": "oscar-bernardi-1982",
         "playerName": "Oscar",
         "countryCode": "BRA",
         "tournamentYear": 1982,
-        "expectedPublicPath": "public/players/game-faces/oscar-p-69644-1982.png",
-        "expectedRuntimePath": "/players/game-faces/oscar-p-69644-1982.png",
+        "expectedPublicPath": "public/players/game-faces/oscar-bernardi-1982.png",
+        "expectedRuntimePath": "/players/game-faces/oscar-bernardi-1982.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "oscar-p-69644-1986",
+        "cardId": "oscar-bernardi-1986",
         "playerName": "Oscar",
         "countryCode": "BRA",
         "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/oscar-p-69644-1986.png",
-        "expectedRuntimePath": "/players/game-faces/oscar-p-69644-1986.png",
+        "expectedPublicPath": "public/players/game-faces/oscar-bernardi-1986.png",
+        "expectedRuntimePath": "/players/game-faces/oscar-bernardi-1986.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -39811,12 +39811,12 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "pawe-janas-1982",
+        "cardId": "pawel-janas-1982",
         "playerName": "Paweł Janas",
         "countryCode": "POL",
         "tournamentYear": 1982,
-        "expectedPublicPath": "public/players/game-faces/pawe-janas-1982.png",
-        "expectedRuntimePath": "/players/game-faces/pawe-janas-1982.png",
+        "expectedPublicPath": "public/players/game-faces/pawel-janas-1982.png",
+        "expectedRuntimePath": "/players/game-faces/pawel-janas-1982.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -42968,12 +42968,12 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "uli-hoene-1974",
+        "cardId": "uli-hoeness-1974",
         "playerName": "Uli Hoeneß",
         "countryCode": "GER",
         "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/uli-hoene-1974.png",
-        "expectedRuntimePath": "/players/game-faces/uli-hoene-1974.png",
+        "expectedPublicPath": "public/players/game-faces/uli-hoeness-1974.png",
+        "expectedRuntimePath": "/players/game-faces/uli-hoeness-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
@@ -43210,45 +43210,45 @@
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "w-adys-aw-zmuda-1974",
+        "cardId": "wladyslaw-zmuda-1974",
         "playerName": "Władysław Żmuda",
         "countryCode": "POL",
         "tournamentYear": 1974,
-        "expectedPublicPath": "public/players/game-faces/w-adys-aw-zmuda-1974.png",
-        "expectedRuntimePath": "/players/game-faces/w-adys-aw-zmuda-1974.png",
+        "expectedPublicPath": "public/players/game-faces/wladyslaw-zmuda-1974.png",
+        "expectedRuntimePath": "/players/game-faces/wladyslaw-zmuda-1974.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "w-adys-aw-zmuda-1978",
+        "cardId": "wladyslaw-zmuda-1978",
         "playerName": "Władysław Żmuda",
         "countryCode": "POL",
         "tournamentYear": 1978,
-        "expectedPublicPath": "public/players/game-faces/w-adys-aw-zmuda-1978.png",
-        "expectedRuntimePath": "/players/game-faces/w-adys-aw-zmuda-1978.png",
+        "expectedPublicPath": "public/players/game-faces/wladyslaw-zmuda-1978.png",
+        "expectedRuntimePath": "/players/game-faces/wladyslaw-zmuda-1978.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "w-adys-aw-zmuda-1982",
+        "cardId": "wladyslaw-zmuda-1982",
         "playerName": "Władysław Żmuda",
         "countryCode": "POL",
         "tournamentYear": 1982,
-        "expectedPublicPath": "public/players/game-faces/w-adys-aw-zmuda-1982.png",
-        "expectedRuntimePath": "/players/game-faces/w-adys-aw-zmuda-1982.png",
+        "expectedPublicPath": "public/players/game-faces/wladyslaw-zmuda-1982.png",
+        "expectedRuntimePath": "/players/game-faces/wladyslaw-zmuda-1982.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
       },
       {
-        "cardId": "w-adys-aw-zmuda-1986",
+        "cardId": "wladyslaw-zmuda-1986",
         "playerName": "Władysław Żmuda",
         "countryCode": "POL",
         "tournamentYear": 1986,
-        "expectedPublicPath": "public/players/game-faces/w-adys-aw-zmuda-1986.png",
-        "expectedRuntimePath": "/players/game-faces/w-adys-aw-zmuda-1986.png",
+        "expectedPublicPath": "public/players/game-faces/wladyslaw-zmuda-1986.png",
+        "expectedRuntimePath": "/players/game-faces/wladyslaw-zmuda-1986.png",
         "localFileExists": false,
         "activeImageRecordExists": false,
         "displayStatus": "PHOTO PENDING"
