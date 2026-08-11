@@ -1,7 +1,7 @@
-import { playerCareerDataByIdentityId } from "@/data/player-career-data";
 import type {
   PlayerAccolade,
   PlayerTournamentCard,
+  TournamentFinish,
 } from "@/types/game";
 
 export type AccoladeKind =
@@ -331,24 +331,85 @@ const diminishingCount = (count: number) =>
   Math.min(2.65, 1 + Math.log2(Math.max(1, count)) * 0.55);
 
 /**
- * Legacy is intentionally separate from attack/midfield/defense/chemistry.
- * These weights only determine how prestigious a verified career accolade is.
+ * Legacy is specific to this World Cup tournament card.
+ *
+ * It reflects what the player achieved in THIS tournament rather than inheriting
+ * one career-wide score across every card version.
  */
-const legacyPointsByKind: Record<AccoladeKind, number> = {
-  "world-cup-champion": 22,
-  "ballon-dor": 18,
-  "world-cup-golden-ball": 14,
-  "world-cup-golden-boot": 11,
-  "world-cup-golden-glove": 11,
-  "continental-international": 10,
-  "continental-club": 7,
-  "international-individual": 5,
-  "domestic-league": 3,
-  "domestic-cup": 2,
-  "league-individual": 3,
-  "other-individual": 2,
-  "top-100": 6,
+const tournamentFinishLegacyPoints: Record<TournamentFinish, number> = {
+  champion: 38,
+  "runner-up": 31,
+  "third place": 27,
+  "fourth place": 24,
+  "semi-finals": 22,
+  "quarter-finals": 16,
+  "round of 16": 11,
+  "second group stage": 8,
+  "group stage": 4,
 };
+
+const tournamentAchievementLegacyPoints = (
+  label: string,
+  ratingEffect: number,
+) => {
+  const value = normalize(label);
+
+  if (/golden ball/.test(value)) return 21;
+  if (/golden boot/.test(value)) return 17;
+  if (/golden glove/.test(value)) return 17;
+  if (/silver ball|silver boot|silver shoe/.test(value)) return 11;
+  if (/bronze ball|bronze boot|bronze shoe/.test(value)) return 8;
+  if (/best young player|young player/.test(value)) return 8;
+  if (/all[- ]star|team of the tournament|best xi/.test(value)) return 6;
+
+  return Math.max(2, Math.min(7, Math.round(ratingEffect * 18)));
+};
+
+const tournamentParticipationLegacyPoints = (
+  player: PlayerTournamentCard,
+) => {
+  const { appearances, starts, minutes } = player.tournamentStats;
+
+  const appearancePoints = Math.min(
+    8,
+    Math.max(0, appearances ?? 0) * 1.05,
+  );
+  const startPoints = Math.min(7, Math.max(0, starts ?? 0) * 0.9);
+  const minutePoints =
+    minutes === null ? 0 : Math.min(3, Math.max(0, minutes) / 240);
+
+  return Math.min(18, appearancePoints + startPoints + minutePoints);
+};
+
+const tournamentOutputLegacyPoints = (player: PlayerTournamentCard) => {
+  const stats = player.tournamentStats;
+
+  if (player.primaryPosition === "GK") {
+    const cleanSheets = Math.max(0, stats.cleanSheets ?? 0);
+    const saves = Math.max(0, stats.saves ?? 0);
+    const penaltiesSaved = Math.max(0, stats.penaltiesSaved ?? 0);
+    const goalsConceded = Math.max(0, stats.goalsConceded ?? 0);
+
+    return Math.max(
+      0,
+      Math.min(
+        18,
+        cleanSheets * 2.2 +
+          penaltiesSaved * 3.5 +
+          Math.min(7, saves * 0.16) -
+          Math.min(5, goalsConceded * 0.28),
+      ),
+    );
+  }
+
+  const goals = Math.max(0, stats.goals ?? 0);
+  const assists = Math.max(0, stats.assists ?? 0);
+
+  return Math.min(18, goals * 2.25 + assists * 1.55);
+};
+
+const tournamentQualityLegacyPoints = (player: PlayerTournamentCard) =>
+  Math.max(0, Math.min(12, (player.overall - 76) * 0.62));
 
 export type SquadLegacy = {
   score: number;
@@ -360,42 +421,43 @@ export type SquadLegacy = {
   }>;
 };
 
-export const calculateCareerAccoladeLegacyScore = (
-  player: PlayerTournamentCard,
-  accolades: PlayerAccolade[],
-): number => {
-  const items = accoladeItemsFor(player, accolades);
-  if (items.length === 0) return 0;
-
-  const points = items.reduce(
-    (sum, item) =>
-      sum +
-      legacyPointsByKind[item.kind] *
-        diminishingCount(item.count ?? 1),
-    0,
-  );
-
-  // Smooth diminishing returns: established greats separate clearly, while
-  // enormous trophy counts cannot make the score exceed 100.
-  return Math.round(
-    Math.min(100, 100 * (1 - Math.exp(-points / 45))),
-  );
-};
-
 export const calculatePlayerLegacyScore = (
   player: PlayerTournamentCard,
 ): number => {
-  const frozenGameplayCareer = playerCareerDataByIdentityId.get(
-    player.playerIdentityId,
+  const finishPoints = player.tournamentFinish
+    ? tournamentFinishLegacyPoints[player.tournamentFinish]
+    : 0;
+
+  const participationPoints = tournamentParticipationLegacyPoints(player);
+
+  const achievementPoints = Math.min(
+    24,
+    player.achievements.reduce(
+      (sum, achievement) =>
+        sum +
+        tournamentAchievementLegacyPoints(
+          achievement.label,
+          achievement.ratingEffect,
+        ),
+      0,
+    ),
   );
-  if (!frozenGameplayCareer) {
-    throw new Error(
-      `${player.playerIdentityId} is missing its frozen gameplay career record`,
-    );
-  }
-  return calculateCareerAccoladeLegacyScore(
-    player,
-    frozenGameplayCareer.accolades,
+
+  const outputPoints = tournamentOutputLegacyPoints(player);
+  const qualityPoints = tournamentQualityLegacyPoints(player);
+
+  return Math.round(
+    Math.max(
+      0,
+      Math.min(
+        100,
+        finishPoints +
+          participationPoints +
+          achievementPoints +
+          outputPoints +
+          qualityPoints,
+      ),
+    ),
   );
 };
 
@@ -463,18 +525,10 @@ export const calculateSquadLegacy = (
   };
 };
 
-/**
- * @deprecated Legacy no longer directly boosts phases or chemistry.
- * Kept as a compatibility shim for callers that have not migrated yet.
- */
 export const calculatePlayerAccoladeEffect = (
   _player: PlayerTournamentCard,
 ): AccoladeEffect => emptyEffect();
 
-/**
- * @deprecated Legacy no longer directly boosts phases or chemistry.
- * Use `calculateSquadLegacy` for the single team-wide +0..+4 bonus.
- */
 export const calculateSquadAccoladeEffect = (
   _players: PlayerTournamentCard[],
 ): AccoladeEffect => emptyEffect();

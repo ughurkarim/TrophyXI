@@ -489,11 +489,24 @@ export type MatchStats = {
   tacticalImpact: [number, number];
 };
 
+export type PenaltyShootoutKick = {
+  order: number;
+  team: "user" | "opponent";
+  playerId: string;
+  playerName: string;
+  tournamentYear: number;
+  scored: boolean;
+  suddenDeath: boolean;
+  userPenalties: number;
+  opponentPenalties: number;
+};
+
 export type Score = {
   user: number;
   opponent: number;
   afterExtraTime: boolean;
   penalties?: [number, number];
+  penaltyShootout?: PenaltyShootoutKick[];
 };
 
 export type MatchResult = {

@@ -246,6 +246,37 @@ describe("World Cup Run domain", () => {
     expect(completed.currentStage).toBe("group");
   });
 
+  it("does not let the CPU resolver spill into the next group matchday", () => {
+    let state = createRun();
+    const userFixture = getPendingWorldCupRunUserFixture(state)!;
+    expect(userFixture.matchday).toBe(1);
+
+    state = recordWorldCupRunUserResult(state, userFixture.id, {
+      userGoals: 2,
+      opponentGoals: 1,
+    });
+    state = resolvePendingWorldCupRunCpuFixtures(state);
+
+    const groupHistory = state.history.filter((entry) => entry.stage === "group");
+    expect(groupHistory).toHaveLength(24);
+    expect(
+      groupHistory.every((entry) => {
+        const fixture = state.fixtures.find(
+          (candidate) => candidate.id === entry.fixtureId,
+        );
+        return fixture?.matchday === 1;
+      }),
+    ).toBe(true);
+    expect(
+      Object.values(state.standings)
+        .flat()
+        .every((standing) => standing.played === 1),
+    ).toBe(true);
+
+    const nextUserFixture = getPendingWorldCupRunUserFixture(state);
+    expect(nextUserFixture?.matchday).toBe(2);
+  });
+
   it("finishes three balanced group matchdays through the match button", () => {
     let state = createRun();
     state = simulateNextWorldCupRunUserFixture(state);
@@ -712,6 +743,33 @@ describe("World Cup Run domain", () => {
         seed: 1,
       }),
     ).toThrow(/unique/i);
+  });
+
+  it("resolves only the current knockout round and stops before the next round", () => {
+    let state = resolveGroupWithUserResults({
+      userGoals: 4,
+      opponentGoals: 0,
+    });
+    expect(state.currentStage).toBe("round-of-32");
+
+    const userFixture = getPendingWorldCupRunUserFixture(state)!;
+    state = recordWorldCupRunUserResult(state, userFixture.id, {
+      userGoals: 2,
+      opponentGoals: 0,
+    });
+    state = resolvePendingWorldCupRunCpuFixtures(state);
+
+    expect(state.currentStage).toBe("round-of-16");
+    expect(
+      state.fixtures
+        .filter((fixture) => fixture.stage === "round-of-32")
+        .every((fixture) => fixture.result),
+    ).toBe(true);
+    expect(
+      state.fixtures
+        .filter((fixture) => fixture.stage === "round-of-16")
+        .every((fixture) => !fixture.result),
+    ).toBe(true);
   });
 
   it("remains serialization-safe at every stage", () => {

@@ -163,7 +163,7 @@ export function TeamRatings({
             <span>100</span>
           </div>
 
-          <p className={styles.legacyNote}>CAREER ACCOLADES</p>
+          <p className={styles.legacyNote}>TOURNAMENT FINISH · PARTICIPATION · AWARDS · TOURNAMENT OUTPUT</p>
         </article>
 
         <article className={styles.chemistryCard}>

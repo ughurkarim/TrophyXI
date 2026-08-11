@@ -62,7 +62,7 @@ export function PlayerCard({
         <span className="player-country">
           {flagForCountry(player.countryCode)} {player.countryCode}
         </span>
-        <h3 title={player.playerName}>{player.playerName}</h3>
+        <h3 className="player-card__name" title={player.playerName}>{player.playerName}</h3>
         {!compactDraft && <p>{player.archetype}</p>}
       </div>
       {!compactDraft && (

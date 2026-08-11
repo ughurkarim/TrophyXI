@@ -6672,11 +6672,12 @@ button.squad-chip:focus-visible {
 }
 
 .database-card h2 {
-  overflow: hidden;
   margin: 5px 0;
   font-size: 1rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.08;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .database-card p {
@@ -7357,7 +7358,7 @@ button.squad-chip:focus-visible {
   }
 }
 /* ========================================================================== 
-   DATABASE PLAYER INFO — MATCH DATABASE PORTRAIT TREATMENT
+   DATABASE PLAYER INFO â€” MATCH DATABASE PORTRAIT TREATMENT
    One clean circle, face-filling crop, no secondary rim.
    ========================================================================== */
 .player-drawer .circular-portrait {

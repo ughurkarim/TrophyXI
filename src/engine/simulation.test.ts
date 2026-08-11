@@ -254,14 +254,59 @@ describe("match simulation", () => {
     expect(result.events.some((event) => event.type === "extra-time")).toBe(true);
   });
 
-  it("resolves a forced extra-time tie on penalties", () => {
-    const result = simulateMatch({ ...input, knockoutMode: "force-penalties" });
+  it("resolves a forced extra-time tie with a player-by-player penalty shootout", () => {
+    const result = simulateMatch({
+      ...input,
+      knockoutMode: "force-penalties",
+      detailedPenaltyShootout: true,
+    });
+    const shootout = result.score.penaltyShootout;
+
     expect(result.score.penalties).toBeDefined();
     expect(result.score.penalties?.[0]).not.toBe(result.score.penalties?.[1]);
-    expect(result.events.some((event) => event.type === "penalties")).toBe(true);
+    expect(shootout).toBeDefined();
+    expect(shootout!.length).toBeGreaterThanOrEqual(6);
+
+    const finalKick = shootout!.at(-1)!;
+    expect([
+      finalKick.userPenalties,
+      finalKick.opponentPenalties,
+    ]).toEqual(result.score.penalties);
+
+    const userNames = new Set(
+      [...input.lineup, ...input.bench].map((player) => player.playerName),
+    );
+    const opponentNames = new Set(
+      [
+        ...input.opponent.startingLineup,
+        ...input.opponent.substitutes,
+      ].map((player) => player.name),
+    );
+
+    expect(
+      shootout!.every((kick) =>
+        kick.team === "user"
+          ? userNames.has(kick.playerName)
+          : opponentNames.has(kick.playerName),
+      ),
+    ).toBe(true);
+
+    const kickEvents = result.events.filter(
+      (event) =>
+        event.type === "penalties" &&
+        /^PEN \d+$/.test(event.minuteLabel),
+    );
+    expect(kickEvents).toHaveLength(shootout!.length);
+    expect(
+      kickEvents.every(
+        (event) =>
+          / — (GOAL|MISS)$/.test(event.title) &&
+          /penalty spot/.test(event.detail),
+      ),
+    ).toBe(true);
   });
 
-  it("rewards a meaningfully stronger side across a broad seed sample", () => {
+  it("makes a meaningful team-strength gap matter across a broad seed sample", () => {
     const adjustedOpponent = (delta: number) => ({
       ...input.opponent,
       ratings: {
@@ -270,16 +315,32 @@ describe("match simulation", () => {
         midfield: clampRating(input.opponent.ratings.midfield + delta),
         defense: clampRating(input.opponent.ratings.defense + delta),
         goalkeeper: clampRating(input.opponent.ratings.goalkeeper + delta),
+        depth: clampRating(input.opponent.ratings.depth + delta),
         overall: clampRating(input.opponent.ratings.overall + delta),
       },
+      startingLineup: input.opponent.startingLineup.map((player) => ({
+        ...player,
+        rating:
+          player.rating === null || player.rating === undefined
+            ? player.rating
+            : clampRating(player.rating + delta),
+      })),
+      substitutes: input.opponent.substitutes.map((player) => ({
+        ...player,
+        rating:
+          player.rating === null || player.rating === undefined
+            ? player.rating
+            : clampRating(player.rating + delta),
+      })),
     });
 
-    const seeds = Array.from({ length: 240 }, (_, index) => index + 1);
+    const seeds = Array.from({ length: 360 }, (_, index) => index + 1);
     const easierWins = seeds.filter((seed) =>
       userWon(
         simulateMatch({
           ...input,
-          opponent: adjustedOpponent(-6),
+          opponent: adjustedOpponent(-8),
+          competitionStage: "group",
           seed,
         }),
       ),
@@ -288,14 +349,15 @@ describe("match simulation", () => {
       userWon(
         simulateMatch({
           ...input,
-          opponent: adjustedOpponent(6),
+          opponent: adjustedOpponent(8),
+          competitionStage: "group",
           seed,
         }),
       ),
     ).length;
 
     expect(easierWins).toBeGreaterThan(harderWins);
-    expect(easierWins - harderWins).toBeGreaterThan(12);
+    expect(easierWins - harderWins).toBeGreaterThan(36);
   });
 
   it("lets bench quality change second-half chance creation", () => {
@@ -379,12 +441,35 @@ describe("match simulation", () => {
       ...manager,
       grades: { offense: 98, defense: 98 },
     };
-    const low = simulateMatch({ ...input, manager: lowGrades, eraId: "2010s" });
-    const high = simulateMatch({ ...input, manager: highGrades, eraId: "2010s" });
-    expect(high.stats.expectedGoals[0]).toBeGreaterThan(low.stats.expectedGoals[0]);
-    expect(high.stats.expectedGoals[1]).toBeLessThan(low.stats.expectedGoals[1]);
-    expect(high.events.some((event) => event.type === "manager")).toBe(true);
-    expect(high.managerImpact).toContain("OFF 98, DEF 98");
+    const seeds = Array.from({ length: 120 }, (_, index) => index + 1);
+    const low = seeds.map((seed) =>
+      simulateMatch({
+        ...input,
+        manager: lowGrades,
+        eraId: "2010s",
+        seed,
+      }),
+    );
+    const high = seeds.map((seed) =>
+      simulateMatch({
+        ...input,
+        manager: highGrades,
+        eraId: "2010s",
+        seed,
+      }),
+    );
+    expect(
+      average(high.map((result) => result.stats.expectedGoals[0])),
+    ).toBeGreaterThan(
+      average(low.map((result) => result.stats.expectedGoals[0])),
+    );
+    expect(
+      average(high.map((result) => result.stats.expectedGoals[1])),
+    ).toBeLessThan(
+      average(low.map((result) => result.stats.expectedGoals[1])),
+    );
+    expect(high[0].events.some((event) => event.type === "manager")).toBe(true);
+    expect(high[0].managerImpact).toContain("OFF 98, DEF 98");
   });
 
   it("applies the selected environment to both sides", () => {
@@ -402,6 +487,150 @@ describe("match simulation", () => {
     expect(oldEnvironment.userRatings.eraFit).not.toBe(
       modernEnvironment.userRatings.eraFit,
     );
+  });
+
+
+  it("derives goals, shots, and player scoring from the same action stream", () => {
+    for (const seed of [4, 17, 33, 71, 109]) {
+      const result = simulateMatch({ ...input, seed });
+      const goalEvents = result.events.filter((event) => event.type === "goal");
+      expect(goalEvents).toHaveLength(
+        result.score.user + result.score.opponent,
+      );
+      expect(result.stats.shots[0]).toBeGreaterThanOrEqual(result.score.user);
+      expect(result.stats.shots[1]).toBeGreaterThanOrEqual(
+        result.score.opponent,
+      );
+      expect(result.stats.shotsOnTarget[0]).toBeGreaterThanOrEqual(
+        result.score.user,
+      );
+      expect(result.stats.shotsOnTarget[1]).toBeGreaterThanOrEqual(
+        result.score.opponent,
+      );
+      expect(
+        result.playerMinutes.reduce((sum, player) => sum + player.goals, 0),
+      ).toBe(result.score.user);
+      expect(
+        result.playerMinutes.reduce((sum, player) => sum + player.assists, 0),
+      ).toBeLessThanOrEqual(result.score.user);
+    }
+  });
+
+  it("turns midfield control into sustained possession across many matches", () => {
+    const withControl = (delta: number, suffix: string) =>
+      input.lineup.map((player, index) =>
+        [5, 6, 7].includes(index)
+          ? {
+              ...player,
+              id: `${player.id}-${suffix}-${index}`,
+              playerIdentityId: `${player.playerIdentityId}-${suffix}-${index}`,
+              attributes: {
+                ...player.attributes,
+                control: clampRating(player.attributes.control + delta),
+                creativity: clampRating(
+                  player.attributes.creativity + Math.round(delta * 0.5),
+                ),
+              },
+            }
+          : player,
+      );
+
+    const eliteControl = withControl(12, "elite-control");
+    const weakControl = withControl(-12, "weak-control");
+    const seeds = Array.from({ length: 160 }, (_, index) => index + 1);
+
+    const elitePossession = average(
+      seeds.map(
+        (seed) =>
+          simulateMatch({ ...input, lineup: eliteControl, seed }).stats
+            .possession[0],
+      ),
+    );
+    const weakPossession = average(
+      seeds.map(
+        (seed) =>
+          simulateMatch({ ...input, lineup: weakControl, seed }).stats
+            .possession[0],
+      ),
+    );
+
+    expect(elitePossession).toBeGreaterThan(weakPossession);
+    expect(elitePossession - weakPossession).toBeGreaterThan(1.5);
+  });
+
+  it("lets player role tags alter how the same attributes solve pressure", () => {
+    const tagMidfield = (
+      modeledTags: string[],
+      suffix: string,
+    ): PlayerTournamentCard[] =>
+      input.lineup.map((player, index) =>
+        [5, 6, 7].includes(index)
+          ? {
+              ...player,
+              id: `${player.id}-${suffix}-${index}`,
+              playerIdentityId: `${player.playerIdentityId}-${suffix}-${index}`,
+              modeledTags,
+              archetype: `${player.archetype} creator`,
+            }
+          : player,
+      );
+
+    const resistant = tagMidfield(
+      ["press-resistant", "creator"],
+      "role-rich",
+    );
+    const plain = tagMidfield([], "role-plain");
+    const seeds = Array.from({ length: 180 }, (_, index) => index + 1);
+
+    const resistantXg = average(
+      seeds.map(
+        (seed) =>
+          simulateMatch({ ...input, lineup: resistant, seed }).stats
+            .expectedGoals[0],
+      ),
+    );
+    const plainXg = average(
+      seeds.map(
+        (seed) =>
+          simulateMatch({ ...input, lineup: plain, seed }).stats
+            .expectedGoals[0],
+      ),
+    );
+
+    expect(resistantXg).toBeGreaterThan(plainXg);
+  });
+
+  it("keeps realistic match distributions instead of arcade scorelines", () => {
+    const results = Array.from({ length: 480 }, (_, index) =>
+      simulateMatch({
+        ...input,
+        competitionStage: "group",
+        seed: index + 1,
+      }),
+    );
+    const totalGoals = results.map(
+      (result) => result.score.user + result.score.opponent,
+    );
+    const averageGoals = average(totalGoals);
+    const scorelessRate =
+      results.filter(
+        (result) => result.score.user === 0 && result.score.opponent === 0,
+      ).length / results.length;
+    const sixPlusRate =
+      results.filter(
+        (result) => result.score.user + result.score.opponent >= 6,
+      ).length / results.length;
+    const fourGoalMarginRate =
+      results.filter(
+        (result) => Math.abs(result.score.user - result.score.opponent) >= 4,
+      ).length / results.length;
+
+    expect(averageGoals).toBeGreaterThan(1.6);
+    expect(averageGoals).toBeLessThan(3.4);
+    expect(scorelessRate).toBeGreaterThan(0.015);
+    expect(scorelessRate).toBeLessThan(0.2);
+    expect(sixPlusRate).toBeLessThan(0.05);
+    expect(fourGoalMarginRate).toBeLessThan(0.035);
   });
 
   it("runs the curated All-Stars through the normal deterministic and beatable engine", () => {

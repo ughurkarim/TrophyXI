@@ -134,12 +134,37 @@ describe("team ratings", () => {
     expect(keeperHeavy.playerQuality!).toBeLessThan(balanced.playerQuality!);
   });
 
-  it("uses identity-level career legacy across tournament card versions", () => {
+  it("uses each tournament card's World Cup record for legacy", () => {
     const messi2014 = playersById.get("lionel-messi-2014")!;
     const messi2022 = playersById.get("lionel-messi-2022")!;
 
-    expect(calculatePlayerLegacyScore(messi2014)).toBe(
-      calculatePlayerLegacyScore(messi2022),
+    const legacy2014 = calculatePlayerLegacyScore(messi2014);
+    const legacy2022 = calculatePlayerLegacyScore(messi2022);
+
+    expect(legacy2014).toBeGreaterThan(0);
+    expect(legacy2022).toBeGreaterThan(legacy2014);
+
+    const championWithoutAward: PlayerTournamentCard = {
+      ...messi2022,
+      id: "tournament-legacy-finish-test",
+      playerIdentityId: "tournament-legacy-finish-test",
+      achievements: [],
+      tournamentStats: {
+        ...messi2022.tournamentStats,
+        goals: 0,
+        assists: 0,
+      },
+    };
+
+    const groupStageVersion: PlayerTournamentCard = {
+      ...championWithoutAward,
+      id: "tournament-legacy-group-test",
+      playerIdentityId: "tournament-legacy-group-test",
+      tournamentFinish: "group stage",
+    };
+
+    expect(calculatePlayerLegacyScore(championWithoutAward)).toBeGreaterThan(
+      calculatePlayerLegacyScore(groupStageVersion),
     );
 
     const legacy = calculateSquadLegacy([messi2014, messi2022]);

@@ -9,7 +9,7 @@ import {
   SkipForward,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { flagForCountry } from "@/lib/utils";
 import type {
   HistoricalWorldCupTeam,
@@ -68,12 +68,76 @@ export function MatchTimeline({
     championLogoByCode[opponent.nationCode] ??
     championLogoByNation[normalizeNationName(opponent.nationName)];
 
-  const [index, setIndex] = useState(reduceMotion ? result.events.length - 1 : 0);
+  const playbackEvents = useMemo(() => {
+    const shootout = result.score.penaltyShootout ?? [];
+    const alreadyHasKickEvents = result.events.some(
+      (event) =>
+        event.type === "penalties" && /^PEN \\d+$/.test(event.minuteLabel),
+    );
+
+    if (!shootout.length || alreadyHasKickEvents) return result.events;
+
+    /*
+     * Older/persisted results may contain the full player-by-player shootout
+     * data but only one aggregate PEN event. Rebuild the missing playback
+     * events here so replay can still show every taker with suspense.
+     */
+    const aggregatePenaltyIndex = result.events.findIndex(
+      (event) => event.type === "penalties",
+    );
+    const extraTimeFullTimeIndex = result.events.findIndex(
+      (event) => event.type === "fulltime" && event.minute > 90,
+    );
+    const insertionIndex =
+      aggregatePenaltyIndex >= 0
+        ? aggregatePenaltyIndex
+        : extraTimeFullTimeIndex >= 0
+          ? extraTimeFullTimeIndex
+          : result.events.length;
+
+    const kickEvents = shootout.map<MatchEvent>((kick) => ({
+      id: `shootout-${kick.order}-${kick.playerId}`,
+      minute: 121,
+      minuteLabel: `PEN ${kick.order}`,
+      type: "penalties",
+      team: kick.team,
+      title: `${kick.playerName} — ${kick.scored ? "GOAL" : "MISS"}`,
+      detail: `${kick.playerName} steps to the penalty spot. ${
+        kick.scored ? "GOAL." : "MISS."
+      } Shootout: ${kick.userPenalties}–${kick.opponentPenalties}.${
+        kick.suddenDeath ? " Sudden death." : ""
+      }`,
+      userScore: result.score.user,
+      opponentScore: result.score.opponent,
+    }));
+
+    return [
+      ...result.events.slice(0, insertionIndex),
+      ...kickEvents,
+      ...result.events.slice(insertionIndex),
+    ];
+  }, [result]);
+
+  const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [fast, setFast] = useState(false);
   const [drawer, setDrawer] = useState<DrawerView>(null);
-  const current = result.events[index];
-  const complete = index >= result.events.length - 1;
+  const current = playbackEvents[index];
+  const complete = index >= playbackEvents.length - 1;
+  const penaltyShootout = result.score.penaltyShootout ?? [];
+  const currentPenaltyOrder =
+    current.type === "penalties"
+      ? Number(current.minuteLabel.match(/^PEN (\d+)$/)?.[1] ?? 0)
+      : 0;
+  const currentPenaltyKick =
+    currentPenaltyOrder > 0
+      ? penaltyShootout[currentPenaltyOrder - 1]
+      : undefined;
+  const previousPenaltyKick =
+    currentPenaltyOrder > 1
+      ? penaltyShootout[currentPenaltyOrder - 2]
+      : undefined;
+  const [penaltyOutcomeRevealed, setPenaltyOutcomeRevealed] = useState(false);
 
   useEffect(() => {
     // Keep the desktop broadcast framed, but never lock the mobile document:
@@ -98,28 +162,75 @@ export function MatchTimeline({
   }, []);
 
   useEffect(() => {
-    if (paused || complete || reduceMotion) return;
-    const eventHold =
-      current.type === "goal"
+    setPenaltyOutcomeRevealed(false);
+
+    if (!currentPenaltyKick || paused) return;
+    const revealTimeout = window.setTimeout(
+      () => setPenaltyOutcomeRevealed(true),
+      fast ? 360 : 950,
+    );
+    return () => window.clearTimeout(revealTimeout);
+  }, [current.id, currentPenaltyKick, fast, paused]);
+
+  useEffect(() => {
+    if (paused || complete) return;
+    const eventHold = currentPenaltyKick
+      ? 2850
+      : current.type === "goal"
         ? 1700
         : current.type === "fulltime" || current.type === "penalties"
-          ? 1450
+          ? 1600
           : 1050;
+    const delay = reduceMotion
+      ? currentPenaltyKick
+        ? 1800
+        : 520
+      : fast
+        ? currentPenaltyKick
+          ? 1200
+          : 260
+        : eventHold;
     const timeout = window.setTimeout(
-      () => setIndex((value) => Math.min(result.events.length - 1, value + 1)),
-      fast ? 260 : eventHold,
+      () =>
+        setIndex((value) =>
+          Math.min(playbackEvents.length - 1, value + 1),
+        ),
+      delay,
     );
     return () => window.clearTimeout(timeout);
-  }, [complete, current.type, fast, index, paused, reduceMotion, result.events.length]);
+  }, [
+    complete,
+    current.type,
+    currentPenaltyKick,
+    fast,
+    index,
+    paused,
+    reduceMotion,
+    playbackEvents.length,
+  ]);
 
-  const finalMinute = result.events.at(-1)?.minute ?? 90;
-  const matchProgress = Math.min(1, current.minute / Math.max(1, finalMinute));
+  const extraTimeRevealed =
+    current.type === "extra-time" ||
+    current.type === "penalties" ||
+    current.minute > 90;
+  const regularTimeProgress = Math.min(1, Math.max(0, current.minute) / 90);
+  const extraTimeProgress = extraTimeRevealed
+    ? Math.min(1, Math.max(0, current.minute - 90) / 30)
+    : 0;
+
+  // Stats can scale against the full played duration, but the visible match
+  // bar must never reveal extra time before the ET event is actually shown.
+  const statDuration = result.score.afterExtraTime ? 120 : 90;
+  const statProgress = Math.min(
+    1,
+    Math.max(0, current.minute) / Math.max(1, statDuration),
+  );
   const scalePair = (
     values: [number, number],
     minimum: [number, number] = [0, 0],
   ): [number, number] =>
     values.map((value, side) =>
-      Math.max(minimum[side], Math.round(value * matchProgress)),
+      Math.max(minimum[side], Math.round(value * statProgress)),
     ) as [number, number];
   const liveShots = scalePair(result.stats.shots, [current.userScore, current.opponentScore]);
   const liveShotsOnTarget = scalePair(
@@ -127,9 +238,9 @@ export function MatchTimeline({
     [current.userScore, current.opponentScore],
   ).map((value, side) => Math.min(value, liveShots[side])) as [number, number];
   const liveExpectedGoals = result.stats.expectedGoals.map((value) =>
-    Number((value * matchProgress).toFixed(2)),
+    Number((value * statProgress).toFixed(2)),
   ) as [number, number];
-  const liveYellowCards = result.events.slice(0, index + 1).reduce<[number, number]>(
+  const liveYellowCards = playbackEvents.slice(0, index + 1).reduce<[number, number]>(
     (cards, event) => {
       if (event.type === "yellow" && event.team === "user") cards[0] += 1;
       if (event.type === "yellow" && event.team === "opponent") cards[1] += 1;
@@ -148,14 +259,18 @@ export function MatchTimeline({
     { label: "Possession", values: result.stats.possession, better: "higher" },
     { label: "Yellow cards", values: liveYellowCards, better: "lower" },
   ];
-  const eventLabel =
-    current.type === "goal"
+  const eventLabel = currentPenaltyKick
+    ? currentPenaltyKick.suddenDeath
+      ? "PENALTY SHOOTOUT · SUDDEN DEATH"
+      : `PENALTY SHOOTOUT · KICK ${currentPenaltyKick.order}`
+    : current.type === "goal"
       ? current.team === "user"
         ? "GOAL · TROPHY XI"
         : "GOAL · OPPONENT"
       : current.type.replace("-", " ");
-  const eventMood =
-    current.type === "goal"
+  const eventMood = currentPenaltyKick
+    ? "penalty"
+    : current.type === "goal"
       ? "goal"
       : current.type === "fulltime" ||
           current.type === "penalties" ||
@@ -260,9 +375,18 @@ export function MatchTimeline({
             >
               {current.userScore}
             </motion.strong>
-            <div className={styles.clock}>
-              <small>MATCH</small>
-              <span>{current.minuteLabel}</span>
+            <div
+              className={styles.clock}
+              data-shootout={currentPenaltyKick ? "true" : undefined}
+            >
+              <small>{currentPenaltyKick ? "PENALTIES" : "MATCH"}</small>
+              <span>
+                {currentPenaltyKick
+                  ? penaltyOutcomeRevealed
+                    ? `${currentPenaltyKick.userPenalties}–${currentPenaltyKick.opponentPenalties}`
+                    : `${previousPenaltyKick?.userPenalties ?? 0}–${previousPenaltyKick?.opponentPenalties ?? 0}`
+                  : current.minuteLabel}
+              </span>
             </div>
             <motion.strong
               key={`opponent-${current.opponentScore}`}
@@ -321,13 +445,32 @@ export function MatchTimeline({
 
         <div
           className={styles.matchProgress}
-          aria-label={`Match progress ${Math.round(matchProgress * 100)} percent`}
+          data-extra-time={extraTimeRevealed ? "true" : undefined}
+          aria-label={
+            extraTimeRevealed
+              ? `Regular time complete. Extra time ${Math.round(extraTimeProgress * 100)} percent`
+              : `Match progress ${Math.round(regularTimeProgress * 100)} percent`
+          }
         >
           <span>0&apos;</span>
-          <i aria-hidden>
-            <b style={{ width: `${matchProgress * 100}%` }} />
-          </i>
-          <span>90+&apos;</span>
+          <div
+            className={styles.progressTracks}
+            data-extra-time={extraTimeRevealed ? "true" : undefined}
+            aria-hidden
+          >
+            <i className={styles.regularTimeTrack}>
+              <b style={{ width: `${regularTimeProgress * 100}%` }} />
+            </i>
+            {extraTimeRevealed && (
+              <>
+                <span className={styles.extraTimeMarker}>90&apos;</span>
+                <i className={styles.extraTimeTrack}>
+                  <b style={{ width: `${extraTimeProgress * 100}%` }} />
+                </i>
+              </>
+            )}
+          </div>
+          <span>{extraTimeRevealed ? "120'" : "90'"}</span>
         </div>
 
         <section className={styles.moment} data-mood={eventMood}>
@@ -348,7 +491,71 @@ export function MatchTimeline({
                 ease: "easeOut",
               }}
             >
-              {showFinalSummary ? (
+              {currentPenaltyKick ? (
+                <div
+                  className={styles.penaltyMoment}
+                  data-result={
+                    penaltyOutcomeRevealed
+                      ? currentPenaltyKick.scored
+                        ? "goal"
+                        : "miss"
+                      : "waiting"
+                  }
+                >
+                  <div className={styles.eventMeta}>
+                    <time>{currentPenaltyKick.suddenDeath ? "SD" : `P${currentPenaltyKick.order}`}</time>
+                    <i />
+                    <span>{eventLabel}</span>
+                  </div>
+                  <span className={styles.penaltySide}>
+                    {currentPenaltyKick.team === "user"
+                      ? "TROPHY XI"
+                      : opponentDisplayName.toUpperCase()}
+                  </span>
+                  <h1
+                    id="match-live-heading"
+                    className={styles.penaltyTakerName}
+                  >
+                    {currentPenaltyKick.playerName}
+                  </h1>
+                  <p className={styles.penaltyApproach}>
+                    steps forward and places the ball on the spot.
+                  </p>
+                  <AnimatePresence mode="wait" initial={false}>
+                    {penaltyOutcomeRevealed ? (
+                      <motion.strong
+                        key={`penalty-result-${currentPenaltyKick.order}`}
+                        className={styles.penaltyOutcome}
+                        data-result={currentPenaltyKick.scored ? "goal" : "miss"}
+                        initial={reduceMotion ? false : { opacity: 0, scale: 0.86 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: reduceMotion ? 0 : 0.24 }}
+                      >
+                        {currentPenaltyKick.scored ? "GOAL" : "MISS"}
+                      </motion.strong>
+                    ) : (
+                      <motion.span
+                        key={`penalty-wait-${currentPenaltyKick.order}`}
+                        className={styles.penaltyWaiting}
+                        initial={reduceMotion ? false : { opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                      >
+                        THE WHISTLE...
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                  {penaltyOutcomeRevealed && (
+                    <p className={styles.penaltyRunningScore}>
+                      SHOOTOUT{" "}
+                      <b>
+                        {currentPenaltyKick.userPenalties}–
+                        {currentPenaltyKick.opponentPenalties}
+                      </b>
+                      {currentPenaltyKick.suddenDeath ? " · SUDDEN DEATH" : ""}
+                    </p>
+                  )}
+                </div>
+              ) : showFinalSummary ? (
                 <>
                   <div className={styles.eventMeta}>
                     <time>FT</time>
@@ -496,7 +703,7 @@ export function MatchTimeline({
 
       {drawer === "timeline" && (
         <TimelineDrawer
-          events={result.events.slice(0, index + 1)}
+          events={playbackEvents.slice(0, index + 1)}
           onClose={() => setDrawer(null)}
         />
       )}

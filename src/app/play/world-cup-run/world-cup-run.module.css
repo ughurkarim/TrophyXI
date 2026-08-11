@@ -1215,9 +1215,16 @@
   perfectly static before and after a result.
 */
 .routePanel .quickActions > button.nextAction {
-  grid-column: 2;
+  grid-column: 1;
   justify-self: stretch;
   width: 100%;
+}
+
+/* When NEXT is the only knockout action (for example after elimination),
+   let it use the full action rail. When SIMULATE ROUND is present, NEXT stays
+   in column 1 and the secondary action naturally occupies column 2. */
+.routePanel .quickActions > button.nextAction:only-child {
+  grid-column: 1 / -1;
 }
 
 /* The final CTA is intentionally wider than NEXT. The outer action rail stays
@@ -1233,6 +1240,181 @@
   font-size: 0.68rem;
   gap: 7px;
   padding-inline: 1rem;
+}
+
+
+/* World Cup Final quick-sim shootout: the aggregate result is deliberately
+   withheld until every individual taker has been revealed. */
+.shootoutOverlay {
+  align-items: center;
+  backdrop-filter: blur(14px);
+  background:
+    radial-gradient(circle at 50% 36%, rgba(219, 176, 62, 0.15), transparent 28%),
+    rgba(1, 5, 5, 0.92);
+  display: grid;
+  inset: 72px 0 0;
+  justify-items: center;
+  padding: 1.25rem;
+  position: fixed;
+  z-index: 120;
+}
+
+.shootoutCard {
+  background:
+    linear-gradient(145deg, rgba(218, 176, 62, 0.08), transparent 44%),
+    rgba(4, 9, 8, 0.97);
+  border: 1px solid rgba(224, 184, 73, 0.32);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.48),
+    inset 0 1px rgba(255, 245, 208, 0.04);
+  display: grid;
+  justify-items: center;
+  max-width: 650px;
+  min-height: 390px;
+  padding: clamp(1.5rem, 4vw, 2.6rem);
+  text-align: center;
+  width: min(92vw, 650px);
+}
+
+.shootoutKick,
+.shootoutSummary {
+  align-content: center;
+  display: grid;
+  justify-items: center;
+  min-height: 300px;
+  width: 100%;
+}
+
+.shootoutScore {
+  align-items: center;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  margin-bottom: 1.7rem;
+  width: 100%;
+}
+
+.shootoutScore span {
+  color: #969b90;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.shootoutScore span:first-child {
+  text-align: right;
+}
+
+.shootoutScore span:last-child {
+  text-align: left;
+}
+
+.shootoutScore strong {
+  color: #f1d16e;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  letter-spacing: -0.04em;
+}
+
+.shootoutRound {
+  color: #bba14f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  margin: 0 0 0.45rem;
+}
+
+.shootoutKick h2,
+.shootoutSummary h2 {
+  color: #f2efe6;
+  font-size: clamp(1.8rem, 5vw, 3.15rem);
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  margin: 0.2rem 0 0.45rem;
+}
+
+.shootoutApproach,
+.shootoutSummary p {
+  color: #9ca097;
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.shootoutOutcome {
+  align-items: center;
+  display: flex;
+  height: 74px;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.shootoutOutcome span {
+  color: #d4b95e;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  animation: shootoutPulse 0.8s ease-in-out infinite alternate;
+}
+
+.shootoutOutcome strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.6rem, 8vw, 4.9rem);
+  font-weight: 820;
+  letter-spacing: 0.06em;
+  line-height: 0.82;
+}
+
+.shootoutKick[data-result="goal"] .shootoutOutcome strong {
+  color: #76d6aa;
+  text-shadow: 0 0 30px rgba(77, 206, 151, 0.22);
+}
+
+.shootoutKick[data-result="miss"] .shootoutOutcome strong {
+  color: #e07a70;
+  text-shadow: 0 0 30px rgba(221, 97, 85, 0.18);
+}
+
+.shootoutKick > small {
+  color: #696e68;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  margin-top: 0.8rem;
+}
+
+.shootoutSummary > span {
+  color: #b99c49;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.shootoutSummary > strong {
+  color: #f0ce68;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(3rem, 9vw, 5.6rem);
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+  margin: 0.7rem 0;
+}
+
+.shootoutSummary > button {
+  margin-top: 1.35rem;
+  min-width: 190px;
+}
+
+@keyframes shootoutPulse {
+  from {
+    opacity: 0.42;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 
@@ -2517,7 +2699,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   World Cup launch — hard single-screen lock
+   World Cup launch Ã¢â‚¬â€ hard single-screen lock
    -------------------------------------------------------------------------- */
 
 .shell {
@@ -2999,7 +3181,7 @@
 
 
 /* --------------------------------------------------------------------------
-   Trophy aura — remove fake overhead lights, radiate gold from below
+   Trophy aura Ã¢â‚¬â€ remove fake overhead lights, radiate gold from below
    -------------------------------------------------------------------------- */
 
 /* Kill the artificial ceiling/spotlight shapes. */
@@ -4092,7 +4274,7 @@
 }
 
 /* ==========================================================================
-   WORLD CUP LAUNCH — BACKGROUNDWC
+   WORLD CUP LAUNCH Ã¢â‚¬â€ BACKGROUNDWC
    The stadium, trophy, halo and pedestal are baked into assets/backgroundwc.png.
    Keep the live UI deliberately minimal: title, metadata and primary CTA only.
    ========================================================================== */
@@ -4415,7 +4597,7 @@
 
 
 /* ==========================================================================
-   WORLD CUP LAUNCH — V30 BALANCED CINEMATIC PASS
+   WORLD CUP LAUNCH Ã¢â‚¬â€ V30 BALANCED CINEMATIC PASS
    Less aggressive scale, darker stadium treatment, softer Trophy XI gold.
    ========================================================================== */
 
@@ -4626,7 +4808,7 @@
 
 
 /* ==========================================================================
-   WORLD CUP LAUNCH — V31
+   WORLD CUP LAUNCH Ã¢â‚¬â€ V31
    Fixes:
    1) no hard background-to-black seam
    2) ENTER THE / WORLD CUP never clips
@@ -4817,7 +4999,7 @@
 
 
 /* ==========================================================================
-   WORLD CUP LAUNCH — V33 NEW BACKGROUND
+   WORLD CUP LAUNCH Ã¢â‚¬â€ V33 NEW BACKGROUND
    Reverted to v31 composition. New backgroundwc.png, slightly zoomed.
    ========================================================================== */
 
@@ -4828,7 +5010,7 @@
   opacity: 0.30;
 }
 
-/* Slight zoom only — no v32 left shift or masking. */
+/* Slight zoom only Ã¢â‚¬â€ no v32 left shift or masking. */
 .launch::after {
   background-position: right center;
   background-size: auto 110%;
@@ -4891,7 +5073,7 @@
 
 
 /* ==========================================================================
-   WORLD CUP LAUNCH — V34 FINAL POLISH
+   WORLD CUP LAUNCH Ã¢â‚¬â€ V34 FINAL POLISH
    Tiny composition refinements only.
    ========================================================================== */
 
@@ -4984,7 +5166,7 @@
 
 
 /* =========================================================
-   TROPHY XI MARK — match the Opponent Reveal crest
+   TROPHY XI MARK Ã¢â‚¬â€ match the Opponent Reveal crest
    ========================================================= */
 
 /* Large fixture crest: same regal serif XI + concentric gold rings. */
@@ -5093,7 +5275,7 @@
 
 
 /* =========================================================
-   TROPHY XI MARK — final polish
+   TROPHY XI MARK Ã¢â‚¬â€ final polish
    Larger main XI, quieter rings, better mini-mark alignment.
    ========================================================= */
 
@@ -5142,7 +5324,7 @@
 
 
 /* =========================================================
-   TROPHY XI MARK — clean final version
+   TROPHY XI MARK Ã¢â‚¬â€ clean final version
    One outer ring only; no mini XI marks anywhere.
    ========================================================= */
 
@@ -5186,7 +5368,7 @@
 
 
 /* =========================================================
-   TROPHY XI CREST — FORCE A SINGLE RING ONLY
+   TROPHY XI CREST Ã¢â‚¬â€ FORCE A SINGLE RING ONLY
    ========================================================= */
 
 /* This outer container is the ONLY visible circle. */
@@ -5231,7 +5413,7 @@
 }
 
 /* ==========================================================================
-   WORLD CUP RUN ENTRY — MOBILE CINEMATIC COMPOSITION
+   WORLD CUP RUN ENTRY Ã¢â‚¬â€ MOBILE CINEMATIC COMPOSITION
    Keep the desktop launch untouched. On phones, the shared header and launch
    together form one dynamic-viewport screen, with the CTA anchored inside the
    launch's bottom safe-area padding. The trophy remains part of backgroundwc.
@@ -5416,7 +5598,7 @@
 }
 
 /* ==========================================================================
-   WORLD CUP GROUP STAGE — MOBILE COMPACT DASHBOARD
+   WORLD CUP GROUP STAGE Ã¢â‚¬â€ MOBILE COMPACT DASHBOARD
    The launch remains a locked cinematic screen. Active tournament screens
    return to normal document flow so short iPhones can always reach every row.
    ========================================================================== */
@@ -5824,7 +6006,7 @@
 }
 
 /* ==========================================================================
-   WORLD CUP KNOCKOUT — MOBILE ROUND BROWSER
+   WORLD CUP KNOCKOUT Ã¢â‚¬â€ MOBILE ROUND BROWSER
    Desktop retains the complete tree. Phones inspect the same fixtures one
    readable round at a time, with natural document scrolling.
    ========================================================================== */
@@ -6210,7 +6392,7 @@
 }
 
 /* ==========================================================================
-   WORLD CUP ENDGAME — MOBILE CINEMATIC PRESENTATION
+   WORLD CUP ENDGAME Ã¢â‚¬â€ MOBILE CINEMATIC PRESENTATION
    Keep the engine and desktop presentation intact. Phones use the actual exit
    stage for progress and let the terminal panel consume the remaining dvh.
    ========================================================================== */
@@ -6571,5 +6753,33 @@
   .shell:not(.launchShell) .progress,
   .shell:not(.launchShell) .progress > div {
     min-height: 38px;
+  }
+}
+
+@media (max-width: 700px) {
+  .shootoutOverlay {
+    inset: 64px 0 0;
+    padding: 0.75rem;
+  }
+
+  .shootoutCard {
+    min-height: 360px;
+    padding: 1.25rem 1rem;
+    width: min(96vw, 560px);
+  }
+
+  .shootoutScore {
+    gap: 0.45rem;
+    margin-bottom: 1.35rem;
+  }
+
+  .shootoutScore span {
+    font-size: 0.44rem;
+    letter-spacing: 0.08em;
+  }
+
+  .shootoutKick h2,
+  .shootoutSummary h2 {
+    font-size: clamp(1.65rem, 8vw, 2.45rem);
   }
 }

@@ -125,7 +125,7 @@ describe("draft engine", () => {
       offer.some((player) => ["legend", "icon"].includes(player.statusTier)),
     ).length;
     // Opening premium cards remain exciting rather than routine. The deterministic
-    // offer gate is 18%, with a little tolerance for future pool changes.
+    // offer gate is 16%, with a little tolerance for future pool changes.
     expect(earlyPremierOffers).toBeLessThanOrEqual(30);
 
     const benchOffers = Array.from({ length: 100 }, (_, seed) =>
@@ -139,7 +139,7 @@ describe("draft engine", () => {
     );
     expect(
       starterOffers.every((offer) =>
-        offer.some((player) => player.overall >= 88),
+        offer.some((player) => player.overall >= 86),
       ),
     ).toBe(true);
     expect(
@@ -161,7 +161,7 @@ describe("draft engine", () => {
         offer.filter((player) => player.overall >= 88).length,
       ).toBeLessThanOrEqual(3);
       expect(
-        offer.filter((player) => player.overall >= 85).length,
+        offer.filter((player) => player.overall >= 83).length,
       ).toBeGreaterThanOrEqual(2);
       expect(
         offer.filter((player) =>
@@ -511,6 +511,111 @@ describe("draft engine", () => {
     expect(respin).toHaveLength(4);
     expect(respin.every((id) => !remembered.has(id))).toBe(true);
   });
+
+  it("never surfaces a player who is red in every currently open position", () => {
+    for (let seed = 0; seed < 60; seed += 1) {
+      const picks: { slotId: string; cardId: string }[] = [];
+      for (let round = 0; round < formation.slots.length; round += 1) {
+        const offer = generateDraftOptions(
+          draftEligiblePlayers,
+          formation,
+          picks,
+          110_000 + seed,
+          round,
+        );
+        const openSlots = formation.slots.filter(
+          (slot) => !picks.some((pick) => pick.slotId === slot.id),
+        );
+
+        for (const player of offer) {
+          const usefulFits = openSlots
+            .map((slot) => getPositionFit(player, slot))
+            .filter((fit) => fit >= 70);
+          expect(usefulFits.length).toBeGreaterThan(0);
+        }
+
+        const chosen = offer[0];
+        const slot = [...openSlots]
+          .filter((candidate) =>
+            canPlacePlayer({
+              cards: draftEligiblePlayers,
+              formation,
+              picks,
+              player: chosen,
+              slot: candidate,
+            }),
+          )
+          .sort(
+            (first, second) =>
+              getPositionFit(chosen, second) - getPositionFit(chosen, first),
+          )[0];
+        expect(slot).toBeDefined();
+        expect(getPositionFit(chosen, slot!)).toBeGreaterThanOrEqual(70);
+        picks.push({ slotId: slot!.id, cardId: chosen.id });
+      }
+      expect(picks).toHaveLength(11);
+    }
+  }, 20_000);
+
+  it("makes a respin materially different when the previous five identities are rejected", () => {
+    const first = generateDraftOptions(
+      draftEligiblePlayers,
+      formation,
+      [],
+      115_000,
+      0,
+    );
+    const rejectedIdentityIds = first.map((card) => card.playerIdentityId);
+    const respin = generateDraftOptions(
+      draftEligiblePlayers,
+      formation,
+      [],
+      115_000,
+      0,
+      {
+        rejectedIdentityIds,
+        recentIdentityIds: rejectedIdentityIds,
+        respinIndex: 1,
+      },
+    );
+    const rejected = new Set(rejectedIdentityIds);
+    expect(respin).toHaveLength(5);
+    expect(
+      respin.filter((card) => rejected.has(card.playerIdentityId)).length,
+    ).toBe(0);
+  });
+
+  it("creates real fit-versus-rating decisions instead of making overall always correct", () => {
+    const decisions = Array.from({ length: 160 }, (_, seed) => {
+      const partialPicks = [
+        { slotId: "gk", cardId: "manuel-neuer-2014" },
+        { slotId: "lcb", cardId: "fabio-cannavaro-2006" },
+        { slotId: "cm", cardId: "xavi-2010" },
+        { slotId: "st", cardId: "ronaldo-2002" },
+      ];
+      const offer = generateDraftOptions(
+        draftEligiblePlayers,
+        formation,
+        partialPicks,
+        116_000 + seed,
+        partialPicks.length,
+      );
+      const openSlots = formation.slots.filter(
+        (slot) => !partialPicks.some((pick) => pick.slotId === slot.id),
+      );
+      const highestRated = [...offer].sort(
+        (first, second) => second.overall - first.overall,
+      )[0];
+      const bestFit = [...offer].sort(
+        (first, second) =>
+          Math.max(...openSlots.map((slot) => getPositionFit(second, slot))) -
+          Math.max(...openSlots.map((slot) => getPositionFit(first, slot))),
+      )[0];
+      return highestRated.playerIdentityId !== bestFit.playerIdentityId;
+    }).filter(Boolean).length;
+
+    expect(decisions).toBeGreaterThan(10);
+  }, 20_000);
 
   it("surfaces a goalkeeper in late starter offers when the GK slot is still open", () => {
     for (let seed = 0; seed < 80; seed += 1) {

@@ -844,19 +844,65 @@ export const simulateRemainingWorldCupRunRound = (state: WorldCupRunState) => {
   return resolved;
 };
 
-/** Compatibility helper for result recording and deterministic domain tests. */
+/**
+ * Resolve only the CPU fixtures that belong to the same tournament step as
+ * Trophy XI's latest match.
+ *
+ * Group stage: one matchday only. This prevents Matchday 2/3 from being
+ * simulated just because Trophy XI finished Matchday 1.
+ *
+ * Knockouts: one current round only. The resolver never spills into the next
+ * round after the current bracket has been completed.
+ */
 export const resolvePendingWorldCupRunCpuFixtures = (state: WorldCupRunState) => {
+  if (state.currentStage === "complete") return state;
+
   let resolved = state;
-  while (resolved.currentStage !== "complete") {
-    const pendingCpuFixtures = getCurrentWorldCupRunFixtures(resolved).filter(
+
+  if (state.currentStage === "group") {
+    const latestUserGroupEntry = [...state.history]
+      .reverse()
+      .find(
+        (entry) =>
+          entry.stage === "group" &&
+          [entry.homeTeamId, entry.awayTeamId].includes(state.userTeamId),
+      );
+    const latestUserFixture = latestUserGroupEntry
+      ? getWorldCupRunFixture(state, latestUserGroupEntry.fixtureId)
+      : null;
+    const pendingUserFixture = getPendingWorldCupRunUserFixture(state);
+    const targetMatchday =
+      latestUserFixture?.matchday ?? pendingUserFixture?.matchday ?? null;
+
+    if (targetMatchday === null) return state;
+
+    const pendingCpuFixtures = state.fixtures.filter(
       (fixture) =>
+        fixture.stage === "group" &&
+        fixture.matchday === targetMatchday &&
         !fixture.result &&
-        ![fixture.homeTeamId, fixture.awayTeamId].includes(resolved.userTeamId),
+        ![fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId),
     );
-    if (!pendingCpuFixtures.length) break;
+
     for (const fixture of pendingCpuFixtures) {
       resolved = recordWorldCupRunFixtureResult(resolved, fixture.id);
     }
+    return resolved;
   }
+
+  const stageAtStart = state.currentStage;
+  const pendingCpuFixtures = getCurrentWorldCupRunFixtures(state).filter(
+    (fixture) =>
+      !fixture.result &&
+      ![fixture.homeTeamId, fixture.awayTeamId].includes(state.userTeamId),
+  );
+
+  for (const fixture of pendingCpuFixtures) {
+    // The last CPU result may advance the domain to the next round. Do not
+    // resolve any fixtures from that newly-created round in this call.
+    if (resolved.currentStage !== stageAtStart) break;
+    resolved = recordWorldCupRunFixtureResult(resolved, fixture.id);
+  }
+
   return resolved;
 };

@@ -93,7 +93,9 @@ export default function ResultPage() {
   const result = useGameStore((state) => state.matchResult);
   const gameMode = useGameStore((state) => state.gameMode);
   const draftSeed = useGameStore((state) => state.draftSeed);
-  const prepareRematch = useGameStore((state) => state.prepareRematch);
+  const continueWorldCupRun = useGameStore(
+    (state) => state.continueWorldCupRun,
+  );
   const worldCupRunOpponents = useGameStore(
     (state) => state.worldCupRunOpponents,
   );
@@ -423,7 +425,12 @@ export default function ResultPage() {
             {gameMode === "world-cup-run" ? (
               <Button
                 className={styles.actionButton}
-                onClick={() => router.replace("/play/world-cup-run")}
+                onClick={() => {
+                  // Acknowledge first, but keep the result alive until the World
+                  // Cup Run page mounts and finalizes the handoff.
+                  continueWorldCupRun();
+                  router.replace("/play/world-cup-run");
+                }}
               >
                 <Trophy size={16} aria-hidden />
                 <span className={styles.desktopActionLabel}>Continue tournament</span>
@@ -433,10 +440,7 @@ export default function ResultPage() {
               <>
                 <Button
                   className={styles.actionButton}
-                  onClick={() => {
-                    prepareRematch();
-                    router.push("/match");
-                  }}
+                  onClick={() => router.push("/match")}
                 >
                   <RotateCcw size={16} aria-hidden /> Play again
                 </Button>

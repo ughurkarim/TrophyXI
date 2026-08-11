@@ -432,6 +432,26 @@
   text-align: right;
 }
 
+.progressTracks {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+.progressTracks[data-extra-time="true"] {
+  grid-template-columns: minmax(0, 3fr) auto minmax(0, 1fr);
+  gap: 7px;
+}
+
+.extraTimeMarker {
+  color: #77786f;
+  font-size: 0.31rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
 .matchProgress i {
   position: relative;
   display: block;
@@ -439,6 +459,10 @@
   overflow: hidden;
   border-radius: 99px;
   background: rgba(255, 255, 255, 0.07);
+}
+
+.extraTimeTrack {
+  box-shadow: inset 0 0 0 1px rgba(216, 176, 61, 0.06);
 }
 
 .matchProgress i::after {
@@ -499,6 +523,107 @@
 
 .moment[data-mood="decisive"] {
   border-color: rgba(218, 179, 66, 0.25);
+}
+
+.moment[data-mood="penalty"] {
+  border-color: rgba(231, 190, 73, 0.42);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(204, 160, 47, 0.13), transparent 48%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.018), transparent 42%),
+    rgba(5, 9, 8, 0.78);
+  box-shadow:
+    inset 0 1px rgba(255, 239, 176, 0.035),
+    0 0 38px rgba(194, 146, 35, 0.045);
+}
+
+.clock[data-shootout="true"] {
+  border-color: rgba(231, 190, 73, 0.62);
+  box-shadow:
+    0 0 0 4px rgba(6, 10, 9, 0.82),
+    0 0 0 5px rgba(219, 180, 65, 0.17),
+    0 0 24px rgba(218, 176, 62, 0.12);
+}
+
+.clock[data-shootout="true"] small {
+  color: #8f7a40;
+  font-size: 0.25rem;
+}
+
+.clock[data-shootout="true"] span {
+  color: #f0cf68;
+  font-size: 0.86rem;
+}
+
+.penaltyMoment {
+  display: grid;
+  place-items: center;
+  min-height: 136px;
+}
+
+.penaltySide {
+  margin-top: 7px;
+  color: #8f927f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.38rem;
+  font-weight: 720;
+  letter-spacing: 0.16em;
+}
+
+.penaltyTakerName.penaltyTakerName {
+  margin: 5px 0 2px;
+  color: #f4f0e3;
+  font-size: clamp(1.42rem, 2.45vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.penaltyApproach.penaltyApproach {
+  color: #97998e;
+  font-size: 0.58rem;
+}
+
+.penaltyWaiting {
+  display: block;
+  min-height: 28px;
+  margin-top: 10px;
+  color: #c4a84f;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.58rem;
+  font-weight: 740;
+  letter-spacing: 0.22em;
+}
+
+.penaltyOutcome {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 4vw, 3.45rem);
+  font-weight: 790;
+  letter-spacing: 0.08em;
+  line-height: 0.9;
+}
+
+.penaltyOutcome[data-result="goal"] {
+  color: #72d3a5;
+  text-shadow: 0 0 26px rgba(87, 205, 151, 0.2);
+}
+
+.penaltyOutcome[data-result="miss"] {
+  color: #e07c72;
+  text-shadow: 0 0 26px rgba(216, 91, 80, 0.16);
+}
+
+.penaltyRunningScore.penaltyRunningScore {
+  margin-top: 8px;
+  color: #898d82;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.1em;
+}
+
+.penaltyRunningScore b {
+  color: #dbc05f;
+  font-size: 0.58rem;
 }
 
 .moment[data-mood="caution"] {

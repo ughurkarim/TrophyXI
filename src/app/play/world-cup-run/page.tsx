@@ -36,6 +36,7 @@ import {
 } from "@/engine/world-cup-run";
 import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
+import type { PenaltyShootoutKick } from "@/types/game";
 import styles from "./world-cup-run.module.css";
 import { getMobileTournamentProgressStage } from "./world-cup-run-presentation";
 
@@ -123,6 +124,13 @@ const winnerFor = (fixture: WorldCupRunFixture) => {
     : fixture.awayTeamId;
 };
 
+type ShootoutPresentation = {
+  kicks: PenaltyShootoutKick[];
+  opponentName: string;
+  finalScore: [number, number];
+  userWon: boolean;
+};
+
 export default function WorldCupRunPage() {
   const router = useRouter();
   const hydrated = useGameStore((state) => state.hasHydrated);
@@ -132,7 +140,6 @@ export default function WorldCupRunPage() {
   const formationId = useGameStore((state) => state.formationId);
   const picks = useGameStore((state) => state.picks);
   const benchPicks = useGameStore((state) => state.benchPicks);
-  const matchResult = useGameStore((state) => state.matchResult);
   const run = useGameStore((state) => state.worldCupRun);
   const startWorldCupRun = useGameStore((state) => state.startWorldCupRun);
   const restartWorldCupRun = useGameStore((state) => state.restartWorldCupRun);
@@ -141,18 +148,24 @@ export default function WorldCupRunPage() {
   const simulateGroup = useGameStore((state) => state.simulateWorldCupRunGroup);
   const simulateRound = useGameStore((state) => state.simulateWorldCupRunRound);
   const enterKnockouts = useGameStore((state) => state.enterWorldCupRunKnockouts);
+  const clearQuickResult = useGameStore((state) => state.prepareRematch);
   const [revealedFixtures, setRevealedFixtures] = useState<string[]>([]);
   const [changedTeams, setChangedTeams] = useState<string[]>([]);
   const [teamMovements, setTeamMovements] = useState<
     Record<string, "up" | "down">
   >({});
-  const [deferredElimination, setDeferredElimination] = useState(false);
+  const [deferredResult, setDeferredResult] = useState(false);
   const [deferredFixtureId, setDeferredFixtureId] = useState<string | null>(null);
   const [championCelebrationDismissed, setChampionCelebrationDismissed] =
     useState(false);
+  const [shootoutPresentation, setShootoutPresentation] =
+    useState<ShootoutPresentation | null>(null);
+  const [shootoutKickIndex, setShootoutKickIndex] = useState(0);
+  const [shootoutOutcomeVisible, setShootoutOutcomeVisible] = useState(false);
+  const [shootoutComplete, setShootoutComplete] = useState(false);
 
-  const dismissDeferredElimination = () => {
-    setDeferredElimination(false);
+  const dismissDeferredResult = () => {
+    setDeferredResult(false);
     setDeferredFixtureId(null);
   };
 
@@ -163,19 +176,35 @@ export default function WorldCupRunPage() {
   }, [run?.status]);
 
   useEffect(() => {
-    if (
-      !hydrated ||
-      gameMode !== "world-cup-run" ||
-      !run ||
-      !matchResult
-    ) {
-      return;
-    }
+    if (!shootoutPresentation || shootoutComplete) return;
 
-    // Clear the completed match only after this page has mounted. Clearing it
-    // on the Result page makes that page render its empty-state for one frame.
-    continueWorldCupRun();
-  }, [continueWorldCupRun, gameMode, hydrated, matchResult, run]);
+    setShootoutOutcomeVisible(false);
+
+    const reveal = window.setTimeout(
+      () => setShootoutOutcomeVisible(true),
+      900,
+    );
+    const advance = window.setTimeout(() => {
+      if (shootoutKickIndex < shootoutPresentation.kicks.length - 1) {
+        setShootoutKickIndex((index) => index + 1);
+      } else {
+        setShootoutComplete(true);
+      }
+    }, 2350);
+
+    return () => {
+      window.clearTimeout(reveal);
+      window.clearTimeout(advance);
+    };
+  }, [shootoutComplete, shootoutKickIndex, shootoutPresentation]);
+
+  const dismissShootoutPresentation = () => {
+    setShootoutPresentation(null);
+    setShootoutKickIndex(0);
+    setShootoutOutcomeVisible(false);
+    setShootoutComplete(false);
+    clearQuickResult();
+  };
 
   useEffect(() => {
     if (!hydrated) return;
@@ -205,26 +234,20 @@ export default function WorldCupRunPage() {
     if (!before) return;
 
     /*
-     * Knockout losses use a deliberate result state before the terminal screen.
-     * Zustand is an external store, so its update can render before the local
-     * deferred-elimination state unless we commit the guard first. That caused
-     * the one-frame "wrong screen" flash.
-     *
-     * Set the guard BEFORE mutating the tournament. It is harmless on wins and
-     * gets cleared immediately below when the run remains active.
+     * Knockout quick-sims hold on the fixture that was just played until NEXT ROUND.
+     * Group-stage quick-sims advance directly to the next match because the completed
+     * score is already visible in the fixtures panel. Group elimination is the one
+     * exception: keep the final score/table visible until NEXT reveals the loss screen.
      */
-    if (before.currentStage !== "group" && before.status === "active") {
-      const fixtureBeforeSimulation =
-        before.currentStage !== "complete"
-          ? before.fixtures.find(
-              (fixture) =>
-                fixture.stage === before.currentStage &&
-                [fixture.homeTeamId, fixture.awayTeamId].includes(before.userTeamId),
-            )
-          : null;
+    if (
+      before.currentStage !== "group" &&
+      before.currentStage !== "complete" &&
+      before.status === "active"
+    ) {
+      const fixtureBeforeSimulation = getPendingWorldCupRunUserFixture(before);
 
       flushSync(() => {
-        setDeferredElimination(true);
+        setDeferredResult(Boolean(fixtureBeforeSimulation));
         setDeferredFixtureId(fixtureBeforeSimulation?.id ?? null);
       });
     }
@@ -238,12 +261,51 @@ export default function WorldCupRunPage() {
 
     action();
 
-    const after = useGameStore.getState().worldCupRun;
+    const latestState = useGameStore.getState();
+    const after = latestState.worldCupRun;
     if (!after) return;
 
-    if (after.status !== "eliminated") {
-      setDeferredElimination(false);
-      setDeferredFixtureId(null);
+    const detailedShootout = latestState.matchResult?.score.penaltyShootout;
+    const aggregatePenalties = latestState.matchResult?.score.penalties;
+    if (
+      before.currentStage === "final" &&
+      detailedShootout?.length &&
+      aggregatePenalties
+    ) {
+      const pendingFinal = getPendingWorldCupRunUserFixture(before);
+      const opponentId = pendingFinal
+        ? pendingFinal.homeTeamId === before.userTeamId
+          ? pendingFinal.awayTeamId
+          : pendingFinal.homeTeamId
+        : null;
+      const opponentName =
+        before.teams.find((team) => team.id === opponentId)?.name ?? "Opponent";
+
+      setShootoutPresentation({
+        kicks: detailedShootout,
+        opponentName,
+        finalScore: aggregatePenalties,
+        userWon: aggregatePenalties[0] > aggregatePenalties[1],
+      });
+      setShootoutKickIndex(0);
+      setShootoutOutcomeVisible(false);
+      setShootoutComplete(false);
+    }
+
+    const newlyPlayedUserFixtureId = [...after.history]
+      .reverse()
+      .find(
+        (entry) =>
+          !previousFixtureIds.has(entry.fixtureId) &&
+          [entry.homeTeamId, entry.awayTeamId].includes(after.userTeamId),
+      )?.fixtureId;
+
+    if (newlyPlayedUserFixtureId) {
+      const holdCompactResult =
+        before.currentStage !== "group" || after.status === "eliminated";
+
+      setDeferredResult(holdCompactResult);
+      setDeferredFixtureId(holdCompactResult ? newlyPlayedUserFixtureId : null);
     }
 
     setRevealedFixtures(
@@ -428,18 +490,18 @@ export default function WorldCupRunPage() {
       : null;
 
   const deferredUserFixture =
-    deferredElimination && deferredFixtureId
+    deferredResult && deferredFixtureId
       ? run.fixtures.find((fixture) => fixture.id === deferredFixtureId) ?? null
       : null;
 
   /*
-   * SIMULATE ROUND can advance run.currentStage even when Trophy XI lost in
-   * that round. Keep showing the fixture Trophy XI actually just played until
-   * the user presses NEXT.
+   * Quick simulation may advance the tournament domain immediately. Keep the
+   * fixture Trophy XI actually just played on screen until the user explicitly
+   * presses NEXT MATCH / NEXT ROUND.
    */
   const routeFixture = deferredUserFixture ?? userCurrentFixture;
   const displayStage =
-    deferredElimination && deferredUserFixture
+    deferredResult && deferredUserFixture
       ? deferredUserFixture.stage
       : run.currentStage;
   const currentStageIndex =
@@ -463,11 +525,9 @@ export default function WorldCupRunPage() {
     run.fixtures.some((fixture) => fixture.stage === run.currentStage && !fixture.result);
   const finalOpponent = nextOpponentId ? teams.get(nextOpponentId) : null;
 
-  const finalElimination =
-    run.status === "eliminated" &&
-    (run.currentStage === "complete" || run.eliminatedStage === "final");
-  const tournamentOver =
-    run.status === "eliminated" && (finalElimination || !deferredElimination);
+  // A loss screen is terminal only after the compact result has been shown
+  // and the user explicitly continues.
+  const tournamentOver = run.status === "eliminated" && !deferredResult;
   const userLostCurrentFixture = Boolean(
     routeFixture?.result && winnerFor(routeFixture) !== run.userTeamId,
   );
@@ -482,6 +542,101 @@ export default function WorldCupRunPage() {
     <div className={`game-page game-page--stadium ${styles.shell}`}>
       <GameHeader step="WORLD CUP RUN" />
       <SaveNotice />
+      {shootoutPresentation && (
+        <section
+          className={styles.shootoutOverlay}
+          aria-live="assertive"
+          aria-label="World Cup Final penalty shootout"
+        >
+          <div className={styles.shootoutCard}>
+            <p className="eyebrow eyebrow--gold">WORLD CUP FINAL · PENALTY SHOOTOUT</p>
+            {shootoutComplete ? (
+              <div className={styles.shootoutSummary}>
+                <span>SHOOTOUT COMPLETE</span>
+                <h2>
+                  {shootoutPresentation.userWon
+                    ? "TROPHY XI WIN ON PENALTIES"
+                    : `${shootoutPresentation.opponentName.toUpperCase()} WIN ON PENALTIES`}
+                </h2>
+                <strong>
+                  {shootoutPresentation.finalScore[0]} –{" "}
+                  {shootoutPresentation.finalScore[1]}
+                </strong>
+                <p>
+                  {shootoutPresentation.userWon
+                    ? "The final kick settles it. Trophy XI are one step from the celebration."
+                    : "The final kick settles it. The shootout is over."}
+                </p>
+                <Button onClick={dismissShootoutPresentation}>
+                  CONTINUE <ArrowRight size={15} />
+                </Button>
+              </div>
+            ) : (
+              (() => {
+                const kick =
+                  shootoutPresentation.kicks[
+                    Math.min(
+                      shootoutKickIndex,
+                      shootoutPresentation.kicks.length - 1,
+                    )
+                  ];
+                const previous =
+                  shootoutKickIndex > 0
+                    ? shootoutPresentation.kicks[shootoutKickIndex - 1]
+                    : null;
+                const displayedUserPenalties =
+                  shootoutOutcomeVisible
+                    ? kick.userPenalties
+                    : previous?.userPenalties ?? 0;
+                const displayedOpponentPenalties =
+                  shootoutOutcomeVisible
+                    ? kick.opponentPenalties
+                    : previous?.opponentPenalties ?? 0;
+
+                return (
+                  <div
+                    className={styles.shootoutKick}
+                    data-result={
+                      shootoutOutcomeVisible
+                        ? kick.scored
+                          ? "goal"
+                          : "miss"
+                        : "waiting"
+                    }
+                  >
+                    <div className={styles.shootoutScore}>
+                      <span>TROPHY XI</span>
+                      <strong>
+                        {displayedUserPenalties} – {displayedOpponentPenalties}
+                      </strong>
+                      <span>{shootoutPresentation.opponentName.toUpperCase()}</span>
+                    </div>
+                    <p className={styles.shootoutRound}>
+                      {kick.suddenDeath
+                        ? "SUDDEN DEATH"
+                        : `KICK ${kick.order} · ${kick.team === "user" ? "TROPHY XI" : shootoutPresentation.opponentName.toUpperCase()}`}
+                    </p>
+                    <h2>{kick.playerName}</h2>
+                    <p className={styles.shootoutApproach}>
+                      walks to the spot and places the ball.
+                    </p>
+                    <div className={styles.shootoutOutcome}>
+                      {shootoutOutcomeVisible ? (
+                        <strong>{kick.scored ? "GOAL" : "MISS"}</strong>
+                      ) : (
+                        <span>THE WHISTLE...</span>
+                      )}
+                    </div>
+                    <small>
+                      {shootoutKickIndex + 1} / {shootoutPresentation.kicks.length}
+                    </small>
+                  </div>
+                );
+              })()
+            )}
+          </div>
+        </section>
+      )}
       <main
         className={`container ${styles.main}`}
         data-knockout={run.currentStage !== "group"}
@@ -578,7 +733,7 @@ export default function WorldCupRunPage() {
               <p className={styles.lossBody}>
                 <span className={styles.desktopEndgameCopy}>
                   {eliminatedStage === "group"
-                    ? `Trophy XI finished ${userStanding.rank} in Group ${userGroup.id}. Your squad and tournament record remain saved.`
+                    ? `Trophy XI finished ${userStanding.rank === 3 ? "3rd" : userStanding.rank === 4 ? "4th" : userStanding.rank} in Group ${userGroup.id}. Your squad and tournament record remain saved.`
                     : eliminatedStage === "final"
                       ? (() => {
                           const finalFixture = run.fixtures.find(
@@ -744,8 +899,8 @@ export default function WorldCupRunPage() {
                   </div>
                 )}
                 <div className={styles.quickActions}>
-                  {run.status === "eliminated" && deferredElimination ? (
-                    <Button onClick={dismissDeferredElimination}>
+                  {deferredResult ? (
+                    <Button onClick={dismissDeferredResult}>
                       NEXT <ArrowRight size={15} />
                     </Button>
                   ) : run.qualificationStatus === "qualified" ? (
@@ -1011,13 +1166,31 @@ export default function WorldCupRunPage() {
                   >
                     <ArrowLeft size={15} aria-hidden /> GO BACK
                   </Button>
-                ) : run.status === "eliminated" && deferredElimination ? (
-                  <Button
-                    className={styles.nextAction}
-                    onClick={dismissDeferredElimination}
-                  >
-                    NEXT <ArrowRight size={15} />
-                  </Button>
+                ) : deferredResult ? (
+                  run.status === "eliminated" ? (
+                    <Button
+                      className={styles.nextAction}
+                      onClick={dismissDeferredResult}
+                    >
+                      NEXT <ArrowRight size={15} />
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        className={styles.nextAction}
+                        onClick={dismissDeferredResult}
+                      >
+                        NEXT ROUND <ArrowRight size={15} />
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => animateQuickSimulation(simulateRound)}
+                        disabled={!currentRoundPending}
+                      >
+                        <FastForward size={15} fill="currentColor" /> SIMULATE ROUND
+                      </Button>
+                    </>
+                  )
                 ) : run.currentStage === "final" && nextFixture && finalOpponent ? (
                   <Button
                     className={styles.championshipAction}

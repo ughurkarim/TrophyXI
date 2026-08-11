@@ -2128,3 +2128,49 @@
     min-height: 278px !important;
   }
 }
+
+.cardGrid :global(.player-card__identity) {
+  min-width: 0;
+}
+
+.cardGrid :global(.player-card__identity h3),
+.cardGrid :global(.player-card__name) {
+  display: -webkit-box;
+  max-width: 100%;
+  min-height: 2.05em;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
+  text-overflow: clip !important;
+  text-wrap: balance;
+  white-space: normal !important;
+  line-height: 1.025;
+}
+
+.dossierIdentity b {
+  max-width: 100%;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
+  line-height: 1.15;
+}
+
+@media (min-width: 721px) {
+  .cardGrid :global(.player-card__identity h3),
+  .cardGrid :global(.player-card__name) {
+    font-size: clamp(0.72rem, 0.82vw, 0.9rem);
+  }
+}
+
+@media (max-width: 720px) {
+  .cardGrid :global(.player-card__identity) {
+    min-height: 2.25em;
+  }
+
+  .cardGrid :global(.player-card__identity h3),
+  .cardGrid :global(.player-card__name) {
+    min-height: 2.05em;
+  }
+}

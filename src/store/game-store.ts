@@ -34,9 +34,6 @@ import {
   getPendingWorldCupRunUserFixture,
   recordWorldCupRunUserResult,
   resolvePendingWorldCupRunCpuFixtures,
-  simulateNextWorldCupRunUserFixture,
-  simulateRemainingWorldCupRunGroup,
-  simulateRemainingWorldCupRunRound,
   type WorldCupRunState,
 } from "@/engine/world-cup-run";
 import {
@@ -59,7 +56,7 @@ import type {
   PositionFitPreview,
 } from "@/types/game";
 
-const SAVE_VERSION = 15;
+const SAVE_VERSION = 16;
 const WORLD_CUP_RUN_MODEL_SAVE_VERSION = 13;
 
 export type OpponentFilters = {
@@ -130,6 +127,7 @@ type GameStore = {
   selectedOpponentId: string | null;
   simulationNonce: number;
   matchResult: MatchResult | null;
+  worldCupResultAcknowledged: boolean;
   worldCupRun: WorldCupRunState | null;
   worldCupRunOpponents: HistoricalWorldCupTeam[];
   setHasHydrated: (value: boolean) => void;
@@ -254,6 +252,8 @@ const formationOptionsFor = (
 
 const playerOptionsFor = ({
   formationId,
+  managerId,
+  eraId,
   picks,
   draftSeed,
   rejectedIdentityIds,
@@ -265,6 +265,8 @@ const playerOptionsFor = ({
   respinIndex = 0,
 }: {
   formationId: FormationId;
+  managerId: string | null;
+  eraId: DraftEraId;
   picks: DraftPick[];
   draftSeed: number;
   rejectedIdentityIds: string[];
@@ -274,10 +276,11 @@ const playerOptionsFor = ({
   recentCardIds: string[];
   contextKey: string;
   respinIndex?: number;
-}) =>
-  generateDraftOptions(
+}) => {
+  const formation = getFormation(formationId);
+  return generateDraftOptions(
     draftEligiblePlayers,
-    getFormation(formationId),
+    formation,
     picks,
     draftSeed ^ hashString(contextKey),
     picks.length,
@@ -288,10 +291,17 @@ const playerOptionsFor = ({
       seenCardCounts,
       recentCardIds,
       respinIndex,
+      formation,
+      manager: managerId ? managersById.get(managerId) : undefined,
+      eraId,
     },
   ).map((card) => card.id);
+};
 
 const benchOptionsFor = ({
+  formationId,
+  managerId,
+  eraId,
   picks,
   benchPicks,
   draftSeed,
@@ -303,6 +313,9 @@ const benchOptionsFor = ({
   contextKey,
   respinIndex,
 }: {
+  formationId: FormationId;
+  managerId: string | null;
+  eraId: DraftEraId;
   picks: DraftPick[];
   benchPicks: BenchPick[];
   draftSeed: number;
@@ -313,8 +326,9 @@ const benchOptionsFor = ({
   recentCardIds: string[];
   contextKey: string;
   respinIndex: number;
-}) =>
-  generateBenchOptions(
+}) => {
+  const formation = getFormation(formationId);
+  return generateBenchOptions(
     draftEligiblePlayers,
     picks,
     benchPicks,
@@ -327,8 +341,12 @@ const benchOptionsFor = ({
       seenCardCounts,
       recentCardIds,
       respinIndex,
+      formation,
+      manager: managerId ? managersById.get(managerId) : undefined,
+      eraId,
     },
   ).map((card) => card.id);
+};
 
 const previewsFor = ({
   formationId,
@@ -517,6 +535,7 @@ const cleanState = {
   selectedOpponentId: null,
   simulationNonce: 0,
   matchResult: null,
+  worldCupResultAcknowledged: false,
   worldCupRun: null as WorldCupRunState | null,
   worldCupRunOpponents: [] as HistoricalWorldCupTeam[],
 };
@@ -769,6 +788,8 @@ export const useGameStore = create<GameStore>()(
             ? []
             : playerOptionsFor({
                 formationId,
+                managerId: state.managerId,
+                eraId: state.eraId!,
                 picks: [],
                 draftSeed: state.draftSeed,
                 rejectedIdentityIds: [],
@@ -913,6 +934,8 @@ export const useGameStore = create<GameStore>()(
           ? []
           : playerOptionsFor({
               formationId: state.formationId,
+              managerId: state.managerId,
+              eraId: state.eraId!,
               picks,
               draftSeed: state.draftSeed,
               rejectedIdentityIds: state.rejectedIdentityIds,
@@ -972,6 +995,8 @@ export const useGameStore = create<GameStore>()(
           state.draftPhase === "starters" && state.formationId
             ? playerOptionsFor({
                 formationId: state.formationId,
+                managerId: state.managerId,
+                eraId: state.eraId!,
                 picks: state.picks,
                 draftSeed: state.draftSeed,
                 rejectedIdentityIds: rejected,
@@ -983,6 +1008,9 @@ export const useGameStore = create<GameStore>()(
                 respinIndex: nextIndex,
               })
             : benchOptionsFor({
+                formationId: state.formationId!,
+                managerId: state.managerId,
+                eraId: state.eraId!,
                 picks: state.picks,
                 benchPicks: state.benchPicks,
                 draftSeed: state.draftSeed,
@@ -1011,6 +1039,9 @@ export const useGameStore = create<GameStore>()(
         if (state.gameMode === "free-selection") return;
         if (state.picks.length !== 11 || state.draftPhase !== "starters") return;
         const optionIds = benchOptionsFor({
+          formationId: state.formationId!,
+          managerId: state.managerId,
+          eraId: state.eraId!,
           picks: state.picks,
           benchPicks: [],
           draftSeed: state.draftSeed,
@@ -1049,6 +1080,9 @@ export const useGameStore = create<GameStore>()(
           benchPicks.length === 3
             ? []
             : benchOptionsFor({
+                formationId: state.formationId!,
+                managerId: state.managerId,
+                eraId: state.eraId!,
                 picks: state.picks,
                 benchPicks,
                 draftSeed: state.draftSeed,
@@ -1351,39 +1385,98 @@ export const useGameStore = create<GameStore>()(
         if (state.gameMode !== "world-cup-run" || !state.worldCupRun) {
           return;
         }
+
+        // Phase 1 happens on the Result page: acknowledge the completed Trophy XI
+        // match but keep it in state while the route changes. That guarantees the
+        // user sees the full result before advancement or elimination is revealed.
+        if (state.matchResult && !state.worldCupResultAcknowledged) {
+          set({ worldCupResultAcknowledged: true });
+          return;
+        }
+
+        // Phase 2 happens after the World Cup Run page mounts. Now it is safe to
+        // clear the completed result and prepare the next opponent, if one exists.
         set({
-          selectedOpponentId:
-            state.worldCupRun.currentStage === "final"
-              ? pendingOpponentIdForRun(state.worldCupRun)
-              : null,
+          selectedOpponentId: pendingOpponentIdForRun(state.worldCupRun),
           matchResult: null,
+          worldCupResultAcknowledged: false,
         });
       },
       simulateWorldCupRunMatch: () => {
         const state = get();
         if (state.gameMode !== "world-cup-run" || !state.worldCupRun) return;
+        const opponentId = pendingOpponentIdForRun(state.worldCupRun);
+        if (!opponentId) return;
+
+        // Quick-sim still uses the exact same possession/action Match Engine as
+        // the full match screen. Only the presentation is skipped. CPU-vs-CPU
+        // fixtures remain on the lightweight tournament resolver.
         set({
-          worldCupRun: simulateNextWorldCupRunUserFixture(state.worldCupRun),
-          selectedOpponentId: null,
+          selectedOpponentId: opponentId,
           matchResult: null,
+          worldCupResultAcknowledged: false,
+        });
+        const result = get().simulate();
+        const preserveFinalShootout =
+          state.worldCupRun.currentStage === "final" &&
+          Boolean(result.score.penaltyShootout?.length);
+        set({
+          selectedOpponentId: null,
+          matchResult: preserveFinalShootout ? result : null,
+          worldCupResultAcknowledged: false,
         });
       },
       simulateWorldCupRunGroup: () => {
-        const state = get();
-        if (state.gameMode !== "world-cup-run" || !state.worldCupRun) return;
-        set({
-          worldCupRun: simulateRemainingWorldCupRunGroup(state.worldCupRun),
-          selectedOpponentId: null,
-          matchResult: null,
-        });
+        let safety = 0;
+        while (safety < 3) {
+          const state = get();
+          if (
+            state.gameMode !== "world-cup-run" ||
+            !state.worldCupRun ||
+            state.worldCupRun.currentStage !== "group" ||
+            state.worldCupRun.status !== "active"
+          ) {
+            break;
+          }
+          const opponentId = pendingOpponentIdForRun(state.worldCupRun);
+          if (!opponentId) break;
+
+          set({
+            selectedOpponentId: opponentId,
+            matchResult: null,
+            worldCupResultAcknowledged: false,
+          });
+          get().simulate();
+          set({
+            selectedOpponentId: null,
+            matchResult: null,
+            worldCupResultAcknowledged: false,
+          });
+          safety += 1;
+        }
       },
       simulateWorldCupRunRound: () => {
         const state = get();
         if (state.gameMode !== "world-cup-run" || !state.worldCupRun) return;
+        const opponentId = pendingOpponentIdForRun(state.worldCupRun);
+        if (!opponentId) return;
+
+        // Trophy XI's fixture uses Match Engine v2. simulate() records that
+        // result into the bracket, then resolves the remaining CPU fixtures
+        // with the lightweight team-level model.
         set({
-          worldCupRun: simulateRemainingWorldCupRunRound(state.worldCupRun),
-          selectedOpponentId: null,
+          selectedOpponentId: opponentId,
           matchResult: null,
+          worldCupResultAcknowledged: false,
+        });
+        const result = get().simulate();
+        const preserveFinalShootout =
+          state.worldCupRun.currentStage === "final" &&
+          Boolean(result.score.penaltyShootout?.length);
+        set({
+          selectedOpponentId: null,
+          matchResult: preserveFinalShootout ? result : null,
+          worldCupResultAcknowledged: false,
         });
       },
       enterWorldCupRunKnockouts: () => {
@@ -1552,6 +1645,9 @@ export const useGameStore = create<GameStore>()(
             state.worldCupRun?.currentStage === "group"
               ? "group"
               : "knockout",
+          detailedPenaltyShootout:
+            state.gameMode === "world-cup-run" &&
+            state.worldCupRun?.currentStage === "final",
         });
         let worldCupRun = state.worldCupRun;
         if (state.gameMode === "world-cup-run" && worldCupRun) {
@@ -1580,7 +1676,12 @@ export const useGameStore = create<GameStore>()(
           worldCupRun =
             resolvePendingWorldCupRunCpuFixtures(worldCupRun);
         }
-        set({ matchResult, simulationNonce, worldCupRun });
+        set({
+          matchResult,
+          simulationNonce,
+          worldCupRun,
+          worldCupResultAcknowledged: false,
+        });
         return matchResult;
       },
       prepareRematch: () => set({ matchResult: null }),
@@ -1725,6 +1826,8 @@ export const useGameStore = create<GameStore>()(
               state.gameMode !== "free-selection"
                 ? playerOptionsFor({
                     formationId: state.formationId,
+                    managerId: state.managerId,
+                    eraId: state.eraId!,
                     picks: safePicks,
                     draftSeed: state.draftSeed,
                     rejectedIdentityIds: state.rejectedIdentityIds,
@@ -1773,6 +1876,8 @@ export const useGameStore = create<GameStore>()(
               state.picks.length < 11
                 ? playerOptionsFor({
                     formationId: state.formationId,
+                    managerId: state.managerId,
+                    eraId: state.eraId!,
                     picks: state.picks,
                     draftSeed: state.draftSeed,
                     rejectedIdentityIds: state.rejectedIdentityIds,
@@ -1785,6 +1890,9 @@ export const useGameStore = create<GameStore>()(
                   })
                 : state.draftPhase === "bench"
                   ? benchOptionsFor({
+                      formationId: state.formationId!,
+                      managerId: state.managerId,
+                      eraId: state.eraId!,
                       picks: state.picks,
                       benchPicks: state.benchPicks,
                       draftSeed: state.draftSeed,
@@ -1798,7 +1906,7 @@ export const useGameStore = create<GameStore>()(
                     })
                   : [],
             saveNotice:
-              "Trophy XI upgraded this draft to five-card, player-first placement.",
+              "Trophy XI upgraded this draft to Draft Engine v2 with squad-aware five-card offers.",
           });
         }
       },
@@ -1957,6 +2065,10 @@ export const useGameStore = create<GameStore>()(
             Array.isArray(previous.matchResult.opponentSubstitutions)
               ? previous.matchResult
               : null,
+          worldCupResultAcknowledged:
+            !invalidatedLegacyWorldCupRun &&
+            Boolean(previous.matchResult) &&
+            Boolean(previous.worldCupResultAcknowledged),
           saveNotice: invalidatedLegacyWorldCupRun
             ? "World Cup Run v6 now rotates exact historical champion Final bosses and preserves their archive ratings. Your draft is preserved; start a new run."
             : "Trophy XI upgraded your save to the expanded tournament-manager archive and card-specific face system.",
@@ -2004,6 +2116,7 @@ export const useGameStore = create<GameStore>()(
         selectedOpponentId: state.selectedOpponentId,
         simulationNonce: state.simulationNonce,
         matchResult: state.matchResult,
+        worldCupResultAcknowledged: state.worldCupResultAcknowledged,
         worldCupRun: state.worldCupRun,
         worldCupRunOpponents: state.worldCupRunOpponents,
         saveNotice: state.saveNotice,
