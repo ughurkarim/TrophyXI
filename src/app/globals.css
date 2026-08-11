@@ -7358,7 +7358,7 @@ button.squad-chip:focus-visible {
   }
 }
 /* ========================================================================== 
-   DATABASE PLAYER INFO â€” MATCH DATABASE PORTRAIT TREATMENT
+   DATABASE PLAYER INFO Ã¢â‚¬â€ MATCH DATABASE PORTRAIT TREATMENT
    One clean circle, face-filling crop, no secondary rim.
    ========================================================================== */
 .player-drawer .circular-portrait {
@@ -7420,4 +7420,32 @@ button.squad-chip:focus-visible {
 
 .player-drawer .circular-portrait__rim {
   display: none;
+}
+
+/* ------------------------------------------------------------------
+   Player Database â€” preserve complete player names
+   The current database cards are CSS-module driven, so target the stable
+   data-testid emitted by PlayerDatabase. This deliberately overrides any
+   one-line/ellipsis rule from the module without affecting draft cards.
+   ------------------------------------------------------------------ */
+[data-testid="database-card"] h2 {
+  display: -webkit-box !important;
+  width: 100%;
+  max-width: 100%;
+  min-height: 2.16em;
+  margin-block: 5px !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  overflow-wrap: normal;
+  word-break: normal;
+  line-height: 1.08 !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+/* Give genuinely long names a little more horizontal breathing room while
+   preserving the existing visual hierarchy and fixed card dimensions. */
+[data-testid="database-card"] h2[title*=" "] {
+  letter-spacing: -0.035em;
 }
