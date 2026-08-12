@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 export default function EngineeringPage() {
   return (
     <main className={styles.page}>
+      <Link href="/" className={styles.dashboardLink} aria-label="Back to dashboard">
+        <span aria-hidden="true">←</span> DASHBOARD
+      </Link>
       <section className={`${styles.section} ${styles.hero}`}>
         <div className={styles.heroGlow} aria-hidden />
         <div className={styles.heroGrid}>
