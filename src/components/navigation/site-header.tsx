@@ -10,6 +10,7 @@ const links = [
   { label: "Database", href: "/database" },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Champions", href: "/#champions" },
+  { label: "Engineering", href: "/engineering" },
 ];
 
 export function SiteHeader({ fixed = false }: { fixed?: boolean }) {
