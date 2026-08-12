@@ -1620,3 +1620,94 @@
     display: none;
   }
 }
+
+
+
+/* ==========================================================================
+   MOBILE MATCH CONTROL DOCK — FINAL
+   Fixes the World Cup Final control row on phones.
+   Desktop remains unchanged.
+   ========================================================================== */
+
+@media (max-width: 700px) {
+  .controls {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    grid-template-columns: 48px 48px minmax(0, 1fr);
+    align-items: center;
+    justify-content: stretch;
+    justify-items: stretch;
+    column-gap: 8px;
+    row-gap: 9px;
+    padding: 10px 0 0;
+  }
+
+  .engineStatus {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0 1px 2px;
+    justify-self: stretch;
+  }
+
+  .controlButton.controlButton {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    max-width: 48px;
+    flex: none;
+    justify-self: start;
+    padding: 0;
+  }
+
+  .skipButton {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    max-width: none;
+    justify-content: space-between;
+    justify-self: stretch;
+    gap: 10px;
+    padding: 0 8px 0 16px;
+    white-space: nowrap;
+  }
+
+  .skipButton > span:first-child {
+    min-width: 0;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+
+  .skipArrow {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+  }
+
+  /* Once the match is over the icon controls disappear.
+     Let the final-result CTA own the full control row. */
+  .skipButton[data-complete="true"] {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+  }
+}
+
+/* Small phones: keep the two transport controls together, then give the
+   important result action a clean full-width row instead of compressing it. */
+@media (max-width: 350px) {
+  .controls {
+    grid-template-columns: 48px 48px minmax(0, 1fr);
+  }
+
+  .skipButton {
+    grid-column: 1 / -1;
+    margin-top: 1px;
+  }
+}

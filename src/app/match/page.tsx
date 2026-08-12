@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { ChampionReveal } from "@/components/match/champion-reveal";
 import { MatchTimeline } from "@/components/match/match-timeline";
 import { GameHeader } from "@/components/navigation/game-header";
@@ -19,7 +19,7 @@ import type { PlayerTournamentCard } from "@/types/game";
 
 const benchSlots = ["bench-1", "bench-2", "bench-3"] as const;
 
-export default function MatchPage() {
+function MatchPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const hydrated = useGameStore((state) => state.hasHydrated);
@@ -208,5 +208,22 @@ export default function MatchPage() {
         )}
       </main>
     </div>
+  );
+}
+
+function MatchPageFallback() {
+  return (
+    <main className="game-page loading-state">
+      <div className="loading-emblem" />
+      <p className="eyebrow">PREPARING THE FIXTURE</p>
+    </main>
+  );
+}
+
+export default function MatchPage() {
+  return (
+    <Suspense fallback={<MatchPageFallback />}>
+      <MatchPageContent />
+    </Suspense>
   );
 }
