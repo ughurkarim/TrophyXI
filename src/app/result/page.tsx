@@ -440,7 +440,7 @@ export default function ResultPage() {
               <>
                 <Button
                   className={styles.actionButton}
-                  onClick={() => router.push("/match")}
+                  onClick={() => router.push("/match?replay=1")}
                 >
                   <RotateCcw size={16} aria-hidden /> Play again
                 </Button>

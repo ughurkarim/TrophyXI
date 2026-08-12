@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChampionReveal } from "@/components/match/champion-reveal";
 import { MatchTimeline } from "@/components/match/match-timeline";
 import { GameHeader } from "@/components/navigation/game-header";
@@ -21,6 +21,7 @@ const benchSlots = ["bench-1", "bench-2", "bench-3"] as const;
 
 export default function MatchPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const hydrated = useGameStore((state) => state.hasHydrated);
   const gameMode = useGameStore((state) => state.gameMode);
   const formationId = useGameStore((state) => state.formationId);
@@ -37,7 +38,11 @@ export default function MatchPage() {
   );
   const simulate = useGameStore((state) => state.simulate);
   const [broadcasting, setBroadcasting] = useState(false);
-  const broadcastActive = broadcasting || Boolean(storedResult);
+  const replayStarted = useRef(false);
+  const replayRequested =
+    gameMode === "classic-draft" && searchParams.get("replay") === "1";
+  const broadcastActive =
+    broadcasting || (!replayRequested && Boolean(storedResult));
 
   const formation = formationId ? getFormation(formationId) : null;
   const lineup = useMemo(
@@ -91,6 +96,40 @@ export default function MatchPage() {
         })
       : null;
 
+  useEffect(() => {
+    if (
+      !replayRequested ||
+      replayStarted.current ||
+      !hydrated ||
+      !formation ||
+      !manager ||
+      !opponent ||
+      !ratings ||
+      !eraId ||
+      lineup.length !== 11 ||
+      bench.length !== 3
+    ) {
+      return;
+    }
+
+    replayStarted.current = true;
+    simulate();
+    setBroadcasting(true);
+    router.replace("/match");
+  }, [
+    bench.length,
+    eraId,
+    formation,
+    hydrated,
+    lineup.length,
+    manager,
+    opponent,
+    ratings,
+    replayRequested,
+    router,
+    simulate,
+  ]);
+
   if (!hydrated) {
     return (
       <main className="game-page loading-state">
@@ -137,14 +176,19 @@ export default function MatchPage() {
     );
   }
 
-  const result = storedResult;
+  const result = replayRequested && !broadcasting ? null : storedResult;
   const opponentEraFit = calculateOpponentEraFit(opponent, eraId);
 
   return (
     <div className="game-page game-page--match">
       <GameHeader step={broadcastActive ? "MATCH LIVE" : "OPPONENT REVEAL"} />
       <main className="container game-main">
-        {broadcastActive && result ? (
+        {replayRequested && !result ? (
+          <div className="loading-state" aria-live="polite">
+            <div className="loading-emblem" />
+            <p className="eyebrow">PREPARING A NEW MATCH</p>
+          </div>
+        ) : broadcastActive && result ? (
           <MatchTimeline
             result={result}
             opponent={opponent}

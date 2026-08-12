@@ -50,6 +50,24 @@ export default function LandingPage() {
   return (
     <>
       <MobileLanding />
+      <section
+        className={styles.mobileEngineeringEntry}
+        aria-label="Trophy XI engineering"
+        data-testid="mobile-engineering-entry"
+      >
+        <div className={styles.mobileEngineeringCopy}>
+          <span>UNDER THE HOOD</span>
+          <strong>THE MATH BEHIND THE MATCH.</strong>
+          <small>Seeds, team modeling, era translation and match state.</small>
+        </div>
+        <ButtonLink
+          href="/engineering"
+          variant="secondary"
+          className={styles.mobileEngineeringButton}
+        >
+          ENGINEERING <ArrowRight size={15} aria-hidden />
+        </ButtonLink>
+      </section>
       <div className={styles.desktopLanding} data-testid="desktop-landing">
         <SiteHeader fixed />
         <main>
