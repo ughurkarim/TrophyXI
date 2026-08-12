@@ -2020,3 +2020,656 @@
     transform: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Mobile polish pass
+   Desktop/tablet rules above remain untouched. These overrides only affect
+   phone-sized viewports and intentionally sit last so earlier mobile passes
+   cannot fight each other.
+   -------------------------------------------------------------------------- */
+@media (max-width: 680px) {
+  .page {
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .page::before {
+    opacity: .14;
+    background-size: 36px 36px;
+  }
+
+  .section {
+    width: auto;
+    margin-left: max(16px, env(safe-area-inset-left));
+    margin-right: max(16px, env(safe-area-inset-right));
+    padding: 56px 0;
+  }
+
+  .darkBand,
+  .benchSection {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  .hero {
+    min-height: auto;
+    justify-content: flex-start;
+    padding-top: max(72px, calc(env(safe-area-inset-top) + 48px));
+    padding-bottom: 34px;
+  }
+
+  .heroGrid,
+  .splitGrid {
+    gap: 26px;
+  }
+
+  .heroGlow {
+    width: 430px;
+    height: 430px;
+    right: -280px;
+    top: -90px;
+    opacity: .7;
+    animation: none;
+    filter: blur(24px);
+  }
+
+  .hero::before,
+  .hero::after,
+  .matchSection::before,
+  .matchSection::after,
+  .modelSection::before,
+  .eraSection::before,
+  .integritySection::before,
+  .infrastructureSection::before {
+    opacity: .48;
+  }
+
+  .eyebrow,
+  .miniLabel {
+    margin-bottom: 11px;
+    font-size: 9px;
+    letter-spacing: .17em;
+  }
+
+  .heroTitle {
+    max-width: 100%;
+    font-size: clamp(40px, 12vw, 54px);
+    line-height: .92;
+    letter-spacing: -.052em;
+    text-wrap: balance;
+  }
+
+  .heroCopy {
+    gap: 11px;
+    max-width: none;
+    color: #c9cdc7;
+    font-size: 14px;
+    line-height: 1.62;
+  }
+
+  .sectionIntro h2,
+  .matchHeading h2,
+  .finalCta h2,
+  .thesisLead h2 {
+    max-width: 100%;
+    margin-bottom: 16px;
+    font-size: clamp(33px, 10vw, 44px);
+    line-height: .98;
+    letter-spacing: -.043em;
+    text-wrap: balance;
+  }
+
+  .sectionIntro > p:last-child,
+  .matchHeading > p:last-child,
+  .thesisLead > p {
+    max-width: none;
+    font-size: 14px;
+    line-height: 1.62;
+  }
+
+  /* Dense desktop rails become compact 2 × 2 mobile summaries. */
+  .statRail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 32px;
+  }
+
+  .statRail span {
+    min-height: 68px;
+    flex-direction: column;
+    gap: 3px;
+    padding: 11px 8px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: 7.5px;
+    line-height: 1.25;
+    letter-spacing: .105em;
+  }
+
+  .statRail span:nth-child(2n) { border-right: 0; }
+  .statRail span:nth-last-child(-n + 2) { border-bottom: 0; }
+  .statRail strong { font-size: 16px; }
+
+  .modelExplorer,
+  .eraLab,
+  .seedDemo,
+  .stateLab,
+  .functionCard {
+    border-radius: 2px;
+    box-shadow: 0 20px 54px rgba(0,0,0,.3), 0 0 44px rgba(255,199,47,.055);
+  }
+
+  .modelExplorer { margin-top: 26px; }
+
+  .modelExplorerTop {
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .modelExplorerTop h3 { font-size: 20px; }
+
+  /* Keep the equation legible instead of letting eight symbols wrap randomly. */
+  .modelEquationInteractive {
+    width: 100%;
+    min-height: 46px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 0 0 5px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    font-size: 25px;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modelEquationInteractive::-webkit-scrollbar { display: none; }
+
+  .modelSymbol,
+  .modelSymbolActive {
+    width: 30px;
+    min-width: 30px;
+    height: 40px;
+  }
+
+  .modelTermButtons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .modelTermButton,
+  .modelTermButtonActive {
+    min-height: 58px;
+    gap: 8px;
+    padding: 9px 10px;
+    font-size: 7.5px;
+    line-height: 1.3;
+    letter-spacing: .095em;
+  }
+
+  .modelTermButton span,
+  .modelTermButtonActive span {
+    width: 26px;
+    height: 26px;
+    flex-basis: 26px;
+    font-size: 14px;
+  }
+
+  .modelExplainer {
+    min-height: 0;
+    gap: 16px;
+    padding: 20px 18px 18px;
+  }
+
+  .modelExplainerSymbol {
+    width: 56px;
+    height: 56px;
+    font-size: 31px;
+  }
+
+  .modelExplainer h4 {
+    margin: 4px 0 8px;
+    font-size: 21px;
+    line-height: 1.08;
+  }
+
+  .modelExplainer p { font-size: 12.5px; line-height: 1.58; }
+
+  .modelImpact {
+    min-height: 0;
+    gap: 7px;
+    padding: 15px;
+    border-left: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .modelImpact strong { font-size: 11.5px; }
+
+  .mathStack { gap: 6px; }
+  .mathLine { min-height: 58px; padding: 13px 15px; gap: 14px; }
+  .mathLine strong { font-size: 22px; }
+  .mathName { font-size: 8px; }
+
+  .eraStage {
+    gap: 0;
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .eraYearCard { min-height: 94px; }
+  .eraYearCard strong { font-size: 32px; }
+  .eraTransfer { min-height: 46px; }
+  .eraTransferLine { height: 46px; }
+
+  .eraReadout {
+    gap: 7px 10px;
+    padding: 13px 14px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .eraLabCopy {
+    padding: 0 17px 17px;
+    font-size: 10.5px;
+    line-height: 1.5;
+  }
+
+  .managerFormula {
+    min-height: 0;
+    margin-top: 26px;
+    gap: 10px;
+    padding: 18px;
+  }
+
+  .managerFormula > strong { font-size: 34px; }
+  .transformArrow { font-size: 19px; }
+
+  .managerBox {
+    width: 100%;
+    padding: 15px 12px;
+  }
+
+  .managerBox b {
+    display: block;
+    font-size: 9px;
+    line-height: 1.45;
+  }
+
+  .functionCard { margin-top: 26px; }
+
+  .functionRow {
+    min-height: 0;
+    gap: 8px;
+    padding: 18px;
+  }
+
+  .functionRow strong {
+    max-width: 100%;
+    font-size: 17px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .functionLegend {
+    gap: 7px;
+    padding: 12px 18px 14px;
+    font-size: 8px;
+    line-height: 1.45;
+  }
+
+  .enginePipeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+    margin-top: 16px;
+  }
+
+  .engineStep {
+    min-height: 102px;
+    padding: 13px;
+  }
+
+  .engineStep > span { top: 10px; left: 11px; }
+  .engineStep small { font-size: 8.5px; }
+
+  .seedEquation {
+    margin: 32px 0 17px;
+    gap: 9px;
+    font-size: clamp(20px, 6.5vw, 27px);
+  }
+
+  .seedDemoTop {
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .seedDemoTop h3 { font-size: 19px; }
+  .seedDemoTop > div:first-child > p { font-size: 10.5px; }
+
+  .seedInputWrap {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .seedInputWrap input {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS focus zoom. */
+  }
+
+  .seedSequence {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    min-height: 0;
+  }
+
+  .seedValue {
+    grid-template-rows: 68px auto auto;
+    gap: 5px;
+    padding: 13px 10px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .seedValue:nth-child(3n) { border-right: 0; }
+  .seedValue:nth-last-child(-n + 3) { border-bottom: 0; }
+  .seedBarTrack { height: 60px; }
+  .seedValue span { font-size: 14px; }
+  .seedValue strong { margin-top: 5px; font-size: 10px; }
+
+  .seedActions {
+    gap: 8px;
+    padding: 14px 18px;
+  }
+
+  .seedActions button {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+
+  .seedNote {
+    padding: 0 18px 17px;
+    font-size: 9.5px;
+  }
+
+  .stateLab { margin-top: 26px; }
+
+  .stateScenarioTabs { grid-template-columns: repeat(2, 1fr); }
+
+  .stateScenario,
+  .stateScenarioActive {
+    min-height: 46px;
+    padding: 7px;
+    font-size: 7.5px;
+  }
+
+  .stateScoreboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .stateScoreboard > div { min-height: 78px; }
+  .stateScoreboard strong { font-size: 27px; }
+  .stateScoreboard p { font-size: 11.5px; line-height: 1.55; }
+
+  .stateVariableGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .stateVariable,
+  .stateVariableActive {
+    min-height: 56px;
+    gap: 5px;
+    padding: 10px 11px;
+  }
+
+  .stateVariable span,
+  .stateVariableActive span { font-size: 8px; }
+  .stateVariable i,
+  .stateVariableActive i { font-size: 6.5px; }
+
+  /* Pipelines stay visual on phones: swipe horizontally instead of stacking
+     four large cards into a very tall column. */
+  .stateMachine,
+  .architecture {
+    width: 100%;
+    grid-template-columns: 112px 18px 112px 18px 112px 18px 112px;
+    gap: 7px;
+    padding: 16px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .stateMachine::-webkit-scrollbar,
+  .architecture::-webkit-scrollbar { display: none; }
+
+  .stateMachine > div,
+  .architecture > div {
+    min-height: 78px;
+    padding: 11px;
+    scroll-snap-align: start;
+  }
+
+  .stateMachine > span,
+  .architecture > span,
+  .flowArrow {
+    transform: none;
+    justify-self: center;
+  }
+
+  .stateMachine div strong { font-size: 21px; }
+  .architecture { margin-top: 24px; }
+  .architecture div strong { line-height: 1.35; }
+
+  .pullQuote {
+    margin-top: 34px;
+    font-size: clamp(23px, 7.5vw, 31px);
+    line-height: 1.12;
+  }
+
+  .subFunction {
+    padding: 19px;
+  }
+
+  .subFunction > strong {
+    margin-top: 13px;
+    font-size: 20px;
+    overflow-wrap: anywhere;
+  }
+
+  .subTags { margin-top: 18px; }
+
+  .integrityGrid {
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .integrityGrid article {
+    min-height: 0;
+    padding: 19px;
+  }
+
+  .integrityGrid strong { margin: 25px 0 8px; font-size: 18px; }
+
+  .performanceRail {
+    grid-template-columns: 1fr;
+    margin-top: 14px;
+  }
+
+  .performanceRail span {
+    min-height: 58px;
+    justify-content: space-between;
+    padding: 11px 14px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+  }
+
+  .performanceRail strong { font-size: 16px; }
+
+  .thesisSection {
+    padding-top: 58px;
+    padding-bottom: 58px;
+  }
+
+  .thesisLead { gap: 14px; }
+
+  .ideaGrid {
+    gap: 8px;
+    margin-top: 28px;
+  }
+
+  .ideaGrid article {
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .ideaGrid span { margin-bottom: 22px; }
+
+  .finalCta {
+    padding-top: 68px;
+    padding-bottom: max(76px, calc(env(safe-area-inset-bottom) + 58px));
+  }
+
+  .finalCta::before {
+    width: min(420px, 110vw);
+    height: 240px;
+  }
+
+  .finalCta p:not(.eyebrow) { margin-bottom: 22px; }
+
+  .ctaButton {
+    width: 100%;
+    min-height: 50px;
+  }
+
+  .finalRail {
+    margin-top: 30px;
+    padding-top: 16px;
+    font-size: 7.5px;
+    line-height: 1.5;
+  }
+}
+
+/* Small phones: 320–374px. Keep labels and data dense without squeezing. */
+@media (max-width: 374px) {
+  .section {
+    margin-left: max(14px, env(safe-area-inset-left));
+    margin-right: max(14px, env(safe-area-inset-right));
+    padding: 50px 0;
+  }
+
+  .darkBand,
+  .benchSection {
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+  }
+
+  .hero { padding-top: max(68px, calc(env(safe-area-inset-top) + 44px)); }
+  .heroTitle { font-size: clamp(38px, 12.1vw, 44px); }
+  .sectionIntro h2,
+  .matchHeading h2,
+  .finalCta h2,
+  .thesisLead h2 { font-size: clamp(31px, 9.8vw, 37px); }
+
+  .modelTermButton,
+  .modelTermButtonActive { font-size: 7px; padding-inline: 8px; }
+
+  .seedSequence { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .seedValue:nth-child(3n) { border-right: 1px solid var(--line); }
+  .seedValue:nth-child(2n) { border-right: 0; }
+  .seedValue:nth-last-child(-n + 3) { border-bottom: 1px solid var(--line); }
+  .seedValue:nth-last-child(-n + 2) { border-bottom: 0; }
+
+  .stateVariable,
+  .stateVariableActive {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .stateMachine,
+  .architecture {
+    grid-template-columns: 104px 16px 104px 16px 104px 16px 104px;
+    padding-inline: 14px;
+  }
+}
+
+/* Wider phones: make use of the extra width without drifting toward desktop. */
+@media (min-width: 430px) and (max-width: 680px) {
+  .section {
+    margin-left: max(20px, env(safe-area-inset-left));
+    margin-right: max(20px, env(safe-area-inset-right));
+  }
+
+  .darkBand,
+  .benchSection {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+
+  .heroTitle { font-size: 52px; }
+  .modelExplorerTop,
+  .modelExplainer,
+  .seedDemoTop { padding-left: 20px; padding-right: 20px; }
+  .engineStep { min-height: 108px; }
+}
+
+/* 320px guardrail: grid/flex children with long technical labels must be
+   allowed to shrink to the phone's content width. */
+@media (max-width: 680px) {
+  .modelExplorer,
+  .eraLab,
+  .seedDemo,
+  .stateLab,
+  .functionCard,
+  .subFunction,
+  .mathStack {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .eraControls,
+  .eraControl,
+  .eraControlActive,
+  .stateScenarioTabs,
+  .stateScenario,
+  .stateScenarioActive {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 374px) {
+  .eraControl,
+  .eraControlActive {
+    padding: 7px 4px;
+    font-size: 8px;
+    letter-spacing: .09em;
+  }
+}
+
+@media (max-width: 680px) {
+  .heroGrid,
+  .splitGrid,
+  .heroGrid > *,
+  .splitGrid > * {
+    min-width: 0;
+  }
+
+  .eraControls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stateScenarioTabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .heroGrid,
+  .splitGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
