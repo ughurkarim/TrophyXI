@@ -5,6 +5,8 @@ import { Wordmark } from "@/components/brand/mark";
 import { playersById } from "@/data/players";
 import { flagForCountry } from "@/lib/utils";
 import styles from "./mobile-landing.module.css";
+import { useTranslations } from "next-intl";
+import { LanguageSelector } from "@/components/navigation/language-selector";
 
 const heroPlayerIds = [
   "lionel-messi-2026",
@@ -19,16 +21,21 @@ const heroPlayers = heroPlayerIds.map((id) => {
 });
 
 export function MobileLanding() {
+  const t = useTranslations("landing.mobile");
+  const common = useTranslations("common");
   return (
     <div className={styles.root} data-testid="mobile-landing">
       <header className={styles.header}>
-        <Link href="/" className={styles.brand} aria-label="Trophy XI home">
+        <Link href="/" className={styles.brand} aria-label={common("brandHome")}>
           <Wordmark />
         </Link>
-        <Link href="/database" className={styles.databaseLink}>
-          <Search size={17} aria-hidden />
-          Players
-        </Link>
+        <div className={styles.headerActions}>
+          <Link href="/database" className={styles.databaseLink}>
+            <Search size={17} aria-hidden />
+            {common("players")}
+          </Link>
+          <LanguageSelector compact />
+        </div>
       </header>
 
       <main className={styles.main}>
@@ -36,20 +43,20 @@ export function MobileLanding() {
           <div className={styles.atmosphere} aria-hidden />
           <div className={styles.copy}>
             <h1 id="mobile-hero-title">
-              Build your XI.
-              <span>Beat history.</span>
+              {t("build")}
+              <span>{t("beat")}</span>
             </h1>
             <p className={styles.lede}>
-              Draft fourteen tournament greats, shape your team, and play the
-              World Cup champions in a complete match simulation.
+              {t("lede")}
             </p>
           </div>
 
-          <div className={styles.playerStage} aria-label="Featured players">
+          <div className={styles.playerStage} aria-label={t("featuredPlayers")}>
             {heroPlayers.map((player, index) => (
               <article
                 key={player.id}
                 className={styles.player}
+                data-player-id={player.id}
                 data-featured={index === 1 ? "true" : undefined}
               >
                 <span className={styles.rating}>{player.overall}</span>
@@ -74,20 +81,20 @@ export function MobileLanding() {
 
           <div className={styles.actions}>
             <Link href="/play" className={styles.primaryAction}>
-              Play Trophy XI <ArrowRight size={18} aria-hidden />
+              {t("play")} <ArrowRight size={18} aria-hidden />
             </Link>
-            <p>No waiting. Your first decision starts now.</p>
+            <p>{t("noWaiting")}</p>
           </div>
         </section>
 
         <section className={styles.how} aria-labelledby="mobile-how-title">
-          <p className={styles.sectionLabel}>ONE RUN · FOUR DECISIONS</p>
-          <h2 id="mobile-how-title">From archive to final.</h2>
+          <p className={styles.sectionLabel}>{t("fourDecisions")}</p>
+          <h2 id="mobile-how-title">{t("archiveToFinal")}</h2>
           <ol>
-            <li><b>01</b><span><strong>Set the era</strong>Choose the match environment.</span></li>
-            <li><b>02</b><span><strong>Pick the mind</strong>Appoint your tournament manager.</span></li>
-            <li><b>03</b><span><strong>Build the squad</strong>Draft an XI and three substitutes.</span></li>
-            <li><b>04</b><span><strong>Play the match</strong>Challenge history or enter the World Cup.</span></li>
+            <li><b>01</b><span><strong>{t("steps.era.title")}</strong>{t("steps.era.copy")}</span></li>
+            <li><b>02</b><span><strong>{t("steps.manager.title")}</strong>{t("steps.manager.copy")}</span></li>
+            <li><b>03</b><span><strong>{t("steps.squad.title")}</strong>{t("steps.squad.copy")}</span></li>
+            <li><b>04</b><span><strong>{t("steps.match.title")}</strong>{t("steps.match.copy")}</span></li>
           </ol>
         </section>
       </main>

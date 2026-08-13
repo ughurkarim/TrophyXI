@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { DraftBoard } from "@/components/draft/draft-board";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
@@ -10,6 +11,7 @@ import { useGameStore } from "@/store/game-store";
 
 export default function DraftPage() {
   const router = useRouter();
+  const t = useTranslations("draft");
   const hydrated = useGameStore((state) => state.hasHydrated);
   const eraId = useGameStore((state) => state.eraId);
   const managerId = useGameStore((state) => state.managerId);
@@ -26,7 +28,7 @@ export default function DraftPage() {
     return (
       <main className="game-page loading-state">
         <div className="loading-emblem" />
-        <p className="eyebrow">LAYING OUT THE DRAFT BOARD</p>
+        <p className="eyebrow">{t("loading")}</p>
       </main>
     );
   }
@@ -34,7 +36,7 @@ export default function DraftPage() {
   const era = getDraftEra(eraId);
   return (
     <div className={`game-page game-page--draft game-page--stadium ${era.themeClass}`}>
-      <GameHeader step="DRAFT / 04" />
+      <GameHeader step={t("step")} />
       <SaveNotice />
       <main className="container game-main">
         <DraftBoard />

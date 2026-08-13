@@ -4,8 +4,10 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 
 import worldCupBackground from "../../../assets/worldcup.png";
 import styles from "./final-challenge-showcase.module.css";
+import { useTranslations } from "next-intl";
 
 export function FinalChallengeShowcase() {
+  const t = useTranslations("landing.finalChallenge");
   return (
     <section className={styles.section} aria-labelledby="landing-final-cta-title">
       <div className={styles.backdrop} aria-hidden />
@@ -23,39 +25,38 @@ export function FinalChallengeShowcase() {
         <div className={styles.imageBlend} aria-hidden />
 
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>THE CHALLENGE AWAITS</p>
+          <p className={styles.eyebrow}>{t("eyebrow")}</p>
 
           <h2 id="landing-final-cta-title">
-            BUILD THE TEAM
+            {t("line1")}
             <br />
-            THAT COULD
+            {t("line2")}
             <br />
-            <span>BEAT THEM ALL.</span>
+            <span>{t("line3")}</span>
           </h2>
 
           <p className={styles.support}>
-            Draft fourteen tournament players, shape them into one balanced squad,
-            and take on the champions who defined World Cup history.
+            {t("description")}
           </p>
 
           <div className={styles.actions}>
             <Link className={styles.primaryAction} href="/play">
-              <span>BUILD MY XI</span>
+              <span>{t("build")}</span>
               <ArrowRight size={17} aria-hidden />
             </Link>
 
             <Link className={styles.secondaryAction} href="/#champions">
-              VIEW THE CHAMPIONS
+              {t("viewChampions")}
               <ChevronRight size={15} aria-hidden />
             </Link>
           </div>
 
-          <div className={styles.challengeMeta} aria-label="World Cup challenge">
-            <span>15 CHAMPIONS</span>
+          <div className={styles.challengeMeta} aria-label={t("aria")}>
+            <span>{t("championsCount", { count: 15 })}</span>
             <i />
             <span>1970 — 2026</span>
             <i />
-            <span>ONE XI</span>
+            <span>{t("oneXi")}</span>
           </div>
         </div>
       </div>

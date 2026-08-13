@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./engineering.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 const scenarios = [
   {
@@ -37,6 +38,7 @@ const scenarios = [
 const terms = ["SCORE", "MINUTE", "POSSESSION", "SHOTS", "xG", "CARDS", "FATIGUE", "SUBSTITUTIONS"];
 
 export default function MatchStateLab() {
+  const localize = useLocalizedContent();
   const [activeIndex, setActiveIndex] = useState(0);
   const scenario = scenarios[activeIndex];
 
@@ -50,21 +52,21 @@ export default function MatchStateLab() {
             className={index === activeIndex ? styles.stateScenarioActive : styles.stateScenario}
             onClick={() => setActiveIndex(index)}
           >
-            {item.label}
+            {localize(item.label)}
           </button>
         ))}
       </div>
 
       <div className={styles.stateScoreboard} key={scenario.label}>
         <div>
-          <span>SCORE</span>
+          <span>{localize("SCORE")}</span>
           <strong>{scenario.score}</strong>
         </div>
         <div>
-          <span>MINUTE</span>
+          <span>{localize("MINUTE")}</span>
           <strong>{scenario.minute}</strong>
         </div>
-        <p>{scenario.caption}</p>
+        <p>{localize(scenario.caption)}</p>
       </div>
 
       <div className={styles.stateVariableGrid}>
@@ -72,21 +74,21 @@ export default function MatchStateLab() {
           const isActive = scenario.active.some((activeTerm) => activeTerm === term);
           return (
             <div className={isActive ? styles.stateVariableActive : styles.stateVariable} key={term}>
-              <span>{term}</span>
-              <i>{isActive ? "IN FOCUS" : "IN STATE"}</i>
+              <span>{localize(term)}</span>
+              <i>{localize(isActive ? "IN FOCUS" : "IN STATE")}</i>
             </div>
           );
         })}
       </div>
 
       <div className={styles.stateMachine}>
-        <div><span>CURRENT STATE</span><strong>s<sub>t</sub></strong></div>
+        <div><span>{localize("CURRENT STATE")}</span><strong>s<sub>t</sub></strong></div>
         <span>→</span>
-        <div className={styles.stateMachineCore}><span>ENGINE</span><strong>G(·)</strong></div>
+        <div className={styles.stateMachineCore}><span>{localize("ENGINE")}</span><strong>G(·)</strong></div>
         <span>→</span>
-        <div><span>NEXT EVENT</span><strong>e<sub>t+1</sub></strong></div>
+        <div><span>{localize("NEXT EVENT")}</span><strong>e<sub>t+1</sub></strong></div>
         <span>→</span>
-        <div><span>NEW STATE</span><strong>s<sub>t+1</sub></strong></div>
+        <div><span>{localize("NEW STATE")}</span><strong>s<sub>t+1</sub></strong></div>
       </div>
     </div>
   );

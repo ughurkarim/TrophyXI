@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./engineering.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 const terms = [
   {
@@ -63,6 +64,7 @@ const terms = [
 ] as const;
 
 export default function ModelExplorer() {
+  const localize = useLocalizedContent();
   const [active, setActive] = useState(0);
   const term = terms[active];
 
@@ -70,10 +72,10 @@ export default function ModelExplorer() {
     <div className={styles.modelExplorer} data-glow="gold">
       <div className={styles.modelExplorerTop}>
         <div>
-          <span className={styles.miniLabel}>INTERACTIVE MODEL</span>
-          <h3>Pick a variable.</h3>
+          <span className={styles.miniLabel}>{localize("INTERACTIVE MODEL")}</span>
+          <h3>{localize("Pick a variable.")}</h3>
         </div>
-        <div className={styles.modelEquationInteractive} aria-label="Team model equation">
+        <div className={styles.modelEquationInteractive} aria-label={localize("Team model equation")}>
           <span>z</span>
           <sub>team</sub>
           <span>=</span>
@@ -85,7 +87,7 @@ export default function ModelExplorer() {
               className={index === active ? styles.modelSymbolActive : styles.modelSymbol}
               onClick={() => setActive(index)}
               aria-pressed={index === active}
-              aria-label={`Explain ${item.label}`}
+              aria-label={`${localize("Explain")} ${localize(item.label)}`}
             >
               {item.symbol}
             </button>
@@ -103,7 +105,7 @@ export default function ModelExplorer() {
             onClick={() => setActive(index)}
           >
             <span>{item.symbol}</span>
-            {item.label}
+            {localize(item.label)}
           </button>
         ))}
       </div>
@@ -111,13 +113,13 @@ export default function ModelExplorer() {
       <div className={styles.modelExplainer} key={term.symbol}>
         <div className={styles.modelExplainerSymbol}>{term.symbol}</div>
         <div>
-          <span className={styles.miniLabel}>{term.label}</span>
-          <h4>{term.title}</h4>
-          <p>{term.copy}</p>
+          <span className={styles.miniLabel}>{localize(term.label)}</span>
+          <h4>{localize(term.title)}</h4>
+          <p>{localize(term.copy)}</p>
         </div>
         <div className={styles.modelImpact}>
-          <span>WHY IT MATTERS</span>
-          <strong>{term.impact}</strong>
+          <span>{localize("WHY IT MATTERS")}</span>
+          <strong>{localize(term.impact)}</strong>
         </div>
       </div>
     </div>

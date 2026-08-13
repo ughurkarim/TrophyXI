@@ -10,6 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { flagForCountry } from "@/lib/utils";
 import type {
   HistoricalWorldCupTeam,
@@ -23,6 +24,7 @@ import germanyLogo from "../../../assets/circlelogo/germany.png";
 import italyLogo from "../../../assets/circlelogo/italy.png";
 import spainLogo from "../../../assets/circlelogo/spain.png";
 import styles from "./match-timeline.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 type DrawerView = "timeline" | null;
 
@@ -57,9 +59,11 @@ export function MatchTimeline({
   opponent: HistoricalWorldCupTeam;
   onSkip: () => void;
 }) {
+  const t = useTranslations("matchTimeline");
+  const localize = useLocalizedContent();
   const reduceMotion = useReducedMotion();
   const opponentDisplayName =
-    opponent.kind === "all-stars" ? "All Stars" : opponent.nationName;
+    opponent.kind === "all-stars" ? t("allStars") : localize(opponent.nationName);
   const opponentName =
     opponent.kind === "all-stars" || opponent.tournamentYear === null
       ? opponentDisplayName
@@ -101,12 +105,8 @@ export function MatchTimeline({
       minuteLabel: `PEN ${kick.order}`,
       type: "penalties",
       team: kick.team,
-      title: `${kick.playerName} — ${kick.scored ? "GOAL" : "MISS"}`,
-      detail: `${kick.playerName} steps to the penalty spot. ${
-        kick.scored ? "GOAL." : "MISS."
-      } Shootout: ${kick.userPenalties}–${kick.opponentPenalties}.${
-        kick.suddenDeath ? " Sudden death." : ""
-      }`,
+      title: t("shootout.title", { player: kick.playerName, result: kick.scored ? t("goal") : t("miss") }),
+      detail: t("shootout.detail", { player: kick.playerName, result: kick.scored ? t("goal") : t("miss"), user: kick.userPenalties, opponent: kick.opponentPenalties, suddenDeath: kick.suddenDeath ? t("suddenDeath") : "" }),
       userScore: result.score.user,
       opponentScore: result.score.opponent,
     }));
@@ -116,7 +116,7 @@ export function MatchTimeline({
       ...kickEvents,
       ...result.events.slice(insertionIndex),
     ];
-  }, [result]);
+  }, [result, t]);
 
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -137,7 +137,8 @@ export function MatchTimeline({
     currentPenaltyOrder > 1
       ? penaltyShootout[currentPenaltyOrder - 2]
       : undefined;
-  const [penaltyOutcomeRevealed, setPenaltyOutcomeRevealed] = useState(false);
+  const [revealedPenaltyEventId, setRevealedPenaltyEventId] = useState<string | null>(null);
+  const penaltyOutcomeRevealed = revealedPenaltyEventId === current.id;
 
   useEffect(() => {
     // Keep the desktop broadcast framed, but never lock the mobile document:
@@ -162,11 +163,9 @@ export function MatchTimeline({
   }, []);
 
   useEffect(() => {
-    setPenaltyOutcomeRevealed(false);
-
     if (!currentPenaltyKick || paused) return;
     const revealTimeout = window.setTimeout(
-      () => setPenaltyOutcomeRevealed(true),
+      () => setRevealedPenaltyEventId(current.id),
       fast ? 360 : 950,
     );
     return () => window.clearTimeout(revealTimeout);
@@ -253,21 +252,21 @@ export function MatchTimeline({
     values: [number, number];
     better: "higher" | "lower";
   }> = [
-    { label: "Shots", values: liveShots, better: "higher" },
-    { label: "On target", values: liveShotsOnTarget, better: "higher" },
-    { label: "Chance quality", values: liveExpectedGoals, better: "higher" },
-    { label: "Possession", values: result.stats.possession, better: "higher" },
-    { label: "Yellow cards", values: liveYellowCards, better: "lower" },
+    { label: t("stats.shots"), values: liveShots, better: "higher" },
+    { label: t("stats.onTarget"), values: liveShotsOnTarget, better: "higher" },
+    { label: t("stats.chanceQuality"), values: liveExpectedGoals, better: "higher" },
+    { label: t("stats.possession"), values: result.stats.possession, better: "higher" },
+    { label: t("stats.yellowCards"), values: liveYellowCards, better: "lower" },
   ];
   const eventLabel = currentPenaltyKick
     ? currentPenaltyKick.suddenDeath
-      ? "PENALTY SHOOTOUT · SUDDEN DEATH"
-      : `PENALTY SHOOTOUT · KICK ${currentPenaltyKick.order}`
+      ? t("event.shootoutSuddenDeath")
+      : t("event.shootoutKick", { order: currentPenaltyKick.order })
     : current.type === "goal"
       ? current.team === "user"
-        ? "GOAL · TROPHY XI"
-        : "GOAL · OPPONENT"
-      : current.type.replace("-", " ");
+        ? t("event.goalUser")
+        : t("event.goalOpponent")
+      : localize(current.type.replace("-", " "));
   const eventMood = currentPenaltyKick
     ? "penalty"
     : current.type === "goal"
@@ -334,16 +333,16 @@ export function MatchTimeline({
           <div className={styles.showdownTitle}>
             <span className={styles.livePill} data-paused={paused} data-complete={complete}>
               <i />
-              {complete ? "FULL TIME" : paused ? "PAUSED" : "LIVE"}
+              {complete ? t("fullTime") : paused ? t("paused") : t("live")}
             </span>
             <div>
-              <small>FINAL MATCH</small>
-              <strong>THE SHOWDOWN</strong>
+              <small>{t("finalMatch")}</small>
+              <strong>{t("showdown")}</strong>
             </div>
           </div>
-          <nav className={styles.lineupActions} aria-label="Match views">
+          <nav className={styles.lineupActions} aria-label={t("viewsAria")}>
             <button type="button" onClick={() => setDrawer("timeline")}>
-              Match log
+              {t("matchLog")}
             </button>
           </nav>
         </header>
@@ -353,16 +352,16 @@ export function MatchTimeline({
             opponent.kind === "all-stars" ? styles.mythicScoreboard : ""
           }`}
           data-testid="live-scoreboard"
-          aria-label={`Trophy XI ${current.userScore}, ${opponentName} ${current.opponentScore}, ${current.minuteLabel}`}
+          aria-label={t("scoreAria", { user: current.userScore, opponent: opponentName, opponentScore: current.opponentScore, minute: current.minuteLabel })}
         >
-          <span className={styles.finalKicker}>THE WORLD CUP FINAL</span>
+          <span className={styles.finalKicker}>{t("worldCupFinal")}</span>
 
           <div className={styles.scoreTeam}>
             <span className={styles.crest} data-side="user" aria-hidden>
               <span className={styles.xiMark}>XI</span>
             </span>
             <div>
-              <small>YOUR XI</small>
+              <small>{t("yourXi")}</small>
               <b>Trophy XI</b>
             </div>
           </div>
@@ -379,7 +378,7 @@ export function MatchTimeline({
               className={styles.clock}
               data-shootout={currentPenaltyKick ? "true" : undefined}
             >
-              <small>{currentPenaltyKick ? "PENALTIES" : "MATCH"}</small>
+              <small>{currentPenaltyKick ? t("penalties") : t("match")}</small>
               <span>
                 {currentPenaltyKick
                   ? penaltyOutcomeRevealed
@@ -404,8 +403,8 @@ export function MatchTimeline({
             <div>
               <small>
                 {opponent.kind === "all-stars"
-                  ? "FEATURED CHALLENGE"
-                  : `WORLD CHAMPION · ${opponent.tournamentYear ?? ""}`}
+                  ? t("featuredChallenge")
+                  : t("worldChampionYear", { year: opponent.tournamentYear ?? "" })}
               </small>
               <b>{opponentDisplayName}</b>
             </div>
@@ -413,7 +412,7 @@ export function MatchTimeline({
               {opponent.kind === "all-stars" ? (
                 <span
                   role="img"
-                  aria-label="All Stars logo"
+                  aria-label={t("allStarsLogo")}
                   style={{
                     display: "grid",
                     placeItems: "center",
@@ -448,8 +447,8 @@ export function MatchTimeline({
           data-extra-time={extraTimeRevealed ? "true" : undefined}
           aria-label={
             extraTimeRevealed
-              ? `Regular time complete. Extra time ${Math.round(extraTimeProgress * 100)} percent`
-              : `Match progress ${Math.round(regularTimeProgress * 100)} percent`
+              ? t("extraTimeProgressAria", { percent: Math.round(extraTimeProgress * 100) })
+              : t("progressAria", { percent: Math.round(regularTimeProgress * 100) })
           }
         >
           <span>0&apos;</span>
@@ -519,7 +518,7 @@ export function MatchTimeline({
                     {currentPenaltyKick.playerName}
                   </h1>
                   <p className={styles.penaltyApproach}>
-                    steps forward and places the ball on the spot.
+                    {t("shootout.approach")}
                   </p>
                   <AnimatePresence mode="wait" initial={false}>
                     {penaltyOutcomeRevealed ? (
@@ -531,7 +530,7 @@ export function MatchTimeline({
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: reduceMotion ? 0 : 0.24 }}
                       >
-                        {currentPenaltyKick.scored ? "GOAL" : "MISS"}
+                        {currentPenaltyKick.scored ? t("goal") : t("miss")}
                       </motion.strong>
                     ) : (
                       <motion.span
@@ -540,18 +539,18 @@ export function MatchTimeline({
                         initial={reduceMotion ? false : { opacity: 0 }}
                         animate={{ opacity: 1 }}
                       >
-                        THE WHISTLE...
+                        {t("shootout.whistle")}
                       </motion.span>
                     )}
                   </AnimatePresence>
                   {penaltyOutcomeRevealed && (
                     <p className={styles.penaltyRunningScore}>
-                      SHOOTOUT{" "}
+                      {t("shootout.label")}{" "}
                       <b>
                         {currentPenaltyKick.userPenalties}–
                         {currentPenaltyKick.opponentPenalties}
                       </b>
-                      {currentPenaltyKick.suddenDeath ? " · SUDDEN DEATH" : ""}
+                      {currentPenaltyKick.suddenDeath ? ` · ${t("suddenDeath")}` : ""}
                     </p>
                   )}
                 </div>
@@ -560,35 +559,35 @@ export function MatchTimeline({
                   <div className={styles.eventMeta}>
                     <time>FT</time>
                     <i />
-                    <span>FINAL WHISTLE</span>
+                    <span>{t("finalWhistle")}</span>
                   </div>
                   <h1 id="match-live-heading" className={styles.finalVerdict}>
                     {winnerSide ? (
                       <>
                         <span className={styles.finalWinnerName}>{finalWinnerName}</span>
                         <span className={styles.desktopFinalOutcome}>
-                          {decidedOnPenalties ? " WIN ON PENALTIES" : " WIN THE FINAL"}
+                          {decidedOnPenalties ? ` ${t("winOnPenalties")}` : ` ${t("winFinal")}`}
                         </span>
                         <span className={styles.mobileFinalOutcome}>
                           {winnerSide === "user"
-                            ? " WIN THE WORLD CUP"
-                            : " ARE WORLD CHAMPIONS"}
+                            ? ` ${t("winWorldCup")}`
+                            : ` ${t("areWorldChampions")}`}
                         </span>
                       </>
                     ) : (
-                      "THE FINAL ENDS LEVEL"
+                      t("finalLevel")
                     )}
                   </h1>
                   {decidedOnPenalties && penaltyScore ? (
                     <p className={styles.finalDetail}>
-                      Penalties {penaltyScore[0]}–{penaltyScore[1]}
+                      {t("penalties")} {penaltyScore[0]}–{penaltyScore[1]}
                     </p>
                   ) : decisiveGoal && decisiveGoalName ? (
                     <p className={styles.finalDetail}>
                       {decisiveGoalName} <span>·</span> {decisiveGoal.minuteLabel}
                     </p>
                   ) : (
-                    <p className={styles.finalDetail}>History has its answer.</p>
+                    <p className={styles.finalDetail}>{t("historyAnswer")}</p>
                   )}
                 </>
               ) : (
@@ -605,11 +604,11 @@ export function MatchTimeline({
                       animate={{ letterSpacing: "0.1em", opacity: 1 }}
                       transition={{ duration: reduceMotion ? 0 : 0.36 }}
                     >
-                      GOAL
+                      {t("goal")}
                     </motion.strong>
                   )}
-                  <h1 id="match-live-heading">{current.title}</h1>
-                  <p>{current.detail}</p>
+                  <h1 id="match-live-heading">{localize(current.title)}</h1>
+                  <p>{localize(current.detail)}</p>
                 </>
               )}
             </motion.article>
@@ -620,7 +619,7 @@ export function MatchTimeline({
           <div className={styles.sectionHeading}>
             <div className={styles.metricTitle}>
               <i />
-              <h2 id="live-stats-heading">LIVE MATCH STATS</h2>
+              <h2 id="live-stats-heading">{t("liveStats")}</h2>
               <i />
             </div>
           </div>
@@ -659,10 +658,10 @@ export function MatchTimeline({
           </div>
         </section>
 
-        <footer className={styles.controls} aria-label="Match timeline controls">
+        <footer className={styles.controls} aria-label={t("controlsAria")}>
           <span className={styles.engineStatus}>
             <i />
-            {fast && !complete ? "2× MATCH SPEED" : complete ? "MATCH COMPLETE" : "MATCH ENGINE LIVE"}
+            {fast && !complete ? t("speed2x") : complete ? t("matchComplete") : t("engineLive")}
           </span>
           {!complete && (
             <>
@@ -670,7 +669,7 @@ export function MatchTimeline({
                 type="button"
                 className={`icon-button ${styles.controlButton}`}
                 onClick={() => setPaused((value) => !value)}
-                aria-label={paused ? "Resume match" : "Pause match"}
+                aria-label={paused ? t("resume") : t("pause")}
               >
                 {paused ? <Play size={16} aria-hidden /> : <Pause size={16} aria-hidden />}
               </button>
@@ -680,7 +679,7 @@ export function MatchTimeline({
                   fast ? styles.activeControl : ""
                 }`}
                 onClick={() => setFast((value) => !value)}
-                aria-label="Fast forward"
+                aria-label={t("fastForward")}
                 aria-pressed={fast}
               >
                 <FastForward size={16} aria-hidden />
@@ -693,7 +692,7 @@ export function MatchTimeline({
             data-complete={complete}
             onClick={onSkip}
           >
-            <span>{complete ? "View final result" : "Skip to result"}</span>
+            <span>{complete ? t("viewFinalResult") : t("skipResult")}</span>
             <span className={styles.skipArrow} aria-hidden>
               <SkipForward size={14} />
             </span>
@@ -709,20 +708,22 @@ export function MatchTimeline({
       )}
 
       <p className="sr-only" role="status" aria-live="polite">
-        {current.minuteLabel}. {current.title}. {current.detail} Score {current.userScore} to {current.opponentScore}.
+        {t("liveAnnouncement", { minute: current.minuteLabel, title: localize(current.title), detail: localize(current.detail), user: current.userScore, opponent: current.opponentScore })}
       </p>
     </section>
   );
 }
 
 function TimelineDrawer({ events, onClose }: { events: MatchEvent[]; onClose: () => void }) {
+  const t = useTranslations("matchTimeline");
+  const localize = useLocalizedContent();
   return (
     <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
       <aside
         className={styles.drawer}
         role="dialog"
         aria-modal="true"
-        aria-label="Full match timeline"
+        aria-label={t("fullTimeline")}
         onMouseDown={(event) => event.stopPropagation()}
         onKeyDown={(event) => {
           if (event.key === "Escape") onClose();
@@ -731,25 +732,25 @@ function TimelineDrawer({ events, onClose }: { events: MatchEvent[]; onClose: ()
         <header>
           <div>
             <span className="eyebrow eyebrow--gold">0–90+</span>
-            <h2>Full match timeline</h2>
+            <h2>{t("fullTimeline")}</h2>
           </div>
           <button
             type="button"
             className="icon-button"
             onClick={onClose}
-            aria-label="Close Full match timeline"
+            aria-label={t("closeTimeline")}
             autoFocus
           >
             <X size={17} aria-hidden />
           </button>
         </header>
-        <ol className={styles.fullEventList} aria-label="Full match timeline">
+        <ol className={styles.fullEventList} aria-label={t("fullTimeline")}>
           {[...events].reverse().map((event) => (
             <li key={event.id} data-goal={event.type === "goal"}>
               <time>{event.minuteLabel}</time>
               <div>
-                <b>{event.title}</b>
-                <p>{event.detail}</p>
+                <b>{localize(event.title)}</b>
+                <p>{localize(event.detail)}</p>
               </div>
             </li>
           ))}

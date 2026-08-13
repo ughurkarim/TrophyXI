@@ -1,6 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { managerGradeLabel } from "@/data/managers";
 import { historicalOpponents } from "@/data/opponents";
@@ -8,6 +9,7 @@ import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { flagForCountry, flagForTeamName } from "@/lib/utils";
 import type { DraftEraId, ManagerTournamentCard } from "@/types/game";
 import styles from "./manager-details.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 export function ManagerDetails({
   manager,
@@ -18,6 +20,9 @@ export function ManagerDetails({
   eraId?: DraftEraId;
   onClose: () => void;
 }) {
+  const t = useTranslations("players.managerDetails");
+  const cardT = useTranslations("players.managerCard");
+  const localize = useLocalizedContent();
   const eraFit = calculateManagerEraFit(manager, eraId);
   const tournamentRecord = historicalOpponents.find(
     (opponent) =>
@@ -26,16 +31,16 @@ export function ManagerDetails({
   );
   const weaknesses = [
     manager.grades.offense < 78
-      ? "Attacking plans can lack variety against a settled defense."
+      ? t("weaknesses.attack")
       : null,
     manager.grades.defense < 78
-      ? "The defensive structure can leave avoidable space."
+      ? t("weaknesses.defense")
       : null,
     manager.acceptableFormations.length <= 4
-      ? "Works best within a narrower range of formations."
+      ? t("weaknesses.formations")
       : null,
     eraFit.applicable && eraFit.score < 75
-      ? "The selected match environment asks for significant tactical adaptation."
+      ? t("weaknesses.era")
       : null,
   ].filter((item): item is string => Boolean(item));
   return (
@@ -53,7 +58,7 @@ export function ManagerDetails({
         <button
           className="icon-button player-drawer__close"
           onClick={onClose}
-          aria-label="Close manager record"
+          aria-label={t("close")}
           autoFocus
         >
           <X size={18} aria-hidden />
@@ -69,42 +74,42 @@ export function ManagerDetails({
           />
           <div>
             <span className="eyebrow eyebrow--gold">
-              {flagForCountry(manager.countryCode)} {manager.countryName} ·{" "}
-              {flagForTeamName(manager.teamName)} {manager.teamName}{" "}
+              {flagForCountry(manager.countryCode)} {localize(manager.countryName)} ·{" "}
+              {flagForTeamName(manager.teamName)} {localize(manager.teamName)}{" "}
               {manager.tournamentYear}
             </span>
             <h2 id="manager-detail-title">{manager.managerName}</h2>
-            <p>{manager.tacticalIdentity}</p>
+            <p>{localize(manager.tacticalIdentity)}</p>
           </div>
         </div>
         <section>
-          <span className="eyebrow">MANAGER RECORD</span>
+          <span className="eyebrow">{t("record")}</span>
           <dl
             className={`record-grid manager-detail-grades ${styles.metrics}`}
           >
             <div>
-              <dt>OFF</dt>
+              <dt>{cardT("off")}</dt>
               <dd>
                 {managerGradeLabel(manager.grades.offense)}{" "}
                 <small>{manager.grades.offense}</small>
               </dd>
             </div>
             <div>
-              <dt>DEF</dt>
+              <dt>{cardT("def")}</dt>
               <dd>
                 {managerGradeLabel(manager.grades.defense)}{" "}
                 <small>{manager.grades.defense}</small>
               </dd>
             </div>
             <div>
-              <dt>Leadership</dt>
+              <dt>{t("leadership")}</dt>
               <dd>
                 {managerGradeLabel(manager.leadership)}{" "}
                 <small>{manager.leadership}</small>
               </dd>
             </div>
             <div>
-              <dt>Game management</dt>
+              <dt>{t("gameManagement")}</dt>
               <dd>
                 {managerGradeLabel(manager.gameManagement)}{" "}
                 <small>{manager.gameManagement}</small>
@@ -112,7 +117,7 @@ export function ManagerDetails({
             </div>
             {eraFit.applicable && (
               <div>
-                <dt>Era Fit</dt>
+                <dt>{t("eraFit")}</dt>
                 <dd>
                   {managerGradeLabel(eraFit.score)} <small>{eraFit.score}</small>
                 </dd>
@@ -121,56 +126,53 @@ export function ManagerDetails({
           </dl>
         </section>
         <section>
-          <span className="eyebrow">TACTICAL PROFILE</span>
+          <span className="eyebrow">{t("tacticalProfile")}</span>
           <p className="data-disclosure">
-            Preferred: {manager.preferredFormations.join(" · ")}
+            {t("preferred")}: {manager.preferredFormations.join(" · ")}
           </p>
           <p className="data-disclosure">
-            Style: {manager.style} · {manager.teamName}{" "}
+            {t("style")}: {localize(manager.style)} · {localize(manager.teamName)}{" "}
             {manager.tournamentYear}
           </p>
           <p className="data-disclosure">
             {eraFit.applicable
-              ? `Era Fit: ${eraFit.score} · Manager tactics adapt to the selected match environment.`
-              : "Neutral era — no era modifier."}
+              ? t("eraFitDescription", { score: eraFit.score })
+              : t("neutralEra")}
           </p>
           <div className="manager-strength-grid">
             <article>
-              <b>Tactical strengths</b>
-              <p>
-                {manager.tacticalIdentity}. Preferred systems:{" "}
-                {manager.preferredFormations.join(", ")}.
-              </p>
+              <b>{t("strengths")}</b>
+              <p>{t("strengthsDescription", { identity: localize(manager.tacticalIdentity), formations: manager.preferredFormations.join(", ") })}</p>
             </article>
             <article>
-              <b>Tactical weaknesses</b>
+              <b>{t("weaknessesTitle")}</b>
               <p>
                 {weaknesses.length
                   ? weaknesses.join(" ")
-                  : "No severe tactical weakness, though preferred formations still offer the clearest fit."}
+                  : t("weaknesses.none")}
               </p>
             </article>
           </div>
         </section>
         {tournamentRecord?.tournamentFinish && (
           <section>
-            <span className="eyebrow">TOURNAMENT RESULT</span>
+            <span className="eyebrow">{t("tournamentResult")}</span>
             <p className="data-disclosure">
-              {manager.teamName} ·{" "}
+              {localize(manager.teamName)} ·{" "}
               <b className={styles.result}>
-                {tournamentRecord.tournamentFinish}
+                {localize(tournamentRecord.tournamentFinish)}
               </b>
             </p>
           </section>
         )}
         {manager.achievements.length > 0 && (
           <section>
-            <span className="eyebrow">MANAGER ACCOLADES</span>
+            <span className="eyebrow">{t("accolades")}</span>
             <ul className="achievement-list">
               {manager.achievements.map((achievement) => (
                 <li key={achievement.id}>
-                  <b>{achievement.label}</b>
-                  <p>{achievement.description}</p>
+                  <b>{localize(achievement.label)}</b>
+                  <p>{localize(achievement.description)}</p>
                 </li>
               ))}
             </ul>

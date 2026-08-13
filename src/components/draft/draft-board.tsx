@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   useEffect,
   useMemo,
@@ -45,11 +46,11 @@ import {
 } from "@/engine/chemistry";
 import { calculateTeamRatings } from "@/engine/ratings";
 import { flagForCountry } from "@/lib/utils";
+import { useLocalizedContent } from "@/i18n/content";
 import { useGameStore } from "@/store/game-store";
 import type {
   BenchSlotId,
   DraftPick,
-  Formation,
   ManagerTournamentCard,
   PlayerTournamentCard,
 } from "@/types/game";
@@ -57,11 +58,10 @@ import styles from "./draft-board.module.css";
 
 const benchSlots: BenchSlotId[] = ["bench-1", "bench-2", "bench-3"];
 
-const respinLabel = (remaining: number) =>
-  remaining === 0 ? "PLAYER RESPINS USED" : `PLAYER RESPINS ×${remaining}`;
-
 export function DraftBoard() {
   const router = useRouter();
+  const t = useTranslations("draft");
+  const eraT = useTranslations("gameSetup.era.options");
   const reduceMotion = useReducedMotion();
   const [showReset, setShowReset] = useState(false);
   const [showRespin, setShowRespin] = useState(false);
@@ -130,11 +130,25 @@ export function DraftBoard() {
     [benchPicks],
   );
   const manager = managerId ? managersById.get(managerId) : undefined;
+
+  useEffect(() => {
+    const removePitchTitles = () => {
+      document
+        .querySelectorAll<HTMLElement>(".draft-pitch-panel .pitch-node[title]")
+        .forEach((node) => node.removeAttribute("title"));
+    };
+
+    removePitchTitles();
+    const frame = window.requestAnimationFrame(removePitchTitles);
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [previewSlotId, selectedPlayerId, projectedPositionFits]);
+
   if (!formationId || !eraId || !manager) {
     return (
       <section className="loading-state" aria-live="polite">
         <div className="loading-emblem" />
-        <p className="eyebrow">RETURNING TO COACH SELECTION</p>
+        <p className="eyebrow">{t("returning")}</p>
       </section>
     );
   }
@@ -211,8 +225,8 @@ export function DraftBoard() {
       assignedSlot: slot
         ? slot.label
         : benchIndex >= 0
-          ? `Bench ${benchIndex + 1}`
-          : "Not placed",
+          ? t("benchNumber", { number: benchIndex + 1 })
+          : t("notPlaced"),
       positionFit,
       placementPenalty:
         positionFit === null ? null : getPlacementPenaltyPercent(positionFit),
@@ -241,18 +255,6 @@ export function DraftBoard() {
       (preview) => preview.slotId === previewSlotId && preview.canPlace,
     ) ?? bestPreview;
 
-  useEffect(() => {
-    const removePitchTitles = () => {
-      document
-        .querySelectorAll<HTMLElement>(".draft-pitch-panel .pitch-node[title]")
-        .forEach((node) => node.removeAttribute("title"));
-    };
-
-    removePitchTitles();
-    const frame = window.requestAnimationFrame(removePitchTitles);
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [previewSlotId, selectedPlayerId, projectedPositionFits]);
   const projectedPicks: DraftPick[] =
     selectedPlayer && activePreview
       ? [
@@ -340,7 +342,7 @@ export function DraftBoard() {
     return (
       <section className="loading-state" aria-live="polite">
         <div className="loading-emblem" />
-        <p className="eyebrow">OPENING THE WORLD CUP</p>
+        <p className="eyebrow">{t("openingWorldCup")}</p>
       </section>
     );
   }
@@ -379,30 +381,30 @@ export function DraftBoard() {
         <div>
           <span className="eyebrow">
             {draftPhase === "review"
-              ? "BENCH REVIEW"
+              ? t("status.benchReview")
               : draftPhase === "bench"
-                ? "SUBSTITUTE DRAFT"
+                ? t("status.substituteDraft")
                 : startersComplete
-                  ? "STARTING XI COMPLETE"
+                  ? t("status.startingComplete")
                   : selectedPlayer
-                    ? "PLAYER SELECTED"
-                    : "FIVE-CARD SPIN"}
+                    ? t("status.playerSelected")
+                    : t("status.fiveCardSpin")}
           </span>
           <h1 id="draft-heading">
             {draftPhase === "review"
-              ? "Set your substitution priority"
+              ? t("headings.priority")
               : draftPhase === "bench"
-                ? `Draft substitute ${benchPicks.length + 1} of 3`
+                ? t("headings.draftSubstitute", { current: benchPicks.length + 1, total: 3 })
                 : startersComplete
-                  ? "Build the three-player bench"
+                  ? t("headings.buildBench")
                   : selectedPlayer
-                    ? `Place ${selectedPlayer.playerName}`
-                    : `Choose starter ${picks.length + 1} of 11`}
+                    ? t("headings.placePlayer", { player: selectedPlayer.playerName })
+                    : t("headings.chooseStarter", { current: picks.length + 1, total: 11 })}
           </h1>
         </div>
         <div
           className={styles.headerRatings}
-          aria-label={`Live squad ratings. Attack ${ratings.attack}, midfield ${ratings.midfield}, defense ${ratings.defense}, chemistry ${ratings.chemistry}, overall ${ratings.overall}. ${squadCount} of 14 players drafted.`}
+          aria-label={t("ratingsAria", { attack: ratings.attack, midfield: ratings.midfield, defense: ratings.defense, chemistry: ratings.chemistry, overall: ratings.overall, count: squadCount, total: 14 })}
         >
           {headerRatingStats.map(({ label, value, delta }) => {
             const direction =
@@ -420,7 +422,7 @@ export function DraftBoard() {
                   data-direction={direction}
                   aria-label={
                     direction
-                      ? `${label} ${delta > 0 ? "up" : "down"} ${Math.abs(delta)}`
+                      ? t("ratingDelta", { label, direction: delta > 0 ? t("up") : t("down"), value: Math.abs(delta) })
                       : undefined
                   }
                   aria-hidden={!direction}
@@ -433,13 +435,13 @@ export function DraftBoard() {
         </div>
         <div className="draft-utilities">
           <span>
-            {manager.managerName} · {formation.name} · {era.label}
+            {manager.managerName} · {formation.name} · {eraT(`${era.id}.label`)}
           </span>
           <button
             type="button"
             className="icon-button"
             onClick={() => setShowReset(true)}
-            aria-label="Reset draft"
+            aria-label={t("resetDraft")}
           >
             <RotateCcw size={17} aria-hidden />
           </button>
@@ -450,15 +452,15 @@ export function DraftBoard() {
         <div className="draft-pitch-panel">
           <div className="panel-heading">
             <div>
-              <span className="eyebrow">YOUR XI</span>
-              <h2>Tactical board</h2>
+              <span className="eyebrow">{t("yourXi")}</span>
+              <h2>{t("tacticalBoard")}</h2>
             </div>
             <span className="live-dot">
               {startersComplete
-                ? "COMPLETE"
+                ? t("complete")
                 : selectedPlayer
-                  ? "SELECT POSITION"
-                  : "SELECT PLAYER"}
+                  ? t("selectPosition")
+                  : t("selectPlayer")}
             </span>
           </div>
           <TacticalPitch
@@ -491,15 +493,15 @@ export function DraftBoard() {
             />
           )}
           {bench.length > 0 && (
-            <div className="bench-summary" aria-label="Current substitutes">
+            <div className="bench-summary" aria-label={t("currentSubstitutes")}>
               {benchSlots.map((slotId, index) => {
                 const player = playersById.get(
                   benchPicks.find((pick) => pick.slotId === slotId)?.cardId ?? "",
                 );
                 return (
                   <div key={slotId} data-filled={Boolean(player)}>
-                    <span>BENCH {index + 1}</span>
-                    <b>{player?.playerName ?? "Open"}</b>
+                    <span>{t("benchNumber", { number: index + 1 })}</span>
+                    <b>{player?.playerName ?? t("open")}</b>
                   </div>
                 );
               })}
@@ -515,8 +517,8 @@ export function DraftBoard() {
               onInspect={openPlayer}
               continueLabel={
                 gameMode === "world-cup-run"
-                  ? "Enter World Cup"
-                  : "Choose opponent"
+                  ? t("enterWorldCup")
+                  : t("chooseOpponent")
               }
               onContinue={() => {
                 if (gameMode === "world-cup-run") {
@@ -545,18 +547,16 @@ export function DraftBoard() {
                     <span
                       className={`eyebrow eyebrow--gold ${styles.desktopBenchHeading}`}
                     >
-                      BENCH SPIN / 05 · ROUND {benchPicks.length + 1}
+                      {t("benchSpin", { round: benchPicks.length + 1 })}
                     </span>
                     <h2 className={styles.desktopBenchHeading}>
-                      Choose a tactical alternative
+                      {t("chooseAlternative")}
                     </h2>
                     <span className={styles.mobileBenchHeading}>
-                      BENCH {benchPicks.length + 1}
+                      {t("benchNumber", { number: benchPicks.length + 1 })}
                     </span>
                     <h2 className={styles.mobileBenchHeading}>
-                      Choose your{" "}
-                      {(["first", "second", "third"] as const)[benchPicks.length]}{" "}
-                      substitute.
+                      {t("chooseOrdinalSubstitute", { position: benchPicks.length + 1 })}
                     </h2>
                   </div>
                   <RespinRow
@@ -582,15 +582,12 @@ export function DraftBoard() {
             )
           ) : startersComplete ? (
             <div className="draft-complete">
-              <span className="eyebrow eyebrow--gold">XI SEALED</span>
+              <span className="eyebrow eyebrow--gold">{t("xiSealed")}</span>
               <Users size={30} aria-hidden />
-              <h2>Three substitutes remain.</h2>
-              <p>
-                Bench order drives substitution priority and expected minutes.
-                Choose three substitutes who complement your starting eleven.
-              </p>
+              <h2>{t("threeSubstitutes")}</h2>
+              <p>{t("benchDescription")}</p>
               <Button onClick={startBenchDraft}>
-                Draft the bench <ArrowRight size={17} aria-hidden />
+                {t("draftBench")} <ArrowRight size={17} aria-hidden />
               </Button>
             </div>
           ) : (
@@ -600,12 +597,12 @@ export function DraftBoard() {
               >
                 <div>
                   <span className="eyebrow eyebrow--gold">
-                    ARCHIVE SPIN / 05 · ROUND {picks.length + 1}
+                    {t("archiveSpin", { round: picks.length + 1 })}
                   </span>
                   <h2>
                     {selectedPlayer
-                      ? "Now choose an open position"
-                      : "Choose one player first"}
+                      ? t("chooseOpenPosition")
+                      : t("choosePlayerFirst")}
                   </h2>
                 </div>
                 {!selectedPlayer && (
@@ -633,8 +630,7 @@ export function DraftBoard() {
               )}
               {!draftFeasible && (
                 <p className="draft-feasibility-warning" role="alert">
-                  This player cannot be placed without blocking a complete
-                  starting eleven. Choose another card.
+                  {t("infeasible")}
                 </p>
               )}
             </>
@@ -644,14 +640,14 @@ export function DraftBoard() {
 
       <p className="sr-only" role="status" aria-live="polite">
         {draftPhase === "review"
-          ? "All fourteen players drafted. Review bench priority."
+          ? t("announcements.review")
           : draftPhase === "bench"
-            ? `${benchPicks.length} of 3 substitutes drafted. Five player cards available.`
+            ? t("announcements.bench", { count: benchPicks.length, total: 3 })
             : startersComplete
-              ? "Starting eleven complete. Begin the bench draft."
+              ? t("announcements.startingComplete")
               : selectedPlayer
-                ? `${selectedPlayer.playerName} ${selectedPlayer.tournamentYear} selected. ${projectedPositionFits.length} open positions available.`
-                : `${picks.length} of 11 starters drafted. Five player cards available. Select a player first.`}
+                ? t("announcements.playerSelected", { player: selectedPlayer.playerName, year: selectedPlayer.tournamentYear, count: projectedPositionFits.length })
+                : t("announcements.starters", { count: picks.length, total: 11 })}
       </p>
 
       {showReset && (
@@ -662,19 +658,16 @@ export function DraftBoard() {
             aria-modal="true"
             aria-labelledby="reset-title"
           >
-            <span className="eyebrow eyebrow--gold">RESET DRAFT</span>
-            <h2 id="reset-title">Return to coach selection?</h2>
-            <p>
-              Your environment remains. Your coach, formation, all {squadCount}{" "}
-              squad picks, and every respin counter will be reset.
-            </p>
+            <span className="eyebrow eyebrow--gold">{t("resetDraft")}</span>
+            <h2 id="reset-title">{t("resetTitle")}</h2>
+            <p>{t("resetDescription", { count: squadCount })}</p>
             <div className="dialog__actions">
               <Button
                 variant="secondary"
                 onClick={() => setShowReset(false)}
                 autoFocus
               >
-                Keep drafting
+                {t("keepDrafting")}
               </Button>
               <Button
                 onClick={() => {
@@ -683,7 +676,7 @@ export function DraftBoard() {
                   router.push("/play/manager");
                 }}
               >
-                Choose new coach
+                {t("chooseNewCoach")}
               </Button>
             </div>
           </div>
@@ -703,20 +696,17 @@ export function DraftBoard() {
               aria-labelledby="respin-title"
             >
               <span className="eyebrow eyebrow--gold">
-                {respinLabel(respinsRemaining)}
+                {respinsRemaining === 0 ? t("respinsUsed") : t("respins", { count: respinsRemaining })}
               </span>
-              <h2 id="respin-title">Reject all five player cards?</h2>
-              <p>
-                All five choices will be replaced. The current round and your
-                other respins remain unchanged.
-              </p>
+              <h2 id="respin-title">{t("respinTitle")}</h2>
+              <p>{t("respinDescription")}</p>
               <div className="dialog__actions">
                 <Button
                   variant="secondary"
                   onClick={() => setShowRespin(false)}
                   autoFocus
                 >
-                  Keep options
+                  {t("keepOptions")}
                 </Button>
                 <Button
                   onClick={() => {
@@ -724,7 +714,7 @@ export function DraftBoard() {
                     setShowRespin(false);
                   }}
                 >
-                  Confirm player respin
+                  {t("confirmRespin")}
                 </Button>
               </div>
             </div>
@@ -779,6 +769,7 @@ function PlayerChoices({
   onInspect: (player: PlayerTournamentCard) => void;
 }) {
   const reduceMotion = useReducedMotion();
+  const t = useTranslations("draft");
   const filled = new Set(picks.map((pick) => pick.slotId));
   return (
     <div
@@ -826,8 +817,8 @@ function PlayerChoices({
               }
               actionLabel={
                 selected
-                  ? `Cancel ${player.playerName} ${player.tournamentYear} selection`
-                  : `Select ${player.playerName} ${player.tournamentYear} for placement, rated ${player.overall}`
+                  ? t("cancelSelectionAria", { player: player.playerName, year: player.tournamentYear })
+                  : t("selectForPlacementAria", { player: player.playerName, year: player.tournamentYear, rating: player.overall })
               }
             />
           </motion.div>
@@ -864,13 +855,15 @@ function SelectedPlayerSummary({
   onCancel: () => void;
   onOpenRecord: () => void;
 }) {
+  const t = useTranslations("draft.playerPreview");
+  const localize = useLocalizedContent();
   const chemistryChange =
     projectedRatings.chemistry - currentRatings.chemistry;
   const overallChange = projectedRatings.overall - currentRatings.overall;
   return (
     <aside
       className={`selected-player-summary selected-player-summary--${player.statusTier} ${styles.dossier}`}
-      aria-label="Selected player preview"
+      aria-label={t("aria")}
     >
       <div className={styles.dossierIdentity}>
         <CircularPortrait
@@ -883,17 +876,17 @@ function SelectedPlayerSummary({
           size="compact"
         />
         <span>
-          <small className="eyebrow">SELECTED PLAYER</small>
+          <small className="eyebrow">{t("selectedPlayer")}</small>
           <b>{player.playerName}</b>
           <i>
-            {flagForCountry(player.countryCode)} {player.countryName} ·{" "}
+            {flagForCountry(player.countryCode)} {localize(player.countryName)} ·{" "}
             {player.tournamentYear}
           </i>
         </span>
       </div>
       <div
         className={styles.dossierCardRating}
-        aria-label={`${player.overall} overall, ${player.primaryPosition}`}
+        aria-label={t("ratingAria", { rating: player.overall, position: player.primaryPosition })}
       >
         <strong>{player.overall}</strong>
         <span>{player.primaryPosition}</span>
@@ -903,35 +896,35 @@ function SelectedPlayerSummary({
         className={`text-button ${styles.dossierCancel}`}
         onClick={onCancel}
       >
-        <X size={13} aria-hidden /> Cancel
+        <X size={13} aria-hidden /> {t("cancel")}
       </button>
       <dl className={styles.dossierMetrics}>
         <div>
-          <dt>Best Position</dt>
-          <dd>{bestSlotLabel ?? "None"}</dd>
+          <dt>{t("bestPosition")}</dt>
+          <dd>{bestSlotLabel ?? t("none")}</dd>
         </div>
         <div>
-          <dt>Position Fit</dt>
+          <dt>{t("positionFit")}</dt>
           <dd>{positionFit === undefined ? "—" : `${positionFit}%`}</dd>
           {Boolean(placementPenalty) && (
-            <small>Placement Penalty −{placementPenalty}%</small>
+            <small>{t("placementPenalty", { value: placementPenalty ?? 0 })}</small>
           )}
         </div>
         <div>
-          <dt>{eraFit === undefined ? "Match Era" : "Era Fit"}</dt>
-          <dd>{eraFit === undefined ? "Neutral" : eraFit}</dd>
+          <dt>{eraFit === undefined ? t("matchEra") : t("eraFit")}</dt>
+          <dd>{eraFit === undefined ? t("neutral") : eraFit}</dd>
           {eraFit === undefined ? (
-            <small>No era modifier</small>
+            <small>{t("noEraModifier")}</small>
           ) : Boolean(eraImpact) ? (
-            <small>Era Impact −{eraImpact}%</small>
+            <small>{t("eraImpact", { value: eraImpact ?? 0 })}</small>
           ) : null}
         </div>
         <div>
-          <dt>Manager Fit</dt>
+          <dt>{t("managerFit")}</dt>
           <dd>{managerFit}</dd>
         </div>
         <div>
-          <dt>Projected Chemistry</dt>
+          <dt>{t("projectedChemistry")}</dt>
           <dd>
             {projectedRatings.chemistry}
             <i>
@@ -941,7 +934,7 @@ function SelectedPlayerSummary({
           </dd>
         </div>
         <div>
-          <dt>Projected Overall</dt>
+          <dt>{t("projectedOverall")}</dt>
           <dd>
             {projectedRatings.overall}
             <i>
@@ -953,19 +946,19 @@ function SelectedPlayerSummary({
       </dl>
       <div className={styles.integratedChemistry}>
         <span>
-          Current <b>{currentRatings.chemistry}</b>
+          {t("current")} <b>{currentRatings.chemistry}</b>
         </span>
         <span>
-          Projected <b>{projectedRatings.chemistry}</b>
+          {t("projected")} <b>{projectedRatings.chemistry}</b>
         </span>
         <span data-positive={chemistryChange >= 0}>
-          Exact delta <b>{chemistryChange > 0 ? "+" : ""}{chemistryChange}</b>
+          {t("exactDelta")} <b>{chemistryChange > 0 ? "+" : ""}{chemistryChange}</b>
         </span>
         {chemistryReasons.length > 0 && (
           <ul>
             {chemistryReasons.map((reason) => (
               <li key={reason.key}>
-                {reason.label} <b>{reason.value > 0 ? "+" : ""}{reason.value}</b>
+                {t(`chemistryReasons.${reason.key}`)} <b>{reason.value > 0 ? "+" : ""}{reason.value}</b>
               </li>
             ))}
           </ul>
@@ -980,14 +973,14 @@ function SelectedPlayerSummary({
         className={styles.dossierTags}
         id={`selected-player-tags-${player.id}`}
       >
-        <summary>VIEW PLAYER TAGS</summary>
+        <summary>{t("viewTags")}</summary>
         <ul>
           {player.modeledTags.map((tag) => (
             <li key={tag}>
               <b>{tag}</b>
               <span>
                 {modeledTagCopy[tag]?.effect ??
-                  "Adds value when the role and system fit."}
+                  t("tagFallback")}
               </span>
             </li>
           ))}
@@ -1006,6 +999,7 @@ function RespinRow({
   remaining: number;
   onOpen: () => void;
 }) {
+  const t = useTranslations("draft");
   return (
     <div className={`respin-row ${styles.respinRow}`}>
       <button
@@ -1015,7 +1009,7 @@ function RespinRow({
         onClick={onOpen}
       >
         <RefreshCw size={15} aria-hidden />
-        {respinLabel(remaining)}
+        {remaining === 0 ? t("respinsUsed") : t("respins", { count: remaining })}
       </button>
     </div>
   );
@@ -1032,9 +1026,10 @@ function BenchAssignment({
   onAssign: (slotId: BenchSlotId) => void;
   onCancel: () => void;
 }) {
+  const t = useTranslations("draft.bench");
   return (
     <div className="bench-assignment">
-      <span className="eyebrow eyebrow--gold">ASSIGN SUBSTITUTE</span>
+      <span className="eyebrow eyebrow--gold">{t("assign")}</span>
       <CircularPortrait
         imageId={player.imageId}
         subjectName={player.playerName}
@@ -1057,19 +1052,19 @@ function BenchAssignment({
             disabled={occupied.includes(slotId)}
             onClick={() => onAssign(slotId)}
           >
-            Bench {index + 1}
+            {t("number", { number: index + 1 })}
             <small>
               {index === 0
-                ? "Highest priority · usually most minutes"
+                ? t("priorityHigh")
                 : index === 1
-                  ? "Medium priority"
-                  : "Lowest priority · usually fewest minutes"}
+                  ? t("priorityMedium")
+                  : t("priorityLow")}
             </small>
           </Button>
         ))}
       </div>
       <button type="button" className="text-button" onClick={onCancel}>
-        <X size={14} aria-hidden /> Choose another card
+        <X size={14} aria-hidden /> {t("chooseAnother")}
       </button>
     </div>
   );
@@ -1089,15 +1084,13 @@ function BenchReview({
   onContinue: () => void;
 }) {
   const reduceMotion = useReducedMotion();
+  const t = useTranslations("draft.bench");
 
   return (
     <div className="bench-review">
-      <span className="eyebrow eyebrow--gold">ORDERED BENCH</span>
-      <h2>Priority changes expected minutes.</h2>
-      <p>
-        Bench 1 is considered first and normally plays most. Use the buttons to
-        reorder without drag-and-drop.
-      </p>
+      <span className="eyebrow eyebrow--gold">{t("ordered")}</span>
+      <h2>{t("priorityTitle")}</h2>
+      <p>{t("priorityDescription")}</p>
       <ol>
         {benchSlots.map((slotId, index) => {
           const player = playersById.get(
@@ -1139,14 +1132,14 @@ function BenchReview({
                 <b>{player.playerName}</b>
                 <span>
                   {player.tournamentYear} · {player.primaryPosition} ·{" "}
-                  {index === 0 ? "25–40" : index === 1 ? "12–28" : "3–18"} min
+                  {t("minutes", { range: index === 0 ? "25–40" : index === 1 ? "12–28" : "3–18" })}
                 </span>
               </button>
               <div className="bench-reorder">
                 <button
                   type="button"
                   className="icon-button"
-                  aria-label={`Move ${player.playerName} up`}
+                  aria-label={t("moveUp", { player: player.playerName })}
                   disabled={index === 0}
                   onClick={() => onMove(slotId, -1)}
                 >
@@ -1155,7 +1148,7 @@ function BenchReview({
                 <button
                   type="button"
                   className="icon-button"
-                  aria-label={`Move ${player.playerName} down`}
+                  aria-label={t("moveDown", { player: player.playerName })}
                   disabled={index === 2}
                   onClick={() => onMove(slotId, 1)}
                 >

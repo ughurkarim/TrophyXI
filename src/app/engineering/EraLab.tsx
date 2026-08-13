@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import styles from "./engineering.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 type Direction = "forward" | "backward";
 
 export default function EraLab() {
+  const localize = useLocalizedContent();
   const [direction, setDirection] = useState<Direction>("forward");
   const from = direction === "forward" ? "1970" : "2026";
   const to = direction === "forward" ? "2026" : "1970";
@@ -31,15 +33,15 @@ export default function EraLab() {
 
       <div className={styles.eraStage} key={direction}>
         <div className={styles.eraYearCard}>
-          <span>SOURCE</span>
+          <span>{localize("SOURCE")}</span>
           <strong>{from}</strong>
         </div>
         <div className={styles.eraTransfer}>
           <div className={styles.eraTransferLine} />
-          <span>translate</span>
+          <span>{localize("translate")}</span>
         </div>
         <div className={styles.eraYearCard}>
-          <span>ENVIRONMENT</span>
+          <span>{localize("ENVIRONMENT")}</span>
           <strong>{to}</strong>
         </div>
       </div>
@@ -50,7 +52,7 @@ export default function EraLab() {
         <strong>E({to} → {from})</strong>
       </div>
       <p className={styles.eraLabCopy}>
-        The direction matters. The environment changes, then the translation is evaluated in that direction. No era gets a permanent built in advantage.
+        {localize("The direction matters. The environment changes, then the translation is evaluated in that direction. No era gets a permanent built in advantage.")}
       </p>
     </div>
   );

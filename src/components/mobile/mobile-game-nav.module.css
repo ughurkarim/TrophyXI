@@ -2,6 +2,10 @@
   display: none;
 }
 
+:global([dir="rtl"]) .directionalIcon {
+  transform: scaleX(-1);
+}
+
 @media (max-width: 767px) {
   .nav {
     position: fixed;
@@ -11,7 +15,7 @@
     left: max(10px, env(safe-area-inset-left));
     display: grid;
     min-height: 64px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     align-items: center;
     padding: 5px 6px;
     overflow: hidden;
@@ -59,6 +63,20 @@
     letter-spacing: 0.1em;
     flex-direction: column;
     text-transform: uppercase;
+  }
+
+  .languageSlot {
+    display: grid;
+    min-width: 0;
+    min-height: 52px;
+    place-items: center;
+  }
+
+  .languageSlot :global(.language-selector__trigger) {
+    min-width: 48px;
+    height: 44px;
+    border: 0;
+    background: transparent;
   }
 
   .nav > a[aria-current="page"] {

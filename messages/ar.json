@@ -1,0 +1,262 @@
+{
+  "common": {
+    "brandHome": "الصفحة الرئيسية لـ Trophy XI",
+    "back": "رجوع",
+    "home": "الرئيسية",
+    "players": "اللاعبون",
+    "close": "إغلاق",
+    "select": "اختيار",
+    "selected": "تم الاختيار",
+    "continue": "متابعة",
+    "loading": "جارٍ التحميل…",
+    "photoPending": "الصورة قيد الانتظار",
+    "trophyXi": "Trophy XI",
+    "dismissNotice": "إغلاق الإشعار"
+  },
+  "navigation": {
+    "database": "قاعدة البيانات",
+    "howItWorks": "طريقة اللعب",
+    "champions": "الأبطال",
+    "engineering": "هندسة اللعبة",
+    "startDraft": "ابدأ الدرافت",
+    "primary": "التنقل الرئيسي",
+    "mobile": "التنقل عبر الهاتف",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة",
+    "game": "التنقل في اللعبة",
+    "goBack": "العودة",
+    "session": "الجلسة",
+    "currentSession": "الجلسة الحالية: {step}",
+    "language": "اللغة",
+    "selectLanguage": "اختيار اللغة"
+  },
+  "gameSetup": {
+    "mode": {
+      "loading": "جارٍ فتح أنماط اللعب",
+      "step": "النمط / 00",
+      "title": "كيف ستبني تشكيلتك؟",
+      "chooseAria": "اختر نمط اللعب",
+      "fanFavorite": "المفضل لدى الجماهير",
+      "selected": "تم الاختيار",
+      "selectMode": "اختر النمط",
+      "selectAMode": "اختر نمطًا",
+      "yourPath": "مسارك",
+      "choosePath": "اختر مسارك",
+      "chooseThree": "اختر واحدة من ثلاث طرق للعب",
+      "chooseOne": "اختر نمطًا واحدًا",
+      "decision": "كل تشكيلة عظيمة تبدأ بقرار.",
+      "mobileHint": "اختر نمطًا ثم ابدأ بالعصر.",
+      "options": {
+        "classic": {
+          "title": "الدرافت الكلاسيكي",
+          "emotion": "الضغط",
+          "statement": "ثق بحدسك.",
+          "description": "خمسة خيارات في كل جولة وقرارات محدودة. اصنع العظمة بما يقدمه لك الأرشيف.",
+          "mobileDescription": "خمسة خيارات في كل جولة. ابنِ فريقًا عظيمًا ضمن اختيارات محدودة.",
+          "traits": {
+            "0": "5 بطاقات للاختيار",
+            "1": "تحكم محدود",
+            "2": "كل اختيار مهم"
+          },
+          "cta": "ادخل الدرافت"
+        },
+        "free": {
+          "title": "الاختيار الحر",
+          "emotion": "التحكم",
+          "statement": "ابنِ التشكيلة التي تتخيلها.",
+          "description": "الأرشيف بين يديك. اختر كل لاعب والعصر والمدرب والخطة والمنافس.",
+          "mobileDescription": "الأرشيف بين يديك. اختر اللاعبين والعصر والمدرب والخطة والمنافس.",
+          "traits": {
+            "0": "أي لاعب",
+            "1": "أي عصر",
+            "2": "تحكم كامل"
+          },
+          "cta": "ابنِ تشكيلتك"
+        },
+        "run": {
+          "title": "مشوار كأس العالم",
+          "emotion": "البقاء",
+          "statement": "تشكيلة واحدة. مشوار واحد. فرصة واحدة.",
+          "description": "قد تشكيلتك إلى المسرح العالمي. تجاوز دور المجموعات والأدوار الإقصائية وبلغ النهائي.",
+          "mobileDescription": "ابنِ تشكيلتك. تجاوز المجموعة وانتصر في الأدوار الإقصائية.",
+          "traits": {
+            "0": "48 منتخبًا",
+            "1": "أدوار إقصائية",
+            "2": "بطل واحد"
+          },
+          "cta": "ابدأ المشوار"
+        }
+      }
+    },
+    "manager": {
+      "offenseShort": "هجوم",
+      "defenseShort": "دفاع",
+      "leadershipShort": "قيادة",
+      "gameManagementShort": "إدارة"
+    }
+  },
+  "landing": {
+    "engineeringAria": "هندسة Trophy XI",
+    "underHood": "خلف الكواليس",
+    "mathMatch": "الحسابات وراء المباراة.",
+    "engineeringDescription": "البذور ونمذجة الفرق والترجمة بين العصور وحالة المباراة.",
+    "engineering": "هندسة اللعبة",
+    "eyebrow": "محاكي تشكيلة كأس العالم",
+    "buildXi": "ابنِ التشكيلة.",
+    "beatHistory": "اهزم التاريخ.",
+    "lede": "اختر أساطير بنسخهم الخاصة بكل بطولة، وابنِ تشكيلة متوازنة، ثم اختبرها أمام كل أبطال العالم منذ 1970.",
+    "buildYourXi": "ابنِ تشكيلتك",
+    "seeHow": "اكتشف طريقة اللعب",
+    "highlightsAria": "أبرز مزايا اللعبة",
+    "tournamentCards": "بطاقات بطولات",
+    "worldCupChampions": "أبطال عالم",
+    "deterministicEngine": "محرك مباريات حتمي",
+    "dressingRoom": "غرفة الملابس",
+    "fourteenOneMatch": "أربعة عشر لاعبًا. مباراة واحدة.",
+    "winnersArchive": "أرشيف الأبطال",
+    "championsHeading": "أبطال العالم في إطار ذهبي.",
+    "steps": {
+      "stage": {
+        "title": "هيّئ المسرح",
+        "copy": "اختر العصر الكروي وظروف المباراة. على جميع اللاعبين التأقلم مع البيئة نفسها."
+      },
+      "manager": {
+        "title": "اختر العقل المدبر",
+        "copy": "عيّن مدرب بطولة تشكّل تكتيكاته وقيادته وهجومه ودفاعه فريقك."
+      },
+      "squad": {
+        "title": "ابنِ تشكيلتك",
+        "copy": "اختر أحد عشر أساسيًا وثلاثة بدلاء. وازن بين الموهبة والانسجام وملاءمة المراكز وعمق الدكة."
+      },
+      "challenge": {
+        "title": "تحدَّ التاريخ",
+        "copy": "اختر منتخبًا وسنة واختبر فريقك أمام أحد أعظم أبطال كأس العالم."
+      }
+    },
+    "heroTimeline": {
+      "aria": "خط زمني لبطاقات رونالدو وميسي في البطولات، يعرض عام {year}. التسلسل: 2026، 2022، 2018، 2014، 2010، 2006.",
+      "showing": "عرض عام {year}",
+      "sixTournaments": "ست بطولات · عشرون عامًا"
+    },
+    "finalChallenge": {
+      "eyebrow": "التحدي ينتظرك",
+      "line1": "ابنِ الفريق",
+      "line2": "القادر على",
+      "line3": "هزيمتهم جميعًا.",
+      "description": "اختر أربعة عشر لاعبًا بنسخهم في البطولات، وصغ منهم فريقًا متوازنًا، ثم واجه الأبطال الذين صنعوا تاريخ كأس العالم.",
+      "build": "ابنِ تشكيلتي",
+      "viewChampions": "شاهد الأبطال",
+      "aria": "تحدي كأس العالم",
+      "championsCount": "{count} بطلًا",
+      "oneXi": "تشكيلة واحدة"
+    },
+    "mobile": {
+      "build": "ابنِ تشكيلتك.",
+      "beat": "اهزم التاريخ.",
+      "lede": "اختر أربعة عشر نجمًا من البطولات، وشكّل فريقك، وواجه أبطال العالم في محاكاة مباراة كاملة.",
+      "featuredPlayers": "اللاعبون البارزون",
+      "play": "العب Trophy XI",
+      "noWaiting": "لا انتظار. قرارك الأول يبدأ الآن.",
+      "fourDecisions": "مشوار واحد · أربعة قرارات",
+      "archiveToFinal": "من الأرشيف إلى النهائي.",
+      "steps": {
+        "era": {
+          "title": "حدّد العصر",
+          "copy": "اختر بيئة المباراة."
+        },
+        "manager": {
+          "title": "اختر العقل المدبر",
+          "copy": "عيّن مدرب البطولة."
+        },
+        "squad": {
+          "title": "ابنِ الفريق",
+          "copy": "اختر تشكيلة أساسية وثلاثة بدلاء."
+        },
+        "match": {
+          "title": "العب المباراة",
+          "copy": "تحدَّ التاريخ أو ادخل كأس العالم."
+        }
+      }
+    }
+  },
+  "results": {
+    "page": {
+      "attackShort": "هجوم",
+      "midfieldShort": "وسط",
+      "defenseShort": "دفاع",
+      "chemistryShort": "تناغم",
+      "overallShort": "عام",
+      "positionShort": "مركز",
+      "eraShort": "حقبة",
+      "managerShort": "مدرب"
+    }
+  },
+  "matchReveal": {
+    "allStarsLogo": "شعار فريق النجوم",
+    "crestAria": "شعار {team}",
+    "startingXi": "التشكيلة الأساسية"
+  },
+  "sharedGame": {
+    "allStars": "فريق النجوم",
+    "overallShort": "عام"
+  },
+  "matches": {
+    "environmentManager": "بيئة {era} · {manager}"
+  },
+  "metadata": {
+    "defaultTitle": "Trophy XI — ابنِ التشكيلة. وتحدَّ التاريخ.",
+    "description": "اختر نسخًا أسطورية من بطولات كأس العالم وتحدَّ أعظم الأبطال عبر التاريخ.",
+    "openGraphDescription": "اختر أربعة عشر لاعبًا من نسخ البطولات، وواجه بطلًا تاريخيًا لكأس العالم، واكتب التاريخ من جديد.",
+    "twitterDescription": "ابنِ التشكيلة. وتحدَّ التاريخ."
+  },
+  "players": {
+    "database": {
+      "overallShort": "عام"
+    }
+  },
+  "freeSelection": {
+    "overallShort": "عام"
+  },
+  "worldCupRun": {
+    "overallShort": "عام"
+  },
+  "draft": {
+    "teamRatings": {
+      "aria": "تقييمات الفريق",
+      "attackShort": "هجوم",
+      "midfieldShort": "وسط",
+      "defenseShort": "دفاع",
+      "chemistryShort": "تناغم",
+      "overallShort": "عام",
+      "cohesion": "الانسجام",
+      "manager": "المدرب",
+      "balance": "التوازن",
+      "era": "الحقبة",
+      "squadLegacy": "إرث التشكيلة",
+      "legacyTiers": {
+        "immortal": "خالد",
+        "legendary": "أسطوري",
+        "decorated": "حافل",
+        "established": "راسخ",
+        "building": "قيد البناء"
+      },
+      "overallBoost": "تعزيز التقييم",
+      "legacyAria": "إرث التشكيلة {score} من 100، وتعزيز التقييم زائد {bonus}",
+      "legacyFactors": "البطولات · الجوائز · ألقاب المسيرة",
+      "chemistry": "التناغم",
+      "chemistryStates": {
+        "elite": "نخبوي",
+        "strong": "قوي",
+        "balanced": "متوازن",
+        "developing": "يتطور",
+        "disconnected": "غير مترابط"
+      },
+      "factorAria": "{label}: {value} من 100"
+    }
+  },
+  "openGraph": {
+    "history": "التاريخ",
+    "finalRecord": "السجل النهائي",
+    "openMatch": "افتح المباراة · شاهد الفريقين · عِش مجريات اللقاء"
+  }
+}

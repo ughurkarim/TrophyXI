@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Shield, Users, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { getFormation } from "@/data/formations";
 import { playersById } from "@/data/players";
@@ -20,6 +21,7 @@ import germanyLogo from "../../../assets/circlelogo/germany.png";
 import italyLogo from "../../../assets/circlelogo/italy.png";
 import spainLogo from "../../../assets/circlelogo/spain.png";
 import styles from "./champion-reveal.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 type SquadView = "user" | "opponent" | null;
 
@@ -45,20 +47,6 @@ const championLogoByNation: Record<string, string> = {
 
 const normalizeNationName = (value: string) => value.trim().toLowerCase();
 
-const formatUserEra = (value: string) => {
-  const trimmed = value.trim();
-  const normalized = trimmed.toLowerCase();
-
-  if (normalized.includes("all eras") || normalized.includes("neutral")) {
-    return "ALL ERAS";
-  }
-
-  return trimmed
-    .replace(/\s*environment.*$/i, "")
-    .replace(/\s*·\s*title.*$/i, "")
-    .trim();
-};
-
 export function ChampionReveal({
   opponent,
   userRatings,
@@ -72,6 +60,8 @@ export function ChampionReveal({
   opponentEraFit: number;
   onSimulate: () => void;
 }) {
+  const t = useTranslations("matchReveal");
+  const localize = useLocalizedContent();
   const reduceMotion = useReducedMotion();
   const [ready, setReady] = useState(Boolean(reduceMotion));
   const [launching, setLaunching] = useState(false);
@@ -150,11 +140,11 @@ export function ChampionReveal({
 
   const opponentChemistry = opponent.allStars?.chemistry ?? 86;
   const metricRows = [
-    ["Attack", userRatings.attack, opponent.ratings.attack],
-    ["Midfield", userRatings.midfield, opponent.ratings.midfield],
-    ["Defense", userRatings.defense, opponent.ratings.defense],
-    ["Chemistry", userRatings.chemistry, opponentChemistry],
-    ["Overall", userRatings.overall, opponent.ratings.overall],
+    [t("metrics.attack"), userRatings.attack, opponent.ratings.attack],
+    [t("metrics.midfield"), userRatings.midfield, opponent.ratings.midfield],
+    [t("metrics.defense"), userRatings.defense, opponent.ratings.defense],
+    [t("metrics.chemistry"), userRatings.chemistry, opponentChemistry],
+    [t("metrics.overall"), userRatings.overall, opponent.ratings.overall],
   ] as const;
 
   const formationLabel = opponent.formationLabel ?? opponent.formation;
@@ -163,8 +153,7 @@ export function ChampionReveal({
     championLogoByCode[opponent.nationCode] ??
     championLogoByNation[normalizeNationName(opponent.nationName)];
   const opponentDisplayName =
-    opponent.kind === "all-stars" ? "All Stars" : opponent.nationName;
-  const userEraLabel = formatUserEra(userEra);
+    opponent.kind === "all-stars" ? t("allStars") : localize(opponent.nationName);
 
   return (
     <section
@@ -183,7 +172,7 @@ export function ChampionReveal({
       >
         <TeamIdentity
           side="user"
-          eyebrow={`YOUR XI · ${userEraLabel}`}
+          eyebrow={t("yourXiEra", { era: userEra })}
           name="Trophy XI"
           launching={launching}
           ready
@@ -191,7 +180,7 @@ export function ChampionReveal({
         />
 
         <div className={styles.versusCenter}>
-          <span className={styles.finalKicker}>THE WORLD CUP FINAL</span>
+          <span className={styles.finalKicker}>{t("worldCupFinal")}</span>
           <motion.div
             className={`versus-mark ${styles.versusMark}`}
             data-testid="final-versus-mark"
@@ -207,8 +196,8 @@ export function ChampionReveal({
           side="opponent"
           eyebrow={
             opponent.kind === "all-stars"
-              ? "FEATURED CHALLENGE · MYTHIC"
-              : `WORLD CHAMPION · ${opponent.tournamentYear}`
+              ? t("featuredMythic")
+              : t("worldChampionYear", { year: opponent.tournamentYear ?? "" })
           }
           name={opponentDisplayName}
           countryLogo={opponentLogo}
@@ -224,17 +213,17 @@ export function ChampionReveal({
         className={styles.comparison}
         initial={reduceMotion ? false : { opacity: 0, y: 8 }}
         animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 8 }}
-        aria-label="Team ratings comparison"
+        aria-label={t("ratingsComparisonAria")}
       >
         <div className={styles.metricTitle}>
           <i />
-          <span>TEAM STATS</span>
+          <span>{t("teamStats")}</span>
           <i />
         </div>
 
         <div className={styles.metricList}>
           {metricRows.map(([label, userValue, opponentValue]) => (
-            <div className={styles.metricRow} data-overall={label === "Overall" ? "true" : "false"} key={label}>
+            <div className={styles.metricRow} data-overall={label === t("metrics.overall") ? "true" : "false"} key={label}>
               <b>{userValue}</b>
               <MetricBar side="user" value={userValue} />
               <span>{label}</span>
@@ -249,20 +238,20 @@ export function ChampionReveal({
         className={styles.dossierGrid}
         initial={reduceMotion ? false : { opacity: 0, y: 8 }}
         animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 8 }}
-        aria-label={`${opponent.nationName} match dossier`}
+        aria-label={t("dossierAria", { country: localize(opponent.nationName) })}
       >
 
         <article className={`${styles.infoCard} ${styles.tacticalCard}`}>
           <div className={styles.tacticalIdentity}>
-            <span className={styles.cardEyebrow}>TACTICAL IDENTITY</span>
-            <h3>{opponent.tacticalProfile}</h3>
+            <span className={styles.cardEyebrow}>{t("tacticalIdentity")}</span>
+            <h3>{localize(opponent.tacticalProfile)}</h3>
             <div className={styles.tacticalDivider} aria-hidden />
             <p className={styles.tacticalMeta}>
-              Manager: {managerName} <i /> {formationLabel} <i />
-              {opponentEraFit > 0 ? `Era Fit ${opponentEraFit}` : "Neutral era"}
+              {t("manager")}: {managerName} <i /> {formationLabel} <i />
+              {opponentEraFit > 0 ? t("eraFitValue", { value: opponentEraFit }) : t("neutralEra")}
             </p>
             {opponent.championFact && (
-              <p className={styles.championFact}>{opponent.championFact}</p>
+              <p className={styles.championFact}>{localize(opponent.championFact)}</p>
             )}
           </div>
         </article>
@@ -273,11 +262,11 @@ export function ChampionReveal({
           </div>
           <div className={styles.formationFacts}>
             <div className={styles.formationPrimary}>
-              <span className={styles.cardEyebrow}>FORMATION</span>
+              <span className={styles.cardEyebrow}>{t("formation")}</span>
               <strong>{formationLabel}</strong>
             </div>
             <div className={styles.opponentOverall}>
-              <span className={styles.cardEyebrow}>OPPONENT OVR</span>
+              <span className={styles.cardEyebrow}>{t("opponentOverall")}</span>
               <b>{opponent.ratings.overall}</b>
             </div>
           </div>
@@ -292,7 +281,7 @@ export function ChampionReveal({
             onClick={() => setSquadView("user")}
           >
             <span className={styles.squadButtonIcon} aria-hidden><Users size={15} /></span>
-            <span>View Your XI</span>
+            <span>{t("viewYourXi")}</span>
           </Button>
           <Button
             className={styles.squadButton}
@@ -300,17 +289,17 @@ export function ChampionReveal({
             onClick={() => setSquadView("opponent")}
           >
             <span className={styles.squadButtonIcon} aria-hidden><Shield size={15} /></span>
-            <span>View Opponent XI</span>
+            <span>{t("viewOpponentXi")}</span>
           </Button>
         </div>
 
         <div className={styles.readyBlock}>
-          <span className={styles.readyPill}><i /> FINAL READY</span>
-          <p>One match for the trophy.</p>
+          <span className={styles.readyPill}><i /> {t("finalReady")}</span>
+          <p>{t("oneMatch")}</p>
         </div>
 
         <Button className={styles.simulateButton} onClick={startBroadcast} disabled={!ready || launching}>
-          <span>{launching ? "Opening Final" : "Enter Final"}</span>
+          <span>{launching ? t("openingFinal") : t("enterFinal")}</span>
           <span className={styles.simulateArrow} aria-hidden>
             <ArrowRight size={16} />
           </span>
@@ -320,11 +309,11 @@ export function ChampionReveal({
       {squadView && (
         <RevealSquadDrawer
           side={squadView}
-          heading={squadView === "user" ? "Trophy XI" : opponent.kind === "all-stars" ? "All Stars" : `${opponent.nationName} ${opponent.tournamentYear ?? ""}`}
-          subheading={squadView === "user" ? "YOUR FINAL XI" : `WORLD CHAMPION · ${opponent.tournamentYear ?? ""}`}
+          heading={squadView === "user" ? "Trophy XI" : opponent.kind === "all-stars" ? t("allStars") : `${localize(opponent.nationName)} ${opponent.tournamentYear ?? ""}`}
+          subheading={squadView === "user" ? t("yourFinalXi") : t("worldChampionYear", { year: opponent.tournamentYear ?? "" })}
           formation={
             squadView === "user"
-              ? inferFormationLabel(userPlayers)
+              ? inferFormationLabel(userPlayers, t("startingXi"))
               : formationLabel
           }
           players={squadView === "user" ? userPlayers : opponent.startingLineup}
@@ -375,6 +364,7 @@ function TeamIdentity({
   ready: boolean;
   reduceMotion: boolean;
 }) {
+  const t = useTranslations("matchReveal");
   return (
     <motion.article
       className={`${styles.team} ${side === "opponent" ? styles.opponent : styles.user}`}
@@ -394,7 +384,7 @@ function TeamIdentity({
           ) : isAllStars ? (
             <span
               role="img"
-              aria-label="All Stars logo"
+              aria-label={t("allStarsLogo")}
               style={{
                 position: "absolute",
                 inset: 0,
@@ -413,7 +403,7 @@ function TeamIdentity({
               ✦
             </span>
           ) : countryLogo ? (
-            <img className={styles.countryLogo} src={countryLogo} alt={`${name} crest`} />
+            <img className={styles.countryLogo} src={countryLogo} alt={t("crestAria", { team: name })} />
           ) : (
             <span className={styles.opponentCrest}>{fallbackCrest}</span>
           )}
@@ -540,7 +530,7 @@ function buildPitchLayout(players: HistoricalLineupPlayer[]): PitchPlayer[] {
   return placed;
 }
 
-function inferFormationLabel(players: HistoricalLineupPlayer[]) {
+function inferFormationLabel(players: HistoricalLineupPlayer[], fallback: string) {
   const counts = players.slice(0, 11).reduce(
     (acc, player) => {
       const role = pitchRoleForPosition(player.position);
@@ -552,7 +542,7 @@ function inferFormationLabel(players: HistoricalLineupPlayer[]) {
 
   return counts.def + counts.mid + counts.att === 10
     ? `${counts.def}-${counts.mid}-${counts.att}`
-    : "STARTING XI";
+    : fallback;
 }
 
 function compactPitchName(name: string) {
@@ -574,6 +564,7 @@ function RevealSquadDrawer({
   players: HistoricalLineupPlayer[];
   onClose: () => void;
 }) {
+  const t = useTranslations("matchReveal");
   const pitchPlayers = buildPitchLayout(players);
 
   return (
@@ -583,7 +574,7 @@ function RevealSquadDrawer({
         data-side={side}
         role="dialog"
         aria-modal="true"
-        aria-label={`${heading} starting eleven`}
+        aria-label={t("startingElevenAria", { team: heading })}
         onMouseDown={(event) => event.stopPropagation()}
         onKeyDown={(event) => {
           if (event.key === "Escape") onClose();
@@ -597,14 +588,14 @@ function RevealSquadDrawer({
 
           <div className={styles.pitchHeaderRight}>
             <span className={styles.formationChip}>{formation}</span>
-            <button className={styles.pitchClose} onClick={onClose} aria-label="Close lineup" autoFocus>
+            <button className={styles.pitchClose} onClick={onClose} aria-label={t("closeLineup")} autoFocus>
               <X size={18} aria-hidden />
             </button>
           </div>
         </header>
 
         <div className={styles.pitchShell}>
-          <div className={styles.pitchSurface} aria-label={`${heading} ${formation} formation`}>
+          <div className={styles.pitchSurface} aria-label={t("formationAria", { team: heading, formation })}>
             <span className={styles.pitchHalfway} aria-hidden />
             <span className={styles.pitchCenterCircle} aria-hidden />
             <span className={`${styles.penaltyArea} ${styles.penaltyAreaTop}`} aria-hidden />

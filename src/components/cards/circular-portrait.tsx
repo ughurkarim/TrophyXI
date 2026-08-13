@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { UserRound } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   imagesById,
   isPlayablePlayerCardId,
@@ -37,6 +38,7 @@ export function CircularPortrait({
   tournamentYear?: number;
   size?: PortraitSize;
 }) {
+  const t = useTranslations("common");
   const registeredImage = imagesById.get(imageId);
   const isPlayer = isPlayablePlayerCardId(imageId);
 
@@ -129,7 +131,7 @@ export function CircularPortrait({
           >
             <UserRound aria-hidden />
             <b>{initials || "XI"}</b>
-            <small>PHOTO PENDING</small>
+            <small>{t("photoPending")}</small>
             <i>
               {countryCode ? flagForCountry(countryCode) : "✦"}{" "}
               {tournamentYear ?? ""}

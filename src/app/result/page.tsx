@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { GameHeader } from "@/components/navigation/game-header";
 import { TacticalPitch } from "@/components/pitch/tactical-pitch";
@@ -17,7 +18,6 @@ import { getDraftEra } from "@/data/eras";
 import { getFormation } from "@/data/formations";
 import { managersById } from "@/data/managers";
 import {
-  getOpponentLabel,
   historicalOpponentsById,
 } from "@/data/opponents";
 import { playersById } from "@/data/players";
@@ -26,6 +26,7 @@ import { assignHistoricalLineupToFormation } from "@/engine/historical-lineup";
 import { cn } from "@/lib/utils";
 import { encodeSharedGame } from "@/lib/shared-game";
 import { useGameStore } from "@/store/game-store";
+import { useLocalizedContent } from "@/i18n/content";
 import type {
   PlayerTournamentCard,
   TeamRatings,
@@ -68,18 +69,21 @@ const ratingRows: Array<{
     TeamRatings,
     "attack" | "midfield" | "defense" | "chemistry" | "overall"
   >;
-  short: string;
-  label: string;
+  shortKey: "attackShort" | "midfieldShort" | "defenseShort" | "chemistryShort" | "overallShort";
 }> = [
-  { key: "attack", short: "ATK", label: "Attack" },
-  { key: "midfield", short: "MID", label: "Midfield" },
-  { key: "defense", short: "DEF", label: "Defense" },
-  { key: "chemistry", short: "CHEM", label: "Chemistry" },
-  { key: "overall", short: "OVR", label: "Overall" },
+  { key: "attack", shortKey: "attackShort" },
+  { key: "midfield", shortKey: "midfieldShort" },
+  { key: "defense", shortKey: "defenseShort" },
+  { key: "chemistry", shortKey: "chemistryShort" },
+  { key: "overall", shortKey: "overallShort" },
 ];
 
 export default function ResultPage() {
   const router = useRouter();
+  const t = useTranslations("results.page");
+  const statsT = useTranslations("results.stats");
+  const eraT = useTranslations("gameSetup.era.options");
+  const localize = useLocalizedContent();
   const [copiedAction, setCopiedAction] = useState<"hero" | null>(null);
   const hydrated = useGameStore((state) => state.hasHydrated);
   const formationId = useGameStore((state) => state.formationId);
@@ -147,7 +151,7 @@ export default function ResultPage() {
     return (
       <main className="game-page loading-state">
         <div className="loading-emblem" />
-        <p className="eyebrow">DEVELOPING THE RESULT</p>
+        <p className="eyebrow">{t("loading")}</p>
       </main>
     );
   }
@@ -162,13 +166,13 @@ export default function ResultPage() {
   ) {
     return (
       <div className="game-page">
-        <GameHeader step="RESULT" />
+        <GameHeader step={t("result")} />
         <main className="empty-game-state">
-          <span className="eyebrow eyebrow--gold">NO RESULT ON RECORD</span>
-          <h1>The gauntlet has not been played.</h1>
-          <p>Complete a fourteen-player squad and simulate the historical match.</p>
+          <span className="eyebrow eyebrow--gold">{t("noResult")}</span>
+          <h1>{t("noResultTitle")}</h1>
+          <p>{t("noResultDescription")}</p>
           <Button onClick={() => router.replace("/play/era")}>
-            Start a game
+            {t("startGame")}
           </Button>
         </main>
       </div>
@@ -176,11 +180,10 @@ export default function ResultPage() {
   }
 
   const era = getDraftEra(eraId ?? "all");
-  const opponentLabel = getOpponentLabel(opponent);
   const opponentDisplayName =
     opponent.kind === "all-stars"
-      ? "All Stars"
-      : `${opponent.nationName}${opponent.tournamentYear ? ` ${opponent.tournamentYear}` : ""}`;
+      ? t("allStars")
+      : `${localize(opponent.nationName)}${opponent.tournamentYear ? ` ${opponent.tournamentYear}` : ""}`;
   const opponentCountryLogo =
     opponent.kind === "all-stars"
       ? undefined
@@ -206,7 +209,7 @@ export default function ResultPage() {
         result.score.penalties[0] < result.score.penalties[1],
     );
   const outcome = won ? "win" : lost ? "loss" : "draw";
-  const summaryText = `Trophy XI ${result.score.user}–${result.score.opponent} ${opponentDisplayName} — view the teams and relive the match.`;
+  const summaryText = t("shareSummary", { user: result.score.user, opponent: result.score.opponent, opponentName: opponentDisplayName });
 
   const sharedGameUrl = () => {
     const token = encodeSharedGame({
@@ -247,7 +250,7 @@ export default function ResultPage() {
         setCopiedAction((current) => (current === action ? null : current));
       }, 1800);
     } catch {
-      window.prompt("Copy this game link:", value);
+      window.prompt(t("copyPrompt"), value);
     }
   };
 
@@ -258,7 +261,7 @@ export default function ResultPage() {
       try {
         await navigator.share({
           title: "Trophy XI",
-          text: "Build your ultimate World Cup XI.",
+          text: t("shareText"),
           url,
         });
         setCopiedAction(action);
@@ -278,7 +281,7 @@ export default function ResultPage() {
       event.team === "user"
         ? manager.managerName
         : (opponentManager ?? opponentDisplayName);
-    return `${coach} turns to the bench to refresh the shape.`;
+    return t("substitutionDetail", { coach });
   };
 
   const decisiveMoment =
@@ -288,7 +291,7 @@ export default function ResultPage() {
   const matchStatRows = [
     {
       key: "possession",
-      label: "Possession",
+      label: statsT("possession"),
       values: result.stats.possession,
       suffix: "%",
       decimals: 0,
@@ -296,7 +299,7 @@ export default function ResultPage() {
     },
     {
       key: "shots",
-      label: "Shots",
+      label: statsT("shots"),
       values: result.stats.shots,
       suffix: "",
       decimals: 0,
@@ -304,7 +307,7 @@ export default function ResultPage() {
     },
     {
       key: "shots-on-target",
-      label: "On target",
+      label: statsT("shotsOnTarget"),
       values: result.stats.shotsOnTarget,
       suffix: "",
       decimals: 0,
@@ -312,7 +315,7 @@ export default function ResultPage() {
     },
     {
       key: "expected-goals",
-      label: "Expected goals",
+      label: statsT("expectedGoals"),
       values: result.stats.expectedGoals,
       suffix: "",
       decimals: 2,
@@ -320,7 +323,7 @@ export default function ResultPage() {
     },
     {
       key: "yellow-cards",
-      label: "Yellow cards",
+      label: statsT("yellowCards"),
       values: result.stats.yellowCards,
       suffix: "",
       decimals: 0,
@@ -328,7 +331,7 @@ export default function ResultPage() {
     },
     {
       key: "tactical-fit",
-      label: "Tactical fit",
+      label: statsT("tacticalFit"),
       values: result.stats.tacticalImpact,
       suffix: "",
       decimals: 0,
@@ -338,7 +341,7 @@ export default function ResultPage() {
 
   return (
     <div className="game-page game-page--result">
-      <GameHeader step="FINAL RECORD" />
+      <GameHeader step={t("finalRecord")} />
       <main
         className={cn("container", styles.main)}
         data-testid="result-page"
@@ -353,22 +356,22 @@ export default function ResultPage() {
           data-testid="result-hero"
         >
           <header className={styles.heroHeader}>
-            <span className={styles.kicker}>FINAL RECORD</span>
-            <h1>{won ? "VICTORY" : lost ? "DEFEAT" : "DRAW"}</h1>
-            <p className={styles.heroOutcomeMeta}>THE WORLD CUP FINAL</p>
+            <span className={styles.kicker}>{t("finalRecord")}</span>
+            <h1>{won ? t("victory") : lost ? t("defeat") : t("draw")}</h1>
+            <p className={styles.heroOutcomeMeta}>{t("worldCupFinal")}</p>
           </header>
 
           <div
             className={styles.scoreboard}
             data-testid="result-scoreboard"
-            aria-label={`Final score: Trophy XI ${result.score.user}, ${opponentDisplayName} ${result.score.opponent}`}
+            aria-label={t("scoreAria", { user: result.score.user, opponent: opponentDisplayName, opponentScore: result.score.opponent })}
           >
             <div className={cn(styles.scoreTeam, styles.scoreTeamUser)}>
               <span className={styles.heroCrest} data-side="user" aria-hidden>
                 <b>XI</b>
               </span>
               <div className={styles.scoreTeamCopy}>
-                <span>YOUR SQUAD</span>
+                <span>{t("yourSquad")}</span>
                 <b>Trophy XI</b>
                 <em>{manager.managerName}</em>
               </div>
@@ -382,7 +385,7 @@ export default function ResultPage() {
 
             <div className={cn(styles.scoreTeam, styles.scoreTeamOpponent)}>
               <div className={styles.scoreTeamCopy}>
-                <span>OPPONENT</span>
+                <span>{t("opponent")}</span>
                 <b>{opponentDisplayName}</b>
                 <em>{opponentManager ?? "—"}</em>
               </div>
@@ -405,7 +408,7 @@ export default function ResultPage() {
 
             {result.score.penalties && (
               <small className={styles.penalties}>
-                PENALTIES {result.score.penalties[0]}–
+                {t("penalties")} {result.score.penalties[0]}–
                 {result.score.penalties[1]}
               </small>
             )}
@@ -414,7 +417,7 @@ export default function ResultPage() {
           {decisiveMoment && (
             <div className={styles.decisiveMoment}>
               <span>
-                DECISIVE MOMENT · {decisiveMoment.minuteLabel}
+                {t("decisiveMoment")} · {decisiveMoment.minuteLabel}
               </span>
               <b>{decisiveMoment.title}</b>
               <p>{timelineDetail(decisiveMoment)}</p>
@@ -433,8 +436,8 @@ export default function ResultPage() {
                 }}
               >
                 <Trophy size={16} aria-hidden />
-                <span className={styles.desktopActionLabel}>Continue tournament</span>
-                <span className={styles.mobileActionLabel}>View World Cup Run</span>
+                <span className={styles.desktopActionLabel}>{t("continueTournament")}</span>
+                <span className={styles.mobileActionLabel}>{t("viewRun")}</span>
               </Button>
             ) : (
               <>
@@ -442,14 +445,14 @@ export default function ResultPage() {
                   className={styles.actionButton}
                   onClick={() => router.push("/match?replay=1")}
                 >
-                  <RotateCcw size={16} aria-hidden /> Play again
+                  <RotateCcw size={16} aria-hidden /> {t("playAgain")}
                 </Button>
                 <Button
                   className={styles.actionButton}
                   variant="secondary"
                   onClick={() => router.push("/play")}
                 >
-                  <Home size={16} aria-hidden /> Main screen
+                  <Home size={16} aria-hidden /> {t("mainScreen")}
                 </Button>
               </>
             )}
@@ -463,7 +466,7 @@ export default function ResultPage() {
               ) : (
                 <Share2 size={16} aria-hidden />
               )}
-              {copiedAction === "hero" ? "Game link ready" : "Share game"}
+              {copiedAction === "hero" ? t("linkReady") : t("shareGame")}
             </Button>
           </div>
         </section>
@@ -475,15 +478,15 @@ export default function ResultPage() {
           >
             <div className={styles.panelHeading}>
               <div>
-                <span className={styles.kicker}>MATCH REPORT</span>
-                <h2>The numbers</h2>
+                <span className={styles.kicker}>{t("matchReport")}</span>
+                <h2>{t("numbers")}</h2>
               </div>
             </div>
 
             <div className={styles.statComparison}>
               <div className={styles.statTeams}>
                 <b>TROPHY XI</b>
-                <span>MATCH STATISTICS</span>
+                <span>{statsT("title")}</span>
                 <b>{opponentDisplayName}</b>
               </div>
 
@@ -544,12 +547,12 @@ export default function ResultPage() {
             <div
               className={styles.ratingStrip}
               data-testid="final-ratings"
-              aria-label="Your final team ratings"
+              aria-label={t("ratingsAria")}
             >
-              <span className={styles.ratingStripLabel}>TEAM PROFILE</span>
+              <span className={styles.ratingStripLabel}>{t("teamProfile")}</span>
 
               <div className={cn(styles.ratingStripItem, styles.ratingStripOverall)}>
-                <span>OVR</span>
+                <span>{t("overallShort")}</span>
                 <strong>{result.userRatings.overall}</strong>
                 <i aria-hidden>
                   <b style={{ width: `${result.userRatings.overall}%` }} />
@@ -558,11 +561,11 @@ export default function ResultPage() {
 
               {ratingRows
                 .filter(({ key }) => key !== "overall")
-                .map(({ key, short }) => {
+                .map(({ key, shortKey }) => {
                   const value = result.userRatings[key];
                   return (
                     <div className={styles.ratingStripItem} key={key}>
-                      <span>{short}</span>
+                      <span>{t(shortKey)}</span>
                       <strong>{value}</strong>
                       <i aria-hidden>
                         <b style={{ width: `${value}%` }} />
@@ -572,19 +575,19 @@ export default function ResultPage() {
                 })}
 
               <div className={styles.ratingStripItem}>
-                <span>POS</span>
+                <span>{t("positionShort")}</span>
                 <strong>{result.userRatings.positionFit}</strong>
               </div>
 
               {eraId !== "all" && (
                 <div className={styles.ratingStripItem}>
-                  <span>ERA</span>
+                  <span>{t("eraShort")}</span>
                   <strong>{result.userRatings.eraFit}</strong>
                 </div>
               )}
 
               <div className={styles.ratingStripItem}>
-                <span>MGR</span>
+                <span>{t("managerShort")}</span>
                 <strong>{result.userRatings.managerFit}</strong>
               </div>
             </div>
@@ -593,8 +596,8 @@ export default function ResultPage() {
 
         <section className={styles.teamSheets} data-testid="team-sheets">
           <div className={styles.sectionHeading}>
-            <span className={styles.kicker}>TEAM SHEETS</span>
-            <h2>Two XIs. One final record.</h2>
+            <span className={styles.kicker}>{t("teamSheets")}</span>
+            <h2>{t("teamSheetsTitle")}</h2>
           </div>
           <div className={styles.teamGrid}>
             <article
@@ -608,30 +611,30 @@ export default function ResultPage() {
                 <div className={styles.teamIdentity}>
                   <span aria-hidden>XI</span>
                   <div>
-                    <small>YOUR SQUAD</small>
+                    <small>{t("yourSquad")}</small>
                     <h3>Trophy XI</h3>
                   </div>
                 </div>
                 <div className={styles.teamOverall}>
                   <div className={styles.teamOverallMeta}>
-                    {won && <small className={styles.winnerBadge}>WINNER</small>}
-                    <span>OVR</span>
+                    {won && <small className={styles.winnerBadge}>{t("winner")}</small>}
+                    <span>{t("overallShort")}</span>
                   </div>
                   <b>{result.userRatings.overall}</b>
                 </div>
               </header>
               <dl className={styles.teamMeta}>
                 <div>
-                  <dt>Manager</dt>
+                  <dt>{t("manager")}</dt>
                   <dd>{manager.managerName}</dd>
                 </div>
                 <div>
-                  <dt>Formation</dt>
+                  <dt>{t("formation")}</dt>
                   <dd>{formation.name}</dd>
                 </div>
                 {eraId !== "all" && (
                   <div>
-                    <dt>Era Fit</dt>
+                    <dt>{t("eraFit")}</dt>
                     <dd>{result.userRatings.eraFit}</dd>
                   </div>
                 )}
@@ -644,7 +647,7 @@ export default function ResultPage() {
                 />
               </div>
               <p className={styles.tacticalSummary}>
-                {manager.tacticalIdentity}. Built for the {era.label} environment.
+                {t("tacticalSummary", { identity: localize(manager.tacticalIdentity), era: eraT(`${era.id}.label`) })}
               </p>
             </article>
 
@@ -673,30 +676,30 @@ export default function ResultPage() {
                     )}
                   </span>
                   <div>
-                    <small>OPPONENT</small>
+                    <small>{t("opponent")}</small>
                     <h3>{opponentDisplayName}</h3>
                   </div>
                 </div>
                 <div className={styles.teamOverall}>
                   <div className={styles.teamOverallMeta}>
-                    {lost && <small className={styles.winnerBadge}>WINNER</small>}
-                    <span>OVR</span>
+                    {lost && <small className={styles.winnerBadge}>{t("winner")}</small>}
+                    <span>{t("overallShort")}</span>
                   </div>
                   <b>{opponent.ratings.overall}</b>
                 </div>
               </header>
               <dl className={styles.teamMeta}>
                 <div>
-                  <dt>Manager</dt>
+                  <dt>{t("manager")}</dt>
                   <dd>{opponentManager ?? "—"}</dd>
                 </div>
                 <div>
-                  <dt>Formation</dt>
+                  <dt>{t("formation")}</dt>
                   <dd>{opponentFormation.name}</dd>
                 </div>
                 {eraId !== "all" && (
                   <div>
-                    <dt>Era Fit</dt>
+                    <dt>{t("eraFit")}</dt>
                     <dd>{result.opponentEraFit}</dd>
                   </div>
                 )}
@@ -710,7 +713,7 @@ export default function ResultPage() {
                 </div>
               )}
               <p className={styles.tacticalSummary}>
-                {opponent.tacticalProfile}.
+                {localize(opponent.tacticalProfile)}.
               </p>
             </article>
           </div>

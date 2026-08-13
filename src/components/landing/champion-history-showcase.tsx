@@ -19,6 +19,8 @@ import { assetUrl } from "@/lib/assets";
 import { flagForCountry } from "@/lib/utils";
 import { ChampionShowcaseCard } from "./champion-showcase-card";
 import styles from "./champion-history-showcase.module.css";
+import { useTranslations } from "next-intl";
+import { useLocalizedContent } from "@/i18n/content";
 
 const clamp = (value: number, minimum: number, maximum: number) =>
   Math.min(maximum, Math.max(minimum, value));
@@ -53,11 +55,12 @@ const initialsFor = (name: string) =>
         .toUpperCase();
 
 function PendingPortrait({ champion }: { champion: LandingChampion }) {
+  const t = useTranslations("champions");
   return (
     <div
       className={styles.pendingPortrait}
       role="img"
-      aria-label={`${champion.representativePlayer}, ${champion.tournamentYear} photo pending`}
+      aria-label={t("photoPendingAria", { player: champion.representativePlayer, year: champion.tournamentYear })}
     >
       <span className={styles.pendingYear} aria-hidden>
         {champion.tournamentYear}
@@ -65,7 +68,7 @@ function PendingPortrait({ champion }: { champion: LandingChampion }) {
       <span className={styles.pendingInitials} aria-hidden>
         {initialsFor(champion.representativePlayer)}
       </span>
-      <strong>PHOTO PENDING</strong>
+      <strong>{t("photoPending")}</strong>
       <small>
         <span aria-hidden>{flagForCountry(champion.nationCode)}</span>{" "}
         {champion.representativePlayer}
@@ -80,6 +83,8 @@ export function ChampionHistoryShowcase({
   champions: LandingChampion[];
 }) {
   const sceneRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("champions");
+  const localize = useLocalizedContent();
   const reduceMotion = Boolean(useReducedMotion());
   const [activeIndex, setActiveIndex] = useState(0);
   const [failedImages, setFailedImages] = useState<Set<string>>(
@@ -156,8 +161,8 @@ export function ChampionHistoryShowcase({
                   className={styles.copy}
                   aria-label={
                     champion.status === "pending"
-                      ? `${champion.tournamentYear} world champion pending confirmation`
-                      : `${champion.nationName} ${champion.tournamentYear} world champion showcase`
+                      ? t("pendingShowcaseAria", { year: champion.tournamentYear })
+                      : t("showcaseAria", { country: localize(champion.nationName), year: champion.tournamentYear })
                   }
                   initial={
                     reduceMotion
@@ -173,22 +178,22 @@ export function ChampionHistoryShowcase({
                   transition={transition}
                 >
                   <p className={styles.worldChampionLabel}>
-                    WORLD CHAMPION
-                    {champion.status === "pending" ? " · PENDING" : ""}
+                    {t("worldChampion")}
+                    {champion.status === "pending" ? ` · ${t("pending")}` : ""}
                   </p>
                   <p className={styles.countryCode}>
                     <span aria-hidden>{flagForCountry(champion.nationCode)}</span>
                     {champion.nationCode}
                   </p>
                   <p className={styles.year}>{champion.tournamentYear}</p>
-                  <h3>{champion.nationName}</h3>
+                  <h3>{localize(champion.nationName)}</h3>
                   <div className={styles.playerName}>
-                    <span>REPRESENTATIVE PLAYER</span>
+                    <span>{t("representativePlayer")}</span>
                     <strong>{champion.representativePlayer}</strong>
                   </div>
-                  <p className={styles.fact}>{champion.championFact}</p>
+                  <p className={styles.fact}>{localize(champion.championFact)}</p>
                   <p className={styles.tacticalLabel}>
-                    {champion.tacticalLabel}
+                    {localize(champion.tacticalLabel)}
                   </p>
                 </motion.article>
               </AnimatePresence>
@@ -219,7 +224,7 @@ export function ChampionHistoryShowcase({
                     <Image
                       className={styles.playerImage}
                       src={assetUrl(champion.representativeImage)}
-                      alt={`${champion.representativePlayer} celebrates ${champion.nationName}’s ${champion.tournamentYear} World Cup victory`}
+                      alt={t("imageAlt", { player: champion.representativePlayer, country: localize(champion.nationName), year: champion.tournamentYear })}
                       fill
                       unoptimized
                       priority={activeIndex === 0}
@@ -240,13 +245,13 @@ export function ChampionHistoryShowcase({
               </AnimatePresence>
             </div>
 
-            <nav className={styles.timeline} aria-label="Champion years">
+            <nav className={styles.timeline} aria-label={t("yearsAria")}>
               {champions.map((entry, index) => (
                 <button
                   key={entry.id}
                   type="button"
                   className={styles.yearButton}
-                  aria-label={`Show ${entry.tournamentYear} ${entry.nationName}`}
+                  aria-label={t("showYearAria", { year: entry.tournamentYear, country: localize(entry.nationName) })}
                   aria-pressed={index === activeIndex}
                   onClick={() => selectChampion(index)}
                 >

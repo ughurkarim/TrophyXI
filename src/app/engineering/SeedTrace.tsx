@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import styles from "./engineering.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 function hashSeed(input: string) {
   let h = 2166136261 >>> 0;
@@ -29,6 +30,7 @@ function sequenceFor(seedText: string) {
 }
 
 export default function SeedTrace() {
+  const localize = useLocalizedContent();
   const [seed, setSeed] = useState("184730291");
   const [reruns, setReruns] = useState(0);
 
@@ -44,14 +46,14 @@ export default function SeedTrace() {
       <div className={styles.seedDemoTop}>
         <div>
           <div className={styles.seedTitleRow}>
-            <span className={styles.miniLabel}>TRY THE SEED</span>
-            <span className={styles.runBadge}>RUN {reruns + 1}</span>
+            <span className={styles.miniLabel}>{localize("TRY THE SEED")}</span>
+            <span className={styles.runBadge}>{localize("RUN")} {reruns + 1}</span>
           </div>
-          <h3>Same seed. Same sequence.</h3>
-          <p>Run it again and the sequence stays fixed. Change the seed and the sequence changes.</p>
+          <h3>{localize("Same seed. Same sequence.")}</h3>
+          <p>{localize("Run it again and the sequence stays fixed. Change the seed and the sequence changes.")}</p>
         </div>
         <div className={styles.seedInputWrap}>
-          <label htmlFor="engineering-seed">SEED</label>
+          <label htmlFor="engineering-seed">{localize("SEED")}</label>
           <input
             id="engineering-seed"
             value={seed}
@@ -60,7 +62,7 @@ export default function SeedTrace() {
               setSeed(event.target.value);
               setReruns(0);
             }}
-            aria-label="Seed value"
+            aria-label={localize("Seed value")}
           />
         </div>
       </div>
@@ -68,7 +70,7 @@ export default function SeedTrace() {
       <div
         key={`${seed}-${reruns}`}
         className={`${styles.seedSequence} ${styles.seedSequenceAnimate}`}
-        aria-label="Deterministic sample sequence"
+        aria-label={localize("Deterministic sample sequence")}
       >
         {values.map((value, index) => (
           <div className={styles.seedValue} key={`${seed}-${index}`}>
@@ -83,15 +85,15 @@ export default function SeedTrace() {
 
       <div className={styles.seedActions}>
         <button type="button" onClick={() => setReruns((value) => value + 1)}>
-          RUN SAME SEED
+          {localize("RUN SAME SEED")}
         </button>
         <button type="button" className={styles.secondaryButton} onClick={changeSeed}>
-          CHANGE SEED +1
+          {localize("CHANGE SEED")} +1
         </button>
       </div>
 
       <p className={styles.seedNote}>
-        This shows the reproducibility idea directly. The match engine uses its own seeded random sequence inside the real simulation.
+        {localize("This shows the reproducibility idea directly. The match engine uses its own seeded random sequence inside the real simulation.")}
       </p>
     </div>
   );

@@ -8,6 +8,7 @@ import {
   useScroll,
 } from "framer-motion";
 import { useRef, useState, type ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { PlayerCard } from "@/components/cards/player-card";
 import { playersById } from "@/data/players";
 import styles from "./hero-showcase.module.css";
@@ -89,6 +90,7 @@ function RivalCard({
 }
 
 export function HeroShowcase({ children }: { children: ReactNode }) {
+  const t = useTranslations("landing.heroTimeline");
   const sceneRef = useRef<HTMLDivElement>(null);
   const reduceMotion = Boolean(useReducedMotion());
   const [activeIndex, setActiveIndex] = useState(0);
@@ -124,7 +126,7 @@ export function HeroShowcase({ children }: { children: ReactNode }) {
             data-testid="hero-showcase"
             data-active-year={year}
             tabIndex={0}
-            aria-label={`Ronaldo and Messi tournament-card timeline, showing ${year}. Scroll sequence: 2026, 2022, 2018, 2014, 2010, 2006.`}
+            aria-label={t("aria", { year })}
           >
             <div
               className="sr-only"
@@ -132,7 +134,7 @@ export function HeroShowcase({ children }: { children: ReactNode }) {
               aria-live="polite"
               aria-atomic="true"
             >
-              Showing {year}
+              {t("showing", { year })}
             </div>
 
             <span className="hero-background-year" aria-hidden>
@@ -143,7 +145,7 @@ export function HeroShowcase({ children }: { children: ReactNode }) {
               className={`hero-transition-label ${styles.transitionLabel}`}
               aria-hidden
             >
-              <span>SIX TOURNAMENTS · TWENTY YEARS</span>
+              <span>{t("sixTournaments")}</span>
               <strong>2026 → 2006</strong>
             </div>
 

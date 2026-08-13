@@ -9,6 +9,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { GameHeader } from "@/components/navigation/game-header";
 import { Button } from "@/components/ui/button";
@@ -18,13 +19,8 @@ import styles from "./play-page.module.css";
 
 type ModeConfig = {
   id: GameMode;
+  translationKey: "classic" | "free" | "run";
   number: string;
-  title: string;
-  emotion: string;
-  statement: string;
-  description: string;
-  traits: [string, string, string];
-  cta: string;
   icon: typeof Dices;
   playerImage: string;
   fanFavorite?: boolean;
@@ -33,40 +29,22 @@ type ModeConfig = {
 const modes: ModeConfig[] = [
   {
     id: "classic-draft",
+    translationKey: "classic",
     number: "01",
-    title: "CLASSIC DRAFT",
-    emotion: "PRESSURE",
-    statement: "Trust your instincts.",
-    description:
-      "Five-card offers. Limited choices. Build greatness from whatever the archive puts in front of you.",
-    traits: ["5-CARD OFFERS", "LIMITED CONTROL", "EVERY PICK MATTERS"],
-    cta: "ENTER THE DRAFT",
     icon: Dices,
     playerImage: "/modes/classic-player.png",
   },
   {
     id: "free-selection",
+    translationKey: "free",
     number: "02",
-    title: "FREE SELECTION",
-    emotion: "CONTROL",
-    statement: "Build the XI in your head.",
-    description:
-      "The archive is yours. Choose every player, every era, your manager, your shape, and your opponent.",
-    traits: ["ANY PLAYER", "ANY ERA", "TOTAL CONTROL"],
-    cta: "BUILD YOUR XI",
     icon: ListChecks,
     playerImage: "/modes/free-player.png",
   },
   {
     id: "world-cup-run",
+    translationKey: "run",
     number: "03",
-    title: "WORLD CUP RUN",
-    emotion: "SURVIVAL",
-    statement: "One squad. One run. One chance.",
-    description:
-      "Take your XI onto the world stage. Survive the group, conquer the knockouts, and reach the Final.",
-    traits: ["48 TEAMS", "KNOCKOUT FOOTBALL", "1 CHAMPION"],
-    cta: "BEGIN THE RUN",
     icon: Trophy,
     playerImage: "/modes/worldcup-player.png",
     fanFavorite: true,
@@ -74,14 +52,9 @@ const modes: ModeConfig[] = [
 ];
 
 const mobileModes = modes.filter((mode) => mode.id !== "free-selection");
-const mobileModeDescriptions: Partial<Record<GameMode, string>> = {
-  "classic-draft": "Five-card offers. Build greatness from limited choices.",
-  "world-cup-run":
-    "Build your XI. Survive the group and conquer the knockout rounds.",
-};
-
 export default function PlayPage() {
   const router = useRouter();
+  const t = useTranslations("gameSetup.mode");
   const [pendingModeId, setPendingModeId] = useState<GameMode | null>(null);
   const hydrated = useGameStore((state) => state.hasHydrated);
   const selectGameMode = useGameStore((state) => state.selectGameMode);
@@ -90,7 +63,7 @@ export default function PlayPage() {
     return (
       <main className="game-page loading-state">
         <div className="loading-emblem" />
-        <p className="eyebrow">OPENING MATCH MODES</p>
+        <p className="eyebrow">{t("loading")}</p>
       </main>
     );
   }
@@ -105,7 +78,7 @@ export default function PlayPage() {
 
   return (
     <div className={`game-page game-page--stadium ${styles.page}`}>
-      <GameHeader step="MODE / 00" />
+      <GameHeader step={t("step")} />
 
       <main className={`container game-main ${styles.main}`}>
         <section className={`${styles.screen} ${styles.desktopScreen}`} aria-labelledby="mode-title">
@@ -113,7 +86,7 @@ export default function PlayPage() {
           <div className={styles.crownGlow} aria-hidden />
 
           <header className={styles.intro}>
-            <h1 id="mode-title">How will you build your XI?</h1>
+            <h1 id="mode-title">{t("title")}</h1>
           </header>
 
           <div
@@ -121,7 +94,7 @@ export default function PlayPage() {
               pendingModeId ? styles.modeGridHasSelection : ""
             }`}
             role="group"
-            aria-label="Choose a game mode"
+            aria-label={t("chooseAria")}
           >
             {modes.map((mode) => {
               const Icon = mode.icon;
@@ -159,32 +132,37 @@ export default function PlayPage() {
                     <span className={styles.icon}>
                       <Icon size={21} strokeWidth={1.65} />
                     </span>
-                    <span className={styles.emotion}>{mode.emotion}</span>
+                    <span className={styles.emotion}>{t(`options.${mode.translationKey}.emotion`)}</span>
                     {mode.fanFavorite ? (
                       <span className={styles.fanFavorite}>
                         <Star size={10} fill="currentColor" aria-hidden />
-                        FAN FAVORITE
+                        {t("fanFavorite")}
                       </span>
                     ) : null}
                   </span>
 
                   <span className={styles.copy}>
-                    <span className={styles.modeTitle}>{mode.title}</span>
-                    <span className={styles.statement}>{mode.statement}</span>
+                    <span className={styles.modeTitle}>{t(`options.${mode.translationKey}.title`)}</span>
+                    <span className={styles.statement}>{t(`options.${mode.translationKey}.statement`)}</span>
                     <span
                       className={styles.description}
                       id={`${mode.id}-description`}
                     >
-                      {mode.description}
+                      {t(`options.${mode.translationKey}.description`)}
                     </span>
                   </span>
 
                   <span className={styles.traitRail}>
-                    {mode.traits.map((trait, index) => (
+                    {[0, 1, 2].map((index) => (
+                      (() => {
+                        const trait = t(`options.${mode.translationKey}.traits.${index}`);
+                        return (
                       <span key={trait}>
                         <i>{String(index + 1).padStart(2, "0")}</i>
                         {trait}
                       </span>
+                        );
+                      })()
                     ))}
                   </span>
 
@@ -193,10 +171,10 @@ export default function PlayPage() {
                       {isSelected ? (
                         <>
                           <Check size={12} strokeWidth={2.6} />
-                          SELECTED
+                          {t("selected")}
                         </>
                       ) : (
-                        "SELECT MODE"
+                        t("selectMode")
                       )}
                     </span>
                     <ArrowRight size={14} aria-hidden />
@@ -210,22 +188,24 @@ export default function PlayPage() {
 
           <footer className={styles.actionBar}>
             <div className={styles.actionIdentity}>
-              <span>YOUR PATH</span>
+              <span>{t("yourPath")}</span>
               <strong>
-                {selectedMode?.title ?? "CHOOSE ONE OF THREE WAYS TO PLAY"}
+                {selectedMode
+                  ? t(`options.${selectedMode.translationKey}.title`)
+                  : t("chooseThree")}
               </strong>
             </div>
 
             <div className={styles.actionQuote}>
               {selectedMode ? (
                 <>
-                  <span>{selectedMode.emotion}</span>
-                  <strong>{selectedMode.statement}</strong>
+                  <span>{t(`options.${selectedMode.translationKey}.emotion`)}</span>
+                  <strong>{t(`options.${selectedMode.translationKey}.statement`)}</strong>
                 </>
               ) : (
                 <>
                   <span>TROPHY XI</span>
-                  <strong>Every great XI starts with a decision.</strong>
+                  <strong>{t("decision")}</strong>
                 </>
               )}
             </div>
@@ -235,7 +215,7 @@ export default function PlayPage() {
               disabled={!pendingModeId}
               onClick={continueWithMode}
             >
-              {selectedMode?.cta ?? "SELECT A MODE"}
+              {selectedMode ? t(`options.${selectedMode.translationKey}.cta`) : t("selectAMode")}
               <ArrowRight size={16} aria-hidden />
             </Button>
           </footer>
@@ -247,12 +227,12 @@ export default function PlayPage() {
           data-testid="mobile-mode-screen"
         >
           <header className={styles.mobileIntro}>
-            <p>CHOOSE YOUR PATH</p>
-            <h1 id="mobile-mode-title">How will you build your XI?</h1>
-            <span>Pick a mode, then start with the era.</span>
+            <p>{t("choosePath")}</p>
+            <h1 id="mobile-mode-title">{t("title")}</h1>
+            <span>{t("mobileHint")}</span>
           </header>
 
-          <div className={styles.mobileModes} role="group" aria-label="Choose a game mode">
+          <div className={styles.mobileModes} role="group" aria-label={t("chooseAria")}>
             {mobileModes.map((mode) => {
               const Icon = mode.icon;
               const isSelected = mode.id === pendingModeId;
@@ -278,12 +258,12 @@ export default function PlayPage() {
                     {mode.fanFavorite ? (
                       <span className={styles.fanFavorite}>
                         <Star size={9} fill="currentColor" aria-hidden />
-                        FAN FAVORITE
+                        {t("fanFavorite")}
                       </span>
                     ) : null}
-                    <small>{mode.emotion} · {mode.traits[0]}</small>
-                    <strong>{mode.title}</strong>
-                    <span>{mobileModeDescriptions[mode.id] ?? mode.description}</span>
+                    <small>{t(`options.${mode.translationKey}.emotion`)} · {t(`options.${mode.translationKey}.traits.0`)}</small>
+                    <strong>{t(`options.${mode.translationKey}.title`)}</strong>
+                    <span>{t(`options.${mode.translationKey}.mobileDescription`)}</span>
                   </span>
                 </button>
               );
@@ -292,11 +272,11 @@ export default function PlayPage() {
 
           <footer className={styles.mobileAction} data-testid="mobile-mode-action">
             <span>
-              <small>{selectedMode ? "SELECTED" : "YOUR PATH"}</small>
-              <strong>{selectedMode?.title ?? "Choose one mode"}</strong>
+              <small>{selectedMode ? t("selected") : t("yourPath")}</small>
+              <strong>{selectedMode ? t(`options.${selectedMode.translationKey}.title`) : t("chooseOne")}</strong>
             </span>
             <Button disabled={!pendingModeId} onClick={continueWithMode}>
-              {selectedMode?.cta ?? "SELECT MODE"}
+              {selectedMode ? t(`options.${selectedMode.translationKey}.cta`) : t("selectMode")}
               <ArrowRight size={16} aria-hidden />
             </Button>
           </footer>

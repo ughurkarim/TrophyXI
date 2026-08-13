@@ -1,6 +1,7 @@
 import { TrophyMark } from "@/components/brand/mark";
 import type { MatchResult, PlayerTournamentCard } from "@/types/game";
 import styles from "./share-card.module.css";
+import { useTranslations } from "next-intl";
 
 export function ShareCard({
   result,
@@ -11,20 +12,21 @@ export function ShareCard({
   stars: PlayerTournamentCard[];
   opponentLabel: string;
 }) {
+  const t = useTranslations("results.shareCard");
   return (
     <article
       className={styles.card}
-      aria-label="Trophy XI result card preview"
+      aria-label={t("aria")}
       data-testid="share-card-preview"
     >
       <div className={styles.top}>
         <span>
           <TrophyMark /> TROPHY XI
         </span>
-        <span>FINAL RECORD</span>
+        <span>{t("finalRecord")}</span>
       </div>
       <div className={styles.result}>
-        <p>HISTORY RENDERS ITS VERDICT.</p>
+        <p>{t("verdict")}</p>
         <div>
           <span>TROPHY XI</span>
           <strong>{result.score.user}</strong>
@@ -34,12 +36,12 @@ export function ShareCard({
         </div>
         {result.score.penalties && (
           <small>
-            PENALTIES {result.score.penalties[0]}–{result.score.penalties[1]}
+            {t("penalties")} {result.score.penalties[0]}–{result.score.penalties[1]}
           </small>
         )}
       </div>
       <div className={styles.stars}>
-        <span>BUILT WITH</span>
+        <span>{t("builtWith")}</span>
         <p>
           {stars
             .map(
@@ -48,7 +50,7 @@ export function ShareCard({
             .join(" · ")}
         </p>
       </div>
-      <p className={styles.tagline}>BUILD THE XI. WRITE THE RECORD.</p>
+      <p className={styles.tagline}>{t("tagline")}</p>
     </article>
   );
 }

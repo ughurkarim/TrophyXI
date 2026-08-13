@@ -30,6 +30,8 @@ import { draftEligiblePlayers } from "@/data/players";
 import { flagForCountry } from "@/lib/utils";
 import type { PlayerTournamentCard } from "@/types/game";
 import styles from "./player-database.module.css";
+import { useTranslations } from "next-intl";
+import { useLocalizedContent } from "@/i18n/content";
 
 const PAGE_SIZE = 50;
 
@@ -73,6 +75,8 @@ const ratingMatches = (rating: number, filter: string) => {
 };
 
 export function PlayerDatabase() {
+  const t = useTranslations("players.database");
+  const localize = useLocalizedContent();
   const [query, setQuery] = useState("");
   const [nation, setNation] = useState("");
   const [year, setYear] = useState("");
@@ -98,7 +102,7 @@ export function PlayerDatabase() {
     const normalizedQuery = normalizeSearchText(query.trim());
     const matching = draftEligiblePlayers.filter((player) => {
       const searchableText = normalizeSearchText(
-        `${player.playerName} ${player.countryName} ${player.countryCode}`,
+        `${player.playerName} ${player.countryName} ${localize(player.countryName)} ${player.countryCode}`,
       );
 
       return (
@@ -140,7 +144,7 @@ export function PlayerDatabase() {
         second.tournamentYear - first.tournamentYear
       );
     });
-  }, [era, nation, position, query, rating, sort, tier, year]);
+  }, [era, localize, nation, position, query, rating, sort, tier, year]);
 
   const visible = filtered.slice(0, visibleCount);
   const nations = unique(
@@ -192,7 +196,7 @@ export function PlayerDatabase() {
       ?.split("|")[1];
     activeFilters.push({
       key: "nation",
-      label: nationName ?? nation,
+      label: localize(nationName ?? nation),
       clear: () => updateFilter(setNation, ""),
     });
   }
@@ -213,14 +217,14 @@ export function PlayerDatabase() {
   if (rating) {
     activeFilters.push({
       key: "rating",
-      label: `Rating ${rating}`,
+      label: t("ratingValue", { rating }),
       clear: () => updateFilter(setRating, ""),
     });
   }
   if (tier) {
     activeFilters.push({
       key: "tier",
-      label: tier.replace("-", " "),
+      label: t(`tiers.${tier}`),
       clear: () => updateFilter(setTier, ""),
     });
   }
@@ -237,31 +241,31 @@ export function PlayerDatabase() {
       <section className={styles.shell} aria-labelledby="database-title">
         <header className={styles.hero} data-testid="database-hero">
           <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>THE COMPLETE CARD ARCHIVE</p>
-            <h1 id="database-title" aria-label="Player Database">
-              <span>Player</span>
-              <strong>Database</strong>
+            <p className={styles.eyebrow}>{t("eyebrow")}</p>
+            <h1 id="database-title" aria-label={t("titleAria")}>
+              <span>{t("titlePlayer")}</span>
+              <strong>{t("titleDatabase")}</strong>
             </h1>
           </div>
 
           <div className={styles.archiveVisual}>
             <div
               className={styles.metrics}
-              aria-label="Archive totals"
+              aria-label={t("totalsAria")}
               data-testid="archive-summary"
             >
               <div className={styles.metric}>
-                <span>Cards</span>
+                <span>{t("cards")}</span>
                 <strong>{draftEligiblePlayers.length}</strong>
-                <small>Total tournament cards</small>
+                <small>{t("totalCards")}</small>
               </div>
               <div className={styles.metricMark} aria-hidden>
                 <TrophyMark />
               </div>
               <div className={styles.metric}>
-                <span>Identities</span>
+                <span>{t("identities")}</span>
                 <strong>{identityCount}</strong>
-                <small>Unique players</small>
+                <small>{t("uniquePlayers")}</small>
               </div>
             </div>
           </div>
@@ -269,22 +273,22 @@ export function PlayerDatabase() {
 
         <div className={styles.filters} data-testid="database-controls">
           <label className={styles.searchField}>
-            <span>Search</span>
+            <span>{t("search")}</span>
             <div>
               <Search size={18} aria-hidden />
               <input
-                aria-label="Search player or nation"
+                aria-label={t("searchAria")}
                 value={query}
                 onChange={(event) =>
                   updateFilter(setQuery, event.target.value)
                 }
-                placeholder="Search player or nation"
+                placeholder={t("searchPlaceholder")}
               />
               {query && (
                 <button
                   type="button"
                   onClick={() => updateFilter(setQuery, "")}
-                  aria-label="Clear player search"
+                  aria-label={t("clearSearch")}
                 >
                   <X size={16} aria-hidden />
                 </button>
@@ -294,90 +298,90 @@ export function PlayerDatabase() {
 
           <div className={styles.desktopFilterFields}>
             <DatabaseSelect
-              label="Nation"
+              label={t("nation")}
               value={nation}
               onChange={(value) => updateFilter(setNation, value)}
             >
-              <option value="">All nations</option>
+              <option value="">{t("allNations")}</option>
               {nations.map((entry) => {
                 const [code, name] = entry.split("|");
                 return (
                   <option key={code} value={code}>
-                    {code} · {name}
+                    {code} · {localize(name)}
                   </option>
                 );
               })}
             </DatabaseSelect>
 
             <DatabaseSelect
-              label="Year"
+              label={t("year")}
               value={year}
               onChange={(value) => updateFilter(setYear, value)}
             >
-              <option value="">All years</option>
+              <option value="">{t("allYears")}</option>
               {years.map((value) => (
                 <option key={value}>{value}</option>
               ))}
             </DatabaseSelect>
 
             <DatabaseSelect
-              label="Position"
+              label={t("position")}
               value={position}
               onChange={(value) => updateFilter(setPosition, value)}
             >
-              <option value="">All positions</option>
+              <option value="">{t("allPositions")}</option>
               {positions.map((value) => (
                 <option key={value}>{value}</option>
               ))}
             </DatabaseSelect>
 
             <DatabaseSelect
-              label="Rating"
+              label={t("rating")}
               value={rating}
               onChange={(value) => updateFilter(setRating, value)}
             >
-              <option value="">All ratings</option>
+              <option value="">{t("allRatings")}</option>
               {ratingRanges.map((value) => (
                 <option key={value}>{value}</option>
               ))}
             </DatabaseSelect>
 
             <DatabaseSelect
-              label="Tier"
+              label={t("tier")}
               value={tier}
               onChange={(value) => updateFilter(setTier, value)}
             >
-              <option value="">All tiers</option>
+              <option value="">{t("allTiers")}</option>
               {statusTiers.map((value) => (
                 <option key={value} value={value}>
-                  {value.replace("-", " ")}
+                  {t(`tiers.${value}`)}
                 </option>
               ))}
             </DatabaseSelect>
 
             <DatabaseSelect
-              label="Era"
+              label={t("era")}
               value={era}
               onChange={(value) => updateFilter(setEra, value)}
             >
-              <option value="">All eras</option>
+              <option value="">{t("allEras")}</option>
               {eras.map((value) => (
                 <option key={value}>{value}</option>
               ))}
             </DatabaseSelect>
 
             <DatabaseSelect
-              label="Sort by"
+              label={t("sortBy")}
               value={sort}
               onChange={(value) => {
                 setSort(value as SortId);
                 setVisibleCount(PAGE_SIZE);
               }}
             >
-              <option value="rating">Rating</option>
-              <option value="name">Name</option>
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
+              <option value="rating">{t("sort.rating")}</option>
+              <option value="name">{t("sort.name")}</option>
+              <option value="newest">{t("sort.newest")}</option>
+              <option value="oldest">{t("sort.oldest")}</option>
             </DatabaseSelect>
           </div>
 
@@ -391,38 +395,38 @@ export function PlayerDatabase() {
               onClick={() => setFiltersOpen(true)}
             >
               <SlidersHorizontal size={15} aria-hidden />
-              Filters
+              {t("filters")}
               {activeFilters.length > 0 && (
-                <b aria-label={`${activeFilters.length} active filters`}>
+                <b aria-label={t("activeFilterCount", { count: activeFilters.length })}>
                   {activeFilters.length}
                 </b>
               )}
             </button>
             <DatabaseSelect
-              label="Sort by"
+              label={t("sortBy")}
               value={sort}
-              valuePrefix="Sort:"
+              valuePrefix={t("sortPrefix")}
               className={styles.mobileSort}
               onChange={(value) => {
                 setSort(value as SortId);
                 setVisibleCount(PAGE_SIZE);
               }}
             >
-              <option value="rating">Rating</option>
-              <option value="name">Name</option>
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
+              <option value="rating">{t("sort.rating")}</option>
+              <option value="name">{t("sort.name")}</option>
+              <option value="newest">{t("sort.newest")}</option>
+              <option value="oldest">{t("sort.oldest")}</option>
             </DatabaseSelect>
           </div>
 
           {activeFilters.length > 0 && (
-            <div className={styles.activeChips} aria-label="Active filters">
+            <div className={styles.activeChips} aria-label={t("activeFilters")}>
               {activeFilters.map((filter) => (
                 <button
                   type="button"
                   key={filter.key}
                   onClick={filter.clear}
-                  aria-label={`Remove ${filter.label} filter`}
+                  aria-label={t("removeFilter", { filter: filter.label })}
                 >
                   <span>{filter.label}</span>
                   <X size={12} aria-hidden />
@@ -439,10 +443,10 @@ export function PlayerDatabase() {
           data-testid="database-results-heading"
         >
           <span>
-            <Grid3X3 size={15} aria-hidden /> {filtered.length} cards found
+            <Grid3X3 size={15} aria-hidden /> {t("cardsFound", { count: filtered.length })}
           </span>
           <small>
-            Showing {Math.min(visible.length, filtered.length)} of {filtered.length}
+            {t("showing", { visible: Math.min(visible.length, filtered.length), total: filtered.length })}
           </small>
         </div>
 
@@ -455,12 +459,12 @@ export function PlayerDatabase() {
               data-testid="database-card"
               key={player.id}
               onClick={() => setInspected(player)}
-              aria-label={`View ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`}
+              aria-label={t("viewCardAria", { player: player.playerName, year: player.tournamentYear, rating: player.overall })}
             >
               <span className={styles.ratingBlock}>
                 <small>{player.primaryPosition}</small>
                 <strong>{player.overall}</strong>
-                <span>OVR</span>
+                <span>{t("overallShort")}</span>
               </span>
 
               <span className={styles.portraitStage}>
@@ -479,21 +483,21 @@ export function PlayerDatabase() {
                 <h2 title={player.playerName}>{player.playerName}</h2>
                 <span>
                   <i aria-hidden>{flagForCountry(player.countryCode)}</i>
-                  {player.countryName}
+                  {localize(player.countryName)}
                 </span>
               </span>
 
               <span className={styles.cardFooter}>
                 <span>{player.tournamentYear}</span>
                 <i aria-hidden>•</i>
-                <span>{player.statusTier.replace("-", " ")}</span>
+                <span>{t(`tiers.${player.statusTier}`)}</span>
               </span>
             </button>
           ))}
         </div>
 
         {visible.length === 0 && (
-          <p className={styles.empty}>No tournament cards match these filters.</p>
+          <p className={styles.empty}>{t("empty")}</p>
         )}
 
         {visibleCount < filtered.length && (
@@ -504,7 +508,7 @@ export function PlayerDatabase() {
                 setVisibleCount((current) => current + PAGE_SIZE)
               }
             >
-              Load more cards
+              {t("loadMore")}
             </Button>
           </div>
         )}
@@ -527,13 +531,13 @@ export function PlayerDatabase() {
           >
             <header className={styles.filterSheetHeader}>
               <div>
-                <span>THE CARD ARCHIVE</span>
-                <h2 id="mobile-filter-title">Filter players</h2>
+                <span>{t("cardArchive")}</span>
+                <h2 id="mobile-filter-title">{t("filterPlayers")}</h2>
               </div>
               <button
                 type="button"
                 onClick={() => setFiltersOpen(false)}
-                aria-label="Close filter panel"
+                aria-label={t("closeFilters")}
                 autoFocus
               >
                 <X size={18} aria-hidden />
@@ -542,11 +546,11 @@ export function PlayerDatabase() {
 
             <div className={styles.filterSheetFields}>
               <DatabaseSelect
-                label="Nation"
+                label={t("nation")}
                 value={nation}
                 onChange={(value) => updateFilter(setNation, value)}
               >
-                <option value="">All nations</option>
+                <option value="">{t("allNations")}</option>
                 {nations.map((entry) => {
                   const [code, name] = entry.split("|");
                   return (
@@ -558,58 +562,58 @@ export function PlayerDatabase() {
               </DatabaseSelect>
 
               <DatabaseSelect
-                label="Year"
+                label={t("year")}
                 value={year}
                 onChange={(value) => updateFilter(setYear, value)}
               >
-                <option value="">All years</option>
+                <option value="">{t("allYears")}</option>
                 {years.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
               </DatabaseSelect>
 
               <DatabaseSelect
-                label="Position"
+                label={t("position")}
                 value={position}
                 onChange={(value) => updateFilter(setPosition, value)}
               >
-                <option value="">All positions</option>
+                <option value="">{t("allPositions")}</option>
                 {positions.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
               </DatabaseSelect>
 
               <DatabaseSelect
-                label="Era"
+                label={t("era")}
                 value={era}
                 onChange={(value) => updateFilter(setEra, value)}
               >
-                <option value="">All eras</option>
+                <option value="">{t("allEras")}</option>
                 {eras.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
               </DatabaseSelect>
 
               <DatabaseSelect
-                label="Rating"
+                label={t("rating")}
                 value={rating}
                 onChange={(value) => updateFilter(setRating, value)}
               >
-                <option value="">All ratings</option>
+                <option value="">{t("allRatings")}</option>
                 {ratingRanges.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
               </DatabaseSelect>
 
               <DatabaseSelect
-                label="Tier"
+                label={t("tier")}
                 value={tier}
                 onChange={(value) => updateFilter(setTier, value)}
               >
-                <option value="">All tiers</option>
+                <option value="">{t("allTiers")}</option>
                 {statusTiers.map((value) => (
                   <option key={value} value={value}>
-                    {value.replace("-", " ")}
+                    {t(`tiers.${value}`)}
                   </option>
                 ))}
               </DatabaseSelect>
@@ -617,10 +621,10 @@ export function PlayerDatabase() {
 
             <footer className={styles.filterSheetActions}>
               <Button onClick={() => setFiltersOpen(false)}>
-                Apply filters
+                {t("applyFilters")}
               </Button>
               <button type="button" onClick={clearAllFilters}>
-                Clear all
+                {t("clearAll")}
               </button>
             </footer>
           </section>

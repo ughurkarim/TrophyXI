@@ -13,59 +13,56 @@ import { ButtonLink } from "@/components/ui/button";
 import { landingChampions } from "@/data/landing-champions";
 import { players } from "@/data/players";
 import styles from "./landing-page.module.css";
+import { getTranslations } from "next-intl/server";
 
 const steps = [
   {
     number: "01",
-    title: "SET THE STAGE",
-    copy: "Choose the footballing era and match conditions. Every player must adapt to the same environment.",
+    key: "stage",
     icon: "stage",
   },
   {
     number: "02",
-    title: "CHOOSE THE MIND",
-    copy: "Appoint a tournament manager whose tactics, leadership, attack, and defense shape your team.",
+    key: "manager",
     icon: "manager",
   },
   {
     number: "03",
-    title: "BUILD YOUR XI",
-    copy: "Draft eleven starters and three substitutes. Balance talent, chemistry, position fit, and bench coverage.",
+    key: "squad",
     icon: "squad",
   },
   {
     number: "04",
-    title: "CHALLENGE HISTORY",
-    copy: "Choose a nation-year opponent and test your squad against one of the greatest World Cup champions.",
+    key: "challenge",
     icon: "challenge",
   },
 ] satisfies Array<{
   number: string;
-  title: string;
-  copy: string;
+  key: "stage" | "manager" | "squad" | "challenge";
   icon: HowItWorksStepIcon;
 }>;
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const t = await getTranslations("landing");
   return (
     <>
       <MobileLanding />
       <section
         className={styles.mobileEngineeringEntry}
-        aria-label="Trophy XI engineering"
+        aria-label={t("engineeringAria")}
         data-testid="mobile-engineering-entry"
       >
         <div className={styles.mobileEngineeringCopy}>
-          <span>UNDER THE HOOD</span>
-          <strong>THE MATH BEHIND THE MATCH.</strong>
-          <small>Seeds, team modeling, era translation and match state.</small>
+          <span>{t("underHood")}</span>
+          <strong>{t("mathMatch")}</strong>
+          <small>{t("engineeringDescription")}</small>
         </div>
         <ButtonLink
           href="/engineering"
           variant="secondary"
           className={styles.mobileEngineeringButton}
         >
-          ENGINEERING <ArrowRight size={15} aria-hidden />
+          {t("engineering")} <ArrowRight size={15} aria-hidden />
         </ButtonLink>
       </section>
       <div className={styles.desktopLanding} data-testid="desktop-landing">
@@ -74,36 +71,35 @@ export default function LandingPage() {
         <section className="hero">
           <HeroShowcase>
             <div className="hero__copy">
-              <p className="eyebrow eyebrow--gold">THE WORLD CUP XI SIMULATOR</p>
+              <p className="eyebrow eyebrow--gold">{t("eyebrow")}</p>
               <h1>
-                BUILD THE XI.
+                {t("buildXi")}
                 <br />
-                <span>BEAT HISTORY.</span>
+                <span>{t("beatHistory")}</span>
               </h1>
               <p className="hero__lede">
-                Draft tournament-specific legends, build a balanced XI, and test
-                it against every World Cup champion since 1970.
+                {t("lede")}
               </p>
               <div className="hero__actions">
                 <ButtonLink href="/play" className={styles.heroPrimaryCta}>
-                  Build your XI <ArrowRight size={17} aria-hidden />
+                  {t("buildYourXi")} <ArrowRight size={17} aria-hidden />
                 </ButtonLink>
                 <ButtonLink
                   href="/#how-it-works"
                   variant="secondary"
                   className={styles.heroSecondaryCta}
                 >
-                  See how it works <ArrowRight size={16} aria-hidden />
+                  {t("seeHow") } <ArrowRight size={16} aria-hidden />
                 </ButtonLink>
               </div>
-              <div className="hero__proof" aria-label="Game highlights">
+              <div className="hero__proof" aria-label={t("highlightsAria")}>
                 <span>
-                  <b>{players.length}</b> TOURNAMENT CARDS
+                  <b>{players.length}</b> {t("tournamentCards")}
                 </span>
                 <span>
-                  <b>15</b> WORLD CUP CHAMPIONS
+                  <b>15</b> {t("worldCupChampions")}
                 </span>
-                <span>DETERMINISTIC MATCH ENGINE</span>
+                <span>{t("deterministicEngine")}</span>
               </div>
             </div>
           </HeroShowcase>
@@ -113,15 +109,15 @@ export default function LandingPage() {
           <div className="container">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">THE DRESSING ROOM</p>
+                <p className="eyebrow">{t("dressingRoom")}</p>
                 <h2 className={styles.stepsHeading}>
-                  FOURTEEN PLAYERS. ONE MATCH.
+                  {t("fourteenOneMatch")}
                 </h2>
               </div>
             </div>
             <div className={styles.stepsGrid}>
               {steps.map((step) => (
-                <HowItWorksStepCard key={step.number} {...step} />
+                <HowItWorksStepCard key={step.number} number={step.number} icon={step.icon} title={t(`steps.${step.key}.title`)} copy={t(`steps.${step.key}.copy`)} />
               ))}
             </div>
           </div>
@@ -134,9 +130,9 @@ export default function LandingPage() {
               style={{ marginBottom: "-40px" }}
             >
               <div>
-                <p className="eyebrow eyebrow--gold">THE WINNERS’ ARCHIVE</p>
+                <p className="eyebrow eyebrow--gold">{t("winnersArchive")}</p>
                 <h2 style={{ maxWidth: "none", whiteSpace: "nowrap" }}>
-                  World champions, framed in gold.
+                  {t("championsHeading")}
                 </h2>
               </div>
             </div>

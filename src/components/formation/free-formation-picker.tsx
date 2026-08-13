@@ -10,6 +10,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { TacticalPitch } from "@/components/pitch/tactical-pitch";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import type {
   ManagerTournamentCard,
 } from "@/types/game";
 import styles from "./free-formation-picker.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 function TacticalIcon({ style, size = 14 }: { style: string; size?: number }) {
   const normalized = style.toLocaleLowerCase();
@@ -48,6 +50,10 @@ export function FreeFormationPicker({
   onContinue: (formationId: FormationId) => void;
 }) {
   const [selectedId, setSelectedId] = useState<FormationId | null>(null);
+  const t = useTranslations("freeSelection.formationPicker");
+  const formationT = useTranslations("gameSetup.formation");
+  const eraT = useTranslations("gameSetup.era.options");
+  const localize = useLocalizedContent();
   const era = getDraftEra(eraId);
   const options = formationIds
     .map((id) => formations.find((formation) => formation.id === id))
@@ -78,12 +84,11 @@ export function FreeFormationPicker({
     >
       <div className={styles.intro}>
         <div>
-          <p className="eyebrow eyebrow--gold">FREE SELECTION / FORMATION</p>
-          <h1 id="free-formation-title">Pick your system.</h1>
+          <p className="eyebrow eyebrow--gold">{t("eyebrow")}</p>
+          <h1 id="free-formation-title">{t("title")}</h1>
         </div>
         <p>
-          Every active formation is open. Compare its shape and fit, then
-          confirm one system.
+          {t("description")}
         </p>
       </div>
 
@@ -103,16 +108,16 @@ export function FreeFormationPicker({
             />
           </span>
           <span className={styles.managerCopy}>
-            <small>Selected manager</small>
+            <small>{t("selectedManager")}</small>
             <strong>{manager.managerName}</strong>
-            <em>{manager.countryName} · {manager.tournamentYear}</em>
+            <em>{localize(manager.countryName)} · {manager.tournamentYear}</em>
           </span>
         </span>
 
         <span className={styles.contextItem}>
-          <small>Tactical identity</small>
+          <small>{t("tacticalIdentity")}</small>
           <strong className={styles.styleValue}>
-            <span>{manager.style}</span>
+            <span>{localize(manager.style)}</span>
             <i aria-hidden>
               <TacticalIcon style={manager.style} size={14} />
             </i>
@@ -120,21 +125,21 @@ export function FreeFormationPicker({
         </span>
 
         <span className={styles.contextItem}>
-          <small>Preferred systems</small>
+          <small>{t("preferredSystems")}</small>
           <strong>{manager.preferredFormations.join(" · ")}</strong>
-          {eraId !== "all" && <em>{era.label}</em>}
+          {eraId !== "all" && <em>{eraT(`${era.id}.label`)}</em>}
         </span>
 
         <span className={styles.available}>
-          <small>Archive</small>
+          <small>{t("archive")}</small>
           <strong>{options.length}</strong>
-          <em>formations available</em>
+          <em>{t("formationsAvailable")}</em>
         </span>
       </div>
 
       <div
         className={styles.grid}
-        aria-label="Available formations"
+        aria-label={t("availableFormations")}
         data-testid="free-formation-archive"
       >
         {options.map(({ formation, managerFit, eraFit, preferred }, index) => {
@@ -146,7 +151,7 @@ export function FreeFormationPicker({
               key={formation.id}
               className={`${styles.option}${selectedOption ? ` ${styles.selected}` : ""}${preferred ? ` ${styles.preferredOption}` : ""}`}
               aria-pressed={selectedOption}
-              aria-label={`Choose ${formation.name} formation, Manager Fit ${managerFit}${eraId === "all" ? "" : `, Era Fit ${eraFit}`}`}
+              aria-label={formationT("chooseAria", { formation: formation.name, managerFit, eraFit: eraId === "all" ? formationT("neutral") : eraFit })}
               data-formation-id={formation.id}
               data-manager-fit={managerFit}
               data-era-fit={eraId === "all" ? undefined : eraFit}
@@ -155,7 +160,7 @@ export function FreeFormationPicker({
               data-style={formation.managerStyles[0].toLowerCase()}
               onClick={() => setSelectedId(formation.id)}
             >
-              {preferred && <span className={styles.preferred}>PREFERRED</span>}
+              {preferred && <span className={styles.preferred}>{t("preferred")}</span>}
 
               <span className={styles.pitchFrame} aria-hidden>
                 <span className={styles.pitchGlow} />
@@ -170,22 +175,22 @@ export function FreeFormationPicker({
                 </span>
 
                 <span className={styles.identity}>
-                  {formation.managerStyles[0]} · {formation.tacticalDifficulty}
+                  {localize(formation.managerStyles[0])} · {localize(formation.tacticalDifficulty)}
                 </span>
 
                 <span className={styles.ratingRow}>
-                  <span className={styles.ratingLabel}>Manager fit</span>
+                  <span className={styles.ratingLabel}>{formationT("managerFit")}</span>
                   <b>{managerFit}</b>
                 </span>
 
-                <span className={styles.tendencyLabels}>ATT · MID · DEF</span>
+                <span className={styles.tendencyLabels}>{t("tendencies")}</span>
                 <span className={styles.tendencies}>
                   {formation.tendencies.attack} · {formation.tendencies.control} · {formation.tendencies.defense}
                 </span>
 
                 {eraId !== "all" && (
                   <span className={styles.eraFit}>
-                    ERA FIT <b>{eraFit}</b>
+                    {formationT("eraFit")} <b>{eraFit}</b>
                   </span>
                 )}
               </span>
@@ -196,14 +201,14 @@ export function FreeFormationPicker({
 
       <div className={`${styles.confirm}${selected ? ` ${styles.confirmReady}` : ""}`} aria-live="polite">
         <div>
-          <span>Selected system</span>
-          <strong>{selected?.formation.name ?? "Choose a formation"}</strong>
+          <span>{formationT("selectedSystem")}</span>
+          <strong>{selected?.formation.name ?? formationT("chooseFormation")}</strong>
           <small>
             {selected
               ? eraId === "all"
-                ? `${manager.managerName} · Manager Fit ${selected.managerFit}`
-                : `${manager.managerName} · Manager Fit ${selected.managerFit} · Era Fit ${selected.eraFit}`
-              : "Nothing is preselected."}
+                ? t("managerFitSummary", { manager: manager.managerName, managerFit: selected.managerFit })
+                : t("fitSummary", { manager: manager.managerName, managerFit: selected.managerFit, eraFit: selected.eraFit })
+              : t("nothingSelected")}
           </small>
         </div>
         <Button
@@ -213,7 +218,7 @@ export function FreeFormationPicker({
             if (selected) onContinue(selected.formation.id);
           }}
         >
-          CONTINUE TO SQUAD
+          {t("continueToSquad")}
           <ArrowRight size={16} aria-hidden />
         </Button>
       </div>

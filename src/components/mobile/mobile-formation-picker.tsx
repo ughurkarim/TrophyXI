@@ -2,6 +2,7 @@
 
 import { ArrowRight, RefreshCw } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { MobileRespinDialog } from "@/components/mobile/mobile-respin-dialog";
 import { TacticalPitch } from "@/components/pitch/tactical-pitch";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,8 @@ export function MobileFormationPicker({
   onContinue: (formationId: FormationId) => void;
 }) {
   const [selectedId, setSelectedId] = useState<FormationId | null>(null);
+  const t = useTranslations("gameSetup.formation");
+  const eraT = useTranslations("gameSetup.era.options");
   const [showRespin, setShowRespin] = useState(false);
   const era = getDraftEra(eraId);
   const options = offerIds.flatMap((id) => {
@@ -43,15 +46,15 @@ export function MobileFormationPicker({
   return (
     <section className={styles.root} aria-labelledby="mobile-formation-title" data-testid="mobile-formation-picker">
       <header className={styles.intro}>
-        <p>STEP 03 · TACTICAL ROOM</p>
-        <h1 id="mobile-formation-title">Choose your formation.</h1>
+        <p>{t("mobileEyebrow")}</p>
+        <h1 id="mobile-formation-title">{t("mobileTitle")}</h1>
         <span className={styles.context}>
-          <strong>{manager.managerName} · {era.label}</strong>
-          <span>Choose from four offered shapes.</span>
+          <strong>{manager.managerName} · {eraT(`${era.id}.label`)}</strong>
+          <span>{t("mobileHint")}</span>
         </span>
       </header>
 
-      <div className={styles.list} aria-label="Formation shortlist" data-testid="mobile-formation-list">
+      <div className={styles.list} aria-label={t("shortlist")} data-testid="mobile-formation-list">
         {options.map(({ formation, managerFit, eraFit }) => {
           const isSelected = formation.id === selectedId;
           return (
@@ -62,11 +65,11 @@ export function MobileFormationPicker({
               data-testid="mobile-formation-card"
               data-selected={isSelected ? "true" : undefined}
               aria-pressed={isSelected}
-              aria-label={`Choose ${formation.name} formation, manager fit ${managerFit}${eraId === "all" ? "" : `, era fit ${eraFit}`}`}
+              aria-label={t("chooseAria", { formation: formation.name, managerFit, eraFit: eraId === "all" ? t("neutral") : eraFit })}
               onClick={() => setSelectedId(formation.id)}
             >
               <span className={styles.identityBlock}>
-                <small>FORMATION</small>
+                <small>{t("formation")}</small>
                 <strong>{formation.name}</strong>
                 <span className={styles.identity}>{formation.managerStyles[0]} · {formation.tacticalDifficulty}</span>
               </span>
@@ -74,9 +77,9 @@ export function MobileFormationPicker({
                 <TacticalPitch formation={formation} compact />
               </span>
               <span className={styles.metrics} data-testid="mobile-formation-metrics">
-                <span><small>Manager fit</small><b>{managerFit}</b></span>
-                <span><small>Era fit</small><b>{eraId === "all" ? "—" : eraFit}</b></span>
-                <span><small>Balance</small><b>{formation.tendencies.control}</b></span>
+                <span><small>{t("managerFit")}</small><b>{managerFit}</b></span>
+                <span><small>{t("eraFit")}</small><b>{eraId === "all" ? "—" : eraFit}</b></span>
+                <span><small>{t("balance")}</small><b>{formation.tendencies.control}</b></span>
               </span>
             </button>
           );
@@ -88,17 +91,17 @@ export function MobileFormationPicker({
           type="button"
           onClick={() => setShowRespin(true)}
           disabled={formationRespinRemaining === 0}
-          aria-label={formationRespinRemaining ? "Formation respin, one remaining" : "Formation respin used"}
+          aria-label={formationRespinRemaining ? t("respinRemainingAria") : t("respinUsedAria")}
         >
           <RefreshCw size={16} aria-hidden />
-          <span>{formationRespinRemaining ? "Respin" : "Used"}</span>
+          <span>{formationRespinRemaining ? t("respinShort") : t("used")}</span>
         </button>
         <span>
-          <small>{selected ? "SELECTED FORMATION" : "TACTICAL SHAPE"}</small>
-          <strong>{selected?.formation.name ?? "Choose a formation"}</strong>
+          <small>{selected ? t("selectedFormation") : t("tacticalShape")}</small>
+          <strong>{selected?.formation.name ?? t("chooseFormation")}</strong>
         </span>
         <Button disabled={!selected} onClick={() => selected && onContinue(selected.formation.id)}>
-          Draft <ArrowRight size={16} aria-hidden />
+          {t("draft")} <ArrowRight size={16} aria-hidden />
         </Button>
       </footer>
 

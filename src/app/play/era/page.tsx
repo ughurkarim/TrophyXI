@@ -2,6 +2,7 @@
 
 import { ArrowRight, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { GameHeader } from "@/components/navigation/game-header";
 import { SaveNotice } from "@/components/providers/save-notice";
 import { Button } from "@/components/ui/button";
@@ -20,18 +21,9 @@ const eraThemeClasses: Record<DraftEraId, string> = {
   all: styles.themeNeutral,
 };
 
-const eraIdentity: Record<DraftEraId, string> = {
-  "2020s": "THE MODERN GAME",
-  "2010s": "THE TACTICAL AGE",
-  "2000s": "THE GALÁCTICO ERA",
-  "1990s": "THE LAST ROMANTICS",
-  "1980s": "THE PLAYMAKERS",
-  "1970s": "TOTAL FOOTBALL",
-  all: "TIMELESS",
-};
-
 export default function EraPage() {
   const router = useRouter();
+  const t = useTranslations("gameSetup.era");
   const hydrated = useGameStore((state) => state.hasHydrated);
   const selectedEraId = useGameStore((state) => state.eraId);
   const selectEra = useGameStore((state) => state.selectEra);
@@ -40,7 +32,7 @@ export default function EraPage() {
     return (
       <main className="game-page loading-state">
         <div className="loading-emblem" />
-        <p className="eyebrow">OPENING THE GRAND ARCHIVE</p>
+        <p className="eyebrow">{t("loading")}</p>
       </main>
     );
   }
@@ -49,7 +41,7 @@ export default function EraPage() {
 
   return (
     <div className={`game-page game-page--stadium ${styles.page}`}>
-      <GameHeader step="ERA / 01" />
+      <GameHeader step={t("step")} />
       <SaveNotice />
 
       <main className={`container game-main ${styles.main}`}>
@@ -64,17 +56,13 @@ export default function EraPage() {
 
           <header className={styles.intro}>
             <p className="eyebrow eyebrow--gold">
-              THE GRAND ARCHIVE / STEP 01
+              {t("eyebrow")}
             </p>
-            <h1 id="era-title">Choose your era.</h1>
-            <p>
-              Every generation changed the game. Choose the football world your
-              XI must conquer — every player remains available, but each era
-              changes how their qualities translate.
-            </p>
+            <h1 id="era-title">{t("title")}</h1>
+            <p>{t("description")}</p>
           </header>
 
-          <div className={styles.grid} role="group" aria-label="Choose your era">
+          <div className={styles.grid} role="group" aria-label={t("chooseAria")}>
             {draftEras.map((era, index) => {
               const isSelected = selectedEraId === era.id;
 
@@ -86,7 +74,7 @@ export default function EraPage() {
                     isSelected ? styles.selected : ""
                   }`}
                   onClick={() => selectEra(era.id)}
-                  aria-label={`Choose ${era.label}, ${era.years}`}
+                  aria-label={t("chooseOptionAria", { era: t(`options.${era.id}.label`), years: era.years })}
                   aria-pressed={isSelected}
                 >
                   <div className={styles.cardAtmosphere} aria-hidden>
@@ -101,12 +89,12 @@ export default function EraPage() {
                     </span>
 
                     <span className={styles.themeLabel}>
-                      {eraIdentity[era.id]}
+                      {t(`options.${era.id}.identity`)}
                     </span>
 
                     <div className={styles.cardBody}>
-                      <h2>{era.label}</h2>
-                      <p>{era.description}</p>
+                      <h2>{t(`options.${era.id}.label`)}</h2>
+                      <p>{t(`options.${era.id}.description`)}</p>
                     </div>
 
                     <div className={styles.action} aria-hidden="true">
@@ -114,10 +102,10 @@ export default function EraPage() {
                         {isSelected ? (
                           <>
                             <Check size={13} strokeWidth={2.5} />
-                            SELECTED
+                            {t("selected")}
                           </>
                         ) : (
-                          "SELECT"
+                          t("select")
                         )}
                       </span>
                       <ArrowRight size={14} strokeWidth={1.8} />
@@ -132,18 +120,18 @@ export default function EraPage() {
 
           <div className={styles.commandBar}>
             <div className={styles.commandSelection}>
-              <span>{selectedEra ? "SELECTED ERA" : "THE GRAND ARCHIVE"}</span>
-              <strong>{selectedEra?.label ?? "Choose a football generation"}</strong>
+              <span>{selectedEra ? t("selectedEra") : t("archive")}</span>
+              <strong>{selectedEra ? t(`options.${selectedEra.id}.label`) : t("chooseGeneration")}</strong>
             </div>
 
             <div className={styles.commandContext}>
               <span>
-                {selectedEra ? eraIdentity[selectedEra.id] : "ERA EFFECT"}
+                {selectedEra ? t(`options.${selectedEra.id}.identity`) : t("eraEffect")}
               </span>
               <strong>
                 {selectedEra
-                  ? selectedEra.description
-                  : "Your era changes the match environment, not the player pool."}
+                  ? t(`options.${selectedEra.id}.description`)
+                  : t("effectDescription")}
               </strong>
             </div>
 
@@ -152,7 +140,7 @@ export default function EraPage() {
               disabled={!selectedEraId}
               onClick={() => router.push("/play/manager")}
             >
-              SELECT ERA
+              {t("selectEra")}
               <ArrowRight size={16} aria-hidden />
             </Button>
           </div>
@@ -164,15 +152,15 @@ export default function EraPage() {
           data-testid="mobile-era-screen"
         >
           <header className={styles.mobileIntro}>
-            <p>STEP 01 · MATCH ENVIRONMENT</p>
-            <h1 id="mobile-era-title">Choose your era.</h1>
-            <span>Every player stays available. The environment changes how each quality translates.</span>
+            <p>{t("mobileEyebrow")}</p>
+            <h1 id="mobile-era-title">{t("title")}</h1>
+            <span>{t("mobileDescription")}</span>
           </header>
 
           <div
             className={styles.mobileEraList}
             role="group"
-            aria-label="Choose your era"
+            aria-label={t("chooseAria")}
             data-testid="mobile-era-list"
           >
             {draftEras.map((era) => {
@@ -183,15 +171,15 @@ export default function EraPage() {
                   type="button"
                   className={`${styles.mobileEra} ${eraThemeClasses[era.id]}`}
                   data-selected={isSelected ? "true" : undefined}
-                  aria-label={`Choose ${era.label}, ${era.years}`}
+                  aria-label={t("chooseOptionAria", { era: t(`options.${era.id}.label`), years: era.years })}
                   aria-pressed={isSelected}
                   onClick={() => selectEra(era.id)}
                 >
                   <span className={styles.mobileEraYears}>{era.years}</span>
                   <span className={styles.mobileEraCopy}>
-                    <small>{eraIdentity[era.id]}</small>
-                    <strong>{era.label}</strong>
-                    <span>{era.description}</span>
+                    <small>{t(`options.${era.id}.identity`)}</small>
+                    <strong>{t(`options.${era.id}.label`)}</strong>
+                    <span>{t(`options.${era.id}.description`)}</span>
                   </span>
                   <span className={styles.mobileEraSelect} aria-hidden>
                     {!isSelected && <ArrowRight size={17} />}
@@ -203,11 +191,11 @@ export default function EraPage() {
 
           <footer className={styles.mobileCommand} data-testid="mobile-era-command">
             <span>
-              <small>{selectedEra ? "SELECTED ERA" : "MATCH ERA"}</small>
-              <strong>{selectedEra?.label ?? "Choose one era"}</strong>
+              <small>{selectedEra ? t("selectedEra") : t("matchEra")}</small>
+              <strong>{selectedEra ? t(`options.${selectedEra.id}.label`) : t("chooseOne")}</strong>
             </span>
             <Button disabled={!selectedEraId} onClick={() => router.push("/play/manager")}>
-              Continue <ArrowRight size={16} aria-hidden />
+              {t("continue")} <ArrowRight size={16} aria-hidden />
             </Button>
           </footer>
         </section>

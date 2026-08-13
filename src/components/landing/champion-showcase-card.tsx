@@ -6,6 +6,8 @@ import type { LandingChampion } from "@/data/landing-champions";
 import { assetUrl } from "@/lib/assets";
 import { flagForCountry } from "@/lib/utils";
 import styles from "./champion-showcase-card.module.css";
+import { useTranslations } from "next-intl";
+import { useLocalizedContent } from "@/i18n/content";
 
 export function ChampionShowcaseCard({
   champion,
@@ -17,6 +19,8 @@ export function ChampionShowcaseCard({
   total: number;
 }) {
   const [imageFailed, setImageFailed] = useState(false);
+  const t = useTranslations("champions");
+  const localize = useLocalizedContent();
   const hasImage = Boolean(champion.representativeImage) && !imageFailed;
   const ordinal = String(index + 1).padStart(2, "0");
   const initials =
@@ -34,15 +38,15 @@ export function ChampionShowcaseCard({
       className={styles.card}
       aria-label={
         champion.status === "pending"
-          ? `${champion.tournamentYear} world champion pending confirmation`
-          : `${champion.nationName} ${champion.tournamentYear} world champion, represented by ${champion.representativePlayer}`
+          ? t("pendingShowcaseAria", { year: champion.tournamentYear })
+          : t("cardAria", { country: localize(champion.nationName), year: champion.tournamentYear, player: champion.representativePlayer })
       }
     >
       <div className={styles.content}>
         <div className={styles.kicker}>
           <span>
-            WORLD CHAMPION
-            {champion.status === "pending" ? " · PENDING" : ""}
+            {t("worldChampion")}
+            {champion.status === "pending" ? ` · ${t("pending")}` : ""}
           </span>
           <span aria-hidden>
             {ordinal} / {String(total).padStart(2, "0")}
@@ -55,16 +59,16 @@ export function ChampionShowcaseCard({
             {champion.nationCode}
           </p>
           <p className={styles.year}>{champion.tournamentYear}</p>
-          <h3>{champion.nationName}</h3>
+          <h3>{localize(champion.nationName)}</h3>
         </div>
 
         <div className={styles.playerLockup}>
-          <span>REPRESENTATIVE PLAYER</span>
+          <span>{t("representativePlayer")}</span>
           <strong>{champion.representativePlayer}</strong>
         </div>
 
-        <p className={styles.fact}>{champion.championFact}</p>
-        <p className={styles.tacticalLabel}>{champion.tacticalLabel}</p>
+        <p className={styles.fact}>{localize(champion.championFact)}</p>
+        <p className={styles.tacticalLabel}>{localize(champion.tacticalLabel)}</p>
       </div>
 
       <div
@@ -78,13 +82,13 @@ export function ChampionShowcaseCard({
           aria-label={
             hasImage
               ? undefined
-              : `${champion.representativePlayer} ${champion.tournamentYear} photo pending`
+              : t("photoPendingAria", { player: champion.representativePlayer, year: champion.tournamentYear })
           }
           aria-hidden={hasImage || undefined}
         >
           <span aria-hidden>{champion.tournamentYear}</span>
           <i aria-hidden>{initials}</i>
-          <strong>PHOTO PENDING</strong>
+          <strong>{t("photoPending")}</strong>
           <small>
             <span aria-hidden>{flagForCountry(champion.nationCode)}</span>{" "}
             {champion.representativePlayer}
@@ -94,7 +98,7 @@ export function ChampionShowcaseCard({
           <Image
             className={styles.image}
             src={assetUrl(champion.representativeImage)}
-            alt={`${champion.representativePlayer} celebrates ${champion.nationName}’s ${champion.tournamentYear} World Cup victory`}
+            alt={t("imageAlt", { player: champion.representativePlayer, country: localize(champion.nationName), year: champion.tournamentYear })}
             fill
             unoptimized
             sizes="(max-width: 700px) 100vw, (max-width: 1100px) 52vw, 620px"

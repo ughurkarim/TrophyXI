@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { Button } from "@/components/ui/button";
 import { getDraftEra } from "@/data/eras";
@@ -21,6 +22,7 @@ import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { flagForCountry } from "@/lib/utils";
 import type { DraftEraId, ManagerTournamentCard } from "@/types/game";
 import styles from "./free-manager-picker.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 type SortMode = "quality" | "era-fit" | "name" | "year";
 
@@ -153,6 +155,11 @@ export function FreeManagerPicker({
 }) {
   void managerLocked;
 
+  const t = useTranslations("freeSelection.managerPicker");
+  const managerT = useTranslations("players.managerCard");
+  const eraT = useTranslations("gameSetup.era.options");
+  const localize = useLocalizedContent();
+
   const [query, setQuery] = useState("");
   const [nation, setNation] = useState("");
   const [managerEra, setManagerEra] = useState("");
@@ -254,65 +261,64 @@ export function FreeManagerPicker({
     >
       <div className={styles.intro}>
         <div>
-          <p className="eyebrow eyebrow--gold">FREE SELECTION / MANAGER POOL</p>
-          <h1 id="free-manager-title">Choose who leads your XI.</h1>
+          <p className="eyebrow eyebrow--gold">{t("eyebrow")}</p>
+          <h1 id="free-manager-title">{t("title")}</h1>
         </div>
         <p>
-          Search every available manager, compare their tactical profile, and
-          choose who will lead your XI.
+          {t("description")}
         </p>
       </div>
 
-      <div className={styles.controls} aria-label="Manager pool controls">
+      <div className={styles.controls} aria-label={t("controlsAria")}>
         <label className={styles.search}>
           <Search size={17} aria-hidden />
-          <span className="sr-only">Search managers</span>
+          <span className="sr-only">{t("search")}</span>
           <input
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search manager, nation, team…"
+            placeholder={t("searchPlaceholder")}
           />
         </label>
 
         <CustomSelect
-          ariaLabel="Manager nation"
+          ariaLabel={t("nation")}
           value={nation}
           onChange={setNation}
           options={[
-            { value: "", label: "All nations" },
-            ...nationOptions.map(([code, name]) => ({ value: code, label: name })),
+            { value: "", label: t("allNations") },
+            ...nationOptions.map(([code, name]) => ({ value: code, label: localize(name) })),
           ]}
         />
 
         <CustomSelect
-          ariaLabel="Manager era"
+          ariaLabel={t("managerEra")}
           value={managerEra}
           onChange={setManagerEra}
           options={[
-            { value: "", label: "All eras" },
+            { value: "", label: t("allEras") },
             ...["1970s", "1980s", "1990s", "2000s", "2010s", "2020s"].map((value) => ({ value, label: value })),
           ]}
         />
 
         <CustomSelect
-          ariaLabel="Tactical style"
+          ariaLabel={t("tacticalStyle")}
           value={style}
           onChange={setStyle}
           options={[
-            { value: "", label: "All styles" },
+            { value: "", label: t("allStyles") },
             ...[...new Set(managers.map((manager) => manager.style))]
               .sort()
-              .map((value) => ({ value, label: value })),
+              .map((value) => ({ value, label: localize(value) })),
           ]}
         />
 
         <CustomSelect
-          ariaLabel="Preferred formation"
+          ariaLabel={t("preferredFormation")}
           value={preferredFormation}
           onChange={setPreferredFormation}
           options={[
-            { value: "", label: "All formations" },
+            { value: "", label: t("allFormations") },
             ...formationOptions.map((value) => ({
               value,
               label: value.replaceAll("-", "–"),
@@ -321,14 +327,14 @@ export function FreeManagerPicker({
         />
 
         <CustomSelect
-          ariaLabel="Sort managers"
+          ariaLabel={t("sortManagers")}
           value={sort}
           onChange={(value) => setSort(value as SortMode)}
           options={[
-            { value: "quality", label: "Rank: best overall" },
-            ...(!isNeutralEra ? [{ value: "era-fit", label: "Era Fit" }] : []),
-            { value: "name", label: "Name" },
-            { value: "year", label: "Tournament year" },
+            { value: "quality", label: t("sort.bestOverall") },
+            ...(!isNeutralEra ? [{ value: "era-fit", label: t("sort.eraFit") }] : []),
+            { value: "name", label: t("sort.name") },
+            { value: "year", label: t("sort.year") },
           ]}
         />
       </div>
@@ -339,8 +345,8 @@ export function FreeManagerPicker({
         }`}
         aria-label={
           selectedManager
-            ? `Selected manager preview: ${selectedManager.managerName}`
-            : "Selected manager preview"
+            ? t("selectedPreviewAriaNamed", { manager: selectedManager.managerName })
+            : t("selectedPreviewAria")
         }
       >
         <div className={styles.previewPortraitStage}>
@@ -373,13 +379,13 @@ export function FreeManagerPicker({
         {selectedManager ? (
           <>
             <div className={styles.previewIdentity}>
-              <span>SELECTED MANAGER</span>
+              <span>{t("selectedManager")}</span>
               <strong>{selectedManager.managerName}</strong>
               <small>
                 {flagForCountry(selectedManager.countryCode)}{" "}
-                {selectedManager.countryName} · {selectedManager.tournamentYear}
+                {localize(selectedManager.countryName)} · {selectedManager.tournamentYear}
                 {" · "}
-                {selectedManager.tacticalIdentity}
+                {localize(selectedManager.tacticalIdentity)}
               </small>
             </div>
 
@@ -389,10 +395,10 @@ export function FreeManagerPicker({
               }
             >
               {[
-                ["OFF", selectedManager.grades.offense],
-                ["DEF", selectedManager.grades.defense],
-                ["LEADERSHIP", selectedManager.leadership],
-                ["GAME MGMT", selectedManager.gameManagement],
+                [managerT("off"), selectedManager.grades.offense],
+                [managerT("def"), selectedManager.grades.defense],
+                [managerT("lead"), selectedManager.leadership],
+                [managerT("game"), selectedManager.gameManagement],
               ].map(([label, value]) => (
                 <div key={label}>
                   <dt>{label}</dt>
@@ -401,14 +407,14 @@ export function FreeManagerPicker({
               ))}
               {!isNeutralEra && (
                 <div>
-                  <dt>ERA FIT</dt>
+                  <dt>{managerT("eraFit")}</dt>
                   <dd>{calculateManagerEraFit(selectedManager, eraId).score}</dd>
                 </div>
               )}
             </dl>
 
             <p className={styles.preferred}>
-              <span>Preferred</span>
+              <span>{t("preferred")}</span>
               {selectedManager.preferredFormations
                 .map((formation) => formation.replaceAll("-", "–"))
                 .join(" · ")}
@@ -417,9 +423,9 @@ export function FreeManagerPicker({
         ) : (
           <>
             <div className={styles.previewIdentity}>
-              <span>SELECTED MANAGER</span>
-              <strong className={styles.emptyTitle}>No manager selected</strong>
-              <small>Choose a manager below to preview their tactical profile.</small>
+              <span>{t("selectedManager")}</span>
+              <strong className={styles.emptyTitle}>{t("noneSelected")}</strong>
+              <small>{t("chooseToPreview")}</small>
             </div>
 
             <dl
@@ -429,11 +435,11 @@ export function FreeManagerPicker({
               aria-hidden
             >
               {[
-                "OFF",
-                "DEF",
-                "LEADERSHIP",
-                "GAME MGMT",
-                ...(!isNeutralEra ? ["ERA FIT"] : []),
+                managerT("off"),
+                managerT("def"),
+                managerT("lead"),
+                managerT("game"),
+                ...(!isNeutralEra ? [managerT("eraFit")] : []),
               ].map((label) => (
                 <div key={label} className={styles.emptyMetric}>
                   <dt>{label}</dt>
@@ -443,7 +449,7 @@ export function FreeManagerPicker({
             </dl>
 
             <p className={`${styles.preferred} ${styles.emptyPreferred}`} aria-hidden>
-              <span>Preferred</span>—
+              <span>{t("preferred")}</span>—
             </p>
           </>
         )}
@@ -451,16 +457,16 @@ export function FreeManagerPicker({
 
       <div className={styles.poolHeader}>
         <span>
-          {visibleManagers.length} OF {managers.length} MANAGERS · {era.label}
+          {t("poolCount", { visible: visibleManagers.length, total: managers.length, era: eraT(`${era.id}.label`) })}
         </span>
         <small>
-          PERMANENT RANK USES OFF · DEF · LEADERSHIP · GAME MANAGEMENT
+          {t("rankingDescription")}
         </small>
       </div>
 
       <div
         className={styles.pool}
-        aria-label="Available managers"
+        aria-label={t("availableManagers")}
         data-testid="free-manager-pool"
         data-legacy-testid="free-manager-archive"
       >
@@ -483,9 +489,7 @@ export function FreeManagerPicker({
                   isNeutralEra ? ` ${styles.pickNeutral}` : ""
                 }`}
                 aria-pressed={selected}
-                aria-label={`Choose ${manager.managerName}, ${manager.teamName} ${
-                  manager.tournamentYear
-                }${eraFit === null ? "" : `, Era Fit ${eraFit}`}`}
+                aria-label={t("chooseAria", { manager: manager.managerName, team: localize(manager.teamName), year: manager.tournamentYear, eraFit: eraFit === null ? "" : t("eraFitSuffix", { fit: eraFit }) })}
                 onClick={() => onSelect(manager.id)}
               >
                 <span className={styles.rank}>#{ranks.get(manager.id)}</span>
@@ -504,12 +508,12 @@ export function FreeManagerPicker({
                 <span className={styles.identity}>
                   <strong>{manager.managerName}</strong>
                   <small>
-                    {flagForCountry(manager.countryCode)} {manager.countryName} ·{" "}
+                    {flagForCountry(manager.countryCode)} {localize(manager.countryName)} ·{" "}
                     {manager.tournamentYear}
                   </small>
                   <i className={styles.tacticalBadge}>
                     <TacticalIcon style={manager.style} size={12} />
-                    <span>{manager.style} tactics</span>
+                    <span>{t("styleTactics", { style: localize(manager.style) })}</span>
                   </i>
                   <em>
                     {manager.preferredFormations
@@ -520,7 +524,7 @@ export function FreeManagerPicker({
 
                 {eraFit !== null && (
                   <span className={styles.eraFit}>
-                    <small>ERA FIT</small>
+                    <small>{managerT("eraFit")}</small>
                     <b>{eraFit}</b>
                   </span>
                 )}
@@ -535,12 +539,12 @@ export function FreeManagerPicker({
               <button
                 type="button"
                 className={styles.inspect}
-                aria-label={`View profile for ${manager.managerName}, ${manager.teamName} ${manager.tournamentYear}`}
+                aria-label={t("viewProfileAria", { manager: manager.managerName, team: localize(manager.teamName), year: manager.tournamentYear })}
                 onClick={(event) =>
                   onInspect(manager.id, event.currentTarget)
                 }
               >
-                VIEW PROFILE
+                {managerT("viewProfile")}
               </button>
             </article>
           );
@@ -548,7 +552,7 @@ export function FreeManagerPicker({
 
         {visibleManagers.length === 0 && (
           <div className={styles.empty} role="status">
-            No managers match the current pool filters.
+            {t("empty")}
           </div>
         )}
       </div>
@@ -560,20 +564,20 @@ export function FreeManagerPicker({
         aria-live="polite"
       >
         <div className={styles.confirmIdentity}>
-          <span>Selected Manager</span>
+          <span>{t("selectedManager")}</span>
           {selectedManager ? (
             <>
               <strong>{selectedManager.managerName}</strong>
               <small>
                 {flagForCountry(selectedManager.countryCode)}{" "}
-                {selectedManager.teamName} {selectedManager.tournamentYear} ·{" "}
-                {selectedManager.style}
+                {localize(selectedManager.teamName)} {selectedManager.tournamentYear} ·{" "}
+                {localize(selectedManager.style)}
               </small>
             </>
           ) : (
             <>
-              <strong className={styles.emptyConfirmTitle}>None selected</strong>
-              <small>Select a manager from the pool to continue.</small>
+              <strong className={styles.emptyConfirmTitle}>{t("noneSelectedShort")}</strong>
+              <small>{t("selectToContinue")}</small>
             </>
           )}
         </div>
@@ -583,7 +587,7 @@ export function FreeManagerPicker({
           disabled={!selectedManager}
           onClick={onContinue}
         >
-          CONFIRM MANAGER <ArrowRight size={18} aria-hidden />
+          {t("confirm")} <ArrowRight size={18} aria-hidden />
         </Button>
       </div>
     </section>

@@ -1,5 +1,120 @@
 @import "tailwindcss";
 
+html[dir="rtl"] {
+  text-align: start;
+}
+
+html[dir="rtl"] body {
+  direction: ltr;
+}
+
+html[lang="ar"] :where(h1, h2, h3, h4, p, blockquote, label, dt, dd, li, input, textarea) {
+  direction: rtl;
+  text-align: start;
+  unicode-bidi: plaintext;
+}
+
+html[lang="ar"] :where(.player-card, .game-page, .pitch, [role="table"], [class*="scoreboard"], [class*="hero"]) {
+  direction: ltr;
+}
+
+html[lang="ar"] :where(.player-card h1, .player-card h2, .player-card h3, .player-card p, .game-page h1, .game-page h2, .game-page h3, .game-page p) {
+  direction: rtl;
+  unicode-bidi: plaintext;
+}
+
+html[lang="ar"] :where([dir="auto"], bdi, .player-card__name, .player-country, .player-rating, .player-era) {
+  unicode-bidi: isolate;
+}
+
+html[lang="ar"] .player-card__name {
+  direction: ltr;
+  text-align: start;
+}
+
+.language-selector {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.language-selector__trigger {
+  display: inline-flex;
+  width: 2.625rem;
+  height: 2.625rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 999px;
+  background: rgb(5 7 6 / 74%);
+  color: var(--color-text, #f4f4ee);
+  cursor: pointer;
+}
+
+.language-selector__flag {
+  display: block;
+  font-size: 1.08rem;
+  line-height: 1;
+}
+
+.language-selector__trigger:hover,
+.language-selector__trigger:focus-visible,
+.language-selector[data-open] .language-selector__trigger {
+  border-color: rgb(231 189 77 / 66%);
+  color: #e7bd4d;
+}
+
+.language-selector__menu {
+  position: fixed;
+  z-index: 2147483000;
+  display: grid;
+  width: max-content;
+  min-width: 10.5rem;
+  overflow: hidden;
+  border: 1px solid rgb(231 189 77 / 28%);
+  border-radius: 0.75rem;
+  background: rgb(10 14 12 / 98%);
+  box-shadow: 0 18px 50px rgb(0 0 0 / 45%);
+  padding: 0.35rem;
+}
+
+.language-selector__menu button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: #f4f4ee;
+  padding: 0.68rem 0.75rem;
+  text-align: start;
+  font: 600 0.82rem/1.15 var(--font-body);
+  cursor: pointer;
+}
+
+.language-selector__menu button:hover,
+.language-selector__menu button:focus-visible,
+.language-selector__menu button[aria-selected="true"] {
+  background: rgb(231 189 77 / 11%);
+  color: #e7bd4d;
+}
+
+.mobile-nav .language-selector {
+  align-self: flex-start;
+}
+
+@media (max-width: 760px) {
+  .site-header__actions > .language-selector {
+    display: none;
+  }
+
+  .game-header__utility > .language-selector {
+    display: none;
+  }
+}
+
 :root {
   --gold-champagne: #fff1b8;
   --gold-primary: #e7bd4d;
@@ -569,7 +684,9 @@ h3 {
 
 .site-header__actions {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 10px;
 }
 
 .header-cta {
@@ -1605,6 +1722,7 @@ html:has(.hero-scroll-scene)::-webkit-scrollbar {
   min-width: 0;
   align-items: center;
   justify-content: flex-end;
+  gap: 10px;
 }
 
 .game-main {

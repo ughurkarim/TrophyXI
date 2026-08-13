@@ -1,5 +1,23 @@
 import "@testing-library/jest-dom/vitest";
 import { vi } from "vitest";
+import englishMessages from "./messages/en.json";
+
+vi.mock("next-intl", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("next-intl")>();
+  const translator = actual.createTranslator({
+    locale: "en",
+    messages: englishMessages,
+  }) as unknown as (key: string, values?: Record<string, string | number | Date>) => string;
+
+  return {
+    ...actual,
+    useLocale: () => "en",
+    useMessages: () => englishMessages,
+    useTranslations: (namespace?: string) =>
+      (key: string, values?: Record<string, string | number | Date>) =>
+        translator(namespace ? `${namespace}.${key}` : key, values),
+  };
+});
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,

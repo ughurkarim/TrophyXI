@@ -1,4 +1,7 @@
+"use client";
+
 import { ArrowRight, Check, ShieldCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { managerGradeLabel } from "@/data/managers";
 import { calculateManagerEraFit } from "@/engine/manager-era-fit";
@@ -9,6 +12,7 @@ import type {
 } from "@/types/game";
 import { cn, flagForCountry, flagForTeamName } from "@/lib/utils";
 import styles from "./manager-card.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 const styleClasses: Record<ManagerStyle, string> = {
   possession: styles.attacking,
@@ -33,30 +37,32 @@ export function ManagerCard({
   onSelect: () => void;
   onInspect?: () => void;
 }) {
+  const t = useTranslations("players.managerCard");
+  const localize = useLocalizedContent();
   const eraFit =
     eraId === "all" ? null : calculateManagerEraFit(manager, eraId).score;
 
   const metricValues = [
     {
-      label: "OFF",
+      label: t("off"),
       value: manager.grades.offense,
       grade: managerGradeLabel(manager.grades.offense),
       eraFit: false,
     },
     {
-      label: "DEF",
+      label: t("def"),
       value: manager.grades.defense,
       grade: managerGradeLabel(manager.grades.defense),
       eraFit: false,
     },
     {
-      label: "LEAD",
+      label: t("lead"),
       value: manager.leadership,
       grade: managerGradeLabel(manager.leadership),
       eraFit: false,
     },
     {
-      label: "GAME",
+      label: t("game"),
       value: manager.gameManagement,
       grade: managerGradeLabel(manager.gameManagement),
       eraFit: false,
@@ -65,7 +71,7 @@ export function ManagerCard({
       ? []
       : [
           {
-            label: "ERA FIT",
+            label: t("eraFit"),
             value: eraFit,
             grade: String(eraFit),
             eraFit: true,
@@ -87,7 +93,7 @@ export function ManagerCard({
         className={styles.pickTarget}
         onClick={onSelect}
         aria-pressed={selected}
-        aria-label={`Choose ${manager.managerName}, ${manager.teamName} ${manager.tournamentYear}`}
+        aria-label={t("chooseAria", { manager: manager.managerName, team: localize(manager.teamName), year: manager.tournamentYear })}
       />
 
       <div className={styles.tacticalField} aria-hidden>
@@ -108,11 +114,11 @@ export function ManagerCard({
       <div className={styles.heroRow}>
         <div className={styles.identity}>
           <span className={styles.styleLabel}>
-            {manager.style.toUpperCase()} TACTICS
+            {t("styleTactics", { style: localize(manager.style).toUpperCase() })}
           </span>
           <h2>{manager.managerName}</h2>
           <p>
-            {flagForTeamName(manager.teamName)} {manager.teamName}
+            {flagForTeamName(manager.teamName)} {localize(manager.teamName)}
           </p>
         </div>
 
@@ -130,7 +136,7 @@ export function ManagerCard({
       </div>
 
       <blockquote className={styles.identityLine}>
-        {manager.tacticalIdentity}
+        {localize(manager.tacticalIdentity)}
       </blockquote>
 
       <div
@@ -138,7 +144,7 @@ export function ManagerCard({
           styles.metrics,
           eraFit !== null && styles.metricsWithEraFit,
         )}
-        aria-label={`${manager.managerName} metrics: offense ${managerGradeLabel(manager.grades.offense)}, defense ${managerGradeLabel(manager.grades.defense)}, leadership ${managerGradeLabel(manager.leadership)}, game management ${managerGradeLabel(manager.gameManagement)}${eraFit === null ? "" : `, Era Fit ${eraFit}`}`}
+        aria-label={t("metricsAria", { manager: manager.managerName, offense: managerGradeLabel(manager.grades.offense), defense: managerGradeLabel(manager.grades.defense), leadership: managerGradeLabel(manager.leadership), management: managerGradeLabel(manager.gameManagement), eraFit: eraFit ?? t("notApplicable") })}
       >
         {metricValues.map((metric) => (
           <span
@@ -163,11 +169,11 @@ export function ManagerCard({
         {selected ? (
           <strong className={styles.selectedBadge}>
             <Check size={13} strokeWidth={2.4} aria-hidden />
-            SELECTED
+            {t("selected")}
           </strong>
         ) : (
           <span className={styles.selectLabel}>
-            SELECT MANAGER
+            {t("selectManager")}
           </span>
         )}
 
@@ -179,9 +185,9 @@ export function ManagerCard({
               event.stopPropagation();
               onInspect();
             }}
-            aria-label={`View manager record for ${manager.managerName}`}
+            aria-label={t("viewAria", { manager: manager.managerName })}
           >
-            VIEW PROFILE
+            {t("viewProfile")}
             <ArrowRight size={13} aria-hidden />
           </button>
         )}

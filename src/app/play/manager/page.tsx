@@ -2,6 +2,7 @@
 
 import { ArrowRight, Eye, RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { ManagerCard } from "@/components/cards/manager-card";
 import { ManagerDetails } from "@/components/cards/manager-details";
@@ -17,9 +18,13 @@ import { calculateManagerEraFit } from "@/engine/manager-era-fit";
 import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
 import styles from "./manager-page.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 export default function ManagerPage() {
   const router = useRouter();
+  const t = useTranslations("gameSetup.manager");
+  const eraT = useTranslations("gameSetup.era.options");
+  const localize = useLocalizedContent();
   const hydrated = useGameStore((state) => state.hasHydrated);
   const eraId = useGameStore((state) => state.eraId);
   const gameMode = useGameStore((state) => state.gameMode);
@@ -51,7 +56,7 @@ export default function ManagerPage() {
     return (
       <main className="game-page loading-state">
         <div className="loading-emblem" />
-        <p className="eyebrow">SUMMONING THE MANAGERS</p>
+        <p className="eyebrow">{t("loading")}</p>
       </main>
     );
   }
@@ -64,15 +69,15 @@ export default function ManagerPage() {
   const selectedManager = managerId ? managersById.get(managerId) : undefined;
   const managerRespinLabel = managerId
     ? managerRespinRemaining
-      ? "RESPIN VISIBLE MANAGERS ×1"
-      : "MANAGER RESPIN USED"
+      ? t("respinVisible")
+      : t("respinUsed")
     : managerRespinRemaining
-      ? "MANAGER RESPIN ×1"
-      : "MANAGER RESPIN USED";
+      ? t("respin")
+      : t("respinUsed");
 
   return (
     <div className={`game-page game-page--stadium ${era.themeClass}`}>
-      <GameHeader step="MANAGER / 02" />
+      <GameHeader step={t("step")} />
       <SaveNotice />
       <main className={`container game-main ${styles.main}`}>
         {gameMode === "free-selection" ? (
@@ -97,12 +102,10 @@ export default function ManagerPage() {
           >
             <div className={styles.intro}>
               <p className="eyebrow eyebrow--gold">
-                TOURNAMENT MANAGERS / STEP 02
+                {t("eyebrow")}
               </p>
-              <h1 id="manager-title">Choose your manager.</h1>
-              <p>
-                Tactics. Leadership. Match decisions. Choose who leads your XI.
-              </p>
+              <h1 id="manager-title">{t("title")}</h1>
+              <p>{t("description")}</p>
             </div>
             <div className={`manager-grid ${styles.managerGrid}`}>
               {options.map((manager) =>
@@ -126,13 +129,13 @@ export default function ManagerPage() {
             </div>
             <div className={`manager-utility ${styles.utility}`}>
               <div className={styles.eraContext}>
-                <span className="eyebrow">MATCH ERA</span>
-                <p>{era.label}</p>
-                <small>Manager tactics adapt to this environment.</small>
+                <span className="eyebrow">{t("matchEra")}</span>
+                <p>{eraT(`${era.id}.label`)}</p>
+                <small>{t("eraContext")}</small>
               </div>
               <div
                 className={`manager-respin-actions ${styles.respinActions}`}
-                aria-label="Saved respin counters"
+                aria-label={t("savedRespins")}
               >
                 <Button
                   variant="secondary"
@@ -148,13 +151,13 @@ export default function ManagerPage() {
                   aria-disabled="true"
                 >
                   {formationRespinRemaining
-                    ? "FORMATION RESPIN ×1"
-                    : "FORMATION RESPIN USED"}
+                    ? t("formationRespin")
+                    : t("formationRespinUsed")}
                 </strong>
                 <strong className="respin-counter">
                   {playerRespinsRemaining
-                    ? `PLAYER RESPINS ×${playerRespinsRemaining}`
-                    : "PLAYER RESPINS USED"}
+                    ? t("playerRespins", { count: playerRespinsRemaining })
+                    : t("playerRespinsUsed")}
                 </strong>
               </div>
               <Button
@@ -164,7 +167,7 @@ export default function ManagerPage() {
                   router.push("/play/formation");
                 }}
               >
-                {selectedManager ? "SELECT MANAGER" : "SELECT A MANAGER"}
+                {selectedManager ? t("selectManager") : t("selectAManager")}
                 <ArrowRight size={16} aria-hidden />
               </Button>
             </div>
@@ -172,14 +175,14 @@ export default function ManagerPage() {
 
           <section className={styles.mobileManagerScreen} aria-labelledby="mobile-manager-title" data-testid="mobile-manager-picker">
             <header className={styles.mobileIntro}>
-              <p>STEP 02 · TOURNAMENT MANAGERS</p>
-              <h1 id="mobile-manager-title">Choose your manager.</h1>
-              <span>Compare the three. Tap to select.</span>
+              <p>{t("mobileEyebrow")}</p>
+              <h1 id="mobile-manager-title">{t("title")}</h1>
+              <span>{t("mobileHint")}</span>
             </header>
 
             <div
               className={styles.mobileManagerList}
-              aria-label="Manager shortlist"
+              aria-label={t("shortlist")}
               data-testid="mobile-manager-list"
             >
               {options.map((manager) => {
@@ -195,7 +198,7 @@ export default function ManagerPage() {
                     <button
                       type="button"
                       className={styles.mobileManagerSelect}
-                      aria-label={`Choose ${manager.managerName}, ${manager.countryName} ${manager.tournamentYear}, preferred formations ${manager.preferredFormations.join(" and ")}, Era Fit ${eraFit.applicable ? eraFit.score : "not applicable"}`}
+                      aria-label={t("chooseManagerAria", { name: manager.managerName, country: localize(manager.countryName), year: manager.tournamentYear, formations: manager.preferredFormations.join(" / "), fit: eraFit.applicable ? eraFit.score : t("notApplicable") })}
                       aria-pressed={isSelected}
                       onClick={() => selectManager(manager.id)}
                     >
@@ -217,15 +220,15 @@ export default function ManagerPage() {
                         data-testid="mobile-manager-copy"
                       >
                         <strong>{manager.managerName}</strong>
-                        <span className={styles.mobileManagerStyle}>{manager.style} football</span>
+                        <span className={styles.mobileManagerStyle}>{t("styleFootball", { style: localize(manager.style) })}</span>
                         <blockquote data-testid="mobile-manager-description">
-                          {manager.tacticalIdentity}
+                          {localize(manager.tacticalIdentity)}
                         </blockquote>
                         <span
                           className={styles.mobileManagerFormations}
                           data-testid="mobile-manager-formations"
                         >
-                          <small>PREF</small> · {manager.preferredFormations.join(" / ")}
+                          <small>{t("preferredShort")}</small> · {manager.preferredFormations.join(" / ")}
                         </span>
                       </span>
                       <span className={styles.mobileManagerGrades} data-testid="mobile-manager-grades">
@@ -233,13 +236,13 @@ export default function ManagerPage() {
                           className={styles.mobileManagerEraFit}
                           data-testid="mobile-manager-era-fit"
                         >
-                          <small>ERA FIT</small>
+                          <small>{t("eraFit")}</small>
                           <b>{eraFit.applicable ? eraFit.score : "—"}</b>
                         </span>
-                        <span data-testid="mobile-manager-grade"><small>OFF</small><b>{manager.grades.offense}</b></span>
-                        <span data-testid="mobile-manager-grade"><small>DEF</small><b>{manager.grades.defense}</b></span>
-                        <span data-testid="mobile-manager-grade"><small>LEAD</small><b>{manager.leadership}</b></span>
-                        <span data-testid="mobile-manager-grade"><small>GAME</small><b>{manager.gameManagement}</b></span>
+                        <span data-testid="mobile-manager-grade"><small>{t("offenseShort")}</small><b>{manager.grades.offense}</b></span>
+                        <span data-testid="mobile-manager-grade"><small>{t("defenseShort")}</small><b>{manager.grades.defense}</b></span>
+                        <span data-testid="mobile-manager-grade"><small>{t("leadershipShort")}</small><b>{manager.leadership}</b></span>
+                        <span data-testid="mobile-manager-grade"><small>{t("gameManagementShort")}</small><b>{manager.gameManagement}</b></span>
                       </span>
                     </button>
                     <button
@@ -251,7 +254,7 @@ export default function ManagerPage() {
                         setInspectedManagerId(manager.id);
                       }}
                     >
-                      <Eye size={14} aria-hidden /> Profile
+                      <Eye size={14} aria-hidden /> {t("profile")}
                     </button>
                   </article>
                 );
@@ -266,14 +269,14 @@ export default function ManagerPage() {
                 aria-label={managerRespinLabel}
               >
                 <RefreshCw size={16} aria-hidden />
-                <span>{managerRespinRemaining ? "Respin" : "Used"}</span>
+                <span>{managerRespinRemaining ? t("respinShort") : t("used")}</span>
               </button>
               <span>
-                <small>{era.label} · {selectedManager ? "SELECTED" : "NO MANAGER"}</small>
-                <strong>{selectedManager?.managerName ?? "Choose a manager"}</strong>
+                <small>{eraT(`${era.id}.label`)} · {selectedManager ? t("selected") : t("noManager")}</small>
+                <strong>{selectedManager?.managerName ?? t("chooseManager")}</strong>
               </span>
               <Button disabled={!selectedManager} onClick={() => router.push("/play/formation")}>
-                Continue <ArrowRight size={16} aria-hidden />
+                {t("continue")} <ArrowRight size={16} aria-hidden />
               </Button>
             </footer>
           </section>
@@ -288,21 +291,18 @@ export default function ManagerPage() {
               aria-modal="true"
               aria-labelledby="manager-respin-title"
             >
-              <span className="eyebrow eyebrow--gold">MANAGER RESPIN ×1</span>
+              <span className="eyebrow eyebrow--gold">{t("respin")}</span>
               <h2 id="manager-respin-title">
-                Replace all three manager choices?
+                {t("dialogTitle")}
               </h2>
-              <p>
-                The original manager identities will not return when valid
-                alternatives exist. Formation and player respins remain untouched.
-              </p>
+              <p>{t("dialogDescription")}</p>
               <div className="dialog__actions">
                 <Button
                   variant="secondary"
                   onClick={() => setShowRespin(false)}
                   autoFocus
                 >
-                  Keep managers
+                  {t("keepManagers")}
                 </Button>
                 <Button
                   onClick={() => {
@@ -310,7 +310,7 @@ export default function ManagerPage() {
                     setShowRespin(false);
                   }}
                 >
-                  Use manager respin
+                  {t("useRespin")}
                 </Button>
               </div>
             </div>

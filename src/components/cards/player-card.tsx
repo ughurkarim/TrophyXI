@@ -6,6 +6,8 @@ import { PlayerPortrait } from "@/components/cards/player-portrait";
 import type { PlayerTournamentCard } from "@/types/game";
 import { cn, flagForCountry } from "@/lib/utils";
 import styles from "./player-card.module.css";
+import { useTranslations } from "next-intl";
+import { useLocalizedContent } from "@/i18n/content";
 
 const eraAccent: Record<PlayerTournamentCard["era"], string> = {
   "1970s": "gold",
@@ -44,6 +46,8 @@ export function PlayerCard({
   compactDraft?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
+  const t = useTranslations("players.card");
+  const localize = useLocalizedContent();
   const content = (
     <>
       <div className="player-card__shine" aria-hidden />
@@ -54,7 +58,7 @@ export function PlayerCard({
         </div>
         <div className="player-era">
           <span>{player.tournamentYear}</span>
-          <small>{player.statusTier.replace("-", " ")}</small>
+          <small>{t(`status.${player.statusTier}`)}</small>
         </div>
       </div>
       <PlayerPortrait player={player} />
@@ -63,7 +67,7 @@ export function PlayerCard({
           {flagForCountry(player.countryCode)} {player.countryCode}
         </span>
         <h3 className="player-card__name" title={player.playerName}>{player.playerName}</h3>
-        {!compactDraft && <p>{player.archetype}</p>}
+        {!compactDraft && <p>{localize(player.archetype)}</p>}
       </div>
       {!compactDraft && (
         <>
@@ -83,27 +87,27 @@ export function PlayerCard({
             ))}
           </div>
           <div className="player-card__footer">
-            <span>{player.countryName}</span>
+            <span>{localize(player.countryName)}</span>
             <span>{player.eligiblePositions.join(" · ")}</span>
           </div>
         </>
       )}
       {showFit && (
-        <div className="player-card__fit" aria-label="Draft eligibility">
+        <div className="player-card__fit" aria-label={t("draftEligibility")}>
           {compactDraft ? (
             <>
-              <span>POSITION FIT {positionFit ?? "—"}</span>
-              {eraFit !== undefined && <span>ERA FIT {eraFit}</span>}
+              <span>{t("positionFit")} {positionFit ?? "—"}</span>
+              {eraFit !== undefined && <span>{t("eraFit")} {eraFit}</span>}
             </>
           ) : (
             <>
               <span>
-                <ShieldCheck size={12} aria-hidden /> Position Fit{" "}
+                <ShieldCheck size={12} aria-hidden /> {t("positionFit")}{" "}
                 {positionFit ?? "—"}
               </span>
               {eraFit !== undefined && (
                 <span>
-                  <TimerReset size={12} aria-hidden /> Era Fit {eraFit}
+                  <TimerReset size={12} aria-hidden /> {t("eraFit")} {eraFit}
                 </span>
               )}
             </>
@@ -119,12 +123,12 @@ export function PlayerCard({
             onInspect();
           }}
         >
-          View tournament record
+          {t("viewRecord")}
         </button>
       )}
       {selected && (
         <span className="player-card__selected">
-          <Check size={16} aria-hidden /> Selected
+          <Check size={16} aria-hidden /> {t("selected")}
         </span>
       )}
     </>
@@ -166,7 +170,7 @@ export function PlayerCard({
         disabled={disabled}
         aria-label={
           actionLabel ??
-          `Draft ${player.playerName} ${player.tournamentYear}, rated ${player.overall}`
+          t("draftAria", { player: player.playerName, year: player.tournamentYear, rating: player.overall })
         }
       />
       {content}

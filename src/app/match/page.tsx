@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ChampionReveal } from "@/components/match/champion-reveal";
 import { MatchTimeline } from "@/components/match/match-timeline";
 import { GameHeader } from "@/components/navigation/game-header";
@@ -21,6 +22,8 @@ const benchSlots = ["bench-1", "bench-2", "bench-3"] as const;
 
 function MatchPageContent() {
   const router = useRouter();
+  const t = useTranslations("matches");
+  const eraT = useTranslations("gameSetup.era.options");
   const searchParams = useSearchParams();
   const hydrated = useGameStore((state) => state.hasHydrated);
   const gameMode = useGameStore((state) => state.gameMode);
@@ -134,7 +137,7 @@ function MatchPageContent() {
     return (
       <main className="game-page loading-state">
         <div className="loading-emblem" />
-        <p className="eyebrow">PREPARING THE FIXTURE</p>
+        <p className="eyebrow">{t("preparingFixture")}</p>
       </main>
     );
   }
@@ -150,14 +153,11 @@ function MatchPageContent() {
   ) {
     return (
       <div className="game-page">
-        <GameHeader step="MATCH" />
+        <GameHeader step={t("match")} />
         <main className="empty-game-state">
-          <span className="eyebrow eyebrow--gold">TEAM SHEET INCOMPLETE</span>
-          <h1>Fourteen names and an opponent are required.</h1>
-          <p>
-            Return to the archive, complete the ordered bench, and choose a
-            tournament opponent.
-          </p>
+          <span className="eyebrow eyebrow--gold">{t("incomplete")}</span>
+          <h1>{t("incompleteTitle")}</h1>
+          <p>{t("incompleteDescription")}</p>
           <Button
             onClick={() =>
               router.replace(
@@ -169,7 +169,7 @@ function MatchPageContent() {
               )
             }
           >
-            Return to squad
+            {t("returnSquad")}
           </Button>
         </main>
       </div>
@@ -181,12 +181,12 @@ function MatchPageContent() {
 
   return (
     <div className="game-page game-page--match">
-      <GameHeader step={broadcastActive ? "MATCH LIVE" : "OPPONENT REVEAL"} />
+      <GameHeader step={broadcastActive ? t("live") : t("reveal")} />
       <main className="container game-main">
         {replayRequested && !result ? (
           <div className="loading-state" aria-live="polite">
             <div className="loading-emblem" />
-            <p className="eyebrow">PREPARING A NEW MATCH</p>
+            <p className="eyebrow">{t("preparingNew")}</p>
           </div>
         ) : broadcastActive && result ? (
           <MatchTimeline
@@ -199,7 +199,7 @@ function MatchPageContent() {
             opponent={opponent}
             userRatings={ratings}
             opponentEraFit={opponentEraFit}
-            userEra={`${getDraftEra(eraId).label} environment · ${manager.managerName}`}
+            userEra={eraT(`${getDraftEra(eraId).id}.label`)}
             onSimulate={() => {
               simulate();
               setBroadcasting(true);
@@ -212,10 +212,11 @@ function MatchPageContent() {
 }
 
 function MatchPageFallback() {
+  const t = useTranslations("matches");
   return (
     <main className="game-page loading-state">
       <div className="loading-emblem" />
-      <p className="eyebrow">PREPARING THE FIXTURE</p>
+      <p className="eyebrow">{t("preparingFixture")}</p>
     </main>
   );
 }

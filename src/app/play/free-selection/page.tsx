@@ -17,6 +17,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { CircularPortrait } from "@/components/cards/circular-portrait";
 import { PlayerDetails } from "@/components/cards/player-details";
@@ -35,6 +36,7 @@ import { flagForCountry } from "@/lib/utils";
 import { useGameStore } from "@/store/game-store";
 import type { BenchSlotId, PlayerStatusTier, PlayerTournamentCard } from "@/types/game";
 import styles from "./free-selection.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 const benchSlots: BenchSlotId[] = ["bench-1", "bench-2", "bench-3"];
 const tierOptions: PlayerStatusTier[] = ["legend", "icon", "elite", "standout", "reliable", "role-player", "limited"];
@@ -59,6 +61,10 @@ function TacticalIcon({ style, size = 14 }: { style: string; size?: number }) {
 
 export default function FreeSelectionPage() {
   const router = useRouter();
+  const t = useTranslations("freeSelection");
+  const statusT = useTranslations("players.card.status");
+  const eraT = useTranslations("gameSetup.era.options");
+  const localize = useLocalizedContent();
   const hydrated = useGameStore((state) => state.hasHydrated);
   const gameMode = useGameStore((state) => state.gameMode);
   const eraId = useGameStore((state) => state.eraId);
@@ -183,11 +189,11 @@ export default function FreeSelectionPage() {
   }, [bench, eraId, formation, lineup, manager, minimumRating, nation, picks, query, ratings, targetBench, targetSlot, tier, usedIdentityIds, viewAll, year]);
 
   if (!hydrated || gameMode !== "free-selection" || !eraId || !manager || !formation || !era || !ratings) {
-    return <main className="game-page loading-state"><div className="loading-emblem" /><p className="eyebrow">OPENING FREE SELECTION</p></main>;
+    return <main className="game-page loading-state"><div className="loading-emblem" /><p className="eyebrow">{t("loading")}</p></main>;
   }
 
   if (draftPhase === "opponent") {
-    return <div className={`game-page game-page--stadium ${era.themeClass}`}><GameHeader step="OPPONENT / 05" /><SaveNotice /><main className="container game-main"><OpponentSelection eraId={eraId} onContinue={() => router.push("/match")} onEditSquad={editFreeSelection} /></main></div>;
+    return <div className={`game-page game-page--stadium ${era.themeClass}`}><GameHeader step={t("opponentStep")} /><SaveNotice /><main className="container game-main"><OpponentSelection eraId={eraId} onContinue={() => router.push("/match")} onEditSquad={editFreeSelection} /></main></div>;
   }
 
   const activePreview = targetSlot ? fitPreviews.find((preview) => preview.slotId === targetSlot.id) : undefined;
@@ -251,19 +257,19 @@ export default function FreeSelectionPage() {
 
   return (
     <div className={`game-page game-page--stadium ${era.themeClass} ${styles.screen}`}>
-      <GameHeader step="FREE SELECTION / 04" />
+      <GameHeader step={t("step")} />
       <SaveNotice />
       <main className={`container ${styles.main}`}>
         <header className={styles.heading}>
           <div className={styles.headingCopy}>
-            <p className="eyebrow eyebrow--gold">FREE SELECTION</p>
-            <h1>BUILD YOUR SQUAD</h1>
-            <p>Select a position, choose from the best tournament cards available, and complete your XI and bench.</p>
+            <p className="eyebrow eyebrow--gold">{t("eyebrow")}</p>
+            <h1>{t("title")}</h1>
+            <p>{t("description")}</p>
           </div>
 
-          <section className={styles.statsPanel} aria-label="Team stats">
+          <section className={styles.statsPanel} aria-label={t("teamStatsAria")}>
             <div className={styles.statsHeadline}>
-              <span className={styles.statsKicker}>TEAM STATS</span>
+              <span className={styles.statsKicker}>{t("teamStats")}</span>
               <div className={styles.statsNumbers}>
                 {[
                   ["ATK", ratings.attack],
@@ -283,9 +289,9 @@ export default function FreeSelectionPage() {
             <div className={styles.statsModels}>
               <span className={styles.statsModel}>
                 <span>
-                  <small>LEGACY</small>
+                  <small>{t("legacy")}</small>
                   <b>{Math.round(ratings.legacyScore ?? 0)}</b>
-                  <em>+{Math.max(0, Math.min(4, ratings.legacyBonus ?? 0))} OVR</em>
+                  <em>+{Math.max(0, Math.min(4, ratings.legacyBonus ?? 0))} {t("overallShort")}</em>
                 </span>
                 <i aria-hidden>
                   <b style={{ width: `${Math.max(0, Math.min(100, Math.round(ratings.legacyScore ?? 0)))}%` }} />
@@ -294,9 +300,9 @@ export default function FreeSelectionPage() {
 
               <span className={styles.statsModel}>
                 <span>
-                  <small>CHEMISTRY</small>
+                  <small>{t("chemistry")}</small>
                   <b>{ratings.chemistry}</b>
-                  <em>{ratings.chemistry >= 75 ? "STRONG" : ratings.chemistry >= 40 ? "BUILDING" : "DISCONNECTED"}</em>
+                  <em>{ratings.chemistry >= 75 ? t("chemistryStates.strong") : ratings.chemistry >= 40 ? t("chemistryStates.building") : t("chemistryStates.disconnected")}</em>
                 </span>
                 <i aria-hidden>
                   <b style={{ width: `${Math.max(0, Math.min(100, Math.round(ratings.chemistry)))}%` }} />
@@ -305,7 +311,7 @@ export default function FreeSelectionPage() {
             </div>
           </section>
 
-          <section className={styles.summaryPanel} aria-label="Squad context">
+          <section className={styles.summaryPanel} aria-label={t("squadContextAria")}>
             <div className={styles.summaryGrid}>
               <span className={`${styles.summaryCard} ${styles.summaryManager}`}>
                 <span className={styles.summaryPortrait}>
@@ -319,7 +325,7 @@ export default function FreeSelectionPage() {
                   />
                 </span>
                 <span>
-                  <small>MANAGER</small>
+                  <small>{t("manager")}</small>
                   <b>{manager.managerName}</b>
                 </span>
               </span>
@@ -328,8 +334,8 @@ export default function FreeSelectionPage() {
                   <TacticalIcon style={manager.style} size={13} />
                 </span>
                 <span>
-                  <small>STYLE</small>
-                  <b>{manager.style}</b>
+                  <small>{t("style")}</small>
+                  <b>{localize(manager.style)}</b>
                 </span>
               </span>
               <span className={styles.summaryCard}>
@@ -337,7 +343,7 @@ export default function FreeSelectionPage() {
                   <Grid3X3 size={14} />
                 </span>
                 <span>
-                  <small>FORMATION</small>
+                  <small>{t("formation")}</small>
                   <b>{formation.name}</b>
                 </span>
               </span>
@@ -346,27 +352,27 @@ export default function FreeSelectionPage() {
                   <CalendarDays size={14} />
                 </span>
                 <span>
-                  <small>ERA</small>
-                  <b>{era.label}</b>
+                  <small>{t("era")}</small>
+                  <b>{eraT(`${era.id}.label`)}</b>
                 </span>
               </span>
             </div>
           </section>
         </header>
 
-        <section className={styles.workspace} aria-label="Squad building workspace">
+        <section className={styles.workspace} aria-label={t("workspaceAria")}>
           <section className={styles.pitchPanel}>
             <span className={styles.formationLabel}>{formation.name}</span>
             <div className={styles.pitchAura}>
               <TacticalPitch formation={formation} lineup={lineup} picks={picks} fitPreviews={selectedPlayer ? fitPreviews : []} activeSlotId={targetSlot?.id} selectedSlotId={targetSlot?.id} goalkeeperYCap={88} layoutMode="free-selection" onSelectSlot={selectTarget} onSelectFilledSlot={selectFilledTarget} />
             </div>
             <div className={styles.benchStrip}>
-              <span className={styles.benchLabel}>BENCH</span>
-              <div className={styles.benchSlots} aria-label="Bench slots">
+              <span className={styles.benchLabel}>{t("bench")}</span>
+              <div className={styles.benchSlots} aria-label={t("benchSlotsAria")}>
               {benchSlots.map((slotId, index) => {
                 const pick = benchPicks.find((candidate) => candidate.slotId === slotId);
                 const player = pick ? playersById.get(pick.cardId) : undefined;
-                return <button type="button" key={slotId} className={[targetId === slotId ? styles.activeBench : "", !player ? styles.emptyBench : ""].filter(Boolean).join(" ")} onClick={() => player ? selectFilledTarget(slotId, player) : selectTarget(slotId)}><span className={styles.benchNumber}>B{index + 1}</span>{player ? <><CircularPortrait imageId={player.imageId} subjectName={player.playerName} era={player.era} statusTier={player.statusTier} countryCode={player.countryCode} tournamentYear={player.tournamentYear} size="compact" /><span className={styles.benchIdentity} title={`${player.playerName} · ${player.overall} · ${player.tournamentYear}`}><b>{player.playerName.split(" ").at(-1)}</b><small>{player.primaryPosition} · {player.overall} OVR · {player.tournamentYear}</small></span></> : <span className={styles.benchIdentity}><b>OPEN BENCH</b><small>SELECT ANY PLAYER</small></span>}</button>;
+                return <button type="button" key={slotId} className={[targetId === slotId ? styles.activeBench : "", !player ? styles.emptyBench : ""].filter(Boolean).join(" ")} onClick={() => player ? selectFilledTarget(slotId, player) : selectTarget(slotId)}><span className={styles.benchNumber}>B{index + 1}</span>{player ? <><CircularPortrait imageId={player.imageId} subjectName={player.playerName} era={player.era} statusTier={player.statusTier} countryCode={player.countryCode} tournamentYear={player.tournamentYear} size="compact" /><span className={styles.benchIdentity} title={`${player.playerName} · ${player.overall} · ${player.tournamentYear}`}><b>{player.playerName.split(" ").at(-1)}</b><small>{player.primaryPosition} · {player.overall} {t("overallShort")} · {player.tournamentYear}</small></span></> : <span className={styles.benchIdentity}><b>{t("openBench")}</b><small>{t("selectAnyPlayer")}</small></span>}</button>;
               })}
               </div>
             </div>
@@ -374,59 +380,59 @@ export default function FreeSelectionPage() {
 
           <aside className={styles.playerPanel}>
             {!targetSlot && !targetBench ? (
-              <div className={styles.emptyState}><span className="eyebrow eyebrow--gold">POSITION FIRST</span><h2>Select a position on the pitch.</h2><p>The strongest available tournament cards will appear automatically.</p><div><b>{needs.length} starter roles remain</b><span>{needs.slice(0, 8).join(" · ")}{needs.length > 8 ? "…" : ""}</span><b>{3 - bench.length} bench places remain</b></div></div>
+              <div className={styles.emptyState}><span className="eyebrow eyebrow--gold">{t("positionFirst")}</span><h2>{t("selectPosition")}</h2><p>{t("cardsAppear")}</p><div><b>{t("starterRolesRemain", { count: needs.length })}</b><span>{needs.slice(0, 8).join(" · ")}{needs.length > 8 ? "…" : ""}</span><b>{t("benchPlacesRemain", { count: 3 - bench.length })}</b></div></div>
             ) : filledTarget ? (
-              <div className={styles.filledActions}><span className="eyebrow eyebrow--gold">FILLED POSITION · {targetDisplayLabel}</span><CircularPortrait imageId={filledTarget.player.imageId} subjectName={filledTarget.player.playerName} era={filledTarget.player.era} statusTier={filledTarget.player.statusTier} countryCode={filledTarget.player.countryCode} tournamentYear={filledTarget.player.tournamentYear} size="standard" /><h2>{filledTarget.player.playerName}</h2><p>{flagForCountry(filledTarget.player.countryCode)} {filledTarget.player.countryName} · {filledTarget.player.tournamentYear} · {filledTarget.player.overall} OVR</p><div><Button variant="secondary" onClick={() => setInspected(filledTarget.player)}><Eye size={14} aria-hidden /> INSPECT</Button><Button variant="secondary" onClick={() => { removeFreePlayer(filledTarget.player.id); setFilledTarget(null); }}>REPLACE</Button><Button variant="secondary" onClick={() => { const player = filledTarget.player; removeFreePlayer(player.id); selectPlayer(player.id); setTargetId(null); setFilledTarget(null); }}><Move size={14} aria-hidden /> MOVE</Button><Button variant="ghost" onClick={() => { removeFreePlayer(filledTarget.player.id); setTargetId(null); setFilledTarget(null); }}><Trash2 size={14} aria-hidden /> REMOVE</Button></div></div>
+              <div className={styles.filledActions}><span className="eyebrow eyebrow--gold">{t("filledPosition")} · {targetDisplayLabel}</span><CircularPortrait imageId={filledTarget.player.imageId} subjectName={filledTarget.player.playerName} era={filledTarget.player.era} statusTier={filledTarget.player.statusTier} countryCode={filledTarget.player.countryCode} tournamentYear={filledTarget.player.tournamentYear} size="standard" /><h2>{filledTarget.player.playerName}</h2><p>{flagForCountry(filledTarget.player.countryCode)} {localize(filledTarget.player.countryName)} · {filledTarget.player.tournamentYear} · {filledTarget.player.overall} {t("overallShort")}</p><div><Button variant="secondary" onClick={() => setInspected(filledTarget.player)}><Eye size={14} aria-hidden /> {t("inspect")}</Button><Button variant="secondary" onClick={() => { removeFreePlayer(filledTarget.player.id); setFilledTarget(null); }}>{t("replace")}</Button><Button variant="secondary" onClick={() => { const player = filledTarget.player; removeFreePlayer(player.id); selectPlayer(player.id); setTargetId(null); setFilledTarget(null); }}><Move size={14} aria-hidden /> {t("move")}</Button><Button variant="ghost" onClick={() => { removeFreePlayer(filledTarget.player.id); setTargetId(null); setFilledTarget(null); }}><Trash2 size={14} aria-hidden /> {t("remove")}</Button></div></div>
             ) : (
               <>
                 <div className={styles.panelHeading}>
                   <div className={styles.positionLockup}>
                     <span className={styles.positionBadge}>{targetDisplayLabel}</span>
                     <div>
-                      <span className="eyebrow eyebrow--gold">{targetBench ? "BENCH SEARCH" : "SELECTED POSITION"}</span>
-                      <h2>{targetSlot?.label ?? "Any player"}</h2>
-                      <p>{targetSlot ? `${targetSlot.position} · ${targetSlot.accepts.map((position) => position === "LCB" || position === "RCB" ? "CB" : position).filter((value, index, values) => values.indexOf(value) === index).join(" / ")}` : "No position restriction · ranked by bench impact"}</p>
+                      <span className="eyebrow eyebrow--gold">{targetBench ? t("benchSearch") : t("selectedPosition")}</span>
+                      <h2>{targetSlot?.label ?? t("anyPlayer")}</h2>
+                      <p>{targetSlot ? `${targetSlot.position} · ${targetSlot.accepts.map((position) => position === "LCB" || position === "RCB" ? "CB" : position).filter((value, index, values) => values.indexOf(value) === index).join(" / ")}` : t("noPositionRestriction")}</p>
                     </div>
                   </div>
-                  <button type="button" onClick={() => setTargetId(null)} aria-label="Clear selected position"><X size={16} aria-hidden /></button>
+                  <button type="button" onClick={() => setTargetId(null)} aria-label={t("clearPosition")}><X size={16} aria-hidden /></button>
                 </div>
 
                 <div className={styles.filters}>
                   <label className={styles.search}>
                     <Search size={14} aria-hidden />
-                    <span className="sr-only">Search players</span>
-                    <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search player or nation" />
+                    <span className="sr-only">{t("searchPlayers")}</span>
+                    <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t("searchPlaceholder")} />
                   </label>
                   <label className={styles.selectShell}>
-                    <select aria-label="Tournament year" value={year} onChange={(event) => setYear(event.target.value ? Number(event.target.value) : "")}>
-                      <option value="">All years</option>
+                    <select aria-label={t("tournamentYear")} value={year} onChange={(event) => setYear(event.target.value ? Number(event.target.value) : "")}>
+                      <option value="">{t("allYears")}</option>
                       {[...new Set(draftEligiblePlayers.map((player) => player.tournamentYear))].sort((a,b) => b-a).map((value) => <option key={value}>{value}</option>)}
                     </select>
                     <span className={styles.selectChevron} aria-hidden>⌄</span>
                   </label>
                   <label className={styles.selectShell}>
-                    <select aria-label="Player nation" value={nation} onChange={(event) => setNation(event.target.value)}>
-                      <option value="">All nations</option>
-                      {nationOptions.map(([code,name]) => <option key={code} value={code}>{name}</option>)}
+                    <select aria-label={t("playerNation")} value={nation} onChange={(event) => setNation(event.target.value)}>
+                      <option value="">{t("allNations")}</option>
+                      {nationOptions.map(([code,name]) => <option key={code} value={code}>{localize(name)}</option>)}
                     </select>
                     <span className={styles.selectChevron} aria-hidden>⌄</span>
                   </label>
                   <label className={styles.selectShell}>
-                    <select aria-label="Card rarity" value={tier} onChange={(event) => setTier(event.target.value as PlayerStatusTier | "")}>
-                      <option value="">All rarities</option>
-                      {tierOptions.map((value) => <option key={value}>{value.replace("-", " ")}</option>)}
+                    <select aria-label={t("cardRarity")} value={tier} onChange={(event) => setTier(event.target.value as PlayerStatusTier | "")}>
+                      <option value="">{t("allRarities")}</option>
+                      {tierOptions.map((value) => <option key={value} value={value}>{statusT(value)}</option>)}
                     </select>
                     <span className={styles.selectChevron} aria-hidden>⌄</span>
                   </label>
                   <label className={styles.selectShell}>
-                    <select aria-label="Minimum rating" value={minimumRating} onChange={(event) => setMinimumRating(event.target.value ? Number(event.target.value) : "")}>
-                      <option value="">Any rating</option><option value="85">85+</option><option value="90">90+</option><option value="95">95+</option>
+                    <select aria-label={t("minimumRating")} value={minimumRating} onChange={(event) => setMinimumRating(event.target.value ? Number(event.target.value) : "")}>
+                      <option value="">{t("anyRating")}</option><option value="85">85+</option><option value="90">90+</option><option value="95">95+</option>
                     </select>
                     <span className={styles.selectChevron} aria-hidden>⌄</span>
                   </label>
-                  <label className={styles.viewAll} title="Sort the current eligible players by overall rating">
+                  <label className={styles.viewAll} title={t("sortByOverallTitle")}>
                     <input type="checkbox" checked={viewAll} onChange={(event) => setViewAll(event.target.checked)} />
-                    <span>BY OVR</span>
+                    <span>{t("byOverall")}</span>
                   </label>
                 </div>
 
@@ -447,7 +453,7 @@ export default function FreeSelectionPage() {
                         size="compact"
                       />
                       <div className={styles.placeIdentity}>
-                        <span>READY TO PLACE</span>
+                        <span>{t("readyToPlace")}</span>
                         <b>{selectedPlayer.playerName}</b>
                         <small>
                           {flagForCountry(selectedPlayer.countryCode)} {selectedPlayer.countryCode}
@@ -457,49 +463,49 @@ export default function FreeSelectionPage() {
                       <dl className={styles.placeMetrics}>
                         {targetSlot && (
                           <div>
-                            <dt>FIT</dt>
+                            <dt>{t("fit")}</dt>
                             <dd>{selectedCandidate.positionFit}%</dd>
                           </div>
                         )}
                         <div>
-                          <dt>TEAM</dt>
+                          <dt>{t("team")}</dt>
                           <dd>{selectedCandidate.overallGain >= 0 ? "+" : ""}{selectedCandidate.overallGain}</dd>
                         </div>
                         <div>
-                          <dt>CHEM</dt>
+                          <dt>{t("chemShort")}</dt>
                           <dd>{selectedCandidate.chemistryGain >= 0 ? "+" : ""}{selectedCandidate.chemistryGain}</dd>
                         </div>
                         <div>
-                          <dt>OVR</dt>
+                          <dt>{t("overallShort")}</dt>
                           <dd>{selectedPlayer.overall}</dd>
                         </div>
                       </dl>
                       <div className={styles.placeActions}>
-                        <small>Click {targetDisplayLabel} or press Place</small>
-                        <Button disabled={!canPlaceSelected} onClick={placePlayer}>PLACE</Button>
+                        <small>{t("placeHint", { target: targetDisplayLabel ?? "" })}</small>
+                        <Button disabled={!canPlaceSelected} onClick={placePlayer}>{t("place")}</Button>
                       </div>
                     </>
                   ) : (
                     <>
                       <div className={styles.placePlaceholderIcon}>+</div>
                       <div className={styles.placeIdentity}>
-                        <span>PLAYER SLOT</span>
-                        <b>Select a player</b>
+                        <span>{t("playerSlot")}</span>
+                        <b>{t("selectPlayer")}</b>
                         <small>
-                          Choose a card below, then click {targetDisplayLabel} or press Place.
+                          {t("chooseCardHint", { target: targetDisplayLabel ?? "" })}
                         </small>
                       </div>
                       <div className={styles.placePlaceholderRule} aria-hidden />
                       <div className={styles.placeActions}>
-                        <small>No player selected</small>
-                        <Button disabled>PLACE</Button>
+                        <small>{t("noPlayerSelected")}</small>
+                        <Button disabled>{t("place")}</Button>
                       </div>
                     </>
                   )}
                 </div>
 
                 <div className={styles.resultsHeader}>
-                  <small>{viewAll ? "HIGHEST OVR FIRST" : targetBench ? "BEST BENCH IMPACT FIRST" : "BEST SQUAD IMPACT FIRST"}</small>
+                  <small>{viewAll ? t("sort.highestOverall") : targetBench ? t("sort.bestBench") : t("sort.bestSquad")}</small>
                 </div>
 
                 <div className={styles.playerResults} aria-live="polite">
@@ -516,7 +522,7 @@ export default function FreeSelectionPage() {
                           type="button"
                           className={styles.candidateHitArea}
                           onClick={() => selectPlayer(candidate.player.id)}
-                          aria-label={`Select ${candidate.player.playerName} ${candidate.player.tournamentYear} for ${targetSlot?.label ?? "bench"}`}
+                          aria-label={t("selectCandidateAria", { player: candidate.player.playerName, year: candidate.player.tournamentYear, target: targetSlot?.label ?? t("bench") })}
                           aria-pressed={isSelectedCard}
                         />
                         <div className={`${styles.candidateMain} ${targetBench ? styles.candidateMainBench : ""}`}>
@@ -533,35 +539,35 @@ export default function FreeSelectionPage() {
                           <span className={styles.candidateIdentity}>
                             <b>
                               {candidate.player.playerName}
-                              {index === 0 && <em>{viewAll ? "TOP OVR" : "BEST"}</em>}
+                              {index === 0 && <em>{viewAll ? t("topOverall") : t("best")}</em>}
                             </b>
-                            <span>{flagForCountry(candidate.player.countryCode)} {candidate.player.countryCode} · {candidate.player.tournamentYear} · {candidate.player.primaryPosition} · {candidate.player.statusTier.replace("-", " ")}</span>
+                            <span>{flagForCountry(candidate.player.countryCode)} {candidate.player.countryCode} · {candidate.player.tournamentYear} · {candidate.player.primaryPosition} · {statusT(candidate.player.statusTier)}</span>
                           </span>
                           {targetSlot && (
                             <span className={styles.candidateStat}>
-                              <small>FIT</small>
+                              <small>{t("fit")}</small>
                               <b data-tone={candidate.positionFit >= 90 ? "great" : candidate.positionFit >= 70 ? "good" : "risk"}>
                                 {candidate.positionFit}%
                               </b>
                             </span>
                           )}
                           <span className={styles.candidateStat}>
-                            <small>TEAM</small>
+                            <small>{t("team")}</small>
                             <b>{candidate.overallGain >= 0 ? "+" : ""}{candidate.overallGain}</b>
                           </span>
                           <span className={styles.candidateStat}>
-                            <small>CHEM</small>
+                            <small>{t("chemShort")}</small>
                             <b>{candidate.chemistryGain >= 0 ? "+" : ""}{candidate.chemistryGain}</b>
                           </span>
                           <span className={styles.candidateRating}>
                             <strong>{candidate.player.overall}</strong>
-                            <small>OVR</small>
+                            <small>{t("overallShort")}</small>
                           </span>
                           <button
                             type="button"
                             className={styles.inspectCandidate}
                             onClick={() => setInspected(candidate.player)}
-                            aria-label={`View profile for ${candidate.player.playerName} ${candidate.player.tournamentYear}`}
+                            aria-label={t("viewProfileAria", { player: candidate.player.playerName, year: candidate.player.tournamentYear })}
                           >
                             <Eye size={13} aria-hidden />
                           </button>
@@ -569,7 +575,7 @@ export default function FreeSelectionPage() {
                       </article>
                     );
                   })}
-                  {candidates.length === 0 && <p className={styles.noResults}>No eligible tournament cards match these filters.</p>}
+                  {candidates.length === 0 && <p className={styles.noResults}>{t("noResults")}</p>}
                 </div>
               </>
             )}
@@ -578,7 +584,7 @@ export default function FreeSelectionPage() {
 
         <footer className={styles.pageFooter}>
           <Button className={styles.continueButton} disabled={!canContinue} onClick={finalizeFreeSelection}>
-            CONTINUE TO SQUAD <span aria-hidden>→</span>
+            {t("continueToSquad")} <span aria-hidden>→</span>
           </Button>
         </footer>
       </main>

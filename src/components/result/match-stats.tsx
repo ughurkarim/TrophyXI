@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { MatchResult } from "@/types/game";
 import styles from "./match-stats.module.css";
+import { useTranslations } from "next-intl";
 
 type StatRow = {
   label: string;
@@ -15,32 +16,33 @@ export function MatchStats({
   result: MatchResult;
   opponentLabel: string;
 }) {
+  const t = useTranslations("results.stats");
   const rows: StatRow[] = [
     {
-      label: "Possession",
+      label: t("possession"),
       values: result.stats.possession,
       format: (value) => `${value}%`,
     },
-    { label: "Shots", values: result.stats.shots },
-    { label: "Shots on target", values: result.stats.shotsOnTarget },
+    { label: t("shots"), values: result.stats.shots },
+    { label: t("shotsOnTarget"), values: result.stats.shotsOnTarget },
     {
-      label: "Expected goals",
+      label: t("expectedGoals"),
       values: result.stats.expectedGoals,
       format: (value) => value.toFixed(2),
     },
-    { label: "Yellow cards", values: result.stats.yellowCards },
-    { label: "Tactical fit", values: result.stats.tacticalImpact },
+    { label: t("yellowCards"), values: result.stats.yellowCards },
+    { label: t("tacticalFit"), values: result.stats.tacticalImpact },
   ];
 
   return (
     <div
       className={styles.table}
       role="table"
-      aria-label="Final match statistics"
+      aria-label={t("aria")}
     >
       <div className={styles.head} role="row">
         <b role="columnheader">TROPHY XI</b>
-        <span role="columnheader">MATCH STATISTICS</span>
+        <span role="columnheader">{t("title")}</span>
         <b role="columnheader">{opponentLabel.toLocaleUpperCase()}</b>
       </div>
       {rows.map(({ label, values, format = String }) => {
@@ -57,7 +59,7 @@ export function MatchStats({
             key={label}
             role="row"
             data-leader={leader}
-            aria-label={`${label}: Trophy XI ${userDisplay}, ${opponentLabel} ${opponentDisplay}`}
+            aria-label={t("rowAria", { label, user: userDisplay, opponent: opponentLabel, opponentValue: opponentDisplay })}
           >
             <b
               className={cn(leader === "user" && styles.leadingValue)}

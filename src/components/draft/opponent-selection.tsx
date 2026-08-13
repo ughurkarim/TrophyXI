@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Check, Crown, Eye, Swords, X } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { managerGradeLabel } from "@/data/managers";
 import { historicalOpponents, worldCupAllStars } from "@/data/opponents";
@@ -15,6 +16,7 @@ import type {
   HistoricalWorldCupTeam,
 } from "@/types/game";
 import styles from "./opponent-selection.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 export function OpponentSelection({
   eraId,
@@ -25,6 +27,8 @@ export function OpponentSelection({
   onContinue: () => void;
   onEditSquad?: () => void;
 }) {
+  const t = useTranslations("opponents");
+  const localize = useLocalizedContent();
   const [viewingSquad, setViewingSquad] =
     useState<HistoricalWorldCupTeam | null>(null);
   const selectedOpponentId = useGameStore((state) => state.selectedOpponentId);
@@ -46,17 +50,17 @@ export function OpponentSelection({
     >
       <div className="opponent-selection__heading">
         <div>
-          <span className="eyebrow eyebrow--gold">WORLD CUP GAUNTLET</span>
-          <h2 id="opponent-heading">Choose your opponent.</h2>
+          <span className="eyebrow eyebrow--gold">{t("gauntlet")}</span>
+          <h2 id="opponent-heading">{t("title")}</h2>
         </div>
-        <strong>{historicalOpponents.length} CHAMPIONS</strong>
+        <strong>{t("championCount", { count: historicalOpponents.length })}</strong>
       </div>
 
       <section className="opponent-featured" aria-labelledby="featured-heading">
         <div className="opponent-section-heading">
           <div>
-            <span className="eyebrow eyebrow--gold">FEATURED CHALLENGE</span>
-            <h3 id="featured-heading">World Cup All-Stars</h3>
+            <span className="eyebrow eyebrow--gold">{t("featuredChallenge")}</span>
+            <h3 id="featured-heading">{t("allStars")}</h3>
           </div>
         </div>
         <button
@@ -68,18 +72,18 @@ export function OpponentSelection({
           }`}
           onClick={() => selectOpponent(worldCupAllStars.id)}
           aria-pressed={selectedOpponentId === worldCupAllStars.id}
-          aria-label="Select World Cup All-Stars, Mythic difficulty"
+          aria-label={t("selectAllStarsAria")}
         >
           <div className={styles.featuredBody}>
             <div className={`opponent-card__title ${styles.featuredTitle}`}>
-              <span>WORLD CUP ALL-STARS</span>
+              <span>{t("allStarsUpper")}</span>
               <span className={styles.difficulty}>
-                <small>DIFFICULTY</small>
-                <b>MYTHIC</b>
+                <small>{t("difficulty")}</small>
+                <b>{t("mythic")}</b>
               </span>
             </div>
             <p className={styles.subtitle}>
-              {worldCupAllStars.allStars?.subtitle}
+              {localize(worldCupAllStars.allStars?.subtitle)}
             </p>
             <Ratings
               opponent={worldCupAllStars}
@@ -87,29 +91,29 @@ export function OpponentSelection({
             />
             <div className={styles.managerProfile}>
               <div className={styles.managerHeading}>
-                <span>MANAGER</span>
+                <span>{t("manager")}</span>
                 <strong>
                   {allStarsManager.managerName} ·{" "}
                   {flagForCountry(allStarsManager.countryCode)}{" "}
-                  {allStarsManager.countryName} {allStarsManager.tournamentYear}
+                  {localize(allStarsManager.countryName)} {allStarsManager.tournamentYear}
                 </strong>
               </div>
               <dl
                 className={styles.managerMetrics}
-                aria-label={`${allStarsManager.managerName} manager profile`}
+                aria-label={t("managerProfileAria", { manager: allStarsManager.managerName })}
                 data-has-era-fit={eraId !== "all"}
               >
                 {[
-                  { label: "OFF", value: allStarsManager.grades.offense },
-                  { label: "DEF", value: allStarsManager.grades.defense },
-                  { label: "Leadership", value: allStarsManager.leadership },
+                  { label: t("off"), value: allStarsManager.grades.offense },
+                  { label: t("def"), value: allStarsManager.grades.defense },
+                  { label: t("leadership"), value: allStarsManager.leadership },
                   {
-                    label: "Game Management",
+                    label: t("gameManagement"),
                     value: allStarsManager.gameManagement,
                   },
                   ...(eraId === "all"
                     ? []
-                    : [{ label: "Era Fit", value: managerEraFit }]),
+                    : [{ label: t("eraFit"), value: managerEraFit }]),
                 ].map((metric) => (
                   <div key={metric.label}>
                     <dt>{metric.label}</dt>
@@ -122,11 +126,11 @@ export function OpponentSelection({
               </dl>
               <div className={styles.managerTactics}>
                 <span>
-                  Preferred formations{" "}
+                  {t("preferredFormations")}{" "}
                   <b>{allStarsManager.preferredFormations.join(" · ")}</b>
                 </span>
                 <span>
-                  Tactical style <b>{allStarsManager.style}</b>
+                  {t("tacticalStyle")} <b>{localize(allStarsManager.style)}</b>
                 </span>
               </div>
             </div>
@@ -144,12 +148,12 @@ export function OpponentSelection({
       >
         <div className="opponent-section-heading">
           <div>
-            <span className="eyebrow">CHAMPIONS</span>
+            <span className="eyebrow">{t("champions")}</span>
             <h3 id="historical-opponents-heading">
-              Fifteen champions. One knockout match.
+              {t("championsDescription")}
             </h3>
           </div>
-          <b>{historicalOpponents.length} teams</b>
+          <b>{t("teamCount", { count: historicalOpponents.length })}</b>
         </div>
         <div className={`opponent-grid ${styles.championGrid}`}>
           {[...historicalOpponents]
@@ -177,13 +181,13 @@ export function OpponentSelection({
         data-testid="opponent-action-bar"
       >
         <div className={styles.footerCopy} aria-live="polite">
-          <span className="eyebrow">SELECTED OPPONENT</span>
+          <span className="eyebrow">{t("selectedOpponent")}</span>
           <b data-testid="selected-opponent-name">
             {selected?.kind === "all-stars"
-              ? "World Cup All-Stars · Mythic"
+              ? `${t("allStars")} · ${t("mythic")}`
               : selected
-                ? `${selected.nationName} ${selected.tournamentYear}`
-                : "Choose one opponent"}
+                ? `${localize(selected.nationName)} ${selected.tournamentYear}`
+                : t("chooseOne")}
           </b>
         </div>
         <div className={styles.footerActions} data-testid="opponent-actions">
@@ -193,12 +197,12 @@ export function OpponentSelection({
               onClick={() => setViewingSquad(selected)}
               data-testid="footer-view-xi"
             >
-              <Eye size={15} aria-hidden /> View XI
+              <Eye size={15} aria-hidden /> {t("viewXi")}
             </Button>
           )}
           {onEditSquad && (
             <Button variant="secondary" onClick={onEditSquad}>
-              Edit squad
+              {t("editSquad")}
             </Button>
           )}
           <Button
@@ -207,7 +211,7 @@ export function OpponentSelection({
             disabled={!selected}
             data-testid="enter-tunnel"
           >
-            Enter the tunnel <Swords size={16} aria-hidden />
+            {t("enterTunnel")} <Swords size={16} aria-hidden />
           </Button>
         </div>
       </div>
@@ -228,22 +232,24 @@ function Ratings({
   opponent: HistoricalWorldCupTeam;
   className?: string;
 }) {
+  const t = useTranslations("opponents");
+  const localize = useLocalizedContent();
   return (
     <div
       className={`opponent-card__ratings ${className}`}
-      aria-label={`${opponent.nationName} ratings`}
+      aria-label={t("ratingsAria", { country: localize(opponent.nationName) })}
     >
       <span>
-        ATTACK <b>{opponent.ratings.attack}</b>
+        {t("attack")} <b>{opponent.ratings.attack}</b>
       </span>
       <span>
-        MIDFIELD <b>{opponent.ratings.midfield}</b>
+        {t("midfield")} <b>{opponent.ratings.midfield}</b>
       </span>
       <span>
-        DEFENSE <b>{opponent.ratings.defense}</b>
+        {t("defense")} <b>{opponent.ratings.defense}</b>
       </span>
       <span>
-        OVERALL <b>{opponent.ratings.overall}</b>
+        {t("overall")} <b>{opponent.ratings.overall}</b>
       </span>
     </div>
   );
@@ -256,13 +262,14 @@ function SelectedMark({
   selected: boolean;
   className: string;
 }) {
+  const t = useTranslations("common");
   return (
     <span
       className={`opponent-selected-mark ${className}`}
       data-visible={selected}
       aria-hidden={!selected}
     >
-      <Check size={14} aria-hidden /> Selected
+      <Check size={14} aria-hidden /> {t("selected")}
     </span>
   );
 }
@@ -278,6 +285,8 @@ function OpponentCard({
   onSelect: () => void;
   onViewSquad: () => void;
 }) {
+  const t = useTranslations("opponents");
+  const localize = useLocalizedContent();
   const presentation = championPresentationFor(opponent);
   const [imageFailed, setImageFailed] = useState(false);
   const hasImage = Boolean(presentation?.image) && !imageFailed;
@@ -289,7 +298,7 @@ function OpponentCard({
       role="button"
       tabIndex={0}
       aria-pressed={selected}
-      aria-label={`Select ${opponent.nationName} ${opponent.tournamentYear}, ${opponent.difficulty} difficulty`}
+      aria-label={t("selectChampionAria", { country: localize(opponent.nationName), year: opponent.tournamentYear ?? "", difficulty: localize(opponent.difficulty) })}
       data-testid={`champion-card-${opponent.tournamentYear}`}
       data-year={opponent.tournamentYear}
       data-long-name={opponent.nationName.length >= 11 ? "true" : undefined}
@@ -316,7 +325,7 @@ function OpponentCard({
             onError={() => setImageFailed(true)}
           />
         ) : (
-          <span>PHOTO PENDING</span>
+          <span>{t("photoPending")}</span>
         )}
       </div>
       <div className={styles.cardContent}>
@@ -328,18 +337,18 @@ function OpponentCard({
           <b>{opponent.tournamentYear}</b>
         </div>
         <span className={styles.championLabel}>
-          <Crown size={12} aria-hidden /> WORLD CHAMPION
+          <Crown size={12} aria-hidden /> {t("worldChampion")}
         </span>
-        <h3>{opponent.nationName}</h3>
+        <h3>{localize(opponent.nationName)}</h3>
         <strong className={styles.playerName}>
-          {presentation?.player ?? "Representative player pending"}
+          {presentation?.player ?? t("representativePending")}
         </strong>
         <p className={styles.championBlurb}>
-          {presentation?.blurb ?? opponent.championFact}
+          {localize(presentation?.blurb ?? opponent.championFact)}
         </p>
         <dl className={styles.cardTactics}>
-          <div><dt>Manager</dt><dd>{opponent.managerName}</dd></div>
-          <div><dt>Shape</dt><dd>{opponent.formationLabel ?? opponent.formation}</dd></div>
+          <div><dt>{t("manager")}</dt><dd>{opponent.managerName}</dd></div>
+          <div><dt>{t("shape")}</dt><dd>{opponent.formationLabel ?? opponent.formation}</dd></div>
         </dl>
         <Ratings opponent={opponent} />
       </div>
@@ -355,9 +364,9 @@ function OpponentCard({
           onViewSquad();
         }}
         onKeyDown={(event) => event.stopPropagation()}
-        aria-label={`View ${opponent.nationName} ${opponent.tournamentYear} lineup`}
+        aria-label={t("viewLineupAria", { country: localize(opponent.nationName), year: opponent.tournamentYear ?? "" })}
       >
-        View XI
+        {t("viewXi")}
       </button>
     </article>
   );
@@ -390,6 +399,8 @@ function OpponentSquadDrawer({
   opponent: HistoricalWorldCupTeam;
   onClose: () => void;
 }) {
+  const t = useTranslations("opponents");
+  const localize = useLocalizedContent();
   return (
     <div className="drawer-backdrop" role="presentation" onMouseDown={onClose}>
       <aside
@@ -404,13 +415,13 @@ function OpponentSquadDrawer({
     >
       <header className={styles.dossierHeader}>
         <div>
-          <span className="eyebrow eyebrow--gold">SELECTED CHAMPION</span>
+          <span className="eyebrow eyebrow--gold">{t("selectedChampion")}</span>
           <h3 id="selected-champion-heading">
-            {flagForCountry(opponent.nationCode)} {opponent.nationName}{" "}
+            {flagForCountry(opponent.nationCode)} {localize(opponent.nationName)}{" "}
             {opponent.tournamentYear}
           </h3>
         </div>
-        <button className="icon-button" onClick={onClose} aria-label="Close opponent lineup" autoFocus>
+        <button className="icon-button" onClick={onClose} aria-label={t("closeLineup")} autoFocus>
           <X size={17} aria-hidden />
         </button>
       </header>
@@ -418,35 +429,35 @@ function OpponentSquadDrawer({
       <div className={styles.dossierSummary}>
         <dl>
           <div>
-            <dt>Manager</dt>
+            <dt>{t("manager")}</dt>
             <dd>{opponent.managerName}</dd>
           </div>
           <div>
-            <dt>Formation</dt>
+            <dt>{t("formation")}</dt>
             <dd>{opponent.formationLabel ?? opponent.formation}</dd>
           </div>
         </dl>
-        <p>{opponent.tacticalProfile}</p>
+        <p>{localize(opponent.tacticalProfile)}</p>
         <Ratings opponent={opponent} className={styles.dossierRatings} />
       </div>
 
       <div className={styles.squadColumns}>
         <section aria-labelledby="starting-xi-heading">
           <span className="eyebrow" id="starting-xi-heading">
-            STARTING XI
+            {t("startingXi")}
           </span>
           <PlayerList
             players={opponent.startingLineup}
-            label={`${opponent.nationName} ${opponent.tournamentYear} starting eleven`}
+            label={t("startingXiAria", { country: localize(opponent.nationName), year: opponent.tournamentYear ?? "" })}
           />
         </section>
         <section aria-labelledby="available-substitutes-heading">
           <span className="eyebrow" id="available-substitutes-heading">
-            AVAILABLE SUBSTITUTES
+            {t("availableSubstitutes")}
           </span>
           <PlayerList
             players={opponent.substitutes}
-            label={`${opponent.nationName} ${opponent.tournamentYear} available substitutes`}
+            label={t("substitutesAria", { country: localize(opponent.nationName), year: opponent.tournamentYear ?? "" })}
           />
         </section>
       </div>

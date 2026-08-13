@@ -2,6 +2,7 @@
 
 import { RefreshCw } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { FormationCard } from "@/components/formation/formation-card";
 import { Button } from "@/components/ui/button";
 import { getDraftEra } from "@/data/eras";
@@ -15,6 +16,7 @@ import type {
   ManagerTournamentCard,
 } from "@/types/game";
 import styles from "./formation-selection.module.css";
+import { useLocalizedContent } from "@/i18n/content";
 
 export function FormationSelection({
   manager,
@@ -33,6 +35,9 @@ export function FormationSelection({
   onRespin: () => void;
   onContinue: (formationId: FormationId) => void;
 }) {
+  const t = useTranslations("gameSetup.formation");
+  const eraT = useTranslations("gameSetup.era.options");
+  const localize = useLocalizedContent();
   const offered = offerIds
     .map((id) => formations.find((formation) => formation.id === id))
     .filter((formation): formation is (typeof formations)[number] => Boolean(formation));
@@ -57,28 +62,25 @@ export function FormationSelection({
       aria-labelledby="formation-heading"
     >
       <div className={styles.intro}>
-        <p className="eyebrow eyebrow--gold">TACTICAL ROOM / STEP 03</p>
-        <h1 id="formation-heading">Choose your system.</h1>
-        <p>
-          Select the formation that best fits your manager, the match era, and
-          the squad you want to build.
-        </p>
+        <p className="eyebrow eyebrow--gold">{t("eyebrow")}</p>
+        <h1 id="formation-heading">{t("title")}</h1>
+        <p>{t("description")}</p>
       </div>
       <div
         className={cn("formation-context", styles.context)}
         data-testid="formation-context"
       >
         <div className={styles.contextField}>
-          <span>Manager</span>
+          <span>{t("manager")}</span>
           <strong>{manager.managerName}</strong>
         </div>
         <div className={styles.contextField}>
-          <span>Style</span>
-          <strong>{manager.style}</strong>
+          <span>{t("style")}</span>
+          <strong>{localize(manager.style)}</strong>
         </div>
         <div className={styles.contextField}>
-          <span>Match Era</span>
-          <strong>{era.label}</strong>
+          <span>{t("matchEra")}</span>
+          <strong>{eraT(`${era.id}.label`)}</strong>
         </div>
         {showRespinControl && (
           <button
@@ -92,8 +94,8 @@ export function FormationSelection({
           >
             <RefreshCw size={15} aria-hidden />
             {formationRespinRemaining
-              ? "FORMATION RESPIN ×1"
-              : "FORMATION RESPIN USED"}
+              ? t("respin")
+              : t("respinUsed")}
           </button>
         )}
       </div>
@@ -115,20 +117,20 @@ export function FormationSelection({
         data-testid="selected-system"
       >
         <div className={styles.selectedName}>
-          <span>Selected System</span>
+          <span>{t("selectedSystem")}</span>
           <strong>
-            {selectedMetrics?.formation.name ?? "Choose a formation"}
+            {selectedMetrics?.formation.name ?? t("chooseFormation")}
           </strong>
         </div>
         <div className={styles.selectedFit}>
-          <span>Manager Fit</span>
+          <span>{t("managerFit")}</span>
           <strong>{selectedMetrics?.managerFit ?? "—"}</strong>
         </div>
         <div className={styles.selectedFit}>
-          <span>Era Fit</span>
+          <span>{t("eraFit")}</span>
           <strong>
             {eraId === "all"
-              ? "Neutral"
+              ? t("neutral")
               : selectedMetrics?.eraFit ?? "—"}
           </strong>
         </div>
@@ -139,7 +141,7 @@ export function FormationSelection({
             if (selectedMetrics) onContinue(selectedMetrics.formation.id);
           }}
         >
-          ENTER DRAFT →
+          {t("enterDraft")} →
         </Button>
       </div>
       {showRespinControl && showRespin && (
@@ -150,21 +152,18 @@ export function FormationSelection({
             aria-modal="true"
             aria-labelledby="formation-respin-title"
           >
-            <span className="eyebrow eyebrow--gold">FORMATION RESPIN ×1</span>
+            <span className="eyebrow eyebrow--gold">{t("respin")}</span>
             <h2 id="formation-respin-title">
-              Replace all four formation choices?
+              {t("dialogTitle")}
             </h2>
-            <p>
-              The new deterministic offer keeps manager and era compatibility.
-              This does not consume either player respin.
-            </p>
+            <p>{t("dialogDescription")}</p>
             <div className="dialog__actions">
               <Button
                 variant="secondary"
                 onClick={() => setShowRespin(false)}
                 autoFocus
               >
-                Keep Formations
+                {t("keepFormations")}
               </Button>
               <Button
                 onClick={() => {
@@ -173,7 +172,7 @@ export function FormationSelection({
                   setShowRespin(false);
                 }}
               >
-                Use Formation Respin
+                {t("useRespin")}
               </Button>
             </div>
           </div>

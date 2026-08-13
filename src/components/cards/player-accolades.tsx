@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   getPlayerAccoladeItems,
   type AccoladeKind,
@@ -43,6 +44,7 @@ export function PlayerAccolades({
   compact?: boolean;
   onOpenRecord?: () => void;
 }) {
+  const t = useTranslations("players.accolades");
   const reduceMotion = useReducedMotion();
   const [showAll, setShowAll] = useState(false);
   const items = getPlayerAccoladeItems(player);
@@ -67,7 +69,7 @@ export function PlayerAccolades({
         ))}
         {items.length > visible.length && (
           <span className={styles.moreChip}>
-            +{items.length - visible.length} MORE
+            {t("moreCompact", { count: items.length - visible.length })}
           </span>
         )}
       </>
@@ -77,7 +79,7 @@ export function PlayerAccolades({
         type="button"
         className={styles.compact}
         onClick={onOpenRecord}
-        aria-label={`View ${player.playerName} accolades in full player record`}
+        aria-label={t("viewFullAria", { player: player.playerName })}
       >
         {content}
       </button>
@@ -93,7 +95,7 @@ export function PlayerAccolades({
       aria-labelledby={`career-accolades-${player.id}`}
     >
       <span className="eyebrow" id={`career-accolades-${player.id}`}>
-        CAREER ACCOLADES
+        {t("title")}
       </span>
       <ul className={cn("achievement-list", styles.list)}>
         {visible.map((item, index) => (
@@ -122,7 +124,7 @@ export function PlayerAccolades({
           className={styles.showMore}
           onClick={() => setShowAll((current) => !current)}
         >
-          {showAll ? "SHOW LESS" : `SHOW ${items.length - 6} MORE`}
+          {showAll ? t("showLess") : t("showMore", { count: items.length - 6 })}
         </button>
       )}
     </section>

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { FreeFormationPicker } from "@/components/formation/free-formation-picker";
 import { FormationSelection } from "@/components/formation/formation-selection";
 import { MobileFormationPicker } from "@/components/mobile/mobile-formation-picker";
@@ -14,6 +15,7 @@ import styles from "./formation-page.module.css";
 
 export default function FormationPage() {
   const router = useRouter();
+  const t = useTranslations("gameSetup.formation");
   const hydrated = useGameStore((state) => state.hasHydrated);
   const gameMode = useGameStore((state) => state.gameMode);
   const eraId = useGameStore((state) => state.eraId);
@@ -36,14 +38,14 @@ export default function FormationPage() {
     return (
       <main className="game-page loading-state">
         <div className="loading-emblem" />
-        <p className="eyebrow">PREPARING THE TACTICAL ROOM</p>
+        <p className="eyebrow">{t("loading")}</p>
       </main>
     );
   }
 
   return (
     <div className={`game-page game-page--stadium ${getDraftEra(eraId).themeClass}`}>
-      <GameHeader step="FORMATION / 03" />
+      <GameHeader step={t("step")} />
       <SaveNotice />
       <main className={`container game-main ${styles.main}`}>
         {gameMode === "free-selection" ? (
