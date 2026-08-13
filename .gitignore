@@ -12,3 +12,29 @@ scripts/cache/
 # Sentry Config File
 .env.sentry-build-plugin
 .lighthouseci/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build / local
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+*.log
+*.tsbuildinfo
+.DS_Store
+.vercel/
+
+# Credentials
+*.pem
+*.key
+*.p12
+*.pfx
+
+scripts/cache/
+.lighthouseci/
