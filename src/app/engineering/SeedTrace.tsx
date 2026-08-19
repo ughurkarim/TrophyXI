@@ -40,15 +40,11 @@ export default function SeedTrace() {
   };
 
   return (
-    <div className={styles.seedDemo} data-glow="gold">
+    <div className={styles.seedDemo}>
       <div className={styles.seedDemoTop}>
         <div>
-          <div className={styles.seedTitleRow}>
-            <span className={styles.miniLabel}>TRY THE SEED</span>
-            <span className={styles.runBadge}>RUN {reruns + 1}</span>
-          </div>
+          <span className={styles.miniLabel}>TRY THE SEED</span>
           <h3>Same seed. Same sequence.</h3>
-          <p>Run it again and the sequence stays fixed. Change the seed and the sequence changes.</p>
         </div>
         <div className={styles.seedInputWrap}>
           <label htmlFor="engineering-seed">SEED</label>
@@ -73,7 +69,7 @@ export default function SeedTrace() {
         {values.map((value, index) => (
           <div className={styles.seedValue} key={`${seed}-${index}`}>
             <div className={styles.seedBarTrack}>
-              <div className={styles.seedBar} style={{ height: `${18 + value * 82}%` }} />
+              <div className={styles.seedBar} style={{ height: `${16 + value * 68}%` }} />
             </div>
             <span>u{index + 1}</span>
             <strong>{value.toFixed(6)}</strong>
@@ -86,13 +82,9 @@ export default function SeedTrace() {
           RUN SAME SEED
         </button>
         <button type="button" className={styles.secondaryButton} onClick={changeSeed}>
-          CHANGE SEED +1
+          CHANGE SEED
         </button>
       </div>
-
-      <p className={styles.seedNote}>
-        This shows the reproducibility idea directly. The match engine uses its own seeded random sequence inside the real simulation.
-      </p>
     </div>
   );
 }

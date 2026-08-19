@@ -11,12 +11,13 @@ export default function EraLab() {
   const to = direction === "forward" ? "2026" : "1970";
 
   return (
-    <div className={styles.eraLab} data-glow="gold">
+    <div className={styles.eraLab}>
       <div className={styles.eraControls}>
         <button
           type="button"
           className={direction === "forward" ? styles.eraControlActive : styles.eraControl}
           onClick={() => setDirection("forward")}
+          aria-pressed={direction === "forward"}
         >
           1970 → 2026
         </button>
@@ -24,23 +25,25 @@ export default function EraLab() {
           type="button"
           className={direction === "backward" ? styles.eraControlActive : styles.eraControl}
           onClick={() => setDirection("backward")}
+          aria-pressed={direction === "backward"}
         >
           2026 → 1970
         </button>
       </div>
 
       <div className={styles.eraStage} key={direction}>
-        <div className={styles.eraYearCard}>
-          <span>SOURCE</span>
+        <div className={styles.eraYearNode}>
           <strong>{from}</strong>
+          <span>SOURCE</span>
         </div>
-        <div className={styles.eraTransfer}>
-          <div className={styles.eraTransferLine} />
-          <span>translate</span>
+
+        <div className={styles.eraDirection} aria-hidden="true">
+          <span>→</span>
         </div>
-        <div className={styles.eraYearCard}>
-          <span>ENVIRONMENT</span>
+
+        <div className={styles.eraYearNode}>
           <strong>{to}</strong>
+          <span>ENVIRONMENT</span>
         </div>
       </div>
 
@@ -49,9 +52,6 @@ export default function EraLab() {
         <span>≠</span>
         <strong>E({to} → {from})</strong>
       </div>
-      <p className={styles.eraLabCopy}>
-        The direction matters. The environment changes, then the translation is evaluated in that direction. No era gets a permanent built in advantage.
-      </p>
     </div>
   );
 }
