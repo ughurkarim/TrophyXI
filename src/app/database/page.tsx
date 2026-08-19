@@ -5,9 +5,12 @@ import { SiteHeader } from "@/components/navigation/site-header";
 import styles from "./database-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Player Database · Trophy XI",
+  title: "World Cup Player Database & Ratings",
   description:
-    "Search and inspect every draftable Trophy XI tournament card.",
+    "Explore tournament-specific World Cup player cards and ratings. Search football legends by name, nation, year, position, era, and tier.",
+  alternates: {
+    canonical: "/database",
+  },
 };
 
 export default function DatabasePage() {

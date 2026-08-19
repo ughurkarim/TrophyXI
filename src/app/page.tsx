@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { ChampionHistoryShowcase } from "@/components/landing/champion-history-showcase";
 import { FinalChallengeShowcase } from "../components/landing/final-challenge-showcase";
@@ -13,6 +14,15 @@ import { ButtonLink } from "@/components/ui/button";
 import { landingChampions } from "@/data/landing-champions";
 import { players } from "@/data/players";
 import styles from "./landing-page.module.css";
+
+export const metadata: Metadata = {
+  title: "World Cup XI Simulator",
+  description:
+    "Draft tournament-specific football legends, build your starting XI, and simulate matches against World Cup champions from 1970 to 2026.",
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const steps = [
   {

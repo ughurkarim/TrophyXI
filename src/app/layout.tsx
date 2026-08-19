@@ -17,11 +17,11 @@ const fontVariables = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Trophy XI — Build the XI. Beat history.",
+    default: "World Cup XI Simulator — Trophy XI",
     template: "%s — Trophy XI",
   },
   description:
-    "Draft legendary tournament performances and challenge the greatest World Cup champions in history.",
+    "Draft tournament-specific football legends, build your starting XI, and simulate matches against World Cup champions from 1970 to 2026.",
   metadataBase: new URL("https://trophyxi.com"),
   openGraph: {
     title: "Trophy XI",

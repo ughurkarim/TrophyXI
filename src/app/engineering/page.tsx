@@ -8,9 +8,12 @@ import SeedTrace from "./SeedTrace";
 import styles from "./engineering.module.css";
 
 export const metadata: Metadata = {
-  title: "Engineering · Trophy XI",
+  title: "Football Match Simulator Engineering",
   description:
-    "The math and computer science behind Trophy XI: team modeling, era translation, seeded simulation, match state, testing and delivery.",
+    "Explore the math and computer science behind Trophy XI: player quality, position fit, chemistry, era translation, managers, match state, and seeded simulation.",
+  alternates: {
+    canonical: "/engineering",
+  },
 };
 
 export default function EngineeringPage() {
