@@ -427,4 +427,10 @@ npm run build
 ```
 
 ## Video
+Compression lowered the quality of the video substantially
+
+https://github.com/user-attachments/assets/e565c444-3e64-4fb4-809c-5c5304bbebec
+
+
+
 
